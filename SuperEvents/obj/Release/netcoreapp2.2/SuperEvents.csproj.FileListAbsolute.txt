@@ -1,0 +1,21 @@
+C:\Users\Rande\RiderProjects\SuperPlugins\SuperEvents\bin\Release\netcoreapp2.2\SuperEvents.deps.json
+C:\Users\Rande\RiderProjects\SuperPlugins\SuperEvents\bin\Release\netcoreapp2.2\SuperEvents.dll
+C:\Users\Rande\RiderProjects\SuperPlugins\SuperEvents\bin\Release\netcoreapp2.2\SuperEvents.pdb
+C:\Users\Rande\RiderProjects\SuperPlugins\SuperEvents\bin\Release\netcoreapp2.2\LSPD First Response.dll
+C:\Users\Rande\RiderProjects\SuperPlugins\SuperEvents\bin\Release\netcoreapp2.2\RAGENativeUI.dll
+C:\Users\Rande\RiderProjects\SuperPlugins\SuperEvents\bin\Release\netcoreapp2.2\RagePluginHookSDK.dll
+C:\Users\Rande\RiderProjects\SuperPlugins\SuperEvents\bin\Release\netcoreapp2.2\System.Windows.Forms.dll
+C:\Users\Rande\RiderProjects\SuperPlugins\SuperEvents\bin\Release\netcoreapp2.2\Accessibility.dll
+C:\Users\Rande\RiderProjects\SuperPlugins\SuperEvents\bin\Release\netcoreapp2.2\System.Deployment.dll
+C:\Users\Rande\RiderProjects\SuperPlugins\SuperEvents\bin\Release\netcoreapp2.2\System.Runtime.Serialization.Formatters.Soap.dll
+C:\Users\Rande\RiderProjects\SuperPlugins\SuperEvents\bin\Release\netcoreapp2.2\LSPD First Response.pdb
+C:\Users\Rande\RiderProjects\SuperPlugins\SuperEvents\bin\Release\netcoreapp2.2\LSPD First Response.xml
+C:\Users\Rande\RiderProjects\SuperPlugins\SuperEvents\bin\Release\netcoreapp2.2\RAGENativeUI.xml
+C:\Users\Rande\RiderProjects\SuperPlugins\SuperEvents\bin\Release\netcoreapp2.2\RagePluginHookSDK.xml
+C:\Users\Rande\RiderProjects\SuperPlugins\SuperEvents\obj\Release\netcoreapp2.2\SuperEvents.csprojAssemblyReference.cache
+C:\Users\Rande\RiderProjects\SuperPlugins\SuperEvents\obj\Release\netcoreapp2.2\SuperEvents.csproj.CoreCompileInputs.cache
+C:\Users\Rande\RiderProjects\SuperPlugins\SuperEvents\obj\Release\netcoreapp2.2\SuperEvents.AssemblyInfoInputs.cache
+C:\Users\Rande\RiderProjects\SuperPlugins\SuperEvents\obj\Release\netcoreapp2.2\SuperEvents.AssemblyInfo.cs
+C:\Users\Rande\RiderProjects\SuperPlugins\SuperEvents\obj\Release\netcoreapp2.2\SuperEvents.csproj.CopyComplete
+C:\Users\Rande\RiderProjects\SuperPlugins\SuperEvents\obj\Release\netcoreapp2.2\SuperEvents.dll
+C:\Users\Rande\RiderProjects\SuperPlugins\SuperEvents\obj\Release\netcoreapp2.2\SuperEvents.pdb

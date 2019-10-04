@@ -1,0 +1,120 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v2.2",
+    "signature": "da39a3ee5e6b4b0d3255bfef95601890afd80709"
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v2.2": {
+      "SuperCallouts/1.0.0": {
+        "dependencies": {
+          "LSPD First Response": "0.4.7204.1487",
+          "RAGENativeUI": "1.6.3.0",
+          "RagePluginHookSDK": "0.0.0.0",
+          "System.Windows.Forms": "4.0.0.0"
+        },
+        "runtime": {
+          "SuperCallouts.dll": {}
+        }
+      },
+      "LSPD First Response/0.4.7204.1487": {
+        "runtime": {
+          "LSPD First Response.dll": {
+            "assemblyVersion": "0.4.7204.1487",
+            "fileVersion": "0.4.4.0"
+          }
+        }
+      },
+      "RAGENativeUI/1.6.3.0": {
+        "runtime": {
+          "RAGENativeUI.dll": {
+            "assemblyVersion": "1.6.3.0",
+            "fileVersion": "1.6.3.0"
+          }
+        }
+      },
+      "RagePluginHookSDK/0.0.0.0": {
+        "runtime": {
+          "RagePluginHookSDK.dll": {
+            "assemblyVersion": "0.0.0.0",
+            "fileVersion": "1.68.1248.15551"
+          }
+        }
+      },
+      "System.Windows.Forms/4.0.0.0": {
+        "runtime": {
+          "System.Windows.Forms.dll": {
+            "assemblyVersion": "4.0.0.0",
+            "fileVersion": "4.8.3815.0"
+          }
+        }
+      },
+      "Accessibility/4.0.0.0": {
+        "runtime": {
+          "Accessibility.dll": {
+            "assemblyVersion": "4.0.0.0",
+            "fileVersion": "4.8.3752.0"
+          }
+        }
+      },
+      "System.Deployment/4.0.0.0": {
+        "runtime": {
+          "System.Deployment.dll": {
+            "assemblyVersion": "4.0.0.0",
+            "fileVersion": "4.8.3752.0"
+          }
+        }
+      },
+      "System.Runtime.Serialization.Formatters.Soap/4.0.0.0": {
+        "runtime": {
+          "System.Runtime.Serialization.Formatters.Soap.dll": {
+            "assemblyVersion": "4.0.0.0",
+            "fileVersion": "4.8.3752.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "SuperCallouts/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "LSPD First Response/0.4.7204.1487": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "RAGENativeUI/1.6.3.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "RagePluginHookSDK/0.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "System.Windows.Forms/4.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Accessibility/4.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "System.Deployment/4.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "System.Runtime.Serialization.Formatters.Soap/4.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
