@@ -11,6 +11,9 @@
   <component name="FavoritesManager">
     <favorites_list name="SuperPlugins" />
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/SuperEvents/Settings.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SuperEvents/Main.cs" root0="FORCE_HIGHLIGHTING" />
@@ -63,7 +66,7 @@
       <workItem from="1570223998394" duration="2101000" />
       <workItem from="1570226129215" duration="458000" />
       <workItem from="1570226621340" duration="771000" />
-      <workItem from="1570227714015" duration="667000" />
+      <workItem from="1570227714015" duration="1101000" />
     </task>
     <servers />
   </component>
@@ -76,9 +79,6 @@
     <option name="SHOW_DIRTY_RECURSIVELY" value="true" />
     <option name="LIMIT_HISTORY" value="false" />
     <option name="LOCAL_CHANGES_DETAILS_PREVIEW_SHOWN" value="true" />
-    <ignored-roots>
-      <path value="$PROJECT_DIR$" />
-    </ignored-roots>
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
