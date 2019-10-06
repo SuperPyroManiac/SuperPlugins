@@ -2,7 +2,9 @@
 
 using System;
 using System.Drawing;
+using LSPD_First_Response.Mod.API;
 using Rage;
+using Rage.Native;
 
 #endregion
 
@@ -12,7 +14,10 @@ namespace SuperEvents.Events
     {
         private Ped _bad1;
         private Blip _cBlip;
+        private LHandle _pursuit;
+        private bool _letsRun;
         private bool _onScene;
+        private bool _letsChat;
 
         internal static void Launch()
         {
@@ -62,13 +67,26 @@ namespace SuperEvents.Events
                             _onScene = true;
                             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~y~Officer Sighting",
                                 "~r~Open Carry", "Investigate the person.");
+                            Game.DisplayHelp("Press " + Settings.Interact + " to speak with the suspect.");
                         }
-
+                        if (_onScene && !_letsChat && Game.IsKeyDown(Settings.Interact))
+                        {
+                            _letsChat = true;
+                            NativeFunction.CallByName<uint>("TASK_TURN_PED_TO_FACE_ENTITY", _bad1, Game.LocalPlayer.Character, -1);
+                            Game.DisplaySubtitle("~g~Me: ~s~Why are you carring a that gun around?", 5000);
+                            GameFiber.Wait(5000);
+                            Game.DisplaySubtitle("~r~Suspect: ~s~Its.. It's my right.. I'll leave im sorry! Please leave me alone!''");
+                            GameFiber.Wait(1000);
+                            _pursuit = Functions.CreatePursuit();
+                            Functions.AddPedToPursuit(_pursuit, _bad1);
+                            Functions.SetPursuitIsActiveForPlayer(_pursuit, true);
+                            _letsRun = true;
+                        }
                         if (_bad1.Exists())
                         {
                             if (Game.LocalPlayer.Character.DistanceTo(_bad1) > 200f) End();
-                            if (_bad1.IsDead) End();
-                            if (_bad1.IsCuffed) End();
+                            if (_bad1.IsDead || _bad1.IsCuffed) End();
+                            if (_letsRun && !Functions.IsPursuitStillRunning(_pursuit)) End();
                         }
                         else
                         {

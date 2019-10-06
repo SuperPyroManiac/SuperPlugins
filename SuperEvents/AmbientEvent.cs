@@ -10,7 +10,7 @@ namespace SuperEvents
     public class AmbientEvent
     {
         protected static bool EventsActive { get; set; }
-        protected static bool TimeStart { get; set; } = true;
+        protected static bool TimeStart { get; set; }
         private static bool KillEvent { get; set; }
 
         protected virtual void StartEvent()

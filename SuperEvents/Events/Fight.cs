@@ -3,6 +3,7 @@
 using System;
 using System.Drawing;
 using Rage;
+using Rage.Native;
 using SuperEvents.SimpleFunctions;
 
 #endregion
@@ -18,6 +19,7 @@ namespace SuperEvents.Events
         private bool _onScene;
         private Vector3 _spawnPoint;
         private float _spawnPointH;
+        private bool _letsChat;
 
         internal static void Launch()
         {
@@ -33,6 +35,8 @@ namespace SuperEvents.Events
             _bad2 = new Ped(_bad1.GetOffsetPositionFront(2)) {IsPersistent = true, Health = 400};
             if (!_bad1.Exists() || !_bad2.Exists()) {base.Failed(); return;}
             _bad1.Tasks.PlayAnimation("misstrevor2ig_3", "point", 2f, AnimationFlags.SecondaryTask);
+            _bad2.Metadata.searchPed = "~r~50 dollar bill~s~, ~y~empty baggy with white powder~s~, ~g~wallet~s~";
+            _bad2.Metadata.stpDrugsDetected = true;
             if (!Settings.ShowBlips) {base.StartEvent(); return;}
             _cBlip1 = _bad1.AttachBlip();
             _cBlip1.Color = Color.Red;
@@ -62,11 +66,28 @@ namespace SuperEvents.Events
                             _bad2.Tasks.FightAgainst(_bad1);
                             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~y~Officer Sighting",
                                 "~r~A Fight", "Stop the fight, and make sure everyone is ok.");
+                            Game.DisplayHelp("Press " + Settings.Interact + " to speak with the suspects.");
                         }
-
-                        if (!_bad1.IsAlive || !_bad2.IsAlive) End();
-                        if (_bad1.IsCuffed || _bad2.IsCuffed) End();
-                        if (Game.LocalPlayer.Character.DistanceTo(_spawnPoint) > 200) End();
+                        if (_onScene && !_letsChat && Game.IsKeyDown(Settings.Interact))
+                        {
+                            _letsChat = true;
+                            _bad1.Tasks.Clear();
+                            _bad2.Tasks.Clear();
+                            NativeFunction.CallByName<uint>("TASK_TURN_PED_TO_FACE_ENTITY", _bad1, Game.LocalPlayer.Character, -1);
+                            NativeFunction.CallByName<uint>("TASK_TURN_PED_TO_FACE_ENTITY", _bad2, Game.LocalPlayer.Character, -1);
+                            Game.DisplaySubtitle("~g~Me: ~s~Stop fighting now!", 5000);
+                            GameFiber.Wait(5000);
+                            Game.DisplaySubtitle("~g~Me: ~s~What is going on here?", 5000);
+                            GameFiber.Wait(5000);
+                            NativeFunction.CallByName<uint>("TASK_TURN_PED_TO_FACE_ENTITY", _bad1, _bad2, -1);
+                            _bad1.Tasks.PlayAnimation("misstrevor2ig_3", "point", 2f, AnimationFlags.SecondaryTask);
+                            Game.DisplaySubtitle("~r~Suspect 1: ~s~They owe me 50 bucks!");
+                            GameFiber.Wait(5000);
+                            Game.DisplaySubtitle("~r~Suspect 2: ~s~I do not! I don't have time for this.'");
+                            _bad2.Tasks.Wander();
+                            NativeFunction.CallByName<uint>("TASK_TURN_PED_TO_FACE_ENTITY", _bad1, Game.LocalPlayer.Character, -1);
+                        }
+                        if (!_bad1.IsAlive || !_bad2.IsAlive || _bad1.IsCuffed || _bad2.IsCuffed || Game.LocalPlayer.Character.DistanceTo(_spawnPoint) > 200) End();
                     }
                     catch (Exception e)
                     {

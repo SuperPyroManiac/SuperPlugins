@@ -4,6 +4,7 @@ using System;
 using System.Drawing;
 using LSPD_First_Response.Engine;
 using Rage;
+using Rage.Native;
 
 #endregion
 
@@ -17,6 +18,7 @@ namespace SuperEvents.Events
         private Blip _cBlip1;
         private Blip _cBlip2;
         private bool _onScene;
+        private bool _letsChat;
 
         internal static void Launch()
         {
@@ -62,8 +64,15 @@ namespace SuperEvents.Events
                                 "~r~People in Road", "Investigate the people.");
                             Game.DisplaySubtitle(
                                 "~r~Stangers: ~s~Run us over! We do not want to live on this world anymore!");
+                            Game.DisplayHelp("Press " + Settings.Interact + " to speak with the strangers.");
                         }
-
+                        if (_onScene && !_letsChat && Game.IsKeyDown(Settings.Interact))
+                        {
+                            _letsChat = true;
+                            Game.DisplaySubtitle("~g~Me: ~s~What are you doing? Let's step off the road.'", 4000);
+                            GameFiber.Wait(4000);
+                            Game.DisplaySubtitle("~r~Stranger: ~s~We can't take it anymore! Just let us die!");
+                        }
                         if (_bad1.Exists() && _bad2.Exists())
                         {
                             if (Game.LocalPlayer.Character.DistanceTo(_bad1) > 200f ||

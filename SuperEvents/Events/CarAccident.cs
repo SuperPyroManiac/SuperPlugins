@@ -13,6 +13,7 @@ namespace SuperEvents.Events
         private Vehicle _cVehicle1;
         private Vehicle _cVehicle2;
         private bool _onScene;
+        private bool _letsChat;
         private Vector3 _spawnPoint;
         private Vector3 _spawnPointoffset;
         private Ped _victim1;
@@ -45,8 +46,8 @@ namespace SuperEvents.Events
             _victim2.Tasks.LeaveVehicle(_cVehicle2, LeaveVehicleFlags.LeaveDoorOpen);
             EFunctions.SetAnimation(_victim1, "move_injured_ground");
             EFunctions.SetDrunk(_victim2, true);
-            _victim1.Health = 200;
-            _victim2.Health = 200;
+            _cVehicle2.Metadata.searchDriver = "~r~empty beer cans~s~, ~y~pocket knife~s~, ~g~a bucket full of wet socks~s~";
+            _victim2.Metadata.searchPed = "~r~crushed beer can~s~, ~g~wallet~s~";
             if (Settings.ShowBlips)
             {
                 _cBlip1 = _victim1.AttachBlip();
@@ -69,8 +70,7 @@ namespace SuperEvents.Events
                         GameFiber.Yield();
                         if (Game.IsKeyDown(Settings.EndEvent)) End();
                         if (!_onScene && !_victim1.IsAnySpeechPlaying) _victim1.PlayAmbientSpeech("GENERIC_WAR_CRY");
-                        if (!_onScene && !_victim2.IsAnySpeechPlaying)
-                            _victim2.PlayAmbientSpeech("GENERIC_FRIGHTENED_MED");
+                        if (!_onScene && !_victim2.IsAnySpeechPlaying) _victim2.PlayAmbientSpeech("GENERIC_FRIGHTENED_MED");
                         if (!_onScene && Game.LocalPlayer.Character.DistanceTo(_spawnPoint) < 30f)
                         {
                             NativeFunction.CallByName<uint>("TASK_WRITHE", _victim1, _victim2, -1, 1000);
@@ -79,10 +79,18 @@ namespace SuperEvents.Events
                             _victim2.BlockPermanentEvents = false;
                             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~y~Officer Sighting",
                                 "~r~Car Accident", "Investigate the scene.");
+                            Game.DisplayHelp("Press " + Settings.Interact + " to speak with the driver.");
+                            NativeFunction.CallByName<uint>("TASK_TURN_PED_TO_FACE_ENTITY", _victim2, Game.LocalPlayer.Character, -1);
                         }
-
-                        if (_victim2.IsCuffed || _victim2.IsDead) End();
-                        if (Game.LocalPlayer.Character.DistanceTo(_spawnPoint) > 200) End();
+                        if (_onScene && !_letsChat && Game.IsKeyDown(Settings.Interact))
+                        {
+                            _letsChat = true;
+                            NativeFunction.CallByName<uint>("TASK_TURN_PED_TO_FACE_ENTITY", _victim2, Game.LocalPlayer.Character, -1);
+                            Game.DisplaySubtitle("~g~Me: ~s~What happened here?", 5000);
+                            GameFiber.Wait(5000);
+                            Game.DisplaySubtitle("~r~Driver: ~s~I don't remember all I know is I was driving and now im here...");
+                        }
+                        if (_victim2.IsCuffed || _victim2.IsDead || Game.LocalPlayer.Character.DistanceTo(_spawnPoint) > 200) End();
                     }
                     catch (Exception e)
                     {

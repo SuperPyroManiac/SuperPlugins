@@ -1,6 +1,7 @@
 using System;
 using System.Drawing;
 using Rage;
+using Rage.Native;
 using SuperEvents.SimpleFunctions;
 
 namespace SuperEvents.Events
@@ -14,6 +15,7 @@ namespace SuperEvents.Events
         private bool _onScene;
         private Vector3 _spawnPoint;
         private float _spawnPointH;
+        private bool _letsChat;
 
         internal static void Launch()
         {
@@ -61,14 +63,21 @@ namespace SuperEvents.Events
                             _bad2.Kill();
                             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~y~Officer Sighting",
                                 "~r~A Medical Emergency", "Help the person. Call EMS or perform CPR.");
+                            Game.DisplayHelp("Press " + Settings.Interact + " to speak with the bystander.");
                         }
-
+                        if (_onScene && !_letsChat && Game.IsKeyDown(Settings.Interact))
+                        {
+                            _letsChat = true;
+                            NativeFunction.CallByName<uint>("TASK_TURN_PED_TO_FACE_ENTITY", _bad1, Game.LocalPlayer.Character, -1);
+                            Game.DisplaySubtitle("~g~Me: ~s~What happened here?", 5000);
+                            GameFiber.Wait(5000);
+                            Game.DisplaySubtitle("~y~Bystander: ~s~We were just walking and they just fell to the ground! Please help!");
+                        }
                         if (_onScene && !_bad2.Exists())
                         {
-                            _bad1.Tasks.Wander();
+                            _bad1.Tasks.Clear();
                             End();
                         }
-
                         if (Game.LocalPlayer.Character.DistanceTo(_spawnPoint) > 120) End();
                     }
                     catch (Exception e)

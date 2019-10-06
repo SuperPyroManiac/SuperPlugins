@@ -20,8 +20,8 @@ namespace SuperEvents
         internal static bool SuicidalPed = true;
         internal static bool Mugging = true;
         internal static bool RoadRage = true;
-        internal static int TimeBetweenEvents = 40;
-        //internal static Keys Interact = Keys.Y;
+        internal static int TimeBetweenEvents = 110;
+        internal static Keys Interact = Keys.Y;
         internal static Keys EndEvent = Keys.End;
 
         internal static void LoadSettings()
@@ -41,8 +41,8 @@ namespace SuperEvents
             SuicidalPed = ini.ReadBoolean("Events", "SuicidalPed", true);
             Mugging = ini.ReadBoolean("Events", "Mugging", true);
             RoadRage = ini.ReadBoolean("Events", "RoadRage", true);
-            TimeBetweenEvents = ini.ReadInt32("Settings", "TimeBetweenEvents", 40);
-            //Interact = ini.ReadEnum("Keys", "Interact", Keys.Y);
+            TimeBetweenEvents = ini.ReadInt32("Settings", "TimeBetweenEvents", 110);
+            Interact = ini.ReadEnum("Keys", "Interact", Keys.Y);
             EndEvent = ini.ReadEnum("Keys", "EndEvent", Keys.End);
             Game.LogTrivial("SuperCallouts: Config loaded.");
         }
