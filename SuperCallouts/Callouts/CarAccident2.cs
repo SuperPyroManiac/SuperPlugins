@@ -42,7 +42,7 @@ namespace SuperCallouts.Callouts
             return base.OnBeforeCalloutDisplayed();
         }
 
-        public void LetsChatBois(UIMenu unUn, UIMenuItem selItem, int nanana)
+        private void LetsChatBois(UIMenu unUn, UIMenuItem selItem, int nanana)
         {
             if (selItem == _startConv)
             {

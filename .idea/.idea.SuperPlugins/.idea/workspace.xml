@@ -1,7 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e030afce-2247-423c-b520-a841baa2ccad" name="Default Changelist" comment="" />
+    <list default="true" id="e030afce-2247-423c-b520-a841baa2ccad" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.SuperPlugins/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SuperPlugins/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SuperCallouts/Callouts/CarAccident2.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SuperCallouts/Callouts/CarAccident2.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SuperCallouts/Callouts/HitRun.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SuperCallouts/Callouts/HitRun.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SuperCallouts/Callouts/LSGTF.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SuperCallouts/Callouts/LSGTF.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SuperCallouts/Callouts/TruckCrash.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SuperCallouts/Callouts/TruckCrash.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SuperCallouts/SuperCallouts.ini" beforeDir="false" afterPath="$PROJECT_DIR$/SuperCallouts/SuperCallouts.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SuperCallouts/bin/Release/netcoreapp2.2/Accessibility.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SuperCallouts/bin/Release/netcoreapp2.2/LSPD First Response.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SuperCallouts/bin/Release/netcoreapp2.2/LSPD First Response.pdb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SuperCallouts/bin/Release/netcoreapp2.2/LSPD First Response.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SuperCallouts/bin/Release/netcoreapp2.2/RAGENativeUI.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SuperCallouts/bin/Release/netcoreapp2.2/RAGENativeUI.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SuperCallouts/bin/Release/netcoreapp2.2/RagePluginHookSDK.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SuperCallouts/bin/Release/netcoreapp2.2/RagePluginHookSDK.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SuperCallouts/bin/Release/netcoreapp2.2/SuperCallouts.deps.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SuperCallouts/bin/Release/netcoreapp2.2/SuperCallouts.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SuperCallouts/bin/Release/netcoreapp2.2/SuperCallouts.pdb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SuperCallouts/bin/Release/netcoreapp2.2/System.Deployment.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SuperCallouts/bin/Release/netcoreapp2.2/System.Runtime.Serialization.Formatters.Soap.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SuperCallouts/bin/Release/netcoreapp2.2/System.Windows.Forms.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SuperCallouts/obj/Release/netcoreapp2.2/SuperCallouts.dll" beforeDir="false" afterPath="$PROJECT_DIR$/SuperCallouts/obj/Release/netcoreapp2.2/SuperCallouts.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SuperCallouts/obj/Release/netcoreapp2.2/SuperCallouts.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/SuperCallouts/obj/Release/netcoreapp2.2/SuperCallouts.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SuperEvents/bin/Release/netcoreapp2.2/Accessibility.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SuperEvents/bin/Release/netcoreapp2.2/LSPD First Response.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SuperEvents/bin/Release/netcoreapp2.2/LSPD First Response.pdb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SuperEvents/bin/Release/netcoreapp2.2/LSPD First Response.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SuperEvents/bin/Release/netcoreapp2.2/RAGENativeUI.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SuperEvents/bin/Release/netcoreapp2.2/RAGENativeUI.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SuperEvents/bin/Release/netcoreapp2.2/RagePluginHookSDK.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SuperEvents/bin/Release/netcoreapp2.2/RagePluginHookSDK.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SuperEvents/bin/Release/netcoreapp2.2/SuperEvents.deps.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SuperEvents/bin/Release/netcoreapp2.2/SuperEvents.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SuperEvents/bin/Release/netcoreapp2.2/SuperEvents.pdb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SuperEvents/bin/Release/netcoreapp2.2/System.Deployment.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SuperEvents/bin/Release/netcoreapp2.2/System.Runtime.Serialization.Formatters.Soap.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SuperEvents/bin/Release/netcoreapp2.2/System.Windows.Forms.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SuperEvents/obj/Release/netcoreapp2.2/SuperEvents.dll" beforeDir="false" afterPath="$PROJECT_DIR$/SuperEvents/obj/Release/netcoreapp2.2/SuperEvents.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SuperEvents/obj/Release/netcoreapp2.2/SuperEvents.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/SuperEvents/obj/Release/netcoreapp2.2/SuperEvents.pdb" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -15,19 +54,52 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/SuperEvents/Events/SuicidalPed.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SuperEvents/Events/RoadRage.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SuperEvents/Events/RecklessDriver.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SuperCallouts/Callouts/Impersonator.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SuperEvents/Events/PulloverShooting.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SuperEvents/Events/OpenCarry.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SuperEvents/Events/Mugging.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SuperCallouts/Callouts/HitRun.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SuperCallouts/Callouts/Fire.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SuperEvents/Events/InjuredPed.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SuperEvents/Events/Fight.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SuperCallouts/Callouts/CarAccident2.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SuperEvents/Events/CarFire.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SuperEvents/Events/CarAccident.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SuperEvents/SimpleFunctions/EventTimer.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SuperEvents/SimpleFunctions/Events.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SuperCallouts/CustomScenes/SimpleFunctions.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SuperEvents/SimpleFunctions/EFunctions.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SuperEvents/Settings.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SuperEvents/Main.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SuperCallouts/Settings.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/SuperEvents/Events/OpenCarry.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/SuperCallouts/Callouts/Fire.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SuperEvents/AmbientEvent.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SuperCallouts/Callouts/TruckCrash.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SuperCallouts/Callouts/LSGTF.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/SuperEvents/Class1.cs" />
         <option value="$PROJECT_DIR$/SuperCallouts/Class1.cs" />
-        <option value="$PROJECT_DIR$/SuperEvents/Events/OpenCarry.cs" />
         <option value="$PROJECT_DIR$/SuperCallouts/Callouts/Fire.cs" />
+        <option value="$PROJECT_DIR$/SuperEvents/Main.cs" />
+        <option value="$PROJECT_DIR$/SuperCallouts/Callouts/TruckCrash.cs" />
+        <option value="$PROJECT_DIR$/SuperCallouts/Callouts/LSGTF.cs" />
+        <option value="$PROJECT_DIR$/SuperCallouts/Callouts/HitRun.cs" />
+        <option value="$PROJECT_DIR$/SuperCallouts/Callouts/CarAccident2.cs" />
+        <option value="$PROJECT_DIR$/SuperEvents/SimpleFunctions/Events.cs" />
+        <option value="$PROJECT_DIR$/SuperEvents/SuperEvents.ini" />
+        <option value="$PROJECT_DIR$/SuperEvents/Settings.cs" />
+        <option value="$PROJECT_DIR$/SuperEvents/AmbientEvent.cs" />
+        <option value="$PROJECT_DIR$/SuperEvents/Events/CarAccident.cs" />
+        <option value="$PROJECT_DIR$/SuperEvents/Events/Fight.cs" />
+        <option value="$PROJECT_DIR$/SuperEvents/Events/InjuredPed.cs" />
+        <option value="$PROJECT_DIR$/SuperEvents/Events/OpenCarry.cs" />
+        <option value="$PROJECT_DIR$/SuperEvents/Events/SuicidalPed.cs" />
+        <option value="$PROJECT_DIR$/SuperCallouts/SuperCallouts.ini" />
       </list>
     </option>
   </component>
@@ -38,7 +110,7 @@
     <property name="Rider.ProjectViewActivator.IsNotFirstRun" value="true" />
     <property name="TODO_SCOPE" value="All Places" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
+    <property name="settings.editor.selected.configurable" value="configurable.group.build" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -66,8 +138,32 @@
       <workItem from="1570223998394" duration="2101000" />
       <workItem from="1570226129215" duration="458000" />
       <workItem from="1570226621340" duration="771000" />
-      <workItem from="1570227714015" duration="1101000" />
+      <workItem from="1570227714015" duration="1230000" />
+      <workItem from="1570240297793" duration="616000" />
+      <workItem from="1570248214689" duration="1950000" />
+      <workItem from="1570250235247" duration="209000" />
+      <workItem from="1570250463996" duration="31000" />
+      <workItem from="1570250595552" duration="53000" />
+      <workItem from="1570339901277" duration="84000" />
+      <workItem from="1570343447038" duration="521000" />
+      <workItem from="1570385673373" duration="6451000" />
+      <workItem from="1570392911171" duration="1309000" />
     </task>
+    <task id="LOCAL-00001" summary="Version Control">
+      <created>1570228881265</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1570228881265</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Added interactions to events.">
+      <created>1570391154511</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1570391154511</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -75,10 +171,26 @@
   </component>
   <component name="UnityProjectConfiguration" hasMinimizedUI="false" />
   <component name="UnityUnitTestConfiguration" currentTestLauncher="NUnit" />
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <option name="SHOW_DIRTY_RECURSIVELY" value="true" />
     <option name="LIMIT_HISTORY" value="false" />
     <option name="LOCAL_CHANGES_DETAILS_PREVIEW_SHOWN" value="true" />
+    <MESSAGE value="Version Control" />
+    <MESSAGE value="Added interactions to events." />
+    <option name="LAST_COMMIT_MESSAGE" value="Added interactions to events." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
