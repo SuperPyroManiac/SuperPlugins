@@ -3,9 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="e030afce-2247-423c-b520-a841baa2ccad" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.SuperPlugins/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SuperPlugins/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SuperCallouts/Callouts/MafiaActivity.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SuperCallouts/Callouts/MafiaActivity.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SuperCallouts/Callouts/MafiaActivity2.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SuperCallouts/Callouts/MafiaActivity2.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SuperCallouts/CustomScenes/MafiaSetup.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SuperCallouts/CustomScenes/MafiaSetup.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SuperEvents/Main.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SuperEvents/Main.cs" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -26,6 +24,7 @@
     <setting file="file://$PROJECT_DIR$/SuperCallouts/CustomScenes/MafiaSetup.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SuperEvents/Settings.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SuperCallouts/Properties/AssemblyInfo.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SuperEvents/Main.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SuperEvents/Properties/AssemblyInfo.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SuperCallouts/Callouts/MafiaActivity2.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SuperCallouts/Callouts/MafiaActivity.cs" root0="FORCE_HIGHLIGHTING" />
@@ -41,7 +40,6 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/SuperCallouts/Callouts/Fire.cs" />
-        <option value="$PROJECT_DIR$/SuperEvents/Main.cs" />
         <option value="$PROJECT_DIR$/SuperCallouts/Callouts/TruckCrash.cs" />
         <option value="$PROJECT_DIR$/SuperCallouts/Callouts/LSGTF.cs" />
         <option value="$PROJECT_DIR$/SuperCallouts/Callouts/HitRun.cs" />
@@ -67,6 +65,7 @@
         <option value="$PROJECT_DIR$/SuperCallouts/Callouts/MafiaActivity.cs" />
         <option value="$PROJECT_DIR$/SuperEvents/Events/OpenCarry.cs" />
         <option value="$PROJECT_DIR$/SuperCallouts/Callouts/MafiaActivity2.cs" />
+        <option value="$PROJECT_DIR$/SuperEvents/Main.cs" />
       </list>
     </option>
   </component>
@@ -124,7 +123,7 @@
       <workItem from="1570395139749" duration="246000" />
       <workItem from="1570395402228" duration="684000" />
       <workItem from="1570415061852" duration="4590000" />
-      <workItem from="1570470243128" duration="2180000" />
+      <workItem from="1570470243128" duration="2252000" />
     </task>
     <task id="LOCAL-00001" summary="Version Control">
       <created>1570228881265</created>
@@ -154,7 +153,14 @@
       <option name="project" value="LOCAL" />
       <updated>1570474206406</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Mafia and cops now hate each other">
+      <created>1570474295624</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1570474295624</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -184,7 +190,8 @@
     <MESSAGE value="Added interactions to events." />
     <MESSAGE value="Push" />
     <MESSAGE value="Added checks for medics and firemen." />
-    <option name="LAST_COMMIT_MESSAGE" value="Added checks for medics and firemen." />
+    <MESSAGE value="Mafia and cops now hate each other" />
+    <option name="LAST_COMMIT_MESSAGE" value="Mafia and cops now hate each other" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

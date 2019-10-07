@@ -7,7 +7,7 @@ using SuperEvents.SimpleFunctions;
 
 #endregion
 
-namespace SuperEvents//TODO: Github issues
+namespace SuperEvents
 {
     public class Main : Plugin
     {
