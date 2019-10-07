@@ -1,4 +1,0 @@
-C:\Users\Rande\RiderProjects\SuperPlugins\SuperEvents\obj\Debug\netcoreapp2.2\SuperEvents.csprojAssemblyReference.cache
-C:\Users\Rande\RiderProjects\SuperPlugins\SuperEvents\obj\Debug\netcoreapp2.2\SuperEvents.csproj.CoreCompileInputs.cache
-C:\Users\Rande\RiderProjects\SuperPlugins\SuperEvents\obj\Debug\netcoreapp2.2\SuperEvents.AssemblyInfoInputs.cache
-C:\Users\Rande\RiderProjects\SuperPlugins\SuperEvents\obj\Debug\netcoreapp2.2\SuperEvents.AssemblyInfo.cs

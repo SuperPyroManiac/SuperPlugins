@@ -1,4 +1,0 @@
-C:\Users\Rande\RiderProjects\SuperPlugins\SuperCallouts\obj\Debug\netcoreapp2.2\SuperCallouts.csprojAssemblyReference.cache
-C:\Users\Rande\RiderProjects\SuperPlugins\SuperCallouts\obj\Debug\netcoreapp2.2\SuperCallouts.csproj.CoreCompileInputs.cache
-C:\Users\Rande\RiderProjects\SuperPlugins\SuperCallouts\obj\Debug\netcoreapp2.2\SuperCallouts.AssemblyInfoInputs.cache
-C:\Users\Rande\RiderProjects\SuperPlugins\SuperCallouts\obj\Debug\netcoreapp2.2\SuperCallouts.AssemblyInfo.cs

@@ -42,12 +42,9 @@
           <e p="TruckCrashSetup.cs" t="Include" />
         </e>
         <e p="Main.cs" t="Include" />
-        <e p="obj" t="ExcludeRecursive">
-          <e p="Release" t="Include">
-            <e p="netcoreapp2.2" t="Include">
-              <e p="SuperCallouts.AssemblyInfo.cs" t="Include" />
-            </e>
-          </e>
+        <e p="obj" t="ExcludeRecursive" />
+        <e p="Properties" t="Include">
+          <e p="AssemblyInfo.cs" t="Include" />
         </e>
         <e p="Settings.cs" t="Include" />
         <e p="Skeleton.yml" t="Include" />
@@ -70,12 +67,9 @@
           <e p="SuicidalPed.cs" t="Include" />
         </e>
         <e p="Main.cs" t="Include" />
-        <e p="obj" t="ExcludeRecursive">
-          <e p="Release" t="Include">
-            <e p="netcoreapp2.2" t="Include">
-              <e p="SuperEvents.AssemblyInfo.cs" t="Include" />
-            </e>
-          </e>
+        <e p="obj" t="ExcludeRecursive" />
+        <e p="Properties" t="Include">
+          <e p="AssemblyInfo.cs" t="Include" />
         </e>
         <e p="Settings.cs" t="Include" />
         <e p="SimpleFunctions" t="Include">
