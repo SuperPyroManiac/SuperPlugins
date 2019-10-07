@@ -73,17 +73,17 @@ namespace SuperEvents.Events
                             _letsChat = true;
                             _bad1.Tasks.Clear();
                             _bad2.Tasks.Clear();
-                            NativeFunction.CallByName<uint>("TASK_TURN_PED_TO_FACE_ENTITY", _bad1, Game.LocalPlayer.Character, -1);
-                            NativeFunction.CallByName<uint>("TASK_TURN_PED_TO_FACE_ENTITY", _bad2, Game.LocalPlayer.Character, -1);
                             Game.DisplaySubtitle("~g~Me: ~s~Stop fighting now!", 5000);
                             GameFiber.Wait(5000);
+                            NativeFunction.CallByName<uint>("TASK_TURN_PED_TO_FACE_ENTITY", _bad1, Game.LocalPlayer.Character, -1);
+                            NativeFunction.CallByName<uint>("TASK_TURN_PED_TO_FACE_ENTITY", _bad2, Game.LocalPlayer.Character, -1);
                             Game.DisplaySubtitle("~g~Me: ~s~What is going on here?", 5000);
                             GameFiber.Wait(5000);
                             NativeFunction.CallByName<uint>("TASK_TURN_PED_TO_FACE_ENTITY", _bad1, _bad2, -1);
                             _bad1.Tasks.PlayAnimation("misstrevor2ig_3", "point", 2f, AnimationFlags.SecondaryTask);
-                            Game.DisplaySubtitle("~r~Suspect 1: ~s~They owe me 50 bucks!");
+                            Game.DisplaySubtitle("~r~Suspect 1: ~s~I dropped ~r~$50~s~ dollars and they took it!");
                             GameFiber.Wait(5000);
-                            Game.DisplaySubtitle("~r~Suspect 2: ~s~I do not! I don't have time for this.'");
+                            Game.DisplaySubtitle("~r~Suspect 2: ~s~I did not! I don't have time for this.'");
                             _bad2.Tasks.Wander();
                             NativeFunction.CallByName<uint>("TASK_TURN_PED_TO_FACE_ENTITY", _bad1, Game.LocalPlayer.Character, -1);
                         }

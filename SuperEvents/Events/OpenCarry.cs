@@ -35,7 +35,7 @@ namespace SuperEvents.Events
                 _bad1 = badguy;
             }
 
-            if (_bad1 == Game.LocalPlayer.Character || !_bad1.IsHuman || _bad1.IsInAnyVehicle(true) || _bad1.IsDead || _bad1.RelationshipGroup == "COP") {base.Failed(); return;}
+            if (_bad1 == Game.LocalPlayer.Character || !_bad1.IsHuman || _bad1.IsInAnyVehicle(true) || _bad1.IsDead || _bad1.RelationshipGroup == "COP" || _bad1.RelationshipGroup == "MEDIC " || _bad1.RelationshipGroup == "FIREMAN") {base.Failed(); return;}
             _bad1.IsPersistent = true;
             _bad1.Inventory.GiveNewWeapon(WeaponHash.AdvancedRifle, -1, true);
             _bad1.Metadata.stpAlcoholDetected = true;

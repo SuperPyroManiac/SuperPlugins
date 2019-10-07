@@ -39,7 +39,7 @@ namespace SuperEvents.SimpleFunctions
             GameFiber.StartNew(delegate
             {
                 GameFiber.Yield();
-                Bad.Metadata.stpAlcoholDetected = true;
+                Bad.Metadata.stpAlcoholDetected = isDrunk;
                 var drunkAnimset = new AnimationSet("move_m@drunk@verydrunk");
                 drunkAnimset.LoadAndWait();
                 Bad.MovementAnimationSet = drunkAnimset;

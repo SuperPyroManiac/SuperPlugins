@@ -48,6 +48,7 @@ namespace SuperEvents.Events
             EFunctions.SetDrunk(_victim2, true);
             _cVehicle2.Metadata.searchDriver = "~r~empty beer cans~s~, ~y~pocket knife~s~, ~g~a bucket full of wet socks~s~";
             _victim2.Metadata.searchPed = "~r~crushed beer can~s~, ~g~wallet~s~";
+            _victim2.Metadata.stpAlcoholDetected = true;
             if (Settings.ShowBlips)
             {
                 _cBlip1 = _victim1.AttachBlip();

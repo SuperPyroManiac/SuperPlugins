@@ -69,7 +69,7 @@ namespace SuperEvents.Events
                         if (_onScene && !_letsChat && Game.IsKeyDown(Settings.Interact))
                         {
                             _letsChat = true;
-                            Game.DisplaySubtitle("~g~Me: ~s~What are you doing? Let's step off the road.'", 4000);
+                            Game.DisplaySubtitle("~g~Me: ~s~What are you doing? Let's step off the road.", 4000);
                             GameFiber.Wait(4000);
                             Game.DisplaySubtitle("~r~Stranger: ~s~We can't take it anymore! Just let us die!");
                         }
