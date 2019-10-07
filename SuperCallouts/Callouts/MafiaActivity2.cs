@@ -89,8 +89,6 @@ namespace SuperCallouts.Callouts
                 CustomScenes.SimpleFunctions.SetWanted(mafiaDudes, true);
                 Functions.AddPedContraband(mafiaDudes, ContrabandType.Narcotics, "Cocaine");
             }
-            Game.SetRelationshipBetweenRelationshipGroups("MAFIA", "COP", Relationship.Hate);
-            Game.SetRelationshipBetweenRelationshipGroups("MAFIA", "PLAYER", Relationship.Hate);
             return base.OnCalloutAccepted();
         }
 
@@ -116,6 +114,8 @@ namespace SuperCallouts.Callouts
                     EBackupUnitType.LocalUnit);
                 Game.LocalPlayer.Character.RelationshipGroup = "COP";
                 _mafiaDude13.Tasks.FightAgainst(Game.LocalPlayer.Character, -1);
+                Game.SetRelationshipBetweenRelationshipGroups("MAFIA", "COP", Relationship.Hate);
+                Game.SetRelationshipBetweenRelationshipGroups("COP", "MAFIA", Relationship.Hate);
                 _onScene = true;
                 _cBlip.Delete();
             }

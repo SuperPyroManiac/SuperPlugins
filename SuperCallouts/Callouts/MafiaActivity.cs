@@ -102,6 +102,8 @@ namespace SuperCallouts.Callouts
                 Functions.RequestBackup(_callPos, EBackupResponseType.Code3,
                     EBackupUnitType.LocalUnit);
                 _cBlip.Delete();
+                Game.SetRelationshipBetweenRelationshipGroups("MAFIA", "COP", Relationship.Hate);
+                Game.SetRelationshipBetweenRelationshipGroups("COP", "MAFIA", Relationship.Hate);
                 _onScene = true;
             }
 

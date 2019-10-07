@@ -2,56 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e030afce-2247-423c-b520-a841baa2ccad" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/SuperCallouts/Properties/AssemblyInfo.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SuperEvents/Properties/AssemblyInfo.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SuperEvents/obj/Release/SuperEvents.csprojAssemblyReference.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.SuperPlugins/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SuperPlugins/.idea/contentModel.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.SuperPlugins/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SuperPlugins/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SuperCallouts/SuperCallouts.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/SuperCallouts/SuperCallouts.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SuperCallouts/obj/Debug/netcoreapp2.2/SuperCallouts.AssemblyInfo.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SuperCallouts/obj/Debug/netcoreapp2.2/SuperCallouts.AssemblyInfoInputs.cache" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SuperCallouts/obj/Debug/netcoreapp2.2/SuperCallouts.assets.cache" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SuperCallouts/obj/Debug/netcoreapp2.2/SuperCallouts.csproj.CoreCompileInputs.cache" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SuperCallouts/obj/Debug/netcoreapp2.2/SuperCallouts.csproj.FileListAbsolute.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SuperCallouts/obj/Debug/netcoreapp2.2/SuperCallouts.csprojAssemblyReference.cache" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SuperCallouts/obj/Release/netcoreapp2.2/SuperCallouts.AssemblyInfo.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SuperCallouts/obj/Release/netcoreapp2.2/SuperCallouts.AssemblyInfoInputs.cache" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SuperCallouts/obj/Release/netcoreapp2.2/SuperCallouts.assets.cache" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SuperCallouts/obj/Release/netcoreapp2.2/SuperCallouts.csproj.CopyComplete" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SuperCallouts/obj/Release/netcoreapp2.2/SuperCallouts.csproj.CoreCompileInputs.cache" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SuperCallouts/obj/Release/netcoreapp2.2/SuperCallouts.csproj.FileListAbsolute.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SuperCallouts/obj/Release/netcoreapp2.2/SuperCallouts.csprojAssemblyReference.cache" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SuperCallouts/obj/Release/netcoreapp2.2/SuperCallouts.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SuperCallouts/obj/Release/netcoreapp2.2/SuperCallouts.pdb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SuperCallouts/obj/SuperCallouts.csproj.nuget.cache" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SuperCallouts/obj/SuperCallouts.csproj.nuget.dgspec.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SuperCallouts/obj/SuperCallouts.csproj.nuget.g.props" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SuperCallouts/obj/SuperCallouts.csproj.nuget.g.targets" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SuperCallouts/obj/project.assets.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SuperCallouts/obj/project.packagespec.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SuperEvents/SuperEvents.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/SuperEvents/SuperEvents.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SuperEvents/obj/Debug/netcoreapp2.2/SuperEvents.AssemblyInfo.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SuperEvents/obj/Debug/netcoreapp2.2/SuperEvents.AssemblyInfoInputs.cache" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SuperEvents/obj/Debug/netcoreapp2.2/SuperEvents.assets.cache" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SuperEvents/obj/Debug/netcoreapp2.2/SuperEvents.csproj.CoreCompileInputs.cache" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SuperEvents/obj/Debug/netcoreapp2.2/SuperEvents.csproj.FileListAbsolute.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SuperEvents/obj/Debug/netcoreapp2.2/SuperEvents.csprojAssemblyReference.cache" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SuperEvents/obj/Release/netcoreapp2.2/SuperEvents.AssemblyInfo.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SuperEvents/obj/Release/netcoreapp2.2/SuperEvents.AssemblyInfoInputs.cache" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SuperEvents/obj/Release/netcoreapp2.2/SuperEvents.assets.cache" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SuperEvents/obj/Release/netcoreapp2.2/SuperEvents.csproj.CopyComplete" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SuperEvents/obj/Release/netcoreapp2.2/SuperEvents.csproj.CoreCompileInputs.cache" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SuperEvents/obj/Release/netcoreapp2.2/SuperEvents.csproj.FileListAbsolute.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SuperEvents/obj/Release/netcoreapp2.2/SuperEvents.csprojAssemblyReference.cache" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SuperEvents/obj/Release/netcoreapp2.2/SuperEvents.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SuperEvents/obj/Release/netcoreapp2.2/SuperEvents.pdb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SuperEvents/obj/SuperEvents.csproj.nuget.cache" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SuperEvents/obj/SuperEvents.csproj.nuget.dgspec.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SuperEvents/obj/SuperEvents.csproj.nuget.g.props" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SuperEvents/obj/SuperEvents.csproj.nuget.g.targets" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SuperEvents/obj/project.assets.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SuperEvents/obj/project.packagespec.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SuperPlugins.sln" beforeDir="false" afterPath="$PROJECT_DIR$/SuperPlugins.sln" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SuperCallouts/Callouts/MafiaActivity.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SuperCallouts/Callouts/MafiaActivity.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SuperCallouts/Callouts/MafiaActivity2.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SuperCallouts/Callouts/MafiaActivity2.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SuperCallouts/CustomScenes/MafiaSetup.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SuperCallouts/CustomScenes/MafiaSetup.cs" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -68,11 +22,18 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/SuperEvents/Events/CarAccident.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SuperCallouts/Callouts/Aliens.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/SuperEvents/Properties/AssemblyInfo.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SuperEvents/SimpleFunctions/EFunctions.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SuperCallouts/CustomScenes/MafiaSetup.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SuperEvents/Settings.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SuperCallouts/Properties/AssemblyInfo.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SuperEvents/Properties/AssemblyInfo.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SuperCallouts/Callouts/MafiaActivity2.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SuperCallouts/Callouts/MafiaActivity.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SuperEvents/Events/SuicidalPed.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SuperEvents/Events/RoadRage.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SuperEvents/Events/RecklessDriver.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SuperEvents/Events/OpenCarry.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SuperEvents/Events/InjuredPed.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SuperEvents/Events/Fight.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SuperCallouts/Callouts/CarAccident2.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
@@ -89,17 +50,23 @@
         <option value="$PROJECT_DIR$/SuperEvents/SuperEvents.ini" />
         <option value="$PROJECT_DIR$/SuperEvents/Settings.cs" />
         <option value="$PROJECT_DIR$/SuperEvents/AmbientEvent.cs" />
-        <option value="$PROJECT_DIR$/SuperEvents/Events/CarAccident.cs" />
-        <option value="$PROJECT_DIR$/SuperEvents/Events/Fight.cs" />
         <option value="$PROJECT_DIR$/SuperEvents/Events/InjuredPed.cs" />
-        <option value="$PROJECT_DIR$/SuperEvents/Events/OpenCarry.cs" />
-        <option value="$PROJECT_DIR$/SuperEvents/Events/SuicidalPed.cs" />
         <option value="$PROJECT_DIR$/SuperCallouts/SuperCallouts.ini" />
         <option value="$PROJECT_DIR$/ClassLibrary1/Class1.cs" />
         <option value="$PROJECT_DIR$/SuperCallouts/Class1.cs" />
         <option value="$PROJECT_DIR$/SuperEvents/Class1.cs" />
         <option value="$PROJECT_DIR$/SuperEvents/Properties/AssemblyInfo.cs" />
         <option value="$PROJECT_DIR$/SuperCallouts/Properties/AssemblyInfo.cs" />
+        <option value="$PROJECT_DIR$/SuperEvents/Events/SuicidalPed.cs" />
+        <option value="$PROJECT_DIR$/SuperEvents/SimpleFunctions/EFunctions.cs" />
+        <option value="$PROJECT_DIR$/SuperEvents/Events/CarAccident.cs" />
+        <option value="$PROJECT_DIR$/SuperEvents/Events/Fight.cs" />
+        <option value="$PROJECT_DIR$/SuperEvents/Events/RecklessDriver.cs" />
+        <option value="$PROJECT_DIR$/SuperEvents/Events/RoadRage.cs" />
+        <option value="$PROJECT_DIR$/SuperCallouts/CustomScenes/MafiaSetup.cs" />
+        <option value="$PROJECT_DIR$/SuperCallouts/Callouts/MafiaActivity.cs" />
+        <option value="$PROJECT_DIR$/SuperEvents/Events/OpenCarry.cs" />
+        <option value="$PROJECT_DIR$/SuperCallouts/Callouts/MafiaActivity2.cs" />
       </list>
     </option>
   </component>
@@ -156,7 +123,8 @@
       <workItem from="1570394942559" duration="120000" />
       <workItem from="1570395139749" duration="246000" />
       <workItem from="1570395402228" duration="684000" />
-      <workItem from="1570415061852" duration="191000" />
+      <workItem from="1570415061852" duration="4590000" />
+      <workItem from="1570470243128" duration="2180000" />
     </task>
     <task id="LOCAL-00001" summary="Version Control">
       <created>1570228881265</created>
@@ -179,7 +147,14 @@
       <option name="project" value="LOCAL" />
       <updated>1570394245292</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Added checks for medics and firemen.">
+      <created>1570474206406</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1570474206406</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -208,7 +183,8 @@
     <MESSAGE value="Version Control" />
     <MESSAGE value="Added interactions to events." />
     <MESSAGE value="Push" />
-    <option name="LAST_COMMIT_MESSAGE" value="Push" />
+    <MESSAGE value="Added checks for medics and firemen." />
+    <option name="LAST_COMMIT_MESSAGE" value="Added checks for medics and firemen." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

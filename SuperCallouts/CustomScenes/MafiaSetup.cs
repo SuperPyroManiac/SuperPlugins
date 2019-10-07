@@ -252,7 +252,7 @@ namespace SuperCallouts.CustomScenes
             mafiaDudes5.Tasks.ClearImmediately();
             mafiaDudes5.Heading = 147.6318f;
             Game.SetRelationshipBetweenRelationshipGroups("MAFIA", "COP", Relationship.Hate);
-            Game.SetRelationshipBetweenRelationshipGroups("MAFIA", "PLAYER", Relationship.Hate);
+            Game.SetRelationshipBetweenRelationshipGroups("COP", "MAFIA", Relationship.Hate);
         }
     }
 }
