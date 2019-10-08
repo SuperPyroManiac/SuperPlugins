@@ -4,6 +4,8 @@ using System;
 using System.Drawing;
 using Rage;
 using Rage.Native;
+using RAGENativeUI;
+using RAGENativeUI.Elements;
 using SuperEvents.SimpleFunctions;
 
 #endregion
@@ -19,7 +21,16 @@ namespace SuperEvents.Events
         private bool _onScene;
         private Vector3 _spawnPoint;
         private float _spawnPointH;
-        private bool _letsChat;
+        //UI Items
+        private readonly MenuPool _interaction = new MenuPool();
+        private readonly UIMenu _mainMenu = new UIMenu("SuperEvents", "~y~Choose an option.");
+        private readonly UIMenu _convoMenu = new UIMenu("SuperEvents", "~y~Choose a subject to speak with.");
+        private readonly UIMenuItem _stopFight = new UIMenuItem("~r~Stop Fighting", "Breaks up the fight.");
+        private readonly UIMenuItem _questioning = new UIMenuItem("Speak With Subjects");
+        private readonly UIMenuItem _endCall = new UIMenuItem("~y~End Call", "Ends the callout early.");
+        private readonly UIMenuItem _speakSuspect = new UIMenuItem("Speak with the ~r~Suspect");
+        private readonly UIMenuItem _speakSuspect2 = new UIMenuItem("Speak with the ~b~Victim");
+        private readonly UIMenuItem _goBack = new UIMenuItem("Back", "Returns to main menu.");
 
         internal static void Launch()
         {
@@ -44,6 +55,21 @@ namespace SuperEvents.Events
             _cBlip2 = _bad2.AttachBlip();
             _cBlip2.Color = Color.Red;
             _cBlip2.Scale = .5f;
+            //Start UI
+            _interaction.Add(_mainMenu);
+            _interaction.Add(_convoMenu);
+            _mainMenu.AddItem(_stopFight);
+            _mainMenu.AddItem(_questioning);
+            _mainMenu.AddItem(_endCall);
+            _convoMenu.AddItem(_speakSuspect);
+            _convoMenu.AddItem(_speakSuspect2);
+            _convoMenu.AddItem(_goBack);
+            _mainMenu.RefreshIndex();
+            _convoMenu.RefreshIndex();
+            _mainMenu.BindMenuToItem(_convoMenu, _questioning);
+            _convoMenu.BindMenuToItem(_mainMenu, _goBack);
+            _mainMenu.OnItemSelect += Interactions;
+            _convoMenu.OnItemSelect += Conversations;
             base.StartEvent();
         }
 
@@ -66,26 +92,12 @@ namespace SuperEvents.Events
                             _bad2.Tasks.FightAgainst(_bad1);
                             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~y~Officer Sighting",
                                 "~r~A Fight", "Stop the fight, and make sure everyone is ok.");
-                            Game.DisplayHelp("Press " + Settings.Interact + " to speak with the suspects.");
+                            Game.DisplayHelp("Press " + Settings.Interact + " to open interaction menu.");
                         }
-                        if (_onScene && !_letsChat && Game.IsKeyDown(Settings.Interact))
+                        if (Game.IsKeyDown(Settings.Interact))
                         {
-                            _letsChat = true;
-                            _bad1.Tasks.Clear();
-                            _bad2.Tasks.Clear();
-                            Game.DisplaySubtitle("~g~Me: ~s~Stop fighting now!", 5000);
-                            GameFiber.Wait(5000);
-                            NativeFunction.CallByName<uint>("TASK_TURN_PED_TO_FACE_ENTITY", _bad1, Game.LocalPlayer.Character, -1);
-                            NativeFunction.CallByName<uint>("TASK_TURN_PED_TO_FACE_ENTITY", _bad2, Game.LocalPlayer.Character, -1);
-                            Game.DisplaySubtitle("~g~Me: ~s~What is going on here?", 5000);
-                            GameFiber.Wait(5000);
-                            NativeFunction.CallByName<uint>("TASK_TURN_PED_TO_FACE_ENTITY", _bad1, _bad2, -1);
-                            _bad1.Tasks.PlayAnimation("misstrevor2ig_3", "point", 2f, AnimationFlags.SecondaryTask);
-                            Game.DisplaySubtitle("~r~Suspect 1: ~s~I dropped ~r~$50~s~ dollars and they took it!");
-                            GameFiber.Wait(5000);
-                            Game.DisplaySubtitle("~r~Suspect 2: ~s~I did not! I don't have time for this.'");
-                            _bad2.Tasks.Wander();
-                            NativeFunction.CallByName<uint>("TASK_TURN_PED_TO_FACE_ENTITY", _bad1, Game.LocalPlayer.Character, -1);
+                            _mainMenu.Visible = !_mainMenu.Visible;
+                            _convoMenu.Visible = false;
                         }
                         if (!_bad1.IsAlive || !_bad2.IsAlive || _bad1.IsCuffed || _bad2.IsCuffed || Game.LocalPlayer.Character.DistanceTo(_spawnPoint) > 200) End();
                     }
@@ -110,7 +122,39 @@ namespace SuperEvents.Events
             if (_bad2.Exists()) _bad2.Dismiss();
             if (_cBlip1.Exists()) _cBlip1.Delete();
             if (_cBlip2.Exists()) _cBlip2.Delete();
+            _interaction.CloseAllMenus();
             base.End();
+        }
+        
+        private void Interactions(UIMenu sender, UIMenuItem selItem, int index)
+        {
+            if (selItem == _stopFight)
+            {
+                Game.DisplaySubtitle("~g~You~s~: Police! Stop fighting now!");
+                _bad1.Tasks.ClearImmediately();
+                _bad2.Tasks.ClearImmediately();
+                NativeFunction.CallByName<uint>("TASK_TURN_PED_TO_FACE_ENTITY", _bad1, Game.LocalPlayer.Character, -1);
+                NativeFunction.CallByName<uint>("TASK_TURN_PED_TO_FACE_ENTITY", _bad2, Game.LocalPlayer.Character, -1);
+            }
+            else if (selItem == _endCall)
+            {
+                Game.DisplaySubtitle("~y~Event Ended.");
+                End();
+            }
+        }
+        private void Conversations(UIMenu sender, UIMenuItem selItem, int index)
+        {
+            if (selItem == _speakSuspect)
+            {
+                Game.DisplaySubtitle("~r~Suspect:~s~ Wowee");
+            }
+            if (selItem == _speakSuspect2)
+            {
+                Game.DisplaySubtitle("~b~Victim:~s~ Wowee");
+                _speakSuspect.SetRightLabel("Suspect is dead.");
+                _speakSuspect.SetLeftBadge(UIMenuItem.BadgeStyle.Alert);
+                _speakSuspect.Enabled = false;
+            }
         }
     }
 }
