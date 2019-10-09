@@ -2,6 +2,7 @@
 
 using System;
 using System.Drawing;
+using LSPD_First_Response.Mod.API;
 using Rage;
 using Rage.Native;
 using RAGENativeUI;
@@ -18,6 +19,8 @@ namespace SuperEvents.Events
         private Ped _bad2;
         private Blip _cBlip1;
         private Blip _cBlip2;
+        private string _name1;
+        private string _name2;
         private bool _onScene;
         private Vector3 _spawnPoint;
         private float _spawnPointH;
@@ -25,7 +28,7 @@ namespace SuperEvents.Events
         private readonly MenuPool _interaction = new MenuPool();
         private readonly UIMenu _mainMenu = new UIMenu("SuperEvents", "~y~Choose an option.");
         private readonly UIMenu _convoMenu = new UIMenu("SuperEvents", "~y~Choose a subject to speak with.");
-        private readonly UIMenuItem _stopFight = new UIMenuItem("~r~Stop Fighting", "Breaks up the fight.");
+        private readonly UIMenuItem _stopFight = new UIMenuItem("~r~ Stop Fighting", "Breaks up the fight.");
         private readonly UIMenuItem _questioning = new UIMenuItem("Speak With Subjects");
         private readonly UIMenuItem _endCall = new UIMenuItem("~y~End Call", "Ends the callout early.");
         private readonly UIMenuItem _speakSuspect = new UIMenuItem("Speak with the ~r~Suspect");
@@ -48,13 +51,8 @@ namespace SuperEvents.Events
             _bad1.Tasks.PlayAnimation("misstrevor2ig_3", "point", 2f, AnimationFlags.SecondaryTask);
             _bad2.Metadata.searchPed = "~r~50 dollar bill~s~, ~y~empty baggy with white powder~s~, ~g~wallet~s~";
             _bad2.Metadata.stpDrugsDetected = true;
-            if (!Settings.ShowBlips) {base.StartEvent(); return;}
-            _cBlip1 = _bad1.AttachBlip();
-            _cBlip1.Color = Color.Red;
-            _cBlip1.Scale = .5f;
-            _cBlip2 = _bad2.AttachBlip();
-            _cBlip2.Color = Color.Red;
-            _cBlip2.Scale = .5f;
+            _name1 = Functions.GetPersonaForPed(_bad1).FullName;
+            _name2 = Functions.GetPersonaForPed(_bad2).FullName;
             //Start UI
             _interaction.Add(_mainMenu);
             _interaction.Add(_convoMenu);
@@ -70,6 +68,16 @@ namespace SuperEvents.Events
             _convoMenu.BindMenuToItem(_mainMenu, _goBack);
             _mainMenu.OnItemSelect += Interactions;
             _convoMenu.OnItemSelect += Conversations;
+            _stopFight.SetLeftBadge(UIMenuItem.BadgeStyle.Alert);
+            _speakSuspect2.Enabled = false;
+            //Blips
+            if (!Settings.ShowBlips) {base.StartEvent(); return;}
+            _cBlip1 = _bad1.AttachBlip();
+            _cBlip1.Color = Color.Red;
+            _cBlip1.Scale = .5f;
+            _cBlip2 = _bad2.AttachBlip();
+            _cBlip2.Color = Color.Red;
+            _cBlip2.Scale = .5f;
             base.StartEvent();
         }
 
@@ -135,6 +143,7 @@ namespace SuperEvents.Events
                 _bad2.Tasks.ClearImmediately();
                 NativeFunction.CallByName<uint>("TASK_TURN_PED_TO_FACE_ENTITY", _bad1, Game.LocalPlayer.Character, -1);
                 NativeFunction.CallByName<uint>("TASK_TURN_PED_TO_FACE_ENTITY", _bad2, Game.LocalPlayer.Character, -1);
+                _stopFight.Enabled = false;
             }
             else if (selItem == _endCall)
             {
@@ -146,15 +155,21 @@ namespace SuperEvents.Events
         {
             if (selItem == _speakSuspect)
             {
-                Game.DisplaySubtitle("~r~Suspect:~s~ Wowee");
+                GameFiber.StartNew(delegate
+                {
+                    _speakSuspect2.Enabled = true;
+                    Game.DisplaySubtitle("~g~You~s~: What is going on? Why are you fighting?", 5000);
+                    GameFiber.Wait(5000);
+                    Game.DisplaySubtitle("~r~" + _name1 + "~s~: That person took 50 dollars I dropped! I bet they still have it!", 5000);
+                });
             }
-            if (selItem == _speakSuspect2)
+            else if (selItem == _speakSuspect2)
             {
-                Game.DisplaySubtitle("~b~Victim:~s~ Wowee");
-                _speakSuspect.SetRightLabel("Suspect is dead.");
-                _speakSuspect.SetLeftBadge(UIMenuItem.BadgeStyle.Alert);
-                _speakSuspect.Enabled = false;
-            }
+                Game.DisplaySubtitle("~g~You~s~: Whats going on? The other person claims you took 50 dollars from them.", 5000);
+                GameFiber.Wait(5000);
+                Game.DisplaySubtitle("~r~" + _name2 + "~s~: I didn't take nothing, they are lying! You all need to leave me alone.", 5000);
+                _bad2.Tasks.Wander();
+            }//TODO: Add onscene check
         }
     }
 }
