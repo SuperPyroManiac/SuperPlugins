@@ -43,7 +43,7 @@
       <HintPath>..\..\..\LSPDFR DEV\LSPDFR API'S\NativeUI SDK\RAGENativeUI.dll</HintPath>
     </Reference>
     <Reference Include="RagePluginHook, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\..\..\CODING\LSPDFR DEV\LSPDFR API'S\RPH SDK\RagePluginHookSDK.dll</HintPath>
+      <HintPath>..\..\..\LSPDFR DEV\LSPDFR API'S\RPH SDK\RagePluginHookSDK.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
