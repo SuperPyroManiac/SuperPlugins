@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ContentModelStore">
-    <e p="$PROJECT_DIR$" t="IncludeFlat">
+    <e p="C:\Users\Rande\.Rider2019.2\system\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\Rande\.Rider2019.2\system\resharper-host\local\Transient\ReSharperHost\v192\SolutionCaches\_SuperPlugins.-1284107847.00" t="ExcludeRecursive" />
+    <e p="C:\Users\Rande\RiderProjects\SuperPlugins" t="IncludeFlat">
       <e p="packages" t="ExcludeRecursive" />
       <e p="SuperCallouts" t="IncludeRecursive">
         <e p="SuperCallouts.csproj" t="IncludeRecursive" />
@@ -39,7 +41,5 @@
       </e>
       <e p="SuperPlugins.sln" t="IncludeFlat" />
     </e>
-    <e p="$USER_HOME$/Library/Caches/Rider2019.2/extResources" t="IncludeRecursive" />
-    <e p="$USER_HOME$/Library/Caches/Rider2019.2/resharper-host/local/Transient/ReSharperHost/v192/SolutionCaches/_SuperPlugins.1628651603.00" t="ExcludeRecursive" />
   </component>
 </project>

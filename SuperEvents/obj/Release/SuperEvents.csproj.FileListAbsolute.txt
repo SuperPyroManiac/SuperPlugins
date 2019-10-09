@@ -1,7 +1,6 @@
 C:\Users\Rande\RiderProjects\SuperPlugins\SuperEvents\bin\Release\SuperEvents.dll
 C:\Users\Rande\RiderProjects\SuperPlugins\SuperEvents\bin\Release\SuperEvents.pdb
 C:\Users\Rande\RiderProjects\SuperPlugins\SuperEvents\bin\Release\LSPD First Response.dll
-C:\Users\Rande\RiderProjects\SuperPlugins\SuperEvents\bin\Release\RAGENativeUI.dll
 C:\Users\Rande\RiderProjects\SuperPlugins\SuperEvents\bin\Release\RagePluginHookSDK.dll
 C:\Users\Rande\RiderProjects\SuperPlugins\SuperEvents\bin\Release\LSPD First Response.pdb
 C:\Users\Rande\RiderProjects\SuperPlugins\SuperEvents\bin\Release\LSPD First Response.xml

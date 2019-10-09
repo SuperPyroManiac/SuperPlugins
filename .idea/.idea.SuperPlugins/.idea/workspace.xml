@@ -2,11 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e030afce-2247-423c-b520-a841baa2ccad" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/SuperEvents/obj/Debug/SuperEvents.csprojAssemblyReference.cache" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.SuperPlugins/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SuperPlugins/.idea/contentModel.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.SuperPlugins/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SuperPlugins/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SuperEvents/.gitignore" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/SuperEvents/Events/Fight.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SuperEvents/Events/Fight.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SuperEvents/SuperEvents.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/SuperEvents/SuperEvents.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SuperEvents/bin/Release/SuperEvents.dll" beforeDir="false" afterPath="$PROJECT_DIR$/SuperEvents/bin/Release/SuperEvents.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SuperEvents/bin/Release/SuperEvents.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/SuperEvents/bin/Release/SuperEvents.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SuperEvents/obj/Release/SuperEvents.csproj.CoreCompileInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/SuperEvents/obj/Release/SuperEvents.csproj.CoreCompileInputs.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SuperEvents/obj/Release/SuperEvents.csproj.FileListAbsolute.txt" beforeDir="false" afterPath="$PROJECT_DIR$/SuperEvents/obj/Release/SuperEvents.csproj.FileListAbsolute.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SuperEvents/obj/Release/SuperEvents.csprojAssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/SuperEvents/obj/Release/SuperEvents.csprojAssemblyReference.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SuperEvents/obj/Release/SuperEvents.dll" beforeDir="false" afterPath="$PROJECT_DIR$/SuperEvents/obj/Release/SuperEvents.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SuperEvents/obj/Release/SuperEvents.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/SuperEvents/obj/Release/SuperEvents.pdb" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -40,26 +48,27 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/SuperCallouts/Callouts/CarAccident.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/SuperCallouts/Callouts/MafiaActivity.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/SuperCallouts/Properties/AssemblyInfo.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/SuperEvents/Events/OpenCarry.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/SuperEvents/Events/RoadRage.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/SuperCallouts/CustomScenes/MafiaSetup.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/SuperEvents/Events/RecklessDriver.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SuperEvents/Events/CarAccident.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/SuperEvents/Events/SuicidalPed.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/SuperEvents/Events/CarFire.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/SuperEvents/Events/InjuredPed.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/SuperEvents/Main.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/SuperEvents/Events/Fight.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/SuperEvents/Properties/AssemblyInfo.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/SuperEvents/Settings.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/SuperEvents/SimpleFunctions/EFunctions.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/SuperCallouts/Callouts/MafiaActivity2.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SuperCallouts/Callouts/Aliens.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/SuperCallouts/Callouts/CarAccident2.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SuperEvents/SimpleFunctions/EFunctions.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SuperCallouts/CustomScenes/MafiaSetup.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SuperEvents/Settings.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SuperCallouts/Properties/AssemblyInfo.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SuperEvents/Main.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SuperEvents/AmbientEvent.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SuperCallouts/Callouts/TruckCrash.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SuperEvents/Properties/AssemblyInfo.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SuperCallouts/Callouts/MafiaActivity2.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SuperCallouts/Callouts/MafiaActivity.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SuperEvents/Events/SuicidalPed.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SuperEvents/Events/RoadRage.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SuperEvents/Events/RecklessDriver.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SuperEvents/Events/OpenCarry.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SuperEvents/Events/InjuredPed.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SuperEvents/Events/Fight.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SuperCallouts/Callouts/CarAccident2.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SuperCallouts/Callouts/CarAccident.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SuperEvents/Events/CarFire.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -91,6 +100,8 @@
         <option value="$PROJECT_DIR$/SuperCallouts/Callouts/MafiaActivity2.cs" />
         <option value="$PROJECT_DIR$/SuperEvents/Main.cs" />
         <option value="$PROJECT_DIR$/SuperEvents/Events/Fight.cs" />
+        <option value="$PROJECT_DIR$/SuperEvents/.gitignore" />
+        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
@@ -156,6 +167,8 @@
       <workItem from="1570415061852" duration="4590000" />
       <workItem from="1570470243128" duration="2252000" />
       <workItem from="1570568402863" duration="3538000" />
+      <workItem from="1570589319660" duration="3645000" />
+      <workItem from="1570640883415" duration="2190000" />
     </task>
     <task id="LOCAL-00001" summary="Version Control">
       <created>1570228881265</created>
@@ -192,7 +205,14 @@
       <option name="project" value="LOCAL" />
       <updated>1570474295624</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="gitignore">
+      <created>1570643106552</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1570643106552</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -223,7 +243,8 @@
     <MESSAGE value="Push" />
     <MESSAGE value="Added checks for medics and firemen." />
     <MESSAGE value="Mafia and cops now hate each other" />
-    <option name="LAST_COMMIT_MESSAGE" value="Mafia and cops now hate each other" />
+    <MESSAGE value="gitignore" />
+    <option name="LAST_COMMIT_MESSAGE" value="gitignore" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
