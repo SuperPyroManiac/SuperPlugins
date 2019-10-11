@@ -95,7 +95,7 @@ namespace SuperEvents.Events
                             _questioning.Enabled = true;
                             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~y~Officer Sighting",
                                 "~r~Open Carry", "Investigate the person.");
-                            Game.DisplayHelp("Press " + Settings.Interact + " to speak with the suspect.");
+                            Game.DisplayHelp("~y~Press ~r~" + Settings.Interact + "~y~ to open interaction menu.");
                         }
                         if (Game.IsKeyDown(Settings.Interact))
                         {

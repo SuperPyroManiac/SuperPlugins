@@ -8,7 +8,7 @@ using RAGENativeUI.Elements;
 
 namespace SuperEvents.Events
 {
-    public class Mugging : AmbientEvent
+    public class Mugging : AmbientEvent //TODO: More interactions rewrite!
     {
         private Ped _bad1;
         private Ped _victim;

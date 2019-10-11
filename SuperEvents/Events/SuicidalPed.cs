@@ -3,8 +3,11 @@
 using System;
 using System.Drawing;
 using LSPD_First_Response.Engine;
+using LSPD_First_Response.Mod.API;
 using Rage;
 using Rage.Native;
+using RAGENativeUI;
+using RAGENativeUI.Elements;
 
 #endregion
 
@@ -18,7 +21,18 @@ namespace SuperEvents.Events
         private Blip _cBlip1;
         private Blip _cBlip2;
         private bool _onScene;
-        private bool _letsChat;
+        private string _name1;
+        private string _name2;
+        //UI Items
+        private readonly MenuPool _interaction = new MenuPool();
+        private readonly UIMenu _mainMenu = new UIMenu("SuperEvents", "~y~Choose an option.");
+        private readonly UIMenu _convoMenu = new UIMenu("SuperEvents", "~y~Choose a subject to speak with.");
+        private readonly UIMenuItem _callCode2 = new UIMenuItem("~r~ Code 2 Backup", "Calls another officer to help out.");
+        private readonly UIMenuItem _questioning = new UIMenuItem("Speak With Subjects");
+        private readonly UIMenuItem _endCall = new UIMenuItem("~y~End Call", "Ends the callout early.");
+        private readonly UIMenuItem _goBack = new UIMenuItem("Back", "Returns to main menu.");
+        private UIMenuItem _speakSuspect;
+        private UIMenuItem _speakSuspect2;
 
         internal static void Launch()
         {
@@ -34,6 +48,31 @@ namespace SuperEvents.Events
             if (_bad1.IsDead || _bad1.RelationshipGroup == "COP" || _bad2.IsDead || _bad2.RelationshipGroup == "COP") {base.Failed(); return;}
             _bad1.Tasks.PutHandsUp(-1, _bad2);
             _bad2.Tasks.PutHandsUp(-1, _bad1);
+            _name1 = Functions.GetPersonaForPed(_bad1).FullName;
+            _name2 = Functions.GetPersonaForPed(_bad2).FullName;
+            //Start UI
+            _speakSuspect = new UIMenuItem("Speak with ~y~" + _name1);
+            _speakSuspect2 = new UIMenuItem("Speak with ~y~" + _name2);
+            _interaction.Add(_mainMenu);
+            _interaction.Add(_convoMenu);
+            _mainMenu.AddItem(_callCode2);
+            _mainMenu.AddItem(_questioning);
+            _mainMenu.AddItem(_endCall);
+            _convoMenu.AddItem(_speakSuspect);
+            _convoMenu.AddItem(_speakSuspect2);
+            _convoMenu.AddItem(_goBack);
+            _mainMenu.RefreshIndex();
+            _convoMenu.RefreshIndex();
+            _mainMenu.BindMenuToItem(_convoMenu, _questioning);
+            _convoMenu.BindMenuToItem(_mainMenu, _goBack);
+            _mainMenu.OnItemSelect += Interactions;
+            _convoMenu.OnItemSelect += Conversations;
+            _callCode2.SetLeftBadge(UIMenuItem.BadgeStyle.Alert);
+            _convoMenu.ParentMenu = _mainMenu;
+            _callCode2.Enabled = false;
+            _questioning.Enabled = false;
+            _speakSuspect2.Enabled = false;
+            //Blips
             if (Settings.ShowBlips)
             {
                 _cBlip1 = _bad1.AttachBlip();
@@ -60,29 +99,32 @@ namespace SuperEvents.Events
                         if (!_onScene && Game.LocalPlayer.Character.DistanceTo(_spawnPoint) < 10f)
                         {
                             _onScene = true;
+                            _questioning.Enabled = true;
+                            _callCode2.Enabled = true;
                             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~y~Officer Sighting",
                                 "~r~People in Road", "Investigate the people.");
                             Game.DisplaySubtitle(
                                 "~r~Stangers: ~s~Run us over! We do not want to live on this world anymore!");
-                            Game.DisplayHelp("Press " + Settings.Interact + " to speak with the strangers.");
+                            Game.DisplayHelp("~y~Press ~r~" + Settings.Interact + "~y~ to open interaction menu.");
                         }
-                        if (_onScene && !_letsChat && Game.IsKeyDown(Settings.Interact))
+                        
+                        if (Game.IsKeyDown(Settings.Interact))
                         {
-                            _letsChat = true;
-                            Game.DisplaySubtitle("~g~Me: ~s~What are you doing? Let's step off the road.", 4000);
-                            GameFiber.Wait(4000);
-                            Game.DisplaySubtitle("~r~Stranger: ~s~We can't take it anymore! Just let us die!");
+                            _mainMenu.Visible = !_mainMenu.Visible;
+                            _convoMenu.Visible = false;
                         }
+
                         if (_bad1.Exists() && _bad2.Exists())
                         {
                             if (Game.LocalPlayer.Character.DistanceTo(_bad1) > 200f ||
                                 Game.LocalPlayer.Character.DistanceTo(_bad2) > 200f) End();
-                            if (_bad1.IsDead || _bad2.IsDead || _bad1.IsCuffed || _bad2.IsCuffed) End();
+                            if (_bad1.IsDead || _bad2.IsDead) End();
                         }
                         else
                         {
                             End();
                         }
+                        _interaction.ProcessMenus();
                     }
                     catch (Exception e)
                     {
@@ -106,6 +148,53 @@ namespace SuperEvents.Events
             if(_cBlip1.Exists()) _cBlip1.Delete();
             if(_cBlip2.Exists()) _cBlip2.Delete();
             base.End();
+        }
+        
+                private void Interactions(UIMenu sender, UIMenuItem selItem, int index)
+        {
+            if (selItem == _callCode2)
+            {
+                Game.DisplaySubtitle("~g~You~s~: Dispatch, can I get some asistance here?");
+                _bad1.Tasks.ClearImmediately();
+                _bad2.Tasks.ClearImmediately();
+                NativeFunction.CallByName<uint>("TASK_TURN_PED_TO_FACE_ENTITY", _bad1, Game.LocalPlayer.Character, -1);
+                NativeFunction.CallByName<uint>("TASK_TURN_PED_TO_FACE_ENTITY", _bad2, Game.LocalPlayer.Character, -1);
+                try
+                {
+                    UltimateBackup.API.Functions.callCode2Backup();
+                }
+                catch (Exception e)
+                {
+                    Game.LogTrivial("SuperEvents Warning: Ultimate Backup is not installed! Backup was not automatically called!");
+                    Game.DisplayHelp("~r~Ultimate Backup is not installed! Backup was not automatically called!", 8000);
+                }
+                _callCode2.Enabled = false;
+            }
+            else if (selItem == _endCall)
+            {
+                Game.DisplaySubtitle("~y~Event Ended.");
+                End();
+            }
+        }
+        private void Conversations(UIMenu sender, UIMenuItem selItem, int index)
+        {
+            if (selItem == _speakSuspect)
+            {
+                GameFiber.StartNew(delegate
+                {
+                    Game.DisplaySubtitle("~g~You~s~: Why are you guys standing in the middle of the road? I need you to move to the sidewalk.", 5000);
+                    GameFiber.Wait(5000);
+                    Game.DisplaySubtitle("~r~" + _name1 + "~s~: We don't want to live anymore. Please just shoot me!'", 5000);
+                    _speakSuspect2.Enabled = true;
+                });
+            } else if (selItem == _speakSuspect2)
+            {
+                Game.DisplaySubtitle("~g~You~s~: Sir, can you explain what's going on here?'", 5000);
+                GameFiber.Wait(5000);
+                Game.DisplaySubtitle("~r~" + _name2 + "~s~: I CANT TAKE IT ANYMORE!", 5000);
+                GameFiber.Wait(1000);
+                _bad2.Tasks.FightAgainst(Game.LocalPlayer.Character);
+            }
         }
     }
 }

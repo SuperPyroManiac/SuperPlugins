@@ -4,6 +4,9 @@ using System;
 using System.Drawing;
 using LSPD_First_Response.Mod.API;
 using Rage;
+using Rage.Native;
+using RAGENativeUI;
+using RAGENativeUI.Elements;
 using SuperEvents.SimpleFunctions;
 
 #endregion
@@ -18,6 +21,16 @@ namespace SuperEvents.Events
         private Blip _cBlip;
         private bool _pursuitActive;
         private bool _onScene;
+        private bool _noDouble;
+        private string _name1;
+        //UI Items
+        private readonly MenuPool _interaction = new MenuPool();
+        private readonly UIMenu _mainMenu = new UIMenu("SuperEvents", "~y~Choose an option.");
+        private readonly UIMenu _convoMenu = new UIMenu("SuperEvents", "~y~Choose a subject to speak with.");
+        private readonly UIMenuItem _questioning = new UIMenuItem("Speak With Subjects");
+        private readonly UIMenuItem _endCall = new UIMenuItem("~y~End Call", "Ends the callout early.");
+        private readonly UIMenuItem _goBack = new UIMenuItem("Back", "Returns to main menu.");
+        private UIMenuItem _speakSuspect;
 
         internal static void Launch()
         {
@@ -44,8 +57,27 @@ namespace SuperEvents.Events
             _bad1.Tasks.CruiseWithVehicle(_cVehicle, 20f, VehicleDrivingFlags.Reverse);
             EFunctions.SetWanted(_bad1, true);
             _cVehicle.IsStolen = true;
-            _bad1.Metadata.searchPed = "~r~baggy of marijuana~s~";
+            _bad1.Metadata.searchPed = "~r~baggy of meth~s~, ~r~combat pistol~s~";
             _bad1.Metadata.stpDrugsDetected = true;
+            _cVehicle.Metadata.searchDriver = "~r~sealed bag of meth~s~, ~r~ripped open empty bag~s~, ~y~machete~s~, ~g~a pair of shoes~s~";
+            _name1 = Functions.GetPersonaForPed(_bad1).FullName;
+            //Start UI
+            _speakSuspect = new UIMenuItem("Speak with ~y~" + _name1);
+            _interaction.Add(_mainMenu);
+            _interaction.Add(_convoMenu);
+            _mainMenu.AddItem(_questioning);
+            _mainMenu.AddItem(_endCall);
+            _convoMenu.AddItem(_speakSuspect);
+            _convoMenu.AddItem(_goBack);
+            _mainMenu.RefreshIndex();
+            _convoMenu.RefreshIndex();
+            _mainMenu.BindMenuToItem(_convoMenu, _questioning);
+            _convoMenu.BindMenuToItem(_mainMenu, _goBack);
+            _mainMenu.OnItemSelect += Interactions;
+            _convoMenu.OnItemSelect += Conversations;
+            _convoMenu.ParentMenu = _mainMenu;
+            _questioning.Enabled = false;
+            //Blips
             if (Settings.ShowBlips)
             {
                 _cBlip = _bad1.AttachBlip();
@@ -71,33 +103,37 @@ namespace SuperEvents.Events
                             _onScene = true;
                             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~y~Officer Sighting",
                                 "~r~Reckless Driving", "Stop the vehicle.");
+                            Game.DisplayHelp("~y~Press ~r~" + Settings.Interact + "~y~ to open interaction menu.");
+                        }
+                        
+                        if (Game.IsKeyDown(Settings.Interact))
+                        {
+                            _mainMenu.Visible = !_mainMenu.Visible;
+                            _convoMenu.Visible = false;
                         }
 
-                        if (_onScene && !_pursuitActive && Functions.IsPlayerPerformingPullover())
+                        if (_onScene && !_pursuitActive && Functions.IsPlayerPerformingPullover() && !_noDouble)
                         {
                             Functions.ForceEndCurrentPullover();
                             _pursuit = Functions.CreatePursuit();
                             Functions.AddPedToPursuit(_pursuit, _bad1);
                             Functions.SetPursuitIsActiveForPlayer(_pursuit, true);
+                            _noDouble = true;
                             _pursuitActive = true;
                         }
 
-                        if (!_pursuitActive && !_bad1.IsInAnyVehicle(true)) End();
-
-                        if (_pursuitActive && !Functions.IsPursuitStillRunning(_pursuit)) End();
+                        if (_pursuitActive && !Functions.IsPursuitStillRunning(_pursuit))
+                        {
+                            _questioning.Enabled = true;
+                            Game.DisplayHelp("~y~Press ~r~" + Settings.Interact + "~y~ to open interaction menu.");
+                            _pursuitActive = false;
+                        }
 
                         if (_bad1.Exists())
                         {
-                            if (!_onScene && Game.LocalPlayer.Character.DistanceTo(_bad1) > 300f) End();
-                            if (_onScene && !_pursuitActive &&
-                                Game.LocalPlayer.Character.DistanceTo(_bad1) > 300f) End();
-                            if (_bad1.IsDead) End();
-                            if (_bad1.IsCuffed) End();
+                            if (!_pursuitActive && Game.LocalPlayer.Character.DistanceTo(_bad1) > 100f) End();
                         }
-                        else
-                        {
-                            End();
-                        }
+                        _interaction.ProcessMenus();
                     }
                     catch (Exception e)
                     {
@@ -120,6 +156,36 @@ namespace SuperEvents.Events
             if(_cVehicle.Exists()) _cVehicle.Dismiss();
             if(_cBlip.Exists()) _cBlip.Delete();
             base.End();
+        }
+        
+                private void Interactions(UIMenu sender, UIMenuItem selItem, int index)
+        {
+            if (selItem == _endCall)
+            {
+                Game.DisplaySubtitle("~y~Event Ended.");
+                End();
+            }
+        }
+        private void Conversations(UIMenu sender, UIMenuItem selItem, int index)
+        {
+            if (selItem == _speakSuspect)
+            {
+                GameFiber.StartNew(delegate
+                {
+                    Game.DisplaySubtitle("~g~You~s~: Why in the world were you driving backwards! You could have killed someone!", 5000);
+                    NativeFunction.CallByName<uint>("TASK_TURN_PED_TO_FACE_ENTITY", _bad1, Game.LocalPlayer.Character, -1);
+                    GameFiber.Wait(5000);
+                    Game.DisplaySubtitle("~r~" + _name1 + "~s~: Man i'm not feeling very good...", 5000);
+                    GameFiber.Wait(5000);
+                    Game.DisplaySubtitle("~g~You~s~: What do you mean?", 5000);
+                    GameFiber.Wait(5000);
+                    Game.DisplaySubtitle("~r~" + _name1 + "~s~: Oh man I had something I wanted a hide but I ate it to hide it, I feel dizzy.", 5000);
+                    GameFiber.Wait(5000);
+                    Game.DisplaySubtitle("~g~You~s~: What did you eat? I'll get an ambulance out here.'", 5000);
+                    GameFiber.Wait(2000);
+                    _bad1.Kill();
+                });
+            }
         }
     }
 }
