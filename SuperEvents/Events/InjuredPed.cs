@@ -1,7 +1,10 @@
 using System;
 using System.Drawing;
+using LSPD_First_Response.Mod.API;
 using Rage;
 using Rage.Native;
+using RAGENativeUI;
+using RAGENativeUI.Elements;
 using SuperEvents.SimpleFunctions;
 
 namespace SuperEvents.Events
@@ -15,7 +18,17 @@ namespace SuperEvents.Events
         private bool _onScene;
         private Vector3 _spawnPoint;
         private float _spawnPointH;
-        private bool _letsChat;
+        private string _name1;
+        private string _name2;
+        //UI Items
+        private readonly MenuPool _interaction = new MenuPool();
+        private readonly UIMenu _mainMenu = new UIMenu("SuperEvents", "~y~Choose an option.");
+        private readonly UIMenu _convoMenu = new UIMenu("SuperEvents", "~y~Choose a subject to speak with.");
+        private readonly UIMenuItem _callEms = new UIMenuItem("~r~ Call EMS", "Calls in an ambulance.");
+        private readonly UIMenuItem _questioning = new UIMenuItem("Speak With Subjects");
+        private readonly UIMenuItem _endCall = new UIMenuItem("~y~End Call", "Ends the callout early.");
+        private readonly UIMenuItem _goBack = new UIMenuItem("Back", "Returns to main menu.");
+        private UIMenuItem _speakSuspect;
 
         internal static void Launch()
         {
@@ -33,6 +46,29 @@ namespace SuperEvents.Events
             _bad1.Tasks.Cower(-1);
             EFunctions.SetAnimation(_bad2, "move_injured_ground");
             _bad2.IsRagdoll = true;
+            _name1 = Functions.GetPersonaForPed(_bad1).FullName;
+            _name2 = Functions.GetPersonaForPed(_bad2).FullName;
+            _bad2.Metadata.searchPed = "~r~empty bag with powder on it~s~, ~r~used meth pipe~s~, ~g~picture of son~s~";
+            //Start UI
+            _speakSuspect = new UIMenuItem("Speak with ~y~" + _name1);
+            _interaction.Add(_mainMenu);
+            _interaction.Add(_convoMenu);
+            _mainMenu.AddItem(_callEms);
+            _mainMenu.AddItem(_questioning);
+            _mainMenu.AddItem(_endCall);
+            _convoMenu.AddItem(_speakSuspect);
+            _convoMenu.AddItem(_goBack);
+            _mainMenu.RefreshIndex();
+            _convoMenu.RefreshIndex();
+            _mainMenu.BindMenuToItem(_convoMenu, _questioning);
+            _convoMenu.BindMenuToItem(_mainMenu, _goBack);
+            _mainMenu.OnItemSelect += Interactions;
+            _convoMenu.OnItemSelect += Conversations;
+            _callEms.SetLeftBadge(UIMenuItem.BadgeStyle.Alert);
+            _convoMenu.ParentMenu = _mainMenu;
+            _callEms.Enabled = false;
+            _questioning.Enabled = false;
+            //Blips
             if (!Settings.ShowBlips) {base.StartEvent(); return;}
             _cBlip1 = _bad1.AttachBlip();
             _cBlip1.Color = Color.Red;
@@ -58,20 +94,19 @@ namespace SuperEvents.Events
                         if (!_onScene && Game.LocalPlayer.Character.DistanceTo(_spawnPoint) < 20f)
                         {
                             _onScene = true;
+                            _questioning.Enabled = true;
+                            _callEms.Enabled = true;
                             _cBlip2.Delete();
                             _bad2.IsRagdoll = false;
                             _bad2.Kill();
                             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~y~Officer Sighting",
                                 "~r~A Medical Emergency", "Help the person. Call EMS or perform CPR.");
-                            Game.DisplayHelp("Press " + Settings.Interact + " to speak with the bystander.");
+                            Game.DisplayHelp("~y~Press ~r~" + Settings.Interact + "~y~ to open interaction menu.");
                         }
-                        if (_onScene && !_letsChat && Game.IsKeyDown(Settings.Interact))
+                        if (Game.IsKeyDown(Settings.Interact))
                         {
-                            _letsChat = true;
-                            NativeFunction.CallByName<uint>("TASK_TURN_PED_TO_FACE_ENTITY", _bad1, Game.LocalPlayer.Character, -1);
-                            Game.DisplaySubtitle("~g~Me: ~s~What happened here?", 5000);
-                            GameFiber.Wait(5000);
-                            Game.DisplaySubtitle("~y~Bystander: ~s~We were just walking and they just fell to the ground! Please help!");
+                            _mainMenu.Visible = !_mainMenu.Visible;
+                            _convoMenu.Visible = false;
                         }
                         if (_onScene && !_bad2.Exists())
                         {
@@ -79,6 +114,7 @@ namespace SuperEvents.Events
                             End();
                         }
                         if (Game.LocalPlayer.Character.DistanceTo(_spawnPoint) > 120) End();
+                        _interaction.ProcessMenus();
                     }
                     catch (Exception e)
                     {
@@ -102,6 +138,44 @@ namespace SuperEvents.Events
             if (_cBlip1.Exists()) _cBlip1.Delete();
             if (_cBlip2.Exists()) _cBlip2.Delete();
             base.End();
+        }
+        
+        private void Interactions(UIMenu sender, UIMenuItem selItem, int index)
+        {
+            if (selItem == _callEms)
+            {
+                Game.DisplaySubtitle("~g~You~s~: Dispatch, we have a person unconsious on the ground. Send me medical!");
+                _bad1.Tasks.ClearImmediately();
+                NativeFunction.CallByName<uint>("TASK_TURN_PED_TO_FACE_ENTITY", _bad1, Game.LocalPlayer.Character, -1);
+                try
+                {
+                    UltimateBackup.API.Functions.callAmbulance();
+                }
+                catch (Exception e)
+                {
+                    Game.LogTrivial("SuperEvents Warning: Ultimate Backup is not installed! Backup was not automatically called!");
+                    Game.DisplayHelp("~r~Ultimate Backup is not installed! Backup was not automatically called!", 8000);
+                }
+                _callEms.Enabled = false;
+            }
+            else if (selItem == _endCall)
+            {
+                Game.DisplaySubtitle("~y~Event Ended.");
+                End();
+            }
+        }
+        private void Conversations(UIMenu sender, UIMenuItem selItem, int index)
+        {
+            if (selItem == _speakSuspect)
+            {
+                GameFiber.StartNew(delegate
+                {
+                    Game.DisplaySubtitle("~g~You~s~: What happened here?", 5000);
+                    NativeFunction.CallByName<uint>("TASK_TURN_PED_TO_FACE_ENTITY", _bad1, _bad2, -1);
+                    GameFiber.Wait(5000);
+                    Game.DisplaySubtitle("~y~" + _name1 + "~s~: I don't know! we are friends, we were walking and they just fell over! Their name is ~y~" + _name2, 5000);
+                });
+            }
         }
     }
 }

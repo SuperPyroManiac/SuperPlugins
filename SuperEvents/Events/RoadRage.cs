@@ -2,6 +2,8 @@
 using System.Drawing;
 using LSPD_First_Response.Mod.API;
 using Rage;
+using RAGENativeUI;
+using RAGENativeUI.Elements;
 using SuperEvents.SimpleFunctions;
 
 namespace SuperEvents.Events
@@ -14,6 +16,10 @@ namespace SuperEvents.Events
         private Blip _cBlip;
         private bool _pursuitActive;
         private bool _onScene;
+        //UI Items
+        private readonly MenuPool _interaction = new MenuPool();
+        private readonly UIMenu _mainMenu = new UIMenu("SuperEvents", "~y~Choose an option.");
+        private readonly UIMenuItem _endCall = new UIMenuItem("~y~End Call", "Ends the callout early.");
 
         internal static void Launch()
         {
@@ -39,6 +45,12 @@ namespace SuperEvents.Events
             _bad1.Inventory.GiveNewWeapon(WeaponHash.CombatPistol, -1, true);
             _bad1.Tasks.CruiseWithVehicle(_cVehicle, 20f, VehicleDrivingFlags.Emergency);
             EFunctions.SetWanted(_bad1, true);
+            //Start UI
+            _interaction.Add(_mainMenu);
+            _mainMenu.AddItem(_endCall);
+            _mainMenu.RefreshIndex();
+            _mainMenu.OnItemSelect += Interactions;
+            //Blips
             if (Settings.ShowBlips)
             {
                 _cBlip = _bad1.AttachBlip();
@@ -62,6 +74,7 @@ namespace SuperEvents.Events
                         if (!_onScene && Game.LocalPlayer.Character.DistanceTo(_bad1) < 30f)
                         {
                             _onScene = true;
+                            Game.DisplayHelp("~y~Press ~r~" + Settings.Interact + "~y~ to open interaction menu.");
                             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~y~Officer Sighting",
                                 "~r~Road Rage", "Stop the vehicle.");
                         }
@@ -100,6 +113,7 @@ namespace SuperEvents.Events
                         {
                             End();
                         }
+                        _interaction.ProcessMenus();
                     }
                     catch (Exception e)
                     {
@@ -122,6 +136,15 @@ namespace SuperEvents.Events
             if(_cVehicle.Exists()) _cVehicle.Dismiss();
             if(_cBlip.Exists()) _cBlip.Delete();
             base.End();
+        }
+        
+        private void Interactions(UIMenu sender, UIMenuItem selItem, int index)
+        {
+            if (selItem == _endCall)
+            {
+                Game.DisplaySubtitle("~y~Event Ended.");
+                End();
+            }
         }
     }
 }

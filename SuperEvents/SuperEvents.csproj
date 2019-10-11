@@ -32,12 +32,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="LSPD First Response, Version=0.4.7148.42495, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\LSPDFR DEV\LSPDFR API'S\LSPDFR SDK\LSPD First Response.dll</HintPath>
+    </Reference>
     <Reference Include="LSPD First Response, Version=0.4.7204.1487, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\..\..\CODING\LSPDFR DEV\LSPDFR API'S\LSPDFR SDK\LSPD First Response.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="RAGENativeUI, Version=1.6.3.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\..\..\CODING\LSPDFR DEV\LSPDFR API'S\NativeUI SDK\RAGENativeUI.dll</HintPath>
+      <HintPath>..\..\..\LSPDFR DEV\LSPDFR API'S\NativeUI SDK\RAGENativeUI.dll</HintPath>
     </Reference>
     <Reference Include="RagePluginHook, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\..\..\CODING\LSPDFR DEV\LSPDFR API'S\RPH SDK\RagePluginHookSDK.dll</HintPath>
@@ -48,6 +51,9 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="UltimateBackup, Version=1.7.1.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\CODING\LSPDFR DEV\LSPDFR API'S\UltimateBackup API\UltimateBackup.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AmbientEvent.cs" />

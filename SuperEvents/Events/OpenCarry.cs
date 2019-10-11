@@ -5,6 +5,8 @@ using System.Drawing;
 using LSPD_First_Response.Mod.API;
 using Rage;
 using Rage.Native;
+using RAGENativeUI;
+using RAGENativeUI.Elements;
 
 #endregion
 
@@ -18,6 +20,15 @@ namespace SuperEvents.Events
         private bool _letsRun;
         private bool _onScene;
         private bool _letsChat;
+        private string _name1;
+        //UI Items
+        private readonly MenuPool _interaction = new MenuPool();
+        private readonly UIMenu _mainMenu = new UIMenu("SuperEvents", "~y~Choose an option.");
+        private readonly UIMenu _convoMenu = new UIMenu("SuperEvents", "~y~Choose a subject to speak with.");
+        private readonly UIMenuItem _questioning = new UIMenuItem("Speak With Subjects");
+        private readonly UIMenuItem _endCall = new UIMenuItem("~y~End Call", "Ends the callout early.");
+        private readonly UIMenuItem _goBack = new UIMenuItem("Back", "Returns to main menu.");
+        private UIMenuItem _speakSuspect;
 
         internal static void Launch()
         {
@@ -42,12 +53,28 @@ namespace SuperEvents.Events
             _bad1.Metadata.hasGunPermit = false;
             _bad1.Metadata.searchPed = "~r~assault rifle~s~, ~y~pocket knife~s~, ~g~wallet~s~";
             _bad1.Tasks.Wander();
-            if (Settings.ShowBlips)
-            {
-                _cBlip = _bad1.AttachBlip();
-                _cBlip.Color = Color.Red;
-                _cBlip.Scale = .5f;
-            }
+            _name1 = Functions.GetPersonaForPed(_bad1).FullName;
+            //Start UI
+            _speakSuspect = new UIMenuItem("Speak with ~y~" + _name1);
+            _interaction.Add(_mainMenu);
+            _interaction.Add(_convoMenu);
+            _mainMenu.AddItem(_questioning);
+            _mainMenu.AddItem(_endCall);
+            _convoMenu.AddItem(_speakSuspect);
+            _convoMenu.AddItem(_goBack);
+            _mainMenu.RefreshIndex();
+            _convoMenu.RefreshIndex();
+            _mainMenu.BindMenuToItem(_convoMenu, _questioning);
+            _convoMenu.BindMenuToItem(_mainMenu, _goBack);
+            _mainMenu.OnItemSelect += Interactions;
+            _convoMenu.OnItemSelect += Conversations;
+            _convoMenu.ParentMenu = _mainMenu;
+            _questioning.Enabled = false;
+            //Blips
+            if (!Settings.ShowBlips) {base.StartEvent(); return;}
+            _cBlip = _bad1.AttachBlip();
+            _cBlip.Color = Color.Red;
+            _cBlip.Scale = .5f;
             base.StartEvent();
         }
 
@@ -65,23 +92,17 @@ namespace SuperEvents.Events
                         if (!_onScene && Game.LocalPlayer.Character.DistanceTo(_bad1) < 10f)
                         {
                             _onScene = true;
+                            _questioning.Enabled = true;
                             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~y~Officer Sighting",
                                 "~r~Open Carry", "Investigate the person.");
-                            Game.DisplayHelp("Press " + Settings.Interact + " to speak with the suspect.");
+                            Game.DisplayHelp("~y~Press ~r~" + Settings.Interact + "~y~ to open interaction menu.");
                         }
-                        if (_onScene && !_letsChat && Game.IsKeyDown(Settings.Interact))
+                        if (Game.IsKeyDown(Settings.Interact))
                         {
-                            _letsChat = true;
-                            NativeFunction.CallByName<uint>("TASK_TURN_PED_TO_FACE_ENTITY", _bad1, Game.LocalPlayer.Character, -1);
-                            Game.DisplaySubtitle("~g~Me: ~s~Why are you carring a that gun around?", 5000);
-                            GameFiber.Wait(5000);
-                            Game.DisplaySubtitle("~r~Suspect: ~s~Its.. It's my right.. I'll leave im sorry! Please leave me alone!''");
-                            GameFiber.Wait(1000);
-                            _pursuit = Functions.CreatePursuit();
-                            Functions.AddPedToPursuit(_pursuit, _bad1);
-                            Functions.SetPursuitIsActiveForPlayer(_pursuit, true);
-                            _letsRun = true;
+                            _mainMenu.Visible = !_mainMenu.Visible;
+                            _convoMenu.Visible = false;
                         }
+
                         if (_bad1.Exists())
                         {
                             if (Game.LocalPlayer.Character.DistanceTo(_bad1) > 200f) End();
@@ -92,6 +113,7 @@ namespace SuperEvents.Events
                         {
                             End();
                         }
+                        _interaction.ProcessMenus();
                     }
                     catch (Exception e)
                     {
@@ -113,6 +135,33 @@ namespace SuperEvents.Events
             if(_bad1.Exists()) _bad1.Dismiss();
             if(_cBlip.Exists()) _cBlip.Delete();
             base.End();
+        }
+        
+        private void Interactions(UIMenu sender, UIMenuItem selItem, int index)
+        {
+            if (selItem == _endCall)
+            {
+                Game.DisplaySubtitle("~y~Event Ended.");
+                End();
+            }
+        }
+        private void Conversations(UIMenu sender, UIMenuItem selItem, int index)
+        {
+            if (selItem == _speakSuspect)
+            {
+                GameFiber.StartNew(delegate
+                {
+                    NativeFunction.CallByName<uint>("TASK_TURN_PED_TO_FACE_ENTITY", _bad1, Game.LocalPlayer.Character, -1);
+                    Game.DisplaySubtitle("~g~You: ~s~Why are you carring a that gun around?", 5000);
+                    GameFiber.Wait(5000);
+                    Game.DisplaySubtitle("~r~" + _name1 + ": ~s~Its.. It's my right.. I'll leave im sorry! Please leave me alone!''");
+                    GameFiber.Wait(1000);
+                    _pursuit = Functions.CreatePursuit();
+                    Functions.AddPedToPursuit(_pursuit, _bad1);
+                    Functions.SetPursuitIsActiveForPlayer(_pursuit, true);
+                    _letsRun = true;
+                });
+            }
         }
     }
 }
