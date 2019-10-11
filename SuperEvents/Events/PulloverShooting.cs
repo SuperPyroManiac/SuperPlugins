@@ -3,6 +3,8 @@
 using System;
 using System.Drawing;
 using Rage;
+using RAGENativeUI;
+using RAGENativeUI.Elements;
 using SuperEvents.SimpleFunctions;
 
 #endregion
@@ -21,6 +23,10 @@ namespace SuperEvents.Events
         private Vector3 _spawnPoint;
         private Vector3 _spawnPoint2;
         private float _spawnPointH;
+        //UI Items
+        private readonly MenuPool _interaction = new MenuPool();
+        private readonly UIMenu _mainMenu = new UIMenu("SuperEvents", "~y~Choose an option.");
+        private readonly UIMenuItem _endCall = new UIMenuItem("~y~End Call", "Ends the callout early.");
 
         internal static void Launch()
         {
@@ -57,6 +63,12 @@ namespace SuperEvents.Events
             _bad.Metadata.searchPed = "~r~assault rifle~s~, ~r~pistol~s~, ~r~used meth pipe~s~, ~y~suicide letter~s~";
             _cVehicle1.Metadata.searchDriver = "~r~baggy of meth~s~, ~g~a pair of shoes~s~";
             _cVehicle1.Metadata.searchTrunk = "~y~stacks of past due medical bills~s~";
+            //Start UI
+            _interaction.Add(_mainMenu);
+            _mainMenu.AddItem(_endCall);
+            _mainMenu.RefreshIndex();
+            _mainMenu.OnItemSelect += Interactions;
+            //Blips
             if (Settings.ShowBlips)
             {
                 _cBlip1 = _bad.AttachBlip();
@@ -88,6 +100,7 @@ namespace SuperEvents.Events
                             }
 
                             _onScene = true;
+                            Game.DisplayHelp("~y~Press ~r~" + Settings.Interact + "~y~ to open interaction menu.");
                             _bad.BlockPermanentEvents = false;
                             _cop.BlockPermanentEvents = false;
                             _bad.Tasks.FightAgainst(_cop);
@@ -95,9 +108,15 @@ namespace SuperEvents.Events
                             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~y~Officer Sighting",
                                 "~r~Officer Under Fire", "Help the other officer!");
                         }
+                        
+                        if (Game.IsKeyDown(Settings.Interact))
+                        {
+                            _mainMenu.Visible = !_mainMenu.Visible;
+                        }
 
                         if (_bad.IsCuffed || _bad.IsDead) End();
                         if (Game.LocalPlayer.Character.DistanceTo(_spawnPoint) > 200) End();
+                        _interaction.ProcessMenus();
                     }
                     catch (Exception e)
                     {
@@ -123,6 +142,15 @@ namespace SuperEvents.Events
             if (_cBlip1.Exists()) _cBlip1.Delete();
             if (_cBlip2.Exists()) _cBlip2.Delete();
             base.End();
+        }
+        
+        private void Interactions(UIMenu sender, UIMenuItem selItem, int index)
+        {
+            if (selItem == _endCall)
+            {
+                Game.DisplaySubtitle("~y~Event Ended.");
+                End();
+            }
         }
     }
 }

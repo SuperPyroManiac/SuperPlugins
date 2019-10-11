@@ -107,8 +107,7 @@ namespace SuperEvents.Events
                             _bad2.Tasks.FightAgainst(_bad1);
                             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~y~Officer Sighting",
                                 "~r~A Fight", "Stop the fight, and make sure everyone is ok.");
-                            Game.DisplayHelp("Press " + Settings.Interact + " to open interaction menu.");
-                        }
+                            Game.DisplayHelp("~y~Press ~r~" + Settings.Interact + "~y~ to open interaction menu.");                        }
                         if (Game.IsKeyDown(Settings.Interact))
                         {
                             _mainMenu.Visible = !_mainMenu.Visible;

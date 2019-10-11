@@ -101,7 +101,7 @@ namespace SuperEvents.Events
                             _bad2.Kill();
                             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~y~Officer Sighting",
                                 "~r~A Medical Emergency", "Help the person. Call EMS or perform CPR.");
-                            Game.DisplayHelp("Press " + Settings.Interact + " to open interaction menu.");
+                            Game.DisplayHelp("~y~Press ~r~" + Settings.Interact + "~y~ to open interaction menu.");
                         }
                         if (Game.IsKeyDown(Settings.Interact))
                         {

@@ -2,6 +2,9 @@ using System;
 using System.Drawing;
 using LSPD_First_Response.Mod.API;
 using Rage;
+using Rage.Native;
+using RAGENativeUI;
+using RAGENativeUI.Elements;
 
 namespace SuperEvents.Events
 {
@@ -12,6 +15,10 @@ namespace SuperEvents.Events
         private Blip _cBlip1;
         private Blip _cBlip2;
         private bool _onScene;
+        //UI Items
+        private readonly MenuPool _interaction = new MenuPool();
+        private readonly UIMenu _mainMenu = new UIMenu("SuperEvents", "~y~Choose an option.");
+        private readonly UIMenuItem _endCall = new UIMenuItem("~y~End Call", "Ends the callout early.");
 
         internal static void Launch()
         {
@@ -44,8 +51,15 @@ namespace SuperEvents.Events
             _bad1.IsPersistent = true;
             _bad1.Inventory.GiveNewWeapon(WeaponHash.Pistol, -1, true);
             _victim = new Ped(_bad1.GetOffsetPositionFront(3f)) {IsPersistent = true};
+            SimpleFunctions.EFunctions.SetWanted(_bad1, true);
             _victim.Tasks.PutHandsUp(-1, _bad1);
             _bad1.Tasks.AimWeaponAt(_victim, -1);
+            //Start UI
+            _interaction.Add(_mainMenu);
+            _mainMenu.AddItem(_endCall);
+            _mainMenu.RefreshIndex();
+            _mainMenu.OnItemSelect += Interactions;
+            //Blips
             if (Settings.ShowBlips)
             {
                 _cBlip1 = _bad1.AttachBlip();
@@ -76,6 +90,7 @@ namespace SuperEvents.Events
                         if (!_onScene && Game.LocalPlayer.Character.DistanceTo(_bad1) < 10f)
                         {
                             _onScene = true;
+                            Game.DisplayHelp("~y~Press ~r~" + Settings.Interact + "~y~ to open interaction menu.");
                             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~y~Officer Sighting",
                                 "~r~Mugging", "Stop the suspect!");
                             var rNd = new Random();
@@ -99,16 +114,18 @@ namespace SuperEvents.Events
                                     break;
                             }
                         }
+                        
+                        if (Game.IsKeyDown(Settings.Interact))
+                        {
+                            _mainMenu.Visible = !_mainMenu.Visible;
+                        }
 
                         if (_bad1.Exists())
                         {
                             if (Game.LocalPlayer.Character.DistanceTo(_bad1) > 200f) End();
                             if (_bad1.IsDead || _bad1.IsCuffed) End();
-                        }
-                        else
-                        {
-                            End();
-                        }
+                        } else { End(); }
+                        _interaction.ProcessMenus();
                     }
                     catch (Exception e)
                     {
@@ -132,6 +149,15 @@ namespace SuperEvents.Events
             if (_cBlip1.Exists()) _cBlip1.Delete();
             if (_cBlip2.Exists()) _cBlip2.Delete();
             base.End();
+        }
+        
+        private void Interactions(UIMenu sender, UIMenuItem selItem, int index)
+        {
+            if (selItem == _endCall)
+            {
+                Game.DisplaySubtitle("~y~Event Ended.");
+                End();
+            }
         }
     }
 }

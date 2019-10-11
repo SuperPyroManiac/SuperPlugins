@@ -117,8 +117,7 @@ namespace SuperEvents.Events
                             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~y~Officer Sighting",
                                 "~r~Car Accident", "Investigate the scene.");
                             NativeFunction.CallByName<uint>("TASK_TURN_PED_TO_FACE_ENTITY", _victim2, Game.LocalPlayer.Character, -1);
-                            Game.DisplayHelp("Press " + Settings.Interact + " to open interaction menu.");
-                        }
+                            Game.DisplayHelp("~y~Press ~r~" + Settings.Interact + "~y~ to open interaction menu.");                        }
                         if (Game.IsKeyDown(Settings.Interact))
                         {
                             _mainMenu.Visible = !_mainMenu.Visible;
