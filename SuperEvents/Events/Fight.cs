@@ -31,9 +31,9 @@ namespace SuperEvents.Events
         private readonly UIMenuItem _stopFight = new UIMenuItem("~r~ Stop Fighting", "Breaks up the fight.");
         private readonly UIMenuItem _questioning = new UIMenuItem("Speak With Subjects");
         private readonly UIMenuItem _endCall = new UIMenuItem("~y~End Call", "Ends the callout early.");
+        private readonly UIMenuItem _goBack = new UIMenuItem("Back", "Returns to main menu.");
         private UIMenuItem _speakSuspect;
         private UIMenuItem _speakSuspect2;
-        private readonly UIMenuItem _goBack = new UIMenuItem("Back", "Returns to main menu.");
 
         internal static void Launch()
         {
@@ -172,8 +172,7 @@ namespace SuperEvents.Events
                     _bad1.Tasks.PlayAnimation("anim@mp_point", "1st_person_high_blocked", 2f, AnimationFlags.SecondaryTask);
                     Game.DisplaySubtitle("~r~" + _name1 + "~s~: That person took 50 dollars I dropped! I bet they still have it!", 5000);
                 });
-            }
-            else if (selItem == _speakSuspect2)
+            } else if (selItem == _speakSuspect2)
             {
                 Game.DisplaySubtitle("~g~You~s~: Whats going on? The other person claims you took 50 dollars from them.", 5000);
                 GameFiber.Wait(5000);

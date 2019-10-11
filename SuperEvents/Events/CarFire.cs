@@ -20,7 +20,7 @@ namespace SuperEvents.Events
         //UI Items
         private readonly MenuPool _interaction = new MenuPool();
         private readonly UIMenu _mainMenu = new UIMenu("SuperEvents", "~y~Choose an option.");
-        private readonly UIMenuItem _callFd = new UIMenuItem("~r~ Call Fire Department", "Calls in a firetruck.");
+        private readonly UIMenuItem _callFd = new UIMenuItem("~r~ Call Fire Department", "Calls for ambulance and firetruck.");
         private readonly UIMenuItem _endCall = new UIMenuItem("~y~End Call", "Ends the callout early.");
         internal static void Launch()
         {
@@ -115,9 +115,17 @@ namespace SuperEvents.Events
         {
             if (selItem == _callFd)
             {
-                Game.DisplaySubtitle("~g~You~s~: dispatch, we got a large vehicle fire that's spreading. Looks like ~r~someone is inside!~s~ I need a rescue crew out here!");
-                Functions.RequestBackup(_spawnPoint, EBackupResponseType.Code3, EBackupUnitType.Firetruck);
-                Functions.RequestBackup(_spawnPoint, EBackupResponseType.Code3, EBackupUnitType.Ambulance);
+                Game.DisplaySubtitle("~g~You~s~: Dispatch, we got a large vehicle fire that's spreading. Looks like ~r~someone is inside!~s~ I need a rescue crew out here!");
+                try
+                {
+                    UltimateBackup.API.Functions.callAmbulance();
+                    UltimateBackup.API.Functions.callFireDepartment();
+                }
+                catch (Exception e)
+                {
+                    Game.LogTrivial("SuperEvents Warning: Ultimate Backup is not installed! Backup was not automatically called!");
+                    Game.DisplayHelp("~r~Ultimate Backup is not installed! Backup was not automatically called!", 8000);
+                }
                 _callFd.Enabled = false;
             }
             else if (selItem == _endCall)
