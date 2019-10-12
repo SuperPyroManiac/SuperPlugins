@@ -68,8 +68,11 @@ namespace SuperEvents.Events
                             _cVehicle.IsOnFire = true;
                             for (var i = 0; i < 10; i++)
                                 EFunctions.FireControl(_spawnPoint.Around2D(1f, 5f), 24, false);
-                            Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~y~Officer Sighting",
-                                "~r~Car Fire", "Clear the scene.");
+                            if (Settings.ShowHints)
+                            {
+                                Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~y~Officer Sighting",
+                                    "~r~Car Fire", "Clear the scene.");
+                            }
                             _callFd.Enabled = true;
                             Game.DisplayHelp("~y~Press ~r~" + Settings.Interact + "~y~ to open interaction menu.");   
                         }                     

@@ -30,7 +30,6 @@ namespace SuperEvents.Events
         private readonly UIMenuItem _callCode2 = new UIMenuItem("~r~ Code 2 Backup", "Calls another officer to help out.");
         private readonly UIMenuItem _questioning = new UIMenuItem("Speak With Subjects");
         private readonly UIMenuItem _endCall = new UIMenuItem("~y~End Call", "Ends the callout early.");
-        
         private UIMenuItem _speakSuspect;
         private UIMenuItem _speakSuspect2;
 
@@ -60,11 +59,9 @@ namespace SuperEvents.Events
             _mainMenu.AddItem(_endCall);
             _convoMenu.AddItem(_speakSuspect);
             _convoMenu.AddItem(_speakSuspect2);
-            
             _mainMenu.RefreshIndex();
             _convoMenu.RefreshIndex();
             _mainMenu.BindMenuToItem(_convoMenu, _questioning);
-            
             _mainMenu.OnItemSelect += Interactions;
             _convoMenu.OnItemSelect += Conversations;
             _callCode2.SetLeftBadge(UIMenuItem.BadgeStyle.Alert);
@@ -101,8 +98,11 @@ namespace SuperEvents.Events
                             _onScene = true;
                             _questioning.Enabled = true;
                             _callCode2.Enabled = true;
-                            Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~y~Officer Sighting",
-                                "~r~People in Road", "Investigate the people.");
+                            if (Settings.ShowHints)
+                            {
+                                Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~y~Officer Sighting",
+                                    "~r~People in Road", "Investigate the people.");
+                            }
                             Game.DisplaySubtitle(
                                 "~r~Stangers: ~s~Run us over! We do not want to live on this world anymore!");
                             Game.DisplayHelp("~y~Press ~r~" + Settings.Interact + "~y~ to open interaction menu.");

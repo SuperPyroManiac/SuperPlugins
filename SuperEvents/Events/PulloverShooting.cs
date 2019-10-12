@@ -105,8 +105,11 @@ namespace SuperEvents.Events
                             _cop.BlockPermanentEvents = false;
                             _bad.Tasks.FightAgainst(_cop);
                             _cop.Tasks.FightAgainst(_bad);
-                            Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~y~Officer Sighting",
-                                "~r~Officer Under Fire", "Help the other officer!");
+                            if (Settings.ShowHints)
+                            {
+                                Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~y~Officer Sighting",
+                                    "~r~Officer Under Fire", "Help the other officer!");
+                            }
                         }
                         
                         if (Game.IsKeyDown(Settings.Interact))

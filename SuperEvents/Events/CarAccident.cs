@@ -71,11 +71,9 @@ namespace SuperEvents.Events
             _mainMenu.AddItem(_questioning);
             _mainMenu.AddItem(_endCall);
             _convoMenu.AddItem(_speakSuspect);
-            
             _mainMenu.RefreshIndex();
             _convoMenu.RefreshIndex();
             _mainMenu.BindMenuToItem(_convoMenu, _questioning);
-            
             _mainMenu.OnItemSelect += Interactions;
             _convoMenu.OnItemSelect += Conversations;
             _callFd.SetLeftBadge(UIMenuItem.BadgeStyle.Alert);
@@ -114,8 +112,11 @@ namespace SuperEvents.Events
                             _callFd.Enabled = true;
                             _victim1.BlockPermanentEvents = false;
                             _victim2.BlockPermanentEvents = false;
-                            Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~y~Officer Sighting",
-                                "~r~Car Accident", "Investigate the scene.");
+                            if (Settings.ShowHints)
+                            {
+                                Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~y~Officer Sighting",
+                                    "~r~Car Accident", "Investigate the scene.");
+                            }
                             NativeFunction.CallByName<uint>("TASK_TURN_PED_TO_FACE_ENTITY", _victim2, Game.LocalPlayer.Character, -1);
                             Game.DisplayHelp("~y~Press ~r~" + Settings.Interact + "~y~ to open interaction menu.");                        }
                         if (Game.IsKeyDown(Settings.Interact))

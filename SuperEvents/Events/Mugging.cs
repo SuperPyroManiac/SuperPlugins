@@ -8,7 +8,7 @@ using RAGENativeUI.Elements;
 
 namespace SuperEvents.Events
 {
-    public class Mugging : AmbientEvent //TODO: More interactions rewrite!
+    public class Mugging : AmbientEvent
     {
         private Ped _bad1;
         private Ped _victim;
@@ -91,8 +91,11 @@ namespace SuperEvents.Events
                         {
                             _onScene = true;
                             Game.DisplayHelp("~y~Press ~r~" + Settings.Interact + "~y~ to open interaction menu.");
-                            Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~y~Officer Sighting",
-                                "~r~Mugging", "Stop the suspect!");
+                            if (Settings.ShowHints)
+                            {
+                                Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~y~Officer Sighting",
+                                    "~r~Mugging", "Stop the suspect!");
+                            }
                             var rNd = new Random();
                             var choices = rNd.Next(1, 3);
                             switch (choices)

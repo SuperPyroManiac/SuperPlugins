@@ -57,11 +57,9 @@ namespace SuperEvents.Events
             _mainMenu.AddItem(_questioning);
             _mainMenu.AddItem(_endCall);
             _convoMenu.AddItem(_speakSuspect);
-            
             _mainMenu.RefreshIndex();
             _convoMenu.RefreshIndex();
             _mainMenu.BindMenuToItem(_convoMenu, _questioning);
-            
             _mainMenu.OnItemSelect += Interactions;
             _convoMenu.OnItemSelect += Conversations;
             _callEms.SetLeftBadge(UIMenuItem.BadgeStyle.Alert);
@@ -99,8 +97,11 @@ namespace SuperEvents.Events
                             _cBlip2.Delete();
                             _bad2.IsRagdoll = false;
                             _bad2.Kill();
-                            Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~y~Officer Sighting",
-                                "~r~A Medical Emergency", "Help the person. Call EMS or perform CPR.");
+                            if (Settings.ShowHints)
+                            {
+                                Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~y~Officer Sighting",
+                                    "~r~A Medical Emergency", "Help the person. Call EMS or perform CPR.");
+                            }
                             Game.DisplayHelp("~y~Press ~r~" + Settings.Interact + "~y~ to open interaction menu.");
                         }
                         if (Game.IsKeyDown(Settings.Interact))

@@ -75,8 +75,11 @@ namespace SuperEvents.Events
                         {
                             _onScene = true;
                             Game.DisplayHelp("~y~Press ~r~" + Settings.Interact + "~y~ to open interaction menu.");
-                            Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~y~Officer Sighting",
-                                "~r~Road Rage", "Stop the vehicle.");
+                            if (Settings.ShowHints)
+                            {
+                                Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~y~Officer Sighting",
+                                    "~r~Road Rage", "Stop the vehicle.");
+                            }
                         }
 
                         if (_onScene && !_pursuitActive && Functions.IsPlayerPerformingPullover())

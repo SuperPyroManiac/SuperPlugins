@@ -9,7 +9,6 @@ namespace SuperEvents
 {
     internal static class Settings
     {
-        internal static bool ShowBlips = true;
         internal static bool Fight = true;
         internal static bool OpenCarry = true;
         internal static bool CarFire = true;
@@ -20,6 +19,8 @@ namespace SuperEvents
         internal static bool SuicidalPed = true;
         internal static bool Mugging = true;
         internal static bool RoadRage = true;
+        internal static bool ShowBlips = true;
+        internal static bool ShowHints = true;
         internal static int TimeBetweenEvents = 110;
         internal static Keys Interact = Keys.Y;
         internal static Keys EndEvent = Keys.End;
@@ -30,7 +31,6 @@ namespace SuperEvents
             var path = "Plugins/LSPDFR/SuperEvents.ini";
             var ini = new InitializationFile(path);
             ini.Create();
-            ShowBlips = ini.ReadBoolean("Settings", "ShowBlips", true);
             Fight = ini.ReadBoolean("Events", "Fight", true);
             OpenCarry = ini.ReadBoolean("Events", "OpenCarry", true);
             PulloverShooting = ini.ReadBoolean("Events", "PulloverShooting", true);
@@ -41,6 +41,8 @@ namespace SuperEvents
             SuicidalPed = ini.ReadBoolean("Events", "SuicidalPed", true);
             Mugging = ini.ReadBoolean("Events", "Mugging", true);
             RoadRage = ini.ReadBoolean("Events", "RoadRage", true);
+            ShowBlips = ini.ReadBoolean("Settings", "ShowBlips", true);
+            ShowHints = ini.ReadBoolean("Settings", "ShowHints", true);
             TimeBetweenEvents = ini.ReadInt32("Settings", "TimeBetweenEvents", 110);
             Interact = ini.ReadEnum("Keys", "Interact", Keys.Y);
             EndEvent = ini.ReadEnum("Keys", "EndEvent", Keys.End);
