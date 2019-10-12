@@ -50,7 +50,7 @@ namespace SuperEvents.Events
             if (!_cVehicle.Exists()) {base.Failed(); return;}
             _bad1 = _cVehicle.Driver;
             if (!_bad1.Exists()) {base.Failed(); return;}
-            if (_bad1 == Game.LocalPlayer.Character || !_bad1.IsHuman || _bad1.IsInAnyVehicle(true) || _bad1.IsDead || _bad1.RelationshipGroup == "COP" || _bad1.RelationshipGroup == "MEDIC " || _bad1.RelationshipGroup == "FIREMAN" || _cVehicle.HasSiren) {base.Failed(); return;}
+            if (_bad1 == Game.LocalPlayer.Character || !_bad1.IsHuman || !_bad1.IsInAnyVehicle(true) || _bad1.IsDead || _bad1.RelationshipGroup == "COP" || _bad1.RelationshipGroup == "MEDIC " || _bad1.RelationshipGroup == "FIREMAN" || _cVehicle.HasSiren) {base.Failed(); return;}
             _bad1.IsPersistent = true;
             _cVehicle.IsPersistent = true;
             _bad1.Inventory.GiveNewWeapon(WeaponHash.CombatPistol, -1, true);
