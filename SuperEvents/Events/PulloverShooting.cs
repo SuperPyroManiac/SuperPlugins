@@ -37,7 +37,12 @@ namespace SuperEvents.Events
         protected override void StartEvent()
         {
             EFunctions.FindSideOfRoad(120, 45, out _spawnPoint, out _spawnPointH);
-            if (_spawnPoint.DistanceTo(Game.LocalPlayer.Character) < 35f) {base.Failed(); return;}
+            if (_spawnPoint.DistanceTo(Game.LocalPlayer.Character) < 35f)
+            {
+                base.Failed();
+                return;
+            }
+
             EFunctions.SpawnNormalCar(out _cVehicle1, _spawnPoint);
             _cVehicle1.Heading = _spawnPointH;
             _spawnPoint2 = _cVehicle1.GetOffsetPositionFront(-9f);
@@ -47,7 +52,12 @@ namespace SuperEvents.Events
             };
             _bad = new Ped {IsPersistent = true, Health = 400, BlockPermanentEvents = true};
             _cop = new Ped("s_m_y_cop_01", _spawnPoint, 0f) {IsPersistent = true, BlockPermanentEvents = true};
-            if (!_bad.Exists() || !_cop.Exists()) {base.Failed(); return;}
+            if (!_bad.Exists() || !_cop.Exists())
+            {
+                base.Failed();
+                return;
+            }
+
             _bad.Inventory.Weapons.Add(WeaponHash.BullpupShotgun).Ammo = -1;
             _cop.Inventory.Weapons.Add(WeaponHash.CombatPistol).Ammo = -1;
             _bad.WarpIntoVehicle(_cVehicle1, -1);
@@ -78,6 +88,7 @@ namespace SuperEvents.Events
                 _cBlip2.Color = Color.Red;
                 _cBlip2.Scale = .5f;
             }
+
             base.StartEvent();
         }
 
@@ -86,7 +97,6 @@ namespace SuperEvents.Events
             GameFiber.StartNew(delegate
             {
                 while (EventsActive)
-                {
                     try
                     {
                         GameFiber.Yield();
@@ -106,16 +116,11 @@ namespace SuperEvents.Events
                             _bad.Tasks.FightAgainst(_cop);
                             _cop.Tasks.FightAgainst(_bad);
                             if (Settings.ShowHints)
-                            {
                                 Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~y~Officer Sighting",
                                     "~r~Officer Under Fire", "Help the other officer!");
-                            }
                         }
-                        
-                        if (Game.IsKeyDown(Settings.Interact))
-                        {
-                            _mainMenu.Visible = !_mainMenu.Visible;
-                        }
+
+                        if (Game.IsKeyDown(Settings.Interact)) _mainMenu.Visible = !_mainMenu.Visible;
 
                         if (_bad.IsCuffed || _bad.IsDead) End();
                         if (Game.LocalPlayer.Character.DistanceTo(_spawnPoint) > 200) End();
@@ -131,7 +136,6 @@ namespace SuperEvents.Events
                         Game.LogTrivial("SuperEvents Error Report End");
                         End();
                     }
-                }
             });
             base.MainLogic();
         }
@@ -146,7 +150,7 @@ namespace SuperEvents.Events
             if (_cBlip2.Exists()) _cBlip2.Delete();
             base.End();
         }
-        
+
         private void Interactions(UIMenu sender, UIMenuItem selItem, int index)
         {
             if (selItem == _endCall)

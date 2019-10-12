@@ -31,7 +31,6 @@ namespace SuperEvents.Events
         private readonly UIMenuItem _stopFight = new UIMenuItem("~r~ Stop Fighting", "Breaks up the fight.");
         private readonly UIMenuItem _questioning = new UIMenuItem("Speak With Subjects");
         private readonly UIMenuItem _endCall = new UIMenuItem("~y~End Call", "Ends the callout early.");
-        
         private UIMenuItem _speakSuspect;
         private UIMenuItem _speakSuspect2;
 
@@ -44,10 +43,20 @@ namespace SuperEvents.Events
         protected override void StartEvent()
         {
             EFunctions.FindSideOfRoad(120, 45, out _spawnPoint, out _spawnPointH);
-            if (_spawnPoint.DistanceTo(Game.LocalPlayer.Character) < 35f) {base.Failed(); return;}
+            if (_spawnPoint.DistanceTo(Game.LocalPlayer.Character) < 35f)
+            {
+                base.Failed();
+                return;
+            }
+
             _bad1 = new Ped(_spawnPoint) {Heading = _spawnPointH, IsPersistent = true, Health = 400};
             _bad2 = new Ped(_bad1.GetOffsetPositionFront(2)) {IsPersistent = true, Health = 400};
-            if (!_bad1.Exists() || !_bad2.Exists()) {base.Failed(); return;}
+            if (!_bad1.Exists() || !_bad2.Exists())
+            {
+                base.Failed();
+                return;
+            }
+
             _bad1.Tasks.PlayAnimation("anim@mp_point", "1st_person_high_blocked", 2f, AnimationFlags.SecondaryTask);
             _bad2.Metadata.searchPed = "~r~50 dollar bill~s~, ~y~empty baggy with white powder~s~, ~g~wallet~s~";
             _bad2.Metadata.stpDrugsDetected = true;
@@ -74,7 +83,12 @@ namespace SuperEvents.Events
             _questioning.Enabled = false;
             _speakSuspect2.Enabled = false;
             //Blips
-            if (!Settings.ShowBlips) {base.StartEvent(); return;}
+            if (!Settings.ShowBlips)
+            {
+                base.StartEvent();
+                return;
+            }
+
             _cBlip1 = _bad1.AttachBlip();
             _cBlip1.Color = Color.Red;
             _cBlip1.Scale = .5f;
@@ -89,7 +103,6 @@ namespace SuperEvents.Events
             GameFiber.StartNew(delegate
             {
                 while (EventsActive)
-                {
                     try
                     {
                         GameFiber.Yield();
@@ -104,18 +117,19 @@ namespace SuperEvents.Events
                             _bad1.Tasks.FightAgainst(_bad2);
                             _bad2.Tasks.FightAgainst(_bad1);
                             if (Settings.ShowHints)
-                            {
                                 Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~y~Officer Sighting",
                                     "~r~A Fight", "Stop the fight, and make sure everyone is ok.");
-                            }
-                            Game.DisplayHelp("~y~Press ~r~" + Settings.Interact + "~y~ to open interaction menu.");                        
+                            Game.DisplayHelp("~y~Press ~r~" + Settings.Interact + "~y~ to open interaction menu.");
                         }
+
                         if (Game.IsKeyDown(Settings.Interact))
                         {
                             _mainMenu.Visible = !_mainMenu.Visible;
                             _convoMenu.Visible = false;
                         }
-                        if (!_bad1.IsAlive || !_bad2.IsAlive || _bad1.IsCuffed || _bad2.IsCuffed || Game.LocalPlayer.Character.DistanceTo(_spawnPoint) > 200) End();
+
+                        if (!_bad1.IsAlive || !_bad2.IsAlive || _bad1.IsCuffed || _bad2.IsCuffed ||
+                            Game.LocalPlayer.Character.DistanceTo(_spawnPoint) > 200) End();
                         _interaction.ProcessMenus();
                     }
                     catch (Exception e)
@@ -128,7 +142,6 @@ namespace SuperEvents.Events
                         Game.LogTrivial("SuperEvents Error Report End");
                         End();
                     }
-                }
             });
             base.MainLogic();
         }
@@ -142,7 +155,7 @@ namespace SuperEvents.Events
             _interaction.CloseAllMenus();
             base.End();
         }
-        
+
         private void Interactions(UIMenu sender, UIMenuItem selItem, int index)
         {
             if (selItem == _stopFight)
@@ -160,6 +173,7 @@ namespace SuperEvents.Events
                 End();
             }
         }
+
         private void Conversations(UIMenu sender, UIMenuItem selItem, int index)
         {
             if (selItem == _speakSuspect)
@@ -170,15 +184,22 @@ namespace SuperEvents.Events
                     Game.DisplaySubtitle("~g~You~s~: What is going on? Why are you fighting?", 5000);
                     NativeFunction.CallByName<uint>("TASK_TURN_PED_TO_FACE_ENTITY", _bad1, _bad2, -1);
                     GameFiber.Wait(5000);
-                    _bad1.Tasks.PlayAnimation("anim@mp_point", "1st_person_high_blocked", 2f, AnimationFlags.SecondaryTask);
-                    Game.DisplaySubtitle("~r~" + _name1 + "~s~: That person took 50 dollars I dropped! I bet they still have it!", 5000);
+                    _bad1.Tasks.PlayAnimation("anim@mp_point", "1st_person_high_blocked", 2f,
+                        AnimationFlags.SecondaryTask);
+                    Game.DisplaySubtitle(
+                        "~r~" + _name1 + "~s~: That person took 50 dollars I dropped! I bet they still have it!", 5000);
                 });
-            } else if (selItem == _speakSuspect2)
+            }
+            else if (selItem == _speakSuspect2)
             {
-                Game.DisplaySubtitle("~g~You~s~: Whats going on? The other person claims you took 50 dollars from them.", 5000);
+                Game.DisplaySubtitle(
+                    "~g~You~s~: Whats going on? The other person claims you took 50 dollars from them.", 5000);
                 GameFiber.Wait(5000);
-                _bad2.Tasks.PlayAnimation("random@shop_robbery_reactions@", "screw_you", 2f, AnimationFlags.SecondaryTask);
-                Game.DisplaySubtitle("~r~" + _name2 + "~s~: I didn't take nothing, they are lying! You all just need to leave me alone.", 5000);
+                _bad2.Tasks.PlayAnimation("random@shop_robbery_reactions@", "screw_you", 2f,
+                    AnimationFlags.SecondaryTask);
+                Game.DisplaySubtitle(
+                    "~r~" + _name2 + "~s~: I didn't take nothing, they are lying! You all just need to leave me alone.",
+                    5000);
                 GameFiber.Wait(3000);
                 _bad2.Tasks.Wander();
             }

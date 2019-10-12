@@ -29,7 +29,6 @@ namespace SuperEvents.Events
         private readonly UIMenu _convoMenu = new UIMenu("SuperEvents", "~y~Choose a subject to speak with.");
         private readonly UIMenuItem _questioning = new UIMenuItem("Speak With Subjects");
         private readonly UIMenuItem _endCall = new UIMenuItem("~y~End Call", "Ends the callout early.");
-        
         private UIMenuItem _speakSuspect;
 
         internal static void Launch()
@@ -41,16 +40,44 @@ namespace SuperEvents.Events
         protected override void StartEvent()
         {
             var car = Game.LocalPlayer.Character.GetNearbyVehicles(15);
-            if (car == null || car.Length == 0) {base.Failed(); return;}
+            if (car == null || car.Length == 0)
+            {
+                base.Failed();
+                return;
+            }
+
             foreach (var cars in car)
             {
-                if (!cars.Exists()) {base.Failed(); return;}
+                if (!cars.Exists())
+                {
+                    base.Failed();
+                    return;
+                }
+
                 if (cars.HasDriver) _cVehicle = cars;
             }
-            if (!_cVehicle.Exists()) {base.Failed(); return;}
+
+            if (!_cVehicle.Exists())
+            {
+                base.Failed();
+                return;
+            }
+
             _bad1 = _cVehicle.Driver;
-            if (!_bad1.Exists()) {base.Failed(); return;}
-            if (_bad1 == Game.LocalPlayer.Character || !_bad1.IsHuman || !_bad1.IsInAnyVehicle(true) || _bad1.IsDead || _bad1.RelationshipGroup == "COP" || _bad1.RelationshipGroup == "MEDIC " || _bad1.RelationshipGroup == "FIREMAN" || _cVehicle.HasSiren) {base.Failed(); return;}
+            if (!_bad1.Exists())
+            {
+                base.Failed();
+                return;
+            }
+
+            if (_bad1 == Game.LocalPlayer.Character || !_bad1.IsHuman || !_bad1.IsInAnyVehicle(true) || _bad1.IsDead ||
+                _bad1.RelationshipGroup == "COP" || _bad1.RelationshipGroup == "MEDIC " ||
+                _bad1.RelationshipGroup == "FIREMAN" || _cVehicle.HasSiren)
+            {
+                base.Failed();
+                return;
+            }
+
             _bad1.IsPersistent = true;
             _cVehicle.IsPersistent = true;
             _bad1.Inventory.GiveNewWeapon(WeaponHash.CombatPistol, -1, true);
@@ -59,7 +86,8 @@ namespace SuperEvents.Events
             _cVehicle.IsStolen = true;
             _bad1.Metadata.searchPed = "~r~baggy of meth~s~, ~r~combat pistol~s~";
             _bad1.Metadata.stpDrugsDetected = true;
-            _cVehicle.Metadata.searchDriver = "~r~sealed bag of meth~s~, ~r~ripped open empty bag~s~, ~y~machete~s~, ~g~a pair of shoes~s~";
+            _cVehicle.Metadata.searchDriver =
+                "~r~sealed bag of meth~s~, ~r~ripped open empty bag~s~, ~y~machete~s~, ~g~a pair of shoes~s~";
             _name1 = Functions.GetPersonaForPed(_bad1).FullName;
             //Start UI
             _speakSuspect = new UIMenuItem("Speak with ~y~" + _name1);
@@ -82,6 +110,7 @@ namespace SuperEvents.Events
                 _cBlip.Color = Color.Red;
                 _cBlip.Scale = .5f;
             }
+
             base.StartEvent();
         }
 
@@ -90,7 +119,6 @@ namespace SuperEvents.Events
             GameFiber.StartNew(delegate
             {
                 while (EventsActive)
-                {
                     try
                     {
                         GameFiber.Yield();
@@ -100,13 +128,11 @@ namespace SuperEvents.Events
                         {
                             _onScene = true;
                             if (Settings.ShowHints)
-                            {
                                 Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~y~Officer Sighting",
                                     "~r~Reckless Driving", "Stop the vehicle.");
-                            }
                             Game.DisplayHelp("~y~Press ~r~" + Settings.Interact + "~y~ to open interaction menu.");
                         }
-                        
+
                         if (Game.IsKeyDown(Settings.Interact))
                         {
                             _mainMenu.Visible = !_mainMenu.Visible;
@@ -131,9 +157,8 @@ namespace SuperEvents.Events
                         }
 
                         if (_bad1.Exists())
-                        {
-                            if (!_pursuitActive && Game.LocalPlayer.Character.DistanceTo(_bad1) > 100f) End();
-                        }
+                            if (!_pursuitActive && Game.LocalPlayer.Character.DistanceTo(_bad1) > 100f)
+                                End();
                         _interaction.ProcessMenus();
                     }
                     catch (Exception e)
@@ -146,20 +171,19 @@ namespace SuperEvents.Events
                         Game.LogTrivial("SuperEvents Error Report End");
                         End();
                     }
-                }
             });
             base.MainLogic();
         }
 
         protected override void End()
         {
-            if(_bad1.Exists()) _bad1.Dismiss();
-            if(_cVehicle.Exists()) _cVehicle.Dismiss();
-            if(_cBlip.Exists()) _cBlip.Delete();
+            if (_bad1.Exists()) _bad1.Dismiss();
+            if (_cVehicle.Exists()) _cVehicle.Dismiss();
+            if (_cBlip.Exists()) _cBlip.Delete();
             base.End();
         }
-        
-                private void Interactions(UIMenu sender, UIMenuItem selItem, int index)
+
+        private void Interactions(UIMenu sender, UIMenuItem selItem, int index)
         {
             if (selItem == _endCall)
             {
@@ -167,26 +191,29 @@ namespace SuperEvents.Events
                 End();
             }
         }
+
         private void Conversations(UIMenu sender, UIMenuItem selItem, int index)
         {
             if (selItem == _speakSuspect)
-            {
                 GameFiber.StartNew(delegate
                 {
-                    Game.DisplaySubtitle("~g~You~s~: Why in the world were you driving backwards! You could have killed someone!", 5000);
-                    NativeFunction.CallByName<uint>("TASK_TURN_PED_TO_FACE_ENTITY", _bad1, Game.LocalPlayer.Character, -1);
+                    Game.DisplaySubtitle(
+                        "~g~You~s~: Why in the world were you driving backwards! You could have killed someone!", 5000);
+                    NativeFunction.CallByName<uint>("TASK_TURN_PED_TO_FACE_ENTITY", _bad1, Game.LocalPlayer.Character,
+                        -1);
                     GameFiber.Wait(5000);
                     Game.DisplaySubtitle("~r~" + _name1 + "~s~: Man i'm not feeling very good...", 5000);
                     GameFiber.Wait(5000);
                     Game.DisplaySubtitle("~g~You~s~: What do you mean?", 5000);
                     GameFiber.Wait(5000);
-                    Game.DisplaySubtitle("~r~" + _name1 + "~s~: Oh man I had something I wanted a hide but I ate it to hide it, I feel dizzy.", 5000);
+                    Game.DisplaySubtitle(
+                        "~r~" + _name1 +
+                        "~s~: Oh man I had something I wanted a hide but I ate it to hide it, I feel dizzy.", 5000);
                     GameFiber.Wait(5000);
                     Game.DisplaySubtitle("~g~You~s~: What did you eat? I'll get an ambulance out here.'", 5000);
                     GameFiber.Wait(2000);
                     _bad1.Kill();
                 });
-            }
         }
     }
 }

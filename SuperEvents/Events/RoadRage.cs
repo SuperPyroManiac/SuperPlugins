@@ -1,10 +1,14 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Drawing;
 using LSPD_First_Response.Mod.API;
 using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperEvents.SimpleFunctions;
+
+#endregion
 
 namespace SuperEvents.Events
 {
@@ -30,16 +34,44 @@ namespace SuperEvents.Events
         protected override void StartEvent()
         {
             var car = Game.LocalPlayer.Character.GetNearbyVehicles(15);
-            if (car == null || car.Length == 0) {base.Failed(); return;}
+            if (car == null || car.Length == 0)
+            {
+                base.Failed();
+                return;
+            }
+
             foreach (var cars in car)
             {
-                if (!cars.Exists()) {base.Failed(); return;}
+                if (!cars.Exists())
+                {
+                    base.Failed();
+                    return;
+                }
+
                 if (cars.HasDriver) _cVehicle = cars;
             }
-            if (!_cVehicle.Exists()) {base.Failed(); return;}
+
+            if (!_cVehicle.Exists())
+            {
+                base.Failed();
+                return;
+            }
+
             _bad1 = _cVehicle.Driver;
-            if (!_bad1.Exists()) {base.Failed(); return;}
-            if (_bad1 == Game.LocalPlayer.Character || !_bad1.IsHuman || !_bad1.IsInAnyVehicle(true) || _bad1.IsDead || _bad1.RelationshipGroup == "COP" || _bad1.RelationshipGroup == "MEDIC " || _bad1.RelationshipGroup == "FIREMAN" || _cVehicle.HasSiren) {base.Failed(); return;}
+            if (!_bad1.Exists())
+            {
+                base.Failed();
+                return;
+            }
+
+            if (_bad1 == Game.LocalPlayer.Character || !_bad1.IsHuman || !_bad1.IsInAnyVehicle(true) || _bad1.IsDead ||
+                _bad1.RelationshipGroup == "COP" || _bad1.RelationshipGroup == "MEDIC " ||
+                _bad1.RelationshipGroup == "FIREMAN" || _cVehicle.HasSiren)
+            {
+                base.Failed();
+                return;
+            }
+
             _bad1.IsPersistent = true;
             _cVehicle.IsPersistent = true;
             _bad1.Inventory.GiveNewWeapon(WeaponHash.CombatPistol, -1, true);
@@ -57,6 +89,7 @@ namespace SuperEvents.Events
                 _cBlip.Color = Color.Red;
                 _cBlip.Scale = .5f;
             }
+
             base.StartEvent();
         }
 
@@ -65,7 +98,6 @@ namespace SuperEvents.Events
             GameFiber.StartNew(delegate
             {
                 while (EventsActive)
-                {
                     try
                     {
                         GameFiber.Yield();
@@ -76,10 +108,8 @@ namespace SuperEvents.Events
                             _onScene = true;
                             Game.DisplayHelp("~y~Press ~r~" + Settings.Interact + "~y~ to open interaction menu.");
                             if (Settings.ShowHints)
-                            {
                                 Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~y~Officer Sighting",
                                     "~r~Road Rage", "Stop the vehicle.");
-                            }
                         }
 
                         if (_onScene && !_pursuitActive && Functions.IsPlayerPerformingPullover())
@@ -116,6 +146,7 @@ namespace SuperEvents.Events
                         {
                             End();
                         }
+
                         _interaction.ProcessMenus();
                     }
                     catch (Exception e)
@@ -128,19 +159,18 @@ namespace SuperEvents.Events
                         Game.LogTrivial("SuperEvents Error Report End");
                         End();
                     }
-                }
             });
             base.MainLogic();
         }
 
         protected override void End()
         {
-            if(_bad1.Exists()) _bad1.Dismiss();
-            if(_cVehicle.Exists()) _cVehicle.Dismiss();
-            if(_cBlip.Exists()) _cBlip.Delete();
+            if (_bad1.Exists()) _bad1.Dismiss();
+            if (_cVehicle.Exists()) _cVehicle.Dismiss();
+            if (_cBlip.Exists()) _cBlip.Delete();
             base.End();
         }
-        
+
         private void Interactions(UIMenu sender, UIMenuItem selItem, int index)
         {
             if (selItem == _endCall)

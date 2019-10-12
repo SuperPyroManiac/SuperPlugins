@@ -2,7 +2,6 @@
 
 using System;
 using System.Drawing;
-using LSPD_First_Response.Engine;
 using LSPD_First_Response.Mod.API;
 using Rage;
 using Rage.Native;
@@ -27,7 +26,8 @@ namespace SuperEvents.Events
         private readonly MenuPool _interaction = new MenuPool();
         private readonly UIMenu _mainMenu = new UIMenu("SuperEvents", "~y~Choose an option.");
         private readonly UIMenu _convoMenu = new UIMenu("SuperEvents", "~y~Choose a subject to speak with.");
-        private readonly UIMenuItem _callCode2 = new UIMenuItem("~r~ Code 2 Backup", "Calls another officer to help out.");
+        private readonly UIMenuItem _callCode2 =
+            new UIMenuItem("~r~ Code 2 Backup", "Calls another officer to help out.");
         private readonly UIMenuItem _questioning = new UIMenuItem("Speak With Subjects");
         private readonly UIMenuItem _endCall = new UIMenuItem("~y~End Call", "Ends the callout early.");
         private UIMenuItem _speakSuspect;
@@ -44,7 +44,12 @@ namespace SuperEvents.Events
             _spawnPoint = World.GetNextPositionOnStreet(Game.LocalPlayer.Character.Position.Around(45f, 100f));
             _bad1 = new Ped(_spawnPoint) {IsPersistent = true, BlockPermanentEvents = true};
             _bad2 = new Ped(_bad1.GetOffsetPositionFront(2f)) {IsPersistent = true, BlockPermanentEvents = true};
-            if (_bad1.IsDead || _bad1.RelationshipGroup == "COP" || _bad2.IsDead || _bad2.RelationshipGroup == "COP") {base.Failed(); return;}
+            if (_bad1.IsDead || _bad1.RelationshipGroup == "COP" || _bad2.IsDead || _bad2.RelationshipGroup == "COP")
+            {
+                base.Failed();
+                return;
+            }
+
             _bad1.Tasks.PutHandsUp(-1, _bad2);
             _bad2.Tasks.PutHandsUp(-1, _bad1);
             _name1 = Functions.GetPersonaForPed(_bad1).FullName;
@@ -79,6 +84,7 @@ namespace SuperEvents.Events
                 _cBlip2.Color = Color.Red;
                 _cBlip2.Scale = .5f;
             }
+
             base.StartEvent();
         }
 
@@ -87,7 +93,6 @@ namespace SuperEvents.Events
             GameFiber.StartNew(delegate
             {
                 while (EventsActive)
-                {
                     try
                     {
                         GameFiber.Yield();
@@ -99,15 +104,13 @@ namespace SuperEvents.Events
                             _questioning.Enabled = true;
                             _callCode2.Enabled = true;
                             if (Settings.ShowHints)
-                            {
                                 Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~y~Officer Sighting",
                                     "~r~People in Road", "Investigate the people.");
-                            }
                             Game.DisplaySubtitle(
                                 "~r~Stangers: ~s~Run us over! We do not want to live on this world anymore!");
                             Game.DisplayHelp("~y~Press ~r~" + Settings.Interact + "~y~ to open interaction menu.");
                         }
-                        
+
                         if (Game.IsKeyDown(Settings.Interact))
                         {
                             _mainMenu.Visible = !_mainMenu.Visible;
@@ -124,6 +127,7 @@ namespace SuperEvents.Events
                         {
                             End();
                         }
+
                         _interaction.ProcessMenus();
                     }
                     catch (Exception e)
@@ -136,21 +140,20 @@ namespace SuperEvents.Events
                         Game.LogTrivial("SuperEvents Error Report End");
                         End();
                     }
-                }
             });
             base.MainLogic();
         }
 
         protected override void End()
         {
-            if(_bad1.Exists()) _bad1.Dismiss();
-            if(_bad2.Exists()) _bad2.Dismiss();
-            if(_cBlip1.Exists()) _cBlip1.Delete();
-            if(_cBlip2.Exists()) _cBlip2.Delete();
+            if (_bad1.Exists()) _bad1.Dismiss();
+            if (_bad2.Exists()) _bad2.Dismiss();
+            if (_cBlip1.Exists()) _cBlip1.Delete();
+            if (_cBlip2.Exists()) _cBlip2.Delete();
             base.End();
         }
-        
-                private void Interactions(UIMenu sender, UIMenuItem selItem, int index)
+
+        private void Interactions(UIMenu sender, UIMenuItem selItem, int index)
         {
             if (selItem == _callCode2)
             {
@@ -165,9 +168,11 @@ namespace SuperEvents.Events
                 }
                 catch (Exception e)
                 {
-                    Game.LogTrivial("SuperEvents Warning: Ultimate Backup is not installed! Backup was not automatically called!");
+                    Game.LogTrivial(
+                        "SuperEvents Warning: Ultimate Backup is not installed! Backup was not automatically called!");
                     Game.DisplayHelp("~r~Ultimate Backup is not installed! Backup was not automatically called!", 8000);
                 }
+
                 _callCode2.Enabled = false;
             }
             else if (selItem == _endCall)
@@ -176,18 +181,23 @@ namespace SuperEvents.Events
                 End();
             }
         }
+
         private void Conversations(UIMenu sender, UIMenuItem selItem, int index)
         {
             if (selItem == _speakSuspect)
             {
                 GameFiber.StartNew(delegate
                 {
-                    Game.DisplaySubtitle("~g~You~s~: Why are you guys standing in the middle of the road? I need you to move to the sidewalk.", 5000);
+                    Game.DisplaySubtitle(
+                        "~g~You~s~: Why are you guys standing in the middle of the road? I need you to move to the sidewalk.",
+                        5000);
                     GameFiber.Wait(5000);
-                    Game.DisplaySubtitle("~r~" + _name1 + "~s~: We don't want to live anymore. Please just shoot me!'", 5000);
+                    Game.DisplaySubtitle("~r~" + _name1 + "~s~: We don't want to live anymore. Please just shoot me!'",
+                        5000);
                     _speakSuspect2.Enabled = true;
                 });
-            } else if (selItem == _speakSuspect2)
+            }
+            else if (selItem == _speakSuspect2)
             {
                 Game.DisplaySubtitle("~g~You~s~: Sir, can you explain what's going on here?'", 5000);
                 GameFiber.Wait(5000);

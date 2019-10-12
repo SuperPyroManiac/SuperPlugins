@@ -38,14 +38,26 @@ namespace SuperEvents.Events
         protected override void StartEvent()
         {
             var bad = Game.LocalPlayer.Character.GetNearbyPeds(15);
-            if (bad == null || bad.Length == 0) {base.Failed(); return;}
+            if (bad == null || bad.Length == 0)
+            {
+                base.Failed();
+                return;
+            }
+
             foreach (var badguy in bad)
             {
                 if (!badguy.Exists()) break;
                 _bad1 = badguy;
             }
 
-            if (_bad1 == Game.LocalPlayer.Character || !_bad1.IsHuman || _bad1.IsInAnyVehicle(true) || _bad1.IsDead || _bad1.RelationshipGroup == "COP" || _bad1.RelationshipGroup == "MEDIC " || _bad1.RelationshipGroup == "FIREMAN") {base.Failed(); return;}
+            if (_bad1 == Game.LocalPlayer.Character || !_bad1.IsHuman || _bad1.IsInAnyVehicle(true) || _bad1.IsDead ||
+                _bad1.RelationshipGroup == "COP" || _bad1.RelationshipGroup == "MEDIC " ||
+                _bad1.RelationshipGroup == "FIREMAN")
+            {
+                base.Failed();
+                return;
+            }
+
             _bad1.IsPersistent = true;
             _bad1.Inventory.GiveNewWeapon(WeaponHash.AdvancedRifle, -1, true);
             _bad1.Metadata.stpAlcoholDetected = true;
@@ -68,7 +80,12 @@ namespace SuperEvents.Events
             _convoMenu.ParentMenu = _mainMenu;
             _questioning.Enabled = false;
             //Blips
-            if (!Settings.ShowBlips) {base.StartEvent(); return;}
+            if (!Settings.ShowBlips)
+            {
+                base.StartEvent();
+                return;
+            }
+
             _cBlip = _bad1.AttachBlip();
             _cBlip.Color = Color.Red;
             _cBlip.Scale = .5f;
@@ -80,7 +97,6 @@ namespace SuperEvents.Events
             GameFiber.StartNew(delegate
             {
                 while (EventsActive)
-                {
                     try
                     {
                         GameFiber.Yield();
@@ -91,12 +107,11 @@ namespace SuperEvents.Events
                             _onScene = true;
                             _questioning.Enabled = true;
                             if (Settings.ShowHints)
-                            {
                                 Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~y~Officer Sighting",
                                     "~r~Open Carry", "Investigate the person.");
-                            }
                             Game.DisplayHelp("~y~Press ~r~" + Settings.Interact + "~y~ to open interaction menu.");
                         }
+
                         if (Game.IsKeyDown(Settings.Interact))
                         {
                             _mainMenu.Visible = !_mainMenu.Visible;
@@ -113,6 +128,7 @@ namespace SuperEvents.Events
                         {
                             End();
                         }
+
                         _interaction.ProcessMenus();
                     }
                     catch (Exception e)
@@ -125,18 +141,17 @@ namespace SuperEvents.Events
                         Game.LogTrivial("SuperEvents Error Report End");
                         End();
                     }
-                }
             });
             base.MainLogic();
         }
 
         protected override void End()
         {
-            if(_bad1.Exists()) _bad1.Dismiss();
-            if(_cBlip.Exists()) _cBlip.Delete();
+            if (_bad1.Exists()) _bad1.Dismiss();
+            if (_cBlip.Exists()) _cBlip.Delete();
             base.End();
         }
-        
+
         private void Interactions(UIMenu sender, UIMenuItem selItem, int index)
         {
             if (selItem == _endCall)
@@ -145,23 +160,24 @@ namespace SuperEvents.Events
                 End();
             }
         }
+
         private void Conversations(UIMenu sender, UIMenuItem selItem, int index)
         {
             if (selItem == _speakSuspect)
-            {
                 GameFiber.StartNew(delegate
                 {
-                    NativeFunction.CallByName<uint>("TASK_TURN_PED_TO_FACE_ENTITY", _bad1, Game.LocalPlayer.Character, -1);
+                    NativeFunction.CallByName<uint>("TASK_TURN_PED_TO_FACE_ENTITY", _bad1, Game.LocalPlayer.Character,
+                        -1);
                     Game.DisplaySubtitle("~g~You: ~s~Why are you carring a that gun around?", 5000);
                     GameFiber.Wait(5000);
-                    Game.DisplaySubtitle("~r~" + _name1 + ": ~s~Its.. It's my right.. I'll leave im sorry! Please leave me alone!''");
+                    Game.DisplaySubtitle("~r~" + _name1 +
+                                         ": ~s~Its.. It's my right.. I'll leave im sorry! Please leave me alone!''");
                     GameFiber.Wait(1000);
                     _pursuit = Functions.CreatePursuit();
                     Functions.AddPedToPursuit(_pursuit, _bad1);
                     Functions.SetPursuitIsActiveForPlayer(_pursuit, true);
                     _letsRun = true;
                 });
-            }
         }
     }
 }

@@ -1,3 +1,5 @@
+#region
+
 using System;
 using System.Drawing;
 using LSPD_First_Response.Mod.API;
@@ -6,6 +8,8 @@ using Rage.Native;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperEvents.SimpleFunctions;
+
+#endregion
 
 namespace SuperEvents.Events
 {
@@ -27,7 +31,6 @@ namespace SuperEvents.Events
         private readonly UIMenuItem _callEms = new UIMenuItem("~r~ Call EMS", "Calls in an ambulance.");
         private readonly UIMenuItem _questioning = new UIMenuItem("Speak With Subjects");
         private readonly UIMenuItem _endCall = new UIMenuItem("~y~End Call", "Ends the callout early.");
-        
         private UIMenuItem _speakSuspect;
 
         internal static void Launch()
@@ -39,10 +42,20 @@ namespace SuperEvents.Events
         protected override void StartEvent()
         {
             EFunctions.FindSideOfRoad(100, 45, out _spawnPoint, out _spawnPointH);
-            if (_spawnPoint.DistanceTo(Game.LocalPlayer.Character) < 35f) {base.Failed(); return;}
+            if (_spawnPoint.DistanceTo(Game.LocalPlayer.Character) < 35f)
+            {
+                base.Failed();
+                return;
+            }
+
             _bad1 = new Ped(_spawnPoint) {Heading = _spawnPointH, IsPersistent = true, Health = 400};
             _bad2 = new Ped(_bad1.GetOffsetPositionFront(2)) {IsPersistent = true, Health = 400};
-            if (!_bad1.Exists() || !_bad2.Exists()) {base.Failed(); return;}
+            if (!_bad1.Exists() || !_bad2.Exists())
+            {
+                base.Failed();
+                return;
+            }
+
             _bad1.Tasks.Cower(-1);
             EFunctions.SetAnimation(_bad2, "move_injured_ground");
             _bad2.IsRagdoll = true;
@@ -67,7 +80,12 @@ namespace SuperEvents.Events
             _callEms.Enabled = false;
             _questioning.Enabled = false;
             //Blips
-            if (!Settings.ShowBlips) {base.StartEvent(); return;}
+            if (!Settings.ShowBlips)
+            {
+                base.StartEvent();
+                return;
+            }
+
             _cBlip1 = _bad1.AttachBlip();
             _cBlip1.Color = Color.Red;
             _cBlip1.Scale = .5f;
@@ -82,7 +100,6 @@ namespace SuperEvents.Events
             GameFiber.StartNew(delegate
             {
                 while (EventsActive)
-                {
                     try
                     {
                         GameFiber.Yield();
@@ -98,22 +115,23 @@ namespace SuperEvents.Events
                             _bad2.IsRagdoll = false;
                             _bad2.Kill();
                             if (Settings.ShowHints)
-                            {
                                 Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~y~Officer Sighting",
                                     "~r~A Medical Emergency", "Help the person. Call EMS or perform CPR.");
-                            }
                             Game.DisplayHelp("~y~Press ~r~" + Settings.Interact + "~y~ to open interaction menu.");
                         }
+
                         if (Game.IsKeyDown(Settings.Interact))
                         {
                             _mainMenu.Visible = !_mainMenu.Visible;
                             _convoMenu.Visible = false;
                         }
+
                         if (_onScene && !_bad2.Exists())
                         {
                             _bad1.Tasks.Clear();
                             End();
                         }
+
                         if (Game.LocalPlayer.Character.DistanceTo(_spawnPoint) > 120) End();
                         _interaction.ProcessMenus();
                     }
@@ -127,7 +145,6 @@ namespace SuperEvents.Events
                         Game.LogTrivial("SuperEvents Error Report End");
                         End();
                     }
-                }
             });
             base.MainLogic();
         }
@@ -140,12 +157,13 @@ namespace SuperEvents.Events
             if (_cBlip2.Exists()) _cBlip2.Delete();
             base.End();
         }
-        
+
         private void Interactions(UIMenu sender, UIMenuItem selItem, int index)
         {
             if (selItem == _callEms)
             {
-                Game.DisplaySubtitle("~g~You~s~: Dispatch, we have a person unconsious on the ground. Send me medical!");
+                Game.DisplaySubtitle(
+                    "~g~You~s~: Dispatch, we have a person unconsious on the ground. Send me medical!");
                 _bad1.Tasks.ClearImmediately();
                 NativeFunction.CallByName<uint>("TASK_TURN_PED_TO_FACE_ENTITY", _bad1, Game.LocalPlayer.Character, -1);
                 try
@@ -154,9 +172,11 @@ namespace SuperEvents.Events
                 }
                 catch (Exception e)
                 {
-                    Game.LogTrivial("SuperEvents Warning: Ultimate Backup is not installed! Backup was not automatically called!");
+                    Game.LogTrivial(
+                        "SuperEvents Warning: Ultimate Backup is not installed! Backup was not automatically called!");
                     Game.DisplayHelp("~r~Ultimate Backup is not installed! Backup was not automatically called!", 8000);
                 }
+
                 _callEms.Enabled = false;
             }
             else if (selItem == _endCall)
@@ -165,18 +185,20 @@ namespace SuperEvents.Events
                 End();
             }
         }
+
         private void Conversations(UIMenu sender, UIMenuItem selItem, int index)
         {
             if (selItem == _speakSuspect)
-            {
                 GameFiber.StartNew(delegate
                 {
                     Game.DisplaySubtitle("~g~You~s~: What happened here?", 5000);
                     NativeFunction.CallByName<uint>("TASK_TURN_PED_TO_FACE_ENTITY", _bad1, _bad2, -1);
                     GameFiber.Wait(5000);
-                    Game.DisplaySubtitle("~y~" + _name1 + "~s~: I don't know! we are friends, we were walking and they just fell over! Their name is ~y~" + _name2, 5000);
+                    Game.DisplaySubtitle(
+                        "~y~" + _name1 +
+                        "~s~: I don't know! we are friends, we were walking and they just fell over! Their name is ~y~" +
+                        _name2, 5000);
                 });
-            }
         }
     }
 }

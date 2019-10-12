@@ -1,10 +1,14 @@
+#region
+
 using System;
 using System.Drawing;
 using LSPD_First_Response.Mod.API;
 using Rage;
-using Rage.Native;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
+using SuperEvents.SimpleFunctions;
+
+#endregion
 
 namespace SuperEvents.Events
 {
@@ -51,7 +55,7 @@ namespace SuperEvents.Events
             _bad1.IsPersistent = true;
             _bad1.Inventory.GiveNewWeapon(WeaponHash.Pistol, -1, true);
             _victim = new Ped(_bad1.GetOffsetPositionFront(3f)) {IsPersistent = true};
-            SimpleFunctions.EFunctions.SetWanted(_bad1, true);
+            EFunctions.SetWanted(_bad1, true);
             _victim.Tasks.PutHandsUp(-1, _bad1);
             _bad1.Tasks.AimWeaponAt(_victim, -1);
             //Start UI
@@ -78,13 +82,13 @@ namespace SuperEvents.Events
             GameFiber.StartNew(delegate
             {
                 while (EventsActive)
-                {
                     try
                     {
                         GameFiber.Yield();
                         if (!_onScene && !_bad1.IsAnySpeechPlaying) _bad1.PlayAmbientSpeech("GENERIC_CURSE_MED");
-                        if (!_onScene && !_victim.IsAnySpeechPlaying) _victim.PlayAmbientSpeech("GENERIC_FRIGHTENED_HIGH");
-                        
+                        if (!_onScene && !_victim.IsAnySpeechPlaying)
+                            _victim.PlayAmbientSpeech("GENERIC_FRIGHTENED_HIGH");
+
                         if (Game.IsKeyDown(Settings.EndEvent)) End();
 
                         if (!_onScene && Game.LocalPlayer.Character.DistanceTo(_bad1) < 10f)
@@ -92,10 +96,8 @@ namespace SuperEvents.Events
                             _onScene = true;
                             Game.DisplayHelp("~y~Press ~r~" + Settings.Interact + "~y~ to open interaction menu.");
                             if (Settings.ShowHints)
-                            {
                                 Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~y~Officer Sighting",
                                     "~r~Mugging", "Stop the suspect!");
-                            }
                             var rNd = new Random();
                             var choices = rNd.Next(1, 3);
                             switch (choices)
@@ -117,17 +119,19 @@ namespace SuperEvents.Events
                                     break;
                             }
                         }
-                        
-                        if (Game.IsKeyDown(Settings.Interact))
-                        {
-                            _mainMenu.Visible = !_mainMenu.Visible;
-                        }
+
+                        if (Game.IsKeyDown(Settings.Interact)) _mainMenu.Visible = !_mainMenu.Visible;
 
                         if (_bad1.Exists())
                         {
                             if (Game.LocalPlayer.Character.DistanceTo(_bad1) > 200f) End();
                             if (_bad1.IsDead || _bad1.IsCuffed) End();
-                        } else { End(); }
+                        }
+                        else
+                        {
+                            End();
+                        }
+
                         _interaction.ProcessMenus();
                     }
                     catch (Exception e)
@@ -140,7 +144,6 @@ namespace SuperEvents.Events
                         Game.LogTrivial("SuperEvents Error Report End");
                         End();
                     }
-                }
             });
             base.MainLogic();
         }
@@ -153,7 +156,7 @@ namespace SuperEvents.Events
             if (_cBlip2.Exists()) _cBlip2.Delete();
             base.End();
         }
-        
+
         private void Interactions(UIMenu sender, UIMenuItem selItem, int index)
         {
             if (selItem == _endCall)
