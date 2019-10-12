@@ -30,7 +30,7 @@ namespace SuperEvents.Events
         private readonly UIMenuItem _callCode2 = new UIMenuItem("~r~ Code 2 Backup", "Calls another officer to help out.");
         private readonly UIMenuItem _questioning = new UIMenuItem("Speak With Subjects");
         private readonly UIMenuItem _endCall = new UIMenuItem("~y~End Call", "Ends the callout early.");
-        private readonly UIMenuItem _goBack = new UIMenuItem("Back", "Returns to main menu.");
+        
         private UIMenuItem _speakSuspect;
         private UIMenuItem _speakSuspect2;
 
@@ -60,11 +60,11 @@ namespace SuperEvents.Events
             _mainMenu.AddItem(_endCall);
             _convoMenu.AddItem(_speakSuspect);
             _convoMenu.AddItem(_speakSuspect2);
-            _convoMenu.AddItem(_goBack);
+            
             _mainMenu.RefreshIndex();
             _convoMenu.RefreshIndex();
             _mainMenu.BindMenuToItem(_convoMenu, _questioning);
-            _convoMenu.BindMenuToItem(_mainMenu, _goBack);
+            
             _mainMenu.OnItemSelect += Interactions;
             _convoMenu.OnItemSelect += Conversations;
             _callCode2.SetLeftBadge(UIMenuItem.BadgeStyle.Alert);

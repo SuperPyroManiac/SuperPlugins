@@ -27,7 +27,7 @@ namespace SuperEvents.Events
         private readonly UIMenu _convoMenu = new UIMenu("SuperEvents", "~y~Choose a subject to speak with.");
         private readonly UIMenuItem _questioning = new UIMenuItem("Speak With Subjects");
         private readonly UIMenuItem _endCall = new UIMenuItem("~y~End Call", "Ends the callout early.");
-        private readonly UIMenuItem _goBack = new UIMenuItem("Back", "Returns to main menu.");
+        
         private UIMenuItem _speakSuspect;
 
         internal static void Launch()
@@ -61,11 +61,11 @@ namespace SuperEvents.Events
             _mainMenu.AddItem(_questioning);
             _mainMenu.AddItem(_endCall);
             _convoMenu.AddItem(_speakSuspect);
-            _convoMenu.AddItem(_goBack);
+            
             _mainMenu.RefreshIndex();
             _convoMenu.RefreshIndex();
             _mainMenu.BindMenuToItem(_convoMenu, _questioning);
-            _convoMenu.BindMenuToItem(_mainMenu, _goBack);
+            
             _mainMenu.OnItemSelect += Interactions;
             _convoMenu.OnItemSelect += Conversations;
             _convoMenu.ParentMenu = _mainMenu;
