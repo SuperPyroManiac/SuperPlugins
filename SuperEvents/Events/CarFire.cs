@@ -121,7 +121,7 @@ namespace SuperEvents.Events
                 Game.DisplaySubtitle("~g~You~s~: Dispatch, we got a large vehicle fire that's spreading. Looks like ~r~someone is inside!~s~ I need a rescue crew out here!");
                 try
                 {
-                    UltimateBackup.API.Functions.callAmbulance();
+                    //UltimateBackup.API.Functions.callAmbulance(); EMS just catches fire...
                     UltimateBackup.API.Functions.callFireDepartment();
                 }
                 catch (Exception e)
