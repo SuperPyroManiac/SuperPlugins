@@ -1,0 +1,37 @@
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using Rage;
+    using Rage.Native;
+    using LSPD_First_Response.Mod.API;
+    using LSPD_First_Response.Mod.Callouts;
+    using LSPD_First_Response.Engine.Scripting.Entities;
+    using System.Drawing;
+    using RAGENativeUI;
+    using RAGENativeUI.Elements;
+
+    namespace SuperCallouts.Callouts
+    {
+      [CalloutInfo("NAME", CalloutProbability.Low)]
+      class NAME : Callout
+        {
+          public override bool OnBeforeCalloutDisplayed()
+          {
+            return base.OnBeforeCalloutDisplayed();
+          }
+          public override bool OnCalloutAccepted()
+          {
+            return base.OnCalloutAccepted();
+          }
+          public override void Process()
+          {
+            base.Process();
+          }
+          public override void End()
+          {
+            base.End();
+          }
+        }
+    }
