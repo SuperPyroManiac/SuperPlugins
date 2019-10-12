@@ -32,7 +32,7 @@ namespace SuperEvents
         {
             EventsActive = false;
             Game.LogTrivial("SuperEvents: Ending Event.");
-            Game.DisplayHelp("Scene ~g~CODE-4");
+            //Game.DisplayHelp("Scene ~g~CODE-4");
             EventTimer.TimerStart();
         }
         
