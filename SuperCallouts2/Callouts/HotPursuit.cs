@@ -1,15 +1,9 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Rage;
 using Rage.Native;
 using LSPD_First_Response.Mod.API;
 using LSPD_First_Response.Mod.Callouts;
-using LSPD_First_Response.Engine.Scripting.Entities;
 using System.Drawing;
-using System.Windows.Forms;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts2.SimpleFunctions;
@@ -103,6 +97,9 @@ namespace SuperCallouts2.Callouts
             _cBlip1.EnableRoute(Color.Red);
             _cBlip1.Color = Color.Red;
             _cBlip1.Scale = .5f;
+            _cBlip2 = _bad2.AttachBlip();
+            _cBlip2.Color = Color.Red;
+            _cBlip2.Scale = .5f;
             //Tasks
             _bad1.Tasks.CruiseWithVehicle(_cVehicle, 10f, VehicleDrivingFlags.Normal);
 
@@ -115,7 +112,8 @@ namespace SuperCallouts2.Callouts
                 //GamePlay
                 if (!_onScene && Game.LocalPlayer.Character.DistanceTo(_cVehicle) < 25f)
                 {
-                    _cBlip1.DisableRoute();
+                    _cBlip1.Delete();
+                    _cBlip2.Delete();
                     _bad1.BlockPermanentEvents = false;
                     _bad2.BlockPermanentEvents = false;
                     _pursuit = Functions.CreatePursuit();
@@ -128,18 +126,25 @@ namespace SuperCallouts2.Callouts
                 if (_onScene && !Functions.IsPursuitStillRunning(_pursuit) && !_pursuitOver)
                 {
                     _pursuitOver = true;
+                    if (Game.LocalPlayer.Character.DistanceTo(_bad1) > 70f &&
+                        Game.LocalPlayer.Character.DistanceTo(_bad2) > 70f)
+                    {
+                        Game.DisplaySubtitle("~r~Suspects escaped!");
+                        End();
+                        return;
+                    }
                     Game.DisplayHelp("~y~Press ~r~" + Settings.Interact + "~y~ to open interaction menu.");
                     _questioning.Enabled = true;
-                }
-                //UI Items
-                if (_bad1.IsDead)
-                {
-                    _speakSuspect.Enabled = false;
-                    _speakSuspect.SetRightLabel(" ~r~Dead");
-                }else if (_bad2.IsDead)
-                {
-                    _speakSuspect2.Enabled = false;
-                    _speakSuspect2.SetRightLabel(" ~r~Dead");
+                    if (_bad1.IsDead)
+                    {
+                        _speakSuspect.Enabled = false;
+                        _speakSuspect.SetRightLabel("~r~Dead");
+                    }
+                    if (_bad2.IsDead)
+                    {
+                        _speakSuspect2.Enabled = false;
+                        _speakSuspect2.SetRightLabel("~r~Dead");
+                    }
                 }
                 //Keybinds
                 if (Game.IsKeyDown(Settings.EndCall)) End();
@@ -197,10 +202,16 @@ namespace SuperCallouts2.Callouts
             }
             else if (selItem == _speakSuspect2)
             {
-                Game.DisplaySubtitle("~g~You~s~: You know this is a stolen vehicle right? What are you guys doing?", 5000);
-                GameFiber.Wait(5000);
-                Game.DisplaySubtitle("~r~" + _name2 + "~s~: I didn't do anything wrong, I was just hanging out with my buddy and all this happened.", 5000);
-
+                GameFiber.StartNew(delegate
+                {
+                    Game.DisplaySubtitle("~g~You~s~: You know this is a stolen vehicle right? What are you guys doing?",
+                        5000);
+                    GameFiber.Wait(5000);
+                    Game.DisplaySubtitle(
+                        "~r~" + _name2 +
+                        "~s~: I didn't do anything wrong, I was just hanging out with my buddy and all this happened.",
+                        5000);
+                });
             }
         }
     }
