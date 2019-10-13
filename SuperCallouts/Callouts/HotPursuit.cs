@@ -26,7 +26,6 @@ namespace SuperCallouts.Callouts
         {
             _spawnPoint = World.GetNextPositionOnStreet(Game.LocalPlayer.Character.Position.Around(350f));
             ShowCalloutAreaBlipBeforeAccepting(_spawnPoint, 30f);
-            //AddMinimumDistanceCheck(20f, SpawnPoint);
             CalloutMessage = "~o~Traffic ANPR Report:~s~ High value stolen vehicle located.";
             CalloutPosition = _spawnPoint;
             Functions.PlayScannerAudioUsingPosition(
@@ -40,9 +39,7 @@ namespace SuperCallouts.Callouts
             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Stolen Car",
                 "ANPR has spotted a stolen vehicle. This vehicle is high performance and has fled before. Respond ~r~CODE-3");
             Model[] vehicleModels = {"ZENTORNO", "TEMPESTA", "AUTARCH"};
-            _suspectVehicle = new Vehicle(vehicleModels[new Random().Next(vehicleModels.Length)], _spawnPoint);
-            _suspectVehicle.IsPersistent = true;
-            _suspectVehicle.IsStolen = true;
+            _suspectVehicle = new Vehicle(vehicleModels[new Random().Next(vehicleModels.Length)], _spawnPoint) {IsPersistent = true, IsStolen = true};
             _suspect = _suspectVehicle.CreateRandomDriver();
             _suspect.IsPersistent = true;
             _suspect.BlockPermanentEvents = true;

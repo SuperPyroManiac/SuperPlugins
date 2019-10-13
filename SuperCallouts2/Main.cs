@@ -1,6 +1,7 @@
 using System.Reflection;
 using LSPD_First_Response.Mod.API;
 using Rage;
+using SuperCallouts2.Callouts;
 
 namespace SuperCallouts2
 {
@@ -28,7 +29,7 @@ namespace SuperCallouts2
 
         private static void RegisterCallouts()
         {
-            //if (Settings.HotPursuit) { Functions.RegisterCallout(typeof(HotPursuit)); Game.LogTrivial("SuperCallouts: HotPursuit Enabled"); }
+            if (Settings.HotPursuit) { Functions.RegisterCallout(typeof(HotPursuit)); Game.LogTrivial("SuperCallouts: HotPursuit Enabled"); }
 /*            if (Settings.Robbery) { Functions.RegisterCallout(typeof(Robbery)); Game.LogTrivial("SuperCallouts: Robbery Enabled"); }
             if (Settings.CarAccident) { Functions.RegisterCallout(typeof(CarAccident)); Game.LogTrivial("SuperCallouts: CarAccident Enabled"); }
             if (Settings.CarAccident) { Functions.RegisterCallout(typeof(CarAccident2)); }

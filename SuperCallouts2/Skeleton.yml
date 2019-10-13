@@ -12,7 +12,7 @@
     using RAGENativeUI;
     using RAGENativeUI.Elements;
 
-    namespace SuperCallouts.Callouts
+    namespace SuperCallouts2.Callouts
     {
       [CalloutInfo("NAME", CalloutProbability.Low)]
       class NAME : Callout
