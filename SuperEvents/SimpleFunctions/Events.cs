@@ -19,7 +19,7 @@ namespace SuperEvents.SimpleFunctions
             {
                 while (true)
                 {
-                    GameFiber.Sleep(500);
+                    GameFiber.Wait(500);
                     if (!Functions.IsCalloutRunning() && !Functions.IsPlayerPerformingPullover() && Functions.GetActivePursuit() == null && TimeStart && !EventsActive)
                     {
                         Game.LogTrivial("SuperEvents: Generating random event.");

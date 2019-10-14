@@ -10,12 +10,12 @@ using SuperCallouts2.SimpleFunctions;
 
 namespace SuperCallouts2.Callouts
 {
-    [CalloutInfo("HotPursuit", CalloutProbability.Medium)]
-    class HotPursuit : Callout
+    [CalloutInfo("Kidnapping", CalloutProbability.Medium)]
+    class Kidnapping : Callout
     {
         #region Variables
         private Ped _bad1;
-        private Ped _bad2;
+        private Ped _victim1;
         private Vehicle _cVehicle;
         private LHandle _pursuit;
         private Blip _cBlip1;
@@ -23,6 +23,7 @@ namespace SuperCallouts2.Callouts
         private Vector3 _spawnPoint;
         private string _name1;
         private string _name2;
+        private readonly Random _rNd = new Random();
         private bool _pursuitOver;
         private bool _onScene;
         //UI Items
@@ -39,7 +40,7 @@ namespace SuperCallouts2.Callouts
         {
             _spawnPoint = World.GetNextPositionOnStreet(Game.LocalPlayer.Character.Position.Around(350f));
             ShowCalloutAreaBlipBeforeAccepting(_spawnPoint, 30f);
-            CalloutMessage = "~o~Traffic ANPR Report:~s~ High value stolen vehicle located.";
+            CalloutMessage = "~o~Traffic ANPR Report:~s~ Vehicle involved in kidnapping spotted.";
             CalloutPosition = _spawnPoint;
             Functions.PlayScannerAudioUsingPosition(
                 "WE_HAVE CRIME_BRANDISHING_WEAPON_01 CRIME_RESIST_ARREST IN_OR_ON_POSITION", _spawnPoint);
@@ -48,14 +49,12 @@ namespace SuperCallouts2.Callouts
         public override bool OnCalloutAccepted()
         {
             //Setup
-            Game.LogTrivial("SuperCallouts Log: HotPursuit callout accepted...");
-            Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Stolen Car",
-                "ANPR has spotted a stolen vehicle. This vehicle is high performance and has fled before. Respond ~r~CODE-3");
+            Game.LogTrivial("SuperCallouts Log: Kidnapping callout accepted...");
+            Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch",
+                "~r~Possible Missing Person Found",
+                "ANPR has spotted a vehicle that was involved in a kidnapping last month. Respond ~r~CODE-3");
             //cVehicle
-            Model[] vehicleModels = {"ZENTORNO", "TEMPESTA", "AUTARCH"};
-            _cVehicle = new Vehicle(vehicleModels[new Random().Next(vehicleModels.Length)], _spawnPoint) {IsPersistent = true, IsStolen = true};
-            _cVehicle.Metadata.searchDriver = "~r~exposed console wires~s~, ~y~wire cutters~s~";
-            _cVehicle.Metadata.searchPassenger = "~r~empty beer cans~s~, ~r~opened box of ammo~s~";
+            CFunctions.SpawnNormalCar(out _cVehicle, _spawnPoint);
             //bad1
             _bad1 = _cVehicle.CreateRandomDriver();
             _bad1.IsPersistent = true;
@@ -63,19 +62,15 @@ namespace SuperCallouts2.Callouts
             _name1 = Functions.GetPersonaForPed(_bad1).FullName;
             _bad1.Inventory.Weapons.Add(WeaponHash.Pistol);
             _bad1.Metadata.stpDrugsDetected = true;
-            _bad1.Metadata.stpAlcoholDetected = true;
-            _bad1.Metadata.searchPed = "~r~pistol~s~, ~r~used meth pipe~s~, ~y~hotwire tools~s~, ~g~suspicious taco~s~, ~g~wallet~s~";
-            _bad1.Metadata.hasGunPermit = false;
-            CFunctions.SetWanted(_bad1, true);
-            CFunctions.SetDrunk(_bad1, true);
-            //bad2
-            _bad2 = new Ped();
-            _bad2.WarpIntoVehicle(_cVehicle, 0);
-            _bad2.IsPersistent = true;
-            _bad2.BlockPermanentEvents = true;
-            _name2 = Functions.GetPersonaForPed(_bad2).FullName;
-            _bad2.Metadata.stpAlcoholDetected = true;
-            CFunctions.SetDrunk(_bad2, true);
+            _bad1.Metadata.searchPed = "~r~pistol~s~, ~r~handcuffs~s~, ~y~hunting knife~s~, ~g~candy bar~s~, ~g~loose change~s~";
+            _bad1.Metadata.hasGunPermit = true;
+            //victim1
+            _victim1 = new Ped();
+            _victim1.WarpIntoVehicle(_cVehicle, 0);
+            _victim1.IsPersistent = true;
+            _victim1.BlockPermanentEvents = true;
+            _name2 = Functions.GetPersonaForPed(_victim1).FullName;
+            _victim1.Metadata.searchPed = "~r~fake ID~s~";
             //Start UI
             _speakSuspect = new UIMenuItem("Speak with ~y~" + _name1);
             _speakSuspect2 = new UIMenuItem("Speak with ~y~" + _name2);
@@ -97,9 +92,6 @@ namespace SuperCallouts2.Callouts
             _cBlip1.EnableRoute(Color.Red);
             _cBlip1.Color = Color.Red;
             _cBlip1.Scale = .5f;
-            _cBlip2 = _bad2.AttachBlip();
-            _cBlip2.Color = Color.Red;
-            _cBlip2.Scale = .5f;
             //Tasks
             _bad1.Tasks.CruiseWithVehicle(_cVehicle, 10f, VehicleDrivingFlags.Normal);
 
@@ -115,10 +107,8 @@ namespace SuperCallouts2.Callouts
                     _cBlip1.Delete();
                     _cBlip2.Delete();
                     _bad1.BlockPermanentEvents = false;
-                    _bad2.BlockPermanentEvents = false;
                     _pursuit = Functions.CreatePursuit();
                     Functions.AddPedToPursuit(_pursuit, _bad1);
-                    Functions.AddPedToPursuit(_pursuit, _bad2);
                     Functions.SetPursuitIsActiveForPlayer(_pursuit, true);
                     Game.DisplayHelp("~r~Suspects are evading!");
                     _onScene = true;
@@ -127,7 +117,7 @@ namespace SuperCallouts2.Callouts
                 {
                     _pursuitOver = true;
                     if (Game.LocalPlayer.Character.DistanceTo(_bad1) > 70f &&
-                        Game.LocalPlayer.Character.DistanceTo(_bad2) > 70f)
+                        Game.LocalPlayer.Character.DistanceTo(_victim1) > 70f)
                     {
                         Game.DisplaySubtitle("~r~Suspects escaped!");
                         End();
@@ -140,7 +130,7 @@ namespace SuperCallouts2.Callouts
                         _speakSuspect.Enabled = false;
                         _speakSuspect.SetRightLabel("~r~Dead");
                     }
-                    if (_bad2.IsDead)
+                    if (_victim1.IsDead)
                     {
                         _speakSuspect2.Enabled = false;
                         _speakSuspect2.SetRightLabel("~r~Dead");
@@ -170,7 +160,7 @@ namespace SuperCallouts2.Callouts
         public override void End()
         {
             if (_bad1.Exists()) _bad1.Dismiss();
-            if (_bad2.Exists()) _bad2.Dismiss();
+            if (_victim1.Exists()) _victim1.Dismiss();
             if (_cVehicle.Exists()) _cVehicle.Dismiss();
             if (_cBlip1.Exists()) _cBlip1.Delete();
             if (_cBlip2.Exists()) _cBlip2.Delete();
@@ -197,21 +187,21 @@ namespace SuperCallouts2.Callouts
                     NativeFunction.CallByName<uint>("TASK_TURN_PED_TO_FACE_ENTITY", _bad1, Game.LocalPlayer.Character, -1);
                     GameFiber.Wait(5000);
                     _bad1.PlayAmbientSpeech("GENERIC_CURSE_MED");
-                    Game.DisplaySubtitle("~r~" + _name1 + "~s~: I don't know, why do you think?", 5000);
+                    Game.DisplaySubtitle("~r~" + _name1 + "~s~: I don't know, why do you think?'", 5000);
                 });
             }
             if (selItem == _speakSuspect2)
             {
                 GameFiber.StartNew(delegate
                 {
-                    Game.DisplaySubtitle("~g~You~s~: You know this is a stolen vehicle right? What are you guys doing?",
-                        5000);
-                    NativeFunction.CallByName<uint>("TASK_TURN_PED_TO_FACE_ENTITY", _bad2, Game.LocalPlayer.Character, -1);
+                    Game.DisplaySubtitle("~g~You~s~: Don't worry, i'm a police officer. I'm here to help and you're safe now. Can you tell me what happened?",5000);
+                    NativeFunction.CallByName<uint>("TASK_TURN_PED_TO_FACE_ENTITY", _victim1, Game.LocalPlayer.Character, -1);
                     GameFiber.Wait(5000);
-                    Game.DisplaySubtitle(
-                        "~r~" + _name2 +
-                        "~s~: I didn't do anything wrong, I was just hanging out with my buddy and all this happened.",
-                        5000);
+                    Game.DisplaySubtitle("~b~" + _name2 + "~s~: My real name is Bailey, they took me forever ago. I don't even know how long! I've been stuck in a cage in a dark room. Please help me where is my family.", 5000);
+                    GameFiber.Wait(5000);
+                    Game.DisplaySubtitle("~g~You~s~: Well listen, we are here to help. We will find your family and get you home. Can you tell me what was going on today?", 5000);
+                    _victim1.Tasks.Cower(-1);
+                    Game.DisplaySubtitle("~b~Bailey Smith~s~: They gave me this fake id.. They were going to give me away I think! Please I want to go home!");
                 });
             }
         }
