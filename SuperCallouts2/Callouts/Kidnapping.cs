@@ -107,13 +107,34 @@ namespace SuperCallouts2.Callouts
                 //GamePlay
                 if (!_onScene && Game.LocalPlayer.Character.DistanceTo(_cVehicle) < 25f)
                 {
-                    _cBlip1.Delete();
-                    _cBlip2.Delete();
+                    _cBlip1.Alpha = 0f;
+                    _cBlip1.DisableRoute();
                     _bad1.BlockPermanentEvents = false;
                     _pursuit = Functions.CreatePursuit();
                     Functions.AddPedToPursuit(_pursuit, _bad1);
                     Functions.SetPursuitIsActiveForPlayer(_pursuit, true);
                     Game.DisplayHelp("~r~Suspect is evading!");
+                    var choices = _rNd.Next(1, 4);
+                    switch (choices)
+                    {
+                        case 1:
+                            _victim1.Kill();
+                            _cBlip2.Alpha = 0f;
+                            break;
+                        case 2:
+                            _victim1.Tasks.LeaveVehicle(LeaveVehicleFlags.BailOut).WaitForCompletion();
+                            _victim1.Tasks.Cower(-1);
+                            break;
+                        case 3:
+                            _victim1.Tasks.SmashCarWindow();
+                            _cBlip2.Alpha = 0f;
+                            break;
+                        default:
+                            Game.DisplayNotification(
+                                "An error has been detected! Ending callout early to prevent LSPDFR crash!");
+                            End();
+                            break;
+                    }
                     _onScene = true;
                 }
                 if (_onScene && !Functions.IsPursuitStillRunning(_pursuit) && !_pursuitOver)
@@ -126,6 +147,8 @@ namespace SuperCallouts2.Callouts
                         return;
                     }
                     Game.DisplayHelp("~y~Press ~r~" + Settings.Interact + "~y~ to open interaction menu.");
+                    _cBlip1.Alpha = 1f;
+                    _cBlip2.Alpha = 1f;
                     _questioning.Enabled = true;
                     if (_bad1.IsDead)
                     {
