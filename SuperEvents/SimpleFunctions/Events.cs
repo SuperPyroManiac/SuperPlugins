@@ -21,11 +21,12 @@ namespace SuperEvents.SimpleFunctions
                 {
                     while (true)
                     {
-                        GameFiber.Sleep(500);
+                        GameFiber.Yield();
                         if (!Functions.IsCalloutRunning() && !Functions.IsPlayerPerformingPullover() && Functions.GetActivePursuit() == null && TimeStart && !EventsActive)
                         {
                             Game.LogTrivial("SuperEvents: Generating random event.");
                             var choices = RNd.Next(1, 11);
+                            
                             switch(choices)
                             {
                                 case 1:
@@ -122,10 +123,9 @@ namespace SuperEvents.SimpleFunctions
                                     Game.LogTrivial("SuperEvents: If you see this error please tell SuperPyroManiac he is a fool. This error should never pop up unless I forget how to count.");
                                     break;
                             }
-                        }
-                        else
+                        }else
                         {
-                            GameFiber.Wait(2000);
+                            GameFiber.Wait(10000);
                         }
                     }
                 });
