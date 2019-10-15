@@ -92,6 +92,9 @@ namespace SuperCallouts2.Callouts
             _cBlip1.EnableRoute(Color.Red);
             _cBlip1.Color = Color.Red;
             _cBlip1.Scale = .5f;
+            _cBlip2 = _victim1.AttachBlip();
+            _cBlip2.Color = Color.Blue;
+            _cBlip2.Scale = .5f;
             //Tasks
             _bad1.Tasks.CruiseWithVehicle(_cVehicle, 10f, VehicleDrivingFlags.Normal);
 
@@ -110,16 +113,15 @@ namespace SuperCallouts2.Callouts
                     _pursuit = Functions.CreatePursuit();
                     Functions.AddPedToPursuit(_pursuit, _bad1);
                     Functions.SetPursuitIsActiveForPlayer(_pursuit, true);
-                    Game.DisplayHelp("~r~Suspects are evading!");
+                    Game.DisplayHelp("~r~Suspect is evading!");
                     _onScene = true;
                 }
                 if (_onScene && !Functions.IsPursuitStillRunning(_pursuit) && !_pursuitOver)
                 {
                     _pursuitOver = true;
-                    if (Game.LocalPlayer.Character.DistanceTo(_bad1) > 70f &&
-                        Game.LocalPlayer.Character.DistanceTo(_victim1) > 70f)
+                    if (Game.LocalPlayer.Character.DistanceTo(_bad1) > 70f)
                     {
-                        Game.DisplaySubtitle("~r~Suspects escaped!");
+                        Game.DisplaySubtitle("~r~Suspect escaped!");
                         End();
                         return;
                     }
@@ -179,30 +181,43 @@ namespace SuperCallouts2.Callouts
         }
         private void Conversations(UIMenu sender, UIMenuItem selItem, int index)
         {
-            if (selItem == _speakSuspect)
+            try
             {
-                GameFiber.StartNew(delegate
+                if (selItem == _speakSuspect)
                 {
-                    Game.DisplaySubtitle("~g~You~s~: Why are you running?", 5000);
-                    NativeFunction.CallByName<uint>("TASK_TURN_PED_TO_FACE_ENTITY", _bad1, Game.LocalPlayer.Character, -1);
-                    GameFiber.Wait(5000);
-                    _bad1.PlayAmbientSpeech("GENERIC_CURSE_MED");
-                    Game.DisplaySubtitle("~r~" + _name1 + "~s~: I don't know, why do you think?'", 5000);
-                });
+                    GameFiber.StartNew(delegate
+                    {
+                        Game.DisplaySubtitle("~g~You~s~: Why are you running?", 5000);
+                        NativeFunction.CallByName<uint>("TASK_TURN_PED_TO_FACE_ENTITY", _bad1, Game.LocalPlayer.Character, -1);
+                        GameFiber.Wait(5000);
+                        _bad1.PlayAmbientSpeech("GENERIC_CURSE_MED");
+                        Game.DisplaySubtitle("~r~" + _name1 + "~s~: I don't know, why do you think?'", 5000);
+                    });
+                }
+                if (selItem == _speakSuspect2)
+                {
+                    GameFiber.StartNew(delegate
+                    {
+                        Game.DisplaySubtitle("~g~You~s~: Don't worry, i'm a police officer. I'm here to help and you're safe now. Can you tell me what happened?",5000);
+                        NativeFunction.CallByName<uint>("TASK_TURN_PED_TO_FACE_ENTITY", _victim1, Game.LocalPlayer.Character, -1);
+                        GameFiber.Wait(5000);
+                        Game.DisplaySubtitle("~b~" + _name2 + "~s~: My real name is Bailey, they took me forever ago. I don't even know how long! I've been stuck in a cage in a dark room. Please help me where is my family.", 5000);
+                        GameFiber.Wait(5000);
+                        Game.DisplaySubtitle("~g~You~s~: Well listen, we are here to help. We will find your family and get you home. Can you tell me what was going on today?", 5000);
+                        _victim1.Tasks.Cower(-1);
+                        Game.DisplaySubtitle("~b~Bailey Smith~s~: They gave me this fake id.. They were going to give me away I think! Please I want to go home!");
+                    });
+                }
             }
-            if (selItem == _speakSuspect2)
+            catch (Exception e)
             {
-                GameFiber.StartNew(delegate
-                {
-                    Game.DisplaySubtitle("~g~You~s~: Don't worry, i'm a police officer. I'm here to help and you're safe now. Can you tell me what happened?",5000);
-                    NativeFunction.CallByName<uint>("TASK_TURN_PED_TO_FACE_ENTITY", _victim1, Game.LocalPlayer.Character, -1);
-                    GameFiber.Wait(5000);
-                    Game.DisplaySubtitle("~b~" + _name2 + "~s~: My real name is Bailey, they took me forever ago. I don't even know how long! I've been stuck in a cage in a dark room. Please help me where is my family.", 5000);
-                    GameFiber.Wait(5000);
-                    Game.DisplaySubtitle("~g~You~s~: Well listen, we are here to help. We will find your family and get you home. Can you tell me what was going on today?", 5000);
-                    _victim1.Tasks.Cower(-1);
-                    Game.DisplaySubtitle("~b~Bailey Smith~s~: They gave me this fake id.. They were going to give me away I think! Please I want to go home!");
-                });
+                        Game.LogTrivial("Oops there was an error here. Please send this log to SuperPyroManiac!");
+                        Game.LogTrivial("SuperCallouts Error Report Start");
+                        Game.LogTrivial("======================================================");
+                        Game.LogTrivial(e.ToString());
+                        Game.LogTrivial("======================================================");
+                        Game.LogTrivial("SuperCallouts Error Report End");
+                        End();
             }
         }
     }
