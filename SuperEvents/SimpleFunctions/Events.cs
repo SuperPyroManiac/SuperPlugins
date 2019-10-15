@@ -138,6 +138,7 @@ namespace SuperEvents.SimpleFunctions
                         Game.LogTrivial(e.ToString());
                         Game.LogTrivial("======================================================");
                         Game.LogTrivial("SuperEvents Error Report End");
+                        Game.DisplaySubtitle("~r~SuperEvents: Plugin has found a major error. Please send your RagePluginHook.log to SuperPyroManiac on the LSPDFR website!");
             }
         }
     }
