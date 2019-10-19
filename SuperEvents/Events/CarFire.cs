@@ -25,7 +25,7 @@ namespace SuperEvents.Events
         private readonly UIMenu _mainMenu = new UIMenu("SuperEvents", "~y~Choose an option.");
         private readonly UIMenuItem _callFd =
             new UIMenuItem("~r~ Call Fire Department", "Calls for ambulance and firetruck.");
-        private readonly UIMenuItem _endCall = new UIMenuItem("~y~End Call", "Ends the callout early.");
+        private readonly UIMenuItem _endCall = new UIMenuItem("~y~End Event", "Ends the event early.");
 
         internal static void Launch()
         {
@@ -43,6 +43,7 @@ namespace SuperEvents.Events
             }
 
             EFunctions.SpawnAnyCar(out _cVehicle, _spawnPoint);
+            _cVehicle.Heading = _spawnPointH;
             EFunctions.Damage(_cVehicle, 200, 200);
             for (var i = 0; i < 5; i++) EFunctions.FireControl(_spawnPoint.Around2D(1f, 5f), 24, true);
             _victim = _cVehicle.CreateRandomDriver();
