@@ -54,7 +54,6 @@
     <Compile Include="Callouts\AngryAnimal.cs" />
     <Compile Include="Callouts\CarAccident.cs" />
     <Compile Include="Callouts\CarAccident2.cs" />
-    <Compile Include="Callouts\Fire.cs" />
     <Compile Include="Callouts\HitRun.cs" />
     <Compile Include="Callouts\HotCar.cs" />
     <Compile Include="Callouts\Impersonator.cs" />

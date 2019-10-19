@@ -43,9 +43,9 @@ namespace SuperCallouts2
             //if (Settings.PrisonTransport) { Functions.RegisterCallout(typeof(PrisonTransport)); Game.LogTrivial("SuperCallouts: PrisonTransport Enabled"); }
             //if (Settings.HitRun) { Functions.RegisterCallout(typeof(HitRun)); Game.LogTrivial("SuperCallouts: Hit and Run Enabled"); }
             //if (Settings.AmbulanceEscort) { Functions.RegisterCallout(typeof(AmbulanceEscort)); Game.LogTrivial("SuperCallouts: AmbulanceEscort Enabled"); }
-            //if (Settings.Aliens) { Functions.RegisterCallout(typeof(Aliens)); Game.LogTrivial("SuperCallouts: Aliens Enabled"); }
+            if (Settings.Aliens) { Functions.RegisterCallout(typeof(Aliens)); Game.LogTrivial("SuperCallouts: Aliens Enabled"); }
             //if (Settings.OpenCarry) { Functions.RegisterCallout(typeof(OpenCarry)); Game.LogTrivial("SuperCallouts: Open Carry Enabled"); }
-            //if (Settings.Fire) { Functions.RegisterCallout(typeof(Fire)); Game.LogTrivial("SuperCallouts: Fire Enabled"); }
+            if (Settings.Fire) { Functions.RegisterCallout(typeof(Fire)); Game.LogTrivial("SuperCallouts: Fire Enabled"); }
             //if (Settings.OfficerShootout) { Functions.RegisterCallout(typeof(OfficerShootout)); Game.LogTrivial("SuperCallouts: OfficerShootout Enabled"); }
             if (Settings.WeirdCar) { Functions.RegisterCallout(typeof(WeirdCar)); Game.LogTrivial("SuperCallouts: Suspicious Enabled"); }
             //if (Settings.Manhunt) { Functions.RegisterCallout(typeof(Manhunt)); Game.LogTrivial("SuperCallouts: Manhunt Enabled"); }
