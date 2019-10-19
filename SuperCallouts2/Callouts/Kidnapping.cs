@@ -11,7 +11,7 @@ using SuperCallouts2.SimpleFunctions;
 namespace SuperCallouts2.Callouts
 {
     [CalloutInfo("Kidnapping", CalloutProbability.Medium)]
-    class Kidnapping : Callout
+    internal class Kidnapping : Callout
     {
         #region Variables
         private Ped _bad1;

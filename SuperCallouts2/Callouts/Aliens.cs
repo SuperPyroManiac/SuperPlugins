@@ -7,7 +7,7 @@ using Rage.Native;
 namespace SuperCallouts2.Callouts
 {
     [CalloutInfo("Aliens", CalloutProbability.Low)]
-    public class Aliens : Callout
+    internal class Aliens : Callout
     {
         #region Variables
         private Ped _alien1;

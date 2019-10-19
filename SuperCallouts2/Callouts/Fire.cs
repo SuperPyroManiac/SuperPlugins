@@ -10,7 +10,7 @@ using SuperCallouts2.SimpleFunctions;
 namespace SuperCallouts2.Callouts
 {
     [CalloutInfo("Fire", CalloutProbability.Medium)]
-    class Fire : Callout
+    internal class Fire : Callout
     {
         #region Variables
         private Blip _cBlip;

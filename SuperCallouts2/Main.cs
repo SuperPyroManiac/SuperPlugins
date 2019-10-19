@@ -2,6 +2,7 @@ using System.Reflection;
 using LSPD_First_Response.Mod.API;
 using Rage;
 using SuperCallouts2.Callouts;
+using Fire = SuperCallouts2.Callouts.Fire;
 
 namespace SuperCallouts2
 {
