@@ -18,7 +18,7 @@ namespace SuperCallouts2.Callouts
         private Vehicle _cVehicle1;
         private Blip _cBlip1;
         private Vector3 _spawnPoint;
-        private Random _rNd = new Random();
+        private readonly Random _rNd = new Random();
         private string _name1;
         private float _spawnPointH;
         private bool _onScene;
@@ -70,59 +70,72 @@ namespace SuperCallouts2.Callouts
         }
         public override void Process()
         {
-            //GamePlay
-            if (!_onScene && Game.LocalPlayer.Character.DistanceTo(_cVehicle1) < 30f)
+            try
             {
-                _onScene = true;
-                _cBlip1.DisableRoute();
-                Game.DisplayHelp("Investigate the vehicle.");
-                var choices = _rNd.Next(1, 4);
-                switch (choices)
+                //GamePlay
+                if (!_onScene && Game.LocalPlayer.Character.DistanceTo(_cVehicle1) < 30f)
                 {
-                    case 1:
-                        CFunctions.Damage(_cVehicle1, 500, 500);
-                        _cVehicle1.IsStolen = true;
-                        break;
-                    case 2:
-                        GameFiber.StartNew(delegate
-                        {
+                    _onScene = true;
+                    _cBlip1.DisableRoute();
+                    Game.DisplayHelp("Investigate the vehicle.");
+                    var choices = _rNd.Next(1, 4);
+                    switch (choices)
+                    {
+                        case 1:
+                            CFunctions.Damage(_cVehicle1, 500, 500);
                             _cVehicle1.IsStolen = true;
+                            break;
+                        case 2:
+                            GameFiber.StartNew(delegate
+                            {
+                                _cVehicle1.IsStolen = true;
+                                _bad1 = _cVehicle1.CreateRandomDriver();
+                                _bad1.IsPersistent = true;
+                                _bad1.BlockPermanentEvents = true;
+                                _bad1.Tasks.LeaveVehicle(LeaveVehicleFlags.LeaveDoorOpen);
+                                Game.DisplaySubtitle("~r~Driver:~s~ The world will end with fire!..");
+                                GameFiber.Wait(3000);
+                                _cVehicle1.Explode();
+                            });
+                            break;
+                        case 3:
                             _bad1 = _cVehicle1.CreateRandomDriver();
                             _bad1.IsPersistent = true;
                             _bad1.BlockPermanentEvents = true;
-                            _bad1.Tasks.LeaveVehicle(LeaveVehicleFlags.LeaveDoorOpen);
-                            Game.DisplaySubtitle("~r~Driver:~s~ The world will end with fire!..");
-                            GameFiber.Wait(3000);
-                            _cVehicle1.Explode();
-                        });
-                        break;
-                    case 3:
-                        _bad1 = _cVehicle1.CreateRandomDriver();
-                        _bad1.IsPersistent = true;
-                        _bad1.BlockPermanentEvents = true;
-                        _name1 = Functions.GetPersonaForPed(_bad1).FullName;
-                        CFunctions.SetWanted(_bad1, true);
-                        _cVehicle1.IsStolen = true;
-                        //UI Setup
-                        _speakSuspect = new UIMenuItem("Speak with ~y~" + _name1);
-                        _convoMenu.AddItem(_speakSuspect);
-                        _convoMenu.RefreshIndex();
-                        _questioning.Enabled = true;
-                        break;
-                    default:
-                        Game.DisplayNotification(
-                            "An error has been detected! Ending callout early to prevent LSPDFR crash!");
-                        End();
-                        break;
+                            _name1 = Functions.GetPersonaForPed(_bad1).FullName;
+                            CFunctions.SetWanted(_bad1, true);
+                            _cVehicle1.IsStolen = true;
+                            //UI Setup
+                            _speakSuspect = new UIMenuItem("Speak with ~y~" + _name1);
+                            _convoMenu.AddItem(_speakSuspect);
+                            _convoMenu.RefreshIndex();
+                            _questioning.Enabled = true;
+                            break;
+                        default:
+                            Game.DisplayNotification(
+                                "An error has been detected! Ending callout early to prevent LSPDFR crash!");
+                            End();
+                            break;
+                    }
                 }
+                //Keybinds
+                if (Game.IsKeyDown(Settings.EndCall)) End();
+                if (Game.IsKeyDown(Settings.Interact))
+                {
+                    _mainMenu.Visible = !_mainMenu.Visible;
+                }
+                _interaction.ProcessMenus();
             }
-            //Keybinds
-            if (Game.IsKeyDown(Settings.EndCall)) End();
-            if (Game.IsKeyDown(Settings.Interact))
+            catch (Exception e)
             {
-                _mainMenu.Visible = !_mainMenu.Visible;
+                        Game.LogTrivial("Oops there was an error here. Please send this log to SuperPyroManiac!");
+                        Game.LogTrivial("SuperCallouts Error Report Start");
+                        Game.LogTrivial("======================================================");
+                        Game.LogTrivial(e.ToString());
+                        Game.LogTrivial("======================================================");
+                        Game.LogTrivial("SuperCallouts Error Report End");
+                        End();
             }
-            _interaction.ProcessMenus();
             base.Process();
         }
         public override void End()

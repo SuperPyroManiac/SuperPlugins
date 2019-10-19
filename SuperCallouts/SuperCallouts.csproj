@@ -50,7 +50,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Callouts\Aliens.cs" />
     <Compile Include="Callouts\AmbulanceEscort.cs" />
     <Compile Include="Callouts\AngryAnimal.cs" />
     <Compile Include="Callouts\CarAccident.cs" />
@@ -58,9 +57,7 @@
     <Compile Include="Callouts\Fire.cs" />
     <Compile Include="Callouts\HitRun.cs" />
     <Compile Include="Callouts\HotCar.cs" />
-    <Compile Include="Callouts\HotPursuit.cs" />
     <Compile Include="Callouts\Impersonator.cs" />
-    <Compile Include="Callouts\Kidnapping.cs" />
     <Compile Include="Callouts\LostGang.cs" />
     <Compile Include="Callouts\LSGTF.cs" />
     <Compile Include="Callouts\MafiaActivity.cs" />
@@ -72,7 +69,6 @@
     <Compile Include="Callouts\PrisonTransport.cs" />
     <Compile Include="Callouts\Robbery.cs" />
     <Compile Include="Callouts\TruckCrash.cs" />
-    <Compile Include="Callouts\WeirdCar.cs" />
     <Compile Include="CustomScenes\LostMC.cs" />
     <Compile Include="CustomScenes\LSGTFSetup.cs" />
     <Compile Include="CustomScenes\Mafia2Setup.cs" />

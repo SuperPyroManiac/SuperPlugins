@@ -53,6 +53,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Callouts\Aliens.cs" />
     <Compile Include="Callouts\HotPursuit.cs" />
     <Compile Include="Callouts\Kidnapping.cs" />
     <Compile Include="Callouts\WeirdCar.cs" />
