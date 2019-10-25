@@ -93,7 +93,7 @@ namespace SuperCallouts2.Callouts
                                 _bad1.IsPersistent = true;
                                 _bad1.BlockPermanentEvents = true;
                                 _bad1.Tasks.LeaveVehicle(LeaveVehicleFlags.LeaveDoorOpen);
-                                Game.DisplaySubtitle("~r~Driver:~s~ The world will end with fire!..");
+                                Game.DisplaySubtitle("~r~Driver:~s~ The world will end with fire!");
                                 GameFiber.Wait(3000);
                                 _cVehicle1.Explode();
                             });
