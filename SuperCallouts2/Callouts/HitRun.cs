@@ -88,6 +88,7 @@ namespace SuperCallouts2.Callouts
             //Start UI
             _interaction.Add(_mainMenu);
             _interaction.Add(_convoMenu);
+            _mainMenu.AddItem(_dissmisVictim);
             _mainMenu.AddItem(_questioning);
             _mainMenu.AddItem(_endCall);
             _speakVictim = new UIMenuItem("Speak with ~y~" + _name1);
