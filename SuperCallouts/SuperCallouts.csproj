@@ -51,9 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Callouts\AmbulanceEscort.cs" />
-    <Compile Include="Callouts\CarAccident.cs" />
     <Compile Include="Callouts\CarAccident2.cs" />
-    <Compile Include="Callouts\HitRun.cs" />
     <Compile Include="Callouts\HotCar.cs" />
     <Compile Include="Callouts\Impersonator.cs" />
     <Compile Include="Callouts\LostGang.cs" />

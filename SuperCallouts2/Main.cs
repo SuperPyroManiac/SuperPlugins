@@ -32,7 +32,7 @@ namespace SuperCallouts2
         {
             if (Settings.HotPursuit) { Functions.RegisterCallout(typeof(HotPursuit)); Game.LogTrivial("SuperCallouts: HotPursuit Enabled"); }
  //           if (Settings.Robbery) { Functions.RegisterCallout(typeof(Robbery)); Game.LogTrivial("SuperCallouts: Robbery Enabled"); }
- //           if (Settings.CarAccident) { Functions.RegisterCallout(typeof(CarAccident)); Game.LogTrivial("SuperCallouts: CarAccident Enabled"); }
+            if (Settings.CarAccident) { Functions.RegisterCallout(typeof(CarAccident)); Game.LogTrivial("SuperCallouts: CarAccident Enabled"); }
  //           if (Settings.CarAccident) { Functions.RegisterCallout(typeof(CarAccident2)); }
             //if (Settings.OrganizedCrime) { Functions.RegisterCallout(typeof(MafiaActivity)); Game.LogTrivial("SuperCallouts: OrganizedCrime Enabled"); }
             //if (Settings.OrganizedCrime2) { Functions.RegisterCallout(typeof(MafiaActivity2)); Game.LogTrivial("SuperCallouts: OrganizedCrime2 Enabled"); }
