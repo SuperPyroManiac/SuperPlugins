@@ -4,7 +4,7 @@ using System.Reflection;
 using LSPD_First_Response.Mod.API;
 using Rage;
 using SuperCallouts.Callouts;
-using Fire = SuperCallouts.Callouts.Fire;
+//using Fire = SuperCallouts.Callouts.Fire;
 
 #endregion
 
@@ -34,7 +34,7 @@ namespace SuperCallouts
 
         private static void RegisterCallouts()
         {
-            if (Settings.HotPursuit) { Functions.RegisterCallout(typeof(HotPursuit)); Game.LogTrivial("SuperCallouts: HotPursuit Enabled"); }
+/*            if (Settings.HotPursuit) { Functions.RegisterCallout(typeof(HotPursuit)); Game.LogTrivial("SuperCallouts: HotPursuit Enabled"); }
             if (Settings.Robbery) { Functions.RegisterCallout(typeof(Robbery)); Game.LogTrivial("SuperCallouts: Robbery Enabled"); }
             if (Settings.CarAccident) { Functions.RegisterCallout(typeof(CarAccident)); Game.LogTrivial("SuperCallouts: CarAccident Enabled"); }
             if (Settings.CarAccident) { Functions.RegisterCallout(typeof(CarAccident2)); }
@@ -56,7 +56,7 @@ namespace SuperCallouts
             if (Settings.WeirdCar) { Functions.RegisterCallout(typeof(WeirdCar)); Game.LogTrivial("SuperCallouts: Suspicious Enabled"); }
             if (Settings.Manhunt) { Functions.RegisterCallout(typeof(Manhunt)); Game.LogTrivial("SuperCallouts: Manhunt Enabled"); }
             if (Settings.Impersonator) { Functions.RegisterCallout(typeof(Impersonator)); Game.LogTrivial("SuperCallouts: Impersonator Enabled"); }
-            if (Settings.BikerAttack) { Functions.RegisterCallout(typeof(LostGang)); Game.LogTrivial("SuperCallouts: LostMC Attack Enabled"); }
+            if (Settings.BikerAttack) { Functions.RegisterCallout(typeof(LostGang)); Game.LogTrivial("SuperCallouts: LostMC Attack Enabled"); }*/
             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~r~SuperCallouts", "~g~Plugin Loaded.",
                 "SuperCallouts version: " +
                 Assembly.GetExecutingAssembly().GetName().Version + " loaded.");
