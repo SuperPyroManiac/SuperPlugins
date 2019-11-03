@@ -1,8 +1,10 @@
 using System;
+using System.Collections.Generic;
 using Rage;
 using LSPD_First_Response.Mod.API;
 using LSPD_First_Response.Mod.Callouts;
 using System.Drawing;
+using System.Linq;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts2.SimpleFunctions;
@@ -13,11 +15,17 @@ namespace SuperCallouts2.Callouts
     internal class AmbulanceEscort : Callout
     {
         #region Variables
-        private Blip _cBlip;
+        private Ped _victim;
+        private Ped _doc1;
+        private Ped _doc2;
         private Vehicle _cVehicle;
-        private bool _onScene;
+        private Blip _cBlip;
+        private Blip _cBlip2;
+        private readonly List<Vector3> _hospitals = new List<Vector3>();
+        private Vector3 _hospital;
         private Vector3 _spawnPoint;
         private float _spawnPointH;
+        private bool _onScene;
         //UI Items
         private readonly MenuPool _interaction = new MenuPool();
         private readonly UIMenu _mainMenu = new UIMenu("SuperCallouts", "~y~Choose an option.");
@@ -26,35 +34,48 @@ namespace SuperCallouts2.Callouts
         
         public override bool OnBeforeCalloutDisplayed()
         {
-            CFunctions.FindSideOfRoad(750, 280, out _spawnPoint, out _spawnPointH);
+            //Hospital Locations
+            _hospitals.Add(new Vector3(1825, 3692, 34));
+            _hospitals.Add(new Vector3(-454, -339, 34));
+            _hospitals.Add(new Vector3(293, -1438, 29));
+            _hospitals.Add(new Vector3(-232, 6316, 30));
+            _hospitals.Add(new Vector3(294, -1439, 29));
+            _hospital = _hospitals.OrderBy(x => x.DistanceTo(Game.LocalPlayer.Character.Position)).FirstOrDefault();
+            //Startup
+            CFunctions.FindSideOfRoad(400, 70, out _spawnPoint, out _spawnPointH);
             ShowCalloutAreaBlipBeforeAccepting(_spawnPoint, 10f);
-            CalloutMessage = "~b~Dispatch:~s~ Reports of a car fire";
+            CalloutMessage = "~b~Dispatch:~s~ Ambulance requests police escort.";
             CalloutPosition = _spawnPoint;
-            Functions.PlayScannerAudioUsingPosition("ATTENTION_ALL_UNITS_05 WE_HAVE CRIME_11_351_02 IN_OR_ON_POSITION",
-                _spawnPoint);
+            Functions.PlayScannerAudioUsingPosition(
+                "ATTENTION_ALL_UNITS_05 WE_HAVE CRIME_AMBULANCE_REQUESTED_01 IN_OR_ON_POSITION", _spawnPoint);
             return base.OnBeforeCalloutDisplayed();
         }
         public override bool OnCalloutAccepted()
         {
             //Setup
-            Game.LogTrivial("SuperCallouts Log: fire callout accepted...");
-            Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Fire",
-                "Reports of a car fire, respond ~r~CODE-3");
+            Game.LogTrivial("SuperCallouts Log: Ambulance Escort callout accepted...");
+            Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Ambulance Escort",
+                "Ambulance has a wounded police officer in critical condition, ensure the ambulance has a clear path to the nearest hospital, get to the scene! High priority, respond ~y~CODE-3");
             //cVehicle
-            CFunctions.SpawnAnyCar(out _cVehicle, _spawnPoint);
-            _cVehicle.Heading = _spawnPointH;
+            _cVehicle = new Vehicle("AMBULANCE", _spawnPoint) {Heading = _spawnPointH, IsPersistent = true, IsSirenOn = true};
+            //Doc1
+            _doc1 = new Ped("s_m_m_paramedic_01", _spawnPoint, 0f) {IsPersistent = true, BlockPermanentEvents = true};
+            _doc1.WarpIntoVehicle(_cVehicle, -1);
+            //Doc2
+            _doc2 = new Ped("s_m_m_paramedic_01", _spawnPoint, 0f) {IsPersistent = true, BlockPermanentEvents = true};
+            _doc2.WarpIntoVehicle(_cVehicle, 0);
+            //Victim
+            _victim = new Ped("s_m_y_hwaycop_01", _spawnPoint, 0f) {IsPersistent = true, BlockPermanentEvents = true};
+            _victim.WarpIntoVehicle(_cVehicle, 1);
             //Start UI
             _interaction.Add(_mainMenu);
-            _mainMenu.AddItem(_callFd);
             _mainMenu.AddItem(_endCall);
             _mainMenu.RefreshIndex();
             _mainMenu.OnItemSelect += Interactions;
-            _callFd.SetLeftBadge(UIMenuItem.BadgeStyle.Alert);
-            _callFd.Enabled = false;
             //cBlip
             _cBlip = _cVehicle.AttachBlip();
-            _cBlip.Color = Color.Red;
-            _cBlip.EnableRoute(Color.Red);
+            _cBlip.EnableRoute(Color.Green);
+            _cBlip.Color = Color.Green;
             return base.OnCalloutAccepted();
         }
         public override void Process()
@@ -62,14 +83,23 @@ namespace SuperCallouts2.Callouts
             try
             {
                 //GamePlay
-                if (!_onScene && Game.LocalPlayer.Character.DistanceTo(_cVehicle) < 25f)
+                if (!_onScene && Game.LocalPlayer.Character.DistanceTo(_cVehicle) < 35f)
                 {
                     _onScene = true;
+                    Game.DisplayHelp("Ensure the ambulance has a clear path!");
                     _cBlip.DisableRoute();
-                    _callFd.Enabled = true;
-                    for (var i = 0; i < 5; i++) CFunctions.FireControl(_spawnPoint.Around2D(1f, 5f), 24, true);
-                    for (var i = 0; i < 10; i++) CFunctions.FireControl(_spawnPoint.Around2D(1f, 5f), 24, false);
-                    Game.DisplayHelp("~y~Press ~r~" + Settings.Interact + "~y~ to open interaction menu.");
+                    _doc1.Tasks.DriveToPosition(_cVehicle, _hospital, 20f, VehicleDrivingFlags.Emergency, 10f);
+                    _cBlip2 = new Blip(_hospital);
+                    _cBlip2.EnableRoute(Color.Blue);
+                    _cBlip2.Color = Color.Blue;
+                }
+                if (_cVehicle.DistanceTo(_hospital) < 10f && _onScene)
+                {
+                    _cVehicle.IsSirenSilent = true;
+                    _doc1.Tasks.LeaveVehicle(LeaveVehicleFlags.None);
+                    _doc2.Tasks.LeaveVehicle(LeaveVehicleFlags.None);
+                    _victim.Tasks.LeaveVehicle(LeaveVehicleFlags.None);
+                    End();
                 }
                 //Keybinds
                 if (Game.IsKeyDown(Settings.EndCall)) End();
@@ -94,33 +124,20 @@ namespace SuperCallouts2.Callouts
         }
         public override void End()
         {
+            if (_doc1.Exists()) _doc1.Dismiss();
+            if (_doc2.Exists()) _doc2.Dismiss();
+            if (_victim.Exists()) _victim.Dismiss();
             if (_cVehicle.Exists()) _cVehicle.Dismiss();
             if (_cBlip.Exists()) _cBlip.Delete();
+            if (_cBlip2.Exists()) _cBlip2.Delete();
             _interaction.CloseAllMenus();
             Game.DisplayHelp("Scene ~g~CODE 4", 5000);
             base.End();
         }
+        //UI Items
         private void Interactions(UIMenu sender, UIMenuItem selItem, int index)
         {
-            if (selItem == _callFd)
-            {
-                Game.DisplaySubtitle(
-                    "~g~You~s~: Dispatch, we have a large vehicle fire that's spreading. We need a fire crew here ASAP!");
-                try
-                {
-                    //UltimateBackup.API.Functions.callAmbulance(); EMS just catches fire...
-                    UltimateBackup.API.Functions.callFireDepartment();
-                }
-                catch (Exception e)
-                {
-                    Game.LogTrivial(
-                        "SuperCallouts Warning: Ultimate Backup is not installed! Backup was not automatically called!");
-                    Game.DisplayHelp("~r~Ultimate Backup is not installed! Backup was not automatically called!", 8000);
-                }
-
-                _callFd.Enabled = false;
-            }
-            else if (selItem == _endCall)
+            if (selItem == _endCall)
             {
                 Game.DisplaySubtitle("~y~Callout Ended.");
                 End();

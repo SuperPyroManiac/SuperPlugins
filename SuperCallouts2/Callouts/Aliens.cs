@@ -21,7 +21,7 @@ namespace SuperCallouts2.Callouts
         
         //TODO: Remake to be extra spooky
         /*
-         * Idea: Intro of this song to about :36 https://www.youtube.com/watch?v=AKkKeNtYMTo
+         * Idea: Spooky music for a few seconds,
          * Take control away from player, walk to center of bright light, 3 aliens walk up around all sides,
          * they then get sucked up into the light, player ragdolls and light fades away. Backup arrives and
          * that intro plays, then the backup leaves and the callout ends. Spo0ky
