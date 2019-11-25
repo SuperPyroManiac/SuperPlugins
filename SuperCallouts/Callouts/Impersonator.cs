@@ -42,7 +42,6 @@ namespace SuperCallouts.Callouts
             _spawnPoint = _chosenSpawnData.Item1;
             _spawnPointH = _chosenSpawnData.Item2;
             ShowCalloutAreaBlipBeforeAccepting(_spawnPoint, 10f);
-            //AddMinimumDistanceCheck(20f, SpawnPoint);
             CalloutMessage = "~b~Dispatch:~s~ Officer impersonator.";
             CalloutPosition = _spawnPoint;
             Functions.PlayScannerAudioUsingPosition("WE_HAVE CRIME_11_351_02 IN_OR_ON_POSITION", _spawnPoint);

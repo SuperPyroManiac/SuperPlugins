@@ -27,10 +27,16 @@
           }
           public override void Process()
           {
-            try
-            {
-
-            }
+        try
+        {
+        //Keybinds
+        if (Game.IsKeyDown(Settings.EndCall)) End();
+        if (Game.IsKeyDown(Settings.Interact))
+        {
+        _mainMenu.Visible = !_mainMenu.Visible;
+        }
+        _interaction.ProcessMenus();
+        }
             catch (Exception e)
             {
               Game.LogTrivial("Oops there was an error here. Please send this log to SuperPyroManiac!");

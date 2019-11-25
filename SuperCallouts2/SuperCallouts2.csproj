@@ -61,6 +61,7 @@
     <Compile Include="Callouts\Fire.cs" />
     <Compile Include="Callouts\HitRun.cs" />
     <Compile Include="Callouts\HotPursuit.cs" />
+    <Compile Include="Callouts\Impersonator.cs" />
     <Compile Include="Callouts\Kidnapping.cs" />
     <Compile Include="Callouts\WeirdCar.cs" />
     <Compile Include="Main.cs" />
