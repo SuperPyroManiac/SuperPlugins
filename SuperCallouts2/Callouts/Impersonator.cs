@@ -32,9 +32,12 @@ namespace SuperCallouts2.Callouts
         //UI Items
         private readonly MenuPool _interaction = new MenuPool();
         private readonly UIMenu _mainMenu = new UIMenu("SuperCallouts", "~y~Choose an option.");
-        private readonly UIMenuItem _callEms =
-            new UIMenuItem("~r~ Call Secondary", "Calls for an ambulance.");
+        private readonly UIMenu _convoMenu = new UIMenu("SuperCallouts", "~y~Choose a subject to speak with.");
+        private readonly UIMenuItem _callSecond =
+            new UIMenuItem("~r~ Call Secondary", "Calls for a second unit to assist.");
+        private readonly UIMenuItem _questioning = new UIMenuItem("Speak With Subject");
         private readonly UIMenuItem _endCall = new UIMenuItem("~y~End Callout", "Ends the callout early.");
+        private UIMenuItem _speakSuspect;
         #endregion
         
         public override bool OnBeforeCalloutDisplayed()
@@ -58,16 +61,33 @@ namespace SuperCallouts2.Callouts
             //cVehicle2
             var cSpawnPoint = _cVehicle1.GetOffsetPositionFront(-9f);
             _cVehicle2 = new Vehicle("DILETTANTE2", cSpawnPoint) {Heading = _spawnPointH, IsPersistent = true};
+            _cVehicle2.Metadata.searchDriver = "~y~police radio scanner~s~, ~y~handcuffs~s~, ~g~parking ticket~s~, ~g~cigarettes~s~";
             //Bad
             _bad = _cVehicle2.CreateRandomDriver();
             _bad.IsPersistent = true;
             _bad.Inventory.Weapons.Add(WeaponHash.Pistol);
+            _bad.Metadata.searchPed = "~r~kids plastic police badge~s~, ~r~loaded pistol~s~, ~g~wallet~s~";
             _name1 = Functions.GetPersonaForPed(_bad).FullName;
             //Victim
             _victim = _cVehicle1.CreateRandomDriver();
             _victim.IsPersistent = true;
-            //UI Items
-            //TODO: ADD UI NOW
+            //Start UI
+            _speakSuspect = new UIMenuItem("Speak with ~y~" + _name1);
+            _interaction.Add(_mainMenu);
+            _interaction.Add(_convoMenu);
+            _mainMenu.AddItem(_callSecond);
+            _mainMenu.AddItem(_questioning);
+            _mainMenu.AddItem(_endCall);
+            _convoMenu.AddItem(_speakSuspect);
+            _mainMenu.RefreshIndex();
+            _convoMenu.RefreshIndex();
+            _mainMenu.BindMenuToItem(_convoMenu, _questioning);
+            _mainMenu.OnItemSelect += Interactions;
+            _convoMenu.OnItemSelect += Conversations;
+            _callSecond.SetLeftBadge(UIMenuItem.BadgeStyle.Alert);
+            _convoMenu.ParentMenu = _mainMenu;
+            _callSecond.Enabled = false;
+            _questioning.Enabled = false;
             //Blips
             _cBlip = _bad.AttachBlip();
             _cBlip.Color = Color.Red;
@@ -110,8 +130,10 @@ namespace SuperCallouts2.Callouts
                         case 3:
                             GameFiber.StartNew(delegate
                             {
-                                GameFiber.Wait(5000);
-                                Game.DisplaySubtitle(_name1 + ":~s~ I didn't do anything wrong!");
+                                GameFiber.Wait(2000);
+                                Game.DisplayHelp("~y~Press ~r~" + Settings.Interact + "~y~ to open interaction menu.");
+                                _callSecond.Enabled = true;
+                                _questioning.Enabled = true;
                                 //cVehicle2.IsSirenOn = false;
                             });
                             break;
@@ -146,6 +168,52 @@ namespace SuperCallouts2.Callouts
         {
             Game.DisplayHelp("Scene ~g~CODE 4", 5000);
             base.End();
+        }
+                //UI Items
+        private void Interactions(UIMenu sender, UIMenuItem selItem, int index)
+        {
+            if (selItem == _callSecond)
+            {
+                Game.DisplaySubtitle("~g~You~s~: Dispatch, can I get another unit.");
+                try
+                {
+                    UltimateBackup.API.Functions.callCode2Backup();
+                }
+                catch (Exception e)
+                {
+                    Game.LogTrivial(
+                        "SuperEvents Warning: Ultimate Backup is not installed! Backup was not automatically called!");
+                    Game.DisplayHelp("~r~Ultimate Backup is not installed! Backup was not automatically called!", 8000);
+                }
+
+                _callSecond.Enabled = false;
+            }
+            else if (selItem == _endCall)
+            {
+                Game.DisplaySubtitle("~y~Callout Ended.");
+                End();
+            }
+        }
+        private void Conversations(UIMenu sender, UIMenuItem selItem, int index)
+        {
+            if (selItem == _speakSuspect)
+                GameFiber.StartNew(delegate
+                {
+                    Game.DisplaySubtitle("~g~You~s~: What's going on? Why did you have that person stopped?", 5000);
+                    GameFiber.Wait(5000);
+                    Game.DisplaySubtitle(
+                        "~r~" + _name1 + "~s~: I'm off duty, that person was driving really dangerously.", 5000);
+                    GameFiber.Wait(5000);
+                    Game.DisplaySubtitle("~g~You~s~: Alright, even if you are off duty you can't be doing that. What department do you work with?", 5000);
+                    GameFiber.Wait(5000);
+                    Game.DisplaySubtitle(
+                        "~r~" + _name1 + "~s~: I'm with secrete department in Los Santos. I can't disclose it to you.", 5000);
+                    GameFiber.Wait(5000);
+                    Game.DisplaySubtitle("~g~You~s~: If that's the case you may want to call your supervisor. Do you have any identification or a badge?", 5000);
+                    GameFiber.Wait(5000);
+                    Game.DisplaySubtitle(
+                        "~r~" + _name1 + "~s~: I'll have you fired for this officer. I'm not going to talk to you anymore.", 5000);
+                });
         }
     }
 }

@@ -176,7 +176,7 @@ namespace SuperCallouts2.Callouts
             }
             else if (selItem == _endCall)
             {
-                Game.DisplaySubtitle("~y~Event Ended.");
+                Game.DisplaySubtitle("~y~Callout Ended.");
                 End();
             }
         }

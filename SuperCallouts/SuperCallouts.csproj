@@ -50,7 +50,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Callouts\Impersonator.cs" />
     <Compile Include="Callouts\LostGang.cs" />
     <Compile Include="Callouts\LSGTF.cs" />
     <Compile Include="Callouts\MafiaActivity.cs" />
