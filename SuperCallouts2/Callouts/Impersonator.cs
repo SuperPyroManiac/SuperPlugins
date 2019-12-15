@@ -29,6 +29,12 @@ namespace SuperCallouts2.Callouts
         private string _name1;
         private float _spawnPointH;
         private bool _onScene;
+        //UI Items
+        private readonly MenuPool _interaction = new MenuPool();
+        private readonly UIMenu _mainMenu = new UIMenu("SuperCallouts", "~y~Choose an option.");
+        private readonly UIMenuItem _callEms =
+            new UIMenuItem("~r~ Call Secondary", "Calls for an ambulance.");
+        private readonly UIMenuItem _endCall = new UIMenuItem("~y~End Callout", "Ends the callout early.");
         #endregion
         
         public override bool OnBeforeCalloutDisplayed()
