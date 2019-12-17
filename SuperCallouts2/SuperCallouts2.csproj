@@ -63,6 +63,7 @@
     <Compile Include="Callouts\HotPursuit.cs" />
     <Compile Include="Callouts\Impersonator.cs" />
     <Compile Include="Callouts\Kidnapping.cs" />
+    <Compile Include="Callouts\Manhunt.cs" />
     <Compile Include="Callouts\WeirdCar.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
