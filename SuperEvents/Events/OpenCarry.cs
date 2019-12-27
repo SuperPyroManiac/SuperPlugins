@@ -25,7 +25,7 @@ namespace SuperEvents.Events
         private readonly UIMenu _mainMenu = new UIMenu("SuperEvents", "~y~Choose an option.");
         private readonly UIMenu _convoMenu = new UIMenu("SuperEvents", "~y~Choose a subject to speak with.");
         private readonly UIMenuItem _questioning = new UIMenuItem("Speak With Subjects");
-        private readonly UIMenuItem _endCall = new UIMenuItem("~y~End Call", "Ends the callout early.");
+        private readonly UIMenuItem _endCall = new UIMenuItem("~y~End Event", "Ends the event early.");
         private UIMenuItem _speakSuspect;
 
         internal static void Launch()

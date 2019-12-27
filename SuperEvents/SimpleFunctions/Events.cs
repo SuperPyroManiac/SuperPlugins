@@ -19,7 +19,8 @@ namespace SuperEvents.SimpleFunctions
             {
                 GameFiber.StartNew(delegate
                 {
-                    while (true)
+                    GameFiber.Wait(500);
+                    if (!Functions.IsCalloutRunning() && !Functions.IsPlayerPerformingPullover() && Functions.GetActivePursuit() == null && TimeStart && !EventsActive)
                     {
                         GameFiber.Yield();
                         if (!Functions.IsCalloutRunning() && !Functions.IsPlayerPerformingPullover() && Functions.GetActivePursuit() == null && TimeStart && !EventsActive)

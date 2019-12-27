@@ -26,7 +26,7 @@ namespace SuperEvents.Events
         //UI Items
         private readonly MenuPool _interaction = new MenuPool();
         private readonly UIMenu _mainMenu = new UIMenu("SuperEvents", "~y~Choose an option.");
-        private readonly UIMenuItem _endCall = new UIMenuItem("~y~End Call", "Ends the callout early.");
+        private readonly UIMenuItem _endCall = new UIMenuItem("~y~End Event", "Ends the event early.");
 
         internal static void Launch()
         {

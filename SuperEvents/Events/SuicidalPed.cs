@@ -29,7 +29,7 @@ namespace SuperEvents.Events
         private readonly UIMenuItem _callCode2 =
             new UIMenuItem("~r~ Code 2 Backup", "Calls another officer to help out.");
         private readonly UIMenuItem _questioning = new UIMenuItem("Speak With Subjects");
-        private readonly UIMenuItem _endCall = new UIMenuItem("~y~End Call", "Ends the callout early.");
+        private readonly UIMenuItem _endCall = new UIMenuItem("~y~End Event", "Ends the event early.");
         private UIMenuItem _speakSuspect;
         private UIMenuItem _speakSuspect2;
 

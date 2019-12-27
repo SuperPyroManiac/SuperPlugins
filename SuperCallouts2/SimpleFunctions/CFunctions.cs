@@ -1,16 +1,12 @@
-﻿#region
-
 using System;
 using LSPD_First_Response.Engine.Scripting.Entities;
 using LSPD_First_Response.Mod.API;
 using Rage;
 using Rage.Native;
 
-#endregion
-
-namespace SuperEvents.SimpleFunctions
+namespace SuperCallouts2.SimpleFunctions
 {
-    public class EFunctions : AmbientEvent
+    public class CFunctions
     {
         private static TupleList<Vector3, float> _sideOfRoads = new TupleList<Vector3, float>();
         private static Tuple<Vector3, float> _chosenSpawnData;

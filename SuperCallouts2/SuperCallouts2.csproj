@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{53AABFE8-7354-4E8C-AD31-D42C5981CBC7}</ProjectGuid>
+    <ProjectGuid>{6D43CF3C-4E95-4DFF-8F49-64E4633EF793}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SuperCallouts</RootNamespace>
-    <AssemblyName>SuperCallouts</AssemblyName>
+    <RootNamespace>SuperCallouts2</RootNamespace>
+    <AssemblyName>SuperCallouts2</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -48,33 +48,35 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="UltimateBackup, Version=1.7.1.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\CODING\LSPDFR DEV\LSPDFR API'S\UltimateBackup API\UltimateBackup.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Callouts\LostGang.cs" />
-    <Compile Include="Callouts\LSGTF.cs" />
-    <Compile Include="Callouts\MafiaActivity.cs" />
-    <Compile Include="Callouts\MafiaActivity2.cs" />
+    <Compile Include="Callouts\Aliens.cs" />
+    <Compile Include="Callouts\AmbulanceEscort.cs" />
+    <Compile Include="Callouts\AngryAnimal.cs" />
+    <Compile Include="Callouts\CarAccident.cs" />
+    <Compile Include="Callouts\CarAccident2.cs" />
+    <Compile Include="Callouts\Fire.cs" />
+    <Compile Include="Callouts\HitRun.cs" />
+    <Compile Include="Callouts\HotPursuit.cs" />
+    <Compile Include="Callouts\Impersonator.cs" />
+    <Compile Include="Callouts\Kidnapping.cs" />
     <Compile Include="Callouts\Manhunt.cs" />
-    <Compile Include="Callouts\OfficerShootout.cs" />
-    <Compile Include="Callouts\OpenCarry.cs" />
-    <Compile Include="Callouts\PrisonBreak.cs" />
-    <Compile Include="Callouts\PrisonTransport.cs" />
-    <Compile Include="Callouts\Robbery.cs" />
-    <Compile Include="Callouts\TruckCrash.cs" />
-    <Compile Include="CustomScenes\LostMC.cs" />
-    <Compile Include="CustomScenes\LSGTFSetup.cs" />
-    <Compile Include="CustomScenes\Mafia2Setup.cs" />
-    <Compile Include="CustomScenes\MafiaSetup.cs" />
-    <Compile Include="CustomScenes\PrisonbreakSetup.cs" />
-    <Compile Include="CustomScenes\SimpleFunctions.cs" />
-    <Compile Include="CustomScenes\TruckCrashSetup.cs" />
+    <Compile Include="Callouts\WeirdCar.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings.cs" />
+    <Compile Include="SimpleFunctions\CFunctions.cs" />
+    <Compile Include="SimpleFunctions\PulloverSpots.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Skeleton.yml" />
     <Content Include="SuperCallouts.ini" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="CustomScenes" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
