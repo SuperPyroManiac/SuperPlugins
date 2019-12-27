@@ -11,28 +11,22 @@ namespace SuperEvents
     {
         protected static bool EventsActive { get; set; }
         protected static bool TimeStart { get; set; }
-        private static bool KillEvent { get; set; }
 
         protected virtual void StartEvent()
         {
             EventsActive = true;
             MainLogic();
-            //GameFiber.StartNew(MainLogic);
         }
 
         protected virtual void MainLogic()
         {
-                //GameFiber.Yield();
-                if (KillEvent) { KillEvent = false; End(); }
-                if (!EventsActive) return;
-                //MainLogic();
+            if (!EventsActive) return;
         }
 
         protected virtual void End()
         {
             EventsActive = false;
             Game.LogTrivial("SuperEvents: Ending Event.");
-            //Game.DisplayHelp("Scene ~g~CODE-4");
             EventTimer.TimerStart();
         }
         

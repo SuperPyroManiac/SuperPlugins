@@ -19,7 +19,6 @@ namespace SuperEvents.Events
         private LHandle _pursuit;
         private bool _letsRun;
         private bool _onScene;
-        private bool _letsChat;
         private string _name1;
         //UI Items
         private readonly MenuPool _interaction = new MenuPool();

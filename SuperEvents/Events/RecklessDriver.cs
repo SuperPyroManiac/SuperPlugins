@@ -195,25 +195,38 @@ namespace SuperEvents.Events
         private void Conversations(UIMenu sender, UIMenuItem selItem, int index)
         {
             if (selItem == _speakSuspect)
-                GameFiber.StartNew(delegate
+                try
                 {
-                    Game.DisplaySubtitle(
-                        "~g~You~s~: Why in the world were you driving backwards! You could have killed someone!", 5000);
-                    NativeFunction.CallByName<uint>("TASK_TURN_PED_TO_FACE_ENTITY", _bad1, Game.LocalPlayer.Character,
-                        -1);
-                    GameFiber.Wait(5000);
-                    Game.DisplaySubtitle("~r~" + _name1 + "~s~: Man i'm not feeling very good...", 5000);
-                    GameFiber.Wait(5000);
-                    Game.DisplaySubtitle("~g~You~s~: What do you mean?", 5000);
-                    GameFiber.Wait(5000);
-                    Game.DisplaySubtitle(
-                        "~r~" + _name1 +
-                        "~s~: Oh man I had something I wanted a hide but I ate it to hide it, I feel dizzy.", 5000);
-                    GameFiber.Wait(5000);
-                    Game.DisplaySubtitle("~g~You~s~: What did you eat? I'll get an ambulance out here.'", 5000);
-                    GameFiber.Wait(2000);
-                    _bad1.Kill();
-                });
+                    GameFiber.StartNew(delegate
+                    {
+                        Game.DisplaySubtitle(
+                            "~g~You~s~: Why in the world were you driving backwards! You could have killed someone!", 5000);
+                        NativeFunction.CallByName<uint>("TASK_TURN_PED_TO_FACE_ENTITY", _bad1, Game.LocalPlayer.Character,
+                            -1);
+                        GameFiber.Wait(5000);
+                        Game.DisplaySubtitle("~r~" + _name1 + "~s~: Man i'm not feeling very good...", 5000);
+                        GameFiber.Wait(5000);
+                        Game.DisplaySubtitle("~g~You~s~: What do you mean?", 5000);
+                        GameFiber.Wait(5000);
+                        Game.DisplaySubtitle(
+                            "~r~" + _name1 +
+                            "~s~: Oh man I had something I wanted a hide but I ate it to hide it, I feel dizzy.", 5000);
+                        GameFiber.Wait(5000);
+                        Game.DisplaySubtitle("~g~You~s~: What did you eat? I'll get an ambulance out here.'", 5000);
+                        GameFiber.Wait(2000);
+                        _bad1.Kill();
+                    });
+                }
+                catch (Exception e)
+                {
+                    Game.LogTrivial("Oops there was an error here. Please send this log to SuperPyroManiac!");
+                    Game.LogTrivial("SuperEvents Error Report Start");
+                    Game.LogTrivial("======================================================");
+                    Game.LogTrivial(e.ToString());
+                    Game.LogTrivial("======================================================");
+                    Game.LogTrivial("SuperEvents Error Report End");
+                    End();
+                }
         }
     }
 }
