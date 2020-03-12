@@ -167,6 +167,12 @@ namespace SuperCallouts2.Callouts
         public override void End()
         {
             Game.DisplayHelp("Scene ~g~CODE 4", 5000);
+            _interaction.CloseAllMenus();
+            if (_bad.Exists()) _bad.Dismiss();
+            if (_victim.Exists()) _victim.Dismiss();
+            if (_cVehicle1.Exists()) _cVehicle1.Dismiss();
+            if (_cVehicle2.Exists()) _cVehicle2.Dismiss();
+            if (_cBlip.Exists()) _cBlip.Delete();
             base.End();
         }
                 //UI Items
@@ -207,7 +213,7 @@ namespace SuperCallouts2.Callouts
                     Game.DisplaySubtitle("~g~You~s~: Alright, even if you are off duty you can't be doing that. What department do you work with?", 5000);
                     GameFiber.Wait(5000);
                     Game.DisplaySubtitle(
-                        "~r~" + _name1 + "~s~: I'm with secrete department in Los Santos. I can't disclose it to you.", 5000);
+                        "~r~" + _name1 + "~s~: I'm with a secret department in Los Santos. I can't disclose it to you.", 5000);
                     GameFiber.Wait(5000);
                     Game.DisplaySubtitle("~g~You~s~: If that's the case you may want to call your supervisor. Do you have any identification or a badge?", 5000);
                     GameFiber.Wait(5000);
