@@ -118,6 +118,7 @@ namespace SuperCallouts2.Callouts
                 try
                 {
                     UltimateBackup.API.Functions.callAmbulance();
+                    UltimateBackup.API.Functions.callFireDepartment();
                 }
                 catch (Exception e)
                 {

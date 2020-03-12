@@ -39,7 +39,7 @@ namespace SuperCallouts2.Callouts
         {
             _spawnPoint = World.GetNextPositionOnStreet(Game.LocalPlayer.Character.Position.Around(350f));
             ShowCalloutAreaBlipBeforeAccepting(_spawnPoint, 30f);
-            CalloutMessage = "~o~Traffic ANPR Report:~s~ Vehicle involved in kidnapping spotted.";
+            CalloutMessage = "~r~911 Report:~s~ Person(s) from amber alert spotted.";
             CalloutPosition = _spawnPoint;
             Functions.PlayScannerAudioUsingPosition(
                 "WE_HAVE CRIME_BRANDISHING_WEAPON_01 CRIME_RESIST_ARREST IN_OR_ON_POSITION", _spawnPoint);
@@ -51,7 +51,7 @@ namespace SuperCallouts2.Callouts
             Game.LogTrivial("SuperCallouts Log: Kidnapping callout accepted...");
             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch",
                 "~r~Possible Missing Person Found",
-                "ANPR has spotted a vehicle that was involved in a kidnapping last month. Respond ~r~CODE-3");
+                "A person reported missing last week has been recognized. Possible kidnapping. Respond ~r~CODE-3");
             //cVehicle
             CFunctions.SpawnNormalCar(out _cVehicle, _spawnPoint);
             //bad1

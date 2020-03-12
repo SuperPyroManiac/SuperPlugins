@@ -41,7 +41,7 @@ namespace SuperCallouts2.Callouts
         #endregion
         public override bool OnBeforeCalloutDisplayed()
         {
-            _spawnPoint = World.GetNextPositionOnStreet(Game.LocalPlayer.Character.Position.Around(350f));
+            _spawnPoint = World.GetNextPositionOnStreet(Game.LocalPlayer.Character.Position.Around(650f));
             ShowCalloutAreaBlipBeforeAccepting(_spawnPoint, 10f);
             CalloutMessage = "~b~Dispatch:~s~ Wanted suspect on the run.";
             CalloutPosition = _spawnPoint;
@@ -89,7 +89,7 @@ namespace SuperCallouts2.Callouts
             try
             {
                 //GamePlay
-                if (!_onScene && Game.LocalPlayer.Character.DistanceTo(_bad) < 15)
+                if (!_onScene && Game.LocalPlayer.Character.DistanceTo(_bad) < 25)
                 {
                     _onScene = true;
                     _pursuit = Functions.CreatePursuit();

@@ -20,12 +20,6 @@ namespace SuperCallouts2.Callouts
         #endregion
         
         //TODO: Remake to be extra spooky
-        /*
-         * Idea: Spooky music for a few seconds,
-         * Take control away from player, walk to center of bright light, 3 aliens walk up around all sides,
-         * they then get sucked up into the light, player ragdolls and light fades away. Backup arrives and
-         * that intro plays, then the backup leaves and the callout ends. Spo0ky
-         */
         public override bool OnBeforeCalloutDisplayed()
         {
             _spawnPoint = World.GetNextPositionOnStreet(Game.LocalPlayer.Character.Position.Around(350f));
@@ -97,13 +91,13 @@ namespace SuperCallouts2.Callouts
         }
         public override void End()
         {
-            Game.DisplaySubtitle("~g~Me:~s~ The hell was that? I think I need a nap..");
             if (_alien1.Exists()) _alien1.Delete();
             if (_alien2.Exists()) _alien2.Delete();
             if (_alien3.Exists()) _alien3.Delete();
             if (_cVehicle1.Exists()) _cVehicle1.Delete();
             if (_cBlip1.Exists()) _cBlip1.Delete();
             Game.DisplayHelp("Scene ~g~CODE 4", 5000);
+            Game.DisplaySubtitle("~g~Me:~s~ The hell was that? I think I need a nap..");
             base.End();
         }
     }
