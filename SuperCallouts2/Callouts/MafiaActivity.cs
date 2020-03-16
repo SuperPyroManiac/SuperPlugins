@@ -93,7 +93,8 @@ namespace SuperCallouts2.Callouts
                     5000);
                 Game.DisplayNotification(
                     "~r~Dispatch:~s~ Officer on scene, mafia activity spotted. Dispatching specialized units.");
-                _mafiaDudes2.Tasks.FightAgainstClosestHatedTarget(50f);
+                _mafiaDudes2.Tasks.FireWeaponAt(Game.LocalPlayer.Character, -1, FiringPattern.FullAutomatic);
+                _mafiaDudes3.Tasks.FireWeaponAt(Game.LocalPlayer.Character, -1, FiringPattern.FullAutomatic);
                 NativeFunction.CallByName<uint>("TASK_COMBAT_PED", _mafiaDudes1, Game.LocalPlayer.Character, 0, 1);
                 Functions.PlayScannerAudioUsingPosition(
                     "DISPATCH_SWAT_UNITS_FROM_01 IN_OR_ON_POSITION UNITS_RESPOND_CODE_99_01", _callPos);
