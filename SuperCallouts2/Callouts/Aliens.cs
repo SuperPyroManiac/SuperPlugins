@@ -19,7 +19,6 @@ namespace SuperCallouts2.Callouts
         private bool _onScene;
         #endregion
         
-        //TODO: Remake to be extra spooky
         public override bool OnBeforeCalloutDisplayed()
         {
             _spawnPoint = World.GetNextPositionOnStreet(Game.LocalPlayer.Character.Position.Around(350f));

@@ -71,7 +71,7 @@ namespace SuperCallouts2.Callouts
             _convoMenu.RefreshIndex();
             _mainMenu.BindMenuToItem(_convoMenu, _questioning);
             _mainMenu.OnItemSelect += Interactions;
-            _convoMenu.OnItemSelect += Conversations;//TODO: Finish UI - mainly converation. Dont forget to enable the chat in process!
+            _convoMenu.OnItemSelect += Conversations;
             _callAr.SetLeftBadge(UIMenuItem.BadgeStyle.Alert);
             _convoMenu.ParentMenu = _mainMenu;
             _callAr.Enabled = false;
