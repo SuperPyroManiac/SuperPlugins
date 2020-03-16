@@ -17,7 +17,7 @@ using SuperCallouts2.SimpleFunctions;
 namespace SuperCallouts2.Callouts
 {
     [CalloutInfo("Manhunt", CalloutProbability.Medium)]
-    class Manhunt : Callout
+    internal class Manhunt : Callout
     {
         #region Variables
 

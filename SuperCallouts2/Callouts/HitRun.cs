@@ -11,7 +11,7 @@ using SuperCallouts2.SimpleFunctions;
 namespace SuperCallouts2.Callouts
 {
     [CalloutInfo("HitRun", CalloutProbability.Medium)]
-    class HitRun : Callout
+    internal class HitRun : Callout
     {
         #region Variables
         private Ped _victim;

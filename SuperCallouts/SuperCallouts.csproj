@@ -54,19 +54,9 @@
     <Compile Include="Callouts\OpenCarry.cs" />
     <Compile Include="Callouts\PrisonTransport.cs" />
     <Compile Include="Callouts\Robbery.cs" />
-    <Compile Include="CustomScenes\LostMC.cs" />
-    <Compile Include="CustomScenes\LSGTFSetup.cs" />
-    <Compile Include="CustomScenes\Mafia2Setup.cs" />
-    <Compile Include="CustomScenes\MafiaSetup.cs" />
-    <Compile Include="CustomScenes\PrisonbreakSetup.cs" />
-    <Compile Include="CustomScenes\SimpleFunctions.cs" />
-    <Compile Include="CustomScenes\TruckCrashSetup.cs" />
-    <Compile Include="Main.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Settings.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Skeleton.yml" />
     <Content Include="SuperCallouts.ini" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
