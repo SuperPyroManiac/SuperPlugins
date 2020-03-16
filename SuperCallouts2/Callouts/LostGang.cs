@@ -10,7 +10,7 @@ using SuperCallouts.CustomScenes;
 
 #endregion
 
-namespace SuperCallouts.Callouts
+namespace SuperCallouts2.Callouts
 {
     [CalloutInfo("LostGang", CalloutProbability.Low)]
     internal class LostGang : Callout
@@ -110,7 +110,7 @@ namespace SuperCallouts.Callouts
                 Game.SetRelationshipBetweenRelationshipGroups("LOSTERS", "PLAYER", Relationship.Hate);
                 foreach (var bikerss in _bikers)
                 {
-                    SimpleFunctions.SetWanted(bikerss, true);
+                    SuperCallouts.CustomScenes.SimpleFunctions.SetWanted(bikerss, true);
                     bikerss.Tasks.FightAgainstClosestHatedTarget(50f);
                 }
 

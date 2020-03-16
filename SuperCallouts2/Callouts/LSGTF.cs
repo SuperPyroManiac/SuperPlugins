@@ -12,7 +12,7 @@ using SuperCallouts.CustomScenes;
 
 #endregion
 
-namespace SuperCallouts.Callouts
+namespace SuperCallouts2.Callouts
 {
     [CalloutInfo("LSGTF", CalloutProbability.Medium)]
     internal class Lsgtf : Callout
@@ -88,14 +88,14 @@ namespace SuperCallouts.Callouts
             _fib2.IsPersistent = true;
             _fib1.BlockPermanentEvents = true;
             _fib2.BlockPermanentEvents = true;
-            SimpleFunctions.SetWanted(_bad1, true);
-            SimpleFunctions.SetWanted(_bad2, true);
-            SimpleFunctions.SetWanted(_bad3, true);
-            SimpleFunctions.SetWanted(_bad4, true);
-            SimpleFunctions.SetWanted(_bad5, true);
-            SimpleFunctions.SetWanted(_bad6, true);
-            SimpleFunctions.SetWanted(_bad7, true);
-            SimpleFunctions.SetWanted(_bad8, true);
+            SuperCallouts.CustomScenes.SimpleFunctions.SetWanted(_bad1, true);
+            SuperCallouts.CustomScenes.SimpleFunctions.SetWanted(_bad2, true);
+            SuperCallouts.CustomScenes.SimpleFunctions.SetWanted(_bad3, true);
+            SuperCallouts.CustomScenes.SimpleFunctions.SetWanted(_bad4, true);
+            SuperCallouts.CustomScenes.SimpleFunctions.SetWanted(_bad5, true);
+            SuperCallouts.CustomScenes.SimpleFunctions.SetWanted(_bad6, true);
+            SuperCallouts.CustomScenes.SimpleFunctions.SetWanted(_bad7, true);
+            SuperCallouts.CustomScenes.SimpleFunctions.SetWanted(_bad8, true);
             _meetingB = _cVehicle.AttachBlip();
             _meetingB.EnableRoute(Color.Aquamarine);
             _meetingB.Color = Color.Aquamarine;

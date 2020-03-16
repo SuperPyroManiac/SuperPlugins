@@ -7,11 +7,10 @@ using LSPD_First_Response.Engine.Scripting.Entities;
 using LSPD_First_Response.Mod.API;
 using LSPD_First_Response.Mod.Callouts;
 using Rage;
-using Rage.Native;
 
 #endregion
 
-namespace SuperCallouts.Callouts
+namespace SuperCallouts2.Callouts
 {
     [CalloutInfo("MafiaActivity2", CalloutProbability.Medium)]
     internal class MafiaActivity2 : Callout
@@ -53,7 +52,7 @@ namespace SuperCallouts.Callouts
 
         public override bool OnCalloutAccepted()
         {
-            CustomScenes.Mafia2Setup.ConstructMafia2Scene(out _cVehicle1, out _cVehicle2, out _cVehicle3, out _cVehicle4, out _mafiaDude1, out _mafiaDude2, out _mafiaDude3, out _mafiaDude4, out _mafiaDude5, out _mafiaDude6, out _mafiaDude7, out _mafiaDude8, out _mafiaDude9, out _mafiaDude10, out _mafiaDude11, out _mafiaDude12, out _mafiaDude13, out _mafiaDude14, out _mafiaDude15);
+            SuperCallouts.CustomScenes.Mafia2Setup.ConstructMafia2Scene(out _cVehicle1, out _cVehicle2, out _cVehicle3, out _cVehicle4, out _mafiaDude1, out _mafiaDude2, out _mafiaDude3, out _mafiaDude4, out _mafiaDude5, out _mafiaDude6, out _mafiaDude7, out _mafiaDude8, out _mafiaDude9, out _mafiaDude10, out _mafiaDude11, out _mafiaDude12, out _mafiaDude13, out _mafiaDude14, out _mafiaDude15);
             Game.LogTrivial("SuperCallouts Log: MafiaActivity callout accepted...");
             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~The Mafia",
                 "FIB and IAA reports the Mafia have been spotted near Sandy Shores. Possible large scale drug trafficking. Investigate the scene.");
@@ -86,7 +85,7 @@ namespace SuperCallouts.Callouts
             {
                 mafiaDudes.IsPersistent = true;
                 mafiaDudes.Inventory.Weapons.Add(WeaponHash.CombatPistol).Ammo = -1;
-                CustomScenes.SimpleFunctions.SetWanted(mafiaDudes, true);
+                SuperCallouts.CustomScenes.SimpleFunctions.SetWanted(mafiaDudes, true);
                 Functions.AddPedContraband(mafiaDudes, ContrabandType.Narcotics, "Cocaine");
             }
             return base.OnCalloutAccepted();

@@ -8,7 +8,7 @@ using SuperCallouts.CustomScenes;
 
 #endregion
 
-namespace SuperCallouts.Callouts
+namespace SuperCallouts2.Callouts
 {
     [CalloutInfo("PrisonBreak", CalloutProbability.Medium)]
     internal class PrisonBreak : Callout
@@ -48,11 +48,11 @@ namespace SuperCallouts.Callouts
                 "DOC has reported multiple groups of prisoners have escaped! They are occupied with another group and need local police assistance.");
             PrisonbreakSetup.ConstructPrisonBreakSetupScene(out _prisoner1, out _prisoner2, out _prisoner3,
                 out _prisoner4, out _prisoner5);
-            SimpleFunctions.SetWanted(_prisoner1, true);
-            SimpleFunctions.SetWanted(_prisoner2, true);
-            SimpleFunctions.SetWanted(_prisoner3, true);
-            SimpleFunctions.SetWanted(_prisoner4, true);
-            SimpleFunctions.SetWanted(_prisoner5, true);
+            SuperCallouts.CustomScenes.SimpleFunctions.SetWanted(_prisoner1, true);
+            SuperCallouts.CustomScenes.SimpleFunctions.SetWanted(_prisoner2, true);
+            SuperCallouts.CustomScenes.SimpleFunctions.SetWanted(_prisoner3, true);
+            SuperCallouts.CustomScenes.SimpleFunctions.SetWanted(_prisoner4, true);
+            SuperCallouts.CustomScenes.SimpleFunctions.SetWanted(_prisoner5, true);
             _cVehicle = new Vehicle("PBUS", _prisoner1.GetOffsetPositionFront(4));
             _cVehicle.IsPersistent = true;
             _cVehicle.IsStolen = true;

@@ -11,7 +11,7 @@ using SuperCallouts.CustomScenes;
 
 #endregion
 
-namespace SuperCallouts.Callouts
+namespace SuperCallouts2.Callouts
 {
     [CalloutInfo("MafiaActivity", CalloutProbability.Medium)]
     internal class MafiaActivity : Callout
@@ -49,12 +49,12 @@ namespace SuperCallouts.Callouts
             MafiaSetup.ConstructMafia1Scene(out _mafiaDudes2, out _mafiaDudes6, out _mafiaDudes3,
                 out _mafiaDudes1, out _mafiaDudes4, out _mafiaCars1, out _mafiaCars2, out _mafiaCars4, out _mafiaCars3,
                 out _mafiaDudes5);
-            SimpleFunctions.SetWanted(_mafiaDudes1, true);
-            SimpleFunctions.SetWanted(_mafiaDudes2, true);
-            SimpleFunctions.SetWanted(_mafiaDudes3, true);
-            SimpleFunctions.SetWanted(_mafiaDudes4, true);
-            SimpleFunctions.SetWanted(_mafiaDudes5, true);
-            SimpleFunctions.SetWanted(_mafiaDudes6, true);
+            SuperCallouts.CustomScenes.SimpleFunctions.SetWanted(_mafiaDudes1, true);
+            SuperCallouts.CustomScenes.SimpleFunctions.SetWanted(_mafiaDudes2, true);
+            SuperCallouts.CustomScenes.SimpleFunctions.SetWanted(_mafiaDudes3, true);
+            SuperCallouts.CustomScenes.SimpleFunctions.SetWanted(_mafiaDudes4, true);
+            SuperCallouts.CustomScenes.SimpleFunctions.SetWanted(_mafiaDudes5, true);
+            SuperCallouts.CustomScenes.SimpleFunctions.SetWanted(_mafiaDudes6, true);
             _mafiaDudes1.IsPersistent = true;
             _mafiaDudes2.IsPersistent = true;
             _mafiaDudes3.IsPersistent = true;

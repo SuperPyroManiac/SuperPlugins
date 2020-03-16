@@ -11,7 +11,7 @@ using SuperCallouts.CustomScenes;
 
 #endregion
 
-namespace SuperCallouts.Callouts
+namespace SuperCallouts2.Callouts
 {
     [CalloutInfo("TruckCrash", CalloutProbability.Medium)]
     internal class TruckCrash : Callout
