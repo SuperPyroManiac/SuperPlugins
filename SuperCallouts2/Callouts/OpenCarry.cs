@@ -28,7 +28,7 @@ namespace SuperCallouts2.Callouts
         private readonly UIMenu _convoMenu = new UIMenu("SuperCallouts", "~y~Choose a subject to speak with.");
         private readonly UIMenuItem _questioning = new UIMenuItem("Speak With Subjects");
         private readonly UIMenuItem _stopSuspect =
-            new UIMenuItem("~r~ Dismiss Suspect", "Lets the suspect leave.");
+            new UIMenuItem("~r~ Stop Suspect", "Tells the suspect to stop.");
         private readonly UIMenuItem _endCall = new UIMenuItem("~y~End Callout", "Ends the callout early.");
         private UIMenuItem _speakSuspect;
         #endregion
