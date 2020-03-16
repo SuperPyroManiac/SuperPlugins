@@ -129,11 +129,12 @@ namespace SuperCallouts2.Callouts
         }
         public override void End()
         {
-            Game.DisplayHelp("Scene ~g~CODE 4", 5000);
             _interaction.CloseAllMenus();
             if (_bad.Exists()) _bad.Dismiss();
             if (_cBlip.Exists()) _cBlip.Delete();
             if (_cBlip2.Exists()) _cBlip2.Delete();
+            _mainMenu.Visible = false;
+            Game.DisplayHelp("Scene ~g~CODE 4", 5000);
             base.End();
         }
         private void Interactions(UIMenu sender, UIMenuItem selItem, int index)

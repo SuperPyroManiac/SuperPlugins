@@ -143,7 +143,7 @@ namespace SuperCallouts2.Callouts
             if (_bad1.Exists()) _bad1.Dismiss();
             if (_cVehicle1.Exists()) _cVehicle1.Dismiss();
             if (_cBlip1.Exists()) _cBlip1.Delete();
-            _interaction.CloseAllMenus();
+            _mainMenu.Visible = false;
             Game.DisplayHelp("Scene ~g~CODE 4", 5000);
             base.End();
         }

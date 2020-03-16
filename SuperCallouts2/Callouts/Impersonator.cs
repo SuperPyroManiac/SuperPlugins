@@ -167,7 +167,7 @@ namespace SuperCallouts2.Callouts
         public override void End()
         {
             Game.DisplayHelp("Scene ~g~CODE 4", 5000);
-            _interaction.CloseAllMenus();
+            _mainMenu.Visible = false;
             if (_bad.Exists()) _bad.Dismiss();
             if (_victim.Exists()) _victim.Dismiss();
             if (_cVehicle1.Exists()) _cVehicle1.Dismiss();

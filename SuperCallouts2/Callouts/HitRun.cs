@@ -168,7 +168,8 @@ namespace SuperCallouts2.Callouts
             if (_cVehicle2.Exists()) _cVehicle2.Dismiss();
             if (_cBlip1.Exists()) _cBlip1.Delete();
             if (_cBlip2.Exists()) _cBlip2.Delete();
-            if (_cBlip3.Exists()) _cBlip3.Delete();//TODO: CLOSE UI ON ALL CALLS AT END
+            if (_cBlip3.Exists()) _cBlip3.Delete();
+            _mainMenu.Visible = false;
             Game.DisplayHelp("Scene ~g~CODE 4", 5000);
             base.End();
         }

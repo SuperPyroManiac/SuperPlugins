@@ -1,13 +1,8 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Rage;
 using Rage.Native;
 using LSPD_First_Response.Mod.API;
 using LSPD_First_Response.Mod.Callouts;
-using LSPD_First_Response.Engine.Scripting.Entities;
 using System.Drawing;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
@@ -160,6 +155,7 @@ namespace SuperCallouts2.Callouts
         {
             if (_bad1.Exists()) _bad1.Dismiss();
             if (_cBlip.Exists()) _cBlip.Delete();
+            _mainMenu.Visible = false;
             Game.DisplayHelp("Scene ~g~CODE 4", 5000);
             base.End();
         }

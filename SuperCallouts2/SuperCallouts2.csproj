@@ -68,6 +68,7 @@
     <Compile Include="Callouts\MafiaActivity.cs" />
     <Compile Include="Callouts\MafiaActivity2.cs" />
     <Compile Include="Callouts\Manhunt.cs" />
+    <Compile Include="Callouts\OfficerShootout.cs" />
     <Compile Include="Callouts\OpenCarry.cs" />
     <Compile Include="Callouts\PrisonBreak.cs" />
     <Compile Include="Callouts\TruckCrash.cs" />

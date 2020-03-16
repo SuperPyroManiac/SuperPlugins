@@ -41,7 +41,6 @@ namespace SuperCallouts.Callouts
             _spawnPoint = _chosenSpawnData.Item1;
             _spawnPointH = _chosenSpawnData.Item2;
             ShowCalloutAreaBlipBeforeAccepting(_spawnPoint, 10f);
-            //AddMinimumDistanceCheck(20f, SpawnPoint);
             CalloutMessage = "~b~Dispatch:~s~ Felony stop. Shots fired.";
             CalloutPosition = _spawnPoint;
             Functions.PlayScannerAudioUsingPosition(
@@ -100,20 +99,6 @@ namespace SuperCallouts.Callouts
         public override void Process()
         {
             if (Game.IsKeyDown(Settings.EndCall)) End();
-            if (!_onScene && Game.LocalPlayer.Character.DistanceTo(_copVehicle.Position) < 50f)
-            {
-                _onScene = true;
-                _cop1.Tasks.FightAgainst(_bad1, 60000);
-                _bad1.Tasks.FightAgainst(_cop1, 60000);
-                Functions.PlayScannerAudioUsingPosition("REQUEST_BACKUP", _spawnPoint);
-                Game.SetRelationshipBetweenRelationshipGroups("BADGANG", "COP", Relationship.Hate);
-                Game.SetRelationshipBetweenRelationshipGroups("BADGANG", "PLAYER", Relationship.Hate);
-                Functions.RequestBackup(_copVehicle.Position, EBackupResponseType.Code3,
-                    EBackupUnitType.LocalUnit);
-                Functions.RequestBackup(_copVehicle.Position, EBackupResponseType.Code3,
-                    EBackupUnitType.LocalUnit);
-                _cBlip.DisableRoute();
-            }
 
             if (_onScene && _bad1.IsDead && _bad2.IsDead) End();
             if (_onScene && Game.LocalPlayer.Character.DistanceTo(_bad1) > 65f &&
