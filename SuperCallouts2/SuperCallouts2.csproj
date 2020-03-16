@@ -63,8 +63,21 @@
     <Compile Include="Callouts\HotPursuit.cs" />
     <Compile Include="Callouts\Impersonator.cs" />
     <Compile Include="Callouts\Kidnapping.cs" />
+    <Compile Include="Callouts\LostGang.cs" />
+    <Compile Include="Callouts\LSGTF.cs" />
+    <Compile Include="Callouts\MafiaActivity.cs" />
+    <Compile Include="Callouts\MafiaActivity2.cs" />
     <Compile Include="Callouts\Manhunt.cs" />
+    <Compile Include="Callouts\PrisonBreak.cs" />
+    <Compile Include="Callouts\TruckCrash.cs" />
     <Compile Include="Callouts\WeirdCar.cs" />
+    <Compile Include="CustomScenes\LostMC.cs" />
+    <Compile Include="CustomScenes\LSGTFSetup.cs" />
+    <Compile Include="CustomScenes\Mafia2Setup.cs" />
+    <Compile Include="CustomScenes\MafiaSetup.cs" />
+    <Compile Include="CustomScenes\PrisonbreakSetup.cs" />
+    <Compile Include="CustomScenes\SimpleFunctions.cs" />
+    <Compile Include="CustomScenes\TruckCrashSetup.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings.cs" />
@@ -74,9 +87,6 @@
   <ItemGroup>
     <Content Include="Skeleton.yml" />
     <Content Include="SuperCallouts.ini" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="CustomScenes" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

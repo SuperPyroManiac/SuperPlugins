@@ -173,7 +173,7 @@ namespace SuperCallouts2.Callouts
                     Game.DisplaySubtitle("~g~You~s~: I understand that but evading is a whole new charge that will make going back even worse.", 5000);
                     GameFiber.Wait(5000);
                     Game.DisplaySubtitle(
-                        "~r~" + _name1 + "~s~: I know, too late t ogo back now though.", 5000);
+                        "~r~" + _name1 + "~s~: I know, too late to go back now though.", 5000);
                     GameFiber.Wait(5000);
                 });
         }

@@ -50,17 +50,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Callouts\LostGang.cs" />
-    <Compile Include="Callouts\LSGTF.cs" />
-    <Compile Include="Callouts\MafiaActivity.cs" />
-    <Compile Include="Callouts\MafiaActivity2.cs" />
-    <Compile Include="Callouts\Manhunt.cs" />
     <Compile Include="Callouts\OfficerShootout.cs" />
     <Compile Include="Callouts\OpenCarry.cs" />
-    <Compile Include="Callouts\PrisonBreak.cs" />
     <Compile Include="Callouts\PrisonTransport.cs" />
     <Compile Include="Callouts\Robbery.cs" />
-    <Compile Include="Callouts\TruckCrash.cs" />
     <Compile Include="CustomScenes\LostMC.cs" />
     <Compile Include="CustomScenes\LSGTFSetup.cs" />
     <Compile Include="CustomScenes\Mafia2Setup.cs" />
