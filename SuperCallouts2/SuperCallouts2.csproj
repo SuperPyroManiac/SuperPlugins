@@ -71,6 +71,7 @@
     <Compile Include="Callouts\OfficerShootout.cs" />
     <Compile Include="Callouts\OpenCarry.cs" />
     <Compile Include="Callouts\PrisonBreak.cs" />
+    <Compile Include="Callouts\PrisonTransport.cs" />
     <Compile Include="Callouts\Robbery.cs" />
     <Compile Include="Callouts\TruckCrash.cs" />
     <Compile Include="Callouts\WeirdCar.cs" />

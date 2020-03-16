@@ -10,7 +10,7 @@ using RAGENativeUI.Elements;
 namespace SuperCallouts2.Callouts
 {
     [CalloutInfo("Robbery", CalloutProbability.Medium)]
-    class Robbery : Callout
+    internal class Robbery : Callout
     {
         #region Variables
         private Blip _blip1;
