@@ -92,6 +92,7 @@ namespace SuperCallouts2.Callouts
 
                 if (_startScene)
                 {
+                    _startScene = false;
                     _pursuit = Functions.CreatePursuit();
                     _cBlip.DisableRoute();
                     var choices = _rNd.Next(1, 6);
