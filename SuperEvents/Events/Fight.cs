@@ -49,14 +49,13 @@ namespace SuperEvents.Events
                 return;
             }
 
-            _bad1 = new Ped(_spawnPoint) {Heading = _spawnPointH, IsPersistent = true, Health = 400};
+            _bad1 = new Ped(_spawnPoint) {IsPersistent = true, Heading = _spawnPointH, Health = 400};
             _bad2 = new Ped(_bad1.GetOffsetPositionFront(2)) {IsPersistent = true, Health = 400};
             if (!_bad1.Exists() || !_bad2.Exists())
             {
                 base.Failed();
                 return;
             }
-
             _bad1.Tasks.PlayAnimation("anim@mp_point", "1st_person_high_blocked", 2f, AnimationFlags.SecondaryTask);
             _bad2.Metadata.searchPed = "~r~50 dollar bill~s~, ~y~empty baggy with white powder~s~, ~g~wallet~s~";
             _bad2.Metadata.stpDrugsDetected = true;
