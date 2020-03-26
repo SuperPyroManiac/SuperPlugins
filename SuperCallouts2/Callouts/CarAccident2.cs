@@ -3,6 +3,7 @@ using Rage;
 using LSPD_First_Response.Mod.API;
 using LSPD_First_Response.Mod.Callouts;
 using System.Drawing;
+using LSPD_First_Response;
 using Rage.Native;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
@@ -160,18 +161,8 @@ namespace SuperCallouts2.Callouts
             if (selItem == _callFd)
             {
                 Game.DisplaySubtitle("~g~You~s~: Dispatch, we have an MVA. One person is seriously injured.");
-                try
-                {
-                    UltimateBackup.API.Functions.callAmbulance();
-                    UltimateBackup.API.Functions.callFireDepartment();
-                }
-                catch (Exception e)
-                {
-                    Game.LogTrivial(
-                        "SuperEvents Warning: Ultimate Backup is not installed! Backup was not automatically called!");
-                    Game.DisplayHelp("~r~Ultimate Backup is not installed! Backup was not automatically called!", 8000);
-                }
-
+                Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Code3, EBackupUnitType.Ambulance);
+                Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Code3, EBackupUnitType.Firetruck);
                 _callFd.Enabled = false;
             }
             else if (selItem == _endCall)

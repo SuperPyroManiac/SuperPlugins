@@ -3,6 +3,7 @@ using Rage;
 using LSPD_First_Response.Mod.API;
 using LSPD_First_Response.Mod.Callouts;
 using System.Drawing;
+using LSPD_First_Response;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 
@@ -115,17 +116,8 @@ namespace SuperCallouts2.Callouts
             {
                 Game.DisplaySubtitle(
                     "~g~You~s~: Dispatch, we have a person that has been attacked by an animal! We need a medical crew here ASAP!");
-                try
-                {
-                    UltimateBackup.API.Functions.callAmbulance();
-                    UltimateBackup.API.Functions.callFireDepartment();
-                }
-                catch (Exception e)
-                {
-                    Game.LogTrivial(
-                        "SuperCallouts Warning: Ultimate Backup is not installed! Backup was not automatically called!");
-                    Game.DisplayHelp("~r~Ultimate Backup is not installed! Backup was not automatically called!", 8000);
-                }
+                Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Code3, EBackupUnitType.Ambulance);
+                Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Code3, EBackupUnitType.Firetruck);
                 _callEms.Enabled = false;
             }
             else if (selItem == _endCall)
