@@ -2,12 +2,12 @@
 
 using System;
 using System.Drawing;
+using LSPD_First_Response;
+using LSPD_First_Response.Mod.API;
 using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperEvents.SimpleFunctions;
-using UltimateBackup.API;
-
 #endregion
 
 namespace SuperEvents.Events
@@ -133,18 +133,7 @@ namespace SuperEvents.Events
             {
                 Game.DisplaySubtitle(
                     "~g~You~s~: Dispatch, we got a large vehicle fire that's spreading. Looks like ~r~someone is inside!~s~ I need a rescue crew out here!");
-                try
-                {
-                    //UltimateBackup.API.Functions.callAmbulance(); EMS just catches fire...
-                    Functions.callFireDepartment();
-                }
-                catch (Exception e)
-                {
-                    Game.LogTrivial(
-                        "SuperEvents Warning: Ultimate Backup is not installed! Backup was not automatically called!");
-                    Game.DisplayHelp("~r~Ultimate Backup is not installed! Backup was not automatically called!", 8000);
-                }
-
+                Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Code3, EBackupUnitType.Firetruck);
                 _callFd.Enabled = false;
             }
             else if (selItem == _endCall)

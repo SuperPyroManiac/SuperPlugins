@@ -96,7 +96,7 @@ namespace SuperCallouts2.SimpleFunctions
             }
             if (_sideOfRoads.Count == 0)
             {
-                Game.LogTrivial("SuperEvents: Failed to find valid spawnpoint. Spawning on road.");
+                Game.LogTrivial("SuperCallouts: Failed to find valid spawnpoint. Spawning on road.");
                 spawnPoint = World.GetNextPositionOnStreet(Game.LocalPlayer.Character.Position.Around(45f, 100f));
                 spawnPointH = 0;
             }

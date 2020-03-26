@@ -2,6 +2,7 @@
 
 using System;
 using System.Drawing;
+using LSPD_First_Response;
 using LSPD_First_Response.Mod.API;
 using Rage;
 using Rage.Native;
@@ -166,13 +167,12 @@ namespace SuperEvents.Events
                 {
                     UltimateBackup.API.Functions.callCode2Backup();
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     Game.LogTrivial(
-                        "SuperEvents Warning: Ultimate Backup is not installed! Backup was not automatically called!");
-                    Game.DisplayHelp("~r~Ultimate Backup is not installed! Backup was not automatically called!", 8000);
+                        "SuperEvents Warning: Ultimate Backup is not installed! Using default LSPDFR backup.");
+                    Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Code2, EBackupUnitType.LocalUnit);
                 }
-
                 _callCode2.Enabled = false;
             }
             else if (selItem == _endCall)

@@ -183,7 +183,7 @@ namespace SuperCallouts2.Callouts
                 catch (Exception)
                 {
                     Game.LogTrivial(
-                        "SuperEvents Warning: Ultimate Backup is not installed! Using default LSPDFR backup.");
+                        "SuperCallouts Warning: Ultimate Backup is not installed! Using default LSPDFR backup.");
                     Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Code2, EBackupUnitType.LocalUnit);
                 }
 

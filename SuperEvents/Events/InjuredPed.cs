@@ -2,6 +2,7 @@
 
 using System;
 using System.Drawing;
+using LSPD_First_Response;
 using LSPD_First_Response.Mod.API;
 using Rage;
 using Rage.Native;
@@ -166,17 +167,7 @@ namespace SuperEvents.Events
                     "~g~You~s~: Dispatch, we have a person unconsious on the ground. Send me medical!");
                 _bad1.Tasks.ClearImmediately();
                 NativeFunction.CallByName<uint>("TASK_TURN_PED_TO_FACE_ENTITY", _bad1, Game.LocalPlayer.Character, -1);
-                try
-                {
-                    UltimateBackup.API.Functions.callAmbulance();
-                }
-                catch (Exception e)
-                {
-                    Game.LogTrivial(
-                        "SuperEvents Warning: Ultimate Backup is not installed! Backup was not automatically called!");
-                    Game.DisplayHelp("~r~Ultimate Backup is not installed! Backup was not automatically called!", 8000);
-                }
-
+                Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Code3, EBackupUnitType.Ambulance);
                 _callEms.Enabled = false;
             }
             else if (selItem == _endCall)
