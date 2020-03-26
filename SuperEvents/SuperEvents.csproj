@@ -67,6 +67,7 @@
     <Compile Include="Events\RecklessDriver.cs" />
     <Compile Include="Events\RoadRage.cs" />
     <Compile Include="Events\SuicidalPed.cs" />
+    <Compile Include="Events\WildAnimal.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings.cs" />

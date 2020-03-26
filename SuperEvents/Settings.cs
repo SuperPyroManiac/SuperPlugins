@@ -19,6 +19,7 @@ namespace SuperEvents
         internal static bool SuicidalPed = true;
         internal static bool Mugging = true;
         internal static bool RoadRage = true;
+        internal static bool WildAnimal = true;
         internal static bool ShowBlips = true;
         internal static bool ShowHints = true;
         internal static int TimeBetweenEvents = 110;
@@ -41,6 +42,7 @@ namespace SuperEvents
             SuicidalPed = ini.ReadBoolean("Events", "SuicidalPed", true);
             Mugging = ini.ReadBoolean("Events", "Mugging", true);
             RoadRage = ini.ReadBoolean("Events", "RoadRage", true);
+            WildAnimal = ini.ReadBoolean("Events", "WildAnimal", true);
             ShowBlips = ini.ReadBoolean("Settings", "ShowBlips", true);
             ShowHints = ini.ReadBoolean("Settings", "ShowHints", true);
             TimeBetweenEvents = ini.ReadInt32("Settings", "TimeBetweenEvents", 110);

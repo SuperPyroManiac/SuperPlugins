@@ -28,7 +28,7 @@ namespace SuperEvents.SimpleFunctions
                             if (!Functions.IsCalloutRunning() && !Functions.IsPlayerPerformingPullover() && Functions.GetActivePursuit() == null && TimeStart && !EventsActive)
                             {
                                 Game.LogTrivial("SuperEvents: Generating random event.");
-                                var choices = RNd.Next(1, 11);
+                                var choices = RNd.Next(1, 12);
                             
                                 switch(choices)
                                 {
@@ -121,6 +121,15 @@ namespace SuperEvents.SimpleFunctions
                                             TimeStart = false;
                                         }
                                         else { Game.LogTrivial("SuperEvents: road rage event disabled in config.. Trying again for another event."); }
+                                        break;
+                                    case 11:
+                                        if (Settings.WildAnimal)
+                                        {
+                                            Game.LogTrivial("SuperEvents: Starting wild animal event.");
+                                            WildAnimal.Launch();
+                                            TimeStart = false;
+                                        }
+                                        else { Game.LogTrivial("SuperEvents: wild animal event disabled in config.. Trying again for another event."); }
                                         break;
                                     default:
                                         Game.LogTrivial("SuperEvents: If you see this error please tell SuperPyroManiac he is a fool. This error should never pop up unless I forget how to count.");
