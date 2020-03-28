@@ -48,7 +48,6 @@ namespace SuperCallouts2.SimpleFunctions
                 drunkAnimset.LoadAndWait();
                 Person.MovementAnimationSet = drunkAnimset;
             });
-            return;
         }
 
         public static void Damage(Vehicle vehicle, float radius, float amount)
