@@ -14,7 +14,7 @@ using RAGENativeUI.Elements;
 
 namespace SuperCallouts2.Callouts
 {
-    [CalloutInfo("ToiletPaperBandit", CalloutProbability.Medium)]
+    [CalloutInfo("ToiletPaperBandit", CalloutProbability.Medium)]//TODO: Config and main files!!!!!!!!!!!
     class ToiletPaperBandit : Callout
     {
         public override bool OnBeforeCalloutDisplayed()

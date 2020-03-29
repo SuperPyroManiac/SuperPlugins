@@ -88,15 +88,15 @@ namespace SuperCallouts2.Callouts
             //Start UI
             _interaction.Add(_mainMenu);
             _interaction.Add(_convoMenu);
+            _speakVictim = new UIMenuItem("Speak with ~y~" + _name1);
+            _speakSuspect1 = new UIMenuItem("Speak with ~y~" + _name2);
+            _speakSuspect2 = new UIMenuItem("Speak with ~y~" + _name3);
             _mainMenu.AddItem(_dissmisVictim);
             _mainMenu.AddItem(_questioning);
             _mainMenu.AddItem(_endCall);
             _convoMenu.AddItem(_speakVictim);
             _convoMenu.AddItem(_speakSuspect1);
             _convoMenu.AddItem(_speakSuspect2);
-            _speakVictim = new UIMenuItem("Speak with ~y~" + _name1);
-            _speakSuspect1 = new UIMenuItem("Speak with ~y~" + _name2);
-            _speakSuspect2 = new UIMenuItem("Speak with ~y~" + _name3);
             _mainMenu.RefreshIndex();
             _convoMenu.RefreshIndex();
             _mainMenu.BindMenuToItem(_convoMenu, _questioning);
