@@ -102,6 +102,7 @@ namespace SuperCallouts2.Callouts
                     _pursuit = Functions.CreatePursuit();
                     Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Suspicious Pullover",
                         "Be advised, caller has been instructed to leave scene by 911 operator.");
+                    Game.DisplayHelp("~y~Press ~r~" + Settings.Interact + "~y~ to open interaction menu.");
                     var rNd = new Random();
                     var choices = rNd.Next(1, 4);
                     switch (choices)
@@ -126,7 +127,6 @@ namespace SuperCallouts2.Callouts
                             GameFiber.StartNew(delegate
                             {
                                 GameFiber.Wait(2000);
-                                Game.DisplayHelp("~y~Press ~r~" + Settings.Interact + "~y~ to open interaction menu.");
                                 _callSecond.Enabled = true;
                                 _questioning.Enabled = true;
                                 //cVehicle2.IsSirenOn = false;
@@ -162,7 +162,7 @@ namespace SuperCallouts2.Callouts
         public override void End()
         {
             Game.DisplayHelp("Scene ~g~CODE 4", 5000);
-            _mainMenu.Visible = false;
+            _interaction.CloseAllMenus();
             if (_bad.Exists()) _bad.Dismiss();
             if (_victim.Exists()) _victim.Dismiss();
             if (_cVehicle1.Exists()) _cVehicle1.Dismiss();

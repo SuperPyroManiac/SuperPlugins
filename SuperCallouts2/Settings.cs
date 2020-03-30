@@ -25,6 +25,7 @@ namespace SuperCallouts2
         internal static bool WeirdCar = true;
         internal static bool Manhunt = true;
         internal static bool Impersonator = true;
+        internal static bool ToiletPaperBandit = true;
         internal static bool BikerAttack = true;
         internal static Keys Interact = Keys.Y;
         internal static Keys EndCall = Keys.End;
@@ -55,6 +56,7 @@ namespace SuperCallouts2
             WeirdCar = ini.ReadBoolean("Settings", "SuspiciousCar", true);
             Manhunt = ini.ReadBoolean("Settings", "Manhunt", true);
             Impersonator = ini.ReadBoolean("Settings", "Impersonator", true);
+            ToiletPaperBandit = ini.ReadBoolean("Settings", "ToiletPaperBandit", true);
             BikerAttack = ini.ReadBoolean("Settings", "BikerAttack", true);
             Interact = ini.ReadEnum("Keys", "Interact", Keys.Y);
             EndCall = ini.ReadEnum("Keys", "EndCall", Keys.End);
