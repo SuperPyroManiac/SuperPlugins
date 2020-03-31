@@ -1,0 +1,233 @@
+[CalloutInfo("Toilet Paper Bandit", CalloutProbability.Low)]
+public class ToiletPaperBandit : Callout
+  {
+    //declare peds
+    private Ped Player => Game.LocalPlayer.Character;
+    private Ped _suspect;
+
+    //declare vehicles
+    private Vehicle _suspectVehicle;
+
+    //declare blips
+    private Blip _suspectBlip;
+
+    //declare misc
+    private Vector3 _spawnPoint;
+    private LHandle _pursuit;
+
+    private List<Entity> _entitiesToClear = new List<Entity>();
+    private List<Blip> _blipsToClear = new List<Blip>();
+
+    private string[] _suspectModels =
+    {
+      "g_m_m_armgoon_01", "g_m_y_armgoon_02", "g_m_m_armlieut_01", "g_m_y_azteca_01", "g_m_y_ballaeast_01",
+      "a_m_m_bevhills_02", "a_m_m_bevhills_01", "a_m_y_beachvesp_02", "a_m_m_bevhills_01", "a_m_y_bevhills_02",
+
+      "a_f_y_bevhills_01", "a_f_y_bevhills_03", "a_f_y_eastsa_03", "g_f_y_families_01", "s_f_m_fembarber",
+      "a_f_y_genhot_01", "a_f_y_hippie_01", "a_f_y_hipster_02", "a_f_y_hipster_04", "u_f_y_hotposh_01"
+    };
+    private string[] _suspectVehicleModels =
+    {
+      "asea", "adder", "baller", "bison", "bjxl", "bullet", "f620", "felon",
+      "gresly", "jackal", "mesa", "monroe", "ninef", "oracle", "picador"
+    };
+
+    private List<string> _dialog1 = new List<string>
+    {
+      "~b~You~s~: Bla Bla Bla",
+      "~r~Suspect~s~: Whatever",
+      "~b~You~s~: Third line",
+      "~r~Suspect~s~: Convo finished"
+    };
+
+    private List<string> _dialog2 = new List<string>
+    {
+      "~b~You~s~: First",
+      "~r~Suspect~s~: Second",
+      "~b~You~s~: Third",
+      "~r~Suspect~s~: Convo finished"
+    };
+
+    private int _dialogIndex1;
+    private int _dialogIndex2;
+    private int _dialogOutcome;
+
+    private EState _state = EState.CheckDistance;
+
+    private enum EState
+    {
+      CheckDistance,
+      OnScene,
+      AwaitOutcome,
+      CheckIfCloseEnough,
+      SpeakWithSuspect
+    }
+
+    public override bool OnBeforeCalloutDisplayed()
+    {
+      _spawnPoint = World.GetNextPositionOnStreet(Player.Position.Around(175f, 250f));
+
+      CalloutMessage = "Toilet Paper Theft";
+      CalloutPosition = _spawnPoint;
+
+      Functions.PlayScannerAudio("TP THEFT NEAR X");
+
+      return base.OnBeforeCalloutDisplayed();
+    }
+
+    public override bool OnCalloutAccepted()
+    {
+      Game.DisplayHelp("Press ~b~End~s~ to end the callout", 5000);
+
+      //create entities using extension methods for more readable code
+      _suspectVehicle =
+      CreateVehicle(_suspectVehicleModels[MathHelper.GetRandomInteger(_suspectVehicleModels.Length)],
+      _spawnPoint, 0f);
+      _suspect = CreatePed(_suspectModels[MathHelper.GetRandomInteger(_suspectModels.Length)], _spawnPoint.Around(3f), 0f);
+
+      //check if valid, if not return false and end callout
+      if (_suspectVehicle && _suspect)
+      {
+        _dialogOutcome = new Random().Next(0, 101);
+
+        _suspect.WarpIntoVehicle(_suspectVehicle, -1);
+        _suspect.Tasks.CruiseWithVehicle(_suspectVehicle, 10f, VehicleDrivingFlags.Normal);
+
+        _suspectBlip = _suspect.AttachBlip();
+        _suspectBlip.Color = Color.Red;
+        _suspectBlip.Name = "Suspect";
+        _suspectBlip.EnableRoute(Color.Red);
+
+        //add created entities and blips to clean up list
+        _entitiesToClear.Add(_suspectVehicle);
+        _entitiesToClear.Add(_suspect);
+        _blipsToClear.Add(_suspectBlip);
+      }
+      else return false;
+
+      return base.OnCalloutAccepted();
+    }
+
+    public override void OnCalloutNotAccepted()
+    {
+      Functions.PlayScannerAudio("OTHER UNIT ACCEPTS CALL OR SOMETHING");
+
+      base.OnCalloutNotAccepted();
+    }
+
+    public override void Process()
+    {
+      if (Game.IsKeyDown(Keys.End))
+      End();
+
+      HandleCallout();
+
+      base.Process();
+    }
+
+    public override void End()
+    {
+      //Dismiss/delete all entities
+
+      foreach (var entity in _entitiesToClear)
+      if (entity)
+      entity.Dismiss();
+
+      foreach (var blip in _blipsToClear)
+      if (blip)
+      blip.Delete();
+
+      Functions.PlayScannerAudio("CODE 4");
+
+      base.End();
+    }
+
+    private void HandleCallout()
+    {
+      switch (_state)
+      {
+        case EState.CheckDistance:
+
+          if (Vector3.Distance(Player.Position, _suspect) < 20f)
+        {
+          _suspectBlip.DisableRoute();
+
+          _pursuit = Functions.CreatePursuit();
+          Functions.AddPedToPursuit(_pursuit, _suspect);
+
+          _state = EState.OnScene;
+        }
+
+        break;
+        case EState.OnScene:
+
+          Functions.RequestBackup(Player.Position, EBackupResponseType.Code3, EBackupUnitType.LocalUnit);
+
+        _state = EState.AwaitOutcome;
+
+        break;
+        case EState.AwaitOutcome:
+
+            if (!Functions.IsPursuitStillRunning(_pursuit))
+          {
+            Game.DisplayHelp("The suspect has surrendered, press ~b~Y~s~ to speak with the suspect", 5000);
+
+            _state = EState.CheckIfCloseEnough;
+          }
+
+              break;
+              case EState.CheckIfCloseEnough:
+
+                if (Vector3.Distance(Player.Position, _suspect) < 3f)
+        _state = EState.SpeakWithSuspect;
+
+        break;
+        case EState.SpeakWithSuspect:
+
+          if (Vector3.Distance(Player.Position, _suspect) < 3f)
+        {
+          if (Game.IsKeyDown(Keys.Y))
+          {
+            if (_dialogOutcome > 50)
+            {
+              Game.DisplaySubtitle(_dialog1[_dialogIndex1]);
+              _dialogIndex1++;
+            }
+            else
+            {
+              Game.DisplaySubtitle(_dialog2[_dialogIndex2]);
+              _dialogIndex2++;
+            }
+
+            if (_dialogIndex1 == 4 || _dialogIndex2 == 4)
+            {
+              //Conversation finished
+
+              End();
+            }
+          }
+        }
+
+        break;
+      }
+    }
+
+    private Vehicle CreateVehicle(string model, Vector3 position, float heading)
+    {
+      var vehicle = new Vehicle(model, position, heading);
+      vehicle.IsPersistent = true;
+      vehicle.IsStolen = true;
+      vehicle.Metadata.searchDriver = "";
+
+      return vehicle;
+    }
+
+    private Ped CreatePed(string model, Vector3 position, float heading)
+    {
+      var ped = new Ped(model, position, heading);
+      ped.IsPersistent = true;
+      ped.BlockPermanentEvents = true;
+
+      return ped;
+    }
+  }
