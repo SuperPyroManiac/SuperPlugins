@@ -84,7 +84,7 @@ namespace SuperCallouts2.Callouts
                 switch(_state)
                 {
                     case CState.checkDistance:
-                        if (Game.LocalPlayer.Character.DistanceTo(_bad) < 20f)
+                        if (Game.LocalPlayer.Character.DistanceTo(_bad) < 30f)
                         {
                             _cBlip.DisableRoute();
                             _pursuit = Functions.CreatePursuit();
@@ -102,7 +102,7 @@ namespace SuperCallouts2.Callouts
                         _state = CState.Pursuit;
                         break;
                     case CState.Pursuit:
-                        if (!Functions.IsPursuitStillRunning(_pursuit))
+                        if (!Functions.IsPursuitStillRunning(_pursuit) || _bad.IsCuffed)
                         {
                             _bad.Tasks.Clear();
                             Game.DisplaySubtitle(
