@@ -18,8 +18,6 @@ namespace SuperEvents2
         public static List<Entity> EntitiesToClear { get; set; }
         public static List<Blip> BlipsToClear { get; set; }
         public GameFiber ProcessFiber { get; set; }
-        //public virtual Vector3 SpawnPoint { get; set; }
-        //public float SpawnPointH { get; set; }
         public Ped Player => Game.LocalPlayer.Character;
 
         public AmbientEvent()

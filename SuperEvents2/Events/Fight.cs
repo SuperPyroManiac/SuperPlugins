@@ -1,6 +1,3 @@
-using System;
-using LSPD_First_Response.Engine;
-using LSPD_First_Response.Mod.API;
 using Rage;
 using SuperEvents2.SimpleFunctions;
 
@@ -34,6 +31,7 @@ namespace SuperEvents2.Events
                     if (Settings.ShowHints)
                     {
                         Game.DisplayNotification("IT WORKS");
+                        _tasks = Tasks.End;
                     }
                     break;
                 case Tasks.End:
