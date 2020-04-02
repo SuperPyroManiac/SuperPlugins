@@ -1,4 +1,4 @@
-﻿#region
+#region
 
 using System;
 using LSPD_First_Response.Engine.Scripting.Entities;
@@ -8,7 +8,7 @@ using Rage.Native;
 
 #endregion
 
-namespace SuperEvents.SimpleFunctions
+namespace SuperEvents2.SimpleFunctions
 {
     public class EFunctions
     {
