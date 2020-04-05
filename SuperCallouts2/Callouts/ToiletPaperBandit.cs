@@ -44,8 +44,7 @@ namespace SuperCallouts2.Callouts
             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Robbery",
                 "Reports of someone robbing a truck full of cleaning supplies, respond ~r~CODE-3");
             //cVehicle
-            _cVehicle = new Vehicle("pounder", _spawnPoint) {IsPersistent = true};
-            _cVehicle.IsStolen = true;
+            _cVehicle = new Vehicle("pounder", _spawnPoint) {IsPersistent = true, IsStolen = true};
             _cVehicle.Metadata.searchDriver = "~y~50 travel hand sanitizers~s~, ~y~48 toilet paper rolls~s~, ~g~lighters~s~, ~g~cigarettes~s~";
             _cVehicle.Metadata.searchPassenger = "~r~multiple packs of cleaning wipes~s~, ~r~box full of medical masks~s~";
             _cVehicle.Metadata.searchTrunk = "~r~multiple pallets of toilet paper~s~, ~r~hazmat suits~s~, ~r~12 molotov explosives~s~, ~y~22 packs of cigarettes~s~";
