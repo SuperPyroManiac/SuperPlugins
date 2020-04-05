@@ -6,6 +6,7 @@ using System.Drawing;
 using LSPD_First_Response;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
+using SuperCallouts2.SimpleFunctions;
 
 namespace SuperCallouts2.Callouts
 {
@@ -16,6 +17,7 @@ namespace SuperCallouts2.Callouts
         private Vehicle _cVehicle;
         private Blip _cBlip;
         private Vector3 _spawnPoint;
+        private float _spawnPointH;
         private CState _state = CState.checkDistance;
         private LHandle _pursuit;
         private string _name1;
@@ -29,7 +31,7 @@ namespace SuperCallouts2.Callouts
         
         public override bool OnBeforeCalloutDisplayed()
         {
-            _spawnPoint = World.GetNextPositionOnStreet(Game.LocalPlayer.Character.Position.Around(45f, 320f));
+            CFunctions.FindSideOfRoad(750, 280, out _spawnPoint, out _spawnPointH);
             ShowCalloutAreaBlipBeforeAccepting(_spawnPoint, 10f);
             CalloutMessage = "~b~Dispatch:~s~ Reports of a sanitization transport robbery.";
             CalloutPosition = _spawnPoint;
@@ -44,7 +46,7 @@ namespace SuperCallouts2.Callouts
             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Robbery",
                 "Reports of someone robbing a truck full of cleaning supplies, respond ~r~CODE-3");
             //cVehicle
-            _cVehicle = new Vehicle("pounder", _spawnPoint) {IsPersistent = true, IsStolen = true};
+            _cVehicle = new Vehicle("pounder", _spawnPoint) {IsPersistent = true, IsStolen = true, Heading = _spawnPointH};
             _cVehicle.Metadata.searchDriver = "~y~50 travel hand sanitizers~s~, ~y~48 toilet paper rolls~s~, ~g~lighters~s~, ~g~cigarettes~s~";
             _cVehicle.Metadata.searchPassenger = "~r~multiple packs of cleaning wipes~s~, ~r~box full of medical masks~s~";
             _cVehicle.Metadata.searchTrunk = "~r~multiple pallets of toilet paper~s~, ~r~hazmat suits~s~, ~r~12 molotov explosives~s~, ~y~22 packs of cigarettes~s~";
