@@ -107,7 +107,7 @@ namespace SuperCallouts2.Callouts
                 //Gameplay
                 if (!_onScene && Game.LocalPlayer.Character.DistanceTo(_victim.Position) < 40f)
                 {
-                    //Blip1.Delete();
+                    _blip1.Delete();
                     _blip2.Delete();
                     _blip3.Delete();
                     _pursuit = Functions.CreatePursuit();

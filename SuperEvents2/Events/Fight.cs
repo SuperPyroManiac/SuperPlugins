@@ -8,12 +8,19 @@ namespace SuperEvents2.Events
         private Vector3 _spawnPoint;
         private float _spawnPointH;
         private Ped _suspect;
+        private Ped _suspect2;
         
         public override void StartEvent(Vector3 s, float f)
         {
+            //Setup
             EFunctions.FindSideOfRoad(120, 45, out _spawnPoint, out _spawnPointH);
+            if (_spawnPoint.DistanceTo(Player) < 35f) {End(true); return;}
+            //Suspect1
             _suspect = new Ped(_spawnPoint) {IsPersistent = true, BlockPermanentEvents = true};
             EntitiesToClear.Add(_suspect);
+            //Suspect2
+            _suspect2 = new Ped(_suspect.FrontPosition) {IsPersistent = true, BlockPermanentEvents = true};
+            EntitiesToClear.Add(_suspect2);
             base.StartEvent(_spawnPoint, _spawnPointH);
         }
 

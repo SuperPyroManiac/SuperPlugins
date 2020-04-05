@@ -47,10 +47,12 @@ namespace SuperCallouts2.Callouts
             _cVehicle = new Vehicle("POLICET", _spawnPoint) {IsPersistent = true};
             //Cop
             _cop = new Ped("csb_cop", _spawnPoint, 0f);
+            _cop.IsPersistent = true;
             _cop.WarpIntoVehicle(_cVehicle, -1);
             _cop.Tasks.LeaveVehicle(LeaveVehicleFlags.LeaveDoorOpen);
             //Bad
             _badguy = new Ped("s_m_y_prisoner_01", _spawnPoint, 0f);
+            _badguy.IsPersistent = true;
             _badguy.WarpIntoVehicle(_cVehicle, 1);
             _badguy.Tasks.LeaveVehicle(LeaveVehicleFlags.LeaveDoorOpen);
             //Blips
