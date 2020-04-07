@@ -132,7 +132,9 @@ namespace SuperCallouts2.Callouts
                     _onScene2 = true;
                     _pursuit = Functions.CreatePursuit();
                     Functions.AddPedToPursuit(_pursuit, _bad1);
-                    Functions.AddPedToPursuit(_pursuit, _bad2); }
+                    Functions.AddPedToPursuit(_pursuit, _bad2);
+                    Functions.SetPursuitIsActiveForPlayer(_pursuit, true);
+                }
                 if (_onScene2 && Game.LocalPlayer.Character.DistanceTo(_cVehicle2) < 50f && !Functions.IsPursuitStillRunning(_pursuit))
                 {
                     _onScene2 = false;
