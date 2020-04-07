@@ -16,7 +16,6 @@ namespace SuperCallouts2.Callouts
         private Ped _bad1;
         private Ped _bad2;
         private Blip _cBlip;
-        private Tuple<Vector3, float> _chosenSpawnData;
         private Ped _cop1;
         private Ped _cop2;
         private Vehicle _copVehicle;

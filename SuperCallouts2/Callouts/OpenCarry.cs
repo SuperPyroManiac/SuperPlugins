@@ -87,6 +87,7 @@ namespace SuperCallouts2.Callouts
                 if (!_onScene && Game.LocalPlayer.Character.Position.DistanceTo(_bad1) < 20f)
                 {
                     Game.DisplayHelp("~y~Press ~r~" + Settings.Interact + "~y~ to open interaction menu.");
+                    _onScene = true;
                     _stopSuspect.Enabled = true;
                 }
 

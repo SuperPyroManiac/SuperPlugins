@@ -140,7 +140,7 @@ namespace SuperCallouts2.Callouts
                 {
                     Functions.RequestBackup(_bad.Position, EBackupResponseType.Pursuit, EBackupUnitType.AirUnit);
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     Game.LogTrivial(
                         "SuperEvents Warning: Ultimate Backup is not installed! Backup was not automatically called!");
