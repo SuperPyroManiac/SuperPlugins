@@ -1,11 +1,13 @@
 #region
-
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using LSPD_First_Response;
 using LSPD_First_Response.Mod.API;
 using Rage;
+using RAGENativeUI;
+using RAGENativeUI.Elements;
 using SuperEvents2.SimpleFunctions;
 #endregion
 
@@ -15,12 +17,19 @@ namespace SuperEvents2
     {
         public static bool EventRunning { get; set; }
         public static bool TimeStart { get; set; }
-        public static List<Entity> EntitiesToClear { get; set; }
-        public static List<Blip> BlipsToClear { get; set; }
-        public GameFiber ProcessFiber { get; set; }
+        public static List<Entity> EntitiesToClear { get; private set; }
+        public static List<Blip> BlipsToClear { get; private set; }
+        public GameFiber ProcessFiber { get; }
         public Ped Player => Game.LocalPlayer.Character;
+        
+        //Main Menu
+        internal MenuPool _interaction = new MenuPool();
+        internal UIMenu _mainMenu = new UIMenu("SuperEvents", "Choose an option.");
+        internal UIMenu _convoMenu = new UIMenu("SuperEvents", "~y~Choose a subject to speak with.");
+        internal UIMenuItem _questioning = new UIMenuItem("Speak With Subjects");
+        internal UIMenuItem _endCall = new UIMenuItem("~y~End Event", "Ends the event.");
 
-        public AmbientEvent()
+        protected AmbientEvent()
         {
             try
             {
@@ -43,6 +52,7 @@ namespace SuperEvents2
                 Game.LogTrivial(e.ToString());
                 Game.LogTrivial("======================================================");
                 Game.LogTrivial("SuperEvents Error Report End");
+                // ReSharper disable once VirtualMemberCallInConstructor
                 End(true);
             }
         }
@@ -50,12 +60,24 @@ namespace SuperEvents2
         public virtual void StartEvent(Vector3 spawnPoint, float spawnPointH)
         {
             AmbientEvent.TimeStart = false;
+            _interaction.Add(_mainMenu);
+            _mainMenu.AddItem(_endCall);
+            _interaction.Add(_convoMenu);
+            _mainMenu.AddItem(_questioning);
+            _mainMenu.BindMenuToItem(_convoMenu, _questioning);
+            _convoMenu.ParentMenu = _mainMenu;
+            _questioning.Enabled = false;
+            _mainMenu.RefreshIndex();
+            _convoMenu.RefreshIndex();
+            _mainMenu.OnItemSelect += Interactions;
+            _convoMenu.OnItemSelect += Conversations;
             if (Settings.ShowBlips)
             {
                 var eventBlip = new Blip(spawnPoint, 15f);
                 eventBlip.Color = Color.Red;
                 eventBlip.Alpha /= 2;
                 eventBlip.Name = "Event";
+                eventBlip.Scale = 0.5f;
                 eventBlip.Flash(500, 5000);
                 BlipsToClear.Add(eventBlip);
             }
@@ -64,11 +86,14 @@ namespace SuperEvents2
             ProcessFiber.Start();
         }
 
-        public virtual void Process()
+        protected virtual void Process()
         {
+            if (Game.IsKeyDown(Settings.EndEvent)) End(false);
+            if (Game.IsKeyDown(Settings.Interact)) _mainMenu.Visible = !_mainMenu.Visible;
+            _interaction.ProcessMenus();
         }
 
-        public virtual void End(bool forceCleanup)
+        protected virtual void End(bool forceCleanup)
         {
             EventRunning = false;
             
@@ -81,13 +106,27 @@ namespace SuperEvents2
             {
                 foreach (var entity in EntitiesToClear.Where(entity => entity))
                     entity.Dismiss(); 
+                Game.DisplayHelp("~y~Event Ended.");
             }
             
             foreach (var blip in BlipsToClear.Where(blip => blip))
                 blip.Delete();
             
+            _interaction.CloseAllMenus();
             Game.LogTrivial("SuperEvents: Ending Event.");
             EventTimer.TimerStart();
+        }
+
+        protected virtual void Interactions(UIMenu sender, UIMenuItem selItem, int index)
+        {
+            if (selItem == _endCall)
+            {
+                End(false);
+            }
+        }
+
+        protected virtual void Conversations(UIMenu sender, UIMenuItem selItem, int index)
+        {
         }
     }
 }

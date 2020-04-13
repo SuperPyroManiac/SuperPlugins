@@ -22,7 +22,7 @@ namespace SuperEvents.Events
         private float _spawnPointH;
         //UI Items
         private readonly MenuPool _interaction = new MenuPool();
-        private readonly UIMenu _mainMenu = new UIMenu("SuperEvents", "~y~Choose an option.");
+        private readonly UIMenu _mainMenu = new UIMenu("SuperEvents", "Choose an option.");
         private readonly UIMenuItem _callFd =
             new UIMenuItem("~r~ Call Fire Department", "Calls for ambulance and firetruck.");
         private readonly UIMenuItem _endCall = new UIMenuItem("~y~End Event", "Ends the event early.");
