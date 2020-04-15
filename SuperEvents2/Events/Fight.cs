@@ -1,3 +1,4 @@
+using System;
 using LSPD_First_Response.Mod.API;
 using Rage;
 using RAGENativeUI;
@@ -44,27 +45,36 @@ namespace SuperEvents2.Events
             switch (_tasks)
             {
                 case Tasks.CheckDistance:
+                    if (!_suspect.IsAnySpeechPlaying) _suspect.PlayAmbientSpeech("GENERIC_CURSE_MED");
+                    if (!_suspect2.IsAnySpeechPlaying) _suspect2.PlayAmbientSpeech("GENERIC_CURSE_MED");
                     if (Game.LocalPlayer.Character.DistanceTo(_spawnPoint) < 20f)
                     {
                         if (Settings.ShowHints)
-                        {
-                            
-                        }
+                            Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~y~Officer Sighting",
+                                "~r~A Fight", "Stop the fight, and make sure everyone is ok.");
+                        Game.DisplayHelp("~y~Press ~r~" + Settings.Interact + "~y~ to open interaction menu.");
+                        _questioning.Enabled = true;
                         _tasks = Tasks.OnScene;
                     }
                     break;
                 case Tasks.OnScene:
-                    if (Settings.ShowHints)
+                    var choice = new Random().Next(1,4);
+                    switch (choice)
                     {
-                        Game.DisplayNotification("IT WORKS");
-                        _tasks = Tasks.End;
+                        case 1:
+                            _suspect.Tasks.FightAgainst(_suspect2);
+                            _suspect2.Tasks.FightAgainst(_suspect);
+                            break;
+                        case 2:
+                            break;//TODO: SCENES
+                        case 3:
+                            break;
+                        default:
+                            End(true);
+                            break;
                     }
                     break;
                 case Tasks.End:
-                    if (_suspect.IsDead)
-                    {
-                        End(false);
-                    }
                     break;
                 default:
                     End(true);
@@ -79,7 +89,7 @@ namespace SuperEvents2.Events
             {
                 End(false);
             }
-            if (selItem == _speakSuspect2)
+            if (selItem == _speakSuspect2)//TODO: SPEACH
             {
                 End(false);
             }
