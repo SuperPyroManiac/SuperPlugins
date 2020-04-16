@@ -24,6 +24,7 @@ namespace SuperEvents2.Events
             base.StartEvent(_spawnPoint, _spawnPointH);
             //eVehicle
             EFunctions.SpawnNormalCar(out _eVehicle, _spawnPoint);
+            EntitiesToClear.Add(_eVehicle);
         }
 
         protected override void Process()
@@ -48,10 +49,19 @@ namespace SuperEvents2.Events
                         switch (choice)
                         {
                             case 1:
+                                EFunctions.FireControl(_spawnPoint, 25, true);
+                                EFunctions.FireControl(_spawnPoint, 25, false);
                                 break;
                             case 2:
+                                _eVehicle.Explode();
+                                EFunctions.FireControl(_spawnPoint, 10, true);
                                 break;
                             case 3:
+                                _victim = _eVehicle.CreateRandomDriver();
+                                _victim.IsPersistent = true;
+                                EntitiesToClear.Add(_victim);
+                                EFunctions.FireControl(_spawnPoint, 25, true);
+                                EFunctions.FireControl(_spawnPoint, 25, false);
                                 break;
                             default:
                                 End(true);
