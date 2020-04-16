@@ -77,13 +77,16 @@ namespace SuperEvents2.Events
                             case 2:
                                 _suspect.Tasks.FightAgainst(_suspect2);
                                 _suspect2.Tasks.FightAgainst(_suspect);
-                                GameFiber.Wait(4000);
+                                GameFiber.Wait(2000);
+                                _suspect.Tasks.ClearImmediately();
+                                _suspect2.Tasks.ClearImmediately();
                                 _suspect.Tasks.FightAgainst(Player);
                                 _suspect2.Tasks.FightAgainst(Player);
                                 break;
                             case 3:
                                 _suspect.Tasks.Cower(-1);
                                 _suspect2.Inventory.Weapons.Add(WeaponHash.Pistol);
+                                _suspect2.Tasks.ClearImmediately();
                                 _suspect2.Tasks.FireWeaponAt(_suspect, -1, FiringPattern.BurstFirePistol);
                                 GameFiber.Wait(2000);
                                 _suspect2.BlockPermanentEvents = false;
