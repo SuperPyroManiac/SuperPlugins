@@ -57,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AmbientEvent.cs" />
+    <Compile Include="Events\CarFire.cs" />
     <Compile Include="Events\Fight.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

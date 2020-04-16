@@ -8,7 +8,7 @@ using Rage;
 
 namespace SuperCallouts.CustomScenes
 {
-    //This class will be used as a refference to Mafia Robbery class. Just here to keep things clean in the main classes.
+    //This class will be used as a reference to Mafia Robbery class. Just here to keep things clean in the main classes.
     //This is also a test of an in game script maker to allow me to precisly make custom scenes. It's messy and gross but works.
     public class MafiaSetup
     {

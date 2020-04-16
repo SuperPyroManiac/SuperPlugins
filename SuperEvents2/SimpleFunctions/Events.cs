@@ -22,7 +22,7 @@ namespace SuperEvents2.SimpleFunctions
                         if (!Functions.IsCalloutRunning() && !Functions.IsPlayerPerformingPullover() && Functions.GetActivePursuit() == null && TimeStart && !EventRunning)
                         {
                             Game.LogTrivial("SuperEvents: Generating random event.");
-                            var choices = RNd.Next(1, 2);
+                            var choices = RNd.Next(1, 3);
                             
                             switch(choices)
                             {
@@ -34,6 +34,15 @@ namespace SuperEvents2.SimpleFunctions
                                         fight.StartEvent(default, 0);
                                     }
                                     else { Game.LogTrivial("SuperEvents: Fight event disabled in config.. Trying again for another event."); }
+                                    break;
+                                case 2:
+                                    if (Settings.CarFire)
+                                    {
+                                        Game.LogTrivial("SuperEvents: Starting car fire event.");
+                                        var fire = new CarFire();
+                                        fire.StartEvent(default, 0);
+                                    }
+                                    else { Game.LogTrivial("SuperEvents: Fire event disabled in config.. Trying again for another event."); }
                                     break;
                                 default:
                                     Game.LogTrivial("SuperEvents: If you see this error please tell SuperPyroManiac he is a fool. This error should never pop up unless I forget how to count.");

@@ -32,12 +32,14 @@ namespace SuperEvents2.Events
             EFunctions.SetDrunk(_suspect, true);
             _name1 = Functions.GetPersonaForPed(_suspect).FullName;
             _suspect.Metadata.stpAlcoholDetected = true;
+            NativeFunction.CallByName<uint>("TASK_TURN_PED_TO_FACE_ENTITY", _suspect, _suspect2, -1);
             EntitiesToClear.Add(_suspect);
             //Suspect2
             _suspect2 = new Ped(_suspect.FrontPosition) {IsPersistent = true, BlockPermanentEvents = true};
             EFunctions.SetDrunk(_suspect2, true);
             _name2 = Functions.GetPersonaForPed(_suspect2).FullName;
             _suspect2.Metadata.stpAlcoholDetected = true;
+            NativeFunction.CallByName<uint>("TASK_TURN_PED_TO_FACE_ENTITY", _suspect2, _suspect, -1);
             EntitiesToClear.Add(_suspect2);
             //UI Items
             _speakSuspect = new UIMenuItem("Speak with ~y~" + _name1);
@@ -85,10 +87,11 @@ namespace SuperEvents2.Events
                                 break;
                             case 3:
                                 _suspect.Tasks.Cower(-1);
-                                _suspect2.Inventory.Weapons.Add(WeaponHash.Pistol);
+                                _suspect2.Inventory.Weapons.Add(WeaponHash.Pistol).Ammo = -1;
                                 _suspect2.Tasks.ClearImmediately();
+                                _suspect2.Tasks.AimWeaponAt(_suspect, -1);
+                                GameFiber.Wait(500);
                                 _suspect2.Tasks.FireWeaponAt(_suspect, -1, FiringPattern.BurstFirePistol);
-                                GameFiber.Wait(2000);
                                 _suspect2.BlockPermanentEvents = false;
                                 break;
                             default:
