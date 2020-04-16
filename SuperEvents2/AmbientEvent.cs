@@ -62,9 +62,9 @@ namespace SuperEvents2
         {
             AmbientEvent.TimeStart = false;
             _interaction.Add(_mainMenu);
-            _mainMenu.AddItem(_endCall);
             _interaction.Add(_convoMenu);
             _mainMenu.AddItem(_questioning);
+            _mainMenu.AddItem(_endCall);
             _mainMenu.BindMenuToItem(_convoMenu, _questioning);
             _convoMenu.ParentMenu = _mainMenu;
             _questioning.Enabled = false;
@@ -72,18 +72,16 @@ namespace SuperEvents2
             _convoMenu.RefreshIndex();
             _mainMenu.OnItemSelect += Interactions;
             _convoMenu.OnItemSelect += Conversations;
-            CheckDistance = spawnPoint;
             if (Settings.ShowBlips)
             {
                 var eventBlip = new Blip(spawnPoint, 15f);
                 eventBlip.Color = Color.Red;
                 eventBlip.Alpha /= 2;
                 eventBlip.Name = "Event";
-                eventBlip.Scale = 0.5f;
                 eventBlip.Flash(500, 5000);
                 BlipsToClear.Add(eventBlip);
             }
-            
+            CheckDistance = spawnPoint;
             EventRunning = true;
             ProcessFiber.Start();
         }
@@ -104,7 +102,7 @@ namespace SuperEvents2
             {
                 foreach (var entity in EntitiesToClear.Where(entity => entity))
                     entity.Delete();
-                Game.DisplayHelp("Due to an issue this event has been forcefully removed! Check log for details.");
+                Game.LogTrivial("Due to an issue this event has been forcefully removed!");
             }
             else
             {
