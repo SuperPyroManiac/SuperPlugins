@@ -21,6 +21,7 @@ namespace SuperEvents2
         public static List<Blip> BlipsToClear { get; private set; }
         public GameFiber ProcessFiber { get; }
         public Ped Player => Game.LocalPlayer.Character;
+        private Vector3 CheckDistance;
         
         //Main Menu
         internal MenuPool _interaction = new MenuPool();
@@ -71,6 +72,7 @@ namespace SuperEvents2
             _convoMenu.RefreshIndex();
             _mainMenu.OnItemSelect += Interactions;
             _convoMenu.OnItemSelect += Conversations;
+            CheckDistance = spawnPoint;
             if (Settings.ShowBlips)
             {
                 var eventBlip = new Blip(spawnPoint, 15f);
@@ -90,6 +92,7 @@ namespace SuperEvents2
         {
             if (Game.IsKeyDown(Settings.EndEvent)) End(false);
             if (Game.IsKeyDown(Settings.Interact)) _mainMenu.Visible = !_mainMenu.Visible;
+            if (CheckDistance.DistanceTo(Player) > 200f) End(false);
             _interaction.ProcessMenus();
         }
 
@@ -101,6 +104,7 @@ namespace SuperEvents2
             {
                 foreach (var entity in EntitiesToClear.Where(entity => entity))
                     entity.Delete();
+                Game.DisplayHelp("Due to an issue this event has been forcefully removed! Check log for details.");
             }
             else
             {
