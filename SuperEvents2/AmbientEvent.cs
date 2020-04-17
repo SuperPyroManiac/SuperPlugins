@@ -21,14 +21,14 @@ namespace SuperEvents2
         public static List<Blip> BlipsToClear { get; private set; }
         public GameFiber ProcessFiber { get; }
         public Ped Player => Game.LocalPlayer.Character;
-        private Vector3 CheckDistance;
+        private Vector3 _checkDistance;
         
         //Main Menu
-        internal MenuPool _interaction = new MenuPool();
-        internal UIMenu _mainMenu = new UIMenu("SuperEvents", "Choose an option.");
-        internal UIMenu _convoMenu = new UIMenu("SuperEvents", "~y~Choose a subject to speak with.");
-        internal UIMenuItem _questioning = new UIMenuItem("Speak With Subjects");
-        internal UIMenuItem _endCall = new UIMenuItem("~y~End Event", "Ends the event.");
+        internal readonly MenuPool Interaction = new MenuPool();
+        internal readonly UIMenu MainMenu = new UIMenu("SuperEvents", "Choose an option.");
+        internal readonly UIMenu ConvoMenu = new UIMenu("SuperEvents", "~y~Choose a subject to speak with.");
+        internal readonly UIMenuItem Questioning = new UIMenuItem("Speak With Subjects");
+        internal readonly UIMenuItem EndCall = new UIMenuItem("~y~End Event", "Ends the event.");
 
         protected AmbientEvent()
         {
@@ -61,17 +61,17 @@ namespace SuperEvents2
         public virtual void StartEvent(Vector3 spawnPoint, float spawnPointH)
         {
             AmbientEvent.TimeStart = false;
-            _interaction.Add(_mainMenu);
-            _interaction.Add(_convoMenu);
-            _mainMenu.AddItem(_questioning);
-            _mainMenu.AddItem(_endCall);
-            _mainMenu.BindMenuToItem(_convoMenu, _questioning);
-            _convoMenu.ParentMenu = _mainMenu;
-            _questioning.Enabled = false;
-            _mainMenu.RefreshIndex();
-            _convoMenu.RefreshIndex();
-            _mainMenu.OnItemSelect += Interactions;
-            _convoMenu.OnItemSelect += Conversations;
+            Interaction.Add(MainMenu);
+            Interaction.Add(ConvoMenu);
+            MainMenu.AddItem(Questioning);
+            MainMenu.AddItem(EndCall);
+            MainMenu.BindMenuToItem(ConvoMenu, Questioning);
+            ConvoMenu.ParentMenu = MainMenu;
+            Questioning.Enabled = false;
+            MainMenu.RefreshIndex();
+            ConvoMenu.RefreshIndex();
+            MainMenu.OnItemSelect += Interactions;
+            ConvoMenu.OnItemSelect += Conversations;
             if (Settings.ShowBlips)
             {
                 var eventBlip = new Blip(spawnPoint, 15f);
@@ -81,7 +81,7 @@ namespace SuperEvents2
                 eventBlip.Flash(500, 5000);
                 BlipsToClear.Add(eventBlip);
             }
-            CheckDistance = spawnPoint;
+            _checkDistance = spawnPoint;
             EventRunning = true;
             ProcessFiber.Start();
         }
@@ -89,13 +89,13 @@ namespace SuperEvents2
         protected virtual void Process()
         {
             if (Game.IsKeyDown(Settings.EndEvent)) End(false);
-            if (Game.IsKeyDown(Settings.Interact)) _mainMenu.Visible = !_mainMenu.Visible;
-            if (CheckDistance.DistanceTo(Player) > 200f)
+            if (Game.IsKeyDown(Settings.Interact)) MainMenu.Visible = !MainMenu.Visible;
+            if (_checkDistance.DistanceTo(Player) > 200f)
             {
                 End(true);
                 Game.LogTrivial("SuperEvents: Cleaning up event due to player being too far.");
             }
-            _interaction.ProcessMenus();
+            Interaction.ProcessMenus();
         }
 
         protected virtual void End(bool forceCleanup)
@@ -118,14 +118,14 @@ namespace SuperEvents2
             foreach (var blip in BlipsToClear.Where(blip => blip))
                 blip.Delete();
             
-            _interaction.CloseAllMenus();
+            Interaction.CloseAllMenus();
             Game.LogTrivial("SuperEvents: Ending Event.");
             EventTimer.TimerStart();
         }
 
         protected virtual void Interactions(UIMenu sender, UIMenuItem selItem, int index)
         {
-            if (selItem == _endCall)
+            if (selItem == EndCall)
             {
                 End(false);
             }

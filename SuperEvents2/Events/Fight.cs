@@ -44,8 +44,8 @@ namespace SuperEvents2.Events
             //UI Items
             _speakSuspect = new UIMenuItem("Speak with ~y~" + _name1);
             _speakSuspect2 = new UIMenuItem("Speak with ~y~" + _name2);
-            _convoMenu.AddItem(_speakSuspect);
-            _convoMenu.AddItem(_speakSuspect2);
+            ConvoMenu.AddItem(_speakSuspect);
+            ConvoMenu.AddItem(_speakSuspect2);
         }
 
         protected override void Process()
@@ -63,7 +63,7 @@ namespace SuperEvents2.Events
                                 Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~y~Officer Sighting",
                                     "~r~A Fight", "Stop the fight, and make sure everyone is ok.");
                             Game.DisplayHelp("~y~Press ~r~" + Settings.Interact + "~y~ to open interaction menu.");
-                            _questioning.Enabled = true;
+                            Questioning.Enabled = true;
                             _tasks = Tasks.OnScene;
                         }
                         break;

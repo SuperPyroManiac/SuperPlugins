@@ -30,27 +30,27 @@ namespace SuperEvents2.SimpleFunctions
             return persona.Wanted;
         }
 
-        public static void SetDrunk(Ped Bad, bool isDrunk)
+        public static void SetDrunk(Ped bad, bool isDrunk)
         {
             GameFiber.StartNew(delegate
             {
                 GameFiber.Yield();
-                Bad.Metadata.stpAlcoholDetected = isDrunk;
+                bad.Metadata.stpAlcoholDetected = isDrunk;
                 var drunkAnimset = new AnimationSet("move_m@drunk@verydrunk");
                 drunkAnimset.LoadAndWait();
-                Bad.MovementAnimationSet = drunkAnimset;
-                Rage.Native.NativeFunction.Natives.SET_PED_IS_DRUNK(Bad, isDrunk);
+                bad.MovementAnimationSet = drunkAnimset;
+                Rage.Native.NativeFunction.Natives.SET_PED_IS_DRUNK(bad, isDrunk);
             });
             return;
         }
-        public static void SetAnimation(Ped Person, string theAnimation)
+        public static void SetAnimation(Ped person, string theAnimation)
         {
             GameFiber.StartNew(delegate
             {
                 GameFiber.Yield();
                 var drunkAnimset = new AnimationSet(theAnimation);
                 drunkAnimset.LoadAndWait();
-                Person.MovementAnimationSet = drunkAnimset;
+                person.MovementAnimationSet = drunkAnimset;
             });
             return;
         }
