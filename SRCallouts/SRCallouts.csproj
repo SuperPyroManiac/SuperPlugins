@@ -35,6 +35,7 @@
     <Reference Include="LSPD First Response, Version=0.4.7297.8062, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\..\..\CODING\LSPDFR DEV\LSPDFR API'S\LSPDFR SDK\LSPD First Response.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="RAGENativeUI, Version=1.6.3.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\..\..\CODING\LSPDFR DEV\LSPDFR API'S\NativeUI SDK\RAGENativeUI.dll</HintPath>
     </Reference>
@@ -47,16 +48,22 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Callouts\Mafia1.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SceneSetup\Mafia1.cs" />
+    <Compile Include="SceneSetup\Mafia1Pre.cs" />
     <Compile Include="Settings.cs" />
+    <Compile Include="SimpleFunctions\SFunctions.cs" />
+    <Compile Include="SimpleFunctions\PulloverSpots.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="SuperCallouts.ini" />
+    <Content Include="SRCallouts.ini" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

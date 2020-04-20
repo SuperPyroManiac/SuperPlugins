@@ -15,7 +15,7 @@ namespace SRCallouts
             var path = "Plugins/LSPDFR/SRCallouts.ini";
             var ini = new InitializationFile(path);
             ini.Create();
-            Mafia1 = ini.ReadBoolean("Settings", "CarAccident", true);
+            Mafia1 = ini.ReadBoolean("Settings", "Mafia1", true);
             Interact = ini.ReadEnum("Keys", "Interact", Keys.Y);
             EndCall = ini.ReadEnum("Keys", "EndCall", Keys.End);
             Game.LogTrivial("SR Callouts: Config loaded.");

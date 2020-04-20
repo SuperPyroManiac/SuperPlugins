@@ -16,7 +16,7 @@ namespace SuperCallouts2.Callouts
     [CalloutInfo("MafiaActivity", CalloutProbability.Medium)]
     internal class MafiaActivity : Callout
     {
-        private readonly Vector3 _callPos = new Vector3(918.8804f, 38.91176f, 81.09602f);
+        private readonly Vector3 _callPos = new Vector3(918.88f, 38.91f, 81.09f);
         private Blip _cBlip;
         private Vehicle _mafiaCars1;
         private Vehicle _mafiaCars2;
