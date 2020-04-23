@@ -17,8 +17,9 @@ namespace SRCallouts.Callouts
     [CalloutInfo("Mafia1", CalloutProbability.Medium)]
     public class Mafia1 : Callout
     {
-        private readonly Vector3 _callPos = new Vector3(918.88f, 38.91f, 81.09f);
+        private Vector3 _callPos = new Vector3(909.56f, 4.041f, 78.67f);
         private Blip _cBlip;
+        private Blip _aBlip;
         private SrState _state = SrState.CheckDistance;
         private SrChoice _choice;
         private static Ped Player => Game.LocalPlayer.Character;
@@ -146,12 +147,13 @@ namespace SRCallouts.Callouts
                                 "Press: " + Settings.Interact + " to speak with the FIB.");
                             NativeFunction.CallByName<uint>("TASK_TURN_PED_TO_FACE_ENTITY", _fib1, Player, -1);
                             NativeFunction.CallByName<uint>("TASK_TURN_PED_TO_FACE_ENTITY", _fib2, Player, -1);
+                            _questioning.Enabled = true;
                             _convoMenu.AddItem(_speakFib);
                             _state = SrState.End;
                         }
                         break;
                     case SrState.CheckDistance2:
-                        if (Player.DistanceTo(_callPos) < 20f)
+                        if (Player.DistanceTo(_callPos) < 60f)
                         {
                             switch (_choice)
                             {
@@ -195,11 +197,16 @@ namespace SRCallouts.Callouts
                             GameFiber.Wait(5000);
                             foreach (var entity in _badGuys.Where(entity => entity))
                                 entity.Tasks.FightAgainstClosestHatedTarget(100, -1);
-                            _cBlip.DisableRoute();
+                            _aBlip.DisableRoute();
                             _state = SrState.End;
                         });
                         break;
                     case SrState.End:
+                        GameFiber.StartNew(delegate
+                        {
+                            GameFiber.Wait(35000);
+                            Game.SetRelationshipBetweenRelationshipGroups("COP", "MAFIA", Relationship.Dislike);
+                        });
                         break;
                     default:
                         End();
@@ -232,6 +239,7 @@ namespace SRCallouts.Callouts
             foreach (var entity in _goodguys.Where(entity => entity)) entity?.Dismiss();
             foreach (var entity in _vehicles.Where(entity => entity)) entity?.Dismiss();
             _cBlip?.Delete();
+            _aBlip?.Delete();
             _interaction.CloseAllMenus();
             Game.DisplayHelp("~y~Callout Ended");
                 base.End();
@@ -260,18 +268,18 @@ namespace SRCallouts.Callouts
                     }
 
                     _convoMenu.RemoveItemAt(0);
-                    Game.DisplaySubtitle("~b~Agent~s~: Hello sergeant, you may be aware of the current crime family in the city.", 6000);
-                    GameFiber.Wait(6000);
-                    Game.DisplaySubtitle("~b~Agent~s~: In the past we didn't have enough evidence to convict them but they slipped up this week.", 6000);
-                    GameFiber.Wait(6000);
-                    Game.DisplaySubtitle("~b~Agent~s~: We have intel on them transporting weapons and drugs using the casino as a base of operations.", 6000);
-                    GameFiber.Wait(6000);
-                    Game.DisplaySubtitle("~b~Agent~s~: So today you will be leading a raid on the casino. There is a few different ways we can handle this.", 6000);
-                    GameFiber.Wait(6000);
+                    Game.DisplaySubtitle("~b~Agent~s~: Hello sergeant, you may be aware of the current crime family in the city.", 7000);
+                    GameFiber.Wait(7000);
+                    Game.DisplaySubtitle("~b~Agent~s~: In the past we didn't have enough evidence to convict them but they slipped up this week.", 7000);
+                    GameFiber.Wait(7000);
+                    Game.DisplaySubtitle("~b~Agent~s~: We have intel on them transporting weapons and drugs using the casino as a base of operations.", 7000);
+                    GameFiber.Wait(7000);
+                    Game.DisplaySubtitle("~b~Agent~s~: So today you will be leading a raid on the casino. There is a few different ways we can handle this.", 7000);
+                    GameFiber.Wait(7000);
                     Game.DisplaySubtitle("~b~Agent~s~: We have NOOSE available to help 'subdue' the suspects. You may also lead a SWAT team from your department.", 7000);
                     GameFiber.Wait(7000);
-                    Game.DisplaySubtitle("~b~Agent~s~: Last option is we leave the situation under your control. You can bring your own backup, but this seems dangerous.", 6000);
-                    GameFiber.Wait(6000);
+                    Game.DisplaySubtitle("~b~Agent~s~: Last option is we leave the situation under your control. You can bring your own backup, but this seems dangerous.", 7000);
+                    GameFiber.Wait(7000);
                     Game.DisplaySubtitle("~b~Agent~s~: Let me know what option sounds good to you.", 6000);
                     _convoMenu.AddItem(_choiceNoose);
                     _convoMenu.AddItem(_choiceSwat);
@@ -286,11 +294,11 @@ namespace SRCallouts.Callouts
                     _interaction.CloseAllMenus();
                     _questioning.Enabled = false;
                     Game.DisplaySubtitle("~b~Agent~s~: We will have a NOOSE team on standby until you arrive on scene.", 6000);
-                    _cBlip.Position = _callPos;
-                    _cBlip.Scale = 15;
-                    _cBlip.EnableRoute(Color.Red);
-                    _cBlip.Color = Color.Red;
-                    _choice = SrChoice.Noose;
+                    _cBlip?.Delete();
+                    _aBlip = new Blip(_callPos.Around2D(1,2), 30);
+                    _aBlip.Color = Color.Red;
+                    _aBlip.Alpha = .5f;
+                    _aBlip.EnableRoute(Color.Red);
                     _state = SrState.CheckDistance2;
                 });
             }
@@ -301,10 +309,11 @@ namespace SRCallouts.Callouts
                     _interaction.CloseAllMenus();
                     _questioning.Enabled = false;
                     Game.DisplaySubtitle("~b~Agent~s~: Your departments SWAT team will standby for your arrival.", 6000);
-                    _cBlip.Position = _callPos;
-                    _cBlip.Scale = 15;
-                    _cBlip.EnableRoute(Color.Red);
-                    _cBlip.Color = Color.Red;
+                    _cBlip?.Delete();
+                    _aBlip = new Blip(_callPos.Around2D(1,2), 30);
+                    _aBlip.Color = Color.Red;
+                    _aBlip.Alpha = .5f;
+                    _aBlip.EnableRoute(Color.Red);
                     _choice = SrChoice.Swat;
                     _state = SrState.CheckDistance2;
                 });
@@ -316,10 +325,11 @@ namespace SRCallouts.Callouts
                     _interaction.CloseAllMenus();
                     _questioning.Enabled = false;
                     Game.DisplaySubtitle("~b~Agent~s~: We will leave it to you then. Seems like a dangerous choice though.", 6000);
-                    _cBlip.Position = _callPos;
-                    _cBlip.Scale = 15;
-                    _cBlip.EnableRoute(Color.Red);
-                    _cBlip.Color = Color.Red;
+                    _cBlip?.Delete();
+                    _aBlip = new Blip(_callPos.Around2D(1,2), 30);
+                    _aBlip.Color = Color.Red;
+                    _aBlip.Alpha = .5f;
+                    _aBlip.EnableRoute(Color.Red);
                     _choice = SrChoice.You;
                     _state = SrState.CheckDistance2;
                 });

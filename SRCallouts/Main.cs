@@ -30,7 +30,7 @@ namespace SRCallouts
         private static void RegisterCallouts()
         {
             if (Settings.Mafia1) { Functions.RegisterCallout(typeof(Mafia1)); Game.LogTrivial("SR Callouts: Mafia1 Enabled"); }
-            Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~r~SuperCallouts", "~g~Plugin Loaded.",
+            Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~r~SR Callouts", "~g~Plugin Loaded.",
                 "SR Callouts version: " +
                 Assembly.GetExecutingAssembly().GetName().Version + " loaded.");
         }
