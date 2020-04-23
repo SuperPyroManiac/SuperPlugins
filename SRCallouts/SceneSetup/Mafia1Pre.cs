@@ -10,13 +10,13 @@ namespace SRCallouts.SceneSetup
 {
     public class Mafia1Pre
     {
-        private Vehicle fbi;
-        private Vehicle riot;
-        private Ped fibarchitect;
-        private Ped fiboffice;
-        private Ped mpFibsec;
-        private Ped swat;
-        private Ped swat2;
+        private Vehicle _fbi;
+        private Vehicle _riot;
+        private Ped _fibarchitect;
+        private Ped _fiboffice;
+        private Ped _mpFibsec;
+        private Ped _swat;
+        private Ped _swat2;
 
         internal static void BuildPreScene(out Ped fibarchitect, out Ped mpFibsec, out Ped swat, out Ped swat2, out Ped fiboffice, out Vehicle fbi, out Vehicle riot)
         {

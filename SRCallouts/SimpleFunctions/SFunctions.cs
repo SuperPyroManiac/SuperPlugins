@@ -10,9 +10,9 @@ namespace SRCallouts.SimpleFunctions
 {
     public class SFunctions
     {
-        private static TupleList<Vector3, float> _sideOfRoads = new TupleList<Vector3, float>();
+        private static readonly TupleList<Vector3, float> _sideOfRoads = new TupleList<Vector3, float>();
         private static Tuple<Vector3, float> _chosenSpawnData;
-        private static Random _rNd = new Random();
+        private static readonly Random _rNd = new Random();
 
         public static Ped SetWanted(Ped wPed, bool isWanted) //Used to set a ped as wanted.
         {
@@ -21,22 +21,22 @@ namespace SRCallouts.SimpleFunctions
             return wPed;
         }
 
-        public static void BuildUi(out MenuPool Interaction, out UIMenu MainMenu, out UIMenu ConvoMenu, out UIMenuItem Questioning, out UIMenuItem EndCall)
+        public static void BuildUi(out MenuPool interaction, out UIMenu mainMenu, out UIMenu convoMenu, out UIMenuItem questioning, out UIMenuItem endCall)
         {
-        Interaction = new MenuPool();
-        MainMenu = new UIMenu("SR Callouts", "Choose an option.");
-        ConvoMenu = new UIMenu("SR Callouts", "~y~Choose a subject to speak with.");
-        Questioning = new UIMenuItem("Speak With Subjects");
-        EndCall = new UIMenuItem("~y~End Callout", "Ends the callout.");
-        Interaction.Add(MainMenu);
-        Interaction.Add(ConvoMenu);
-        MainMenu.AddItem(Questioning);
-        MainMenu.AddItem(EndCall);
-        MainMenu.BindMenuToItem(ConvoMenu, Questioning);
-        ConvoMenu.ParentMenu = MainMenu;
-        Questioning.Enabled = false;
-        MainMenu.RefreshIndex();
-        ConvoMenu.RefreshIndex();
+        interaction = new MenuPool();
+        mainMenu = new UIMenu("SR Callouts", "Choose an option.");
+        convoMenu = new UIMenu("SR Callouts", "~y~Choose a subject to speak with.");
+        questioning = new UIMenuItem("Speak With Subjects");
+        endCall = new UIMenuItem("~y~End Callout", "Ends the callout.");
+        interaction.Add(mainMenu);
+        interaction.Add(convoMenu);
+        mainMenu.AddItem(questioning);
+        mainMenu.AddItem(endCall);
+        mainMenu.BindMenuToItem(convoMenu, questioning);
+        convoMenu.ParentMenu = mainMenu;
+        questioning.Enabled = false;
+        mainMenu.RefreshIndex();
+        convoMenu.RefreshIndex();
         }
 
         public bool IsWanted(Ped oPed) //Debugging: Used to check if the ped is wanted.
@@ -46,27 +46,27 @@ namespace SRCallouts.SimpleFunctions
             return persona.Wanted;
         }
 
-        public static void SetDrunk(Ped Bad, bool isDrunk)
+        public static void SetDrunk(Ped bad, bool isDrunk)
         {
             GameFiber.StartNew(delegate
             {
                 GameFiber.Yield();
-                Bad.Metadata.stpAlcoholDetected = isDrunk;
+                bad.Metadata.stpAlcoholDetected = isDrunk;
                 var drunkAnimset = new AnimationSet("move_m@drunk@verydrunk");
                 drunkAnimset.LoadAndWait();
-                Bad.MovementAnimationSet = drunkAnimset;
-                Rage.Native.NativeFunction.Natives.SET_PED_IS_DRUNK(Bad, isDrunk);
+                bad.MovementAnimationSet = drunkAnimset;
+                Rage.Native.NativeFunction.Natives.SET_PED_IS_DRUNK(bad, isDrunk);
             });
             return;
         }
-        public static void SetAnimation(Ped Person, string theAnimation)
+        public static void SetAnimation(Ped person, string theAnimation)
         {
             GameFiber.StartNew(delegate
             {
                 GameFiber.Yield();
                 var drunkAnimset = new AnimationSet(theAnimation);
                 drunkAnimset.LoadAndWait();
-                Person.MovementAnimationSet = drunkAnimset;
+                person.MovementAnimationSet = drunkAnimset;
             });
         }
 

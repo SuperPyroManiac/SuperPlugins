@@ -10,20 +10,20 @@ namespace SRCallouts.SceneSetup
 {
     public class Mafia1
     {
-        private Vehicle limo;
-        private Vehicle boxville;
-        private Vehicle btype;
-        private Vehicle benson;
-        private Ped xa;
-        private Ped xcdcb;
-        private Ped xbaa2;
-        private Ped xcdcb2;
-        private Ped xbaa;
-        private Ped xdb;
-        private Ped xbeb;
-        private Ped xbaa3;
+        private Vehicle _limo;
+        private Vehicle _boxville;
+        private Vehicle _btype;
+        private Vehicle _benson;
+        private Ped _xa;
+        private Ped _xcdcb;
+        private Ped _xbaa2;
+        private Ped _xcdcb2;
+        private Ped _xbaa;
+        private Ped _xdb;
+        private Ped _xbeb;
+        private Ped _xbaa3;
 
-        internal static void BuildScene(out Ped xdb, out Ped xbeb, out Ped xa, out Ped xcdcb, out Ped xbaa2, out Vehicle benson, out Ped xcdcb2, out Ped xbaa, out Ped xbaa3, out Vehicle limo, out Vehicle boxville, out Vehicle btype)
+        internal static void BuildScene(out Ped xdb, out Ped xbeb, out Ped xa, out Ped xcdcb, out Ped xbaa2, out Ped xcdcb2, out Ped xbaa, out Ped xbaa3, out Vehicle limo, out Vehicle boxville, out Vehicle btype, out Vehicle benson)
         {
             xdb = new Ped(new Model(0x1422d45b), Vector3.Zero, 0f);
             xdb.DecisionMaker = new DecisionMaker(0xe4df46d5u);
