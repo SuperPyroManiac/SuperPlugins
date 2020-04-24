@@ -86,45 +86,19 @@ namespace SRCallouts.Callouts
             
             _vehicles.Add(_fibCar1);
             _vehicles.Add(_fibCar2);
-            _vehicles.Add(_badCar1);
-            _vehicles.Add(_badCar2);
-            _vehicles.Add(_badCar3);
-            _vehicles.Add(_badCar4);
             _goodguys.Add(_fib1);
             _goodguys.Add(_fib2);
             _goodguys.Add(_fib3);
             _goodguys.Add(_fib4);
             _goodguys.Add(_fib5);
-            _badGuys.Add(_bad1);
-            _badGuys.Add(_bad2);
-            _badGuys.Add(_bad3);
-            _badGuys.Add(_bad4);
-            _badGuys.Add(_bad5);
-            _badGuys.Add(_bad6);
-            _badGuys.Add(_bad7);
-            _badGuys.Add(_bad8);
-            
-            Game.SetRelationshipBetweenRelationshipGroups("MAFIA", "COP", Relationship.Hate);
-            Game.SetRelationshipBetweenRelationshipGroups("COP", "MAFIA", Relationship.Hate);
-            
-            foreach (var entity in _vehicles.Where(entity => entity))
-            {
-                entity.IsPersistent = true;
-                entity.Metadata.searchTrunk = "~r~multiple pallets of cocain~s~, ~r~hazmat suits~s~, ~r~multiple weapons~s~, ~y~bags of cash~s~";
-            }
-            foreach (var entity in _goodguys.Where(entity => entity))
-            {
-                entity.IsPersistent = true;
-                entity.BlockPermanentEvents = true;
-            }
 
-            foreach (var entity in _badGuys.Where(entity => entity))
+            foreach (var entity in _vehicles.Where(entity => entity)) entity.IsPersistent = true;
+                foreach (var entity in _goodguys.Where(entity => entity))
             {
                 entity.IsPersistent = true;
-                entity.Inventory.Weapons.Add(WeaponHash.AdvancedRifle);
                 entity.BlockPermanentEvents = true;
-                SFunctions.SetWanted(entity, true);
             }
+            
             //UI Items
             SFunctions.BuildUi(out _interaction, out _mainMenu, out _convoMenu, out _questioning, out _endCall);
             _mainMenu.OnItemSelect += InteractionProcess;
@@ -153,8 +127,10 @@ namespace SRCallouts.Callouts
                         }
                         break;
                     case SrState.CheckDistance2:
-                        if (Player.DistanceTo(_callPos) < 60f)
+                        if (Player.DistanceTo(_callPos) < 120f)
                         {
+                            Game.SetRelationshipBetweenRelationshipGroups("MAFIA", "COP", Relationship.Hate);
+                            Game.SetRelationshipBetweenRelationshipGroups("COP", "MAFIA", Relationship.Hate);
                             switch (_choice)
                             {
                                 case SrChoice.Noose:
@@ -202,11 +178,6 @@ namespace SRCallouts.Callouts
                         });
                         break;
                     case SrState.End:
-                        GameFiber.StartNew(delegate
-                        {
-                            GameFiber.Wait(35000);
-                            Game.SetRelationshipBetweenRelationshipGroups("COP", "MAFIA", Relationship.Dislike);
-                        });
                         break;
                     default:
                         End();
@@ -238,6 +209,7 @@ namespace SRCallouts.Callouts
             foreach (var entity in _badGuys.Where(entity => entity)) entity?.Dismiss();
             foreach (var entity in _goodguys.Where(entity => entity)) entity?.Dismiss();
             foreach (var entity in _vehicles.Where(entity => entity)) entity?.Dismiss();
+            Game.SetRelationshipBetweenRelationshipGroups("COP", "MAFIA", Relationship.Dislike);
             _cBlip?.Delete();
             _aBlip?.Delete();
             _interaction.CloseAllMenus();
@@ -299,6 +271,8 @@ namespace SRCallouts.Callouts
                     _aBlip.Color = Color.Red;
                     _aBlip.Alpha = .5f;
                     _aBlip.EnableRoute(Color.Red);
+                    LoadRaid();
+                    _choice = SrChoice.Noose;
                     _state = SrState.CheckDistance2;
                 });
             }
@@ -314,6 +288,7 @@ namespace SRCallouts.Callouts
                     _aBlip.Color = Color.Red;
                     _aBlip.Alpha = .5f;
                     _aBlip.EnableRoute(Color.Red);
+                    LoadRaid();
                     _choice = SrChoice.Swat;
                     _state = SrState.CheckDistance2;
                 });
@@ -330,9 +305,43 @@ namespace SRCallouts.Callouts
                     _aBlip.Color = Color.Red;
                     _aBlip.Alpha = .5f;
                     _aBlip.EnableRoute(Color.Red);
+                    LoadRaid();
                     _choice = SrChoice.You;
                     _state = SrState.CheckDistance2;
                 });
+            }
+        }
+
+        private void LoadRaid()
+        {
+            SceneSetup.Mafia1.BuildScene(out _bad1, out _bad2, out _bad3, out _bad4, out _bad5, out _bad6, out _bad7, out _bad8, out _badCar1, out _badCar2, out _badCar3, out _badCar4);
+            _vehicles.Add(_badCar1);
+            _vehicles.Add(_badCar2);
+            _vehicles.Add(_badCar3);
+            _vehicles.Add(_badCar4);
+            _badGuys.Add(_bad1);
+            _badGuys.Add(_bad2);
+            _badGuys.Add(_bad3);
+            _badGuys.Add(_bad4);
+            _badGuys.Add(_bad5);
+            _badGuys.Add(_bad6);
+            _badGuys.Add(_bad7);
+            _badGuys.Add(_bad8);
+            foreach (var entity in _badGuys.Where(entity => entity))
+            {
+                entity.IsPersistent = true;
+                entity.Inventory.Weapons.Add(WeaponHash.AdvancedRifle);
+                entity.BlockPermanentEvents = true;
+                SFunctions.SetWanted(entity, true);
+            }
+            foreach (var entity in _vehicles.Where(entity => entity))
+            {
+                if (entity)
+                {
+                    entity.IsPersistent = true;
+                    entity.Metadata.searchTrunk =
+                        "~r~multiple pallets of cocain~s~, ~r~hazmat suits~s~, ~r~multiple weapons~s~, ~y~bags of cash~s~";
+                }
             }
         }
 
