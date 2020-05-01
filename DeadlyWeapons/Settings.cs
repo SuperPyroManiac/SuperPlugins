@@ -7,8 +7,9 @@ namespace DeadlyWeapons
     {
         internal static bool EnableDamageSystem = true;
         internal static bool EnablePanic = true;
+        internal static bool EnableBetterAI = true;
         internal static int PanicCooldown = 150;
-
+        
         internal static void LoadSettings()
         {
             Game.LogTrivial("Loading Deadly Weapons config.");
@@ -17,6 +18,7 @@ namespace DeadlyWeapons
             ini.Create();
             EnableDamageSystem = ini.ReadBoolean("Features", "EnableDamageSystem", true);
             EnablePanic = ini.ReadBoolean("Features", "EnablePanic", true);
+            EnableBetterAI = ini.ReadBoolean("Features", "EnableBetterAI", true);
             PanicCooldown = ini.ReadInt32("Features", "TimeBetweenEvents", 150);
             Game.LogTrivial("Deadly Weapons: Config loaded.");
         }

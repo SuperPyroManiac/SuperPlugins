@@ -1,5 +1,6 @@
 using System;
 using System.CodeDom;
+using LSPD_First_Response.Mod.API;
 using Rage;
 using Rage.Native;
 
@@ -9,7 +10,7 @@ namespace DeadlyWeapons
     {
         internal GameFiber ProcessFiber;
         private Ped Player => Game.LocalPlayer.Character;
-        private static readonly WeaponHash[] WeaponHashes =
+        internal static readonly WeaponHash[] WeaponHashes =
         {
             WeaponHash.CombatPistol,
             WeaponHash.Pistol50,
@@ -76,7 +77,26 @@ namespace DeadlyWeapons
             {
                 Timer.Panic();
             }
-            
+
+            if (Settings.EnableBetterAI)
+            {
+                var peds = Player.GetNearbyPeds(15);
+                foreach (var ped in peds)
+                {
+                    if (ped == null || peds.Length == 0) return;
+                    if (!ped == Player || ped.IsHuman || !ped.IsInAnyVehicle(true) || !ped.IsDead ||
+                                        ped.RelationshipGroup != "COP" || ped.RelationshipGroup != "MEDIC " ||
+                                        ped.RelationshipGroup != "FIREMAN")
+                    {
+                        if (ped.CombatTarget == Player)
+                        {
+                            Timer.PedAi(ped);
+                        }
+                        Array.Clear(peds, 0, peds.Length);
+                    }
+                }
+            }
+
             foreach(var w in WeaponHashes)
             {
                 if(NativeFunction.Natives.HAS_ENTITY_BEEN_DAMAGED_BY_WEAPON<bool>(Player, (uint) w, 0) && Settings.EnableDamageSystem)

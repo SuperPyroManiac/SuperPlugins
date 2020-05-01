@@ -39,11 +39,17 @@
     <Reference Include="RagePluginHook, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\..\..\CODING\LSPDFR DEV\LSPDFR API'S\RPH SDK\RagePluginHookSDK.dll</HintPath>
     </Reference>
+    <Reference Include="StopThePed, Version=4.9.1.5, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\CODING\LSPDFR DEV\LSPDFR API'S\StopThePed API\StopThePed.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="UltimateBackup, Version=1.8.1.8, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\CODING\LSPDFR DEV\LSPDFR API'S\UltimateBackup API\UltimateBackup.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DeadlyWeapons.cs" />
