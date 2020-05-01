@@ -71,7 +71,7 @@ namespace DeadlyWeapons
         private void PlayerShotEvent()
         {
             
-            if (Player.IsShooting && Player.Inventory.EquippedWeapon != WeaponHash.StunGun)
+            if (Player.IsShooting && Player.Inventory.EquippedWeapon.Hash != WeaponHash.StunGun)
                 //Player shot their gun, panic!
             {
                 Timer.Panic();
