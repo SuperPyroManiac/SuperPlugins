@@ -79,21 +79,34 @@ namespace DeadlyWeapons
             }
 
             if (Settings.EnableBetterAI)
+                //Lets get these peds to react better!
             {
-                var peds = Player.GetNearbyPeds(15);
-                foreach (var ped in peds)
+                try
                 {
-                    if (ped == null || peds.Length == 0) return;
-                    if (!ped == Player || ped.IsHuman || !ped.IsInAnyVehicle(true) || !ped.IsDead ||
-                                        ped.RelationshipGroup != "COP" || ped.RelationshipGroup != "MEDIC " ||
-                                        ped.RelationshipGroup != "FIREMAN")
+                    var peds = Player.GetNearbyPeds(15);
+                    foreach (var ped in peds)
                     {
-                        if (ped.CombatTarget == Player)
+                        if (ped == null || peds.Length == 0) return;
+                        if (!ped == Player || ped.IsHuman || !ped.IsInAnyVehicle(true) || !ped.IsDead ||
+                            ped.RelationshipGroup != "COP" || ped.RelationshipGroup != "MEDIC " ||
+                            ped.RelationshipGroup != "FIREMAN")
                         {
-                            Timer.PedAi(ped);
+                            if (ped.CombatTarget == Player)
+                            {
+                                Timer.PedAi(ped);
+                            }
+                            Array.Clear(peds, 0, peds.Length);
                         }
-                        Array.Clear(peds, 0, peds.Length);
                     }
+                }
+                catch (Exception e)
+                {
+                    Game.LogTrivial("Oops there was an error here. Please send this log to SuperPyroManiac!");
+                    Game.LogTrivial("Deadly Weapons Error Report Start");
+                    Game.LogTrivial("======================================================");
+                    Game.LogTrivial(e.ToString());
+                    Game.LogTrivial("======================================================");
+                    Game.LogTrivial("Deadly Weapons Error Report End");
                 }
             }
 

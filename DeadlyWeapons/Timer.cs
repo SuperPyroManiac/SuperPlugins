@@ -51,32 +51,32 @@ namespace DeadlyWeapons
 
         internal static void PedAi(Ped ped)
         {
-            GameFiber.StartNew(delegate
+            try
             {
-                if (!ped || ped.IsDead) return;
-                ped.Accuracy = 20;
-                if (ped.IsShooting)
+                GameFiber.StartNew(delegate
                 {
-                    GameFiber.Wait(500);
-                    if (!ped.Metadata.choiceMade)
+                    if (!ped || ped.IsDead) return;
+                    ped.Accuracy = 20;
+                    if (ped.IsShooting)
                     {
-                        var rnd = new Random().Next(0, 5);
-                        switch (rnd)
+                        GameFiber.Wait(500);
+                        if (!ped.Metadata.choiceMade)
                         {
-                            case 0:
-                                ped.Tasks.ClearImmediately();
-                                ped.Tasks.Flee(Game.LocalPlayer.Character, 30, 20000);
-                                break;
+                            var rnd = new Random().Next(0, 5);
+                            switch (rnd)
+                            {
+                                case 0:
+                                    ped.Tasks.ClearImmediately();
+                                    ped.Tasks.Flee(Game.LocalPlayer.Character, 30, 20000);
+                                    break;
+                            }
+                            ped.Metadata.choiceMade = true;
                         }
-                        ped.Metadata.choiceMade = true;
                     }
-                }
                 
-                foreach(var w in DeadlyWeapons.WeaponHashes)
-                {
-                    if(NativeFunction.Natives.HAS_ENTITY_BEEN_DAMAGED_BY_WEAPON<bool>(ped, (uint) w, 0) && Settings.EnableDamageSystem)
+                    foreach(var w in DeadlyWeapons.WeaponHashes)
                     {
-                        try
+                        if(NativeFunction.Natives.HAS_ENTITY_BEEN_DAMAGED_BY_WEAPON<bool>(ped, (uint) w, 0) && Settings.EnableDamageSystem)
                         {
                             if (ped.Armor >= 60)
 //                         If player has armor:
@@ -84,67 +84,67 @@ namespace DeadlyWeapons
 //                         10% chance to fall over.
 //                         10% chance to injure player.
 //                         80% chance for armor to be destroyed.
-                            {
-                                var rnd = new Random().Next(0, 10);
-                                switch (rnd)
                                 {
-                                    case 1:
-                                        ped.Health = 100;
-                                        ped.Armor = 61;
-                                        break;
-                                    case 2:
-                                        ped.Health = 100;
-                                        ped.Armor = 61;
-                                        Ragdoll(ped);
-                                        break;
-                                    case 3:
-                                        ped.Health = 80;
-                                        ped.Armor = 0;
-                                        break;
-                                    default:
-                                        ped.Health = 100;
-                                        ped.Armor = 0;
-                                        break;
-                                }
-                            }else 
+                                    var rnd = new Random().Next(0, 10);
+                                    switch (rnd)
+                                    {
+                                        case 1:
+                                            ped.Health = 100;
+                                            ped.Armor = 61;
+                                            break;
+                                        case 2:
+                                            ped.Health = 100;
+                                            ped.Armor = 61;
+                                            Ragdoll(ped);
+                                            break;
+                                        case 3:
+                                            ped.Health = 80;
+                                            ped.Armor = 0;
+                                            break;
+                                        default:
+                                            ped.Health = 100;
+                                            ped.Armor = 0;
+                                            break;
+                                    }
+                                }else 
 //                         If player has no armor:
 //                         30% chance to loose half health and fall.
 //                         10% chance to die.
 //                         60% chance to loose 80% of health.
-                            {
-                                var rnd = new Random().Next(0, 10);
-                                switch (rnd)
                                 {
-                                    case 1:
-                                        ped.Health -= 50;
-                                        Ragdoll(ped);
-                                        break;
-                                    case 2:
-                                        goto case 1;
-                                    case 3:
-                                        goto case 1;
-                                    case 4:
-                                        ped.Kill();
-                                        break;
-                                    default:
-                                        ped.Health -= 80;
-                                        break;
+                                    var rnd = new Random().Next(0, 10);
+                                    switch (rnd)
+                                    {
+                                        case 1:
+                                            ped.Health -= 50;
+                                            Ragdoll(ped);
+                                            break;
+                                        case 2:
+                                            goto case 1;
+                                        case 3:
+                                            goto case 1;
+                                        case 4:
+                                            ped.Kill();
+                                            break;
+                                        default:
+                                            ped.Health -= 80;
+                                            break;
+                                    }
                                 }
-                            }
-                            NativeFunction.Natives.CLEAR_ENTITY_LAST_WEAPON_DAMAGE(ped);
-                        }
-                        catch (Exception e)
-                        {
-                            Game.LogTrivial("Oops there was an error here. Please send this log to SuperPyroManiac!");
-                            Game.LogTrivial("Deadly Weapons Error Report Start");
-                            Game.LogTrivial("======================================================");
-                            Game.LogTrivial(e.ToString());
-                            Game.LogTrivial("======================================================");
-                            Game.LogTrivial("Deadly Weapons Error Report End");
+                                NativeFunction.Natives.CLEAR_ENTITY_LAST_WEAPON_DAMAGE(ped);
                         }
                     }
-                }
-            });
+                });
+            }
+            catch (Exception e)
+            {
+                Game.LogTrivial("Oops there was an error here. Please send this log to SuperPyroManiac!");
+                Game.LogTrivial("Deadly Weapons Error Report Start");
+                Game.LogTrivial("======================================================");
+                Game.LogTrivial(e.ToString());
+                Game.LogTrivial("======================================================");
+                Game.LogTrivial("Deadly Weapons Error Report End");
+            }
         }
     }
 }
