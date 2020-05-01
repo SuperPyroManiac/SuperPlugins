@@ -71,7 +71,7 @@ namespace DeadlyWeapons
         private void PlayerShotEvent()
         {
             
-            if (Player.IsShooting && Player.Inventory.EquippedWeapon.Hash != WeaponHash.StunGun)
+            if (Player.IsShooting && Player.Inventory.EquippedWeapon.Hash != WeaponHash.StunGun && Settings.EnablePanic)
                 //Player shot their gun, panic!
             {
                 Timer.Panic();
@@ -79,7 +79,7 @@ namespace DeadlyWeapons
             
             foreach(var w in WeaponHashes)
             {
-                if(NativeFunction.Natives.HAS_ENTITY_BEEN_DAMAGED_BY_WEAPON<bool>(Player, (uint) w, 0))
+                if(NativeFunction.Natives.HAS_ENTITY_BEEN_DAMAGED_BY_WEAPON<bool>(Player, (uint) w, 0) && Settings.EnableDamageSystem)
                 {
                     try
                     {

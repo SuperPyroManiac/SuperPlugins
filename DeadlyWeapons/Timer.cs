@@ -35,7 +35,7 @@ namespace DeadlyWeapons
                     EBackupUnitType.LocalUnit);
                 Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~r~Shots Fired", "~y~Panic Activated", "Your weapon has been discharged. Dispatch has been alerted.");
 
-                GameFiber.Wait(150000);
+                GameFiber.Wait(Settings.PanicCooldown * 1000);
                 _panic = false;
             });
         }
