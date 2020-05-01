@@ -25,7 +25,7 @@ namespace SRCallouts.SimpleFunctions
         {
         interaction = new MenuPool();
         mainMenu = new UIMenu("SR Callouts", "Choose an option.");
-        convoMenu = new UIMenu("SR Callouts", "~y~Choose a subject to speak with.");
+        convoMenu = new UIMenu("SR Callouts", "~s~Choose an option.");
         questioning = new UIMenuItem("Speak With Subjects");
         endCall = new UIMenuItem("~y~End Callout", "Ends the callout.");
         interaction.Add(mainMenu);

@@ -83,7 +83,7 @@ namespace SuperCallouts2.Callouts
             try
             {
                 //GamePlay
-                if (!_onScene && Game.LocalPlayer.Character.DistanceTo(_bad) < 25)
+                if (!_onScene && Game.LocalPlayer.Character.DistanceTo(_spawnPoint) < 25)
                 {
                     _onScene = true;
                     _pursuit = Functions.CreatePursuit();

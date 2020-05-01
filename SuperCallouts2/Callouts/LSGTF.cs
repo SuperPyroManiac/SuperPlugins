@@ -14,7 +14,7 @@ using SuperCallouts.CustomScenes;
 
 namespace SuperCallouts2.Callouts
 {
-    [CalloutInfo("LSGTF", CalloutProbability.Medium)]
+    [CalloutInfo("LSGTF", CalloutProbability.Low)]
     internal class Lsgtf : Callout
     {
         private Ped _bad1;

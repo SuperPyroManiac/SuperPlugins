@@ -10,7 +10,7 @@ using SuperCallouts.CustomScenes;
 
 namespace SuperCallouts2.Callouts
 {
-    [CalloutInfo("PrisonBreak", CalloutProbability.Medium)]
+    [CalloutInfo("PrisonBreak", CalloutProbability.Low)]
     internal class PrisonBreak : Callout
     {
         private Blip _cBlip1;

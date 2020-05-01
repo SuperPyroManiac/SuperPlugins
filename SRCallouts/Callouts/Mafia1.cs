@@ -53,10 +53,10 @@ namespace SRCallouts.Callouts
         private UIMenu _convoMenu;
         private UIMenuItem _questioning;
         private UIMenuItem _endCall;
-        private readonly UIMenuItem _speakFib = new UIMenuItem("Speak With FIB Agent");
-        private readonly UIMenuItem _choiceNoose = new UIMenuItem("NOOSE Team");
-        private readonly UIMenuItem _choiceSwat = new UIMenuItem("Local SWAT Team");
-        private readonly UIMenuItem _choiceYou = new UIMenuItem("Handle It Yourself");
+        private readonly UIMenuItem _speakFib = new UIMenuItem("- Speak With FIB Agent");
+        private readonly UIMenuItem _choiceNoose = new UIMenuItem("- NOOSE Team");
+        private readonly UIMenuItem _choiceSwat = new UIMenuItem("- Local SWAT Team");
+        private readonly UIMenuItem _choiceYou = new UIMenuItem("- Handle It Yourself");
 
         public override bool OnBeforeCalloutDisplayed()
         {

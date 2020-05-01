@@ -10,7 +10,7 @@ using SuperCallouts2.SimpleFunctions;
 
 namespace SuperCallouts2.Callouts
 {
-    [CalloutInfo("CarAccident", CalloutProbability.High)]
+    [CalloutInfo("CarAccident", CalloutProbability.Medium)]
     internal class CarAccident : Callout
     {
         #region Variables

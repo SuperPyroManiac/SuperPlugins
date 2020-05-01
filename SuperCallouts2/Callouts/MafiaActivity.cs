@@ -13,7 +13,7 @@ using SuperCallouts.CustomScenes;
 
 namespace SuperCallouts2.Callouts
 {
-    [CalloutInfo("MafiaActivity", CalloutProbability.Medium)]
+    [CalloutInfo("MafiaActivity", CalloutProbability.Low)]
     internal class MafiaActivity : Callout
     {
         private readonly Vector3 _callPos = new Vector3(918.88f, 38.91f, 81.09f);

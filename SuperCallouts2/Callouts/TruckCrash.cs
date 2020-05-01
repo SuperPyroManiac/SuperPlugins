@@ -13,7 +13,7 @@ using SuperCallouts.CustomScenes;
 
 namespace SuperCallouts2.Callouts
 {
-    [CalloutInfo("TruckCrash", CalloutProbability.Medium)]
+    [CalloutInfo("TruckCrash", CalloutProbability.Low)]
     internal class TruckCrash : Callout
     {
         private Vehicle _car1;

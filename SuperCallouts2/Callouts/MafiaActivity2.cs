@@ -12,7 +12,7 @@ using Rage;
 
 namespace SuperCallouts2.Callouts
 {
-    [CalloutInfo("MafiaActivity2", CalloutProbability.Medium)]
+    [CalloutInfo("MafiaActivity2", CalloutProbability.Low)]
     internal class MafiaActivity2 : Callout
     {
         private readonly Vector3 _callPos = new Vector3(1543.173f, 3606.55f, 35.19303f);
