@@ -1,3 +1,4 @@
+using System;
 using LSPD_First_Response;
 using LSPD_First_Response.Mod.API;
 using Rage;
@@ -9,12 +10,19 @@ namespace DeadlyWeapons
         private static bool _panic;
         internal static void Ragdoll(Ped ped)
         {
-            GameFiber.StartNew(delegate
+            try
             {
-                ped.IsRagdoll = true;
-                GameFiber.Wait(2000);
-                ped.IsRagdoll = false;
-            });
+                GameFiber.StartNew(delegate
+                {
+                    ped.IsRagdoll = true;
+                    GameFiber.Wait(2000);
+                    ped.IsRagdoll = false;
+                });
+            }
+            catch (Exception e)
+            {
+                Game.LogTrivial("Deadly Weapons: Unable to remove ragdoll due to player death.");
+            }
         }
 
         internal static void Panic()
