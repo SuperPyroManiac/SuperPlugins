@@ -72,7 +72,7 @@ namespace DeadlyWeapons
         private void PlayerShotEvent()
         {
             
-            if (Player.IsShooting && Player.Inventory.EquippedWeapon.Hash != WeaponHash.StunGun && Settings.EnablePanic)
+            if (Player.IsShooting && Player.Inventory.EquippedWeapon.Hash != WeaponHash.StunGun && Player.Inventory.EquippedWeapon.Hash != WeaponHash.FireExtinguisher && Settings.EnablePanic)
                 //Player shot their gun, panic!
             {
                 Timer.Panic();
@@ -83,15 +83,15 @@ namespace DeadlyWeapons
             {
                 try
                 {
-                    var peds = Player.GetNearbyPeds(15);
+                    var peds = Player.GetNearbyPeds(20);
                     foreach (var ped in peds)
                     {
                         if (ped == null || peds.Length == 0) return;
                         if (!ped == Player || ped.IsHuman || !ped.IsInAnyVehicle(true) || !ped.IsDead ||
-                            ped.RelationshipGroup != "COP" || ped.RelationshipGroup != "MEDIC " ||
+                            ped.RelationshipGroup != "COP" || ped.RelationshipGroup != "MEDIC" ||
                             ped.RelationshipGroup != "FIREMAN")
                         {
-                            if (ped.CombatTarget == Player)
+                            if (ped.CombatTarget.RelationshipGroup == "COP" || ped.CombatTarget == Player)
                             {
                                 Timer.PedAi(ped);
                             }

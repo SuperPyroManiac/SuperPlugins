@@ -1,4 +1,5 @@
 using System;
+using System.Data;
 using LSPD_First_Response;
 using LSPD_First_Response.Mod.API;
 using Rage;
@@ -49,6 +50,29 @@ namespace DeadlyWeapons
             });
         }
 
+        internal static void PedFlee(Ped ped)
+        {
+            GameFiber.StartNew(delegate
+            {
+                var rnd = new Random().Next(0, 5);
+                switch (rnd)
+                {
+                    case 0:
+                        Game.LogTrivial("Deadly Weapons: " + Functions.GetPersonaForPed(ped).FullName + " is fleeing!");
+                        ped.BlockPermanentEvents = true;
+                        ped.IsPersistent = true;
+                        ped.Tasks.ClearImmediately();
+                        ped.Tasks.Flee(Game.LocalPlayer.Character, 30, 20000);
+                        GameFiber.Wait(15000);
+                        if (ped)
+                        {
+                            ped.BlockPermanentEvents = false;
+                            ped.IsPersistent = false;
+                        }
+                        break;
+                }
+            });
+        }
         internal static void PedAi(Ped ped)
         {
             try
@@ -57,23 +81,7 @@ namespace DeadlyWeapons
                 {
                     if (!ped || ped.IsDead) return;
                     ped.Accuracy = 20;
-                    if (ped.IsShooting)
-                    {
-                        GameFiber.Wait(500);
-                        if (!ped.Metadata.choiceMade)
-                        {
-                            var rnd = new Random().Next(0, 5);
-                            switch (rnd)
-                            {
-                                case 0:
-                                    ped.Tasks.ClearImmediately();
-                                    ped.Tasks.Flee(Game.LocalPlayer.Character, 30, 20000);
-                                    break;
-                            }
-                            ped.Metadata.choiceMade = true;
-                        }
-                    }
-                
+
                     foreach(var w in DeadlyWeapons.WeaponHashes)
                     {
                         if(NativeFunction.Natives.HAS_ENTITY_BEEN_DAMAGED_BY_WEAPON<bool>(ped, (uint) w, 0) && Settings.EnableDamageSystem)
@@ -100,6 +108,7 @@ namespace DeadlyWeapons
                                         case 3:
                                             ped.Health = 80;
                                             ped.Armor = 0;
+                                            PedFlee(ped);
                                             break;
                                         default:
                                             ped.Health = 100;
@@ -128,7 +137,8 @@ namespace DeadlyWeapons
                                             break;
                                         default:
                                             ped.Health -= 80;
-                                            break;
+                                            PedFlee(ped);
+                                            break;//TODO: Logging
                                     }
                                 }
                                 NativeFunction.Natives.CLEAR_ENTITY_LAST_WEAPON_DAMAGE(ped);
