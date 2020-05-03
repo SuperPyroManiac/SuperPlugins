@@ -83,18 +83,16 @@ namespace DeadlyWeapons
             {
                 try
                 {
-                    var peds = Player.GetNearbyPeds(20);
+                    var peds = Player.GetNearbyPeds(15);
+                    //var peds = World.GetAllPeds();
                     foreach (var ped in peds)
                     {
                         if (ped == null || peds.Length == 0) return;
                         if (!ped == Player || ped.IsHuman || !ped.IsInAnyVehicle(true) || !ped.IsDead ||
-                            ped.RelationshipGroup != "COP" || ped.RelationshipGroup != "MEDIC" ||
-                            ped.RelationshipGroup != "FIREMAN")
+                            ped.RelationshipGroup != RelationshipGroup.Cop || ped.RelationshipGroup != RelationshipGroup.Medic ||
+                            ped.RelationshipGroup != RelationshipGroup.Fireman)
                         {
-                            if (ped.CombatTarget.RelationshipGroup == "COP" || ped.CombatTarget == Player)
-                            {
-                                Timer.PedAi(ped);
-                            }
+                            Timer.PedAi(ped);
                             Array.Clear(peds, 0, peds.Length);
                         }
                     }

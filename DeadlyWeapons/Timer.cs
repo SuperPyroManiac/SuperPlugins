@@ -50,7 +50,7 @@ namespace DeadlyWeapons
             });
         }
 
-        internal static void PedFlee(Ped ped)
+        private static void PedFlee(Ped ped)
         {
             GameFiber.StartNew(delegate
             {
@@ -62,7 +62,7 @@ namespace DeadlyWeapons
                         ped.BlockPermanentEvents = true;
                         ped.IsPersistent = true;
                         ped.Tasks.ClearImmediately();
-                        ped.Tasks.Flee(Game.LocalPlayer.Character, 30, 20000);
+                        //ped.Tasks.Flee(Game.LocalPlayer.Character, 30, 20000);
                         GameFiber.Wait(15000);
                         if (ped)
                         {
@@ -115,6 +115,7 @@ namespace DeadlyWeapons
                                             ped.Armor = 0;
                                             break;
                                     }
+                                    Game.LogTrivial("Deadly Weapons: " + Functions.GetPersonaForPed(ped).FullName + " rolled 1-" + rnd);
                                 }else 
 //                         If player has no armor:
 //                         30% chance to loose half health and fall.
@@ -138,8 +139,9 @@ namespace DeadlyWeapons
                                         default:
                                             ped.Health -= 80;
                                             PedFlee(ped);
-                                            break;//TODO: Logging
+                                            break;
                                     }
+                                    Game.LogTrivial("Deadly Weapons: " + Functions.GetPersonaForPed(ped).FullName + " rolled 2-" + rnd);
                                 }
                                 NativeFunction.Natives.CLEAR_ENTITY_LAST_WEAPON_DAMAGE(ped);
                         }
