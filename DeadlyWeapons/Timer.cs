@@ -50,11 +50,11 @@ namespace DeadlyWeapons
             });
         }
 
-        private static void PedFlee(Ped ped)
+        private static void PedReact(Ped ped)
         {
             GameFiber.StartNew(delegate
             {
-                var rnd = new Random().Next(0, 5);
+                var rnd = new Random().Next(0, 6);
                 switch (rnd)
                 {
                     case 0:
@@ -62,7 +62,20 @@ namespace DeadlyWeapons
                         ped.BlockPermanentEvents = true;
                         ped.IsPersistent = true;
                         ped.Tasks.ClearImmediately();
-                        //ped.Tasks.Flee(Game.LocalPlayer.Character, 30, 20000);
+                        ped.Tasks.Flee(Game.LocalPlayer.Character, 30, 20000);
+                        GameFiber.Wait(15000);
+                        if (ped)
+                        {
+                            ped.BlockPermanentEvents = false;
+                            ped.IsPersistent = false;
+                        }
+                        break;
+                    case 1:
+                        Game.LogTrivial("Deadly Weapons: " + Functions.GetPersonaForPed(ped).FullName + " is hiding!");
+                        ped.BlockPermanentEvents = true;
+                        ped.IsPersistent = true;
+                        ped.Tasks.ClearImmediately();
+                        ped.Tasks.TakeCoverFrom(Game.LocalPlayer.Character, 20000, false);
                         GameFiber.Wait(15000);
                         if (ped)
                         {
@@ -108,7 +121,7 @@ namespace DeadlyWeapons
                                         case 3:
                                             ped.Health = 80;
                                             ped.Armor = 0;
-                                            PedFlee(ped);
+                                            PedReact(ped);
                                             break;
                                         default:
                                             ped.Health = 100;
@@ -138,7 +151,7 @@ namespace DeadlyWeapons
                                             break;
                                         default:
                                             ped.Health -= 80;
-                                            PedFlee(ped);
+                                            PedReact(ped);
                                             break;
                                     }
                                     Game.LogTrivial("Deadly Weapons: " + Functions.GetPersonaForPed(ped).FullName + " rolled 2-" + rnd);
