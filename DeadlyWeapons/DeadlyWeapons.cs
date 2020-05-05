@@ -1,5 +1,6 @@
 using System;
 using System.CodeDom;
+using System.Linq;
 using LSPD_First_Response.Mod.API;
 using Rage;
 using Rage.Native;
@@ -78,22 +79,24 @@ namespace DeadlyWeapons
                 Timer.Panic();
             }
 
-            if (Settings.EnableBetterAI)
+            if (Settings.EnableBetterAi)
                 //Lets get these peds to react better!
             {
                 try
                 {
-                    var peds = Player.GetNearbyPeds(15);
-                    //var peds = World.GetAllPeds();
-                    foreach (var ped in peds)
+                    //var peds = Player.GetNearbyPeds(15).ToList();
+                    var pedEntity = Game.LocalPlayer.GetFreeAimingTarget();
+                    if (pedEntity == null) return;
+                    if (NativeFunction.Natives.IS_ENTITY_A_PED<bool>(pedEntity))
                     {
-                        if (ped == null || peds.Length == 0) return;
+                        var ped = pedEntity as Ped;
+                        if (ped == null) return;
                         if (!ped == Player || ped.IsHuman || !ped.IsInAnyVehicle(true) || !ped.IsDead ||
-                            ped.RelationshipGroup != RelationshipGroup.Cop || ped.RelationshipGroup != RelationshipGroup.Medic ||
+                            ped.RelationshipGroup != RelationshipGroup.Cop ||
+                            ped.RelationshipGroup != RelationshipGroup.Medic ||
                             ped.RelationshipGroup != RelationshipGroup.Fireman)
                         {
                             Timer.PedAi(ped);
-                            Array.Clear(peds, 0, peds.Length);
                         }
                     }
                 }

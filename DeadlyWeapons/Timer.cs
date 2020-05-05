@@ -54,7 +54,7 @@ namespace DeadlyWeapons
         {
             GameFiber.StartNew(delegate
             {
-                var rnd = new Random().Next(0, 6);
+                var rnd = new Random().Next(0, 8);
                 switch (rnd)
                 {
                     case 0:
@@ -62,7 +62,7 @@ namespace DeadlyWeapons
                         ped.BlockPermanentEvents = true;
                         ped.IsPersistent = true;
                         ped.Tasks.ClearImmediately();
-                        ped.Tasks.Flee(Game.LocalPlayer.Character, 30, 20000);
+                        ped.Tasks.Flee(Game.LocalPlayer.Character, 120, 20000);
                         GameFiber.Wait(15000);
                         if (ped)
                         {
@@ -83,6 +83,19 @@ namespace DeadlyWeapons
                             ped.IsPersistent = false;
                         }
                         break;
+                    case 2:
+                        Game.LogTrivial("Deadly Weapons: " + Functions.GetPersonaForPed(ped).FullName + " is cowering!");
+                        ped.BlockPermanentEvents = true;
+                        ped.IsPersistent = true;
+                        ped.Tasks.ClearImmediately();
+                        ped.Tasks.Cower(20000);
+                        GameFiber.Wait(15000);
+                        if (ped)
+                        {
+                            ped.BlockPermanentEvents = false;
+                            ped.IsPersistent = false;
+                        }
+                        break;
                 }
             });
         }
@@ -93,19 +106,15 @@ namespace DeadlyWeapons
                 GameFiber.StartNew(delegate
                 {
                     if (!ped || ped.IsDead) return;
-                    ped.Accuracy = 20;
+                    ped.Accuracy = Settings.AiAccuracy;
+                    ped.FiringPattern = FiringPattern.DelayFireByOneSecond;
 
                     foreach(var w in DeadlyWeapons.WeaponHashes)
                     {
                         if(NativeFunction.Natives.HAS_ENTITY_BEEN_DAMAGED_BY_WEAPON<bool>(ped, (uint) w, 0) && Settings.EnableDamageSystem)
                         {
                             if (ped.Armor >= 60)
-//                         If player has armor:
-//                         20% chance to be fine, and armor survive for 1 more use.
-//                         10% chance to fall over.
-//                         10% chance to injure player.
-//                         80% chance for armor to be destroyed.
-                                {
+                            {
                                     var rnd = new Random().Next(0, 10);
                                     switch (rnd)
                                     {
@@ -129,12 +138,8 @@ namespace DeadlyWeapons
                                             break;
                                     }
                                     Game.LogTrivial("Deadly Weapons: " + Functions.GetPersonaForPed(ped).FullName + " rolled 1-" + rnd);
-                                }else 
-//                         If player has no armor:
-//                         30% chance to loose half health and fall.
-//                         10% chance to die.
-//                         60% chance to loose 80% of health.
-                                {
+                            }else
+                            {
                                     var rnd = new Random().Next(0, 10);
                                     switch (rnd)
                                     {
@@ -155,8 +160,8 @@ namespace DeadlyWeapons
                                             break;
                                     }
                                     Game.LogTrivial("Deadly Weapons: " + Functions.GetPersonaForPed(ped).FullName + " rolled 2-" + rnd);
-                                }
-                                NativeFunction.Natives.CLEAR_ENTITY_LAST_WEAPON_DAMAGE(ped);
+                            }
+                            NativeFunction.Natives.CLEAR_ENTITY_LAST_WEAPON_DAMAGE(ped);
                         }
                     }
                 });
