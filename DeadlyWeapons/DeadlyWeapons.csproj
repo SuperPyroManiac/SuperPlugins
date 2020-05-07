@@ -35,6 +35,9 @@
     <Reference Include="LSPD First Response, Version=0.4.7204.1487, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\SuperEvents\bin\Release\LSPD First Response.dll</HintPath>
     </Reference>
+    <Reference Include="LSPD First Response, Version=0.4.7297.8062, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\CODING\LSPDFR DEV\LSPDFR API'S\LSPDFR SDK\LSPD First Response.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="RagePluginHook, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\..\..\CODING\LSPDFR DEV\LSPDFR API'S\RPH SDK\RagePluginHookSDK.dll</HintPath>
@@ -53,10 +56,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DeadlyWeapons.cs" />
+    <Compile Include="DFunctions\CustomAI.cs" />
+    <Compile Include="DFunctions\EMSRescue.cs" />
+    <Compile Include="DFunctions\Timer.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings.cs" />
-    <Compile Include="Timer.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="DeadlyWeapons.ini" />

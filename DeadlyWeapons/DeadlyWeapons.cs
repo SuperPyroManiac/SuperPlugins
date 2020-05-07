@@ -1,16 +1,16 @@
+#region
+
 using System;
-using System.CodeDom;
-using System.Linq;
-using LSPD_First_Response.Mod.API;
+using DeadlyWeapons.DFunctions;
 using Rage;
 using Rage.Native;
+
+#endregion
 
 namespace DeadlyWeapons
 {
     internal class DeadlyWeapons
     {
-        internal GameFiber ProcessFiber;
-        private Ped Player => Game.LocalPlayer.Character;
         internal static readonly WeaponHash[] WeaponHashes =
         {
             WeaponHash.CombatPistol,
@@ -43,8 +43,12 @@ namespace DeadlyWeapons
             (WeaponHash) 0xC734385A, // WEAPON_MARKSMANRIFLE
             (WeaponHash) 0xAB564B93, // WEAPON_PROXMINE
             (WeaponHash) 0xA3D4D34, // WEAPON_COMBATPDW
-            (WeaponHash) 0xDC4DB296, // WEAPON_MARKSMANPISTOL
+            (WeaponHash) 0xDC4DB296 // WEAPON_MARKSMANPISTOL
         };
+
+        internal GameFiber ProcessFiber;
+        private Ped Player => Game.LocalPlayer.Character;
+
         internal void Start()
         {
             try
@@ -72,16 +76,13 @@ namespace DeadlyWeapons
 
         private void PlayerShotEvent()
         {
-            
-            if (Player.IsShooting && Player.Inventory.EquippedWeapon.Hash != WeaponHash.StunGun && Player.Inventory.EquippedWeapon.Hash != WeaponHash.FireExtinguisher && Settings.EnablePanic)
+            if (Player.IsShooting && Player.Inventory.EquippedWeapon.Hash != WeaponHash.StunGun &&
+                Player.Inventory.EquippedWeapon.Hash != WeaponHash.FireExtinguisher && Settings.EnablePanic)
                 //Player shot their gun, panic!
-            {
                 Timer.Panic();
-            }
 
             if (Settings.EnableBetterAi)
                 //Lets get these peds to react better!
-            {
                 try
                 {
                     //var peds = Player.GetNearbyPeds(15).ToList();
@@ -95,9 +96,7 @@ namespace DeadlyWeapons
                             ped.RelationshipGroup != RelationshipGroup.Cop ||
                             ped.RelationshipGroup != RelationshipGroup.Medic ||
                             ped.RelationshipGroup != RelationshipGroup.Fireman)
-                        {
-                            Timer.PedAi(ped);
-                        }
+                            CustomAI.PedAi(ped);
                     }
                 }
                 catch (Exception e)
@@ -109,12 +108,10 @@ namespace DeadlyWeapons
                     Game.LogTrivial("======================================================");
                     Game.LogTrivial("Deadly Weapons Error Report End");
                 }
-            }
 
-            foreach(var w in WeaponHashes)
-            {
-                if(NativeFunction.Natives.HAS_ENTITY_BEEN_DAMAGED_BY_WEAPON<bool>(Player, (uint) w, 0) && Settings.EnableDamageSystem)
-                {
+            foreach (var w in WeaponHashes)
+                if (NativeFunction.Natives.HAS_ENTITY_BEEN_DAMAGED_BY_WEAPON<bool>(Player, (uint) w, 0) &&
+                    Settings.EnableDamageSystem)
                     try
                     {
                         if (Player.Armor >= 60)
@@ -145,7 +142,8 @@ namespace DeadlyWeapons
                                     Player.Armor = 0;
                                     break;
                             }
-                        }else 
+                        }
+                        else
 //                         If player has no armor:
 //                         30% chance to loose half health and fall.
 //                         10% chance to die.
@@ -170,6 +168,7 @@ namespace DeadlyWeapons
                                     break;
                             }
                         }
+
                         NativeFunction.Natives.CLEAR_ENTITY_LAST_WEAPON_DAMAGE(Player);
                     }
                     catch (Exception e)
@@ -181,8 +180,6 @@ namespace DeadlyWeapons
                         Game.LogTrivial("======================================================");
                         Game.LogTrivial("Deadly Weapons Error Report End");
                     }
-                }
-            }
         }
     }
 }
