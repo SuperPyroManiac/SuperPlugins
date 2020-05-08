@@ -3,7 +3,6 @@
 using System;
 using LSPD_First_Response;
 using Rage;
-using UltimateBackup.API;
 
 #endregion
 
@@ -36,46 +35,23 @@ namespace DeadlyWeapons.DFunctions
             _panic = true;
             GameFiber.StartNew(delegate
             {
-                if (Settings.UseUltimateBackup)
+                if (Settings.Code3Backup)
                 {
-                    if (Settings.Code3Backup)
-                    {
-                        Functions.callCode3Backup();
-                    }
-                    if (Settings.SwatBackup)
-                    {
-                        LSPD_First_Response.Mod.API.Functions.RequestBackup(Game.LocalPlayer.Character.Position,
-                            EBackupResponseType.Code3,
-                            EBackupUnitType.SwatTeam);
-                    }
-                    if (Settings.NooseBackup)
-                    {
-                        LSPD_First_Response.Mod.API.Functions.RequestBackup(Game.LocalPlayer.Character.Position,
-                            EBackupResponseType.Code3,
-                            EBackupUnitType.NooseTeam);
-                    }
+                    LSPD_First_Response.Mod.API.Functions.RequestBackup(Game.LocalPlayer.Character.Position,
+                        EBackupResponseType.Code3,
+                        EBackupUnitType.LocalUnit);
                 }
-
-                if (!Settings.UseUltimateBackup)
+                if (Settings.SwatBackup)
                 {
-                    if (Settings.Code3Backup)
-                    {
-                        LSPD_First_Response.Mod.API.Functions.RequestBackup(Game.LocalPlayer.Character.Position,
-                            EBackupResponseType.Code3,
-                            EBackupUnitType.LocalUnit);
-                    }
-                    if (Settings.SwatBackup)
-                    {
-                        LSPD_First_Response.Mod.API.Functions.RequestBackup(Game.LocalPlayer.Character.Position,
-                            EBackupResponseType.Code3,
-                            EBackupUnitType.SwatTeam);
-                    }
-                    if (Settings.NooseBackup)
-                    {
-                        LSPD_First_Response.Mod.API.Functions.RequestBackup(Game.LocalPlayer.Character.Position,
-                            EBackupResponseType.Code3,
-                            EBackupUnitType.NooseTeam);
-                    }
+                    LSPD_First_Response.Mod.API.Functions.RequestBackup(Game.LocalPlayer.Character.Position,
+                        EBackupResponseType.Code3,
+                        EBackupUnitType.SwatTeam);
+                }
+                if (Settings.NooseBackup)
+                {
+                    LSPD_First_Response.Mod.API.Functions.RequestBackup(Game.LocalPlayer.Character.Position,
+                        EBackupResponseType.Code3,
+                        EBackupUnitType.NooseTeam);
                 }
 
                 Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~r~Shots Fired", "~y~Panic Activated",
