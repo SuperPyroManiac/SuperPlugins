@@ -10,6 +10,7 @@ namespace DeadlyWeapons
     {
         internal static bool EnableDamageSystem = true;
         internal static bool EnablePanic = true;
+        internal static bool EnableEMS = true;
         internal static bool Code3Backup = true;
         internal static bool SwatBackup;
         internal static bool NooseBackup;
@@ -25,6 +26,7 @@ namespace DeadlyWeapons
             ini.Create();
             EnableDamageSystem = ini.ReadBoolean("Features", "EnableDamageSystem", true);
             EnablePanic = ini.ReadBoolean("Features", "EnablePanic", true);
+            EnableEMS = ini.ReadBoolean("Features", "EnableEMS", true);
             Code3Backup = ini.ReadBoolean("Backup", "Code3Backup", true);
             SwatBackup = ini.ReadBoolean("Backup", "SwatBackup");
             NooseBackup = ini.ReadBoolean("Backup", "NooseBackup");

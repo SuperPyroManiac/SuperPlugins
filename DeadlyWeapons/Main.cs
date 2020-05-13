@@ -1,6 +1,7 @@
 ﻿#region
 
 using System.Reflection;
+using DeadlyWeapons.DFunctions;
 using LSPD_First_Response.Mod.API;
 using Rage;
 
@@ -10,7 +11,8 @@ namespace DeadlyWeapons
 {
     public class Main : Plugin
     {
-        private static readonly DeadlyWeapons StartScript = new DeadlyWeapons();
+        private static readonly DeadlyWeapons StartDamageCheck = new DeadlyWeapons();
+        private static readonly EmsRescue StartEMSCheck = new EmsRescue();
 
         public override void Initialize()
         {
@@ -27,7 +29,11 @@ namespace DeadlyWeapons
                 GameFiber.StartNew(delegate
                 {
                     GameFiber.Wait(10000);
-                    StartScript.Start();
+                    StartDamageCheck.Start();
+                    if (Settings.EnableEMS)
+                    {
+                        StartEMSCheck.Start();
+                    }
                     Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~r~Deadly Weapons",
                         "~g~Plugin Loaded.",
                         "Deadly Weapons by SuperPyroManiac version: " +
@@ -37,7 +43,7 @@ namespace DeadlyWeapons
 
         public override void Finally()
         {
-            StartScript.ProcessFiber.Abort();
+            StartDamageCheck.ProcessFiber.Abort();
             Game.LogTrivial("Deadly Weapons by SuperPyroManiac has been disabled.");
         }
     }
