@@ -101,7 +101,7 @@ namespace DeadlyWeapons
             foreach (var w in WeaponHashes)
                 if (NativeFunction.Natives.HAS_ENTITY_BEEN_DAMAGED_BY_WEAPON<bool>(Player, (uint) w, 0) &&
                     Settings.EnableDamageSystem)
-
+                {
                     if (Player.Armor >= 10)
                     {
                         var rnd = new Random().Next(0, 10);
@@ -147,6 +147,7 @@ namespace DeadlyWeapons
                                 break;
                         }
                     }
+                }
 
             NativeFunction.Natives.CLEAR_ENTITY_LAST_WEAPON_DAMAGE(Player);
         }
