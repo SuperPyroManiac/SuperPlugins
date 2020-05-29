@@ -45,7 +45,7 @@ namespace DeadlyWeapons
             (WeaponHash) 0xA3D4D34, // WEAPON_COMBATPDW
             (WeaponHash) 0xDC4DB296 // WEAPON_MARKSMANPISTOL
         };
-
+        
         internal GameFiber ProcessFiber;
         private Ped Player => Game.LocalPlayer.Character;
 
@@ -76,6 +76,8 @@ namespace DeadlyWeapons
 
         private void PlayerShotEvent()
         {
+            if (Game.IsKeyDown(Settings.RubberBullets)) Timer.RubberBullets();
+            
             if (Player.IsShooting && Player.Inventory.EquippedWeapon.Hash != WeaponHash.StunGun &&
                 Player.Inventory.EquippedWeapon.Hash != WeaponHash.FireExtinguisher && Settings.EnablePanic)
                 Timer.Panic();
@@ -138,7 +140,7 @@ namespace DeadlyWeapons
                             case 3:
                                 goto case 1;
                             case 4:
-                                Player.Kill();
+                                Player.Health -= 100;
                                 break;
                             default:
                                 Player.Health -= 80;

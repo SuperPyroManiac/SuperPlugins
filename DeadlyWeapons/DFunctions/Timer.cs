@@ -11,6 +11,7 @@ namespace DeadlyWeapons.DFunctions
     internal static class Timer
     {
         private static bool _panic;
+        internal static bool NonLeathal { get; set; }
 
         internal static void Ragdoll(Ped ped)
         {
@@ -27,6 +28,12 @@ namespace DeadlyWeapons.DFunctions
             {
                 Game.LogTrivial("Deadly Weapons: Unable to remove ragdoll due to player death.");
             }
+        }
+
+        internal static void RubberBullets()
+        {
+            NonLeathal = !NonLeathal;
+            Game.DisplayHelp("Using Non Lethal Ammo:~y~ " + NonLeathal);
         }
 
         internal static void Panic()

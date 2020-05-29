@@ -13,7 +13,7 @@ namespace DeadlyWeapons.DFunctions
         private Vehicle emsVehicle;
         private Ped emsDriver;
         private Ped emsPassenger;
-        private GameFiber _emsFiber;
+        internal GameFiber _emsFiber;
 
         internal void Start()
         {
@@ -45,11 +45,22 @@ namespace DeadlyWeapons.DFunctions
             switch (_eState)
             {
                 case EmsState.CheckDeath:
-                    if (Player.Health <= 5 && Settings.EnableEMS)
+                    if (Player.IsDead)
                     {
-                        Player.Health = 50;
-                        Player.IsInvincible = true;
-                        Player.IsRagdoll = true;
+                        Game.DisableAutomaticRespawn = true;
+                        Game.FadeScreenOutOnDeath = false;
+                        GameFiber.Sleep(4000);
+                        Game.FadeScreenOut(500, true);
+                        GameFiber.Sleep(10);
+                        Player.Resurrect();
+                        if (Player)
+                        {
+                            Player.IsInvincible = true;
+                            Player.IsRagdoll = true;
+                        }
+                        GameFiber.Sleep(10);
+                        Game.HandleRespawn();
+                        Game.FadeScreenIn(250, true);
                         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~r~Officer Down", "~y~Panic Activated",
                             "Rescue has been dispatched. Police backup enroute.");
                         Functions.RequestBackup(Player.Position, EBackupResponseType.Code3, EBackupUnitType.LocalUnit);
@@ -60,18 +71,20 @@ namespace DeadlyWeapons.DFunctions
                     }
                     break;
                 case EmsState.CheckDistance:
-                    if (emsDriver.DistanceTo(Player.Position) < 10f || emsPassenger.DistanceTo(Player.Position) < 10f)
+                    if (emsDriver?.DistanceTo(Player.Position) < 10f || emsPassenger?.DistanceTo(Player.Position) < 10f)
                     {
+                        emsDriver.BlockPermanentEvents = true;
+                        emsDriver.IsPersistent = true;
+                        emsPassenger.BlockPermanentEvents = true;
+                        emsPassenger.IsPersistent = true;
                         if (emsDriver.IsInAnyVehicle(true))
                         {
-                            emsDriver.BlockPermanentEvents = true;
                             emsDriver.Tasks.ClearImmediately();
                             emsDriver.Tasks.LeaveVehicle(LeaveVehicleFlags.LeaveDoorOpen);
                         }
 
                         if (emsPassenger.IsInAnyVehicle(true))
                         {
-                            emsPassenger.BlockPermanentEvents = true;
                             emsPassenger.Tasks.ClearImmediately();
                             emsPassenger.Tasks.LeaveVehicle(LeaveVehicleFlags.LeaveDoorOpen);
                         }
@@ -87,8 +100,6 @@ namespace DeadlyWeapons.DFunctions
                 case EmsState.RescueTask:
                     emsDriver.Tasks.PlayAnimation("mini@cpr@char_a@cpr_str", "cpr_pumpchest", 1000, AnimationFlags.None).WaitForCompletion(10000);
                     emsDriver.Tasks.PlayAnimation("mini@cpr@char_a@cpr_str", "cpr_success", 1000, AnimationFlags.None).WaitForCompletion(10000);
-                    Player.IsRagdoll = false;
-                    Player.IsInvincible = false;
                     End();
                     break;
                 case EmsState.End:
@@ -97,10 +108,21 @@ namespace DeadlyWeapons.DFunctions
         }
         private void End()
         {
+            Player.IsRagdoll = false;
+            Player.IsInvincible = false;
             emsVehicle?.Dismiss();
             emsDriver?.Dismiss();
             emsPassenger?.Dismiss();
             _eState = EmsState.CheckDeath;
+        }
+
+        private void timeout()
+        {
+            GameFiber.StartNew(delegate
+            {
+                GameFiber.Sleep(60000);
+                End();
+            });
         }
         
         private enum EmsState

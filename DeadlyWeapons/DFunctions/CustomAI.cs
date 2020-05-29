@@ -17,70 +17,142 @@ namespace DeadlyWeapons.DFunctions
             {
                 GameFiber.StartNew(delegate
                 {
+                    if (Timer.NonLeathal)
+                    {
+                        
+                    }
                     if (!ped || ped.IsDead) return;
                     ped.Accuracy = Settings.AiAccuracy;
                     ped.FiringPattern = FiringPattern.DelayFireByOneSecond;
 
                     foreach (var w in DeadlyWeapons.WeaponHashes)
-                        if (NativeFunction.Natives.HAS_ENTITY_BEEN_DAMAGED_BY_WEAPON<bool>(ped, (uint) w, 0) &&
-                            Settings.EnableDamageSystem)
+                    {
+                        if (Timer.NonLeathal)
                         {
-                            if (ped.Armor >= 60)
+                            if (NativeFunction.Natives.HAS_ENTITY_BEEN_DAMAGED_BY_WEAPON<bool>(ped, (uint) w, 0) &&
+                                Settings.EnableDamageSystem)
                             {
-                                var rnd = new Random().Next(0, 10);
-                                switch (rnd)
+                                if (Game.LocalPlayer.Character.DistanceTo(ped) < 6)
                                 {
-                                    case 1:
-                                        ped.Health = 100;
-                                        ped.Armor = 61;
-                                        break;
-                                    case 2:
-                                        ped.Health = 100;
-                                        ped.Armor = 61;
-                                        Timer.Ragdoll(ped);
-                                        break;
-                                    case 3:
-                                        ped.Health = 80;
-                                        ped.Armor = 0;
-                                        Timer.PedReact(ped);
-                                        break;
-                                    default:
-                                        ped.Health = 100;
-                                        ped.Armor = 0;
-                                        break;
+                                    var rnd = new Random().Next(0, 3);
+                                    switch (rnd)
+                                    {
+                                        case 0:
+                                            ped.Kill();
+                                            break;
+                                        default:
+                                            var rndd = new Random().Next(0, 6);
+                                            switch (rndd)
+                                            {
+                                                case 0:
+                                                    ped.Health = 100;
+                                                    Timer.Ragdoll(ped);
+                                                    GameFiber.Wait(3000);
+                                                    ped.Tasks.PutHandsUp(-1, Game.LocalPlayer.Character);
+                                                    break;
+                                                case 1:
+                                                    ped.Health = 100;
+                                                    Timer.Ragdoll(ped);
+                                                    GameFiber.Wait(3000);
+                                                    ped.Tasks.Cower(-1);
+                                                    break;
+                                                default:
+                                                    ped.Health = 100;
+                                                    Timer.Ragdoll(ped);
+                                                    break;
+                                            }
+                                            break;
+                                    }
                                 }
-
-                                Game.LogTrivial("Deadly Weapons: " + Functions.GetPersonaForPed(ped).FullName +
-                                                " rolled 1-" + rnd);
-                            }
-                            else
-                            {
-                                var rnd = new Random().Next(0, 10);
-                                switch (rnd)
+                                else
                                 {
-                                    case 1:
-                                        ped.Health -= 50;
-                                        Timer.Ragdoll(ped);
-                                        break;
-                                    case 2:
-                                        goto case 1;
-                                    case 3:
-                                        goto case 1;
-                                    case 4:
-                                        ped.Kill();
-                                        break;
-                                    default:
-                                        ped.Health -= 80;
-                                        Timer.PedReact(ped);
-                                        break;
+                                    var rnd = new Random().Next(0, 6);
+                                    switch (rnd)
+                                    {
+                                        case 0:
+                                            ped.Health = 100;
+                                            Timer.Ragdoll(ped);
+                                            GameFiber.Wait(3000);
+                                            ped.Tasks.PutHandsUp(-1, Game.LocalPlayer.Character);
+                                            break;
+                                        case 1:
+                                            ped.Health = 100;
+                                            Timer.Ragdoll(ped);
+                                            GameFiber.Wait(3000);
+                                            ped.Tasks.Cower(-1);
+                                            break;
+                                        default:
+                                            ped.Health = 100;
+                                            Timer.Ragdoll(ped);
+                                            break;
+                                    }
                                 }
-
-                                Game.LogTrivial("Deadly Weapons: " + Functions.GetPersonaForPed(ped).FullName +
-                                                " rolled 2-" + rnd);
                             }
-
                             NativeFunction.Natives.CLEAR_ENTITY_LAST_WEAPON_DAMAGE(ped);
                         }
+                        else
+                        {
+                            if (NativeFunction.Natives.HAS_ENTITY_BEEN_DAMAGED_BY_WEAPON<bool>(ped, (uint) w, 0) &&
+                                Settings.EnableDamageSystem)
+                            {
+                                if (ped.Armor >= 60)
+                                {
+                                    var rnd = new Random().Next(0, 10);
+                                    switch (rnd)
+                                    {
+                                        case 1:
+                                            ped.Health = 100;
+                                            ped.Armor = 61;
+                                            break;
+                                        case 2:
+                                            ped.Health = 100;
+                                            ped.Armor = 61;
+                                            Timer.Ragdoll(ped);
+                                            break;
+                                        case 3:
+                                            ped.Health = 80;
+                                            ped.Armor = 0;
+                                            Timer.PedReact(ped);
+                                            break;
+                                        default:
+                                            ped.Health = 100;
+                                            ped.Armor = 0;
+                                            break;
+                                    }
+
+                                    Game.LogTrivial("Deadly Weapons: " + Functions.GetPersonaForPed(ped).FullName +
+                                                    " rolled 1-" + rnd);
+                                }
+                                else
+                                {
+                                    var rnd = new Random().Next(0, 10);
+                                    switch (rnd)
+                                    {
+                                        case 1:
+                                            ped.Health -= 50;
+                                            Timer.Ragdoll(ped);
+                                            break;
+                                        case 2:
+                                            goto case 1;
+                                        case 3:
+                                            goto case 1;
+                                        case 4:
+                                            ped.Kill();
+                                            break;
+                                        default:
+                                            ped.Health -= 80;
+                                            Timer.PedReact(ped);
+                                            break;
+                                    }
+
+                                    Game.LogTrivial("Deadly Weapons: " + Functions.GetPersonaForPed(ped).FullName +
+                                                    " rolled 2-" + rnd);
+                                }
+
+                                NativeFunction.Natives.CLEAR_ENTITY_LAST_WEAPON_DAMAGE(ped);
+                            }
+                        }
+                    }
                 });
             }
             catch (Exception e)
