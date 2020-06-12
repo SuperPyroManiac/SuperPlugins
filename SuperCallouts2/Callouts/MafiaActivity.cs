@@ -73,20 +73,14 @@ namespace SuperCallouts2.Callouts
             _cBlip.EnableRoute(Color.Red);
             _cBlip.Color = Color.Red;
             Game.LocalPlayer.Character.RelationshipGroup = "COP";
-            Functions.AddPedContraband(_mafiaDudes1, ContrabandType.Narcotics, "COCAINE");
-            Functions.AddPedContraband(_mafiaDudes2, ContrabandType.Narcotics, "COCAINE");
-            Functions.AddPedContraband(_mafiaDudes3, ContrabandType.Narcotics, "COCAINE");
-            Functions.AddPedContraband(_mafiaDudes4, ContrabandType.Narcotics, "COCAINE");
-            Functions.AddPedContraband(_mafiaDudes5, ContrabandType.Narcotics, "COCAINE");
-            Functions.AddPedContraband(_mafiaDudes6, ContrabandType.Narcotics, "COCAINE");
-            Game.DisplaySubtitle("Get to the ~r~scene~w~! Proceed with ~r~CAUTION~w~!", 10000);
+            Game.DisplaySubtitle("Get to the ~r~scene~s~! Proceed with ~r~CAUTION~s~!", 10000);
             return base.OnCalloutAccepted();
         }
 
         public override void Process()
         {
             if (Game.IsKeyDown(Settings.EndCall)) End();
-            if (!_onScene && Game.LocalPlayer.Character.DistanceTo(_callPos) < 120f)
+            if (!_onScene && Game.LocalPlayer.Character.DistanceTo(_callPos) < 140f)
             {
                 Game.DisplaySubtitle(
                     "Suspects spotted, appear to be ~r~armed~w~ and ~r~wanted~w~! Proceed with caution or wait for backup.",
@@ -108,14 +102,7 @@ namespace SuperCallouts2.Callouts
                 _onScene = true;
             }
 
-            if (_onScene && Game.LocalPlayer.Character.DistanceTo(_mafiaDudes1.Position) > 500f &&
-                Game.LocalPlayer.Character.DistanceTo(_mafiaDudes2.Position) > 500f &&
-                Game.LocalPlayer.Character.DistanceTo(_mafiaDudes3.Position) > 500f &&
-                Game.LocalPlayer.Character.DistanceTo(_mafiaDudes4.Position) > 500f &&
-                Game.LocalPlayer.Character.DistanceTo(_mafiaDudes5.Position) > 500f &&
-                Game.LocalPlayer.Character.DistanceTo(_mafiaDudes6.Position) > 500f) End();
-            if (_onScene && _mafiaDudes1.IsDead && _mafiaDudes2.IsDead && _mafiaDudes3.IsDead && _mafiaDudes4.IsDead &&
-                _mafiaDudes5.IsDead && _mafiaDudes6.IsDead) End();
+            if (_onScene && Game.LocalPlayer.Character.DistanceTo(_callPos) > 500f) End();
             base.Process();
         }
 

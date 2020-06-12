@@ -102,7 +102,7 @@ namespace SuperCallouts2.SimpleFunctions
             else
             {
                 _chosenSpawnData = _sideOfRoads[_rNd.Next(_sideOfRoads.Count)];
-                    //_sideOfRoads.OrderBy(x => x.Item1.DistanceTo(Game.LocalPlayer.Character.Position)).FirstOrDefault();
+                //_sideOfRoads.OrderBy(x => x.Item1.DistanceTo(Game.LocalPlayer.Character.Position)).FirstOrDefault();
                 spawnPoint = _chosenSpawnData.Item1;
                 spawnPointH = _chosenSpawnData.Item2;
             }

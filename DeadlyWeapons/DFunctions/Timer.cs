@@ -121,7 +121,7 @@ namespace DeadlyWeapons.DFunctions
                             ped.BlockPermanentEvents = false;
                             ped.IsPersistent = false;
                         }
-
+                        
                         break;
                 }
             });

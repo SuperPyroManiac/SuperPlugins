@@ -205,12 +205,12 @@ namespace SRCallouts.Callouts
         
         public override void End()
         {
+            _cBlip?.Delete();
+            _aBlip?.Delete();
             foreach (var entity in _badGuys.Where(entity => entity)) entity?.Dismiss();
             foreach (var entity in _goodguys.Where(entity => entity)) entity?.Dismiss();
             foreach (var entity in _vehicles.Where(entity => entity)) entity?.Dismiss();
             Game.SetRelationshipBetweenRelationshipGroups("COP", "MAFIA", Relationship.Dislike);
-            _cBlip?.Delete();
-            _aBlip?.Delete();
             _interaction.CloseAllMenus();
             Game.DisplayHelp("~y~Callout Ended");
                 base.End();

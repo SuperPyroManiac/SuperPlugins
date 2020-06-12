@@ -17,10 +17,6 @@ namespace DeadlyWeapons.DFunctions
             {
                 GameFiber.StartNew(delegate
                 {
-                    if (Timer.NonLeathal)
-                    {
-                        
-                    }
                     if (!ped || ped.IsDead) return;
                     ped.Accuracy = Settings.AiAccuracy;
                     ped.FiringPattern = FiringPattern.DelayFireByOneSecond;
