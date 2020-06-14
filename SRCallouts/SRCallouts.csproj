@@ -55,11 +55,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Callouts\LostGang.cs" />
+    <Compile Include="Callouts\LSGTF.cs" />
     <Compile Include="Callouts\Mafia1.cs" />
+    <Compile Include="Callouts\MafiaActivity2.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SceneSetup\LostMC.cs" />
+    <Compile Include="SceneSetup\LSGTFSetup.cs" />
     <Compile Include="SceneSetup\Mafia1.cs" />
     <Compile Include="SceneSetup\Mafia1Pre.cs" />
+    <Compile Include="SceneSetup\Mafia2Setup.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="SimpleFunctions\SFunctions.cs" />
     <Compile Include="SimpleFunctions\PulloverSpots.cs" />

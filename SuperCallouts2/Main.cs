@@ -16,6 +16,7 @@ namespace SuperCallouts2
                             Assembly.GetExecutingAssembly().GetName().Version +
                             " by SuperPyroManiac has been initialised.");
             Game.LogTrivial("Go on duty with LSPDFR to fully load SuperCallouts.");
+            Game.AddConsoleCommands();
         }
 
         private void OnOnDutyStateChangedHandler(bool onDuty)
@@ -34,13 +35,10 @@ namespace SuperCallouts2
             if (Settings.Robbery) { Functions.RegisterCallout(typeof(Robbery)); Game.LogTrivial("SuperCallouts: Robbery Enabled"); }
             if (Settings.CarAccident) { Functions.RegisterCallout(typeof(CarAccident)); Game.LogTrivial("SuperCallouts: CarAccident Enabled"); }
             if (Settings.CarAccident) { Functions.RegisterCallout(typeof(CarAccident2)); }
-            if (Settings.OrganizedCrime) { Functions.RegisterCallout(typeof(MafiaActivity)); Game.LogTrivial("SuperCallouts: OrganizedCrime Enabled"); }
-            if (Settings.OrganizedCrime2) { Functions.RegisterCallout(typeof(MafiaActivity2)); Game.LogTrivial("SuperCallouts: OrganizedCrime2 Enabled"); }
             if (Settings.Animals) { Functions.RegisterCallout(typeof(AngryAnimal)); Game.LogTrivial("SuperCallouts: AngryAnimals Enabled"); }
             if (Settings.Kidnapping) { Functions.RegisterCallout(typeof(Kidnapping)); Game.LogTrivial("SuperCallouts: Kidnapping Enabled"); }
             if (Settings.PrisonBreak) { Functions.RegisterCallout(typeof(PrisonBreak)); Game.LogTrivial("SuperCallouts: PrisonBreak Enabled"); }
             if (Settings.TruckCrash) { Functions.RegisterCallout(typeof(TruckCrash)); Game.LogTrivial("SuperCallouts: TruckCrash Enabled"); }
-            if (Settings.Lsgtf) { Functions.RegisterCallout(typeof(Lsgtf)); Game.LogTrivial("SuperCallouts: LSPD Gang Raid Enabled"); }
             if (Settings.PrisonTransport) { Functions.RegisterCallout(typeof(PrisonTransport)); Game.LogTrivial("SuperCallouts: PrisonTransport Enabled"); }
             if (Settings.HitRun) { Functions.RegisterCallout(typeof(HitRun)); Game.LogTrivial("SuperCallouts: Hit and Run Enabled"); }
             if (Settings.AmbulanceEscort) { Functions.RegisterCallout(typeof(AmbulanceEscort)); Game.LogTrivial("SuperCallouts: AmbulanceEscort Enabled"); }
@@ -52,7 +50,6 @@ namespace SuperCallouts2
             if (Settings.Manhunt) { Functions.RegisterCallout(typeof(Manhunt)); Game.LogTrivial("SuperCallouts: Manhunt Enabled"); }
             if (Settings.Impersonator) { Functions.RegisterCallout(typeof(Impersonator)); Game.LogTrivial("SuperCallouts: Impersonator Enabled"); }
             if (Settings.ToiletPaperBandit) { Functions.RegisterCallout(typeof(ToiletPaperBandit)); Game.LogTrivial("SuperCallouts: ToiletPaperBandit Enabled"); }
-            if (Settings.BikerAttack) { Functions.RegisterCallout(typeof(LostGang)); Game.LogTrivial("SuperCallouts: LostMC Attack Enabled"); }
             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~r~SuperCallouts", "~g~Plugin Loaded.",
                 "SuperCallouts version: " +
                 Assembly.GetExecutingAssembly().GetName().Version + " loaded.");

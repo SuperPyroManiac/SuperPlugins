@@ -9,12 +9,14 @@ namespace SuperEvents2
     public class Main : Plugin
     {
         public static bool PluginRunning { get; set; }
+        public static bool PluginPaused { get; set; }
             public override void Initialize()
             {
                 Functions.OnOnDutyStateChanged += OnOnDutyStateChangedHandler;
                 Settings.LoadSettings();
                 Game.LogTrivial("SuperEvents " + Assembly.GetExecutingAssembly().GetName().Version + " by SuperPyroManiac has been initialised.");
                 Game.LogTrivial("Go on duty with LSPDFR to fully load SuperEvents.");
+                Game.AddConsoleCommands();
             }
     
             private static void OnOnDutyStateChangedHandler(bool onDuty)

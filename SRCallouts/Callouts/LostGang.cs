@@ -10,7 +10,7 @@ using SuperCallouts.CustomScenes;
 
 #endregion
 
-namespace SuperCallouts2.Callouts
+namespace SRCallouts.Callouts
 {
     [CalloutInfo("LostGang", CalloutProbability.Low)]
     internal class LostGang : Callout
@@ -48,8 +48,6 @@ namespace SuperCallouts2.Callouts
         {
             _spawnPoint = new Vector3(2350.661f, 4920.378f, 41.7339f);
             ShowCalloutAreaBlipBeforeAccepting(_spawnPoint, 80f);
-            //AddMinimumDistanceCheck(20f, SpawnPoint);
-            //AddMaximumDistanceCheck(1500f, SpawnPoint);
             CalloutMessage = "~r~Panic Button:~s~ Multiple officers under fire.";
             CalloutPosition = _spawnPoint;
             Functions.PlayScannerAudioUsingPosition(
@@ -62,14 +60,12 @@ namespace SuperCallouts2.Callouts
         {
             Game.LogTrivial("SuperCallouts Log: LostMC callout accepted...");
             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Biker Gang Attack",
-                "~r~EMERGENCY~s~ All Units: Multiple officers under fire, 7 plus armed gang members attacking sheriff officers. ~r~Respond CODE-99 EMERGENCY");
+                "~r~EMERGENCY~s~ All Units: Multiple officers under fire, 7 plus armed gang members attacking sheriff officers. ~r~Respond CODE-3 EMERGENCY");
             LostMc.ConstructBikersScene(out _cCar1, out _cCar2, out _cop1, out _cop2, out _cop3, out _bike1, out _bike2,
                 out _bike3, out _bike4, out _bike5, out _bike6, out _bike7, out _biker1, out _biker2, out _biker3, out _biker4,
                 out _biker5, out _biker6, out _biker7, out _biker8, out _biker9, out _biker10);
             _searcharea = _spawnPoint.Around2D(1f, 2f);
-            _cBlip = new Blip(_searcharea, 80f);
-            _cBlip.Color = Color.Yellow;
-            _cBlip.Alpha = .5f;
+            _cBlip = new Blip(_searcharea, 80f) {Color = Color.Yellow, Alpha = .5f};
             _cBlip.EnableRoute(Color.Yellow);
             _cVehicles.Add(_cCar1);
             _cVehicles.Add(_cCar2);
@@ -110,7 +106,7 @@ namespace SuperCallouts2.Callouts
                 Game.SetRelationshipBetweenRelationshipGroups("LOSTERS", "PLAYER", Relationship.Hate);
                 foreach (var bikerss in _bikers)
                 {
-                    SuperCallouts.CustomScenes.SimpleFunctions.SetWanted(bikerss, true);
+                    SimpleFunctions.SFunctions.SetWanted(bikerss, true);
                     bikerss.Tasks.FightAgainstClosestHatedTarget(50f);
                 }
 
@@ -123,11 +119,6 @@ namespace SuperCallouts2.Callouts
                 Functions.RequestBackup(_spawnPoint, EBackupResponseType.Code3,
                     EBackupUnitType.LocalUnit);
             }
-
-            //if (onScene && Biker1.IsDead && Biker2.IsDead && Biker3.IsDead && Biker4.IsDead && Biker5.IsDead && Biker6.IsDead && Biker7.IsDead && Biker8.IsDead && Biker9.IsDead && Biker10.IsDead)
-            //{
-            //    End();
-            //}
             if (_onScene && Game.LocalPlayer.Character.DistanceTo(_spawnPoint) > 90f) End();
             base.Process();
         }
