@@ -28,6 +28,13 @@ namespace DeadlyWeapons.DFunctions
                             if (NativeFunction.Natives.HAS_ENTITY_BEEN_DAMAGED_BY_WEAPON<bool>(ped, (uint) w, 0) &&
                                 Settings.EnableDamageSystem)
                             {
+                                if (ped.LastDamageBone == PedBoneId.LeftUpperArm || ped.LastDamageBone == PedBoneId.LeftForeArm || ped.LastDamageBone == PedBoneId.RightUpperArm || ped.LastDamageBone == PedBoneId.RightForearm)
+                                {
+                                    if (ped.Inventory.HasLoadedWeapon)
+                                    {
+                                        ped.Inventory.EquippedWeapon.Drop();
+                                    }
+                                }
                                 if (Game.LocalPlayer.Character.DistanceTo(ped) < 6)
                                 {
                                     var rnd = new Random().Next(0, 3);
@@ -91,6 +98,13 @@ namespace DeadlyWeapons.DFunctions
                             if (NativeFunction.Natives.HAS_ENTITY_BEEN_DAMAGED_BY_WEAPON<bool>(ped, (uint) w, 0) &&
                                 Settings.EnableDamageSystem)
                             {
+                                if (ped.LastDamageBone == PedBoneId.LeftUpperArm || ped.LastDamageBone == PedBoneId.LeftForeArm || ped.LastDamageBone == PedBoneId.RightUpperArm || ped.LastDamageBone == PedBoneId.RightForearm)
+                                {
+                                    if (ped.Inventory.HasLoadedWeapon)
+                                    {
+                                        ped.Inventory.EquippedWeapon.Drop();
+                                    }
+                                }
                                 if (ped.Armor >= 60)
                                 {
                                     var rnd = new Random().Next(0, 10);

@@ -57,7 +57,6 @@
     <Compile Include="DeadlyWeapons.cs" />
     <Compile Include="DFunctions\ConsoleCommands.cs" />
     <Compile Include="DFunctions\CustomAI.cs" />
-    <Compile Include="DFunctions\EMSRescue.cs" />
     <Compile Include="DFunctions\Timer.cs" />
     <Compile Include="DFunctions\UIMenu.cs" />
     <Compile Include="Main.cs" />

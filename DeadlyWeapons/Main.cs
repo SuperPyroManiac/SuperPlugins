@@ -13,7 +13,6 @@ namespace DeadlyWeapons
     public class Main : Plugin
     {
         private static readonly DeadlyWeapons StartDamageCheck = new DeadlyWeapons();
-        private static readonly EmsRescue StartEMSCheck = new EmsRescue();
 
         public override void Initialize()
         {
@@ -47,7 +46,6 @@ namespace DeadlyWeapons
         {
             Game.DisableAutomaticRespawn = false;
             Game.FadeScreenOutOnDeath = true;
-            if (Settings.EnableEms) StartEMSCheck._emsFiber.Abort();
             StartDamageCheck.ProcessFiber.Abort();
             Game.LogTrivial("Deadly Weapons by SuperPyroManiac has been disabled.");
         }
