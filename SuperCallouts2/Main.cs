@@ -50,6 +50,7 @@ namespace SuperCallouts2
             if (Settings.Manhunt) { Functions.RegisterCallout(typeof(Manhunt)); Game.LogTrivial("SuperCallouts: Manhunt Enabled"); }
             if (Settings.Impersonator) { Functions.RegisterCallout(typeof(Impersonator)); Game.LogTrivial("SuperCallouts: Impersonator Enabled"); }
             if (Settings.ToiletPaperBandit) { Functions.RegisterCallout(typeof(ToiletPaperBandit)); Game.LogTrivial("SuperCallouts: ToiletPaperBandit Enabled"); }
+            if (Settings.BlockingTraffic) { Functions.RegisterCallout(typeof(BlockingTraffic)); Game.LogTrivial("SuperCallouts: Blocking Traffic Enabled"); }
             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~r~SuperCallouts", "~g~Plugin Loaded.",
                 "SuperCallouts version: " +
                 Assembly.GetExecutingAssembly().GetName().Version + " loaded.");

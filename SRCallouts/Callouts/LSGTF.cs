@@ -12,7 +12,7 @@ using SuperCallouts.CustomScenes;
 
 #endregion
 
-namespace SuperCallouts2.Callouts
+namespace SRCallouts.Callouts
 {
     [CalloutInfo("LSGTF", CalloutProbability.Low)]
     internal class Lsgtf : Callout
@@ -88,14 +88,14 @@ namespace SuperCallouts2.Callouts
             _fib2.IsPersistent = true;
             _fib1.BlockPermanentEvents = true;
             _fib2.BlockPermanentEvents = true;
-            SuperCallouts.CustomScenes.SimpleFunctions.SetWanted(_bad1, true);
-            SuperCallouts.CustomScenes.SimpleFunctions.SetWanted(_bad2, true);
-            SuperCallouts.CustomScenes.SimpleFunctions.SetWanted(_bad3, true);
-            SuperCallouts.CustomScenes.SimpleFunctions.SetWanted(_bad4, true);
-            SuperCallouts.CustomScenes.SimpleFunctions.SetWanted(_bad5, true);
-            SuperCallouts.CustomScenes.SimpleFunctions.SetWanted(_bad6, true);
-            SuperCallouts.CustomScenes.SimpleFunctions.SetWanted(_bad7, true);
-            SuperCallouts.CustomScenes.SimpleFunctions.SetWanted(_bad8, true);
+            SimpleFunctions.SFunctions.SetWanted(_bad1, true);
+            SimpleFunctions.SFunctions.SetWanted(_bad2, true);
+            SimpleFunctions.SFunctions.SetWanted(_bad3, true);
+            SimpleFunctions.SFunctions.SetWanted(_bad4, true);
+            SimpleFunctions.SFunctions.SetWanted(_bad5, true);
+            SimpleFunctions.SFunctions.SetWanted(_bad6, true);
+            SimpleFunctions.SFunctions.SetWanted(_bad7, true);
+            SimpleFunctions.SFunctions.SetWanted(_bad8, true);
             _meetingB = _cVehicle.AttachBlip();
             _meetingB.EnableRoute(Color.Aquamarine);
             _meetingB.Color = Color.Aquamarine;

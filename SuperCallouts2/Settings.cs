@@ -7,14 +7,11 @@ namespace SuperCallouts2
     {
         internal static bool Animals = true;
         internal static bool Robbery = true;
-        internal static bool OrganizedCrime = true;
-        internal static bool OrganizedCrime2 = true;
         internal static bool CarAccident = true;
         internal static bool HotPursuit = true;
         internal static bool Kidnapping = true;
         internal static bool PrisonBreak = true;
         internal static bool TruckCrash = true;
-        internal static bool Lsgtf = true;
         internal static bool PrisonTransport = true;
         internal static bool HitRun = true;
         internal static bool AmbulanceEscort = true;
@@ -26,7 +23,7 @@ namespace SuperCallouts2
         internal static bool Manhunt = true;
         internal static bool Impersonator = true;
         internal static bool ToiletPaperBandit = true;
-        internal static bool BikerAttack = true;
+        internal static bool BlockingTraffic = true;
         internal static Keys Interact = Keys.Y;
         internal static Keys EndCall = Keys.End;
 
@@ -39,13 +36,10 @@ namespace SuperCallouts2
             CarAccident = ini.ReadBoolean("Settings", "CarAccident", true);
             HotPursuit = ini.ReadBoolean("Settings", "HighSpeedPursuit", true);
             Robbery = ini.ReadBoolean("Settings", "Robbery", true);
-            OrganizedCrime = ini.ReadBoolean("Settings", "OrganizedCrime", true);
-            OrganizedCrime2 = ini.ReadBoolean("Settings", "OrganizedCrime2", true);
             Animals = ini.ReadBoolean("Settings", "AttackingAnimal", true);
             Kidnapping = ini.ReadBoolean("Settings", "Kidnapping", true);
             PrisonBreak = ini.ReadBoolean("Settings", "PrisonBreak", true);
             TruckCrash = ini.ReadBoolean("Settings", "TruckCrash", true);
-            Lsgtf = ini.ReadBoolean("Settings", "GangRaid", true);
             PrisonTransport = ini.ReadBoolean("Settings", "PrisonTransport", true);
             HitRun = ini.ReadBoolean("Settings", "HitAndRun", true);
             AmbulanceEscort = ini.ReadBoolean("Settings", "AmbulanceEscort", true);
@@ -57,7 +51,7 @@ namespace SuperCallouts2
             Manhunt = ini.ReadBoolean("Settings", "Manhunt", true);
             Impersonator = ini.ReadBoolean("Settings", "Impersonator", true);
             ToiletPaperBandit = ini.ReadBoolean("Settings", "ToiletPaperBandit", true);
-            BikerAttack = ini.ReadBoolean("Settings", "BikerAttack", true);
+            BlockingTraffic = ini.ReadBoolean("Settings", "BlockingTraffic", true);
             Interact = ini.ReadEnum("Keys", "Interact", Keys.Y);
             EndCall = ini.ReadEnum("Keys", "EndCall", Keys.End);
             Game.LogTrivial("SuperCallouts: Config loaded.");

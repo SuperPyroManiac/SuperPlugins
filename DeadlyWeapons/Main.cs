@@ -21,7 +21,7 @@ namespace DeadlyWeapons
             Game.LogTrivial("Deadly Weapons " + Assembly.GetExecutingAssembly().GetName().Version +
                             " by SuperPyroManiac has been initialised.");
             Game.LogTrivial("Go on duty with LSPDFR to start the plugin.");
-            Game.AddConsoleCommands();
+            Game.AddConsoleCommands(new[] { typeof(DFunctions.ConsoleCommands) });
         }
 
         private static void OnOnDutyStateChangedHandler(bool onDuty)

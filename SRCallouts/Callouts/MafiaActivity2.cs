@@ -10,7 +10,7 @@ using Rage;
 
 #endregion
 
-namespace SuperCallouts2.Callouts
+namespace SRCallouts.Callouts
 {
     [CalloutInfo("MafiaActivity2", CalloutProbability.Low)]
     internal class MafiaActivity2 : Callout
@@ -51,7 +51,7 @@ namespace SuperCallouts2.Callouts
         }
 
         public override bool OnCalloutAccepted()
-        {
+        {//TODO: FIX THE LOCATIONS
             SuperCallouts.CustomScenes.Mafia2Setup.ConstructMafia2Scene(out _cVehicle1, out _cVehicle2, out _cVehicle3, out _cVehicle4, out _mafiaDude1, out _mafiaDude2, out _mafiaDude3, out _mafiaDude4, out _mafiaDude5, out _mafiaDude6, out _mafiaDude7, out _mafiaDude8, out _mafiaDude9, out _mafiaDude10, out _mafiaDude11, out _mafiaDude12, out _mafiaDude13, out _mafiaDude14, out _mafiaDude15);
             Game.LogTrivial("SuperCallouts Log: MafiaActivity callout accepted...");
             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~The Mafia",
@@ -85,7 +85,7 @@ namespace SuperCallouts2.Callouts
             {
                 mafiaDudes.IsPersistent = true;
                 mafiaDudes.Inventory.Weapons.Add(WeaponHash.CombatPistol).Ammo = -1;
-                SuperCallouts.CustomScenes.SimpleFunctions.SetWanted(mafiaDudes, true);
+                SimpleFunctions.SFunctions.SetWanted(mafiaDudes, true);
                 Functions.AddPedContraband(mafiaDudes, ContrabandType.Narcotics, "Cocaine");
             }
             return base.OnCalloutAccepted();
