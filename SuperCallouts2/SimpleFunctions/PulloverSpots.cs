@@ -4,23 +4,23 @@ using Rage;
 
 namespace SuperCallouts2.SimpleFunctions
 {
-    public class TupleList<T1, T2> : List<Tuple<T1, T2>>
+    internal class TupleList<T1, T2> : List<Tuple<T1, T2>>
     {
-        public TupleList(TupleList<T1, T2> tuplelist)
+        internal TupleList(TupleList<T1, T2> tuplelist)
         {
             foreach (var tuple in tuplelist) Add(tuple);
         }
 
-        public TupleList() { }
+        internal TupleList() { }
 
-        public void Add(T1 item, T2 item2)
+        internal void Add(T1 item, T2 item2)
         {
             Add(new Tuple<T1, T2>(item, item2));
         }
     }
-    public static class PulloverSpots
+    internal static class PulloverSpots
     {
-        public static TupleList<Vector3, float> SideOfRoad { get; } = new TupleList<Vector3, float>
+        internal static TupleList<Vector3, float> SideOfRoad { get; } = new TupleList<Vector3, float>
         {
             { new Vector3(-879.0662f, 239.9437f, 72.22186f), 64.38356f },
             { new Vector3(-834.8604f, 204.1598f, 73.7544f), 265.1725f },

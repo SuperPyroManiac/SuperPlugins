@@ -10,7 +10,7 @@ using Rage.Native;
 
 namespace SuperCallouts.CustomScenes
 {
-    public class TupleList<T1, T2> : List<Tuple<T1, T2>>
+    internal class TupleList<T1, T2> : List<Tuple<T1, T2>>
     {
         public TupleList(TupleList<T1, T2> tuplelist)
         {
@@ -21,15 +21,15 @@ namespace SuperCallouts.CustomScenes
         {
         }
 
-        public void Add(T1 item, T2 item2)
+        internal void Add(T1 item, T2 item2)
         {
             Add(new Tuple<T1, T2>(item, item2));
         }
     }
 
-    public static class SimpleFunctions
+    internal static class SimpleFunctions
     {
-        public static TupleList<Vector3, float>
+        internal static TupleList<Vector3, float>
             SideOfRoad // This is ALBO's list of pullover spots. All credit to these coords and headings go to him! His licence says we can use it with credits.
         {
             get;

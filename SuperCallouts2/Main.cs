@@ -6,7 +6,7 @@ using Fire = SuperCallouts2.Callouts.Fire;
 
 namespace SuperCallouts2
 {
-    public class Main : Plugin
+    internal class Main : Plugin
     {
         public override void Initialize()
         {

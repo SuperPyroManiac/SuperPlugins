@@ -8,7 +8,7 @@ namespace SuperCallouts.CustomScenes
 {
     //This class will be used as a refference to Prison Break class. Just here to keep things clean in the main classes.
     //This is also a test of an in game script maker to allow me to precisly make custom scenes. It's messy and gross but works.
-    public class PrisonbreakSetup
+    internal class PrisonbreakSetup
     {
         /* public Ped Prisoner1;
          public Ped Prisoner5;

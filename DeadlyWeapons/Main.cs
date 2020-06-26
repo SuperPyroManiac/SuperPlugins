@@ -31,10 +31,6 @@ namespace DeadlyWeapons
                 {
                     GameFiber.Wait(10000);
                     StartDamageCheck.Start();
-                    //if (Settings.EnableEMS)
-                    //{
-                     //   StartEMSCheck.Start();
-                    //}
                     Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~r~Deadly Weapons",
                         "~g~Plugin Loaded.",
                         "Deadly Weapons by SuperPyroManiac version: " +
