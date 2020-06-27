@@ -78,7 +78,7 @@ namespace SuperEvents2
                 eventBlip.Color = Color.Red;
                 eventBlip.Alpha /= 2;
                 eventBlip.Name = "Event";
-                eventBlip.Flash(500, 5000);
+                eventBlip.Flash(500, 8000);
                 BlipsToClear.Add(eventBlip);
             }
             _checkDistance = spawnPoint;
@@ -105,22 +105,22 @@ namespace SuperEvents2
             if (forceCleanup)
             {
                 foreach (var entity in EntitiesToClear.Where(entity => entity))
-                    entity.Delete();
+                    entity?.Delete();
                 Game.LogTrivial("SuperEvents: Event has been forcefully cleaned up.");
             }
             else
             {
                 foreach (var entity in EntitiesToClear.Where(entity => entity))
-                    entity.Dismiss(); 
+                    entity?.Dismiss(); 
                 Game.DisplayHelp("~y~Event Ended.");
             }
             
             foreach (var blip in BlipsToClear.Where(blip => blip))
-                blip.Delete();
+                blip?.Delete();
             
             Interaction.CloseAllMenus();
             Game.LogTrivial("SuperEvents: Ending Event.");
-            ProcessFiber.Abort();
+            //ProcessFiber.Abort();
             EventTimer.TimerStart();
         }
 

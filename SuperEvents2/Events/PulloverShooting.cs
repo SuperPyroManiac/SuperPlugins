@@ -19,7 +19,6 @@ namespace SuperEvents2.Events
             //Setup
             EFunctions.FindSideOfRoad(120, 45, out _spawnPoint, out _spawnPointH);
             if (_spawnPoint.DistanceTo(Player) < 35f) {End(true); return;}
-            base.StartEvent(_spawnPoint, _spawnPointH);
             //Vehicles
             _cVehicle = new Vehicle("POLICE2", _spawnPoint) {Heading = _spawnPointH, IsPersistent = true};
             EFunctions.SpawnNormalCar(out _sVehicle, _cVehicle.GetOffsetPositionFront(8));
@@ -40,6 +39,8 @@ namespace SuperEvents2.Events
             _sPed.Metadata.searchPed = "~r~assault rifle~s~, ~r~pistol~s~, ~r~used meth pipe~s~, ~y~suicide letter~s~";
             EntitiesToClear.Add(_cPed);
             EntitiesToClear.Add(_sPed);
+            
+            base.StartEvent(_spawnPoint, _spawnPointH);
         }
 
         protected override void Process()

@@ -39,7 +39,7 @@ namespace SuperEvents2.SimpleFunctions
                 var drunkAnimset = new AnimationSet("move_m@drunk@verydrunk");
                 drunkAnimset.LoadAndWait();
                 bad.MovementAnimationSet = drunkAnimset;
-                Rage.Native.NativeFunction.Natives.SET_PED_IS_DRUNK(bad, isDrunk);
+                NativeFunction.Natives.SET_PED_IS_DRUNK(bad, isDrunk);
             });
             return;
         }

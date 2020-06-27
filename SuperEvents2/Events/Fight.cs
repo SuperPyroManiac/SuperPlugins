@@ -26,26 +26,26 @@ namespace SuperEvents2.Events
             //Setup
             EFunctions.FindSideOfRoad(120, 45, out _spawnPoint, out _spawnPointH);
             if (_spawnPoint.DistanceTo(Player) < 35f) {End(true); return;}
-            base.StartEvent(_spawnPoint, _spawnPointH);
-            //Suspect1
+            //Peds
             _suspect = new Ped(_spawnPoint) {IsPersistent = true, BlockPermanentEvents = true};
             EFunctions.SetDrunk(_suspect, true);
             _name1 = Functions.GetPersonaForPed(_suspect).FullName;
             _suspect.Metadata.stpAlcoholDetected = true;
-            NativeFunction.CallByName<uint>("TASK_TURN_PED_TO_FACE_ENTITY", _suspect, _suspect2, -1);
             EntitiesToClear.Add(_suspect);
-            //Suspect2
             _suspect2 = new Ped(_suspect.FrontPosition) {IsPersistent = true, BlockPermanentEvents = true};
             EFunctions.SetDrunk(_suspect2, true);
             _name2 = Functions.GetPersonaForPed(_suspect2).FullName;
             _suspect2.Metadata.stpAlcoholDetected = true;
             NativeFunction.CallByName<uint>("TASK_TURN_PED_TO_FACE_ENTITY", _suspect2, _suspect, -1);
+            NativeFunction.CallByName<uint>("TASK_TURN_PED_TO_FACE_ENTITY", _suspect, _suspect2, -1);
             EntitiesToClear.Add(_suspect2);
             //UI Items
             _speakSuspect = new UIMenuItem("Speak with ~y~" + _name1);
             _speakSuspect2 = new UIMenuItem("Speak with ~y~" + _name2);
             ConvoMenu.AddItem(_speakSuspect);
             ConvoMenu.AddItem(_speakSuspect2);
+            
+            base.StartEvent(_spawnPoint, _spawnPointH);
         }
 
         protected override void Process()

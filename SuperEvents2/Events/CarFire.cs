@@ -21,10 +21,11 @@ namespace SuperEvents2.Events
             //Setup
             EFunctions.FindSideOfRoad(120, 45, out _spawnPoint, out _spawnPointH);
             if (_spawnPoint.DistanceTo(Player) < 35f) {End(true); return;}
-            base.StartEvent(_spawnPoint, _spawnPointH);
             //eVehicle
             EFunctions.SpawnNormalCar(out _eVehicle, _spawnPoint);
             EntitiesToClear.Add(_eVehicle);
+            
+            base.StartEvent(_spawnPoint, _spawnPointH);
         }
 
         protected override void Process()
@@ -49,19 +50,19 @@ namespace SuperEvents2.Events
                         switch (choice)
                         {
                             case 1:
-                                EFunctions.FireControl(_spawnPoint, 25, true);
-                                EFunctions.FireControl(_spawnPoint, 25, false);
+                                EFunctions.FireControl(_spawnPoint.Around2D(7f), 25, true);
+                                EFunctions.FireControl(_spawnPoint.Around2D(7f), 25, false);
                                 break;
                             case 2:
                                 _eVehicle.Explode();
-                                EFunctions.FireControl(_spawnPoint, 10, true);
+                                EFunctions.FireControl(_spawnPoint.Around2D(7f), 10, true);
                                 break;
                             case 3:
                                 _victim = _eVehicle.CreateRandomDriver();
                                 _victim.IsPersistent = true;
                                 EntitiesToClear.Add(_victim);
-                                EFunctions.FireControl(_spawnPoint, 25, true);
-                                EFunctions.FireControl(_spawnPoint, 25, false);
+                                EFunctions.FireControl(_spawnPoint.Around2D(7f), 25, true);
+                                EFunctions.FireControl(_spawnPoint.Around2D(7f), 25, false);
                                 break;
                             default:
                                 End(true);

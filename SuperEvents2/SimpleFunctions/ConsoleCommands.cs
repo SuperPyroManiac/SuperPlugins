@@ -10,6 +10,7 @@ namespace SuperEvents2.SimpleFunctions
         {
             Settings.LoadSettings();
         }
+        [Rage.Attributes.ConsoleCommand]
         public static void Command_SEPauseEvents()
         {
             Main.PluginPaused = !Main.PluginPaused;
