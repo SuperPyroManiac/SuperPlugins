@@ -127,7 +127,7 @@ namespace SuperCallouts2.Callouts
             }
             catch (Exception e)
             {
-                Game.LogTrivial("Oops there was an error here. Please send this log to SuperPyroManiac!");
+                Game.LogTrivial("Oops there was an error here. Please send this log to https://discord.gg/xsdAXJb");
                 Game.LogTrivial("SuperCallouts Error Report Start");
                 Game.LogTrivial("======================================================");
                 Game.LogTrivial(e.ToString());

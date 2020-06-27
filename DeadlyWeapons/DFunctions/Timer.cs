@@ -2,6 +2,7 @@
 
 using System;
 using LSPD_First_Response;
+using LSPD_First_Response.Mod.API;
 using Rage;
 
 #endregion
@@ -28,6 +29,11 @@ namespace DeadlyWeapons.DFunctions
             {
                 Game.LogTrivial("Deadly Weapons: Unable to remove ragdoll due to player death.");
             }
+        }
+
+        internal static void VisualSearch(LHandle handler)
+        {
+            
         }
 
         internal static void RubberBullets()
