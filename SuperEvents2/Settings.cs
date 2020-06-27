@@ -22,7 +22,7 @@ namespace SuperEvents2
         internal static bool WildAnimal = true;
         internal static bool ShowBlips = true;
         internal static bool ShowHints = true;
-        internal static int TimeBetweenEvents = 150;
+        internal static int TimeBetweenEvents = 300;
         internal static Keys Interact = Keys.Y;
         internal static Keys EndEvent = Keys.End;
 

@@ -1,4 +1,5 @@
 using System;
+using LSPD_First_Response.Mod.API;
 using Rage;
 using SuperEvents2.SimpleFunctions;
 
@@ -8,8 +9,10 @@ namespace SuperEvents2.Events
     {
         private Vector3 _spawnPoint;
         private float _spawnPointH;
-        private Ped _victim;
-        private Vehicle _eVehicle;
+        private Ped _cPed;
+        private Ped _sPed;
+        private Vehicle _cVehicle;
+        private Vehicle _sVehicle;
 
         public override void StartEvent(Vector3 s, float f)
         {
@@ -17,9 +20,26 @@ namespace SuperEvents2.Events
             EFunctions.FindSideOfRoad(120, 45, out _spawnPoint, out _spawnPointH);
             if (_spawnPoint.DistanceTo(Player) < 35f) {End(true); return;}
             base.StartEvent(_spawnPoint, _spawnPointH);
-            //eVehicle
-            EFunctions.SpawnNormalCar(out _eVehicle, _spawnPoint);
-            EntitiesToClear.Add(_eVehicle);
+            //Vehicles
+            _cVehicle = new Vehicle("POLICE2", _spawnPoint) {Heading = _spawnPointH, IsPersistent = true};
+            EFunctions.SpawnNormalCar(out _sVehicle, _cVehicle.GetOffsetPositionFront(8));
+            _sVehicle.Metadata.searchDriver = "~r~baggy of meth~s~, ~g~a pair of shoes~s~";
+            _sVehicle.Metadata.searchTrunk = "~y~stacks of past due medical bills~s~";
+            EntitiesToClear.Add(_cVehicle);
+            EntitiesToClear.Add(_sVehicle);
+            //Peds
+            _cPed = new Ped("s_m_y_cop_01", Vector3.Zero, 0f) {IsPersistent = true, BlockPermanentEvents = true};
+            _cPed.WarpIntoVehicle(_cVehicle, -1);
+            _cPed.Inventory.Weapons.Add(WeaponHash.CombatPistol).Ammo = -1;
+            _sPed = new Ped {IsPersistent = true, Health = 400, BlockPermanentEvents = true};
+            _sPed.WarpIntoVehicle(_sVehicle, -1);
+            _sPed.Inventory.Weapons.Add(WeaponHash.BullpupShotgun).Ammo = -1;
+            EFunctions.SetWanted(_sPed, true);
+            _sPed.Metadata.stpAlcoholDetected = true;
+            _sPed.Metadata.hasGunPermit = false;
+            _sPed.Metadata.searchPed = "~r~assault rifle~s~, ~r~pistol~s~, ~r~used meth pipe~s~, ~y~suicide letter~s~";
+            EntitiesToClear.Add(_cPed);
+            EntitiesToClear.Add(_sPed);
         }
 
         protected override void Process()
@@ -33,30 +53,33 @@ namespace SuperEvents2.Events
                         {
                             if (Settings.ShowHints)
                                 Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~y~Officer Sighting",
-                                    "~r~A Fire", "Call the Fire Department and clear the scene!");
+                                    "~r~Officer Under Fire", "Help the other officer!");
                             Game.DisplayHelp("~y~Press ~r~" + Settings.Interact + "~y~ to open interaction menu.");
                             _tasks = Tasks.OnScene;
                         }
                         break;
                     case Tasks.OnScene:
                         var choice = new Random().Next(1,4);
-                        Game.LogTrivial("SuperEvents: Fire event picked scenerio #" + choice);
+                        Game.LogTrivial("SuperEvents: PulloverShooting event picked scenerio #" + choice);
                         switch (choice)
                         {
                             case 1:
-                                EFunctions.FireControl(_spawnPoint, 25, true);
-                                EFunctions.FireControl(_spawnPoint, 25, false);
+                                _sPed.BlockPermanentEvents = false;
+                                _sPed.Tasks.FightAgainst(_cPed);
+                                _cPed.BlockPermanentEvents = false;
+                                _cPed.Tasks.FightAgainst(_sPed);
                                 break;
                             case 2:
-                                _eVehicle.Explode();
-                                EFunctions.FireControl(_spawnPoint, 10, true);
+                                _sPed.BlockPermanentEvents = false;
+                                _sPed.Tasks.FightAgainst(Player);
+                                _cPed.Kill();
                                 break;
                             case 3:
-                                _victim = _eVehicle.CreateRandomDriver();
-                                _victim.IsPersistent = true;
-                                EntitiesToClear.Add(_victim);
-                                EFunctions.FireControl(_spawnPoint, 25, true);
-                                EFunctions.FireControl(_spawnPoint, 25, false);
+                                _sPed.BlockPermanentEvents = false;
+                                var pursuit = Functions.CreatePursuit();
+                                Functions.AddPedToPursuit(pursuit, _sPed);
+                                Functions.SetPursuitIsActiveForPlayer(pursuit, Player);
+                                _cPed.Kill();
                                 break;
                             default:
                                 End(true);

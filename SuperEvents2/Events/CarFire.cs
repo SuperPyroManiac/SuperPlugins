@@ -34,7 +34,7 @@ namespace SuperEvents2.Events
                 switch (_tasks)
                 {
                     case Tasks.CheckDistance:
-                        if (Game.LocalPlayer.Character.DistanceTo(_spawnPoint) < 30f)
+                        if (Game.LocalPlayer.Character.DistanceTo(_spawnPoint) < 15f)
                         {
                             if (Settings.ShowHints)
                                 Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~y~Officer Sighting",

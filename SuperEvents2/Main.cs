@@ -16,7 +16,7 @@ namespace SuperEvents2
                 Settings.LoadSettings();
                 Game.LogTrivial("SuperEvents " + Assembly.GetExecutingAssembly().GetName().Version + " by SuperPyroManiac has been initialised.");
                 Game.LogTrivial("Go on duty with LSPDFR to fully load SuperEvents.");
-                Game.AddConsoleCommands();
+                Game.AddConsoleCommands(new[] { typeof(ConsoleCommands) });
             }
     
             private static void OnOnDutyStateChangedHandler(bool onDuty)

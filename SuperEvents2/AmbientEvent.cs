@@ -120,6 +120,7 @@ namespace SuperEvents2
             
             Interaction.CloseAllMenus();
             Game.LogTrivial("SuperEvents: Ending Event.");
+            ProcessFiber.Abort();
             EventTimer.TimerStart();
         }
 
