@@ -55,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DeadlyWeapons.cs" />
+    <Compile Include="DFunctions\CFunctions.cs" />
     <Compile Include="DFunctions\ConsoleCommands.cs" />
     <Compile Include="DFunctions\CustomAI.cs" />
     <Compile Include="DFunctions\Timer.cs" />

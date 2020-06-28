@@ -1,6 +1,7 @@
 #region
 
 using System;
+using System.Runtime.InteropServices;
 using LSPD_First_Response;
 using LSPD_First_Response.Mod.API;
 using Rage;
@@ -33,7 +34,82 @@ namespace DeadlyWeapons.DFunctions
 
         internal static void VisualSearch(LHandle handler)
         {
-            
+            var bad = Functions.GetPulloverSuspect(handler);
+            var checking = true;
+            var hasWeapon = false;
+            var rND = new Random().Next(1,8);
+            var checkFiber = new GameFiber(delegate
+            {
+                while (checking)
+                {
+                    GameFiber.Yield();
+                    
+                    if (!Functions.IsPlayerPerformingPullover())
+                    {
+                        checking = false;
+                    }
+
+                    if (Game.LocalPlayer.Character.DistanceTo(bad) < 3f)
+                    {
+                        Game.LogTrivial("DeadlyWeapons: Pullover detected, using scenario: " + rND);
+                        checking = false;
+                        bad.Inventory.Weapons.Clear();
+                        if (DFunctions.CFunctions.IsWanted(bad))
+                        {
+                            switch (rND)
+                            {
+                                case 1:
+                                    bad.Inventory.Weapons.Add(WeaponHash.Pistol);
+                                    hasWeapon = true;
+                                    break;
+                                case 2:
+                                    bad.Inventory.Weapons.Add(WeaponHash.Pistol);
+                                    hasWeapon = true;
+                                    bad.Tasks.FireWeaponAt(Game.LocalPlayer.Character, -1,
+                                        FiringPattern.BurstFirePistol);
+                                    break;
+                                case 3:
+                                    var pursuit = Functions.CreatePursuit();
+                                    Functions.AddPedToPursuit(pursuit, bad);
+                                    Functions.SetPursuitIsActiveForPlayer(pursuit, true);
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        else                                                                               //TODO: ADD WEAPONS TO PED SEARCH
+                        {
+                            switch (rND)
+                            {
+                                case 1:
+                                    bad.Inventory.Weapons.Add(WeaponHash.Pistol);
+                                    hasWeapon = true;
+                                    bad.Metadata.hasGunPermit = false;
+                                    break;
+                                case 2:
+                                    bad.Inventory.Weapons.Add(WeaponHash.Pistol);
+                                    hasWeapon = true;
+                                    bad.Metadata.hasGunPermit = true;
+                                    break;
+                                case 3:
+                                    var pursuit = Functions.CreatePursuit();
+                                    Functions.AddPedToPursuit(pursuit, bad);
+                                    Functions.SetPursuitIsActiveForPlayer(pursuit, true);
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+
+                        if (hasWeapon)
+                        {
+                            Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~y~Traffic Stop", "~r~Weapon Spoted",
+                                "You noticed the suspect has a weapon in the vehicle!");
+                        }
+                    }
+                }
+            });
+            checkFiber.Start();
         }
 
         internal static void RubberBullets()

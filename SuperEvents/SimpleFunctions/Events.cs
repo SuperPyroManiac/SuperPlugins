@@ -36,7 +36,6 @@ namespace SuperEvents.SimpleFunctions
                                         if (Settings.Fight)
                                         {
                                             Game.LogTrivial("SuperEvents: Starting fight event.");
-                                            Fight.Launch();
                                             TimeStart = false;
                                         }
                                         else { Game.LogTrivial("SuperEvents: Fight event disabled in config.. Trying again for another event."); }
@@ -54,7 +53,6 @@ namespace SuperEvents.SimpleFunctions
                                         if (Settings.PulloverShooting)
                                         {
                                             Game.LogTrivial("SuperEvents: Starting pullover shooting event.");
-                                            PulloverShooting.Launch();
                                             TimeStart = false;
                                         }
                                         else { Game.LogTrivial("SuperEvents: PulloverShooting event disabled in config.. Trying again for another event."); }
@@ -63,7 +61,6 @@ namespace SuperEvents.SimpleFunctions
                                         if (Settings.CarFire)
                                         {
                                             Game.LogTrivial("SuperEvents: Starting car fire event.");
-                                            CarFire.Launch();
                                             TimeStart = false;
                                         }
                                         else { Game.LogTrivial("SuperEvents: CarFire event disabled in config.. Trying again for another event."); }

@@ -1,16 +1,13 @@
 using System;
-using System.Linq;
 using LSPD_First_Response.Engine.Scripting.Entities;
 using LSPD_First_Response.Mod.API;
 using Rage;
 using Rage.Native;
 
-namespace SuperCallouts2.SimpleFunctions
+namespace DeadlyWeapons.DFunctions
 {
     internal class CFunctions
     {
-        private static TupleList<Vector3, float> _sideOfRoads = new TupleList<Vector3, float>();
-        private static Tuple<Vector3, float> _chosenSpawnData;
         private static Random _rNd = new Random();
 
         internal static Ped SetWanted(Ped wPed, bool isWanted) //Used to set a ped as wanted.
@@ -83,30 +80,6 @@ namespace SuperCallouts2.SimpleFunctions
         {
             if (children > 25) return;
             NativeFunction.Natives.StartScriptFire(position.X, position.Y, position.Z, children, isGasFire);
-        }
-
-        internal static void FindSideOfRoad(int maxDistance, int minDistance, out Vector3 spawnPoint, out float spawnPointH)
-        {
-            foreach (Tuple<Vector3, float> tuple in PulloverSpots.SideOfRoad)
-            {
-                if ((Vector3.Distance(tuple.Item1, Game.LocalPlayer.Character.Position) < maxDistance) && (Vector3.Distance(tuple.Item1, Game.LocalPlayer.Character.Position) > minDistance))
-                {
-                    _sideOfRoads.Add(tuple);
-                }
-            }
-            if (_sideOfRoads.Count == 0)
-            {
-                Game.LogTrivial("SuperCallouts: Failed to find valid spawnpoint. Spawning on road.");
-                spawnPoint = World.GetNextPositionOnStreet(Game.LocalPlayer.Character.Position.Around(45f, 100f));
-                spawnPointH = 0;
-            }
-            else
-            {
-                _chosenSpawnData = _sideOfRoads[_rNd.Next(_sideOfRoads.Count)];
-                //_sideOfRoads.OrderBy(x => x.Item1.DistanceTo(Game.LocalPlayer.Character.Position)).FirstOrDefault();
-                spawnPoint = _chosenSpawnData.Item1;
-                spawnPointH = _chosenSpawnData.Item2;
-            }
         }
     }
 }
