@@ -22,7 +22,7 @@ namespace SuperEvents2.SimpleFunctions
                         if (!Functions.IsCalloutRunning() && !Functions.IsPlayerPerformingPullover() && Functions.GetActivePursuit() == null && TimeStart && !EventRunning && !Main.PluginPaused)
                         {
                             Game.LogTrivial("SuperEvents: Generating random event.");
-                            var choices = RNd.Next(1, 4);
+                            var choices = RNd.Next(1, 5);
                             
                             switch(choices)
                             {
@@ -45,13 +45,22 @@ namespace SuperEvents2.SimpleFunctions
                                     else { Game.LogTrivial("SuperEvents: Fire event disabled in config.. Trying again for another event."); }
                                     break;
                                 case 3:
-                                    if (Settings.CarFire)
+                                    if (Settings.PulloverShooting)
                                     {
                                         Game.LogTrivial("SuperEvents: Starting pullover shooting event.");
                                         var shoot = new PulloverShooting();
                                         shoot.StartEvent(default, 0);
                                     }
                                     else { Game.LogTrivial("SuperEvents: pullover shooting event disabled in config.. Trying again for another event."); }
+                                    break;
+                                case 4:
+                                    if (Settings.RecklessDriver)
+                                    {
+                                        Game.LogTrivial("SuperEvents: Starting reckless driver event.");
+                                        var reckless = new RecklessDriver();
+                                        reckless.StartEvent(default, 0);
+                                    }
+                                    else { Game.LogTrivial("SuperEvents: reckless driver event disabled in config.. Trying again for another event."); }
                                     break;
                                 default:
                                     Game.LogTrivial("SuperEvents: If you see this error please tell SuperPyroManiac he is a fool. This error should never pop up unless I forget how to count.");
