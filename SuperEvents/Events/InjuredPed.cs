@@ -14,7 +14,7 @@ using SuperEvents.SimpleFunctions;
 
 namespace SuperEvents.Events
 {
-    public class InjuredPed : AmbientEvent
+    internal class InjuredPed : AmbientEvent
     {
         private Ped _bad1;
         private Ped _bad2;

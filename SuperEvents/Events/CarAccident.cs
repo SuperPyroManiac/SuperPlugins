@@ -14,7 +14,7 @@ using SuperEvents.SimpleFunctions;
 
 namespace SuperEvents.Events
 {
-    public class CarAccident : AmbientEvent
+    internal class CarAccident : AmbientEvent
     {
         private Blip _cBlip1;
         private Blip _cBlip2;

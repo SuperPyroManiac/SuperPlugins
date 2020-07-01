@@ -28,7 +28,7 @@ namespace SuperCallouts2.Callouts
         private readonly UIMenuItem _questioning = new UIMenuItem("Speak With Subject");
         private readonly UIMenuItem _endCall = new UIMenuItem("~y~End Callout", "Ends the callout early.");
         private UIMenuItem _speakSuspect;
-        
+
         public override bool OnBeforeCalloutDisplayed()
         {
             CFunctions.FindSideOfRoad(750, 280, out _spawnPoint, out _spawnPointH);
@@ -39,6 +39,7 @@ namespace SuperCallouts2.Callouts
                 _spawnPoint);
             return base.OnBeforeCalloutDisplayed();
         }
+
         public override bool OnCalloutAccepted()
         {
             //Setup
@@ -78,6 +79,7 @@ namespace SuperCallouts2.Callouts
             _questioning.Enabled = false;
             return base.OnCalloutAccepted();
         }
+
         public override void Process()
         {
             try
@@ -137,6 +139,7 @@ namespace SuperCallouts2.Callouts
             }
             base.Process();
         }
+
         public override void End()
         {
             Game.DisplayHelp("Scene ~g~CODE 4", 5000);

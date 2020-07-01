@@ -1,9 +1,9 @@
 namespace SuperCallouts2.SimpleFunctions
 {
-    public static class ConsoleCommands
+    internal static class ConsoleCommands
     {
         [Rage.Attributes.ConsoleCommand]
-        public static void Command_SCReloadConfig()
+        internal static void Command_SCReloadConfig()
         {
             Settings.LoadSettings();
         }

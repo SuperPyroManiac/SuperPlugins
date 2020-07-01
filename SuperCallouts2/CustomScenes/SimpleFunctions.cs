@@ -12,12 +12,12 @@ namespace SuperCallouts.CustomScenes
 {
     internal class TupleList<T1, T2> : List<Tuple<T1, T2>>
     {
-        public TupleList(TupleList<T1, T2> tuplelist)
+        internal TupleList(TupleList<T1, T2> tuplelist)
         {
             foreach (var tuple in tuplelist) Add(tuple);
         }
 
-        public TupleList()
+        internal TupleList()
         {
         }
 
@@ -463,7 +463,7 @@ namespace SuperCallouts.CustomScenes
             {new Vector3(-570.4221f, 5714.404f, 36.88438f), 153.9186f}
         };
 
-        public static void
+        internal static void
             Damage(Vehicle vehicle, float radius,
                 float amount) //Used to damage vehicle. Credit to this function goes to "NoNameSet, source: https://www.lcpdfr.com/forums/topic/84795-how-to-add-vehicle-damage/
         {
@@ -479,27 +479,27 @@ namespace SuperCallouts.CustomScenes
             }
         }
         
-        public static void FireControl(Vector3 position, int children, bool isGasFire)
+        internal static void FireControl(Vector3 position, int children, bool isGasFire)
         {
             if (children > 25) return;
             NativeFunction.Natives.StartScriptFire(position.X, position.Y, position.Z, children, isGasFire);
         }
 
-        public static Ped SetWanted(Ped wPed, bool isWanted) //Used to set a ped as wanted.
+        internal static Ped SetWanted(Ped wPed, bool isWanted) //Used to set a ped as wanted.
         {
             var thePersona = Functions.GetPersonaForPed(wPed);
             thePersona.Wanted = true;
             return wPed;
         }
 
-        public static bool IsWanted(Ped oPed) //Debugging: Used to check if the ped is wanted.
+        internal static bool IsWanted(Ped oPed) //Debugging: Used to check if the ped is wanted.
         {
             var persona = Functions.GetPersonaForPed(oPed);
             Game.LogTrivial("Ped is Wanted? = " + persona.Wanted);
             return persona.Wanted;
         }
 
-        public static void SpawnNormalCar(out Vehicle cVehicle, Vector3 spawnPoint) //Spawn normal random car..
+        internal static void SpawnNormalCar(out Vehicle cVehicle, Vector3 spawnPoint) //Spawn normal random car..
         {
             Model[] vehicleModels =
             {
@@ -515,7 +515,7 @@ namespace SuperCallouts.CustomScenes
             cVehicle.IsPersistent = true;
         }
 
-        public static void SpawnAnyCar(out Vehicle cVehicle, Vector3 spawnPoint) //Spawn ANY random car..
+        internal static void SpawnAnyCar(out Vehicle cVehicle, Vector3 spawnPoint) //Spawn ANY random car..
         {
             Model[] vehicleModels =
             {

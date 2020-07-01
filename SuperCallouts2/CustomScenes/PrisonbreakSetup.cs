@@ -10,11 +10,11 @@ namespace SuperCallouts.CustomScenes
     //This is also a test of an in game script maker to allow me to precisly make custom scenes. It's messy and gross but works.
     internal class PrisonbreakSetup
     {
-        /* public Ped Prisoner1;
-         public Ped Prisoner5;
-         public Ped Prisoner3;
-         public Ped Prisoner2;
-         public Ped Prisoner4;*/
+        /* internal Ped Prisoner1;
+         internal Ped Prisoner5;
+         internal Ped Prisoner3;
+         internal Ped Prisoner2;
+         internal Ped Prisoner4;*/
         // ConstructPrisonBreakSetupScene(out Prisoner1, out Prisoner5, out Prisoner3, out Prisoner2, out Prisoner4);
         internal static void ConstructPrisonBreakSetupScene(out Ped prisoner1, out Ped prisoner5, out Ped prisoner3,
             out Ped prisoner2, out Ped prisoner4)

@@ -10,12 +10,12 @@ namespace SuperCallouts.CustomScenes
 {
     internal class TruckCrashSetup
     {
-        /* public Vehicle pounder;
-         public Vehicle bison;
-         public Vehicle felon;
-         public Ped mpStripperlite;
-         public Ped mpStripperlite2;
-         public Ped mpStripperlite3DEAD;*/
+        /* internal Vehicle pounder;
+         internal Vehicle bison;
+         internal Vehicle felon;
+         internal Ped mpStripperlite;
+         internal Ped mpStripperlite2;
+         internal Ped mpStripperlite3DEAD;*/
         internal static void ConstructTrucksScene(out Ped mpStripperlite, out Ped mpStripperlite2,
             out Ped mpStripperlite3Dead, out Vehicle pounder, out Vehicle bison, out Vehicle felon)
         {

@@ -32,6 +32,7 @@ namespace SuperCallouts2.Callouts
         private readonly UIMenuItem _endCall = new UIMenuItem("~y~End Callout", "Ends the callout early.");
         private UIMenuItem _speakSuspect;
         #endregion
+
         public override bool OnBeforeCalloutDisplayed()
         {
             _spawnPoint = World.GetNextPositionOnStreet(Game.LocalPlayer.Character.Position.Around(350f));
@@ -42,6 +43,7 @@ namespace SuperCallouts2.Callouts
                 "ATTENTION_ALL_UNITS_05 WE_HAVE CRIME_DISTURBING_THE_PEACE_01 IN_OR_ON_POSITION", _spawnPoint);
             return base.OnBeforeCalloutDisplayed();
         }
+
         public override bool OnCalloutAccepted()
         {
             //Setup
@@ -79,6 +81,7 @@ namespace SuperCallouts2.Callouts
             _stopSuspect.Enabled = false;
             return base.OnCalloutAccepted();
         }
+
         public override void Process()
         {
             try
@@ -153,6 +156,7 @@ namespace SuperCallouts2.Callouts
             }
             base.Process();
         }
+
         public override void End()
         {
             if (_bad1.Exists()) _bad1.Dismiss();

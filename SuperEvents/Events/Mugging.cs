@@ -12,7 +12,7 @@ using SuperEvents.SimpleFunctions;
 
 namespace SuperEvents.Events
 {
-    public class Mugging : AmbientEvent
+    internal class Mugging : AmbientEvent
     {
         private Ped _bad1;
         private Ped _victim;

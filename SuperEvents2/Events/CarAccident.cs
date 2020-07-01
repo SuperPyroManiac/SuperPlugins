@@ -4,9 +4,9 @@ using RAGENativeUI.Elements;
 
 namespace SuperEvents2.Events
 {
-    public class CarAccident : AmbientEvent
+    internal class CarAccident : AmbientEvent
     {
-        public override void StartEvent(Vector3 spawnPoint, float spawnPointH)
+        internal override void StartEvent(Vector3 spawnPoint, float spawnPointH)
         {
             base.StartEvent(spawnPoint, spawnPointH);
         }

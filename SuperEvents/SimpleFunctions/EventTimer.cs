@@ -8,7 +8,7 @@ namespace SuperEvents.SimpleFunctions
 {
     internal class EventTimer : AmbientEvent
     {
-        public static void TimerStart()
+        internal static void TimerStart()
         {
             GameFiber.StartNew(delegate
             {

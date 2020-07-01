@@ -6,11 +6,12 @@ using SuperEvents2.SimpleFunctions;
 
 namespace SuperEvents2
 {
-    public class Main : Plugin
+    internal class Main : Plugin
     {
-        public static bool PluginRunning { get; set; }
-        public static bool PluginPaused { get; set; }
-            public override void Initialize()
+        internal static bool PluginRunning { get; set; }
+        internal static bool PluginPaused { get; set; }
+
+        public override void Initialize()
             {
                 Functions.OnOnDutyStateChanged += OnOnDutyStateChangedHandler;
                 Settings.LoadSettings();
@@ -31,7 +32,7 @@ namespace SuperEvents2
                         EventTimer.TimerStart();
                     });
             }
-    
+
             public override void Finally()
             {
                 foreach (var entity in AmbientEvent.EntitiesToClear.Where(entity => entity))

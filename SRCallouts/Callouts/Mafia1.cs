@@ -15,7 +15,7 @@ using SRCallouts.SimpleFunctions;
 namespace SRCallouts.Callouts
 {
     [CalloutInfo("Mafia1", CalloutProbability.Medium)]
-    public class Mafia1 : Callout
+    internal class Mafia1 : Callout
     {
         private Vector3 _callPos = new Vector3(909.56f, 4.041f, 78.67f);
         private Blip _cBlip;
@@ -202,7 +202,7 @@ namespace SRCallouts.Callouts
                 End();
             }
         }
-        
+
         public override void End()
         {
             _cBlip?.Delete();

@@ -39,6 +39,7 @@ namespace SRCallouts.Callouts
         private Vehicle _cVehicle4;
         private readonly List<Ped> _mafiaDudes = new List<Ped>();
         private readonly List<Vehicle> _mafiaCars = new List<Vehicle>();
+
         public override bool OnBeforeCalloutDisplayed()
         {
             ShowCalloutAreaBlipBeforeAccepting(_callPos, 80f);

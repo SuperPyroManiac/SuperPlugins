@@ -5,7 +5,7 @@ using SRCallouts.Callouts;
 
 namespace SRCallouts
 {
-    public class Main : Plugin
+    internal class Main : Plugin
     {
         public override void Initialize()
         {

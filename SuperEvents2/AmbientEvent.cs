@@ -13,14 +13,14 @@ using SuperEvents2.SimpleFunctions;
 
 namespace SuperEvents2
 {
-    public class AmbientEvent
+    internal class AmbientEvent
     {
-        public static bool EventRunning { get; set; }
-        public static bool TimeStart { get; set; }
-        public static List<Entity> EntitiesToClear { get; private set; }
-        public static List<Blip> BlipsToClear { get; private set; }
-        public GameFiber ProcessFiber { get; }
-        public Ped Player => Game.LocalPlayer.Character;
+        internal static bool EventRunning { get; set; }
+        internal static bool TimeStart { get; set; }
+        internal static List<Entity> EntitiesToClear { get; private set; }
+        internal static List<Blip> BlipsToClear { get; private set; }
+        internal GameFiber ProcessFiber { get; }
+        internal Ped Player => Game.LocalPlayer.Character;
         private Vector3 _checkDistance;
         
         //Main Menu
@@ -57,8 +57,8 @@ namespace SuperEvents2
                 End(true);
             }
         }
-        
-        public virtual void StartEvent(Vector3 spawnPoint, float spawnPointH)
+
+        internal virtual void StartEvent(Vector3 spawnPoint, float spawnPointH)
         {
             AmbientEvent.TimeStart = false;
             Interaction.Add(MainMenu);

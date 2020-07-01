@@ -10,7 +10,7 @@ using Rage.Native;
 
 namespace DeadlyWeapons
 {
-    public class Main : Plugin
+    internal class Main : Plugin
     {
         private static readonly DeadlyWeapons StartDamageCheck = new DeadlyWeapons();
 

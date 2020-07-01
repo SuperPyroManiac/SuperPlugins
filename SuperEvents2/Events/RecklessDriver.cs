@@ -7,13 +7,14 @@ using SuperEvents2.SimpleFunctions;
 
 namespace SuperEvents2.Events
 {
-    public class RecklessDriver : AmbientEvent
+    internal class RecklessDriver : AmbientEvent
     {
         private Vehicle _eVehicle;
         private Ped _ePed;
         private Vector3 _spawnPoint;
         private float _spawnPointH;
-        public override void StartEvent(Vector3 s, float f)
+
+        internal override void StartEvent(Vector3 s, float f)
         {
             //Setup
             var randomVehicles = Player.GetNearbyVehicles(15);

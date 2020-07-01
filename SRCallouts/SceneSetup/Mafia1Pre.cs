@@ -8,7 +8,7 @@ using Rage;
 
 namespace SRCallouts.SceneSetup
 {
-    public class Mafia1Pre
+    internal class Mafia1Pre
     {
         internal static void BuildPreScene(out Ped fibarchitect, out Ped mpFibsec, out Ped swat, out Ped swat2, out Ped fiboffice, out Vehicle fbi, out Vehicle riot)
         {

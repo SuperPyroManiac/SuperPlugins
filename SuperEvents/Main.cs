@@ -9,7 +9,7 @@ using SuperEvents.SimpleFunctions;
 
 namespace SuperEvents
 {
-    public class Main : Plugin
+    internal class Main : Plugin
     {
         public override void Initialize()
         {

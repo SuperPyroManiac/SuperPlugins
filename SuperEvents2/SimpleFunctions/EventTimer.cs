@@ -2,9 +2,9 @@ using Rage;
 
 namespace SuperEvents2.SimpleFunctions
 {
-    public class EventTimer
+    internal class EventTimer
     {
-        public static void TimerStart()
+        internal static void TimerStart()
         {
             GameFiber.StartNew(delegate
             {

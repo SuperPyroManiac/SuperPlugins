@@ -30,7 +30,7 @@ namespace SuperCallouts2.Callouts
         private readonly UIMenuItem _endCall = new UIMenuItem("~y~End Call", "Ends the callout.");
         private UIMenuItem _speakSuspect;
         #endregion
-        
+
         public override bool OnBeforeCalloutDisplayed()
         {
             CFunctions.FindSideOfRoad(750, 280, out _spawnPoint, out _spawnPointH);
@@ -40,6 +40,7 @@ namespace SuperCallouts2.Callouts
             Functions.PlayScannerAudioUsingPosition("WE_HAVE CRIME_11_351_02 IN_OR_ON_POSITION", _spawnPoint);
             return base.OnBeforeCalloutDisplayed();
         }
+
         public override bool OnCalloutAccepted()
         {
             //Setup
@@ -68,6 +69,7 @@ namespace SuperCallouts2.Callouts
             _cBlip1.Color = Color.Yellow;
             return base.OnCalloutAccepted();
         }
+
         public override void Process()
         {
             try
@@ -138,6 +140,7 @@ namespace SuperCallouts2.Callouts
             }
             base.Process();
         }
+
         public override void End()
         {
             if (_bad1.Exists()) _bad1.Dismiss();

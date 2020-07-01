@@ -28,7 +28,7 @@ namespace SuperCallouts2.Callouts
             new UIMenuItem("~r~ Call EMS", "Calls for an ambulance.");
         private readonly UIMenuItem _endCall = new UIMenuItem("~y~End Callout", "Ends the callout early.");
         #endregion
-        
+
         public override bool OnBeforeCalloutDisplayed()
         {
             CFunctions.FindSideOfRoad(750, 280, out _spawnPoint, out _spawnPointH);
@@ -39,6 +39,7 @@ namespace SuperCallouts2.Callouts
                 _spawnPoint);
             return base.OnBeforeCalloutDisplayed();
         }
+
         public override bool OnCalloutAccepted()
         {
             //Setup
@@ -67,6 +68,7 @@ namespace SuperCallouts2.Callouts
             _cBlip.EnableRoute(Color.Red);
             return base.OnCalloutAccepted();
         }
+
         public override void Process()
         {
             try
@@ -100,6 +102,7 @@ namespace SuperCallouts2.Callouts
             }
             base.Process();
         }
+
         public override void End()
         {
             if (_cVehicle.Exists()) _cVehicle.Dismiss();

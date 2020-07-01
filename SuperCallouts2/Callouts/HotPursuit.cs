@@ -34,7 +34,7 @@ namespace SuperCallouts2.Callouts
         private UIMenuItem _speakSuspect;
         private UIMenuItem _speakSuspect2;
         #endregion
-        
+
         public override bool OnBeforeCalloutDisplayed()
         {
             _spawnPoint = World.GetNextPositionOnStreet(Game.LocalPlayer.Character.Position.Around(350f));
@@ -45,6 +45,7 @@ namespace SuperCallouts2.Callouts
                 "WE_HAVE CRIME_BRANDISHING_WEAPON_01 CRIME_RESIST_ARREST IN_OR_ON_POSITION", _spawnPoint);
             return base.OnBeforeCalloutDisplayed();
         }
+
         public override bool OnCalloutAccepted()
         {
             //Setup
@@ -105,6 +106,7 @@ namespace SuperCallouts2.Callouts
 
             return base.OnCalloutAccepted();
         }
+
         public override void Process()
         {
             try
@@ -167,6 +169,7 @@ namespace SuperCallouts2.Callouts
             }
             base.Process();
         }
+
         public override void End()
         {
             if (_bad1.Exists()) _bad1.Dismiss();

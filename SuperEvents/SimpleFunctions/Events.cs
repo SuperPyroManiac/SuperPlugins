@@ -9,11 +9,11 @@ using SuperEvents.Events;
 
 namespace SuperEvents.SimpleFunctions
 {
-    public class Events : AmbientEvent
+    internal class Events : AmbientEvent
     {
         private static readonly Random RNd = new Random();
 
-        public static void InitEvents()
+        internal static void InitEvents()
         {
             try
             {

@@ -1,5 +1,5 @@
 [CalloutInfo("Toilet Paper Bandit", CalloutProbability.Low)]
-public class ToiletPaperBandit : Callout
+internal class ToiletPaperBandit : Callout
   {
     //declare peds
     private Ped Player => Game.LocalPlayer.Character;

@@ -7,7 +7,7 @@ using SuperEvents.SimpleFunctions;
 
 namespace SuperEvents
 {
-    public class AmbientEvent
+    internal class AmbientEvent
     {
         protected static bool EventsActive { get; set; }
         protected static bool TimeStart { get; set; }

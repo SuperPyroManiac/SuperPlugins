@@ -10,27 +10,27 @@ using Rage.Native;
 
 namespace SuperEvents2.SimpleFunctions
 {
-    public class EFunctions
+    internal class EFunctions
     {
         private static TupleList<Vector3, float> _sideOfRoads = new TupleList<Vector3, float>();
         private static Tuple<Vector3, float> _chosenSpawnData;
         private static Random _rNd = new Random();
 
-        public static Ped SetWanted(Ped wPed, bool isWanted) //Used to set a ped as wanted.
+        internal static Ped SetWanted(Ped wPed, bool isWanted) //Used to set a ped as wanted.
         {
             Persona thePersona = Functions.GetPersonaForPed(wPed);
             thePersona.Wanted = true;
             return wPed;
         }
 
-        public bool IsWanted(Ped oPed) //Debugging: Used to check if the ped is wanted.
+        internal bool IsWanted(Ped oPed) //Debugging: Used to check if the ped is wanted.
         {
             Persona persona = Functions.GetPersonaForPed(oPed);
             Game.LogTrivial("Ped is Wanted? = " + persona.Wanted);
             return persona.Wanted;
         }
 
-        public static void SetDrunk(Ped bad, bool isDrunk)
+        internal static void SetDrunk(Ped bad, bool isDrunk)
         {
             GameFiber.StartNew(delegate
             {
@@ -43,7 +43,7 @@ namespace SuperEvents2.SimpleFunctions
             });
             return;
         }
-        public static void SetAnimation(Ped person, string theAnimation)
+        internal static void SetAnimation(Ped person, string theAnimation)
         {
             GameFiber.StartNew(delegate
             {
@@ -55,7 +55,7 @@ namespace SuperEvents2.SimpleFunctions
             return;
         }
 
-        public static void Damage(Vehicle vehicle, float radius, float amount)
+        internal static void Damage(Vehicle vehicle, float radius, float amount)
         {
             var model = vehicle.Model;
             model.GetDimensions(out var vector31, out var vector32);
@@ -69,27 +69,27 @@ namespace SuperEvents2.SimpleFunctions
             }
         }
 
-        public static void SpawnNormalCar(out Vehicle cVehicle, Vector3 spawnPoint) //Spawn normal random car..
+        internal static void SpawnNormalCar(out Vehicle cVehicle, Vector3 spawnPoint) //Spawn normal random car..
         {
             Model[] vehicleModels = { "DUKES", "BALLER", "BALLER2", "BISON", "BISON2", "BJXL", "CAVALCADE", "CHEETAH", "COGCABRIO", "ASEA", "ADDER", "FELON", "FELON2", "ZENTORNO", "WARRENER", "RAPIDGT", "INTRUDER", "FELTZER2", "FQ2", "RANCHERXL", "REBEL", "SCHWARZER", "COQUETTE", "CARBONIZZARE", "EMPEROR", "SULTAN", "EXEMPLAR", "MASSACRO", "DOMINATOR", "ASTEROPE", "PRAIRIE", "NINEF", "WASHINGTON", "CHINO", "CASCO", "INFERNUS", "ZTYPE", "DILETTANTE", "VIRGO", "F620", "PRIMO", "SULTAN", "EXEMPLAR", "F620", "FELON2", "FELON", "SENTINEL", "WINDSOR", "DOMINATOR", "DUKES", "GAUNTLET", "VIRGO", "ADDER", "BUFFALO", "ZENTORNO", "MASSACRO" };
             cVehicle = new Vehicle(vehicleModels[new Random().Next(vehicleModels.Length)], spawnPoint);
             cVehicle.IsPersistent = true;
         }
 
-        public static void SpawnAnyCar(out Vehicle cVehicle, Vector3 spawnPoint) //Spawn ANY random car..
+        internal static void SpawnAnyCar(out Vehicle cVehicle, Vector3 spawnPoint) //Spawn ANY random car..
         {
             Model[] vehicleModels = { "NINFEF2", "BUS", "COACH", "AIRBUS", "AMBULANCE", "BARRACKS", "BARRACKS2", "BALLER", "BALLER2", "BANSHEE", "BJXL", "BENSON", "BOBCATXL", "BUCCANEER", "BUFFALO", "BUFFALO2", "BULLDOZER", "BULLET", "BURRITO", "BURRITO2", "BURRITO3", "BURRITO4", "BURRITO5", "CAVALCADE", "CAVALCADE2", "POLICET", "GBURRITO", "CAMPER", "CARBONIZZARE", "CHEETAH", "COMET2", "COGCABRIO", "COQUETTE", "GRESLEY", "DUNE2", "HOTKNIFE", "DUBSTA", "DUBSTA2", "DUMP", "DOMINATOR", "EMPEROR", "EMPEROR2", "EMPEROR3", "ENTITYXF", "EXEMPLAR", "ELEGY2", "F620", "FBI", "FBI2", "FELON", "FELON2", "FELTZER2", "FIRETRUK", "FQ2", "FUGITIVE", "FUTO", "GRANGER", "GAUNTLET", "HABANERO", "INFERNUS", "INTRUDER", "JACKAL", "JOURNEY", "JB700", "KHAMELION", "LANDSTALKER", "MESA", "MESA2", "MESA3", "MIXER", "MINIVAN", "MIXER2", "MULE", "MULE2", "ORACLE", "ORACLE2", "MONROE", "PATRIOT", "PBUS", "PACKER", "PENUMBRA", "PEYOTE", "POLICE", "POLICE2", "POLICE3", "POLICE4", "PHANTOM", "PHOENIX", "PICADOR", "POUNDER", "PRANGER", "PRIMO", "RANCHERXL", "RANCHERXL2", "RAPIDGT", "RAPIDGT2", "RENTALBUS", "RUINER", "RIOT", "RIPLEY", "SABREGT", "SADLER", "SADLER2", "SANDKING", "SANDKING2", "SHERIFF", "SHERIFF2", "SPEEDO", "SPEEDO2", "STINGER", "STOCKADE", "STINGERGT", "SUPERD", "STRATUM", "SULTAN", "AKUMA", "PCJ", "FAGGIO2", "DAEMON", "BATI2" };
             cVehicle = new Vehicle(vehicleModels[new Random().Next(vehicleModels.Length)], spawnPoint);
             cVehicle.IsPersistent = true;
         }
         
-        public static void FireControl(Vector3 position, int children, bool isGasFire)
+        internal static void FireControl(Vector3 position, int children, bool isGasFire)
         {
             if (children > 25) return;
             NativeFunction.Natives.StartScriptFire(position.X, position.Y, position.Z, children, isGasFire);
         }
 
-        public static void FindSideOfRoad(int maxDistance, int minDistance, out Vector3 spawnPoint, out float spawnPointH)
+        internal static void FindSideOfRoad(int maxDistance, int minDistance, out Vector3 spawnPoint, out float spawnPointH)
         {
             foreach (Tuple<Vector3, float> tuple in PulloverSpots.SideOfRoad)
             {

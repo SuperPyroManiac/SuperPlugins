@@ -34,7 +34,7 @@ namespace SuperCallouts2.Callouts
         private readonly UIMenuItem _endCall = new UIMenuItem("~y~End Callout", "Ends the callout early.");
         private UIMenuItem _speakSuspect;
         #endregion
-        
+
         public override bool OnBeforeCalloutDisplayed()
         {
             CFunctions.FindSideOfRoad(400, 100, out _spawnPoint, out _spawnPointH);
@@ -44,6 +44,7 @@ namespace SuperCallouts2.Callouts
             Functions.PlayScannerAudioUsingPosition("WE_HAVE CRIME_11_351_02 IN_OR_ON_POSITION", _spawnPoint);
             return base.OnBeforeCalloutDisplayed();
         }
+
         public override bool OnCalloutAccepted()
         {
             //Setup
@@ -89,6 +90,7 @@ namespace SuperCallouts2.Callouts
             _cBlip.EnableRoute(Color.Red);
             return base.OnCalloutAccepted();
         }
+
         public override void Process()
         {
             try
@@ -159,6 +161,7 @@ namespace SuperCallouts2.Callouts
             }
             base.Process();
         }
+
         public override void End()
         {
             Game.DisplayHelp("Scene ~g~CODE 4", 5000);

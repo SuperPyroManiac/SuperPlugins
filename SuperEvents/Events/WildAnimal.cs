@@ -6,7 +6,7 @@ using RAGENativeUI.Elements;
 
 namespace SuperEvents.Events
 {
-    public class WildAnimal : AmbientEvent
+    internal class WildAnimal : AmbientEvent
     {
         private Ped _animal;
         private Blip _cBlip;

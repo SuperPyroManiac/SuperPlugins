@@ -33,6 +33,7 @@ namespace SuperCallouts2.Callouts
         private readonly UIMenuItem _endCall = new UIMenuItem("~y~End Callout", "Ends the callout.");
         private UIMenuItem _speakSuspect;
         #endregion
+
         public override bool OnBeforeCalloutDisplayed()
         {
             _spawnPoint = World.GetNextPositionOnStreet(Game.LocalPlayer.Character.Position.Around(650f));
@@ -43,6 +44,7 @@ namespace SuperCallouts2.Callouts
                 _spawnPoint);
             return base.OnBeforeCalloutDisplayed();
         }
+
         public override bool OnCalloutAccepted()
         {
             //Setup
@@ -78,6 +80,7 @@ namespace SuperCallouts2.Callouts
             _questioning.Enabled = false;
             return base.OnCalloutAccepted();
         }
+
         public override void Process()
         {
             try
@@ -121,6 +124,7 @@ namespace SuperCallouts2.Callouts
             }
             base.Process();
         }
+
         public override void End()
         {
             _interaction.CloseAllMenus();

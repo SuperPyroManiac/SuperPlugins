@@ -1,6 +1,6 @@
 namespace DeadlyWeapons.DFunctions
 {
-    public class UIMenu
+    internal class UIMenu
     {
         
     }

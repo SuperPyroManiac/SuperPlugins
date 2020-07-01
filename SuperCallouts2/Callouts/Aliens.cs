@@ -18,7 +18,7 @@ namespace SuperCallouts2.Callouts
         private Vector3 _spawnPoint;
         private bool _onScene;
         #endregion
-        
+
         public override bool OnBeforeCalloutDisplayed()
         {
             _spawnPoint = World.GetNextPositionOnStreet(Game.LocalPlayer.Character.Position.Around(350f));
@@ -29,6 +29,7 @@ namespace SuperCallouts2.Callouts
                 _spawnPoint);
             return base.OnBeforeCalloutDisplayed();
         }
+
         public override bool OnCalloutAccepted()
         {
             Game.LogTrivial("SuperCallouts Log: Aliens callout accepted...");
@@ -61,6 +62,7 @@ namespace SuperCallouts2.Callouts
             _cBlip1.EnableRoute(Color.Yellow);
             return base.OnCalloutAccepted();
         }
+
         public override void Process()
         {
             if (Game.IsKeyDown(Settings.EndCall)) End();
@@ -88,6 +90,7 @@ namespace SuperCallouts2.Callouts
                 });
             base.Process();
         }
+
         public override void End()
         {
             if (_alien1.Exists()) _alien1.Delete();

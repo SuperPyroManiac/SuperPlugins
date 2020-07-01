@@ -44,7 +44,7 @@ namespace SuperCallouts2.Callouts
         private UIMenuItem _speakSuspect1;
         private UIMenuItem _speakSuspect2;
         #endregion
-        
+
         public override bool OnBeforeCalloutDisplayed()
         {
             CFunctions.FindSideOfRoad(500, 100, out _spawnPoint, out _spawnPointH);
@@ -55,6 +55,7 @@ namespace SuperCallouts2.Callouts
                 "ATTENTION_ALL_UNITS_05 WE_HAVE CRIME_HIT_AND_RUN_01 IN_OR_ON_POSITION", _spawnPoint);
             return base.OnBeforeCalloutDisplayed();
         }
+
         public override bool OnCalloutAccepted()
         {
             //Setup
@@ -114,6 +115,7 @@ namespace SuperCallouts2.Callouts
             _cBlip1.Color = Color.Yellow;
             return base.OnCalloutAccepted();
         }
+
         public override void Process()
         {
             try
@@ -162,6 +164,7 @@ namespace SuperCallouts2.Callouts
             }
             base.Process();
         }
+
         public override void End()
         {
             if (_bad1.Exists()) _bad1.Dismiss();

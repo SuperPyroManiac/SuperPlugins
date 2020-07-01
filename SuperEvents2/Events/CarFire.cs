@@ -9,14 +9,14 @@ using SuperEvents2.SimpleFunctions;
 
 namespace SuperEvents2.Events
 {
-    public class CarFire : AmbientEvent
+    internal class CarFire : AmbientEvent
     {
         private Vector3 _spawnPoint;
         private float _spawnPointH;
         private Ped _victim;
         private Vehicle _eVehicle;
 
-        public override void StartEvent(Vector3 s, float f)
+        internal override void StartEvent(Vector3 s, float f)
         {
             //Setup
             EFunctions.FindSideOfRoad(120, 45, out _spawnPoint, out _spawnPointH);

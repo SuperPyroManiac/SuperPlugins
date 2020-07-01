@@ -12,7 +12,7 @@ using RAGENativeUI.Elements;
 
 namespace SuperEvents.Events
 {
-    public class OpenCarry : AmbientEvent
+    internal class OpenCarry : AmbientEvent
     {
         private Ped _bad1;
         private Blip _cBlip;

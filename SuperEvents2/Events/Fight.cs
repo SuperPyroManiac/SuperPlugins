@@ -9,7 +9,7 @@ using SuperEvents2.SimpleFunctions;
 
 namespace SuperEvents2.Events
 {
-    public class Fight : AmbientEvent
+    internal class Fight : AmbientEvent
     {
         private Vector3 _spawnPoint;
         private float _spawnPointH;
@@ -21,7 +21,7 @@ namespace SuperEvents2.Events
         private UIMenuItem _speakSuspect;
         private UIMenuItem _speakSuspect2;
 
-        public override void StartEvent(Vector3 s, float f)
+        internal override void StartEvent(Vector3 s, float f)
         {
             //Setup
             EFunctions.FindSideOfRoad(120, 45, out _spawnPoint, out _spawnPointH);
