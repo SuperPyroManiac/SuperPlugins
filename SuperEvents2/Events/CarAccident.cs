@@ -50,7 +50,7 @@ namespace SuperEvents2.Events
             EntitiesToClear.Add(_ePed);
             EntitiesToClear.Add(_ePed2);
             //Randomize
-            Game.LogTrivial("SuperEvents: Scenorio #" + _choice);
+            Game.LogTrivial("SuperEvents: Car Accident Scenorio #" + _choice);
             switch (_choice)
             {
                 case 0://Peds fight
