@@ -92,8 +92,8 @@ namespace SuperEvents2
             if (Game.IsKeyDown(Settings.Interact)) MainMenu.Visible = !MainMenu.Visible;
             if (_checkDistance.DistanceTo(Player) > 200f)
             {
-                End(true);
-                Game.LogTrivial("SuperEvents: Cleaning up event due to player being too far.");
+                End(false);
+                Game.LogTrivial("SuperEvents: Ending event due to player being too far.");
             }
             Interaction.ProcessMenus();
         }
@@ -105,18 +105,18 @@ namespace SuperEvents2
             if (forceCleanup)
             {
                 foreach (var entity in EntitiesToClear.Where(entity => entity))
-                    entity?.Delete();
+                    if (entity.Exists()) entity.Delete();
                 Game.LogTrivial("SuperEvents: Event has been forcefully cleaned up.");
             }
             else
             {
                 foreach (var entity in EntitiesToClear.Where(entity => entity))
-                    entity?.Dismiss(); 
+                    if (entity.Exists()) entity.Dismiss(); 
                 Game.DisplayHelp("~y~Event Ended.");
             }
             
             foreach (var blip in BlipsToClear.Where(blip => blip))
-                blip?.Delete();
+                if (blip.Exists()) blip.Delete();
             
             Interaction.CloseAllMenus();
             Game.LogTrivial("SuperEvents: Ending Event.");
