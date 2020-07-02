@@ -59,7 +59,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AmbientEvent.cs" />
-    <Compile Include="Events\CarAccident.cs" />
     <Compile Include="Events\InjuredPed.cs" />
     <Compile Include="Events\Mugging.cs" />
     <Compile Include="Events\OpenCarry.cs" />

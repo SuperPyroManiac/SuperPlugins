@@ -35,7 +35,7 @@ namespace SuperEvents2.Events
                 switch (_tasks)
                 {
                     case Tasks.CheckDistance:
-                        if (Game.LocalPlayer.Character.DistanceTo(_spawnPoint) < 15f)
+                        if (Game.LocalPlayer.Character.DistanceTo(_spawnPoint) < 25f)
                         {
                             if (Settings.ShowHints)
                                 Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~y~Officer Sighting",
@@ -50,19 +50,19 @@ namespace SuperEvents2.Events
                         switch (choice)
                         {
                             case 1:
-                                EFunctions.FireControl(_spawnPoint.Around2D(7f), 25, true);
-                                EFunctions.FireControl(_spawnPoint.Around2D(7f), 25, false);
+                                EFunctions.FireControl(_spawnPoint.Around2D(4f), 24, true);
+                                EFunctions.FireControl(_spawnPoint.Around2D(4f), 24, false);
                                 break;
                             case 2:
                                 _eVehicle.Explode();
-                                EFunctions.FireControl(_spawnPoint.Around2D(7f), 10, true);
+                                EFunctions.FireControl(_spawnPoint.Around2D(4f), 10, true);
                                 break;
                             case 3:
                                 _victim = _eVehicle.CreateRandomDriver();
                                 _victim.IsPersistent = true;
                                 EntitiesToClear.Add(_victim);
-                                EFunctions.FireControl(_spawnPoint.Around2D(7f), 25, true);
-                                EFunctions.FireControl(_spawnPoint.Around2D(7f), 25, false);
+                                EFunctions.FireControl(_spawnPoint.Around2D(4f), 24, true);
+                                EFunctions.FireControl(_spawnPoint.Around2D(4f), 24, false);
                                 break;
                             default:
                                 End(true);

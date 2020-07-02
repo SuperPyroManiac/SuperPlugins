@@ -18,6 +18,7 @@ namespace SuperEvents2.SimpleFunctions
 
         internal static Ped SetWanted(Ped wPed, bool isWanted) //Used to set a ped as wanted.
         {
+            if (!wPed.Exists()) return null;
             Persona thePersona = Functions.GetPersonaForPed(wPed);
             thePersona.Wanted = true;
             return wPed;
@@ -35,6 +36,7 @@ namespace SuperEvents2.SimpleFunctions
             GameFiber.StartNew(delegate
             {
                 GameFiber.Yield();
+                if (!bad.Exists()) return;
                 bad.Metadata.stpAlcoholDetected = isDrunk;
                 var drunkAnimset = new AnimationSet("move_m@drunk@verydrunk");
                 drunkAnimset.LoadAndWait();
@@ -50,7 +52,7 @@ namespace SuperEvents2.SimpleFunctions
                 GameFiber.Yield();
                 var drunkAnimset = new AnimationSet(theAnimation);
                 drunkAnimset.LoadAndWait();
-                person.MovementAnimationSet = drunkAnimset;
+                if (person.Exists()) person.MovementAnimationSet = drunkAnimset;
             });
             return;
         }
@@ -65,7 +67,7 @@ namespace SuperEvents2.SimpleFunctions
                 var randomInt1 = MathHelper.GetRandomSingle(vector31.X, vector32.X);
                 var randomInt2 = MathHelper.GetRandomSingle(vector31.Y, vector32.Y);
                 var randomInt3 = MathHelper.GetRandomSingle(vector31.Z, vector32.Z);
-                vehicle.Deform(new Vector3(randomInt1, randomInt2, randomInt3), radius, amount);
+                vehicle?.Deform(new Vector3(randomInt1, randomInt2, randomInt3), radius, amount);
             }
         }
 

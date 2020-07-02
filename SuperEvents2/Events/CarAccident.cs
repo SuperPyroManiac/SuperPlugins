@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using LSPD_First_Response.Mod.API;
 using Rage;
+using Rage.Native;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperEvents2.SimpleFunctions;
@@ -16,6 +18,11 @@ namespace SuperEvents2.Events
         private readonly int _choice = new Random().Next(0,5);
         private Vector3 _spawnPoint;
         private float _spawnPointH;
+        private string _name1;
+        private string _name2;
+        //UI Items
+        private UIMenuItem _speakSuspect;
+        private UIMenuItem _speakSuspect2;
         
         internal override void StartEvent(Vector3 s, float f)
         {
@@ -38,9 +45,12 @@ namespace SuperEvents2.Events
             _ePed2 = _eVehicle2.CreateRandomDriver();
             _ePed2.IsPersistent = true;
             _ePed2.BlockPermanentEvents = true;
+            _name1 = Functions.GetPersonaForPed(_ePed).FullName;
+            _name2 = Functions.GetPersonaForPed(_ePed2).FullName;
             EntitiesToClear.Add(_ePed);
             EntitiesToClear.Add(_ePed2);
             //Randomize
+            Game.LogTrivial("SuperEvents: Scenorio #" + _choice);
             switch (_choice)
             {
                 case 0://Peds fight
@@ -62,6 +72,11 @@ namespace SuperEvents2.Events
                     End(true);
                     break;
             }
+            //UI Items
+            _speakSuspect = new UIMenuItem("Speak with ~y~" + _name1);
+            _speakSuspect2 = new UIMenuItem("Speak with ~y~" + _name2);
+            ConvoMenu.AddItem(_speakSuspect);
+            ConvoMenu.AddItem(_speakSuspect2);
             
             base.StartEvent(_spawnPoint, _spawnPointH);
         }
@@ -73,7 +88,7 @@ namespace SuperEvents2.Events
                 switch (_tasks)
                 {
                     case Tasks.CheckDistance:
-                        if (Game.LocalPlayer.Character.DistanceTo(_spawnPoint) < 20f)
+                        if (Game.LocalPlayer.Character.DistanceTo(_spawnPoint) < 25f)
                         {
                             if (Settings.ShowHints)
                                 Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~y~Officer Sighting",
@@ -84,6 +99,8 @@ namespace SuperEvents2.Events
                         }
                         break;
                     case Tasks.OnScene:
+                        _ePed.BlockPermanentEvents = false;
+                        _ePed2.BlockPermanentEvents = false;
                         switch (_choice)
                         {
                             case 0://Peds fight
@@ -109,6 +126,8 @@ namespace SuperEvents2.Events
                                 End(true);
                                 break;
                         }
+
+                        _tasks = Tasks.End;
                         break;
                     case Tasks.End:
                         break;
@@ -130,13 +149,17 @@ namespace SuperEvents2.Events
             base.Process();
         }
 
-        protected override void Interactions(UIMenu sender, UIMenuItem selItem, int index)
-        {
-            base.Interactions(sender, selItem, index);
-        }
-
         protected override void Conversations(UIMenu sender, UIMenuItem selItem, int index)
-        {
+        { 
+            if (selItem == _speakSuspect)
+            {
+                Game.DisplaySubtitle("Not implimented yet.");
+            }
+            if (selItem == _speakSuspect2)
+            {
+                Game.DisplaySubtitle("Not implimented yet.");
+            }
+         
             base.Conversations(sender, selItem, index);
         }
         

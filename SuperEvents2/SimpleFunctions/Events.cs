@@ -22,7 +22,7 @@ namespace SuperEvents2.SimpleFunctions
                         if (!Functions.IsCalloutRunning() && !Functions.IsPlayerPerformingPullover() && Functions.GetActivePursuit() == null && TimeStart && !EventRunning && !Main.PluginPaused)
                         {
                             Game.LogTrivial("SuperEvents: Generating random event.");
-                            var choices = RNd.Next(1, 9);
+                            var choices = RNd.Next(1, 12);
                             
                             switch(choices)
                             {
@@ -70,6 +70,19 @@ namespace SuperEvents2.SimpleFunctions
                                     goto case 2;
                                 case 8:
                                     goto case 1;
+                                case 9:
+                                    if (Settings.CarAccident)
+                                    {
+                                        Game.LogTrivial("SuperEvents: Starting car accident event.");
+                                        var accident = new CarAccident();
+                                        accident.StartEvent(default, 0);
+                                    }
+                                    else { Game.LogTrivial("SuperEvents: accident event disabled in config.. Trying again for another event."); }
+                                    break;
+                                case 10:
+                                    goto case 9;
+                                case 11:
+                                    goto case 9;
                                 default:
                                     Game.LogTrivial("SuperEvents: If you see this error please tell SuperPyroManiac he is a fool. This error should never pop up unless I forget how to count.");
                                     break;
