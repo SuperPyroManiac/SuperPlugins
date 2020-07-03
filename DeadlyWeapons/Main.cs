@@ -41,8 +41,6 @@ namespace DeadlyWeapons
 
         public override void Finally()
         {
-            Game.DisableAutomaticRespawn = false;
-            Game.FadeScreenOutOnDeath = true;
             StartDamageCheck.ProcessFiber.Abort();
             Game.LogTrivial("Deadly Weapons by SuperPyroManiac has been disabled.");
         }

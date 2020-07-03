@@ -107,7 +107,7 @@ namespace SuperCallouts2.Callouts
                     case CState.Pursuit:
                         if (!Functions.IsPursuitStillRunning(_pursuit) || _bad.IsCuffed)
                         {
-                            _bad.Tasks.Clear();
+                            //_bad.Tasks.Clear();
                             Game.DisplaySubtitle(
                                 "~r~" + _name1 + "~s~: I surrender!", 5000);
                             _state = CState.letsChat;

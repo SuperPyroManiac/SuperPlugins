@@ -103,7 +103,7 @@ namespace DeadlyWeapons.DFunctions
 
                         if (hasWeapon)
                         {
-                            Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~y~Traffic Stop", "~r~Weapon Spoted",
+                            Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~y~Traffic Stop", "~r~Weapon Spotted",
                                 "You noticed the suspect has a weapon in the vehicle!");
                         }
                     }
