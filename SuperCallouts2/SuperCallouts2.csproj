@@ -84,6 +84,7 @@
     <Compile Include="SimpleFunctions\CFunctions.cs" />
     <Compile Include="SimpleFunctions\ConsoleCommands.cs" />
     <Compile Include="SimpleFunctions\PulloverSpots.cs" />
+    <Compile Include="SimpleFunctions\VersionChecker.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Skeleton.yml" />

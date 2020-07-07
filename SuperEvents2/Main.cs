@@ -30,6 +30,7 @@ namespace SuperEvents2
                         PluginRunning = true;
                         SimpleFunctions.Events.InitEvents();
                         EventTimer.TimerStart();
+                        VersionChecker.IsUpdateAvailable();
                     });
             }
 

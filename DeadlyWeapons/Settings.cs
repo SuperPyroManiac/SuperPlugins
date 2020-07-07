@@ -1,5 +1,6 @@
 #region
 
+using System.Reflection;
 using System.Windows.Forms;
 using Rage;
 
@@ -18,6 +19,7 @@ namespace DeadlyWeapons
         internal static Keys RubberBullets = Keys.O;
         internal static int AiAccuracy = 20;
         internal static int PanicCooldown = 150;
+        internal static readonly string CalloutVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
         internal static void LoadSettings()
         {

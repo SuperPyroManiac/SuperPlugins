@@ -1,3 +1,4 @@
+using System.Reflection;
 using System.Windows.Forms;
 using Rage;
 
@@ -8,6 +9,7 @@ namespace SRCallouts
         internal static bool Mafia1 = true;
         internal static Keys Interact = Keys.Y;
         internal static Keys EndCall = Keys.End;
+        internal static readonly string CalloutVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
         internal static void LoadSettings()
         {

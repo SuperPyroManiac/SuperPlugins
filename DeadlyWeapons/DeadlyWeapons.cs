@@ -55,6 +55,7 @@ namespace DeadlyWeapons
             {
                 ProcessFiber = new GameFiber(delegate
                 {
+                    Game.LogTrivial("DeadlyWeapons: Starting main ProcessFiber...");
                     while (true)
                     {
                         PlayerShotEvent();
@@ -102,6 +103,7 @@ namespace DeadlyWeapons
                 if (NativeFunction.Natives.HAS_ENTITY_BEEN_DAMAGED_BY_WEAPON<bool>(Player, (uint) w, 0) &&
                     Settings.EnableDamageSystem)
                 {
+                    Game.LogTrivial("DeadlyWeapons: Detected player was shot.");
                     if (Player.Armor >= 10)
                     {
                         var rnd = new Random().Next(0, 10);
@@ -125,6 +127,7 @@ namespace DeadlyWeapons
                                 Player.Armor -= 35;
                                 break;
                         }
+                        Game.LogTrivial("DeadlyWeapons: Player shot, selected 1 - " + rnd);
                     }
                     else
                     {
@@ -146,6 +149,7 @@ namespace DeadlyWeapons
                                 Player.Health -= 80;
                                 break;
                         }
+                        Game.LogTrivial("DeadlyWeapons: Player shot, selected 2 - " + rnd);
                     }
                 }
 

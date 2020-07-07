@@ -2,6 +2,7 @@
 using LSPD_First_Response.Mod.API;
 using Rage;
 using SRCallouts.Callouts;
+using SRCallouts.SimpleFunctions;
 
 namespace SRCallouts
 {
@@ -24,6 +25,7 @@ namespace SRCallouts
                 {
                     GameFiber.Wait(10000);
                     RegisterCallouts();
+                    VersionChecker.IsUpdateAvailable();
                 });
         }
 

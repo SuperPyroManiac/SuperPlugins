@@ -1,3 +1,4 @@
+using System.Reflection;
 using System.Windows.Forms;
 using Rage;
 
@@ -26,6 +27,7 @@ namespace SuperCallouts2
         internal static bool BlockingTraffic = true;
         internal static Keys Interact = Keys.Y;
         internal static Keys EndCall = Keys.End;
+        internal static readonly string CalloutVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
         internal static void LoadSettings()
         {

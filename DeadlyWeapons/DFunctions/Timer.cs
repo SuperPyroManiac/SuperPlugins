@@ -21,8 +21,10 @@ namespace DeadlyWeapons.DFunctions
             {
                 GameFiber.StartNew(delegate
                 {
+                    if (!ped) return;
                     ped.IsRagdoll = true;
                     GameFiber.Wait(2000);
+                    if (!ped) return;
                     ped.IsRagdoll = false;
                 });
             }

@@ -6,7 +6,7 @@ using LSPD_First_Response;
 using LSPD_First_Response.Mod.API;
 using LSPD_First_Response.Mod.Callouts;
 using Rage;
-using SuperCallouts.CustomScenes;
+using SRCallouts.SceneSetup;
 
 #endregion
 

@@ -36,6 +36,7 @@ namespace DeadlyWeapons
                         "~g~Plugin Loaded.",
                         "Deadly Weapons by SuperPyroManiac version: " +
                         Assembly.GetExecutingAssembly().GetName().Version + " loaded.");
+                    VersionChecker.IsUpdateAvailable();
                 });
         }
 

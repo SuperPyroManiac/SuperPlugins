@@ -6,7 +6,7 @@ using Rage;
 
 #endregion
 
-namespace SuperCallouts.CustomScenes
+namespace SRCallouts.SceneSetup
 {
     internal class LsgtfSetup
     {

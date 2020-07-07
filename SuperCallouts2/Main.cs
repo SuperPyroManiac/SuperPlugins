@@ -2,6 +2,7 @@ using System.Reflection;
 using LSPD_First_Response.Mod.API;
 using Rage;
 using SuperCallouts2.Callouts;
+using SuperCallouts2.SimpleFunctions;
 using Fire = SuperCallouts2.Callouts.Fire;
 
 namespace SuperCallouts2
@@ -26,6 +27,7 @@ namespace SuperCallouts2
                 {
                     GameFiber.Wait(10000);
                     RegisterCallouts();
+                    VersionChecker.IsUpdateAvailable();
                 });
         }
 

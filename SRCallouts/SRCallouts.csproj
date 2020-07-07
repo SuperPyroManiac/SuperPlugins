@@ -69,6 +69,7 @@
     <Compile Include="Settings.cs" />
     <Compile Include="SimpleFunctions\SFunctions.cs" />
     <Compile Include="SimpleFunctions\PulloverSpots.cs" />
+    <Compile Include="SimpleFunctions\VersionChecker.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="SRCallouts.ini" />

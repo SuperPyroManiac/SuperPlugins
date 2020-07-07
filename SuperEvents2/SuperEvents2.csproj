@@ -76,6 +76,7 @@
     <Compile Include="SimpleFunctions\Events.cs" />
     <Compile Include="SimpleFunctions\EventTimer.cs" />
     <Compile Include="SimpleFunctions\PulloverSpots.cs" />
+    <Compile Include="SimpleFunctions\VersionChecker.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="SuperEvents.ini" />
