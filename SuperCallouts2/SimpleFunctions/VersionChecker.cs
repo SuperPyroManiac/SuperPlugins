@@ -10,13 +10,13 @@ namespace SuperCallouts2.SimpleFunctions
         {
             string curVersion = Settings.CalloutVersion;
 
-            Uri latestVersionUri = new Uri("https://www.lcpdfr.com/applications/downloadsng/interface/api.php?do=checkForUpdates&fileId=24437&textOnly=1");
+            Uri latestVersionUri = new Uri("https://www.lcpdfr.com/applications/downloadsng/interface/api.php?do=checkForUpdates&fileId=23995&textOnly=1");
             WebClient webClient = new WebClient();
             string receivedData = string.Empty;
 
             try
             {
-                receivedData = webClient.DownloadString("https://www.lcpdfr.com/applications/downloadsng/interface/api.php?do=checkForUpdates&fileId=24437&textOnly=1").Trim();
+                receivedData = webClient.DownloadString("https://www.lcpdfr.com/applications/downloadsng/interface/api.php?do=checkForUpdates&fileId=23995&textOnly=1").Trim();
             }
             catch (WebException)
             {
