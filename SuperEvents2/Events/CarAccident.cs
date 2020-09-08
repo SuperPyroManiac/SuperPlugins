@@ -77,6 +77,8 @@ namespace SuperEvents2.Events
             _speakSuspect2 = new UIMenuItem("Speak with ~y~" + _name2);
             ConvoMenu.AddItem(_speakSuspect);
             ConvoMenu.AddItem(_speakSuspect2);
+            _speakSuspect.Enabled = false;
+            _speakSuspect2.Enabled = false;
             
             base.StartEvent(_spawnPoint, _spawnPointH);
         }
@@ -127,6 +129,9 @@ namespace SuperEvents2.Events
                                 break;
                         }
 
+                        _speakSuspect.Enabled = true;
+                        _speakSuspect2.Enabled = true;
+
                         _tasks = Tasks.End;
                         break;
                     case Tasks.End:
@@ -153,11 +158,49 @@ namespace SuperEvents2.Events
         { 
             if (selItem == _speakSuspect)
             {
-                Game.DisplaySubtitle("Not implimented yet.");
+                if (_ePed.IsDead)
+                {
+                    _speakSuspect.Enabled = false;
+                    _speakSuspect.SetRightLabel("~r~Dead");
+                    return;
+                }
+                GameFiber.StartNew(delegate
+                {
+                    switch (_choice)
+                    {
+                        case 0:
+                            break;
+                        case 1:
+                            break;
+                        case 2:
+                            break;
+                        case 3:
+                            break;
+                    }
+                });
             }
             if (selItem == _speakSuspect2)
             {
-                Game.DisplaySubtitle("Not implimented yet.");
+                if (_ePed2.IsDead)
+                {
+                    _speakSuspect2.Enabled = false;
+                    _speakSuspect2.SetRightLabel("~r~Dead");//TODO ADD DIALOGUE
+                    return;
+                }
+                GameFiber.StartNew(delegate
+                {
+                    switch (_choice)
+                    {
+                        case 0:
+                            break;
+                        case 1:
+                            break;
+                        case 2:
+                            break;
+                        case 3:
+                            break;
+                    }
+                });
             }
          
             base.Conversations(sender, selItem, index);

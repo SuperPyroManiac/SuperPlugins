@@ -55,10 +55,10 @@ namespace SuperEvents2.Events
                 switch (_tasks)
                 {
                     case Tasks.CheckDistance:
-                        if (!_suspect.IsAnySpeechPlaying) _suspect.PlayAmbientSpeech("GENERIC_CURSE_MED");
-                        if (!_suspect2.IsAnySpeechPlaying) _suspect2.PlayAmbientSpeech("GENERIC_CURSE_MED");
                         if (Game.LocalPlayer.Character.DistanceTo(_spawnPoint) < 20f)
                         {
+                            _suspect.PlayAmbientSpeech("GENERIC_CURSE_MED");
+                            _suspect2.PlayAmbientSpeech("GENERIC_CURSE_MED");
                             if (Settings.ShowHints)
                                 Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~y~Officer Sighting",
                                     "~r~A Fight", "Stop the fight, and make sure everyone is ok.");
@@ -106,17 +106,6 @@ namespace SuperEvents2.Events
                         End(true);
                         break;
                 }
-                //UI Items
-                if (_suspect.IsDead)
-                {
-                    _speakSuspect.Enabled = false;
-                    _speakSuspect.SetRightLabel("~r~Dead");
-                }
-                if (_suspect2.IsDead)
-                {
-                    _speakSuspect2.Enabled = false;
-                    _speakSuspect2.SetRightLabel("~r~Dead");
-                }
                 base.Process();
             }
             catch (Exception e)
@@ -135,6 +124,12 @@ namespace SuperEvents2.Events
         {
             if (selItem == _speakSuspect)
             {
+                if (_suspect.IsDead)
+                {
+                    _speakSuspect.Enabled = false;
+                    _speakSuspect.SetRightLabel("~r~Dead");
+                    return;
+                }
                 var dialog1 = new List<string>
                 {
                     "~b~You~s~: What's going on? Why were you guys fighting?",
@@ -183,6 +178,12 @@ namespace SuperEvents2.Events
             }
             if (selItem == _speakSuspect2)
             {
+                if (_suspect2.IsDead)
+                {
+                    _speakSuspect2.Enabled = false;
+                    _speakSuspect2.SetRightLabel("~r~Dead");//TODO ADD DIALOGUE
+                    return;
+                }
                 var dialog1 = new List<string>
                 {
                     "~b~You~s~: Why were you two fighting? What's going on!",

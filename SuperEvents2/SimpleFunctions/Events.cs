@@ -86,7 +86,7 @@ namespace SuperEvents2.SimpleFunctions
                                 case 12:
                                     if (Settings.AbandonedCar)
                                     {
-                                        Game.LogTrivial("SuperEvents: Starting car accident event.");
+                                        Game.LogTrivial("SuperEvents: Starting car abandoned event.");
                                         var weridcar = new CarAccident();
                                         weridcar.StartEvent(default, 0);
                                     }
