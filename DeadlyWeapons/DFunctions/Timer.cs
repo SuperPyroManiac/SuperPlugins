@@ -16,23 +16,23 @@ namespace DeadlyWeapons.DFunctions
         internal static bool NonLeathal { get; set; }
 
         internal static void Ragdoll(Ped ped)
-        {
-            try
-            {
-                GameFiber.StartNew(delegate
-                {
-                    if (!ped) return;
-                    ped.IsRagdoll = true;
-                    GameFiber.Wait(2000);
-                    if (!ped) return;
-                    ped.IsRagdoll = false;
-                });
-            }
-            catch (Exception e)
-            {
-                Game.LogTrivial("Deadly Weapons: Unable to remove ragdoll due to player death.");
-            }
-        }
+                 {
+                     try
+                     {
+                         GameFiber.StartNew(delegate
+                         {
+                             if (!ped) return;
+                             ped.IsRagdoll = true;
+                             GameFiber.Wait(2000);
+                             if (!ped) return;
+                             ped.IsRagdoll = false;
+                         });
+                     }
+                     catch (Exception e)
+                     {
+                         Game.LogTrivial("Deadly Weapons: Unable to remove ragdoll due to player death.");
+                     }
+                 }
 
         internal static void VisualSearch(LHandle handler)
         {

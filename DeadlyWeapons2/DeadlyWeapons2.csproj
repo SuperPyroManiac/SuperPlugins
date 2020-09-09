@@ -35,6 +35,7 @@
     <Reference Include="LSPD First Response, Version=0.4.7383.491, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\..\..\CODING\LSPDFR DEV\LSPDFR API'S\LSPDFR SDK\LSPD First Response.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="RagePluginHook, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\..\..\CODING\LSPDFR DEV\LSPDFR API'S\RPH SDK\RagePluginHookSDK.dll</HintPath>
     </Reference>

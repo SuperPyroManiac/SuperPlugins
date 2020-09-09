@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using DeadlyWeapons2.DFunctions;
+using DeadlyWeapons2.Modules;
 using LSPD_First_Response.Mod.API;
 using Rage;
 
@@ -7,6 +8,7 @@ namespace DeadlyWeapons2
 {
     internal class Main : Plugin
     {
+        private static Run startup = new Run();
         public override void Initialize()
         {
             Settings.LoadSettings();
@@ -28,12 +30,14 @@ namespace DeadlyWeapons2
                         "Deadly Weapons by SuperPyroManiac version: " +
                         Assembly.GetExecutingAssembly().GetName().Version + " loaded.");
                     VersionChecker.IsUpdateAvailable();
+                    startup.Start();
                 });
         }
         
         public override void Finally()
         {
             Game.LogTrivial("Deadly Weapons by SuperPyroManiac has been disabled.");
+            startup.Stop();
         }
     }
 }

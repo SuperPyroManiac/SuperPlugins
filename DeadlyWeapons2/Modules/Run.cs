@@ -1,25 +1,37 @@
 using System;
+using LSPD_First_Response.Mod.API;
 using Rage;
 
 namespace DeadlyWeapons2.Modules
 {
     internal class Run
     {
-        internal GameFiber ProcessFiber;
+        private Ped Player => Game.LocalPlayer.Character;
+        private GameFiber _processFiber;
         
         internal void Start()
         {
             try
             {
-                ProcessFiber = new GameFiber(delegate
+                if (Settings.EnablePulloverAI) Events.OnPulloverStarted += Pullover.PulloverModule;
+                _processFiber = new GameFiber(delegate
                 {
-                    Game.LogTrivial("DeadlyWeapons: Starting main ProcessFiber...");
+                    if (Settings.EnableDamageSystem)
+                    {
+                        var ps = new PlayerShot();
+                        ps.StartEvent();
+                    }
+                    Game.LogTrivial("DeadlyWeapons: Starting ProcessFiber.");
                     while (true)
                     {
+                        if (Game.IsKeyDown(Settings.RubberBullets)) RubberBullet.RubberBullets();
+                        if (Player.IsShooting && Player.Inventory.EquippedWeapon.Hash != WeaponHash.StunGun &&
+                            Player.Inventory.EquippedWeapon.Hash != WeaponHash.FireExtinguisher && Settings.EnablePanic)
+                            StartPanic.PanicHit();
                         GameFiber.Yield();
                     }
                 });
-                ProcessFiber.Start();
+                _processFiber.Start();
             }
             catch (Exception e)
             {
@@ -34,7 +46,7 @@ namespace DeadlyWeapons2.Modules
 
         internal void Stop()
         {
-            ProcessFiber.Abort();
+            _processFiber.Abort();
             Game.LogTrivial("Deadly Weapons: ProccessFiber has been terminated. You may see an error here but it is normal.");
         }
     }

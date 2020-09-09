@@ -35,7 +35,6 @@ namespace DeadlyWeapons.DFunctions
                 Bad.MovementAnimationSet = drunkAnimset;
                 Rage.Native.NativeFunction.Natives.SET_PED_IS_DRUNK(Bad, isDrunk);
             });
-            return;
         }
         internal static void SetAnimation(Ped Person, string theAnimation)
         {
