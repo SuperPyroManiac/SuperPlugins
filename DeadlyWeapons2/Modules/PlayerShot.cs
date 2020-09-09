@@ -1,14 +1,18 @@
+#region
+
 using System;
 using DeadlyWeapons2.DFunctions;
 using Rage;
 using Rage.Native;
 
+#endregion
+
 namespace DeadlyWeapons2.Modules
 {
     internal class PlayerShot
     {
-        private Ped Player => Game.LocalPlayer.Character;
         private GameFiber _playerShotFiber;
+        private Ped Player => Game.LocalPlayer.Character;
 
         internal void StartEvent()
         {
@@ -30,7 +34,7 @@ namespace DeadlyWeapons2.Modules
                 if (NativeFunction.Natives.HAS_ENTITY_BEEN_DAMAGED_BY_WEAPON<bool>(Player, (uint) w, 0) &&
                     Settings.EnableDamageSystem)
                 {
-                    var rnd = new Random().Next(1,5);
+                    var rnd = new Random().Next(1, 5);
 
                     if (Player.LastDamageBone == PedBoneId.Head)
                     {
@@ -59,7 +63,7 @@ namespace DeadlyWeapons2.Modules
                                 break;
                         }
                     }
-                    
+
                     if (Player.Armor < 5)
                     {
                         Game.LogTrivial("Deadly Weapons: Player shot, chose: 0 - " + rnd);

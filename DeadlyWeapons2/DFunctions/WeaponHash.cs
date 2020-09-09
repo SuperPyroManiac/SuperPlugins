@@ -1,4 +1,8 @@
+#region
+
 using Rage;
+
+#endregion
 
 namespace DeadlyWeapons2.DFunctions
 {

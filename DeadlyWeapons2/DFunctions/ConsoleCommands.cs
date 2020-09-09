@@ -1,8 +1,14 @@
+#region
+
+using Rage.Attributes;
+
+#endregion
+
 namespace DeadlyWeapons2.DFunctions
 {
     public class ConsoleCommands
     {
-        [Rage.Attributes.ConsoleCommand]
+        [ConsoleCommand]
         public static void Command_DWReloadConfig()
         {
             Settings.LoadSettings();

@@ -1,14 +1,19 @@
+#region
+
 using System;
 using LSPD_First_Response.Mod.API;
 using Rage;
+using Rage.Native;
+
+#endregion
 
 namespace DeadlyWeapons2.Modules
 {
     internal class Run
     {
-        private Ped Player => Game.LocalPlayer.Character;
         private GameFiber _processFiber;
-        
+        private Ped Player => Game.LocalPlayer.Character;
+
         internal void Start()
         {
             try
@@ -21,6 +26,13 @@ namespace DeadlyWeapons2.Modules
                         var ps = new PlayerShot();
                         ps.StartEvent();
                     }
+
+                    if (Settings.EnableBetterAi)
+                    {
+                        var ps = new PedShot();
+                        ps.StartPedEvent();
+                    }
+
                     Game.LogTrivial("DeadlyWeapons: Starting ProcessFiber.");
                     while (true)
                     {
@@ -28,6 +40,21 @@ namespace DeadlyWeapons2.Modules
                         if (Player.IsShooting && Player.Inventory.EquippedWeapon.Hash != WeaponHash.StunGun &&
                             Player.Inventory.EquippedWeapon.Hash != WeaponHash.FireExtinguisher && Settings.EnablePanic)
                             StartPanic.PanicHit();
+                        if (Settings.EnableBetterAi)
+                        {
+                            var pedEntity = Game.LocalPlayer.GetFreeAimingTarget();
+                            if (pedEntity == null) return;
+                            if (NativeFunction.Natives.IS_ENTITY_A_PED<bool>(pedEntity))
+                            {
+                                var ped = pedEntity as Ped;
+                                if (ped == null) return;
+                                if (!ped == Player || ped.IsHuman || !ped.IsInAnyVehicle(true) || !ped.IsDead ||
+                                    ped.RelationshipGroup != RelationshipGroup.Cop ||
+                                    ped.RelationshipGroup != RelationshipGroup.Medic ||
+                                    ped.RelationshipGroup != RelationshipGroup.Fireman)
+                                    PedShot.PedAimedAt(ped);
+                            }
+                        }
                         GameFiber.Yield();
                     }
                 });
@@ -47,7 +74,8 @@ namespace DeadlyWeapons2.Modules
         internal void Stop()
         {
             _processFiber.Abort();
-            Game.LogTrivial("Deadly Weapons: ProccessFiber has been terminated. You may see an error here but it is normal.");
+            Game.LogTrivial(
+                "Deadly Weapons: ProccessFiber has been terminated. You may see an error here but it is normal.");
         }
     }
 }

@@ -1,6 +1,11 @@
+#region
+
 using System;
+using DeadlyWeapons2.DFunctions;
 using LSPD_First_Response.Mod.API;
 using Rage;
+
+#endregion
 
 namespace DeadlyWeapons2.Modules
 {
@@ -11,25 +16,21 @@ namespace DeadlyWeapons2.Modules
             var bad = Functions.GetPulloverSuspect(handler);
             var checking = true;
             var hasWeapon = false;
-            var rND = new Random().Next(1,8);
+            var rND = new Random().Next(1, 8);
             var checkFiber = new GameFiber(delegate
             {
                 while (checking)
                 {
                     GameFiber.Yield();
-                    
-                    if (!Functions.IsPlayerPerformingPullover())
-                    {
-                        checking = false;
-                    }
+
+                    if (!Functions.IsPlayerPerformingPullover()) checking = false;
 
                     if (Game.LocalPlayer.Character.DistanceTo(bad) < 3f)
                     {
                         Game.LogTrivial("DeadlyWeapons: Pullover detected, using scenario: " + rND);
                         checking = false;
                         bad.Inventory.Weapons.Clear();
-                        if (DFunctions.SimpleFunctions.IsWanted(bad))
-                        {
+                        if (SimpleFunctions.IsWanted(bad))
                             switch (rND)
                             {
                                 case 1:
@@ -51,9 +52,7 @@ namespace DeadlyWeapons2.Modules
                                     if (bad.Inventory.HasLoadedWeapon) hasWeapon = true;
                                     break;
                             }
-                        }
                         else
-                        {
                             switch (rND)
                             {
                                 case 1:
@@ -75,11 +74,12 @@ namespace DeadlyWeapons2.Modules
                                     if (bad.Inventory.HasLoadedWeapon) hasWeapon = true;
                                     break;
                             }
-                        }
+
                         if (hasWeapon)
                         {
                             bad.Metadata.searchPed = bad.Metadata.searchPed + " ~r~Firearm~s~";
-                            Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~y~Traffic Stop", "~r~Weapon Spotted",
+                            Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~y~Traffic Stop",
+                                "~r~Weapon Spotted",
                                 "You noticed the suspect has a weapon in the vehicle!");
                         }
                     }

@@ -1,13 +1,56 @@
+#region
+
 using System;
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using DeadlyWeapons2.DFunctions;
 using LSPD_First_Response.Mod.API;
 using Rage;
 using Rage.Native;
 
+#endregion
+
 namespace DeadlyWeapons2.Modules
 {
     internal class PedShot
     {
+        private static List<Ped> _possibleTargets = new List<Ped>();
+        private GameFiber _customAiFiber;
+
+        internal void StartPedEvent()
+        {
+            _customAiFiber = new GameFiber(delegate
+            {
+                while (true)
+                {
+                    foreach (var ped in _possibleTargets)
+                    {
+                        if (!ped)
+                        {
+                            _possibleTargets.Remove(ped);
+                            return;
+                        }
+
+                        if (ped.IsDead || ped.IsDiving || ped.IsCuffed || ped.Health > 205 || ped.Armor > 205 ||
+                            ped.DistanceTo(Game.LocalPlayer.Character) > 200f)
+                        {
+                            _possibleTargets.Remove(ped);
+                            return;
+                        }
+
+                        PedAi(ped);
+                    }
+                }
+            });
+            _customAiFiber.Start();
+        }
+
+        internal static void PedAimedAt(Ped ped)
+        {
+            _possibleTargets.Add(ped);
+            Game.LogTrivial("Deadly Weapons: DEBUG: Added " + Functions.GetPersonaForPed(ped).FullName + " to the list of possible targets! Dear lord I hope this works...");
+        }
+        
         internal static void PedAi(Ped ped)
         {
             try
@@ -16,22 +59,20 @@ namespace DeadlyWeapons2.Modules
                 {
                     if (!ped || ped.IsDead) return;
                     ped.Accuracy = Settings.AiAccuracy;
-                    ped.FiringPattern = FiringPattern.DelayFireByOneSecond;
+                    //ped.FiringPattern = FiringPattern.DelayFireByOneSecond;
 
                     foreach (var w in WeaponHashs.WeaponHashes)
-                    {
                         if (RubberBullet.NonLeathal)
                         {
                             if (NativeFunction.Natives.HAS_ENTITY_BEEN_DAMAGED_BY_WEAPON<bool>(ped, (uint) w, 0) &&
                                 Settings.EnableDamageSystem)
                             {
-                                if (ped.LastDamageBone == PedBoneId.LeftUpperArm || ped.LastDamageBone == PedBoneId.LeftForeArm || ped.LastDamageBone == PedBoneId.RightUpperArm || ped.LastDamageBone == PedBoneId.RightForearm)
-                                {
+                                if (ped.LastDamageBone == PedBoneId.LeftUpperArm ||
+                                    ped.LastDamageBone == PedBoneId.LeftForeArm ||
+                                    ped.LastDamageBone == PedBoneId.RightUpperArm ||
+                                    ped.LastDamageBone == PedBoneId.RightForearm)
                                     if (ped.Inventory.HasLoadedWeapon)
-                                    {
                                         ped.Inventory.EquippedWeapon.Drop();
-                                    }
-                                }
                                 if (Game.LocalPlayer.Character.DistanceTo(ped) < 6)
                                 {
                                     var rnd = new Random().Next(0, 3);
@@ -61,6 +102,7 @@ namespace DeadlyWeapons2.Modules
                                                     SimpleFunctions.Ragdoll(ped);
                                                     break;
                                             }
+
                                             break;
                                     }
                                 }
@@ -88,6 +130,7 @@ namespace DeadlyWeapons2.Modules
                                     }
                                 }
                             }
+
                             NativeFunction.Natives.CLEAR_ENTITY_LAST_WEAPON_DAMAGE(ped);
                         }
                         else
@@ -95,13 +138,12 @@ namespace DeadlyWeapons2.Modules
                             if (NativeFunction.Natives.HAS_ENTITY_BEEN_DAMAGED_BY_WEAPON<bool>(ped, (uint) w, 0) &&
                                 Settings.EnableDamageSystem)
                             {
-                                if (ped.LastDamageBone == PedBoneId.LeftUpperArm || ped.LastDamageBone == PedBoneId.LeftForeArm || ped.LastDamageBone == PedBoneId.RightUpperArm || ped.LastDamageBone == PedBoneId.RightForearm)
-                                {
+                                if (ped.LastDamageBone == PedBoneId.LeftUpperArm ||
+                                    ped.LastDamageBone == PedBoneId.LeftForeArm ||
+                                    ped.LastDamageBone == PedBoneId.RightUpperArm ||
+                                    ped.LastDamageBone == PedBoneId.RightForearm)
                                     if (ped.Inventory.HasLoadedWeapon)
-                                    {
                                         ped.Inventory.EquippedWeapon.Drop();
-                                    }
-                                }
                                 if (ped.Armor >= 60)
                                 {
                                     var rnd = new Random().Next(0, 10);
@@ -159,7 +201,6 @@ namespace DeadlyWeapons2.Modules
                                 NativeFunction.Natives.CLEAR_ENTITY_LAST_WEAPON_DAMAGE(ped);
                             }
                         }
-                    }
                 });
             }
             catch (Exception e)

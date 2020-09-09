@@ -1,5 +1,10 @@
+#region
+
 using System;
+using LSPD_First_Response.Mod.API;
 using Rage;
+
+#endregion
 
 namespace DeadlyWeapons2.Modules
 {
@@ -14,7 +19,7 @@ namespace DeadlyWeapons2.Modules
                 {
                     case 0:
                         Game.LogTrivial("Deadly Weapons: " +
-                                        LSPD_First_Response.Mod.API.Functions.GetPersonaForPed(ped).FullName +
+                                        Functions.GetPersonaForPed(ped).FullName +
                                         " is fleeing!");
                         ped.BlockPermanentEvents = true;
                         ped.IsPersistent = true;
@@ -30,7 +35,7 @@ namespace DeadlyWeapons2.Modules
                         break;
                     case 1:
                         Game.LogTrivial("Deadly Weapons: " +
-                                        LSPD_First_Response.Mod.API.Functions.GetPersonaForPed(ped).FullName +
+                                        Functions.GetPersonaForPed(ped).FullName +
                                         " is hiding!");
                         ped.BlockPermanentEvents = true;
                         ped.IsPersistent = true;
@@ -46,7 +51,7 @@ namespace DeadlyWeapons2.Modules
                         break;
                     case 2:
                         Game.LogTrivial("Deadly Weapons: " +
-                                        LSPD_First_Response.Mod.API.Functions.GetPersonaForPed(ped).FullName +
+                                        Functions.GetPersonaForPed(ped).FullName +
                                         " is cowering!");
                         ped.BlockPermanentEvents = true;
                         ped.IsPersistent = true;
@@ -58,7 +63,7 @@ namespace DeadlyWeapons2.Modules
                             ped.BlockPermanentEvents = false;
                             ped.IsPersistent = false;
                         }
-                        
+
                         break;
                 }
             });

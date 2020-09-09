@@ -1,14 +1,19 @@
-﻿using System.Reflection;
+﻿#region
+
+using System.Reflection;
 using DeadlyWeapons2.DFunctions;
 using DeadlyWeapons2.Modules;
 using LSPD_First_Response.Mod.API;
 using Rage;
 
+#endregion
+
 namespace DeadlyWeapons2
 {
     internal class Main : Plugin
     {
-        private static Run startup = new Run();
+        private static readonly Run startup = new Run();
+
         public override void Initialize()
         {
             Settings.LoadSettings();
@@ -16,9 +21,9 @@ namespace DeadlyWeapons2
             Game.LogTrivial("Deadly Weapons " + Assembly.GetExecutingAssembly().GetName().Version +
                             " by SuperPyroManiac has been initialised.");
             Game.LogTrivial("Go on duty with LSPDFR to start the plugin.");
-            Game.AddConsoleCommands(new[] { typeof(DFunctions.ConsoleCommands) });
+            Game.AddConsoleCommands(new[] {typeof(ConsoleCommands)});
         }
-        
+
         private static void OnOnDutyStateChangedHandler(bool onDuty)
         {
             if (onDuty)
@@ -33,7 +38,7 @@ namespace DeadlyWeapons2
                     startup.Start();
                 });
         }
-        
+
         public override void Finally()
         {
             Game.LogTrivial("Deadly Weapons by SuperPyroManiac has been disabled.");

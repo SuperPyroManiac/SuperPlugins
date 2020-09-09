@@ -1,7 +1,11 @@
+#region
+
 using System;
-using LSPD_First_Response.Engine.Scripting.Entities;
 using LSPD_First_Response.Mod.API;
 using Rage;
+using Rage.Native;
+
+#endregion
 
 namespace DeadlyWeapons2.DFunctions
 {
@@ -25,17 +29,17 @@ namespace DeadlyWeapons2.DFunctions
                 Game.LogTrivial("Deadly Weapons: Unable to remove ragdoll. Most likely the subject died first.");
             }
         }
-        
+
         internal static Ped SetWanted(Ped wPed, bool isWanted = true)
         {
-            Persona thePersona = Functions.GetPersonaForPed(wPed);
+            var thePersona = Functions.GetPersonaForPed(wPed);
             thePersona.Wanted = isWanted;
             return wPed;
         }
 
         internal static bool IsWanted(Ped oPed)
         {
-            Persona persona = Functions.GetPersonaForPed(oPed);
+            var persona = Functions.GetPersonaForPed(oPed);
             Game.LogTrivial("Ped is Wanted? = " + persona.Wanted);
             return persona.Wanted;
         }
@@ -49,7 +53,7 @@ namespace DeadlyWeapons2.DFunctions
                 var drunkAnimset = new AnimationSet("move_m@drunk@verydrunk");
                 drunkAnimset.LoadAndWait();
                 Bad.MovementAnimationSet = drunkAnimset;
-                Rage.Native.NativeFunction.Natives.SET_PED_IS_DRUNK(Bad, isDrunk);
+                NativeFunction.Natives.SET_PED_IS_DRUNK(Bad, isDrunk);
             });
         }
     }

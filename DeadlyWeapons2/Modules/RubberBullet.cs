@@ -1,11 +1,15 @@
+#region
+
 using Rage;
+
+#endregion
 
 namespace DeadlyWeapons2.Modules
 {
     internal static class RubberBullet
     {
         internal static bool NonLeathal { get; set; }
-        
+
         internal static void RubberBullets()
         {
             NonLeathal = !NonLeathal;
