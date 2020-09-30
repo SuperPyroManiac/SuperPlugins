@@ -10,12 +10,12 @@ namespace DeadlyWeapons2.Modules
 {
     internal static class StartPanic
     {
-        internal static bool Panic;
+        private static bool _panic;
 
         internal static void PanicHit()
         {
-            if (Panic) return;
-            Panic = true;
+            if (_panic) return;
+            _panic = true;
             GameFiber.StartNew(delegate
             {
                 if (Settings.Code3Backup)
@@ -34,7 +34,7 @@ namespace DeadlyWeapons2.Modules
                 Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~r~Shots Fired", "~y~Panic Activated",
                     "Your weapon has been discharged. Dispatch has been alerted.");
                 GameFiber.Wait(Settings.PanicCooldown * 1000);
-                Panic = false;
+                _panic = false;
             });
         }
     }

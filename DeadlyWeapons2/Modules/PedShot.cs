@@ -40,8 +40,10 @@ namespace DeadlyWeapons2.Modules
 
                         PedAi(ped);
                     }
+                    GameFiber.Yield();
                 }
             });
+            Game.LogTrivial("DeadlyWeapons: Starting CustomAIFiber.");
             _customAiFiber.Start();
         }
 

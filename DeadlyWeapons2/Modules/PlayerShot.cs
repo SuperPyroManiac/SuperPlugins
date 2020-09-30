@@ -24,7 +24,7 @@ namespace DeadlyWeapons2.Modules
                     GameFiber.Yield();
                 }
             });
-            Game.LogTrivial("Deadly Weapons: Starting PlayerShotFiber.");
+            Game.LogTrivial("DeadlyWeapons: Starting PlayerShotFiber.");
             _playerShotFiber.Start();
         }
 
