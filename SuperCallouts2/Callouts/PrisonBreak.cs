@@ -4,7 +4,7 @@ using System.Drawing;
 using LSPD_First_Response.Mod.API;
 using LSPD_First_Response.Mod.Callouts;
 using Rage;
-using SuperCallouts.CustomScenes;
+using SuperCallouts2.CustomScenes;
 
 #endregion
 
@@ -48,11 +48,11 @@ namespace SuperCallouts2.Callouts
                 "DOC has reported multiple groups of prisoners have escaped! They are occupied with another group and need local police assistance.");
             PrisonbreakSetup.ConstructPrisonBreakSetupScene(out _prisoner1, out _prisoner2, out _prisoner3,
                 out _prisoner4, out _prisoner5);
-            SuperCallouts.CustomScenes.SimpleFunctions.SetWanted(_prisoner1, true);
-            SuperCallouts.CustomScenes.SimpleFunctions.SetWanted(_prisoner2, true);
-            SuperCallouts.CustomScenes.SimpleFunctions.SetWanted(_prisoner3, true);
-            SuperCallouts.CustomScenes.SimpleFunctions.SetWanted(_prisoner4, true);
-            SuperCallouts.CustomScenes.SimpleFunctions.SetWanted(_prisoner5, true);
+            CustomScenes.SimpleFunctions.SetWanted(_prisoner1, true);
+            CustomScenes.SimpleFunctions.SetWanted(_prisoner2, true);
+            CustomScenes.SimpleFunctions.SetWanted(_prisoner3, true);
+            CustomScenes.SimpleFunctions.SetWanted(_prisoner4, true);
+            CustomScenes.SimpleFunctions.SetWanted(_prisoner5, true);
             _cVehicle = new Vehicle("PBUS", _prisoner1.GetOffsetPositionFront(4));
             _cVehicle.IsPersistent = true;
             _cVehicle.IsStolen = true;

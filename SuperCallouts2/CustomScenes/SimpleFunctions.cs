@@ -8,7 +8,7 @@ using Rage.Native;
 
 #endregion
 
-namespace SuperCallouts.CustomScenes
+namespace SuperCallouts2.CustomScenes
 {
     internal class TupleList<T1, T2> : List<Tuple<T1, T2>>
     {

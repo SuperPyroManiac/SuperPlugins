@@ -6,7 +6,7 @@ using Rage;
 
 #endregion
 
-namespace SuperCallouts.CustomScenes
+namespace SuperCallouts2.CustomScenes
 {
     internal class TruckCrashSetup
     {

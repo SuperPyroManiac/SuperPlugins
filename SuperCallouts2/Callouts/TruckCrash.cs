@@ -7,7 +7,7 @@ using Rage;
 using Rage.Native;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
-using SuperCallouts.CustomScenes;
+using SuperCallouts2.CustomScenes;
 
 #endregion
 

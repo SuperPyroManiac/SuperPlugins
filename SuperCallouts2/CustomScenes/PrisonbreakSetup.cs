@@ -4,7 +4,7 @@ using Rage;
 
 #endregion
 
-namespace SuperCallouts.CustomScenes
+namespace SuperCallouts2.CustomScenes
 {
     //This class will be used as a refference to Prison Break class. Just here to keep things clean in the main classes.
     //This is also a test of an in game script maker to allow me to precisly make custom scenes. It's messy and gross but works.

@@ -57,7 +57,7 @@ namespace SuperCallouts2.Callouts
             SimpleFunctions.CFunctions.Damage(_cVehicle, 200, 200);
             Functions.SetVehicleOwnerName(_cVehicle, _rude1Name);
             //cVehicle2
-            SimpleFunctions.CFunctions.SpawnNormalCar(out _cVehicle2, _spawnPoint);
+            SimpleFunctions.CFunctions.SpawnNormalCar(out _cVehicle2, _cVehicle.GetOffsetPositionFront(6f));
             _cVehicle2.IsPersistent = true;
             _cVehicle2.EngineHealth = 0;
             _cVehicle2.Rotation = new Rotator(0f, 0f, 180f);

@@ -66,6 +66,10 @@
     <Compile Include="Callouts\HotPursuit.cs" />
     <Compile Include="Callouts\Impersonator.cs" />
     <Compile Include="Callouts\Kidnapping.cs" />
+    <Compile Include="Callouts\LostGang.cs" />
+    <Compile Include="Callouts\LSGTF.cs" />
+    <Compile Include="Callouts\Mafia1.cs" />
+    <Compile Include="Callouts\MafiaActivity2.cs" />
     <Compile Include="Callouts\Manhunt.cs" />
     <Compile Include="Callouts\OfficerShootout.cs" />
     <Compile Include="Callouts\OpenCarry.cs" />
@@ -75,6 +79,11 @@
     <Compile Include="Callouts\ToiletPaperBandit.cs" />
     <Compile Include="Callouts\TruckCrash.cs" />
     <Compile Include="Callouts\WeirdCar.cs" />
+    <Compile Include="CustomScenes\LostMC.cs" />
+    <Compile Include="CustomScenes\LSGTFSetup.cs" />
+    <Compile Include="CustomScenes\Mafia1.cs" />
+    <Compile Include="CustomScenes\Mafia1Pre.cs" />
+    <Compile Include="CustomScenes\Mafia2Setup.cs" />
     <Compile Include="CustomScenes\PrisonbreakSetup.cs" />
     <Compile Include="CustomScenes\SimpleFunctions.cs" />
     <Compile Include="CustomScenes\TruckCrashSetup.cs" />

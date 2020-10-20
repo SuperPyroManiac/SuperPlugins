@@ -4,6 +4,8 @@ using LSPD_First_Response.Engine.Scripting.Entities;
 using LSPD_First_Response.Mod.API;
 using Rage;
 using Rage.Native;
+using RAGENativeUI;
+using RAGENativeUI.Elements;
 
 namespace SuperCallouts2.SimpleFunctions
 {
@@ -77,6 +79,24 @@ namespace SuperCallouts2.SimpleFunctions
             Model[] vehicleModels = { "NINFEF2", "BUS", "COACH", "AIRBUS", "AMBULANCE", "BARRACKS", "BARRACKS2", "BALLER", "BALLER2", "BANSHEE", "BJXL", "BENSON", "BOBCATXL", "BUCCANEER", "BUFFALO", "BUFFALO2", "BULLDOZER", "BULLET", "BURRITO", "BURRITO2", "BURRITO3", "BURRITO4", "BURRITO5", "CAVALCADE", "CAVALCADE2", "POLICET", "GBURRITO", "CAMPER", "CARBONIZZARE", "CHEETAH", "COMET2", "COGCABRIO", "COQUETTE", "GRESLEY", "DUNE2", "HOTKNIFE", "DUBSTA", "DUBSTA2", "DUMP", "DOMINATOR", "EMPEROR", "EMPEROR2", "EMPEROR3", "ENTITYXF", "EXEMPLAR", "ELEGY2", "F620", "FBI", "FBI2", "FELON", "FELON2", "FELTZER2", "FIRETRUK", "FQ2", "FUGITIVE", "FUTO", "GRANGER", "GAUNTLET", "HABANERO", "INFERNUS", "INTRUDER", "JACKAL", "JOURNEY", "JB700", "KHAMELION", "LANDSTALKER", "MESA", "MESA2", "MESA3", "MIXER", "MINIVAN", "MIXER2", "MULE", "MULE2", "ORACLE", "ORACLE2", "MONROE", "PATRIOT", "PBUS", "PACKER", "PENUMBRA", "PEYOTE", "POLICE", "POLICE2", "POLICE3", "POLICE4", "PHANTOM", "PHOENIX", "PICADOR", "POUNDER", "PRANGER", "PRIMO", "RANCHERXL", "RANCHERXL2", "RAPIDGT", "RAPIDGT2", "RENTALBUS", "RUINER", "RIOT", "RIPLEY", "SABREGT", "SADLER", "SADLER2", "SANDKING", "SANDKING2", "SHERIFF", "SHERIFF2", "SPEEDO", "SPEEDO2", "STINGER", "STOCKADE", "STINGERGT", "SUPERD", "STRATUM", "SULTAN", "AKUMA", "PCJ", "FAGGIO2", "DAEMON", "BATI2" };
             cVehicle = new Vehicle(vehicleModels[new Random().Next(vehicleModels.Length)], spawnPoint);
             cVehicle.IsPersistent = true;
+        }
+        
+        internal static void BuildUi(out MenuPool interaction, out UIMenu mainMenu, out UIMenu convoMenu, out UIMenuItem questioning, out UIMenuItem endCall)
+        {
+            interaction = new MenuPool();
+            mainMenu = new UIMenu("SuperCallouts", "Choose an option.");
+            convoMenu = new UIMenu("SuperCallouts", "~s~Choose an option.");
+            questioning = new UIMenuItem("Speak With Subjects");
+            endCall = new UIMenuItem("~y~End Callout", "Ends the callout.");
+            interaction.Add(mainMenu);
+            interaction.Add(convoMenu);
+            mainMenu.AddItem(questioning);
+            mainMenu.AddItem(endCall);
+            mainMenu.BindMenuToItem(convoMenu, questioning);
+            convoMenu.ParentMenu = mainMenu;
+            questioning.Enabled = false;
+            mainMenu.RefreshIndex();
+            convoMenu.RefreshIndex();
         }
         
         internal static void FireControl(Vector3 position, int children, bool isGasFire)
