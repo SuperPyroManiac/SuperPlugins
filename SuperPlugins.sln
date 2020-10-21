@@ -6,8 +6,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuperCallouts2", "SuperCall
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuperEvents2", "SuperEvents2\SuperEvents2.csproj", "{8F8EF7EA-0500-4243-A0CD-2C5013197AA5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SRCallouts", "SRCallouts\SRCallouts.csproj", "{77431921-A29F-4C70-B465-0DA31C72830E}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeadlyWeapons", "DeadlyWeapons\DeadlyWeapons.csproj", "{E060D175-2A0B-4743-9377-1981F7346706}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeadlyWeapons2", "DeadlyWeapons2\DeadlyWeapons2.csproj", "{7E461B22-8190-4526-85C8-F507E9E3758B}"
@@ -30,10 +28,6 @@ Global
 		{8F8EF7EA-0500-4243-A0CD-2C5013197AA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8F8EF7EA-0500-4243-A0CD-2C5013197AA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8F8EF7EA-0500-4243-A0CD-2C5013197AA5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{77431921-A29F-4C70-B465-0DA31C72830E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{77431921-A29F-4C70-B465-0DA31C72830E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{77431921-A29F-4C70-B465-0DA31C72830E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{77431921-A29F-4C70-B465-0DA31C72830E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E060D175-2A0B-4743-9377-1981F7346706}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E060D175-2A0B-4743-9377-1981F7346706}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E060D175-2A0B-4743-9377-1981F7346706}.Release|Any CPU.ActiveCfg = Release|Any CPU
