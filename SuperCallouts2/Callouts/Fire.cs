@@ -49,7 +49,6 @@ namespace SuperCallouts2.Callouts
             _cVehicle.Heading = _spawnPointH;
             //Start UI
             _interaction.Add(_mainMenu);
-            _mainMenu.AddItem(_callFd);
             _mainMenu.AddItem(_endCall);
             _mainMenu.RefreshIndex();
             _mainMenu.OnItemSelect += Interactions;
@@ -71,7 +70,7 @@ namespace SuperCallouts2.Callouts
                 {
                     _onScene = true;
                     _cBlip.DisableRoute();
-                    _callFd.Enabled = true;
+                    _callFd.Enabled = false;
                     for (var i = 0; i < 5; i++) CFunctions.FireControl(_spawnPoint.Around2D(1f, 5f), 24, true);
                     for (var i = 0; i < 10; i++) CFunctions.FireControl(_spawnPoint.Around2D(1f, 5f), 24, false);
                     Game.DisplayHelp("~y~Press ~r~" + Settings.Interact + "~y~ to open interaction menu.");

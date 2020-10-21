@@ -181,7 +181,7 @@ namespace SuperEvents2.Events
                 if (_suspect2.IsDead)
                 {
                     _speakSuspect2.Enabled = false;
-                    _speakSuspect2.SetRightLabel("~r~Dead");//TODO ADD DIALOGUE
+                    _speakSuspect2.SetRightLabel("~r~Dead");
                     return;
                 }
                 var dialog1 = new List<string>

@@ -58,8 +58,8 @@ namespace SuperEvents2.Events
                     _ePed2.Tasks.LeaveVehicle(LeaveVehicleFlags.LeaveDoorOpen);
                     break;
                 case 1://Ped Dies, other flees
-                    _ePed.Kill();
-                    _ePed2.Tasks.LeaveVehicle(LeaveVehicleFlags.LeaveDoorOpen);
+                    _ePed.Tasks.LeaveVehicle(LeaveVehicleFlags.LeaveDoorOpen);
+                    _ePed2.Kill();
                     break;
                 case 2://Hit and run
                     _ePed2.Tasks.LeaveVehicle(LeaveVehicleFlags.LeaveDoorOpen);
@@ -116,7 +116,7 @@ namespace SuperEvents2.Events
                                 break;
                             case 2://Hit and run
                                 var pursuit2 = Functions.CreatePursuit();
-                                Functions.AddPedToPursuit(pursuit2, _ePed);
+                                Functions.AddPedToPursuit(pursuit2, _ePed2);
                                 Functions.SetPursuitIsActiveForPlayer(pursuit2, true);
                                 _ePed2.Tasks.LeaveVehicle(LeaveVehicleFlags.LeaveDoorOpen);
                                 break;
@@ -164,18 +164,54 @@ namespace SuperEvents2.Events
                     _speakSuspect.SetRightLabel("~r~Dead");
                     return;
                 }
-                GameFiber.StartNew(delegate
+                var dialog1 = new List<string>
                 {
-                    switch (_choice)
+                    "~b~You~s~: What happened? Are you ok?",
+                    "~r~" + _name1 + "~s~: No I am not! They destroyed my car!",
+                    "~b~You~s~: How did the accident happen?",
+                    "~r~" + _name1 + "~s~: I was just driving then they swerved into my lane.",
+                    "~b~You~s~: That sounds pretty severe, do you have any pain anywhere?",
+                    "~r~" + _name1 + "~s~: My neck hurts but I'm more worried about my car.",
+                    "~b~You~s~: Well you just sit tight, I'm going to call fire to check you out.",
+                    "~r~" + _name1 + "~s~: Thank you."
+                };
+                var dialog2 = new List<string>
+                {
+                    "~b~You~s~: What happened? Are you injured?",
+                    "~r~" + _name1 + "~s~: No I am not! This idiot crashed into me!",
+                    "~b~You~s~: Calm down, can you explain what happened?",
+                    "~r~" + _name1 + "~s~: I was just driving then before I know it my car is totalled! I want him arrested!",
+                    "~b~You~s~: I understand you're upset but I need you to calm down, I'll go speak with them.",
+                    "~r~" + _name1 + "~s~: Whatever, I just want him to rot in jail."
+                };
+                var dialogIndex1 = 0;
+                var dialogIndex2 = 0;
+                var dialogOutcome = new Random().Next(0, 101);
+                var stillTalking = true;
+                
+                if (Player.DistanceTo(_ePed) > 5f)
+                {
+                    Game.DisplaySubtitle("Too far to talk!");
+                    return;
+                }
+                
+                NativeFunction.CallByName<uint>("TASK_TURN_PED_TO_FACE_ENTITY", _ePed, Game.LocalPlayer.Character, -1);
+                GameFiber.StartNew(delegate {
+                    while (stillTalking)
                     {
-                        case 0:
-                            break;
-                        case 1:
-                            break;
-                        case 2:
-                            break;
-                        case 3:
-                            break;
+                        if (dialogOutcome > 50)
+                        {
+                            Game.DisplaySubtitle(dialog1[dialogIndex1]);
+                            dialogIndex1++;
+                        }
+                        else
+                        {
+                            Game.DisplaySubtitle(dialog2[dialogIndex2]);
+                            dialogIndex2++;
+                        }
+
+                        if (dialogIndex1 == 4 || dialogIndex2 == 5) stillTalking = false;
+                        GameFiber.Wait(6000);
                     }
                 });
             }
@@ -184,21 +220,55 @@ namespace SuperEvents2.Events
                 if (_ePed2.IsDead)
                 {
                     _speakSuspect2.Enabled = false;
-                    _speakSuspect2.SetRightLabel("~r~Dead");//TODO ADD DIALOGUE
+                    _speakSuspect2.SetRightLabel("~r~Dead");
                     return;
                 }
-                GameFiber.StartNew(delegate
+                var dialog1 = new List<string>
                 {
-                    switch (_choice)
+                    "~b~You~s~: Hey what's going on? Are you alright?",
+                    "~r~" + _name2 + "~s~: Screw you, I'm not alright!",
+                    "~b~You~s~: Do you need medical attention?",
+                    "~r~" + _name2 + "~s~: No I don't but I want that moron over there arrested!",
+                    "~b~You~s~: I understand you're upset but I need to find out what happened here.",
+                    "~r~" + _name2 + "~s~: Screw you, I'm not talking to you."
+                };
+                var dialog2 = new List<string>
+                {
+                    "~b~You~s~: Hey what's going on? Are you alright?",
+                    "~r~" + _name2 + "~s~: No not at all.",
+                    "~b~You~s~: Do you need medical attention?",
+                    "~r~" + _name2 + "~s~: No, I just want to be left alone.",
+                    "~b~You~s~: I understand you're upset but I need to find out what happened here.",
+                    "~r~" + _name2 + "~s~: Screw you, I'm not talking to you."
+                };
+                var dialogIndex1 = 0;
+                var dialogIndex2 = 0;
+                var dialogOutcome = new Random().Next(0, 101);
+                var stillTalking = true;
+                
+                if (Player.DistanceTo(_ePed2) > 5f)
+                {
+                    Game.DisplaySubtitle("Too far to talk!");
+                    return;
+                }
+                
+                NativeFunction.CallByName<uint>("TASK_TURN_PED_TO_FACE_ENTITY", _ePed2, Game.LocalPlayer.Character, -1);
+                GameFiber.StartNew(delegate {
+                    while (stillTalking)
                     {
-                        case 0:
-                            break;
-                        case 1:
-                            break;
-                        case 2:
-                            break;
-                        case 3:
-                            break;
+                        if (dialogOutcome > 50)
+                        {
+                            Game.DisplaySubtitle(dialog1[dialogIndex1]);
+                            dialogIndex1++;
+                        }
+                        else
+                        {
+                            Game.DisplaySubtitle(dialog2[dialogIndex2]);
+                            dialogIndex2++;
+                        }
+
+                        if (dialogIndex1 == 4 || dialogIndex2 == 5) stillTalking = false;
+                        GameFiber.Wait(6000);
                     }
                 });
             }
