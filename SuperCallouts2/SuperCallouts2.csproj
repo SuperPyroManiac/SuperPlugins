@@ -61,11 +61,14 @@
     <Compile Include="Callouts\BlockingTraffic.cs" />
     <Compile Include="Callouts\CarAccident.cs" />
     <Compile Include="Callouts\CarAccident2.cs" />
+    <Compile Include="Callouts\CarAccident3.cs" />
     <Compile Include="Callouts\Fire.cs" />
     <Compile Include="Callouts\HitRun.cs" />
     <Compile Include="Callouts\HotPursuit.cs" />
+    <Compile Include="Callouts\IllegalParking.cs" />
     <Compile Include="Callouts\Impersonator.cs" />
     <Compile Include="Callouts\Kidnapping.cs" />
+    <Compile Include="Callouts\KnifeAttack.cs" />
     <Compile Include="Callouts\LostGang.cs" />
     <Compile Include="Callouts\LSGTF.cs" />
     <Compile Include="Callouts\Mafia1.cs" />

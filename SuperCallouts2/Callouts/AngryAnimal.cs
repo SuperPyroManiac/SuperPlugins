@@ -30,6 +30,7 @@ namespace SuperCallouts2.Callouts
             _spawnPoint = World.GetNextPositionOnStreet(Game.LocalPlayer.Character.Position.Around(450f));
             ShowCalloutAreaBlipBeforeAccepting(_spawnPoint, 30f);
             CalloutMessage = "~r~911 Report:~s~ Person(s) being attacked by a wild animal.";
+            CalloutAdvisory = "Caller says a wild animal is attacking people.";
             CalloutPosition = _spawnPoint;
             Functions.PlayScannerAudioUsingPosition("CITIZENS_REPORT_04 CRIME_11_351_02 UNITS_RESPOND_CODE_03_01",
                 _spawnPoint);

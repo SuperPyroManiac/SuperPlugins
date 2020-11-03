@@ -45,6 +45,7 @@ namespace SuperCallouts2.Callouts
             CFunctions.FindSideOfRoad(400, 70, out _spawnPoint, out _spawnPointH);
             ShowCalloutAreaBlipBeforeAccepting(_spawnPoint, 10f);
             CalloutMessage = "~b~Dispatch:~s~ Ambulance requests police escort.";
+            CalloutAdvisory = "Help the ambulance by clearing traffic and intersections for them.";
             CalloutPosition = _spawnPoint;
             Functions.PlayScannerAudioUsingPosition(
                 "ATTENTION_ALL_UNITS_05 WE_HAVE CRIME_AMBULANCE_REQUESTED_01 IN_OR_ON_POSITION", _spawnPoint);

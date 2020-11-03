@@ -23,6 +23,8 @@ namespace SuperCallouts2
         internal static bool Impersonator = true;
         internal static bool ToiletPaperBandit = true;
         internal static bool BlockingTraffic = true;
+        internal static bool IllegalParking = true;
+        internal static bool KnifeAttack = true;
         internal static bool PrisonTransport = true;
         internal static bool PrisonBreak = true;
         internal static bool Mafia1 = true;
@@ -56,6 +58,8 @@ namespace SuperCallouts2
             Impersonator = ini.ReadBoolean("Settings", "Impersonator", true);
             ToiletPaperBandit = ini.ReadBoolean("Settings", "ToiletPaperBandit", true);
             BlockingTraffic = ini.ReadBoolean("Settings", "BlockingTraffic", true);
+            IllegalParking = ini.ReadBoolean("Settings", "IllegalParking", true);
+            KnifeAttack = ini.ReadBoolean("Settings", "KnifeAttack", true);
             PrisonTransport = ini.ReadBoolean("Settings", "PrisonTransport", true);
             PrisonBreak = ini.ReadBoolean("Settings", "PrisonBreak", true);
             Mafia1 = ini.ReadBoolean("Settings", "Mafia1", true);
