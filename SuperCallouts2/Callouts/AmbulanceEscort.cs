@@ -96,7 +96,7 @@ namespace SuperCallouts2.Callouts
                     _cBlip2.EnableRoute(Color.Blue);
                     _cBlip2.Color = Color.Blue;
                 }
-                if (_cVehicle.DistanceTo(_hospital) < 10f && _onScene)
+                if (_cVehicle.DistanceTo(_hospital) < 15f && _onScene)
                 {
                     _cVehicle.IsSirenSilent = true;
                     _doc1.Tasks.LeaveVehicle(LeaveVehicleFlags.None);

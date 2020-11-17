@@ -14,6 +14,7 @@ namespace DeadlyWeapons2.Modules
         {
             GameFiber.StartNew(delegate
             {
+                Game.LogTrivial("DeadlyWeapons: PedAI Started...");
                 var rnd = new Random().Next(0, 8);
                 switch (rnd)
                 {

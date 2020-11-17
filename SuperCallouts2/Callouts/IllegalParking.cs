@@ -11,6 +11,8 @@ using SuperCallouts2.SimpleFunctions;
 
 namespace SuperCallouts2.Callouts
 {
+    
+    [CalloutInfo("IllegalParking", CalloutProbability.Medium)]
     internal class IllegalParking : Callout
     {
         //private List<Tuple<Vector3, float>> _spawnPoints = new List<Tuple<Vector3, float>>

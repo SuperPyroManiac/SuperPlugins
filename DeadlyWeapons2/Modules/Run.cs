@@ -18,7 +18,7 @@ namespace DeadlyWeapons2.Modules
         {
             try
             {
-                if (Settings.EnablePulloverAI) Events.OnPulloverStarted += Pullover.PulloverModule;
+                if (Settings.EnablePulloverAi) Events.OnPulloverStarted += Pullover.PulloverModule;
                 _processFiber = new GameFiber(delegate
                 {
                     if (Settings.EnableDamageSystem)
@@ -38,7 +38,7 @@ namespace DeadlyWeapons2.Modules
                     {
                         if (Game.IsKeyDown(Settings.RubberBullets)) RubberBullet.RubberBullets();
                         if (Player.IsShooting && Player.Inventory.EquippedWeapon.Hash != WeaponHash.StunGun &&
-                            Player.Inventory.EquippedWeapon.Hash != WeaponHash.FireExtinguisher && Settings.EnablePanic)
+                            Player.Inventory.EquippedWeapon.Hash != WeaponHash.FireExtinguisher && Player.Inventory.EquippedWeapon.Hash != WeaponHash.Flare && Settings.EnablePanic)
                             StartPanic.PanicHit();
                         if (Settings.EnableBetterAi)
                         {

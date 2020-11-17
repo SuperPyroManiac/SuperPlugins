@@ -22,8 +22,6 @@ namespace SuperCallouts2.Callouts
         //UI Items
         private readonly MenuPool _interaction = new MenuPool();
         private readonly UIMenu _mainMenu = new UIMenu("SuperCallouts", "~y~Choose an option.");
-        private readonly UIMenuItem _callFd =
-            new UIMenuItem("~r~ Call Fire Department", "Calls for a firetruck.");
         private readonly UIMenuItem _endCall = new UIMenuItem("~y~End Callout", "Ends the callout early.");
         #endregion
 
@@ -52,8 +50,6 @@ namespace SuperCallouts2.Callouts
             _mainMenu.AddItem(_endCall);
             _mainMenu.RefreshIndex();
             _mainMenu.OnItemSelect += Interactions;
-            _callFd.SetLeftBadge(UIMenuItem.BadgeStyle.Alert);
-            _callFd.Enabled = false;
             //cBlip
             _cBlip = _cVehicle.AttachBlip();
             _cBlip.Color = Color.Red;
@@ -70,7 +66,6 @@ namespace SuperCallouts2.Callouts
                 {
                     _onScene = true;
                     _cBlip.DisableRoute();
-                    _callFd.Enabled = false;
                     for (var i = 0; i < 5; i++) CFunctions.FireControl(_spawnPoint.Around2D(1f, 5f), 24, true);
                     for (var i = 0; i < 10; i++) CFunctions.FireControl(_spawnPoint.Around2D(1f, 5f), 24, false);
                     Game.DisplayHelp("~y~Press ~r~" + Settings.Interact + "~y~ to open interaction menu.");
@@ -107,14 +102,7 @@ namespace SuperCallouts2.Callouts
         }
         private void Interactions(UIMenu sender, UIMenuItem selItem, int index)
         {
-            if (selItem == _callFd)
-            {
-                Game.DisplaySubtitle(
-                    "~g~You~s~: Dispatch, we have a large vehicle fire that's spreading. We need a fire crew here ASAP!");
-                Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Code3, EBackupUnitType.Firetruck);
-                _callFd.Enabled = false;
-            }
-            else if (selItem == _endCall)
+            if (selItem == _endCall)
             {
                 Game.DisplaySubtitle("~y~Callout Ended.");
                 End();

@@ -50,7 +50,7 @@ namespace DeadlyWeapons2.Modules
         internal static void PedAimedAt(Ped ped)
         {
             _possibleTargets.Add(ped);
-            Game.LogTrivial("Deadly Weapons: DEBUG: Added " + Functions.GetPersonaForPed(ped).FullName + " to the list of possible targets! Dear lord I hope this works...");
+            Game.LogTrivial("Deadly Weapons: DEBUG: Added " + Functions.GetPersonaForPed(ped).FullName + " to the list of possible targets!");
         }
         
         internal static void PedAi(Ped ped)

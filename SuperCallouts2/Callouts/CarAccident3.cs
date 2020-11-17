@@ -9,7 +9,7 @@ using SuperCallouts2.SimpleFunctions;
 
 namespace SuperCallouts2.Callouts
 {
-    [CalloutInfo("CarAccident", CalloutProbability.Medium)]
+    [CalloutInfo("CarAccident3", CalloutProbability.Medium)]
     internal class CarAccident3 : Callout
     {
         private Vehicle _eVehicle;

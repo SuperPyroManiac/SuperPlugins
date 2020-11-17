@@ -12,7 +12,7 @@ namespace DeadlyWeapons2
 {
     internal class Main : Plugin
     {
-        private static readonly Run startup = new Run();
+        private static readonly Run Startup = new Run();
 
         public override void Initialize()
         {
@@ -35,14 +35,14 @@ namespace DeadlyWeapons2
                         "Deadly Weapons by SuperPyroManiac version: " +
                         Assembly.GetExecutingAssembly().GetName().Version + " loaded.");
                     VersionChecker.IsUpdateAvailable();
-                    startup.Start();
+                    Startup.Start();
                 });
         }
 
         public override void Finally()
         {
             Game.LogTrivial("Deadly Weapons by SuperPyroManiac has been disabled.");
-            startup.Stop();
+            Startup.Stop();
         }
     }
 }
