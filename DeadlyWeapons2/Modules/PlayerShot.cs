@@ -52,8 +52,9 @@ namespace DeadlyWeapons2.Modules
                                 Player.Armor = 0;
                                 break;
                             case 2:
-                                Player.Health -= 25;
+                                Player.Health -= 50;
                                 Player.Armor = 0;
+                                SimpleFunctions.Ragdoll(Player);
                                 break;
                             case 3:
                                 Player.Armor -= 35;
@@ -77,10 +78,11 @@ namespace DeadlyWeapons2.Modules
                                 Player.Kill();
                                 break;
                             case 3:
-                                Player.Health -= 40;
+                                Player.Health -= 80;
                                 break;
                             case 4:
-                                Player.Health -= 50;
+                                Player.Health -= 100;
+                                SimpleFunctions.Ragdoll(Player);
                                 break;
                         }
                     }

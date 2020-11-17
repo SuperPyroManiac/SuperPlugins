@@ -15,42 +15,39 @@ namespace DeadlyWeapons2.Modules
     internal class PedShot
     {
         private static List<Ped> _possibleTargets = new List<Ped>();
-        private GameFiber _customAiFiber;
 
         internal void StartPedEvent()
         {
-            _customAiFiber = new GameFiber(delegate
+            GameFiber.StartNew(delegate
             {
                 while (true)
                 {
-                    foreach (var ped in _possibleTargets)
-                    {
-                        if (!ped)
-                        {
-                            _possibleTargets.Remove(ped);
-                            return;
-                        }
-
-                        if (ped.IsDead || ped.IsDiving || ped.IsCuffed || ped.Health > 205 || ped.Armor > 205 ||
-                            ped.DistanceTo(Game.LocalPlayer.Character) > 200f)
-                        {
-                            _possibleTargets.Remove(ped);
-                            return;
-                        }
-
-                        PedAi(ped);
-                    }
+                    Checks();
                     GameFiber.Yield();
                 }
             });
             Game.LogTrivial("DeadlyWeapons: Starting CustomAIFiber.");
-            _customAiFiber.Start();
+        }
+
+        private void Checks()
+        {
+            foreach (var ped in _possibleTargets)
+            {
+                if (ped.IsDead || ped.IsDiving || ped.IsCuffed ||
+                    ped.DistanceTo(Game.LocalPlayer.Character) > 200f)
+                {
+                    _possibleTargets.Remove(ped);
+                    return;
+                }
+
+                PedAi(ped);
+            }
         }
 
         internal static void PedAimedAt(Ped ped)
         {
+            if (_possibleTargets.Contains(ped)) return;
             _possibleTargets.Add(ped);
-            Game.LogTrivial("Deadly Weapons: DEBUG: Added " + Functions.GetPersonaForPed(ped).FullName + " to the list of possible targets!");
         }
         
         internal static void PedAi(Ped ped)
@@ -61,6 +58,10 @@ namespace DeadlyWeapons2.Modules
                 {
                     if (!ped || ped.IsDead) return;
                     ped.Accuracy = Settings.AiAccuracy;
+                    if (Game.LocalPlayer.Character.IsRagdoll)
+                    {
+                        ped.Tasks.Flee(Game.LocalPlayer.Character, 50, 10);
+                    }
                     //ped.FiringPattern = FiringPattern.DelayFireByOneSecond;
 
                     foreach (var w in WeaponHashs.WeaponHashes)

@@ -19,46 +19,18 @@ namespace DeadlyWeapons2.Modules
             try
             {
                 if (Settings.EnablePulloverAi) Events.OnPulloverStarted += Pullover.PulloverModule;
-                _processFiber = new GameFiber(delegate
+                if (Settings.EnableDamageSystem)
                 {
-                    if (Settings.EnableDamageSystem)
-                    {
-                        var ps = new PlayerShot();
-                        ps.StartEvent();
-                    }
+                    var ps = new PlayerShot();
+                    ps.StartEvent();
+                }
 
-                    if (Settings.EnableBetterAi)
-                    {
-                        var ps = new PedShot();
-                        ps.StartPedEvent();
-                    }
-
-                    Game.LogTrivial("DeadlyWeapons: Starting ProcessFiber.");
-                    while (true)
-                    {
-                        if (Game.IsKeyDown(Settings.RubberBullets)) RubberBullet.RubberBullets();
-                        if (Player.IsShooting && Player.Inventory.EquippedWeapon.Hash != WeaponHash.StunGun &&
-                            Player.Inventory.EquippedWeapon.Hash != WeaponHash.FireExtinguisher && Player.Inventory.EquippedWeapon.Hash != WeaponHash.Flare && Settings.EnablePanic)
-                            StartPanic.PanicHit();
-                        if (Settings.EnableBetterAi)
-                        {
-                            var pedEntity = Game.LocalPlayer.GetFreeAimingTarget();
-                            if (pedEntity == null) return;
-                            if (NativeFunction.Natives.IS_ENTITY_A_PED<bool>(pedEntity))
-                            {
-                                var ped = pedEntity as Ped;
-                                if (ped == null) return;
-                                if (!ped == Player || ped.IsHuman || !ped.IsInAnyVehicle(true) || !ped.IsDead ||
-                                    ped.RelationshipGroup != RelationshipGroup.Cop ||
-                                    ped.RelationshipGroup != RelationshipGroup.Medic ||
-                                    ped.RelationshipGroup != RelationshipGroup.Fireman)
-                                    PedShot.PedAimedAt(ped);
-                            }
-                        }
-                        GameFiber.Yield();
-                    }
-                });
-                _processFiber.Start();
+                if (Settings.EnableBetterAi)
+                {
+                    var ps = new PedShot();
+                    ps.StartPedEvent();
+                }
+                Process();
             }
             catch (Exception e)
             {
@@ -69,6 +41,44 @@ namespace DeadlyWeapons2.Modules
                 Game.LogTrivial("======================================================");
                 Game.LogTrivial("Deadly Weapons Error Report End");
             }
+        }
+
+        private void Process()
+        {
+            _processFiber = new GameFiber(delegate
+                {
+                    Game.LogTrivial("DeadlyWeapons: Starting ProcessFiber.");
+                    while (true)
+                    {
+                        MainFiber();
+                        GameFiber.Yield();
+                    }
+                    
+                });
+            _processFiber.Start();
+        }
+
+        private void MainFiber()
+        {
+            if (Game.IsKeyDown(Settings.RubberBullets)) RubberBullet.RubberBullets();
+                if (Player.IsShooting && Player.Inventory.EquippedWeapon.Hash != WeaponHash.StunGun &&
+                    Player.Inventory.EquippedWeapon.Hash != WeaponHash.FireExtinguisher && Player.Inventory.EquippedWeapon.Hash != WeaponHash.Flare && Settings.EnablePanic)
+                    StartPanic.PanicHit();
+                if (Settings.EnableBetterAi)
+                {
+                    var pedEntity = Game.LocalPlayer.GetFreeAimingTarget();
+                    if (pedEntity == null) return;
+                    if (NativeFunction.Natives.IS_ENTITY_A_PED<bool>(pedEntity))
+                    {
+                        var ped = pedEntity as Ped;
+                        if (ped == null) return;
+                        if (!ped == Player || ped.IsHuman || !ped.IsInAnyVehicle(true) || !ped.IsDead ||
+                            ped.RelationshipGroup != RelationshipGroup.Cop ||
+                            ped.RelationshipGroup != RelationshipGroup.Medic ||
+                            ped.RelationshipGroup != RelationshipGroup.Fireman)
+                            PedShot.PedAimedAt(ped);
+                    }
+                }
         }
 
         internal void Stop()
