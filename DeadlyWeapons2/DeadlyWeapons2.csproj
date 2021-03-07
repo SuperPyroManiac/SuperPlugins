@@ -56,7 +56,6 @@
     <Compile Include="Modules\PedShot.cs" />
     <Compile Include="Modules\PlayerShot.cs" />
     <Compile Include="Modules\Pullover.cs" />
-    <Compile Include="Modules\RubberBullet.cs" />
     <Compile Include="Modules\Run.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings.cs" />

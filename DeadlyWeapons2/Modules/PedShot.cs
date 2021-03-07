@@ -2,7 +2,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using DeadlyWeapons2.DFunctions;
 using LSPD_First_Response.Mod.API;
 using Rage;
@@ -33,6 +32,7 @@ namespace DeadlyWeapons2.Modules
         {
             foreach (var ped in _possibleTargets)
             {
+                if (!ped) return;
                 if (ped.IsDead || ped.IsDiving || ped.IsCuffed ||
                     ped.DistanceTo(Game.LocalPlayer.Character) > 200f)
                 {
@@ -56,97 +56,26 @@ namespace DeadlyWeapons2.Modules
             {
                 GameFiber.StartNew(delegate
                 {
-                    if (!ped || ped.IsDead) return;
+                    if (!ped) return;
+                    if (ped.IsDead) return;
                     ped.Accuracy = Settings.AiAccuracy;
                     if (Game.LocalPlayer.Character.IsRagdoll)
                     {
                         ped.Tasks.Flee(Game.LocalPlayer.Character, 50, 10);
                     }
-                    //ped.FiringPattern = FiringPattern.DelayFireByOneSecond;
 
                     foreach (var w in WeaponHashs.WeaponHashes)
-                        if (RubberBullet.NonLeathal)
-                        {
-                            if (NativeFunction.Natives.HAS_ENTITY_BEEN_DAMAGED_BY_WEAPON<bool>(ped, (uint) w, 0) &&
+                        if (NativeFunction.Natives.HAS_ENTITY_BEEN_DAMAGED_BY_WEAPON<bool>(ped, (uint) w, 0) &&
                                 Settings.EnableDamageSystem)
                             {
                                 if (ped.LastDamageBone == PedBoneId.LeftUpperArm ||
                                     ped.LastDamageBone == PedBoneId.LeftForeArm ||
                                     ped.LastDamageBone == PedBoneId.RightUpperArm ||
                                     ped.LastDamageBone == PedBoneId.RightForearm)
-                                    if (ped.Inventory.HasLoadedWeapon)
-                                        ped.Inventory.EquippedWeapon.Drop();
-                                if (Game.LocalPlayer.Character.DistanceTo(ped) < 6)
                                 {
-                                    var rnd = new Random().Next(0, 3);
-                                    switch (rnd)
-                                    {
-                                        case 0:
-                                            ped.Kill();
-                                            break;
-                                        default:
-                                            var rndd = new Random().Next(0, 6);
-                                            switch (rndd)
-                                            {
-                                                case 0:
-                                                    ped.Health = 100;
-                                                    SimpleFunctions.Ragdoll(ped);
-                                                    GameFiber.Wait(3000);
-                                                    ped.Tasks.PutHandsUp(-1, Game.LocalPlayer.Character);
-                                                    break;
-                                                case 1:
-                                                    ped.Health = 100;
-                                                    SimpleFunctions.Ragdoll(ped);
-                                                    GameFiber.Wait(3000);
-                                                    ped.Tasks.Cower(-1);
-                                                    break;
-                                                default:
-                                                    ped.Health = 100;
-                                                    SimpleFunctions.Ragdoll(ped);
-                                                    break;
-                                            }
-
-                                            break;
-                                    }
+                                    if (ped.Inventory.HasLoadedWeapon) ped.Inventory.EquippedWeapon.Drop();
                                 }
-                                else
-                                {
-                                    var rnd = new Random().Next(0, 6);
-                                    switch (rnd)
-                                    {
-                                        case 0:
-                                            ped.Health = 100;
-                                            SimpleFunctions.Ragdoll(ped);
-                                            GameFiber.Wait(3000);
-                                            ped.Tasks.PutHandsUp(-1, Game.LocalPlayer.Character);
-                                            break;
-                                        case 1:
-                                            ped.Health = 100;
-                                            SimpleFunctions.Ragdoll(ped);
-                                            GameFiber.Wait(3000);
-                                            ped.Tasks.Cower(-1);
-                                            break;
-                                        default:
-                                            ped.Health = 100;
-                                            SimpleFunctions.Ragdoll(ped);
-                                            break;
-                                    }
-                                }
-                            }
 
-                            NativeFunction.Natives.CLEAR_ENTITY_LAST_WEAPON_DAMAGE(ped);
-                        }
-                        else
-                        {
-                            if (NativeFunction.Natives.HAS_ENTITY_BEEN_DAMAGED_BY_WEAPON<bool>(ped, (uint) w, 0) &&
-                                Settings.EnableDamageSystem)
-                            {
-                                if (ped.LastDamageBone == PedBoneId.LeftUpperArm ||
-                                    ped.LastDamageBone == PedBoneId.LeftForeArm ||
-                                    ped.LastDamageBone == PedBoneId.RightUpperArm ||
-                                    ped.LastDamageBone == PedBoneId.RightForearm)
-                                    if (ped.Inventory.HasLoadedWeapon)
-                                        ped.Inventory.EquippedWeapon.Drop();
                                 if (ped.Armor >= 60)
                                 {
                                     var rnd = new Random().Next(0, 10);
@@ -203,7 +132,6 @@ namespace DeadlyWeapons2.Modules
 
                                 NativeFunction.Natives.CLEAR_ENTITY_LAST_WEAPON_DAMAGE(ped);
                             }
-                        }
                 });
             }
             catch (Exception e)

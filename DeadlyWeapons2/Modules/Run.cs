@@ -60,7 +60,7 @@ namespace DeadlyWeapons2.Modules
 
         private void MainFiber()
         {
-            if (Game.IsKeyDown(Settings.RubberBullets)) RubberBullet.RubberBullets();
+            //if (Game.IsKeyDown(Settings.RubberBullets)) RubberBullet.RubberBullets(); //Removed for now!
                 if (Player.IsShooting && Player.Inventory.EquippedWeapon.Hash != WeaponHash.StunGun &&
                     Player.Inventory.EquippedWeapon.Hash != WeaponHash.FireExtinguisher && Player.Inventory.EquippedWeapon.Hash != WeaponHash.Flare && Settings.EnablePanic)
                     StartPanic.PanicHit();

@@ -43,11 +43,12 @@ namespace DeadlyWeapons2.Modules
                                     bad.Tasks.FireWeaponAt(Game.LocalPlayer.Character, -1,
                                         FiringPattern.BurstFirePistol);
                                     break;
-                                case 3:
+                                /*case 3:
                                     var pursuit = Functions.CreatePursuit();
                                     Functions.AddPedToPursuit(pursuit, bad);
                                     Functions.SetPursuitIsActiveForPlayer(pursuit, true);
-                                    break;
+                                    break;*/
+                                    //TODO
                                 default:
                                     if (bad.Inventory.HasLoadedWeapon) hasWeapon = true;
                                     break;
@@ -65,11 +66,11 @@ namespace DeadlyWeapons2.Modules
                                     hasWeapon = true;
                                     bad.Metadata.hasGunPermit = true;
                                     break;
-                                case 3:
+                                /*case 3:
                                     var pursuit = Functions.CreatePursuit();
                                     Functions.AddPedToPursuit(pursuit, bad);
                                     Functions.SetPursuitIsActiveForPlayer(pursuit, true);
-                                    break;
+                                    break;*/
                                 default:
                                     if (bad.Inventory.HasLoadedWeapon) hasWeapon = true;
                                     break;

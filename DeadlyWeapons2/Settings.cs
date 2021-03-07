@@ -17,10 +17,8 @@ namespace DeadlyWeapons2
         internal static bool NooseBackup;
         internal static bool EnableBetterAi = true;
         internal static bool EnablePulloverAi = true;
-        internal static Keys RubberBullets = Keys.O;
         internal static int AiAccuracy = 20;
         internal static int PanicCooldown = 150;
-        internal static int HeadshotDamange = 80;
         internal static readonly string CalloutVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
         internal static void LoadSettings()
@@ -36,10 +34,8 @@ namespace DeadlyWeapons2
             NooseBackup = ini.ReadBoolean("Backup", "NooseBackup");
             EnableBetterAi = ini.ReadBoolean("Features", "EnableBetterAI", true);
             EnablePulloverAi = ini.ReadBoolean("Features", "EnablePulloverAI", true);
-            RubberBullets = ini.ReadEnum("Features", "RubberBulletKey", Keys.O);
             AiAccuracy = ini.ReadInt32("Features", "AIAccuracy", 20);
             PanicCooldown = ini.ReadInt32("Features", "TimeBetweenEvents", 150);
-            HeadshotDamange = ini.ReadInt32("Stats", "HeadshotDamage", 80);
             Game.LogTrivial("Deadly Weapons: Config loaded.");
         }
     }
