@@ -13,16 +13,16 @@ namespace DeadlyWeapons2.Modules
 {
     internal class PedShot
     {
-        private static List<Ped> _possibleTargets = new List<Ped>();
+        //private static List<Ped> _possibleTargets = new List<Ped>();
 
-        internal void StartPedEvent()
+        /*internal void StartPedEvent()
         {
             GameFiber.StartNew(delegate
             {
                 while (true)
                 {
                     Checks();
-                    GameFiber.Yield();
+                    GameFiber.Wait(100);
                 }
             });
             Game.LogTrivial("DeadlyWeapons: Starting CustomAIFiber.");
@@ -32,15 +32,25 @@ namespace DeadlyWeapons2.Modules
         {
             foreach (var ped in _possibleTargets)
             {
-                if (!ped) return;
-                if (ped.IsDead || ped.IsDiving || ped.IsCuffed ||
-                    ped.DistanceTo(Game.LocalPlayer.Character) > 200f)
+                try
                 {
-                    _possibleTargets.Remove(ped);
-                    return;
+                    if (ped.IsDead || ped.IsDiving || ped.IsCuffed ||
+                        ped.DistanceTo(Game.LocalPlayer.Character) > 200f)
+                    {
+                        _possibleTargets.Remove(ped);
+                        Game.LogTrivial("DeadlyWeapons: DEBUG!!! !!!! !!!!");
+                        Game.LogTrivial("DeadlyWeapons: Removed " + Functions.GetPersonaForPed(ped).FullName + " from the check list!");
+                        return;
+                    }
+                    else
+                    {
+                        PedAi(ped);
+                    }
                 }
-
-                PedAi(ped);
+                catch (Exception e)
+                {
+                    Game.LogTrivial("DeadlyWeapons: Failed to remove ped from list. Skipping.");
+                }
             }
         }
 
@@ -48,7 +58,9 @@ namespace DeadlyWeapons2.Modules
         {
             if (_possibleTargets.Contains(ped)) return;
             _possibleTargets.Add(ped);
-        }
+            Game.LogTrivial("DeadlyWeapons: DEBUG!!! !!!! !!!!");
+            Game.LogTrivial("DeadlyWeapons: Added " + Functions.GetPersonaForPed(ped).FullName + " to the check list!");
+        }*/
         
         internal static void PedAi(Ped ped)
         {
@@ -56,7 +68,11 @@ namespace DeadlyWeapons2.Modules
             {
                 GameFiber.StartNew(delegate
                 {
-                    if (!ped) return;
+                    if (!ped)
+                    {
+                        Game.LogTrivial("DeadlyWeapons: !!! DEBUG !!! : PED IS NULL? Hopefully we don't see this spammed....");
+                        return;
+                    }
                     if (ped.IsDead) return;
                     ped.Accuracy = Settings.AiAccuracy;
                     if (Game.LocalPlayer.Character.IsRagdoll)
@@ -73,6 +89,7 @@ namespace DeadlyWeapons2.Modules
                                     ped.LastDamageBone == PedBoneId.RightUpperArm ||
                                     ped.LastDamageBone == PedBoneId.RightForearm)
                                 {
+                                    if (!ped) return;
                                     if (ped.Inventory.HasLoadedWeapon) ped.Inventory.EquippedWeapon.Drop();
                                 }
 

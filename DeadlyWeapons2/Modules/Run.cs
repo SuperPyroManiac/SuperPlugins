@@ -25,11 +25,11 @@ namespace DeadlyWeapons2.Modules
                     ps.StartEvent();
                 }
 
-                if (Settings.EnableBetterAi)
-                {
-                    var ps = new PedShot();
-                    ps.StartPedEvent();
-                }
+                //if (Settings.EnableBetterAi)
+                //{
+                //    var ps = new PedShot();
+                //    ps.StartPedEvent();
+                //}
                 Process();
             }
             catch (Exception e)
@@ -51,7 +51,7 @@ namespace DeadlyWeapons2.Modules
                     while (true)
                     {
                         MainFiber();
-                        GameFiber.Yield();
+                        GameFiber.Wait(250);
                     }
                     
                 });
@@ -60,25 +60,25 @@ namespace DeadlyWeapons2.Modules
 
         private void MainFiber()
         {
-            //if (Game.IsKeyDown(Settings.RubberBullets)) RubberBullet.RubberBullets(); //Removed for now!
-                if (Player.IsShooting && Player.Inventory.EquippedWeapon.Hash != WeaponHash.StunGun &&
+            if (Player.IsShooting && Player.Inventory.EquippedWeapon.Hash != WeaponHash.StunGun &&
                     Player.Inventory.EquippedWeapon.Hash != WeaponHash.FireExtinguisher && Player.Inventory.EquippedWeapon.Hash != WeaponHash.Flare && Settings.EnablePanic)
                     StartPanic.PanicHit();
-                if (Settings.EnableBetterAi)
+            if (Settings.EnableBetterAi)
+            {
+                //var peds = Game.LocalPlayer.Character.GetNearbyPeds(16);
+                var peds = World.GetAllPeds();
+                foreach (Ped ped in peds)
                 {
-                    var pedEntity = Game.LocalPlayer.GetFreeAimingTarget();
-                    if (pedEntity == null) return;
-                    if (NativeFunction.Natives.IS_ENTITY_A_PED<bool>(pedEntity))
-                    {
-                        var ped = pedEntity as Ped;
-                        if (ped == null) return;
-                        if (!ped == Player || ped.IsHuman || !ped.IsInAnyVehicle(true) || !ped.IsDead ||
-                            ped.RelationshipGroup != RelationshipGroup.Cop ||
-                            ped.RelationshipGroup != RelationshipGroup.Medic ||
-                            ped.RelationshipGroup != RelationshipGroup.Fireman)
-                            PedShot.PedAimedAt(ped);
-                    }
+                    //if (ped == null) return;
+                    if (ped != Player || ped.IsHuman || !ped.IsInAnyVehicle(true) || !ped.IsDead ||
+                        ped.RelationshipGroup != RelationshipGroup.Cop)
+                        //if (!ped == Player || ped.IsHuman || !ped.IsInAnyVehicle(true) || !ped.IsDead ||
+                        //    ped.RelationshipGroup != RelationshipGroup.Cop ||
+                        //    ped.RelationshipGroup != RelationshipGroup.Medic ||
+                        //    ped.RelationshipGroup != RelationshipGroup.Fireman)
+                        PedShot.PedAi(ped);
                 }
+            }
         }
 
         internal void Stop()
