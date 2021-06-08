@@ -68,11 +68,7 @@ namespace DeadlyWeapons2.Modules
             {
                 GameFiber.StartNew(delegate
                 {
-                    if (!ped)
-                    {
-                        Game.LogTrivial("DeadlyWeapons: !!! DEBUG !!! : PED IS NULL? Hopefully we don't see this spammed....");
-                        return;
-                    }
+                    if (!ped) return;
                     if (ped.IsDead) return;
                     ped.Accuracy = Settings.AiAccuracy;
                     if (Game.LocalPlayer.Character.IsRagdoll)
