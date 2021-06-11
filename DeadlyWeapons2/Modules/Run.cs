@@ -51,7 +51,7 @@ namespace DeadlyWeapons2.Modules
                     while (true)
                     {
                         MainFiber();
-                        GameFiber.Wait(250);
+                        GameFiber.Wait(Settings.PluginDelay);
                     }
                     
                 });
@@ -65,17 +65,11 @@ namespace DeadlyWeapons2.Modules
                     StartPanic.PanicHit();
             if (Settings.EnableBetterAi)
             {
-                //var peds = Game.LocalPlayer.Character.GetNearbyPeds(16);
-                var peds = World.GetAllPeds();
+                var peds = Game.LocalPlayer.Character.GetNearbyPeds(16);
+                //var peds = World.GetAllPeds();
                 foreach (Ped ped in peds)
                 {
-                    //if (ped == null) return;
-                    if (ped != Player || ped.IsHuman || !ped.IsInAnyVehicle(true) || !ped.IsDead ||
-                        ped.RelationshipGroup != RelationshipGroup.Cop)
-                        //if (!ped == Player || ped.IsHuman || !ped.IsInAnyVehicle(true) || !ped.IsDead ||
-                        //    ped.RelationshipGroup != RelationshipGroup.Cop ||
-                        //    ped.RelationshipGroup != RelationshipGroup.Medic ||
-                        //    ped.RelationshipGroup != RelationshipGroup.Fireman)
+                    if (ped != Player || ped.IsHuman || !ped.IsInAnyVehicle(true) || !ped.IsDead)
                         PedShot.PedAi(ped);
                 }
             }

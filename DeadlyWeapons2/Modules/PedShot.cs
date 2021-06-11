@@ -13,55 +13,6 @@ namespace DeadlyWeapons2.Modules
 {
     internal class PedShot
     {
-        //private static List<Ped> _possibleTargets = new List<Ped>();
-
-        /*internal void StartPedEvent()
-        {
-            GameFiber.StartNew(delegate
-            {
-                while (true)
-                {
-                    Checks();
-                    GameFiber.Wait(100);
-                }
-            });
-            Game.LogTrivial("DeadlyWeapons: Starting CustomAIFiber.");
-        }
-
-        private void Checks()
-        {
-            foreach (var ped in _possibleTargets)
-            {
-                try
-                {
-                    if (ped.IsDead || ped.IsDiving || ped.IsCuffed ||
-                        ped.DistanceTo(Game.LocalPlayer.Character) > 200f)
-                    {
-                        _possibleTargets.Remove(ped);
-                        Game.LogTrivial("DeadlyWeapons: DEBUG!!! !!!! !!!!");
-                        Game.LogTrivial("DeadlyWeapons: Removed " + Functions.GetPersonaForPed(ped).FullName + " from the check list!");
-                        return;
-                    }
-                    else
-                    {
-                        PedAi(ped);
-                    }
-                }
-                catch (Exception e)
-                {
-                    Game.LogTrivial("DeadlyWeapons: Failed to remove ped from list. Skipping.");
-                }
-            }
-        }
-
-        internal static void PedAimedAt(Ped ped)
-        {
-            if (_possibleTargets.Contains(ped)) return;
-            _possibleTargets.Add(ped);
-            Game.LogTrivial("DeadlyWeapons: DEBUG!!! !!!! !!!!");
-            Game.LogTrivial("DeadlyWeapons: Added " + Functions.GetPersonaForPed(ped).FullName + " to the check list!");
-        }*/
-        
         internal static void PedAi(Ped ped)
         {
             try

@@ -19,6 +19,7 @@ namespace DeadlyWeapons2
         internal static bool EnablePulloverAi = true;
         internal static int AiAccuracy = 20;
         internal static int PanicCooldown = 150;
+        internal static int PluginDelay = 250;
         internal static readonly string CalloutVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
         internal static void LoadSettings()
@@ -36,6 +37,7 @@ namespace DeadlyWeapons2
             EnablePulloverAi = ini.ReadBoolean("Features", "EnablePulloverAI", true);
             AiAccuracy = ini.ReadInt32("Features", "AIAccuracy", 20);
             PanicCooldown = ini.ReadInt32("Features", "TimeBetweenEvents", 150);
+            PluginDelay = ini.ReadInt32("Advanced", "PluginDelay", 250);
             Game.LogTrivial("Deadly Weapons: Config loaded.");
         }
     }
