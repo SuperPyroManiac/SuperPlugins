@@ -11,7 +11,7 @@
     <AssemblyName>SuperEvents2</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <LangVersion>8</LangVersion>
+    <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -34,24 +34,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="LSPD First Response, Version=0.4.7297.8062, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\..\..\CODING\LSPDFR DEV\LSPDFR API'S\LSPDFR SDK\LSPD First Response.dll</HintPath>
-    </Reference>
-    <Reference Include="LSPD First Response, Version=0.4.7383.491, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\..\..\CODING\LSPDFR DEV\LSPDFR API'S\LSPDFR SDK\LSPD First Response.dll</HintPath>
-    </Reference>
-    <Reference Include="LSPD First Response, Version=0.4.7575.29892, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\..\..\CODING\LSPDFR DEV\LSPDFR API'S\LSPDFR SDK\LSPD First Response.dll</HintPath>
+    <Reference Include="LSPD First Response, Version=0.4.7800.3124, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\Depend\LSPD First Response.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="RAGENativeUI, Version=1.6.3.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\..\..\CODING\LSPDFR DEV\LSPDFR API'S\NativeUI SDK\RAGENativeUI.dll</HintPath>
+    <Reference Include="RAGENativeUI, Version=1.7.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\Depend\RAGENativeUI.dll</HintPath>
     </Reference>
     <Reference Include="RagePluginHook, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\..\..\CODING\LSPDFR DEV\LSPDFR API'S\RPH SDK\RagePluginHookSDK.dll</HintPath>
-    </Reference>
-    <Reference Include="StopThePed, Version=4.8.9.4, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\..\..\CODING\LSPDFR DEV\LSPDFR API'S\StopThePed API\StopThePed.dll</HintPath>
+      <HintPath>..\..\..\Depend\RagePluginHookSDK.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -59,9 +50,6 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="UltimateBackup, Version=1.7.8.6, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\..\..\CODING\LSPDFR DEV\LSPDFR API'S\UltimateBackup API\UltimateBackup.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AmbientEvent.cs" />

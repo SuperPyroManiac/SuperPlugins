@@ -11,7 +11,7 @@
     <AssemblyName>SuperEvents</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <LangVersion>8</LangVersion>
+    <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -34,30 +34,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="LSPD First Response, Version=0.4.7148.42495, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\..\..\LSPDFR DEV\LSPDFR API'S\LSPDFR SDK\LSPD First Response.dll</HintPath>
-    </Reference>
-    <Reference Include="LSPD First Response, Version=0.4.7204.1487, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\..\..\CODING\LSPDFR DEV\LSPDFR API'S\LSPDFR SDK\LSPD First Response.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="RAGENativeUI, Version=1.6.3.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\..\..\CODING\LSPDFR DEV\LSPDFR API'S\NativeUI SDK\RAGENativeUI.dll</HintPath>
-    </Reference>
-    <Reference Include="RagePluginHook, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\..\..\CODING\LSPDFR DEV\LSPDFR API'S\RPH SDK\RagePluginHookSDK.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
-    <Reference Include="UltimateBackup, Version=1.7.1.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\..\..\CODING\LSPDFR DEV\LSPDFR API'S\UltimateBackup API\UltimateBackup.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="AmbientEvent.cs" />
     <Compile Include="Events\InjuredPed.cs" />
     <Compile Include="Events\Mugging.cs" />
@@ -74,6 +50,17 @@
   <ItemGroup>
     <Content Include="Skeleton.yml" />
     <Content Include="SuperEvents.ini" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="LSPD First Response, Version=0.4.7800.3124, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\Depend\LSPD First Response.dll</HintPath>
+    </Reference>
+    <Reference Include="RAGENativeUI, Version=1.7.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\Depend\RAGENativeUI.dll</HintPath>
+    </Reference>
+    <Reference Include="RagePluginHook, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\Depend\RagePluginHookSDK.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
