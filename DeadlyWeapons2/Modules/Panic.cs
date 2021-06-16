@@ -30,7 +30,7 @@ namespace DeadlyWeapons2.Modules
                     Functions.RequestBackup(Game.LocalPlayer.Character.Position,
                         EBackupResponseType.Code3,
                         EBackupUnitType.NooseTeam);
-
+                
                 Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~r~Shots Fired", "~y~Panic Activated",
                     "Your weapon has been discharged. Dispatch has been alerted.");
                 GameFiber.Wait(Settings.PanicCooldown * 1000);

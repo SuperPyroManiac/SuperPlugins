@@ -1,6 +1,8 @@
 ﻿using System.Reflection;
 using Rage;
+using Rage.Attributes;
 
+[assembly: Plugin("TurnOffThatEngine", Description = "This is a simple plugin to quickly turn off the engine.", Author = "SuperPyroManiac")]
 namespace TurnOffThatEngine
 {
     public class EntryPoint
