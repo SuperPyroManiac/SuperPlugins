@@ -179,17 +179,7 @@ namespace SuperCallouts2.Callouts
             if (selItem == _callSecond)
             {
                 Game.DisplaySubtitle("~g~You~s~: Dispatch, can I get another unit.");
-                try
-                {
-                    UltimateBackup.API.Functions.callCode2Backup();
-                }
-                catch (Exception)
-                {
-                    Game.LogTrivial(
-                        "SuperCallouts Warning: Ultimate Backup is not installed! Using default LSPDFR backup.");
-                    Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Code2, EBackupUnitType.LocalUnit);
-                }
-
+                Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Code2, EBackupUnitType.LocalUnit);
                 _callSecond.Enabled = false;
             }
             else if (selItem == _endCall)
