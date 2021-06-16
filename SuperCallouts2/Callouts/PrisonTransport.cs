@@ -32,6 +32,7 @@ namespace SuperCallouts2.Callouts
             _spawnPoint = World.GetNextPositionOnStreet(Game.LocalPlayer.Character.Position.Around(500f));
             ShowCalloutAreaBlipBeforeAccepting(_spawnPoint, 50f);
             CalloutMessage = "~b~Dispatch:~s~ Prisoner escaped transport.";
+            CalloutAdvisory = "Officers report a suspect has jumped out of a moving transport vehicle.";
             CalloutPosition = _spawnPoint;
             Functions.PlayScannerAudioUsingPosition("OFFICERS_REPORT_01 CRIME_SUSPECT_ON_THE_RUN_01 IN_OR_ON_POSITION",
                 _spawnPoint);

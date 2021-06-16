@@ -41,6 +41,7 @@ namespace SuperCallouts2.Callouts
             _spawnPoint = World.GetNextPositionOnStreet(Game.LocalPlayer.Character.Position.Around(45f, 320f));
             ShowCalloutAreaBlipBeforeAccepting(_spawnPoint, 10f);
             CalloutMessage = "~b~Dispatch:~s~ Reports of a motor vehicle accident.";
+            CalloutAdvisory = "Caller reports their is multiple vehicles involved.";
             CalloutPosition = _spawnPoint;
             Functions.PlayScannerAudioUsingPosition("CITIZENS_REPORT_04 CRIME_HIT_AND_RUN_03 IN_OR_ON_POSITION UNITS_RESPOND_CODE_03_01",
                 _spawnPoint);

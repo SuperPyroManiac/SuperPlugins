@@ -40,6 +40,7 @@ namespace SuperCallouts2.Callouts
             CFunctions.FindSideOfRoad(400, 100, out _spawnPoint, out _spawnPointH);
             ShowCalloutAreaBlipBeforeAccepting(_spawnPoint, 10f);
             CalloutMessage = "~b~Dispatch:~s~ Officer impersonator.";
+            CalloutAdvisory = "Caller says they have been stopped by someone that does not look like an officer.";
             CalloutPosition = _spawnPoint;
             Functions.PlayScannerAudioUsingPosition("WE_HAVE CRIME_11_351_02 IN_OR_ON_POSITION", _spawnPoint);
             return base.OnBeforeCalloutDisplayed();

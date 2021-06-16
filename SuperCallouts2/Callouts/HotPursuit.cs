@@ -40,6 +40,7 @@ namespace SuperCallouts2.Callouts
             _spawnPoint = World.GetNextPositionOnStreet(Game.LocalPlayer.Character.Position.Around(350f));
             ShowCalloutAreaBlipBeforeAccepting(_spawnPoint, 30f);
             CalloutMessage = "~o~Traffic ANPR Report:~s~ High value stolen vehicle located.";
+            CalloutAdvisory = "This is a powerful vehicle known to evade police in the past.";
             CalloutPosition = _spawnPoint;
             Functions.PlayScannerAudioUsingPosition(
                 "WE_HAVE CRIME_BRANDISHING_WEAPON_01 CRIME_RESIST_ARREST IN_OR_ON_POSITION", _spawnPoint);

@@ -36,6 +36,7 @@ namespace SuperCallouts2.Callouts
             CFunctions.FindSideOfRoad(750, 280, out _spawnPoint, out _spawnPointH);
             ShowCalloutAreaBlipBeforeAccepting(_spawnPoint, 10f);
             CalloutMessage = "~b~Dispatch:~s~ Suspicious vehicle.";
+            CalloutAdvisory = "Suspicious vehicle was found on the side of the road. Approach with caution.";
             CalloutPosition = _spawnPoint;
             Functions.PlayScannerAudioUsingPosition("WE_HAVE CRIME_11_351_02 IN_OR_ON_POSITION", _spawnPoint);
             return base.OnBeforeCalloutDisplayed();

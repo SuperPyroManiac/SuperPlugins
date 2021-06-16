@@ -39,6 +39,7 @@ namespace SuperCallouts2.Callouts
             _spawnPoint = World.GetNextPositionOnStreet(Game.LocalPlayer.Character.Position.Around(650f));
             ShowCalloutAreaBlipBeforeAccepting(_spawnPoint, 10f);
             CalloutMessage = "~b~Dispatch:~s~ Wanted suspect on the run.";
+            CalloutAdvisory = "Officers report a suspect evaded them in the area.";
             CalloutPosition = _spawnPoint;
             Functions.PlayScannerAudioUsingPosition("ATTENTION_ALL_UNITS_05 SUSPECTS_LAST_SEEN_02 IN_OR_ON_POSITION",
                 _spawnPoint);

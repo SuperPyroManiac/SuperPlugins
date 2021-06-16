@@ -50,6 +50,7 @@ namespace SuperCallouts2.Callouts
             CFunctions.FindSideOfRoad(500, 100, out _spawnPoint, out _spawnPointH);
             ShowCalloutAreaBlipBeforeAccepting(_spawnPoint, 40f);
             CalloutMessage = "~r~911 Report:~s~ Vehicle hit and run.";
+            CalloutAdvisory = "Caller reports other driver has left the scene.";
             CalloutPosition = _spawnPoint;
             Functions.PlayScannerAudioUsingPosition(
                 "ATTENTION_ALL_UNITS_05 WE_HAVE CRIME_HIT_AND_RUN_01 IN_OR_ON_POSITION", _spawnPoint);

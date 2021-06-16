@@ -38,6 +38,7 @@ namespace SuperCallouts2.Callouts
             _spawnPoint = World.GetNextPositionOnStreet(Game.LocalPlayer.Character.Position.Around(450f));
             ShowCalloutAreaBlipBeforeAccepting(_spawnPoint, 30f);
             CalloutMessage = "~r~911 Report:~s~ Person(s) being held at gunpoint.";
+            CalloutAdvisory = "Caller reports people holding someone at gunpoint.";
             CalloutPosition = _spawnPoint;
             Functions.PlayScannerAudioUsingPosition("CITIZENS_REPORT_03 CRIME_ROBBERY_01 IN_OR_ON_POSITION",
                 _spawnPoint);

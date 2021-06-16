@@ -36,6 +36,7 @@ namespace SuperCallouts2.Callouts
             SimpleFunctions.CFunctions.FindSideOfRoad(400, 100, out _spawnPoint, out _spawnPointH);
             ShowCalloutAreaBlipBeforeAccepting(_spawnPoint, 10f);
             CalloutMessage = "~b~Dispatch:~s~ Felony stop. Shots fired.";
+            CalloutAdvisory = "Panic alert issues, shots fired.";
             CalloutPosition = _spawnPoint;
             Functions.PlayScannerAudioUsingPosition(
                 "ATTENTION_ALL_UNITS_05 WE_HAVE CRIME_SHOTS_FIRED_AT_AN_OFFICER_01 IN_OR_ON_POSITION UNITS_RESPOND_CODE_99_02",

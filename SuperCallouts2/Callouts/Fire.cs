@@ -30,6 +30,7 @@ namespace SuperCallouts2.Callouts
             CFunctions.FindSideOfRoad(750, 280, out _spawnPoint, out _spawnPointH);
             ShowCalloutAreaBlipBeforeAccepting(_spawnPoint, 10f);
             CalloutMessage = "~b~Dispatch:~s~ Reports of a car fire";
+            CalloutAdvisory = "Caller reports large flames coming from the vehicle.";
             CalloutPosition = _spawnPoint;
             Functions.PlayScannerAudioUsingPosition("ATTENTION_ALL_UNITS_05 WE_HAVE CRIME_11_351_02 IN_OR_ON_POSITION",
                 _spawnPoint);

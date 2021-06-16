@@ -60,6 +60,7 @@ namespace SuperCallouts2.Callouts
             _cHeading = _chosenLocation.Item2;
             ShowCalloutAreaBlipBeforeAccepting(_cSpawnPoint, 10f);
             CalloutMessage = "~b~Dispatch:~s~ Reports of a knife attack.";
+            CalloutAdvisory = "Caller says attacker has injured others.";
             CalloutPosition = _cSpawnPoint;
             Functions.PlayScannerAudioUsingPosition("CITIZENS_REPORT_04 CRIME_ROBBERY_01 IN_OR_ON_POSITION UNITS_RESPOND_CODE_03_01",
                 _cSpawnPoint);
