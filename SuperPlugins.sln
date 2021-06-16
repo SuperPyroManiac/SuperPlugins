@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuperEvents2", "SuperEvents
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeadlyWeapons2", "DeadlyWeapons2\DeadlyWeapons2.csproj", "{7E461B22-8190-4526-85C8-F507E9E3758B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TurnOffThatEngine", "TurnOffThatEngine\TurnOffThatEngine.csproj", "{A480B054-7630-459D-B63A-78D2AC11B385}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{7E461B22-8190-4526-85C8-F507E9E3758B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7E461B22-8190-4526-85C8-F507E9E3758B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7E461B22-8190-4526-85C8-F507E9E3758B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A480B054-7630-459D-B63A-78D2AC11B385}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A480B054-7630-459D-B63A-78D2AC11B385}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A480B054-7630-459D-B63A-78D2AC11B385}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A480B054-7630-459D-B63A-78D2AC11B385}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
