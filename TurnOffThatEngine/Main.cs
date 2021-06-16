@@ -16,7 +16,7 @@ namespace TurnOffThatEngine
                     GameFiber.Yield();
                     try
                     {
-                        if (Game.IsKeyDown(Settings.turnoffengine) && !isDisabled)
+                        if ((Game.IsKeyDown(Settings.Turnoffenginekey) || Game.IsControllerButtonDown(Settings.Turnoffenginebutton)) && !isDisabled)
                         {
                             if (Game.LocalPlayer.Character.IsInAnyVehicle(false))
                             {

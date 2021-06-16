@@ -6,7 +6,8 @@ namespace TurnOffThatEngine
 {
     internal static class Settings
     {
-        internal static Keys turnoffengine = Keys.C;
+        internal static Keys Turnoffenginekey = Keys.C;
+        internal static ControllerButtons Turnoffenginebutton = ControllerButtons.None;
         internal static readonly string CalloutVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
         internal static void LoadSettings()
@@ -15,7 +16,8 @@ namespace TurnOffThatEngine
             var path = "Plugins/TurnOffThatEngine/TurnOffThatEngine.ini";
             var ini = new InitializationFile(path);
             ini.Create();
-            turnoffengine = ini.ReadEnum("Keys", "TurnOffEngine", Keys.C);
+            Turnoffenginekey = ini.ReadEnum("Keys", "TurnOffEngine", Keys.C);
+            Turnoffenginebutton = ini.ReadEnum<ControllerButtons>("Controller", "TurnOffEngine", ControllerButtons.None);
             Game.LogTrivial("TurnOffThatEngine: Config loaded.");
         }
     }
