@@ -78,7 +78,7 @@ namespace DeadlyWeapons2.Modules
 
                         if (hasWeapon)
                         {
-                            bad.Metadata.searchPed = bad.Metadata.searchPed + " ~r~Firearm~s~";
+                            bad.Metadata.searchPed = bad.Metadata.searchPed + "and ~r~A Firearm~s~";
                             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~y~Traffic Stop",
                                 "~r~Weapon Spotted",
                                 "You noticed the suspect has a weapon in the vehicle!");
