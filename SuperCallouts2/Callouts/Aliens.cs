@@ -1,5 +1,4 @@
 using System.Drawing;
-using System.Windows.Forms;
 using LSPD_First_Response.Mod.API;
 using LSPD_First_Response.Mod.Callouts;
 using Rage;
@@ -68,7 +67,6 @@ namespace SuperCallouts2.Callouts
         public override void Process()
         {
             if (Game.IsKeyDown(Settings.EndCall)) End();
-            if (Game.IsKeyDown(Keys.Alt)) Dialogue();
             if (!_onScene && Game.LocalPlayer.Character.DistanceTo(_spawnPoint) < 20f)
                 GameFiber.StartNew(delegate
                 {
@@ -104,22 +102,6 @@ namespace SuperCallouts2.Callouts
             Game.DisplayHelp("Scene ~g~CODE 4", 5000);
             Game.DisplaySubtitle("~g~Me:~s~ The hell was that? I think I need a nap..");
             base.End();
-        }
-
-        private void Dialogue()
-        {
-            if (chosendata == data[4])
-            {
-                //special dialogue 1
-            }
-            else if (chosendata == data[5])
-            {
-                //special dialogoue 2
-            }
-            else
-            {
-                //Normal dialogue
-            }
         }
     }
 }
