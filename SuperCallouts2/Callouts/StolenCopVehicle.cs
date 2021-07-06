@@ -49,7 +49,7 @@ namespace SuperCallouts2.Callouts
             _cVehicle = new Vehicle(vehicleModels[new Random().Next(vehicleModels.Length)], _spawnPoint) {IsPersistent = true, IsStolen = true, IsSirenOn = true, IsSirenSilent = true};
             //Bad
             _bad = new Ped(_spawnPoint.Around(15f));
-            _bad.WarpIntoVehicle(_cVehicle, 0);
+            _bad.WarpIntoVehicle(_cVehicle, -1);
             _bad.IsPersistent = true;
             _bad.BlockPermanentEvents = true;
             _bad.Metadata.stpDrugsDetected = true;
