@@ -76,7 +76,7 @@ namespace SuperEvents.Events
             _mainMenu.BindMenuToItem(_convoMenu, _questioning);
             _mainMenu.OnItemSelect += Interactions;
             _convoMenu.OnItemSelect += Conversations;
-            _callEms.SetLeftBadge(UIMenuItem.BadgeStyle.Alert);
+            _callEms.LeftBadge = UIMenuItem.BadgeStyle.Alert;
             _convoMenu.ParentMenu = _mainMenu;
             _callEms.Enabled = false;
             _questioning.Enabled = false;

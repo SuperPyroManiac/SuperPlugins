@@ -59,7 +59,7 @@ namespace SuperCallouts2.Callouts
             _mainMenu.AddItem(_endCall);
             _mainMenu.RefreshIndex();
             _mainMenu.OnItemSelect += Interactions;
-            _callEms.SetLeftBadge(UIMenuItem.BadgeStyle.Alert);
+            _callEms.LeftBadge = UIMenuItem.BadgeStyle.Alert;
             _callEms.Enabled = false;
             //Blips
             _cBlip = _animal.AttachBlip();

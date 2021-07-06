@@ -142,12 +142,12 @@ namespace SuperCallouts2.Callouts
                     if (_bad1.IsDead)
                     {
                         _speakSuspect.Enabled = false;
-                        _speakSuspect.SetRightLabel("~r~Dead");
+                        _speakSuspect.RightLabel = "~r~Dead";
                     }
                     if (_victim1.IsDead)
                     {
                         _speakSuspect2.Enabled = false;
-                        _speakSuspect2.SetRightLabel("~r~Dead");
+                        _speakSuspect2.RightLabel = "~r~Dead";
                     }
                 }
                 //Keybinds

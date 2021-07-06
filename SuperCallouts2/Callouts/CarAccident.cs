@@ -61,7 +61,7 @@ namespace SuperCallouts2.Callouts
             _mainMenu.AddItem(_endCall);
             _mainMenu.RefreshIndex();
             _mainMenu.OnItemSelect += Interactions;
-            _callEms.SetLeftBadge(UIMenuItem.BadgeStyle.Alert);
+            _callEms.LeftBadge = UIMenuItem.BadgeStyle.Alert;
             _callEms.Enabled = false;
             //cBlip
             _cBlip = _cVehicle.AttachBlip();

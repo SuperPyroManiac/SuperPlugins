@@ -94,7 +94,7 @@ namespace SuperCallouts2.Callouts
             _mainMenu.BindMenuToItem(_convoMenu, _questioning);
             _mainMenu.OnItemSelect += Interactions;
             _convoMenu.OnItemSelect += Conversations;
-            _callFd.SetLeftBadge(UIMenuItem.BadgeStyle.Alert);
+            _callFd.LeftBadge = UIMenuItem.BadgeStyle.Alert;
             _convoMenu.ParentMenu = _mainMenu;
             _callFd.Enabled = false;
             _questioning.Enabled = false;
