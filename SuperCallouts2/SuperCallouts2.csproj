@@ -97,8 +97,6 @@
     <Compile Include="SimpleFunctions\VersionChecker.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Skeleton.yml" />
-    <Content Include="Skeleton2.yml" />
     <Content Include="SuperCallouts.ini" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
