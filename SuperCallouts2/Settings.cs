@@ -13,6 +13,7 @@ namespace SuperCallouts2
         internal static bool Kidnapping = true;
         internal static bool TruckCrash = true;
         internal static bool HitRun = true;
+        internal static bool StolenCopVehicle = true;
         internal static bool AmbulanceEscort = true;
         internal static bool Aliens = true;
         internal static bool OpenCarry = true;
@@ -48,6 +49,7 @@ namespace SuperCallouts2
             Kidnapping = ini.ReadBoolean("Settings", "Kidnapping", true);
             TruckCrash = ini.ReadBoolean("Settings", "TruckCrash", true);
             HitRun = ini.ReadBoolean("Settings", "HitAndRun", true);
+            StolenCopVehicle = ini.ReadBoolean("Settings", "StolenCopVehicle", true);
             AmbulanceEscort = ini.ReadBoolean("Settings", "AmbulanceEscort", true);
             Aliens = ini.ReadBoolean("Settings", "Aliens", true);
             OpenCarry = ini.ReadBoolean("Settings", "OpenCarry", true);
