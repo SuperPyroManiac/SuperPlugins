@@ -69,7 +69,7 @@ namespace SuperCallouts2.Callouts
             return base.OnCalloutAccepted();
         }
 
-        public override void Process()//test
+        public override void Process()
         {
             try
             {
