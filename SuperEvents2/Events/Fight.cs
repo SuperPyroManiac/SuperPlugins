@@ -127,7 +127,7 @@ namespace SuperEvents2.Events
                 if (_suspect.IsDead)
                 {
                     _speakSuspect.Enabled = false;
-                    _speakSuspect.SetRightLabel("~r~Dead");
+                    _speakSuspect.RightLabel = "~r~Dead";
                     return;
                 }
                 var dialog1 = new List<string>
@@ -181,7 +181,7 @@ namespace SuperEvents2.Events
                 if (_suspect2.IsDead)
                 {
                     _speakSuspect2.Enabled = false;
-                    _speakSuspect2.SetRightLabel("~r~Dead");
+                    _speakSuspect2.RightLabel = "~r~Dead";
                     return;
                 }
                 var dialog1 = new List<string>

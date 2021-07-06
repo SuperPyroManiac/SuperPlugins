@@ -38,7 +38,7 @@
       <HintPath>..\..\..\Depend\LSPD First Response.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="RAGENativeUI, Version=1.7.0.0, Culture=neutral, PublicKeyToken=null">
+    <Reference Include="RAGENativeUI, Version=1.8.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\..\..\Depend\RAGENativeUI.dll</HintPath>
     </Reference>
     <Reference Include="RagePluginHook, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
