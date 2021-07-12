@@ -12,6 +12,7 @@ namespace DeadlyWeapons2.Modules
     internal class Run
     {
         private GameFiber _processFiber;
+        private GameFiber _panicFiber;
         private Ped Player => Game.LocalPlayer.Character;
 
         internal void Start()
@@ -24,12 +25,6 @@ namespace DeadlyWeapons2.Modules
                     var ps = new PlayerShot();
                     ps.StartEvent();
                 }
-
-                //if (Settings.EnableBetterAi)
-                //{
-                //    var ps = new PedShot();
-                //    ps.StartPedEvent();
-                //}
                 Process();
             }
             catch (Exception e)
@@ -55,14 +50,22 @@ namespace DeadlyWeapons2.Modules
                     }
                     
                 });
+            _panicFiber = new GameFiber(delegate
+            {
+                Game.LogTrivial("DeadlyWeapons: Starting PanicFiber.");
+                while (true)
+                {
+                    PanicFiber();
+                    GameFiber.Yield();
+                }
+                    
+            });
+            _panicFiber.Start();
             _processFiber.Start();
         }
 
         private void MainFiber()
         {
-            if (Player.IsShooting && Player.Inventory.EquippedWeapon.Hash != WeaponHash.StunGun &&
-                    Player.Inventory.EquippedWeapon.Hash != WeaponHash.FireExtinguisher && Player.Inventory.EquippedWeapon.Hash != WeaponHash.Flare && Settings.EnablePanic)
-                    StartPanic.PanicHit();
             if (Settings.EnableBetterAi)
             {
                 var peds = Game.LocalPlayer.Character.GetNearbyPeds(16);
@@ -75,11 +78,19 @@ namespace DeadlyWeapons2.Modules
             }
         }
 
+        private void PanicFiber()
+        {
+            if (Player.IsShooting && Player.Inventory.EquippedWeapon.Hash != WeaponHash.StunGun &&
+                Player.Inventory.EquippedWeapon.Hash != WeaponHash.FireExtinguisher && Player.Inventory.EquippedWeapon.Hash != WeaponHash.Flare && Settings.EnablePanic)
+                StartPanic.PanicHit();
+        }
+
         internal void Stop()
         {
+            _panicFiber.Abort();
             _processFiber.Abort();
             Game.LogTrivial(
-                "Deadly Weapons: ProccessFiber has been terminated. You may see an error here but it is normal.");
+                "Deadly Weapons: ProccessFiber and PanicFiber has been terminated. You may see an error here but it is normal.");
         }
     }
 }
