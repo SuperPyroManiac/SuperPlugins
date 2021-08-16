@@ -24,7 +24,7 @@ namespace DeadlyWeapons2.DFunctions
                     ped.IsRagdoll = false;
                 });
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 Game.LogTrivial("Deadly Weapons: Unable to remove ragdoll. Most likely the subject died first.");
             }
