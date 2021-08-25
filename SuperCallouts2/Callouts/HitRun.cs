@@ -125,7 +125,7 @@ namespace SuperCallouts2.Callouts
                 if (!_onScene && Game.LocalPlayer.Character.DistanceTo(_cVehicle1) < 20f)
                 {
                     _onScene = true;
-                    Game.DisplayHelp("~y~Press ~r~" + Settings.Interact + "~y~ to open interaction menu.");
+                    Game.DisplayHelp($"Press ~{Settings.Interact.GetInstructionalId()}~ to open interaction menu.");
                     _questioning.Enabled = true;
                     _speakVictim.Enabled = true;
                 }
@@ -141,7 +141,7 @@ namespace SuperCallouts2.Callouts
                 if (_onScene2 && Game.LocalPlayer.Character.DistanceTo(_cVehicle2) < 50f && !Functions.IsPursuitStillRunning(_pursuit))
                 {
                     _onScene2 = false;
-                    Game.DisplayHelp("~y~Press ~r~" + Settings.Interact + "~y~ to open interaction menu.");
+                    Game.DisplayHelp($"Press ~{Settings.Interact.GetInstructionalId()}~ to open interaction menu.");
                     _speakSuspect1.Enabled = true;
                     _speakSuspect2.Enabled = true;
                 }
@@ -177,7 +177,10 @@ namespace SuperCallouts2.Callouts
             if (_cBlip2.Exists()) _cBlip2.Delete();
             if (_cBlip3.Exists()) _cBlip3.Delete();
             _mainMenu.Visible = false;
-            Game.DisplayHelp("Scene ~g~CODE 4", 5000);
+                        BigMessageThread bigMessage = new BigMessageThread();
+            bigMessage.MessageInstance.ShowColoredShard("Code 4", "Callout Ended", HudColor.Green, HudColor.Black,
+                2);
+            //Game.DisplayHelp("Scene ~g~CODE 4", 5000);
             base.End();
         }
         //UI Items

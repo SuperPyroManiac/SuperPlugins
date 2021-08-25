@@ -6,6 +6,8 @@ using LSPD_First_Response;
 using LSPD_First_Response.Mod.API;
 using LSPD_First_Response.Mod.Callouts;
 using Rage;
+using RAGENativeUI;
+using RAGENativeUI.Elements;
 using SuperCallouts2.CustomScenes;
 
 #endregion
@@ -135,7 +137,10 @@ namespace SuperCallouts2.Callouts
             if (_cop2.Exists()) _cop2.Dismiss();
             if (_cop3.Exists()) _cop3.Dismiss();
             if (_cBlip.Exists()) _cBlip.Delete();
-            Game.DisplayHelp("Scene ~g~CODE 4", 5000);
+                        BigMessageThread bigMessage = new BigMessageThread();
+            bigMessage.MessageInstance.ShowColoredShard("Code 4", "Callout Ended", HudColor.Green, HudColor.Black,
+                2);
+            //Game.DisplayHelp("Scene ~g~CODE 4", 5000);
             base.End();
         }
     }

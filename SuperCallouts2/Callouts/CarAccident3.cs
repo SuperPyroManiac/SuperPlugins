@@ -115,7 +115,7 @@ namespace SuperCallouts2.Callouts
                         _eBlip.DisableRoute();
                         _ePed.BlockPermanentEvents = false;
                         _ePed2.BlockPermanentEvents = false;
-                        Game.DisplayHelp("~y~Press ~r~" + Settings.Interact + "~y~ to open interaction menu.");
+                        Game.DisplayHelp($"Press ~{Settings.Interact.GetInstructionalId()}~ to open interaction menu.");
                         switch (_choice)
                         {
                             case 0://Peds fight

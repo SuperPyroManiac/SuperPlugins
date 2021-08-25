@@ -234,7 +234,10 @@ namespace SuperCallouts2.Callouts
             if (_blip2.Exists()) _blip2.Delete();
             if (_blip3.Exists()) _blip3.Delete();
             _mainMenu.Visible = false;
-            Game.DisplayHelp("Scene ~g~CODE 4", 5000);
+                        BigMessageThread bigMessage = new BigMessageThread();
+            bigMessage.MessageInstance.ShowColoredShard("Code 4", "Callout Ended", HudColor.Green, HudColor.Black,
+                2);
+            //Game.DisplayHelp("Scene ~g~CODE 4", 5000);
             base.End();
         }
         //UI Items

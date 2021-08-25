@@ -123,7 +123,7 @@ namespace SuperCallouts2.Callouts
                         Game.LocalPlayer.Character, -1);
                     _victim1.BlockPermanentEvents = false;
                     _victim2.BlockPermanentEvents = false;
-                    Game.DisplayHelp("~y~Press ~r~" + Settings.Interact + "~y~ to open interaction menu.");
+                    Game.DisplayHelp($"Press ~{Settings.Interact.GetInstructionalId()}~ to open interaction menu.");
                 }
                 //Keybinds
                 if (Game.IsKeyDown(Settings.EndCall)) End();
@@ -156,7 +156,10 @@ namespace SuperCallouts2.Callouts
             if (_cBlip1.Exists()) _cBlip1.Delete();
             if (_cBlip2.Exists()) _cBlip2.Delete();
             _mainMenu.Visible = false;
-            Game.DisplayHelp("Scene ~g~CODE 4", 5000);
+                        BigMessageThread bigMessage = new BigMessageThread();
+            bigMessage.MessageInstance.ShowColoredShard("Code 4", "Callout Ended", HudColor.Green, HudColor.Black,
+                2);
+            //Game.DisplayHelp("Scene ~g~CODE 4", 5000);
             base.End();
         }
         //UI Items

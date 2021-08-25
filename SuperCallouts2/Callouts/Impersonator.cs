@@ -105,7 +105,7 @@ namespace SuperCallouts2.Callouts
                     _pursuit = Functions.CreatePursuit();
                     Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Suspicious Pullover",
                         "Be advised, caller has been instructed to leave scene by 911 operator.");
-                    Game.DisplayHelp("~y~Press ~r~" + Settings.Interact + "~y~ to open interaction menu.");
+                    Game.DisplayHelp($"Press ~{Settings.Interact.GetInstructionalId()}~ to open interaction menu.");
                     var rNd = new Random();
                     var choices = rNd.Next(1, 4);
                     switch (choices)
@@ -165,7 +165,10 @@ namespace SuperCallouts2.Callouts
 
         public override void End()
         {
-            Game.DisplayHelp("Scene ~g~CODE 4", 5000);
+                        BigMessageThread bigMessage = new BigMessageThread();
+            bigMessage.MessageInstance.ShowColoredShard("Code 4", "Callout Ended", HudColor.Green, HudColor.Black,
+                2);
+            //Game.DisplayHelp("Scene ~g~CODE 4", 5000);
             _interaction.CloseAllMenus();
             if (_bad.Exists()) _bad.Dismiss();
             if (_victim.Exists()) _victim.Dismiss();

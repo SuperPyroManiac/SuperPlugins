@@ -124,7 +124,9 @@ namespace SuperCallouts2.Callouts
             if (_car2.Exists()) _car2.Dismiss();
             if (_cBlip.Exists()) _cBlip.Delete();
             _mainMenu.Visible = false;
-            Game.DisplayHelp("Scene ~g~CODE 4");
+            BigMessageThread bigMessage = new BigMessageThread();
+            bigMessage.MessageInstance.ShowColoredShard("Code 4", "Callout Ended", HudColor.Green, HudColor.Black,
+                2);
             base.End();
         }
     }

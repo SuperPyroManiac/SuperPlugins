@@ -92,7 +92,7 @@ namespace SuperCallouts2.Callouts
                         {
                             _cBlip.DisableRoute();
                             _pursuit = Functions.CreatePursuit();
-                            Game.DisplayHelp("~y~Press ~r~" + Settings.Interact + "~y~ to open interaction menu.");
+                            Game.DisplayHelp($"Press ~{Settings.Interact.GetInstructionalId()}~ to open interaction menu.");
                             _state = CState.onScene;
                         }
                         break;
@@ -115,7 +115,7 @@ namespace SuperCallouts2.Callouts
                         }
                         break;
                     case CState.letsChat:
-                        Game.DisplayHelp("~y~Press ~r~" + Settings.Interact + "~y~ to open interaction menu.");
+                        Game.DisplayHelp($"Press ~{Settings.Interact.GetInstructionalId()}~ to open interaction menu.");
                         _questioning.Enabled = true;
                         _state = CState.End;
                         break;
@@ -143,7 +143,10 @@ namespace SuperCallouts2.Callouts
 
         public override void End()
         {
-            Game.DisplayHelp("Scene ~g~CODE 4", 5000);
+                        BigMessageThread bigMessage = new BigMessageThread();
+            bigMessage.MessageInstance.ShowColoredShard("Code 4", "Callout Ended", HudColor.Green, HudColor.Black,
+                2);
+            //Game.DisplayHelp("Scene ~g~CODE 4", 5000);
             if(_cVehicle) _cVehicle.Dismiss();
             if(_bad) _bad.Dismiss();
             if(_cBlip) _cBlip.Delete();

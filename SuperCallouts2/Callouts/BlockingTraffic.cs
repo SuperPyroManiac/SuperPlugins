@@ -65,7 +65,7 @@ namespace SuperCallouts2.Callouts
                 {
                     _onScene = true;
                     _cBlip.DisableRoute();
-                    Game.DisplayHelp("~y~Press ~r~" + Settings.Interact + "~y~ to open interaction menu.");
+                    Game.DisplayHelp($"Press ~{Settings.Interact.GetInstructionalId()}~ to open interaction menu.");
                 }
                 //Keybinds
                 if (Game.IsKeyDown(Settings.EndCall)) End();
@@ -93,7 +93,10 @@ namespace SuperCallouts2.Callouts
             _cVehicle?.Dismiss();
             _cBlip?.Delete();
             _mainMenu.Visible = false;
-            Game.DisplayHelp("Scene ~g~CODE 4", 5000);
+                        BigMessageThread bigMessage = new BigMessageThread();
+            bigMessage.MessageInstance.ShowColoredShard("Code 4", "Callout Ended", HudColor.Green, HudColor.Black,
+                2);
+            //Game.DisplayHelp("Scene ~g~CODE 4", 5000);
             base.End();
         }
         

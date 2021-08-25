@@ -97,12 +97,12 @@ namespace SuperCallouts2.Callouts
                     _cBlip2 = _bad.AttachBlip();
                     _cBlip2.Color = Color.Red;
                     _callAr.Enabled = true;
-                    Game.DisplayHelp("~y~Press ~r~" + Settings.Interact + "~y~ to open interaction menu.");
+                    Game.DisplayHelp($"Press ~{Settings.Interact.GetInstructionalId()}~ to open interaction menu.");
                 }
 
                 if (_onScene && !Functions.IsPursuitStillRunning(_pursuit))
                 {
-                    Game.DisplayHelp("~y~Press ~r~" + Settings.Interact + "~y~ to open interaction menu.");
+                    Game.DisplayHelp($"Press ~{Settings.Interact.GetInstructionalId()}~ to open interaction menu.");
                     _questioning.Enabled = true;
                 }
                 //Keybinds
@@ -133,7 +133,10 @@ namespace SuperCallouts2.Callouts
             if (_cBlip.Exists()) _cBlip.Delete();
             if (_cBlip2.Exists()) _cBlip2.Delete();
             _mainMenu.Visible = false;
-            Game.DisplayHelp("Scene ~g~CODE 4", 5000);
+                        BigMessageThread bigMessage = new BigMessageThread();
+            bigMessage.MessageInstance.ShowColoredShard("Code 4", "Callout Ended", HudColor.Green, HudColor.Black,
+                2);
+            //Game.DisplayHelp("Scene ~g~CODE 4", 5000);
             base.End();
         }
         private void Interactions(UIMenu sender, UIMenuItem selItem, int index)

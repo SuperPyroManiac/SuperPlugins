@@ -7,6 +7,8 @@ using LSPD_First_Response.Engine.Scripting.Entities;
 using LSPD_First_Response.Mod.API;
 using LSPD_First_Response.Mod.Callouts;
 using Rage;
+using RAGENativeUI;
+using RAGENativeUI.Elements;
 using SuperCallouts2.CustomScenes;
 
 #endregion
@@ -129,7 +131,10 @@ namespace SuperCallouts2.Callouts
             foreach (var mafiaCars in _mafiaCars) {if(mafiaCars.Exists()) {mafiaCars.Dismiss();}}
             foreach (var mafiaDudes in _mafiaDudes) {if(mafiaDudes.Exists()) {mafiaDudes.Dismiss();}}
             if (_cBlip.Exists()) {_cBlip.Delete();}
-            Game.DisplayHelp("Scene ~g~CODE 4", 5000);
+                        BigMessageThread bigMessage = new BigMessageThread();
+            bigMessage.MessageInstance.ShowColoredShard("Code 4", "Callout Ended", HudColor.Green, HudColor.Black,
+                2);
+            //Game.DisplayHelp("Scene ~g~CODE 4", 5000);
             base.End();
         }
     }

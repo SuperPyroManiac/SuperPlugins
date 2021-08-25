@@ -213,7 +213,9 @@ namespace SuperCallouts2.Callouts
             foreach (var entity in _vehicles.Where(entity => entity)) entity?.Dismiss();
             Game.SetRelationshipBetweenRelationshipGroups("COP", "MAFIA", Relationship.Dislike);
             _interaction.CloseAllMenus();
-            Game.DisplayHelp("~y~Callout Ended");
+            BigMessageThread bigMessage = new BigMessageThread();
+            bigMessage.MessageInstance.ShowColoredShard("Code 4", "Callout Ended", HudColor.Green, HudColor.Black,
+                2);
                 base.End();
         }
         

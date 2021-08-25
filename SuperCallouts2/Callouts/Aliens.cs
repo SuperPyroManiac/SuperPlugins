@@ -3,6 +3,8 @@ using LSPD_First_Response.Mod.API;
 using LSPD_First_Response.Mod.Callouts;
 using Rage;
 using Rage.Native;
+using RAGENativeUI;
+using RAGENativeUI.Elements;
 
 namespace SuperCallouts2.Callouts
 {
@@ -99,7 +101,10 @@ namespace SuperCallouts2.Callouts
             if (_alien3.Exists()) _alien3.Delete();
             if (_cVehicle1.Exists()) _cVehicle1.Delete();
             if (_cBlip1.Exists()) _cBlip1.Delete();
-            Game.DisplayHelp("Scene ~g~CODE 4", 5000);
+                        BigMessageThread bigMessage = new BigMessageThread();
+            bigMessage.MessageInstance.ShowColoredShard("Code 4", "Callout Ended", HudColor.Green, HudColor.Black,
+                2);
+            //Game.DisplayHelp("Scene ~g~CODE 4", 5000);
             Game.DisplaySubtitle("~g~Me:~s~ The hell was that? I think I need a nap..");
             base.End();
         }

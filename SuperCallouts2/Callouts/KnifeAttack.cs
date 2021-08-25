@@ -109,7 +109,7 @@ namespace SuperCallouts2.Callouts
                     }
                     break;
                 case Tasks.OnScene:
-                    Game.DisplayHelp("~y~Press ~r~" + Settings.Interact + "~y~ to open interaction menu.");
+                    Game.DisplayHelp($"Press ~{Settings.Interact.GetInstructionalId()}~ to open interaction menu.");
                     switch (_cScene)
                     {
                         case 1:
@@ -146,7 +146,9 @@ namespace SuperCallouts2.Callouts
             if (_cBlip) _cBlip.Delete();
             if (_cVictim) _cVictim.Dismiss();
             if (_cSuspect) _cSuspect.Dismiss();
-            Game.DisplayHelp("Scene ~g~Code 4");
+            BigMessageThread bigMessage = new BigMessageThread();
+            bigMessage.MessageInstance.ShowColoredShard("Code 4", "Callout Ended", HudColor.Green, HudColor.Black,
+                2);
             base.End();
         }
         

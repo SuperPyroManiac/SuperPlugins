@@ -4,6 +4,7 @@ using Rage.Native;
 using LSPD_First_Response.Mod.API;
 using LSPD_First_Response.Mod.Callouts;
 using System.Drawing;
+using System.Windows.Forms;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts2.SimpleFunctions;
@@ -91,7 +92,7 @@ namespace SuperCallouts2.Callouts
                 //Gameplay
                 if (!_onScene && Game.LocalPlayer.Character.Position.DistanceTo(_bad1) < 20f)
                 {
-                    Game.DisplayHelp("~y~Press ~r~" + Settings.Interact + "~y~ to open interaction menu.");
+                    Game.DisplayHelp($"Press ~{Settings.Interact.GetInstructionalId()}~ to open interaction menu.");
                     _onScene = true;
                     _stopSuspect.Enabled = true;
                     Game.DisplaySubtitle("~g~You~s~: Hey, stop for a second.");
@@ -167,7 +168,10 @@ namespace SuperCallouts2.Callouts
             if (_bad1.Exists()) _bad1.Dismiss();
             if (_cBlip.Exists()) _cBlip.Delete();
             _mainMenu.Visible = false;
-            Game.DisplayHelp("Scene ~g~CODE 4", 5000);
+            BigMessageThread bigMessage = new BigMessageThread();
+            bigMessage.MessageInstance.ShowColoredShard("Code 4", "Callout Ended", HudColor.Green, HudColor.Black,
+                2);
+            //Game.DisplayHelp("Scene ~g~CODE 4", 5000);
             base.End();
         }
         //UI Items

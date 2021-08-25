@@ -79,7 +79,7 @@ namespace SuperCallouts2.Callouts
             {
                 _onScene = true;
                 _cBlip.DisableRoute();
-                Game.DisplayHelp("~y~Press ~r~" + Settings.Interact + "~y~ to open interaction menu.");
+                Game.DisplayHelp($"Press ~{Settings.Interact.GetInstructionalId()}~ to open interaction menu.");
                 Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Investigate The Vehicle", "~y~Traffic",
                     "The vehicle appears abandoned. Decide how to deal with it.");
             }
@@ -97,7 +97,10 @@ namespace SuperCallouts2.Callouts
         {
             if (_cBlip) _cBlip.Delete();
             if (_cVehicle) _cVehicle.Dismiss();
-            Game.DisplayHelp("Scene ~g~CODE 4", 5000);
+                        BigMessageThread bigMessage = new BigMessageThread();
+            bigMessage.MessageInstance.ShowColoredShard("Code 4", "Callout Ended", HudColor.Green, HudColor.Black,
+                2);
+            //Game.DisplayHelp("Scene ~g~CODE 4", 5000);
             base.End();
         }
         
