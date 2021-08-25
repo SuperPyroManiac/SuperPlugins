@@ -94,6 +94,9 @@ namespace SuperCallouts2.Callouts
                     Game.DisplayHelp("~y~Press ~r~" + Settings.Interact + "~y~ to open interaction menu.");
                     _onScene = true;
                     _stopSuspect.Enabled = true;
+                    Game.DisplaySubtitle("~g~You~s~: Hey, stop for a second.");
+                    _bad1.Tasks.ClearImmediately();
+                    NativeFunction.CallByName<uint>("TASK_TURN_PED_TO_FACE_ENTITY", _bad1, Game.LocalPlayer.Character, -1);
                 }
 
                 if (_startScene)
