@@ -182,7 +182,7 @@ namespace SuperCallouts2.Callouts
                         BigMessageThread bigMessage = new BigMessageThread();
             bigMessage.MessageInstance.ShowColoredShard("Code 4", "Callout Ended", HudColor.Green, HudColor.Black,
                 2);
-            //Game.DisplayHelp("Scene ~g~CODE 4", 5000);
+            Game.DisplayHelp("Scene ~g~CODE 4", 5000);
             base.End();
         }
         //UI Items
@@ -201,7 +201,7 @@ namespace SuperCallouts2.Callouts
                 GameFiber.StartNew(delegate
                 {
                     Game.DisplaySubtitle("~g~You~s~: Why are you running?", 5000);
-                    NativeFunction.CallByName<uint>("TASK_TURN_PED_TO_FACE_ENTITY", _bad1, Game.LocalPlayer.Character, -1);
+                    NativeFunction.Natives.x5AD23D40115353AC(_bad1, Game.LocalPlayer.Character, -1);
                     GameFiber.Wait(5000);
                     _bad1.PlayAmbientSpeech("GENERIC_CURSE_MED");
                     Game.DisplaySubtitle("~r~" + _name1 + "~s~: I don't know, why do you think?", 5000);
@@ -213,7 +213,7 @@ namespace SuperCallouts2.Callouts
                 {
                     Game.DisplaySubtitle("~g~You~s~: You know this is a stolen vehicle right? What are you guys doing?",
                         5000);
-                    NativeFunction.CallByName<uint>("TASK_TURN_PED_TO_FACE_ENTITY", _bad2, Game.LocalPlayer.Character, -1);
+                    NativeFunction.Natives.x5AD23D40115353AC(_bad2, Game.LocalPlayer.Character, -1);
                     GameFiber.Wait(5000);
                     Game.DisplaySubtitle(
                         "~r~" + _name2 +

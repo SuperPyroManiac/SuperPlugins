@@ -41,7 +41,7 @@ namespace SuperEvents2.SimpleFunctions
                 var drunkAnimset = new AnimationSet("move_m@drunk@verydrunk");
                 drunkAnimset.LoadAndWait();
                 bad.MovementAnimationSet = drunkAnimset;
-                NativeFunction.Natives.SET_PED_IS_DRUNK(bad, isDrunk);
+                NativeFunction.Natives.x95D2D383D5396B8A(bad, isDrunk);
             });
             return;
         }
@@ -88,7 +88,7 @@ namespace SuperEvents2.SimpleFunctions
         internal static void FireControl(Vector3 position, int children, bool isGasFire)
         {
             if (children > 25) return;
-            NativeFunction.Natives.StartScriptFire(position.X, position.Y, position.Z, children, isGasFire);
+            NativeFunction.Natives.x6B83617E04503888(position.X, position.Y, position.Z, children, isGasFire); //START_SCRIPT_FIRE
         }
 
         internal static void FindSideOfRoad(int maxDistance, int minDistance, out Vector3 spawnPoint, out float spawnPointH)

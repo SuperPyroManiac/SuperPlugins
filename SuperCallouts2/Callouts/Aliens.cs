@@ -74,11 +74,11 @@ namespace SuperCallouts2.Callouts
                 {
                     _onScene = true;
                     _cBlip1.DisableRoute();
-                    NativeFunction.CallByName<uint>("TASK_GO_TO_ENTITY", _alien1, Game.LocalPlayer.Character, -1, 2f, 2f,
+                    NativeFunction.Natives.x6A071245EB0D1882(_alien1, Game.LocalPlayer.Character, -1, 2f, 2f,
                         0, 0);
-                    NativeFunction.CallByName<uint>("TASK_GO_TO_ENTITY", _alien2, Game.LocalPlayer.Character, -1, 2f, 2f,
+                    NativeFunction.Natives.x6A071245EB0D1882(_alien2, Game.LocalPlayer.Character, -1, 2f, 2f,
                         0, 0);
-                    NativeFunction.CallByName<uint>("TASK_GO_TO_ENTITY", _alien3, Game.LocalPlayer.Character, -1, 2f, 2f,
+                    NativeFunction.Natives.x6A071245EB0D1882(_alien3, Game.LocalPlayer.Character, -1, 2f, 2f,
                         0, 0);
                     GameFiber.Wait(4000);
                     _alien1.Velocity = new Vector3(0, 0, 70);
@@ -104,7 +104,7 @@ namespace SuperCallouts2.Callouts
                         BigMessageThread bigMessage = new BigMessageThread();
             bigMessage.MessageInstance.ShowColoredShard("Code 4", "Callout Ended", HudColor.Green, HudColor.Black,
                 2);
-            //Game.DisplayHelp("Scene ~g~CODE 4", 5000);
+            Game.DisplayHelp("Scene ~g~CODE 4", 5000);
             Game.DisplaySubtitle("~g~Me:~s~ The hell was that? I think I need a nap..");
             base.End();
         }

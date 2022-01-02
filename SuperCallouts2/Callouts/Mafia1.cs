@@ -118,8 +118,8 @@ namespace SuperCallouts2.Callouts
                             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~y~SR Callouts",
                                 "~r~Speak With FIB",
                                 "Press: " + Settings.Interact + " to speak with the FIB.");
-                            NativeFunction.CallByName<uint>("TASK_TURN_PED_TO_FACE_ENTITY", _fib1, Player, -1);
-                            NativeFunction.CallByName<uint>("TASK_TURN_PED_TO_FACE_ENTITY", _fib2, Player, -1);
+                            NativeFunction.Natives.x5AD23D40115353AC(_fib1, Player, -1); //Turn_Ped_To_Face_Entity
+                            NativeFunction.Natives.x5AD23D40115353AC(_fib2, Player, -1);
                             _questioning.Enabled = true;
                             _convoMenu.AddItem(_speakFib);
                             _state = SrState.End;
@@ -213,6 +213,7 @@ namespace SuperCallouts2.Callouts
             foreach (var entity in _vehicles.Where(entity => entity)) entity?.Dismiss();
             Game.SetRelationshipBetweenRelationshipGroups("COP", "MAFIA", Relationship.Dislike);
             _interaction.CloseAllMenus();
+            Game.DisplayHelp("Scene ~g~CODE 4", 5000);
             BigMessageThread bigMessage = new BigMessageThread();
             bigMessage.MessageInstance.ShowColoredShard("Code 4", "Callout Ended", HudColor.Green, HudColor.Black,
                 2);

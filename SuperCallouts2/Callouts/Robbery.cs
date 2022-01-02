@@ -123,17 +123,17 @@ namespace SuperCallouts2.Callouts
                         case 1:
                             GameFiber.StartNew(delegate
                             {
-                                NativeFunction.CallByName<uint>("TASK_AIM_GUN_AT_ENTITY", _rude1, _victim, -1, true);
-                                NativeFunction.CallByName<uint>("TASK_AIM_GUN_AT_ENTITY", _rude2, _victim, -1, true);
+                                NativeFunction.Natives.x9B53BB6E8943AF53(_rude1, _victim, -1, true);
+                                NativeFunction.Natives.x9B53BB6E8943AF53(_rude2, _victim, -1, true);
                                 _victim.Tasks.PutHandsUp(-1, _rude1);
                                 GameFiber.Wait(2000);
-                                NativeFunction.CallByName<uint>("TASK_COMBAT_PED", _rude1, _victim, 0, 1);
-                                NativeFunction.CallByName<uint>("TASK_COMBAT_PED", _rude2, _victim, 0, 1);
+                                NativeFunction.Natives.xF166E48407BAC484(_rude1, _victim, 0, 1);
+                                NativeFunction.Natives.xF166E48407BAC484(_rude2, _victim, 0, 1);
                                 _victim.Tasks.Cower(-1);
                                 GameFiber.Wait(3000);
-                                NativeFunction.CallByName<uint>("TASK_REACT_AND_FLEE_PED", _rude1,
+                                NativeFunction.Natives.x72C896464915D1B1(_rude1,
                                     Game.LocalPlayer.Character);
-                                NativeFunction.CallByName<uint>("TASK_COMBAT_PED", _rude2, Game.LocalPlayer.Character, 0, 1);
+                                NativeFunction.Natives.xF166E48407BAC484(_rude2, Game.LocalPlayer.Character, 0, 1);
                                 Functions.AddPedToPursuit(_pursuit, _rude1);
                                 GameFiber.Wait(10000);
                                 Functions.AddPedToPursuit(_pursuit, _rude2);
@@ -143,13 +143,13 @@ namespace SuperCallouts2.Callouts
                         case 2:
                             GameFiber.StartNew(delegate
                             {
-                                NativeFunction.CallByName<uint>("TASK_AIM_GUN_AT_ENTITY", _rude1, _victim, -1, true);
-                                NativeFunction.CallByName<uint>("TASK_AIM_GUN_AT_ENTITY", _rude2, _victim, -1, true);
+                                NativeFunction.Natives.x9B53BB6E8943AF53(_rude1, _victim, -1, true);
+                                NativeFunction.Natives.x9B53BB6E8943AF53(_rude2, _victim, -1, true);
                                 _victim.Tasks.PutHandsUp(-1, _rude1);
                                 GameFiber.Wait(4000);
-                                NativeFunction.CallByName<uint>("TASK_REACT_AND_FLEE_PED", _rude1,
+                                NativeFunction.Natives.x72C896464915D1B1(_rude1,
                                     Game.LocalPlayer.Character);
-                                NativeFunction.CallByName<uint>("TASK_REACT_AND_FLEE_PED", _rude2,
+                                NativeFunction.Natives.x72C896464915D1B1(_rude2,
                                     Game.LocalPlayer.Character);
                                 _victim.Tasks.Cower(-1);
                                 Functions.AddPedToPursuit(_pursuit, _rude1);
@@ -160,14 +160,14 @@ namespace SuperCallouts2.Callouts
                         case 3:
                             GameFiber.StartNew(delegate
                             {
-                                NativeFunction.CallByName<uint>("TASK_AIM_GUN_AT_ENTITY", _rude1, _victim, -1, true);
-                                NativeFunction.CallByName<uint>("TASK_AIM_GUN_AT_ENTITY", _rude2, _victim, -1, true);
+                                NativeFunction.Natives.x9B53BB6E8943AF53(_rude1, _victim, -1, true);
+                                NativeFunction.Natives.x9B53BB6E8943AF53(_rude2, _victim, -1, true);
                                 _victim.Tasks.PutHandsUp(-1, _rude1);
                                 GameFiber.Wait(4000);
-                                NativeFunction.CallByName<uint>("TASK_COMBAT_PED", _rude1, Game.LocalPlayer.Character, 0, 1);
-                                NativeFunction.CallByName<uint>("TASK_COMBAT_PED", _rude2, Game.LocalPlayer.Character, 0, 1);
+                                NativeFunction.Natives.xF166E48407BAC484(_rude1, Game.LocalPlayer.Character, 0, 1);
+                                NativeFunction.Natives.xF166E48407BAC484(_rude2, Game.LocalPlayer.Character, 0, 1);
                                 SimpleFunctions.CFunctions.SetWanted(_victim, true);
-                                NativeFunction.CallByName<uint>("TASK_REACT_AND_FLEE_PED", _victim, _rude1);
+                                NativeFunction.Natives.x72C896464915D1B1(_victim, _rude1);
                                 GameFiber.Wait(5000);
                                 Functions.AddPedToPursuit(_pursuit, _rude1);
                                 Functions.AddPedToPursuit(_pursuit, _rude2);
@@ -177,13 +177,13 @@ namespace SuperCallouts2.Callouts
                         case 4:
                             GameFiber.StartNew(delegate
                             {
-                                NativeFunction.CallByName<uint>("TASK_AIM_GUN_AT_ENTITY", _rude1, _victim, -1, true);
-                                NativeFunction.CallByName<uint>("TASK_AIM_GUN_AT_ENTITY", _rude2, _victim, -1, true);
+                                NativeFunction.Natives.x9B53BB6E8943AF53(_rude1, _victim, -1, true);
+                                NativeFunction.Natives.x9B53BB6E8943AF53(_rude2, _victim, -1, true);
                                 _victim.Tasks.PutHandsUp(-1, _rude1);
                                 GameFiber.Wait(4000);
-                                NativeFunction.CallByName<uint>("TASK_AIM_GUN_AT_ENTITY", _rude1, Game.LocalPlayer.Character,
+                                NativeFunction.Natives.x9B53BB6E8943AF53(_rude1, Game.LocalPlayer.Character,
                                     -1, true);
-                                NativeFunction.CallByName<uint>("TASK_AIM_GUN_AT_ENTITY", _rude2, Game.LocalPlayer.Character,
+                                NativeFunction.Natives.x9B53BB6E8943AF53(_rude2, Game.LocalPlayer.Character,
                                     -1, true);
                                 _victim.Tasks.Cower(-1);
                                 GameFiber.Wait(2000);
@@ -237,7 +237,7 @@ namespace SuperCallouts2.Callouts
                         BigMessageThread bigMessage = new BigMessageThread();
             bigMessage.MessageInstance.ShowColoredShard("Code 4", "Callout Ended", HudColor.Green, HudColor.Black,
                 2);
-            //Game.DisplayHelp("Scene ~g~CODE 4", 5000);
+            Game.DisplayHelp("Scene ~g~CODE 4", 5000);
             base.End();
         }
         //UI Items

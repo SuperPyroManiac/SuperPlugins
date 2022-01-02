@@ -62,7 +62,7 @@ namespace SuperCallouts2.Callouts
             //Setup
             Game.LogTrivial("SuperCallouts Log: Hit And Run callout accepted...");
             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Car Accident",
-                "Victim reports the other driver have left the scene. Get to the victim as soon as possible.");
+                "Victim reports the other driver has left the scene. Get to the victim as soon as possible.");
             //cVehicle
             CFunctions.SpawnNormalCar(out _cVehicle1, _spawnPoint);
             _cVehicle1.Heading = _spawnPointH;
@@ -180,7 +180,7 @@ namespace SuperCallouts2.Callouts
                         BigMessageThread bigMessage = new BigMessageThread();
             bigMessage.MessageInstance.ShowColoredShard("Code 4", "Callout Ended", HudColor.Green, HudColor.Black,
                 2);
-            //Game.DisplayHelp("Scene ~g~CODE 4", 5000);
+            Game.DisplayHelp("Scene ~g~CODE 4", 5000);
             base.End();
         }
         //UI Items
@@ -213,7 +213,7 @@ namespace SuperCallouts2.Callouts
                 GameFiber.StartNew(delegate
                 {
                     Game.DisplaySubtitle("~g~You~s~: What's going on here? Are you ok?", 5000);
-                    NativeFunction.CallByName<uint>("TASK_TURN_PED_TO_FACE_ENTITY", _victim, Game.LocalPlayer.Character, -1);
+                    NativeFunction.Natives.x5AD23D40115353AC(_victim, Game.LocalPlayer.Character, -1);
                     GameFiber.Wait(5000);
                     _bad1.PlayAmbientSpeech("GENERIC_CURSE_MED");
                     Game.DisplaySubtitle("~r~" + _name1 + "~s~: I'm ok, someone hit my car and when I got out they drove off!", 5000);
@@ -231,7 +231,7 @@ namespace SuperCallouts2.Callouts
                 GameFiber.StartNew(delegate
                 {
                     Game.DisplaySubtitle("~g~You~s~: Why are you running? This could have been a simple ticket and court date for the accident, now you're facing serious charges!", 5000);
-                    NativeFunction.CallByName<uint>("TASK_TURN_PED_TO_FACE_ENTITY", _bad1, Game.LocalPlayer.Character, -1);
+                    NativeFunction.Natives.x5AD23D40115353AC(_bad1, Game.LocalPlayer.Character, -1);
                     GameFiber.Wait(5000);
                     _bad1.PlayAmbientSpeech("GENERIC_CURSE_MED");
                     Game.DisplaySubtitle("~r~" + _name1 + "~s~: Screw you pig, I aint talkin to you!", 5000);
@@ -243,7 +243,7 @@ namespace SuperCallouts2.Callouts
                 {
                     Game.DisplaySubtitle("~g~You~s~: What's going on? Why were you guys running?", 5000);
                     GameFiber.Wait(5000);
-                    NativeFunction.CallByName<uint>("TASK_TURN_PED_TO_FACE_ENTITY", _bad2, Game.LocalPlayer.Character, -1);
+                    NativeFunction.Natives.x5AD23D40115353AC(_bad2, Game.LocalPlayer.Character, -1);
                     _bad1.PlayAmbientSpeech("GENERIC_CURSE_MED");
                     Game.DisplaySubtitle("~r~" + _name1 + "~s~: I didnt do nothing at all, I was just chilling and they hit someone and started running, I was like bro, and they were like bruh, so we dipped.", 5000);
                 });

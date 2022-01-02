@@ -97,7 +97,7 @@ namespace SuperCallouts2.Callouts
                     _stopSuspect.Enabled = true;
                     Game.DisplaySubtitle("~g~You~s~: Hey, stop for a second.");
                     _bad1.Tasks.ClearImmediately();
-                    NativeFunction.CallByName<uint>("TASK_TURN_PED_TO_FACE_ENTITY", _bad1, Game.LocalPlayer.Character, -1);
+                    NativeFunction.Natives.x5AD23D40115353AC(_bad1, Game.LocalPlayer.Character, -1);
                 }
 
                 if (_startScene)
@@ -117,7 +117,7 @@ namespace SuperCallouts2.Callouts
                             Game.DisplayNotification("Investigate the person.");
                             _bad1.Tasks.ClearImmediately();
                             _bad1.Inventory.Weapons.Clear();
-                            NativeFunction.CallByName<uint>("TASK_TURN_PED_TO_FACE_ENTITY", _bad1, Game.LocalPlayer.Character, -1);
+                            NativeFunction.Natives.x5AD23D40115353AC(_bad1, Game.LocalPlayer.Character, -1);
                             _speakSuspect.Enabled = true;
                             break;
                         case 3:
@@ -128,7 +128,7 @@ namespace SuperCallouts2.Callouts
                             Game.DisplayNotification("Investigate the person.");
                             _bad1.Tasks.ClearImmediately();
                             _bad1.Inventory.Weapons.Clear();
-                            NativeFunction.CallByName<uint>("TASK_TURN_PED_TO_FACE_ENTITY", _bad1, Game.LocalPlayer.Character, -1);
+                            NativeFunction.Natives.x5AD23D40115353AC(_bad1, Game.LocalPlayer.Character, -1);
                             _bad1.Metadata.hasGunPermit = true;
                             _speakSuspect.Enabled = true;
                             break;
@@ -171,7 +171,7 @@ namespace SuperCallouts2.Callouts
             BigMessageThread bigMessage = new BigMessageThread();
             bigMessage.MessageInstance.ShowColoredShard("Code 4", "Callout Ended", HudColor.Green, HudColor.Black,
                 10);
-            //Game.DisplayHelp("Scene ~g~CODE 4", 5000);
+            Game.DisplayHelp("Scene ~g~CODE 4", 5000);
             base.End();
         }
         //UI Items
@@ -196,7 +196,7 @@ namespace SuperCallouts2.Callouts
                 GameFiber.StartNew(delegate
                 {
                     Game.DisplaySubtitle("~g~You~s~: I'm with the police. What is the reason for carrying your weapon out?", 5000);
-                    NativeFunction.CallByName<uint>("TASK_TURN_PED_TO_FACE_ENTITY", _bad1, Game.LocalPlayer.Character, -1);
+                    NativeFunction.Natives.x5AD23D40115353AC(_bad1, Game.LocalPlayer.Character, -1);
                     GameFiber.Wait(5000);
                     _bad1.PlayAmbientSpeech("GENERIC_CURSE_MED");
                     Game.DisplaySubtitle("~r~" + _name1 + "~s~: It's my right officer. Nobody can tell me I can't have my gun.''", 5000);

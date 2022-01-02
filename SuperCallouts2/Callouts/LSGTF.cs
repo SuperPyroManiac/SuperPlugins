@@ -116,9 +116,9 @@ namespace SuperCallouts2.Callouts
                 GameFiber.StartNew(delegate
                 {
                     _startConv.Enabled = false;
-                    NativeFunction.CallByName<uint>("TASK_TURN_PED_TO_FACE_ENTITY", _fib1, Game.LocalPlayer.Character,
+                    NativeFunction.Natives.x5AD23D40115353AC(_fib1, Game.LocalPlayer.Character,
                         -1);
-                    NativeFunction.CallByName<uint>("TASK_TURN_PED_TO_FACE_ENTITY", _fib2, Game.LocalPlayer.Character,
+                    NativeFunction.Natives.x5AD23D40115353AC(_fib2, Game.LocalPlayer.Character,
                         -1);
                     Game.DisplaySubtitle(
                         "~g~FIB: ~w~Thanks for coming officer, im sure you are aware how aggressive the gangs around here have become.",
@@ -263,7 +263,7 @@ namespace SuperCallouts2.Callouts
                         BigMessageThread bigMessage = new BigMessageThread();
             bigMessage.MessageInstance.ShowColoredShard("Code 4", "Callout Ended", HudColor.Green, HudColor.Black,
                 2);
-            //Game.DisplayHelp("Scene ~g~CODE 4", 5000);
+            Game.DisplayHelp("Scene ~g~CODE 4", 5000);
             base.End();
         }
     }

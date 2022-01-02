@@ -195,7 +195,7 @@ namespace SuperEvents2.Events
                     return;
                 }
                 
-                NativeFunction.CallByName<uint>("TASK_TURN_PED_TO_FACE_ENTITY", _ePed, Game.LocalPlayer.Character, -1);
+                NativeFunction.Natives.x5AD23D40115353AC(_ePed, Game.LocalPlayer.Character, -1);
                 GameFiber.StartNew(delegate {
                     while (stillTalking)
                     {
@@ -252,7 +252,7 @@ namespace SuperEvents2.Events
                     return;
                 }
                 
-                NativeFunction.CallByName<uint>("TASK_TURN_PED_TO_FACE_ENTITY", _ePed2, Game.LocalPlayer.Character, -1);
+                NativeFunction.Natives.x5AD23D40115353AC(_ePed2, Game.LocalPlayer.Character, -1);
                 GameFiber.StartNew(delegate {
                     while (stillTalking)
                     {

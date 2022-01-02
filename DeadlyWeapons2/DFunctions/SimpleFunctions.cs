@@ -53,7 +53,7 @@ namespace DeadlyWeapons2.DFunctions
                 var drunkAnimset = new AnimationSet("move_m@drunk@verydrunk");
                 drunkAnimset.LoadAndWait();
                 Bad.MovementAnimationSet = drunkAnimset;
-                NativeFunction.Natives.SET_PED_IS_DRUNK(Bad, isDrunk);
+                NativeFunction.Natives.x95D2D383D5396B8A(Bad, isDrunk);
             });
         }
     }

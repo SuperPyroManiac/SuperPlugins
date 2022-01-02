@@ -49,9 +49,9 @@ namespace SuperCallouts2.Callouts
                 GameFiber.StartNew(delegate
                 {
                     _startConv.Enabled = false;
-                    NativeFunction.CallByName<uint>("TASK_TURN_PED_TO_FACE_ENTITY", _victim, Game.LocalPlayer.Character,
+                    NativeFunction.Natives.x5AD23D40115353AC(_victim, Game.LocalPlayer.Character,
                         -1);
-                    NativeFunction.CallByName<uint>("TASK_TURN_PED_TO_FACE_ENTITY", _victim2, Game.LocalPlayer.Character,
+                    NativeFunction.Natives.x5AD23D40115353AC(_victim2, Game.LocalPlayer.Character,
                         -1);
                     Game.DisplaySubtitle("~g~Me: ~w~What happened? Are you all ok?", 4000);
                     GameFiber.Wait(4000);
@@ -124,6 +124,7 @@ namespace SuperCallouts2.Callouts
             if (_car2.Exists()) _car2.Dismiss();
             if (_cBlip.Exists()) _cBlip.Delete();
             _mainMenu.Visible = false;
+            Game.DisplayHelp("Scene ~g~CODE 4", 5000);
             BigMessageThread bigMessage = new BigMessageThread();
             bigMessage.MessageInstance.ShowColoredShard("Code 4", "Callout Ended", HudColor.Green, HudColor.Black,
                 2);

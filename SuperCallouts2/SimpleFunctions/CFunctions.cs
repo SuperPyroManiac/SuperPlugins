@@ -38,7 +38,7 @@ namespace SuperCallouts2.SimpleFunctions
                 var drunkAnimset = new AnimationSet("move_m@drunk@verydrunk");
                 drunkAnimset.LoadAndWait();
                 Bad.MovementAnimationSet = drunkAnimset;
-                Rage.Native.NativeFunction.Natives.SET_PED_IS_DRUNK(Bad, isDrunk);
+                NativeFunction.Natives.x95D2D383D5396B8A(Bad, isDrunk);
             });
             return;
         }
@@ -123,6 +123,8 @@ namespace SuperCallouts2.SimpleFunctions
             mainMenu.BindMenuToItem(convoMenu, questioning);
             convoMenu.ParentMenu = mainMenu;
             questioning.Enabled = false;
+            mainMenu.AllowCameraMovement = true;
+            mainMenu.MouseControlsEnabled = false;
             mainMenu.RefreshIndex();
             convoMenu.RefreshIndex();
         }
@@ -130,7 +132,7 @@ namespace SuperCallouts2.SimpleFunctions
         internal static void FireControl(Vector3 position, int children, bool isGasFire)
         {
             if (children > 25) return;
-            NativeFunction.Natives.StartScriptFire(position.X, position.Y, position.Z, children, isGasFire);
+            NativeFunction.Natives.x6B83617E04503888(position.X, position.Y, position.Z, children, isGasFire);
         }
 
         internal static void FindSideOfRoad(int maxDistance, int minDistance, out Vector3 spawnPoint, out float spawnPointH)

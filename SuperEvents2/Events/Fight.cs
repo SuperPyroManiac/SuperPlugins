@@ -36,8 +36,8 @@ namespace SuperEvents2.Events
             EFunctions.SetDrunk(_suspect2, true);
             _name2 = Functions.GetPersonaForPed(_suspect2).FullName;
             _suspect2.Metadata.stpAlcoholDetected = true;
-            NativeFunction.CallByName<uint>("TASK_TURN_PED_TO_FACE_ENTITY", _suspect2, _suspect, -1);
-            NativeFunction.CallByName<uint>("TASK_TURN_PED_TO_FACE_ENTITY", _suspect, _suspect2, -1);
+            NativeFunction.Natives.x5AD23D40115353AC(_suspect2, _suspect, -1);
+            NativeFunction.Natives.x5AD23D40115353AC(_suspect, _suspect2, -1);
             EntitiesToClear.Add(_suspect2);
             //UI Items
             _speakSuspect = new UIMenuItem("Speak with ~y~" + _name1);
@@ -156,7 +156,7 @@ namespace SuperEvents2.Events
                     return;
                 }
                 
-                NativeFunction.CallByName<uint>("TASK_TURN_PED_TO_FACE_ENTITY", _suspect, Game.LocalPlayer.Character, -1);
+                NativeFunction.Natives.x5AD23D40115353AC(_suspect, Game.LocalPlayer.Character, -1);
                 GameFiber.StartNew(delegate {
                     while (stillTalking)
                     {
@@ -210,7 +210,7 @@ namespace SuperEvents2.Events
                     return;
                 }
                 
-                NativeFunction.CallByName<uint>("TASK_TURN_PED_TO_FACE_ENTITY", _suspect2, Game.LocalPlayer.Character, -1);
+                NativeFunction.Natives.x5AD23D40115353AC(_suspect2, Game.LocalPlayer.Character, -1);
                 GameFiber.StartNew(delegate {
                     while (stillTalking)
                     {

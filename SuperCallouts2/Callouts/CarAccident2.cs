@@ -118,9 +118,8 @@ namespace SuperCallouts2.Callouts
                     _cBlip1.DisableRoute();
                     _questioning.Enabled = true;
                     _callFd.Enabled = true;
-                    NativeFunction.CallByName<uint>("TASK_WRITHE", _victim1, _victim2, -1, 1000);
-                    NativeFunction.CallByName<uint>("TASK_TURN_PED_TO_FACE_ENTITY", _victim2,
-                        Game.LocalPlayer.Character, -1);
+                    NativeFunction.Natives.xCDDC2B77CE54AC6E(_victim1, _victim2, -1, 1000); //TASK_WRITHE
+                    NativeFunction.Natives.x5AD23D40115353AC(_victim2, Game.LocalPlayer.Character, -1);
                     _victim1.BlockPermanentEvents = false;
                     _victim2.BlockPermanentEvents = false;
                     Game.DisplayHelp($"Press ~{Settings.Interact.GetInstructionalId()}~ to open interaction menu.");
@@ -159,7 +158,7 @@ namespace SuperCallouts2.Callouts
                         BigMessageThread bigMessage = new BigMessageThread();
             bigMessage.MessageInstance.ShowColoredShard("Code 4", "Callout Ended", HudColor.Green, HudColor.Black,
                 2);
-            //Game.DisplayHelp("Scene ~g~CODE 4", 5000);
+            Game.DisplayHelp("Scene ~g~CODE 4", 5000);
             base.End();
         }
         //UI Items
@@ -184,7 +183,7 @@ namespace SuperCallouts2.Callouts
                 GameFiber.StartNew(delegate
                 {
                     Game.DisplaySubtitle("~g~You~s~: What happened? Are you ok?", 5000);
-                    NativeFunction.CallByName<uint>("TASK_TURN_PED_TO_FACE_ENTITY", _victim2,
+                    NativeFunction.Natives.x5AD23D40115353AC(_victim2,
                         Game.LocalPlayer.Character, -1);
                     GameFiber.Wait(5000);
                     Game.DisplaySubtitle(

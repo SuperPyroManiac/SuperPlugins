@@ -28,8 +28,8 @@ namespace DeadlyWeapons2.Modules
                     }
 
                     foreach (var w in WeaponHashs.WeaponHashes)
-                        if (NativeFunction.Natives.HAS_ENTITY_BEEN_DAMAGED_BY_WEAPON<bool>(ped, (uint) w, 0) &&
-                                Settings.EnableDamageSystem)
+                        if (NativeFunction.Natives.x131D401334815E94<bool>(ped, (uint) w, 0) &&
+                                Settings.EnableDamageSystem) //Has_Entity_Been_Damaged_By_Weapon
                             {
                                 if (ped.LastDamageBone == PedBoneId.LeftUpperArm ||
                                     ped.LastDamageBone == PedBoneId.LeftForeArm ||
@@ -94,7 +94,7 @@ namespace DeadlyWeapons2.Modules
                                                     " rolled 2-" + rnd);
                                 }
 
-                                NativeFunction.Natives.CLEAR_ENTITY_LAST_WEAPON_DAMAGE(ped);
+                                NativeFunction.Natives.xAC678E40BE7C74D2(ped); //CLEAR_ENTITY_LAST_WEAPON_DAMAGE
                             }
                 });
             }

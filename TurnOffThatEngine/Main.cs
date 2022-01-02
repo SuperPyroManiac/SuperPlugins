@@ -20,16 +20,16 @@ namespace TurnOffThatEngine
                         {
                             if (Game.LocalPlayer.Character.IsInAnyVehicle(false))
                             {
-                                NativeFunction.Natives.SET_VEHICLE_ENGINE_ON(Game.LocalPlayer.Character.CurrentVehicle,
-                                    false, false, true);
+                                NativeFunction.Natives.x2497C4717C8B881E(Game.LocalPlayer.Character.CurrentVehicle,
+                                    false, false, true); //Vehicle_Engine_On
                                 isDisabled = true;
                             }
                             else Game.DisplayHelp("~r~You are not in a vehicle!", 3000);
                         }
                         else if (Game.IsControlPressed(0, GameControl.VehicleAccelerate) && isDisabled)
                         {
-                            NativeFunction.Natives.SET_VEHICLE_ENGINE_ON(Game.LocalPlayer.Character.CurrentVehicle,
-                                true, false, false);
+                            NativeFunction.Natives.x2497C4717C8B881E(Game.LocalPlayer.Character.CurrentVehicle,
+                                true, false, false); //Vehicle_Engine_On
                             isDisabled = false;
                         }
                     }

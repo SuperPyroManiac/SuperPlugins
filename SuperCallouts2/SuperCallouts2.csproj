@@ -68,7 +68,6 @@
     <Compile Include="CustomScenes\Mafia1Pre.cs" />
     <Compile Include="CustomScenes\Mafia2Setup.cs" />
     <Compile Include="CustomScenes\PrisonbreakSetup.cs" />
-    <Compile Include="CustomScenes\SimpleFunctions.cs" />
     <Compile Include="CustomScenes\TruckCrashSetup.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -86,7 +85,7 @@
       <HintPath>..\..\..\Depend\LSPD First Response.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="RAGENativeUI, Version=1.8.1.0, Culture=neutral, PublicKeyToken=null">
+    <Reference Include="RAGENativeUI, Version=1.8.2.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\..\..\Depend\RAGENativeUI.dll</HintPath>
     </Reference>
     <Reference Include="RagePluginHook, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">

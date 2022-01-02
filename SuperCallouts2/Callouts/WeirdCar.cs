@@ -151,7 +151,7 @@ namespace SuperCallouts2.Callouts
                         BigMessageThread bigMessage = new BigMessageThread();
             bigMessage.MessageInstance.ShowColoredShard("Code 4", "Callout Ended", HudColor.Green, HudColor.Black,
                 2);
-            //Game.DisplayHelp("Scene ~g~CODE 4", 5000);
+            Game.DisplayHelp("Scene ~g~CODE 4", 5000);
             base.End();
         }
         //UI Items
@@ -172,7 +172,7 @@ namespace SuperCallouts2.Callouts
                     Game.DisplaySubtitle("~g~You~s~: We have reports of suspecious activity here, what's going on?", 5000);
                     _bad1.Tasks.LeaveVehicle(_cVehicle1, LeaveVehicleFlags.LeaveDoorOpen);
                     GameFiber.Wait(5000);
-                    NativeFunction.CallByName<uint>("TASK_TURN_PED_TO_FACE_ENTITY", _bad1, Game.LocalPlayer.Character, -1);
+                    NativeFunction.Natives.x5AD23D40115353AC(_bad1, Game.LocalPlayer.Character, -1);
                     _bad1.PlayAmbientSpeech("GENERIC_CURSE_MED");
                     Game.DisplaySubtitle("~r~" + _name1 + "~s~: Nothing is wrong sir, I don't know why you got that idea.", 5000);
                 });

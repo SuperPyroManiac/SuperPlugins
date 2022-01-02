@@ -31,7 +31,7 @@ namespace DeadlyWeapons2.Modules
         private void PlayerShotEvent()
         {
             foreach (var w in WeaponHashs.WeaponHashes)
-                if (NativeFunction.Natives.HAS_ENTITY_BEEN_DAMAGED_BY_WEAPON<bool>(Player, (uint) w, 0) &&
+                if (NativeFunction.Natives.x131D401334815E94<bool>(Player, (uint) w, 0) &&
                     Settings.EnableDamageSystem)
                 {
                     try
@@ -83,7 +83,7 @@ namespace DeadlyWeapons2.Modules
                             }
                         }
 
-                        NativeFunction.Natives.CLEAR_ENTITY_LAST_WEAPON_DAMAGE(Player);
+                        NativeFunction.Natives.xAC678E40BE7C74D2(Player); //CLEAR_ENTITY_LAST_WEAPON_DAMAGE
                     }
                     catch (Exception e)
                     {

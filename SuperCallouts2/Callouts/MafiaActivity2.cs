@@ -1,5 +1,6 @@
 ﻿#region
 
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using LSPD_First_Response;
@@ -55,7 +56,7 @@ namespace SuperCallouts2.Callouts
         }
 
         public override bool OnCalloutAccepted()
-        {//TODO: FIX THE LOCATIONS
+        {
             Mafia2Setup.ConstructMafia2Scene(out _cVehicle1, out _cVehicle2, out _cVehicle3, out _cVehicle4, out _mafiaDude1, out _mafiaDude2, out _mafiaDude3, out _mafiaDude4, out _mafiaDude5, out _mafiaDude6, out _mafiaDude7, out _mafiaDude8, out _mafiaDude9, out _mafiaDude10, out _mafiaDude11, out _mafiaDude12, out _mafiaDude13, out _mafiaDude14, out _mafiaDude15);
             Game.LogTrivial("SuperCallouts Log: MafiaActivity callout accepted...");
             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~The Mafia",
@@ -100,27 +101,40 @@ namespace SuperCallouts2.Callouts
             if (Game.IsKeyDown(Settings.EndCall)) End();
             if (!_onScene && Game.LocalPlayer.Character.DistanceTo(_callPos) < 100f)
             {
-                Game.DisplaySubtitle(
-                    "Suspects spotted, appear to be ~r~armed~w~ and ~r~wanted~w~! Proceed with caution or wait for backup.",
-                    5000);
-                Game.DisplayNotification(
-                    "~r~Dispatch:~s~ Officer on scene, mafia activity spotted. Dispatching specialized units.");
-                Functions.PlayScannerAudioUsingPosition(
-                    "DISPATCH_SWAT_UNITS_FROM_01 IN_OR_ON_POSITION UNITS_RESPOND_CODE_99_01", _callPos);
-                Functions.RequestBackup(_callPos, EBackupResponseType.Code3,
-                    EBackupUnitType.NooseTeam);
-                Functions.RequestBackup(_callPos, EBackupResponseType.Code3,
-                    EBackupUnitType.LocalUnit);
-                Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Code3,
-                    EBackupUnitType.LocalUnit);
-                Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Code3,
-                    EBackupUnitType.LocalUnit);
-                Game.LocalPlayer.Character.RelationshipGroup = "COP";
-                _mafiaDude13.Tasks.FightAgainst(Game.LocalPlayer.Character, -1);
-                Game.SetRelationshipBetweenRelationshipGroups("MAFIA", "COP", Relationship.Hate);
-                Game.SetRelationshipBetweenRelationshipGroups("COP", "MAFIA", Relationship.Hate);
+                try
+                {
+                    Game.DisplaySubtitle(
+                        "Suspects spotted, appear to be ~r~armed~w~ and ~r~wanted~w~! Proceed with caution or wait for backup.",
+                        5000);
+                    Game.DisplayNotification(
+                        "~r~Dispatch:~s~ Officer on scene, mafia activity spotted. Dispatching specialized units.");
+                    Functions.PlayScannerAudioUsingPosition(
+                        "DISPATCH_SWAT_UNITS_FROM_01 IN_OR_ON_POSITION UNITS_RESPOND_CODE_99_01", _callPos);
+                    Functions.RequestBackup(_callPos, EBackupResponseType.Code3,
+                        EBackupUnitType.NooseTeam);
+                    Functions.RequestBackup(_callPos, EBackupResponseType.Code3,
+                        EBackupUnitType.LocalUnit);
+                    Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Code3,
+                        EBackupUnitType.LocalUnit);
+                    Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Code3,
+                        EBackupUnitType.LocalUnit);
+                    Game.LocalPlayer.Character.RelationshipGroup = "COP";
+                    _mafiaDude13.Tasks.FightAgainst(Game.LocalPlayer.Character, -1);
+                    Game.SetRelationshipBetweenRelationshipGroups("MAFIA", "COP", Relationship.Hate);
+                    Game.SetRelationshipBetweenRelationshipGroups("COP", "MAFIA", Relationship.Hate);
+                    _cBlip.Delete();
+                }
+                catch (Exception e)
+                {
+                    Game.LogTrivial("Oops there was an error here. Please send this log to https://discord.gg/xsdAXJb");
+                    Game.LogTrivial("SuperCallouts Error Report Start");
+                    Game.LogTrivial("======================================================");
+                    Game.LogTrivial(e.ToString());
+                    Game.LogTrivial("======================================================");
+                    Game.LogTrivial("SuperCallouts Error Report End");
+                    End();
+                }
                 _onScene = true;
-                _cBlip.Delete();
             }
             if (_onScene && Game.LocalPlayer.Character.DistanceTo(_callPos) > 120f) End();
             base.Process();
@@ -131,10 +145,10 @@ namespace SuperCallouts2.Callouts
             foreach (var mafiaCars in _mafiaCars) {if(mafiaCars.Exists()) {mafiaCars.Dismiss();}}
             foreach (var mafiaDudes in _mafiaDudes) {if(mafiaDudes.Exists()) {mafiaDudes.Dismiss();}}
             if (_cBlip.Exists()) {_cBlip.Delete();}
-                        BigMessageThread bigMessage = new BigMessageThread();
+            BigMessageThread bigMessage = new BigMessageThread();
             bigMessage.MessageInstance.ShowColoredShard("Code 4", "Callout Ended", HudColor.Green, HudColor.Black,
                 2);
-            //Game.DisplayHelp("Scene ~g~CODE 4", 5000);
+            Game.DisplayHelp("Scene ~g~CODE 4", 5000);
             base.End();
         }
     }

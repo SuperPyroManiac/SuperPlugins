@@ -50,11 +50,11 @@ namespace SuperCallouts2.Callouts
                 "DOC has reported multiple groups of prisoners have escaped! They are occupied with another group and need local police assistance.");
             PrisonbreakSetup.ConstructPrisonBreakSetupScene(out _prisoner1, out _prisoner2, out _prisoner3,
                 out _prisoner4, out _prisoner5);
-            CustomScenes.SimpleFunctions.SetWanted(_prisoner1, true);
-            CustomScenes.SimpleFunctions.SetWanted(_prisoner2, true);
-            CustomScenes.SimpleFunctions.SetWanted(_prisoner3, true);
-            CustomScenes.SimpleFunctions.SetWanted(_prisoner4, true);
-            CustomScenes.SimpleFunctions.SetWanted(_prisoner5, true);
+            SimpleFunctions.CFunctions.SetWanted(_prisoner1, true);
+            SimpleFunctions.CFunctions.SetWanted(_prisoner2, true);
+            SimpleFunctions.CFunctions.SetWanted(_prisoner3, true);
+            SimpleFunctions.CFunctions.SetWanted(_prisoner4, true);
+            SimpleFunctions.CFunctions.SetWanted(_prisoner5, true);
             _cVehicle = new Vehicle("PBUS", _prisoner1.GetOffsetPositionFront(4));
             _cVehicle.IsPersistent = true;
             _cVehicle.IsStolen = true;
@@ -120,7 +120,7 @@ namespace SuperCallouts2.Callouts
                         BigMessageThread bigMessage = new BigMessageThread();
             bigMessage.MessageInstance.ShowColoredShard("Code 4", "Callout Ended", HudColor.Green, HudColor.Black,
                 2);
-            //Game.DisplayHelp("Scene ~g~CODE 4", 5000);
+            Game.DisplayHelp("Scene ~g~CODE 4", 5000);
             if (_prisoner1.Exists()) _prisoner1.Dismiss();
             if (_prisoner2.Exists()) _prisoner2.Dismiss();
             if (_prisoner3.Exists()) _prisoner3.Dismiss();

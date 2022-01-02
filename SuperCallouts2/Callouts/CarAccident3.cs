@@ -177,6 +177,7 @@ namespace SuperCallouts2.Callouts
             if (_eVehicle) _eVehicle.Dismiss();
             if (_eVehicle2) _eVehicle2.Dismiss();
             if (_eBlip) _eBlip.Delete();
+            Game.DisplayHelp("Scene ~g~CODE 4", 5000);
             base.End();
         }
         
