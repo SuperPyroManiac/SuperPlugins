@@ -51,7 +51,7 @@ namespace SuperCallouts2.Callouts
             //Setup
             Game.LogTrivial("SuperCallouts Log: Officer Impersonator callout accepted...");
             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Suspicious Pullover",
-                "911 call of someone being pulled over by a non uniformed officer. Description does not match our department for undercover cops. Respond ~r~CODE-3");
+                Settings.EmergencyNumber+ " call of someone being pulled over by a non uniformed officer. Description does not match our department for undercover cops. Respond ~r~CODE-3");
             //cVehicle1
             CFunctions.SpawnNormalCar(out _cVehicle1, _spawnPoint);
             _cVehicle1.Heading = _spawnPointH;
@@ -104,7 +104,7 @@ namespace SuperCallouts2.Callouts
                     _victim.Tasks.CruiseWithVehicle(10f, VehicleDrivingFlags.Normal);
                     _pursuit = Functions.CreatePursuit();
                     Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Suspicious Pullover",
-                        "Be advised, caller has been instructed to leave scene by 911 operator.");
+                        "Be advised, caller has been instructed to leave scene by dispatcher.");
                     Game.DisplayHelp($"Press ~{Settings.Interact.GetInstructionalId()}~ to open interaction menu.");
                     var rNd = new Random();
                     var choices = rNd.Next(1, 4);

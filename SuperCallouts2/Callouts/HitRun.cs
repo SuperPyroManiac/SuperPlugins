@@ -49,7 +49,7 @@ namespace SuperCallouts2.Callouts
         {
             CFunctions.FindSideOfRoad(500, 100, out _spawnPoint, out _spawnPointH);
             ShowCalloutAreaBlipBeforeAccepting(_spawnPoint, 40f);
-            CalloutMessage = "~r~911 Report:~s~ Vehicle hit and run.";
+            CalloutMessage = "~r~" + Settings.EmergencyNumber + " Report:~s~ Vehicle hit and run.";
             CalloutAdvisory = "Caller reports other driver has left the scene.";
             CalloutPosition = _spawnPoint;
             Functions.PlayScannerAudioUsingPosition(
@@ -220,7 +220,7 @@ namespace SuperCallouts2.Callouts
                     GameFiber.Wait(5000);
                     Game.DisplaySubtitle("~g~You~s~: Alright, well did you get any information? What did they look like or a vehicle description?", 5000);
                     GameFiber.Wait(5000);
-                    Game.DisplaySubtitle("~r~" + _name1 + "~s~: I gave the 911 lady the license number, but it was so fast I don't recall any details. Im sorry, can I leave?", 5000);
+                    Game.DisplaySubtitle("~r~" + _name1 + "~s~: I gave the dispatch lady the license number, but it was so fast I don't recall any details. Im sorry, can I leave?", 5000);
                     GameFiber.Wait(5000);
                     Game.DisplaySubtitle("~y~Dispatch~s~: ANPR has located a vehicle matching the license given to us. Dismiss victim and respond ~r~CODE-3", 5000);
                     _dissmisVictim.Enabled = true;

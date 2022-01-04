@@ -39,7 +39,7 @@ namespace SuperCallouts2.Callouts
         {
             _spawnPoint = World.GetNextPositionOnStreet(Game.LocalPlayer.Character.Position.Around(350f));
             ShowCalloutAreaBlipBeforeAccepting(_spawnPoint, 30f);
-            CalloutMessage = "~r~911 Report:~s~ Person(s) from amber alert spotted.";
+            CalloutMessage = "~r~" + Settings.EmergencyNumber + " Report:~s~ Person(s) from amber alert spotted.";
             CalloutAdvisory = "Caller says people in the back of a vehicle match the description of a missing person(s) report.";
             CalloutPosition = _spawnPoint;
             Functions.PlayScannerAudioUsingPosition(

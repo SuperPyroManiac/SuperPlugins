@@ -35,7 +35,7 @@ namespace SuperCallouts2.Callouts
             ShowCalloutAreaBlipBeforeAccepting(_spawnPoint, 40f);
             //AddMinimumDistanceCheck(20f, SpawnPoint);
             //AddMaximumDistanceCheck(1500f, SpawnPoint);
-            CalloutMessage = "~r~911 Report:~s~ Large truck tipped over.";
+            CalloutMessage = "~r~" + Settings.EmergencyNumber + " Report:~s~ Large truck tipped over.";
             CalloutPosition = _spawnPoint;
             Functions.PlayScannerAudioUsingPosition(
                 "ATTENTION_ALL_UNITS_05 WE_HAVE CRIME_AMBULANCE_REQUESTED_02 IN_OR_ON_POSITION UNITS_RESPOND_CODE_03_01",

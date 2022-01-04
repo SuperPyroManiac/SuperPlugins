@@ -37,7 +37,7 @@ namespace SuperCallouts2.Callouts
         {
             _spawnPoint = World.GetNextPositionOnStreet(Game.LocalPlayer.Character.Position.Around(450f));
             ShowCalloutAreaBlipBeforeAccepting(_spawnPoint, 30f);
-            CalloutMessage = "~r~911 Report:~s~ Person(s) being held at gunpoint.";
+            CalloutMessage = "~r~" + Settings.EmergencyNumber + " Report:~s~ Person(s) being held at gunpoint.";
             CalloutAdvisory = "Caller reports people holding someone at gunpoint.";
             CalloutPosition = _spawnPoint;
             Functions.PlayScannerAudioUsingPosition("CITIZENS_REPORT_03 CRIME_ROBBERY_01 IN_OR_ON_POSITION",
@@ -50,7 +50,7 @@ namespace SuperCallouts2.Callouts
             //Setup
             Game.LogTrivial("SuperCallouts Log: Robery callout accepted...");
             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Possible Robbery",
-                "A 911 report claims 2 armed people are holding 1 person at gunpoint. Respond ~r~CODE-3");
+                "A " + Settings.EmergencyNumber + " report claims 2 armed people are holding 1 person at gunpoint. Respond ~r~CODE-3");
             //cVehicle1
             SimpleFunctions.CFunctions.SpawnNormalCar(out _cVehicle, _spawnPoint);
             _cVehicle.IsPersistent = true;

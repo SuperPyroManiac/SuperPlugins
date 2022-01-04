@@ -46,7 +46,7 @@ namespace SuperCallouts2.Callouts
             //Setup
             CFunctions.FindSideOfRoad(750, 280, out _spawnPoint, out _heading);
             ShowCalloutAreaBlipBeforeAccepting(_spawnPoint, 10f);
-            CalloutMessage = "~r~911 Report:~s~ Reports of a vehicle parked illegally.";
+            CalloutMessage = "~r~" + Settings.EmergencyNumber + " Report:~s~ Reports of a vehicle parked illegally.";
             CalloutAdvisory = "Caller says a vehicle is parked on their property without permission.";
             CalloutPosition = _spawnPoint;
             Functions.PlayScannerAudioUsingPosition("ATTENTION_ALL_UNITS_05 WE_HAVE CRIME_11_351_02 IN_OR_ON_POSITION",
