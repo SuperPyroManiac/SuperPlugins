@@ -104,7 +104,7 @@ namespace SuperCallouts2.Callouts
                     _victim.Tasks.CruiseWithVehicle(10f, VehicleDrivingFlags.Normal);
                     _pursuit = Functions.CreatePursuit();
                     Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Suspicious Pullover",
-                        "Be advised, caller has been instructed to leave scene by dispatcher.");
+                        "Be advised, caller has been instructed to leave scene by the dispatcher.");
                     Game.DisplayHelp($"Press ~{Settings.Interact.GetInstructionalId()}~ to open interaction menu.");
                     var rNd = new Random();
                     var choices = rNd.Next(1, 4);
