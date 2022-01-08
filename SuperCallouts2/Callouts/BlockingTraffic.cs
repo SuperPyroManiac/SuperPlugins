@@ -45,6 +45,8 @@ namespace SuperCallouts2.Callouts
             //cVehicle
             CFunctions.SpawnNormalCar(out _cVehicle, _spawnPoint);
             //Start UI
+            _mainMenu.MouseControlsEnabled = false;
+            _mainMenu.AllowCameraMovement = true;
             _interaction.Add(_mainMenu);
             _mainMenu.AddItem(_endCall);
             _mainMenu.RefreshIndex();

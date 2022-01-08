@@ -65,6 +65,8 @@ namespace SuperCallouts2.Callouts
             _cBlip.Color = Color.Red;
             _cBlip.EnableRoute(Color.Red);
             //Start UI
+            _mainMenu.MouseControlsEnabled = false;
+            _mainMenu.AllowCameraMovement = true;
             _speakSuspect = new UIMenuItem("Speak with ~y~" + _name1);
             _interaction.Add(_mainMenu);
             _interaction.Add(_convoMenu);

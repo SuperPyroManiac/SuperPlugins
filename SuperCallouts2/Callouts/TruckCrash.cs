@@ -82,6 +82,8 @@ namespace SuperCallouts2.Callouts
             Game.DisplaySubtitle("Get to the ~r~scene~w~!", 10000);
             _conversation = new MenuPool();
             _mainMenu = new UIMenu("Conversation", "Choose an option");
+            _mainMenu.MouseControlsEnabled = false;
+            _mainMenu.AllowCameraMovement = true;
             _conversation.Add(_mainMenu);
             _mainMenu.AddItem(_startConv = new UIMenuItem("Are you all ok?"));
             _mainMenu.RefreshIndex();

@@ -82,6 +82,8 @@ namespace SuperCallouts2.Callouts
             _victim2.Metadata.stpAlcoholDetected = true;
             _name1 = Functions.GetPersonaForPed(_victim2).FullName;
             //Start UI
+            _mainMenu.MouseControlsEnabled = false;
+            _mainMenu.AllowCameraMovement = true;
             _speakSuspect = new UIMenuItem("Speak with ~y~" + _name1);
             _interaction.Add(_mainMenu);
             _interaction.Add(_convoMenu);

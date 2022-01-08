@@ -54,6 +54,8 @@ namespace SuperCallouts2.Callouts
             _victim.BlockPermanentEvents = true;
             _victim.Health = 500;
             //Start UI
+            _mainMenu.MouseControlsEnabled = false;
+            _mainMenu.AllowCameraMovement = true;
             _interaction.Add(_mainMenu);
             _mainMenu.AddItem(_callEms);
             _mainMenu.AddItem(_endCall);

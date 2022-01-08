@@ -88,6 +88,8 @@ namespace SuperCallouts2.Callouts
             _bad2.IsPersistent = true;
             _name3 = Functions.GetPersonaForPed(_bad2).FullName;
             //Start UI
+            _mainMenu.MouseControlsEnabled = false;
+            _mainMenu.AllowCameraMovement = true;
             _interaction.Add(_mainMenu);
             _interaction.Add(_convoMenu);
             _speakVictim = new UIMenuItem("Speak with ~y~" + _name1);

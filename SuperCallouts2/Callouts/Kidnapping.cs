@@ -73,6 +73,8 @@ namespace SuperCallouts2.Callouts
             _name2 = Functions.GetPersonaForPed(_victim1).FullName;
             _victim1.Metadata.searchPed = "~r~fake ID~s~";
             //Start UI
+            _mainMenu.MouseControlsEnabled = false;
+            _mainMenu.AllowCameraMovement = true;
             _speakSuspect = new UIMenuItem("Speak with ~y~" + _name1);
             _speakSuspect2 = new UIMenuItem("Speak with ~y~" + _name2);
             _interaction.Add(_mainMenu);

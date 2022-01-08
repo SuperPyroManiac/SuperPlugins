@@ -63,6 +63,8 @@ namespace SuperEvents2
             AmbientEvent.TimeStart = false;
             Interaction.Add(MainMenu);
             Interaction.Add(ConvoMenu);
+            MainMenu.MouseControlsEnabled = false;
+            MainMenu.AllowCameraMovement = true;
             MainMenu.AddItem(Questioning);
             MainMenu.AddItem(EndCall);
             MainMenu.BindMenuToItem(ConvoMenu, Questioning);

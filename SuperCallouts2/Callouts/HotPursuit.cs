@@ -79,6 +79,8 @@ namespace SuperCallouts2.Callouts
             _bad2.Metadata.stpAlcoholDetected = true;
             CFunctions.SetDrunk(_bad2, true);
             //Start UI
+            _mainMenu.MouseControlsEnabled = false;
+            _mainMenu.AllowCameraMovement = true;
             _speakSuspect = new UIMenuItem("Speak with ~y~" + _name1);
             _speakSuspect2 = new UIMenuItem("Speak with ~y~" + _name2);
             _interaction.Add(_mainMenu);

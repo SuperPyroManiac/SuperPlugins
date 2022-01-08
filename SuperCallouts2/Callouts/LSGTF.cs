@@ -102,6 +102,8 @@ namespace SuperCallouts2.Callouts
             _meetingP = _fib1.Position;
             _conversation = new MenuPool();
             _mainMenu = new UIMenu("Meeting", "Choose an option");
+            _mainMenu.MouseControlsEnabled = false;
+            _mainMenu.AllowCameraMovement = true;
             _conversation.Add(_mainMenu);
             _mainMenu.AddItem(_startConv = new UIMenuItem("What's the plan?"));
             _mainMenu.RefreshIndex();

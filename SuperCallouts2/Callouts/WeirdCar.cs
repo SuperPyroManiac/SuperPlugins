@@ -53,6 +53,8 @@ namespace SuperCallouts2.Callouts
             _cVehicle1.Heading = _spawnPointH;
             _cVehicle1.IsPersistent = true;
             //Start UI
+            _mainMenu.MouseControlsEnabled = false;
+            _mainMenu.AllowCameraMovement = true;
             _interaction.Add(_mainMenu);
             _interaction.Add(_convoMenu);
             _mainMenu.AddItem(_questioning);

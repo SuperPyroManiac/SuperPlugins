@@ -56,6 +56,8 @@ namespace SuperCallouts2.Callouts
             _cVictim.IsPersistent = true;
             _cVictim.Kill();
             //Start UI
+            _mainMenu.MouseControlsEnabled = false;
+            _mainMenu.AllowCameraMovement = true;
             _interaction.Add(_mainMenu);
             _mainMenu.AddItem(_callEms);
             _mainMenu.AddItem(_endCall);

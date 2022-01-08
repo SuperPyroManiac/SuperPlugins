@@ -97,6 +97,8 @@ namespace SuperCallouts2.Callouts
             _blip3.Scale = .75f;
             _blip3.Color = Color.Red;
             //Start UI
+            _mainMenu.MouseControlsEnabled = false;
+            _mainMenu.AllowCameraMovement = true;
             _interaction.Add(_mainMenu);
             _mainMenu.AddItem(_endCall);
             _mainMenu.RefreshIndex();

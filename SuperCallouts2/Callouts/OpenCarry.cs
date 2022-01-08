@@ -67,6 +67,8 @@ namespace SuperCallouts2.Callouts
             _cBlip.EnableRoute(Color.Red);
             _cBlip.Color = Color.Red;
             //Start UI
+            _mainMenu.MouseControlsEnabled = false;
+            _mainMenu.AllowCameraMovement = true;
             _interaction.Add(_mainMenu);
             _interaction.Add(_convoMenu);
             _mainMenu.AddItem(_stopSuspect);

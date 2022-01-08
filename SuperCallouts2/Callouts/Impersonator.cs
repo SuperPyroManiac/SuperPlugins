@@ -69,6 +69,8 @@ namespace SuperCallouts2.Callouts
             _victim = _cVehicle1.CreateRandomDriver();
             _victim.IsPersistent = true;
             //Start UI
+            _mainMenu.MouseControlsEnabled = false;
+            _mainMenu.AllowCameraMovement = true;
             _speakSuspect = new UIMenuItem("Speak with ~y~" + _name1);
             _interaction.Add(_mainMenu);
             _interaction.Add(_convoMenu);

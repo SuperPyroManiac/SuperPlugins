@@ -70,6 +70,8 @@ namespace SuperCallouts2.Callouts
             _victim = new Ped("s_m_y_hwaycop_01", _spawnPoint, 0f) {IsPersistent = true, BlockPermanentEvents = true};
             _victim.WarpIntoVehicle(_cVehicle, 1);
             //Start UI
+            _mainMenu.MouseControlsEnabled = false;
+            _mainMenu.AllowCameraMovement = true;
             _interaction.Add(_mainMenu);
             _mainMenu.AddItem(_endCall);
             _mainMenu.RefreshIndex();
