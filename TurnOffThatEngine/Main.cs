@@ -35,13 +35,12 @@ namespace TurnOffThatEngine
                     }
                     catch (Exception e)
                     {
-                        Game.LogTrivial("Oops there was an error here. Please send this log to https://discord.gg/xsdAXJb");
-                        Game.LogTrivial("TurnOffThatEngine Error Report Start");
-                        Game.LogTrivial("======================================================");
-                        Game.LogTrivial(e.ToString());
-                        Game.LogTrivial("======================================================");
-                        Game.LogTrivial("TurnOffThatEngine Error Report End");
-                        Game.LogTrivial("Seriously, if you see this error. Pyro is an idiot.");
+                        //Game.LogTrivial("Oops there was an error here. Please send this log to https://discord.gg/xsdAXJb");
+                        //Game.LogTrivial("TurnOffThatEngine Error Report Start");
+                        //Game.LogTrivial("======================================================");
+                        //Game.LogTrivial(e.ToString());
+                        //Game.LogTrivial("======================================================");
+                        //Game.LogTrivial("TurnOffThatEngine Error Report End");
                     }
                 }
             });
