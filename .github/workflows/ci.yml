@@ -6,9 +6,6 @@ jobs:
   build:
     name: Build
     runs-on: windows-latest
-    strategy:
-      matrix:
-        config: [Release]
     env:
         ACTIONS_ALLOW_UNSECURE_COMMANDS: true
         SuperPlugins_BUILD_PATH: ${{ github.workspace }}/Build
@@ -20,10 +17,10 @@ jobs:
       
       - name: Build
         run: |
-          msbuild SuperPlugins.sln /p:Configuration=${{ matrix.config }} /p:Platform=x64
+          msbuild SuperPlugins.sln /p:Configuration=Release /p:Platform="Any CPU"
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v1
         with:
-          name: Spotlight-${{ matrix.config }}
+          name: SuperPlugins-Release
           path: ${{ env.SuperPlugins_BUILD_PATH }}
