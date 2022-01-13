@@ -19,19 +19,19 @@ jobs:
         uses: carlosperate/download-file-action@v1.0.2
         with:
           file-url: https://github.com/SuperPyroManiac/SuperPlugins/raw/master/.github/workflows/RagePluginHookSDK.dll
-          location: D:\a\Depend
+          #location: D:\a\Depend
           
       - name: Install Dependencies - LSPDFR
         uses: carlosperate/download-file-action@v1.0.2
         with:
           file-url: https://github.com/SuperPyroManiac/SuperPlugins/raw/master/.github/workflows/LSPD%20First%20Response.dll
-          location: D:\a\Depend
+          #location: D:\a\Depend
           
       - name: Install Dependencies - RageNativeUI
         uses: carlosperate/download-file-action@v1.0.2
         with:
           file-url: https://github.com/SuperPyroManiac/SuperPlugins/raw/master/.github/workflows/RAGENativeUI.dll
-          location: D:\a\Depend
+          #location: D:\a\Depend
       
       - name: Build
         run: |
@@ -40,5 +40,5 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@v1
         with:
-          name: SuperPlugins-Release
+          #name: SuperPlugins-Release
           path: ${{ env.SuperPlugins_BUILD_PATH }}
