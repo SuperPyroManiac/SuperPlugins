@@ -16,19 +16,19 @@ jobs:
         uses: microsoft/setup-msbuild@v1.1
         
       - name: Install Dependencies - RAGEPluginHook
-        uses: carlosperate/download-file-action@v1.0.2
+        uses: carlosperate/download-file-action@v1.1
         with:
           file-url: https://github.com/SuperPyroManiac/SuperPlugins/raw/master/.github/workflows/RagePluginHookSDK.dll
           location: Depend/
           
       - name: Install Dependencies - LSPDFR
-        uses: carlosperate/download-file-action@v1.0.2
+        uses: carlosperate/download-file-action@v1.1
         with:
-          file-url: https://1drv.ms/u/s!Aig7A-9xtacbg-5NcmiVfMmDcWSFoQ?e=3eF1Z3
+          file-url: github.com/SuperPyroManiac/SuperPlugins/raw/master/.github/workflows/LSPD%20First%20Response.dll
           location: Depend/
           
       - name: Install Dependencies - RageNativeUI
-        uses: carlosperate/download-file-action@v1.0.2
+        uses: carlosperate/download-file-action@v1.1
         with:
           file-url: https://github.com/SuperPyroManiac/SuperPlugins/raw/master/.github/workflows/RAGENativeUI.dll
           location: Depend/
