@@ -10,7 +10,7 @@ jobs:
         ACTIONS_ALLOW_UNSECURE_COMMANDS: true
         SuperPlugins_BUILD_PATH: ${{ github.workspace }}/Build
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
 
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v1.1
@@ -24,7 +24,7 @@ jobs:
       - name: Install Dependencies - LSPDFR
         uses: carlosperate/download-file-action@v1.0.3
         with:
-          file-url: github.com/SuperPyroManiac/SuperPlugins/raw/master/.github/workflows/LSPD%20First%20Response.dll
+          file-url: https://www.dropbox.com/s/7cys46u9tz1pwsf/LSPD%20First%20Response.dll?dl=1
           location: Depend/
           
       - name: Install Dependencies - RageNativeUI
