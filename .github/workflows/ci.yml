@@ -20,7 +20,7 @@ jobs:
       
       - name: Build
         run: |
-          msbuild SupwePlugins.sln /p:Configuration=${{ matrix.config }} /p:Platform=x64
+          msbuild SuperPlugins.sln /p:Configuration=${{ matrix.config }} /p:Platform=x64
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v1
