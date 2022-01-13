@@ -14,6 +14,24 @@ jobs:
 
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v1.0.1
+        
+      - name: Install Dependencies - RAGEPluginHook
+        uses: carlosperate/download-file-action@v1.0.2
+        with:
+          file-url: https://github.com/SuperPyroManiac/SuperPlugins/raw/master/.github/workflows/RagePluginHookSDK.dll
+          location: Dependencies/
+          
+      - name: Install Dependencies - LSPDFR
+        uses: carlosperate/download-file-action@v1.0.2
+        with:
+          file-url: https://github.com/SuperPyroManiac/SuperPlugins/raw/master/.github/workflows/LSPD%20First%20Response.dll
+          location: Dependencies/
+          
+      - name: Install Dependencies - RageNativeUI
+        uses: carlosperate/download-file-action@v1.0.2
+        with:
+          file-url: https://github.com/SuperPyroManiac/SuperPlugins/raw/master/.github/workflows/RAGENativeUI.dll
+          location: Dependencies/
       
       - name: Build
         run: |
