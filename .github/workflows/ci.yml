@@ -10,6 +10,7 @@ jobs:
       matrix:
         config: [Release]
     env:
+        ACTIONS_ALLOW_UNSECURE_COMMANDS: true
         SuperPlugins_BUILD_PATH: ${{ github.workspace }}/Build
     steps:
       - uses: actions/checkout@v1
