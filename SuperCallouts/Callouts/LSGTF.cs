@@ -9,6 +9,7 @@ using Rage.Native;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts.CustomScenes;
+using SuperCallouts.SimpleFunctions;
 
 #endregion
 
@@ -192,10 +193,18 @@ namespace SuperCallouts.Callouts
                 _onScene = true;
                 Functions.PlayScannerAudioUsingPosition(
                     "DISPATCH_SWAT_UNITS_FROM_01 IN_OR_ON_POSITION UNITS_RESPOND_CODE_99_01", _raidpoint);
-                Functions.RequestBackup(Game.LocalPlayer.Character.Position,
-                    EBackupResponseType.Code3, EBackupUnitType.NooseTeam);
-                Functions.RequestBackup(Game.LocalPlayer.Character.Position,
-                    EBackupResponseType.Code3, EBackupUnitType.SwatTeam);
+                if (Main.UsingUB)
+                {
+                    Wrapper.callSwat(true);
+                    Wrapper.callSwat(false);
+                }
+                else
+                {
+                    Functions.RequestBackup(Game.LocalPlayer.Character.Position,
+                        EBackupResponseType.Code3, EBackupUnitType.NooseTeam);
+                    Functions.RequestBackup(Game.LocalPlayer.Character.Position,
+                        EBackupResponseType.Code3, EBackupUnitType.SwatTeam);
+                }
                 _cBlip1.DisableRoute();
                 _cBlip2 = _bad2.AttachBlip();
                 _cBlip2.Color = Color.Red;

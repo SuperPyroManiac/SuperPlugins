@@ -9,6 +9,7 @@ using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts.CustomScenes;
+using SuperCallouts.SimpleFunctions;
 
 #endregion
 
@@ -108,18 +109,25 @@ namespace SuperCallouts.Callouts
                 Game.SetRelationshipBetweenRelationshipGroups("LOSTERS", "PLAYER", Relationship.Hate);
                 foreach (var bikerss in _bikers)
                 {
-                    SimpleFunctions.CFunctions.SetWanted(bikerss, true);
+                    CFunctions.SetWanted(bikerss, true);
                     bikerss.Tasks.FightAgainstClosestHatedTarget(50f);
                 }
 
-                Functions.RequestBackup(_spawnPoint, EBackupResponseType.Code3,
-                    EBackupUnitType.NooseTeam);
-                Functions.RequestBackup(_spawnPoint, EBackupResponseType.Code3,
-                    EBackupUnitType.SwatTeam);
-                Functions.RequestBackup(_spawnPoint, EBackupResponseType.Code3,
-                    EBackupUnitType.LocalUnit);
-                Functions.RequestBackup(_spawnPoint, EBackupResponseType.Code3,
-                    EBackupUnitType.LocalUnit);
+                if (Main.UsingUB)
+                {
+                    Wrapper.callCode3();
+                    Wrapper.callCode3();
+                    Wrapper.callCode3();
+                }
+                else
+                {
+                    Functions.RequestBackup(_spawnPoint, EBackupResponseType.Code3,
+                        EBackupUnitType.NooseTeam);
+                    Functions.RequestBackup(_spawnPoint, EBackupResponseType.Code3,
+                        EBackupUnitType.SwatTeam);
+                    Functions.RequestBackup(_spawnPoint, EBackupResponseType.Code3,
+                        EBackupUnitType.LocalUnit);
+                }
             }
             if (_onScene && Game.LocalPlayer.Character.DistanceTo(_spawnPoint) > 90f) End();
             base.Process();

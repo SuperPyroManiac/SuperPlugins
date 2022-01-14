@@ -88,7 +88,14 @@ namespace SuperCallouts.Callouts
                         Game.DisplayHelp("Suspect is fleeing!");
                         Functions.AddPedToPursuit(_pursuit, _bad);
                         Functions.SetPursuitIsActiveForPlayer(_pursuit, true);
-                        Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Pursuit, EBackupUnitType.LocalUnit);
+                        if (Main.UsingUB)
+                        {
+                            Wrapper.callPursuit();
+                        }
+                        else
+                        {
+                            Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Pursuit, EBackupUnitType.LocalUnit);
+                        }
                         _state = CState.End;
                         break;
                 }

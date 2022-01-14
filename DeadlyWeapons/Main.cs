@@ -32,7 +32,7 @@ namespace DeadlyWeapons
                     GameFiber.Wait(10000);
                     Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~r~Deadly Weapons",
                         "~g~Plugin Loaded.",
-                        "Deadly Weapons by SuperPyroManiac version: " +
+                        "Deadly Weapons version: " +
                         Assembly.GetExecutingAssembly().GetName().Version + " loaded.");
                     VersionChecker.IsUpdateAvailable();
                     Startup.Start();

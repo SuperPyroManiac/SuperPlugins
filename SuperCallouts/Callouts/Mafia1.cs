@@ -133,28 +133,52 @@ namespace SuperCallouts.Callouts
                             switch (_choice)
                             {
                                 case SrChoice.Noose:
-                                    Functions.RequestBackup(_callPos, EBackupResponseType.Code3,
-                                        EBackupUnitType.NooseTeam);
-                                    Functions.RequestBackup(_callPos, EBackupResponseType.Code3,
-                                        EBackupUnitType.NooseTeam);
-                                    Functions.RequestBackup(_callPos, EBackupResponseType.Code3,
-                                        EBackupUnitType.NooseAirUnit);
+                                    if (Main.UsingUB)
+                                    {
+                                        Wrapper.callSwat(true);
+                                        Wrapper.callSwat(true);
+                                    }
+                                    else
+                                    {
+                                        Functions.RequestBackup(_callPos, EBackupResponseType.Code3,
+                                            EBackupUnitType.NooseTeam);
+                                        Functions.RequestBackup(_callPos, EBackupResponseType.Code3,
+                                            EBackupUnitType.NooseTeam);
+                                        Functions.RequestBackup(_callPos, EBackupResponseType.Code3,
+                                            EBackupUnitType.NooseAirUnit);
+                                    }
                                     _state = SrState.RaidScene;
                                     break;
                                 case SrChoice.Swat:
-                                    Functions.RequestBackup(_callPos, EBackupResponseType.Code3,
-                                        EBackupUnitType.SwatTeam);
-                                    Functions.RequestBackup(_callPos, EBackupResponseType.Code3,
-                                        EBackupUnitType.SwatTeam);
-                                    Functions.RequestBackup(_callPos, EBackupResponseType.Code3,
-                                        EBackupUnitType.AirUnit);
+                                    if (Main.UsingUB)
+                                    {
+                                        Wrapper.callSwat(false);
+                                        Wrapper.callSwat(false);
+                                    }
+                                    else
+                                    {
+                                        Functions.RequestBackup(_callPos, EBackupResponseType.Code3,
+                                            EBackupUnitType.SwatTeam);
+                                        Functions.RequestBackup(_callPos, EBackupResponseType.Code3,
+                                            EBackupUnitType.SwatTeam);
+                                        Functions.RequestBackup(_callPos, EBackupResponseType.Code3,
+                                            EBackupUnitType.AirUnit);
+                                    }
                                     _state = SrState.RaidScene;
                                     break;
                                 case SrChoice.You:
-                                    Functions.RequestBackup(_callPos, EBackupResponseType.Code3,
-                                        EBackupUnitType.LocalUnit);
-                                    Functions.RequestBackup(_callPos, EBackupResponseType.Code3,
-                                        EBackupUnitType.LocalUnit);
+                                    if (Main.UsingUB)
+                                    {
+                                        Wrapper.callCode3();
+                                        Wrapper.callCode3();
+                                    }
+                                    else
+                                    {
+                                        Functions.RequestBackup(_callPos, EBackupResponseType.Code3,
+                                            EBackupUnitType.LocalUnit);
+                                        Functions.RequestBackup(_callPos, EBackupResponseType.Code3,
+                                            EBackupUnitType.LocalUnit);
+                                    }
                                     _state = SrState.RaidScene;
                                     break;
                                 default:

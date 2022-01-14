@@ -6,6 +6,7 @@ using System.Drawing;
 using LSPD_First_Response;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
+using SuperCallouts.SimpleFunctions;
 
 namespace SuperCallouts.Callouts
 {
@@ -113,10 +114,18 @@ namespace SuperCallouts.Callouts
                     Functions.PlayScannerAudioUsingPosition("REQUEST_BACKUP", _spawnPoint);
                     Game.SetRelationshipBetweenRelationshipGroups("BADGANG", "COP", Relationship.Hate);
                     Game.SetRelationshipBetweenRelationshipGroups("BADGANG", "PLAYER", Relationship.Hate);
-                    Functions.RequestBackup(_copVehicle.Position, EBackupResponseType.Code3,
-                        EBackupUnitType.LocalUnit);
-                    Functions.RequestBackup(_copVehicle.Position, EBackupResponseType.Code3,
-                        EBackupUnitType.LocalUnit);
+                    if (Main.UsingUB)
+                    {
+                        Wrapper.callCode3();
+                        Wrapper.callCode3();
+                    }
+                    else
+                    {
+                        Functions.RequestBackup(_copVehicle.Position, EBackupResponseType.Code3,
+                            EBackupUnitType.LocalUnit);
+                        Functions.RequestBackup(_copVehicle.Position, EBackupResponseType.Code3,
+                            EBackupUnitType.LocalUnit);
+                    }
                     _cBlip.DisableRoute();
                 }
                 //Keybinds

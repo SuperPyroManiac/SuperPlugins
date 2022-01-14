@@ -169,8 +169,16 @@ namespace SuperCallouts.Callouts
             if (selItem == _callFd)
             {
                 Game.DisplaySubtitle("~g~You~s~: Dispatch, we have an MVA. One person is seriously injured.");
-                Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Code3, EBackupUnitType.Ambulance);
-                Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Code3, EBackupUnitType.Firetruck);
+                if (Main.UsingUB)
+                {
+                    Wrapper.callEMS();
+                    Wrapper.callFD();
+                }
+                else
+                {
+                    Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Code3, EBackupUnitType.Ambulance);
+                    Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Code3, EBackupUnitType.Firetruck);
+                }
                 _callFd.Enabled = false;
             }
             else if (selItem == _endCall)

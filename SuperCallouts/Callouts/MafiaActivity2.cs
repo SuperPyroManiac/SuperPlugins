@@ -11,6 +11,7 @@ using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts.CustomScenes;
+using SuperCallouts.SimpleFunctions;
 
 #endregion
 
@@ -110,14 +111,24 @@ namespace SuperCallouts.Callouts
                         "~r~Dispatch:~s~ Officer on scene, mafia activity spotted. Dispatching specialized units.");
                     Functions.PlayScannerAudioUsingPosition(
                         "DISPATCH_SWAT_UNITS_FROM_01 IN_OR_ON_POSITION UNITS_RESPOND_CODE_99_01", _callPos);
-                    Functions.RequestBackup(_callPos, EBackupResponseType.Code3,
-                        EBackupUnitType.NooseTeam);
-                    Functions.RequestBackup(_callPos, EBackupResponseType.Code3,
-                        EBackupUnitType.LocalUnit);
-                    Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Code3,
-                        EBackupUnitType.LocalUnit);
-                    Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Code3,
-                        EBackupUnitType.LocalUnit);
+                    if (Main.UsingUB)
+                    {
+                        Wrapper.callSwat(true);
+                        Wrapper.callCode3();
+                        Wrapper.callCode3();
+                        Wrapper.callCode3();
+                    }
+                    else
+                    {
+                        Functions.RequestBackup(_callPos, EBackupResponseType.Code3,
+                            EBackupUnitType.NooseTeam);
+                        Functions.RequestBackup(_callPos, EBackupResponseType.Code3,
+                            EBackupUnitType.LocalUnit);
+                        Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Code3,
+                            EBackupUnitType.LocalUnit);
+                        Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Code3,
+                            EBackupUnitType.LocalUnit);
+                    }
                     Game.LocalPlayer.Character.RelationshipGroup = "COP";
                     _mafiaDude13.Tasks.FightAgainst(Game.LocalPlayer.Character, -1);
                     Game.SetRelationshipBetweenRelationshipGroups("MAFIA", "COP", Relationship.Hate);

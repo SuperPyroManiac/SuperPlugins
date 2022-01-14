@@ -6,6 +6,7 @@ using System.Drawing;
 using LSPD_First_Response;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
+using SuperCallouts.SimpleFunctions;
 
 namespace SuperCallouts.Callouts
 {
@@ -125,8 +126,16 @@ namespace SuperCallouts.Callouts
             {
                 Game.DisplaySubtitle(
                     "~g~You~s~: Dispatch, we have a person that has been attacked by an animal! We need a medical crew here ASAP!");
-                Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Code3, EBackupUnitType.Ambulance);
-                Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Code3, EBackupUnitType.Firetruck);
+                if (Main.UsingUB)
+                {
+                    Wrapper.callEMS();
+                    Wrapper.callFD();
+                }
+                else
+                {
+                    Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Code3, EBackupUnitType.Ambulance);
+                    Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Code3, EBackupUnitType.Firetruck);
+                }
                 _callEms.Enabled = false;
             }
             else if (selItem == _endCall)

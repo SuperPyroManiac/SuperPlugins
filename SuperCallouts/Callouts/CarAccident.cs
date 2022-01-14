@@ -124,8 +124,16 @@ namespace SuperCallouts.Callouts
             {
                 Game.DisplaySubtitle(
                     "~g~You~s~: Dispatch, we have a vehicle accident, possible hit and run. Looks like someone is inside and injured! I need EMS out here.");
-                Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Code3, EBackupUnitType.Ambulance);
-                Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Code3, EBackupUnitType.Firetruck);
+                if (Main.UsingUB)
+                {
+                    Wrapper.callEMS();
+                    Wrapper.callFD();
+                }
+                else
+                {
+                    Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Code3, EBackupUnitType.Ambulance);
+                    Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Code3, EBackupUnitType.Firetruck);
+                }
                 _callEms.Enabled = false;
             }
             else if (selItem == _endCall)

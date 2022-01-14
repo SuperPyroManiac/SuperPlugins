@@ -185,7 +185,15 @@ namespace SuperCallouts.Callouts
             if (selItem == _callSecond)
             {
                 Game.DisplaySubtitle("~g~You~s~: Dispatch, can I get another unit.");
-                Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Code2, EBackupUnitType.LocalUnit);
+                if (Main.UsingUB)
+                {
+                    Wrapper.callCode2();
+                }
+                else
+                {
+                    Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Code2, EBackupUnitType.LocalUnit);
+                }
+                
                 _callSecond.Enabled = false;
             }
             else if (selItem == _endCall)

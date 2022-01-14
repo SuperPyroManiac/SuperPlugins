@@ -109,6 +109,9 @@ namespace SuperCallouts.SimpleFunctions
             }
         }
         
+        internal static readonly Func<string, bool> IsLoaded = PlugName =>
+            Functions.GetAllUserPlugins().Any(assembly => assembly.GetName().Name.Equals(PlugName));
+        
         internal static void BuildUi(out MenuPool interaction, out UIMenu mainMenu, out UIMenu convoMenu, out UIMenuItem questioning, out UIMenuItem endCall)
         {
             interaction = new MenuPool();

@@ -9,6 +9,8 @@ namespace SuperCallouts
 {
     internal class Main : Plugin
     {
+        internal static bool UsingUB { get; set; }
+        
         public override void Initialize()
         {
             Functions.OnOnDutyStateChanged += OnOnDutyStateChangedHandler;
@@ -26,6 +28,8 @@ namespace SuperCallouts
                 GameFiber.StartNew(delegate
                 {
                     GameFiber.Wait(10000);
+                    UsingUB = CFunctions.IsLoaded("UltimateBackup");
+                    if (UsingUB) Game.LogTrivial("SuperCallouts: Using UltimateBackup API.");
                     RegisterCallouts();
                     VersionChecker.IsUpdateAvailable();
                 });
