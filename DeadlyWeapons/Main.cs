@@ -38,7 +38,7 @@ namespace DeadlyWeapons
                     Startup.Start();
                 });
         }
-
+        
         public override void Finally()
         {
             Game.LogTrivial("Deadly Weapons by SuperPyroManiac has been disabled.");

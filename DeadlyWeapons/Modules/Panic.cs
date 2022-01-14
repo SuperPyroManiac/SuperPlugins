@@ -13,21 +13,23 @@ namespace DeadlyWeapons.Modules
     internal static class StartPanic
     {
         private static bool _panic;
-
         private static readonly Func<string, bool> IsLoaded = PlugName =>
             Functions.GetAllUserPlugins().Any(assembly => assembly.GetName().Name.Equals(PlugName));
+
+        private static readonly bool usingUB = IsLoaded("UltimateBackup");
 
         internal static void PanicHit()
         {
             if (_panic) return;
             _panic = true;
+            if (usingUB) Game.LogTrivial("DeadlyWeapons: UB DETECTED. Using Ultimate Backup for panic.");
             GameFiber.StartNew(delegate
             {
                 if (Settings.Code3Backup)
                 {
-                    if (IsLoaded("UltimateBackup")) 
+                    if (usingUB) 
                     {
-                        UltimateBackup.API.Functions.callCode3Backup(false);
+                        Wrapper.CallCode3();
                         return;
                     }
                     Functions.RequestBackup(Game.LocalPlayer.Character.Position,
@@ -37,9 +39,9 @@ namespace DeadlyWeapons.Modules
 
                 if (Settings.SwatBackup)
                 {
-                    if (IsLoaded("UltimateBackup")) 
+                    if (usingUB) 
                     {
-                        UltimateBackup.API.Functions.callCode3SwatBackup(false, false);
+                        Wrapper.CallSwat();
                         return;
                     }
                     Functions.RequestBackup(Game.LocalPlayer.Character.Position,
@@ -49,9 +51,9 @@ namespace DeadlyWeapons.Modules
 
                 if (Settings.NooseBackup)
                 {
-                    if (IsLoaded("UltimateBackup")) 
+                    if (usingUB) 
                     {
-                        UltimateBackup.API.Functions.callCode3SwatBackup(false, true);
+                        Wrapper.CallNoose();
                         return;
                     }
                     Functions.RequestBackup(Game.LocalPlayer.Character.Position,
