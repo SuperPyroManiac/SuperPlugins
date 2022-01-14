@@ -23,19 +23,19 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: DeadlyWeapons
-          path: D:\a\SuperPlugins\SuperPlugins\DeadlyWeapons2\bin\Release\DeadlyWeapons2.dll
+          path: D:\a\SuperPlugins\SuperPlugins\DeadlyWeapons\bin\Release\DeadlyWeapons.dll
           
       - name: Upload SuperCallouts
         uses: actions/upload-artifact@v2
         with:
           name: SuperCallouts
-          path: D:\a\SuperPlugins\SuperPlugins\SuperCallouts2\bin\Release\SuperCallouts2.dll
+          path: D:\a\SuperPlugins\SuperPlugins\SuperCallouts\bin\Release\SuperCallouts.dll
           
       - name: Upload SuperEvents
         uses: actions/upload-artifact@v2
         with:
           name: SuperEvents
-          path: D:\a\SuperPlugins\SuperPlugins\SuperEvents2\bin\Release\SuperEvents2.dll
+          path: D:\a\SuperPlugins\SuperPlugins\SuperEvents\bin\Release\SuperEvents.dll
           
       - name: Upload TurnOffThatEngine
         uses: actions/upload-artifact@v2

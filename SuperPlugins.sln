@@ -1,10 +1,10 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuperCallouts2", "SuperCallouts2\SuperCallouts2.csproj", "{6D43CF3C-4E95-4DFF-8F49-64E4633EF793}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuperCallouts", "SuperCallouts\SuperCallouts.csproj", "{6D43CF3C-4E95-4DFF-8F49-64E4633EF793}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuperEvents2", "SuperEvents2\SuperEvents2.csproj", "{8F8EF7EA-0500-4243-A0CD-2C5013197AA5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuperEvents", "SuperEvents\SuperEvents.csproj", "{8F8EF7EA-0500-4243-A0CD-2C5013197AA5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeadlyWeapons2", "DeadlyWeapons2\DeadlyWeapons2.csproj", "{7E461B22-8190-4526-85C8-F507E9E3758B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeadlyWeapons", "DeadlyWeapons\DeadlyWeapons.csproj", "{7E461B22-8190-4526-85C8-F507E9E3758B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TurnOffThatEngine", "TurnOffThatEngine\TurnOffThatEngine.csproj", "{A480B054-7630-459D-B63A-78D2AC11B385}"
 EndProject
