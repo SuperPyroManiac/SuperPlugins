@@ -23,4 +23,4 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: SuperPlugins-
-          path: ${{ env.SuperPlugins_BUILD_PATH }}
+          path: D:\a\SuperPlugins\SuperPlugins\DeadlyWeapons2\bin\Release\
