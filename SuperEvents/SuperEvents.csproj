@@ -47,12 +47,20 @@
       <HintPath>..\packages\RagePluginHook.1.86.1\lib\net472\RagePluginHook.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="StopThePed, Version=4.9.5.1, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\PyroPackage2.1.0.0\lib\StopThePed.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="UltimateBackup, Version=1.8.7.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\PyroPackage2.1.0.0\lib\UltimateBackup.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AmbientEvent.cs" />
