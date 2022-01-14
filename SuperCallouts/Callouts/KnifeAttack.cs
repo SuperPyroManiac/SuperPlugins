@@ -147,9 +147,7 @@ namespace SuperCallouts.Callouts
             if (_cVictim) _cVictim.Dismiss();
             if (_cSuspect) _cSuspect.Dismiss();
             Game.DisplayHelp("Scene ~g~CODE 4", 5000);
-            BigMessageThread bigMessage = new BigMessageThread();
-            bigMessage.MessageInstance.ShowColoredShard("Code 4", "Callout Ended", HudColor.Green, HudColor.Black,
-                2);
+CFunctions.Code4Message();
             base.End();
         }
         

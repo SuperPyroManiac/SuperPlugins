@@ -145,9 +145,7 @@ namespace SuperCallouts.Callouts
 
         public override void End()
         {
-                        BigMessageThread bigMessage = new BigMessageThread();
-            bigMessage.MessageInstance.ShowColoredShard("Code 4", "Callout Ended", HudColor.Green, HudColor.Black,
-                2);
+            CFunctions.Code4Message();
             Game.DisplayHelp("Scene ~g~CODE 4", 5000);
             if(_cVehicle) _cVehicle.Dismiss();
             if(_bad) _bad.Dismiss();

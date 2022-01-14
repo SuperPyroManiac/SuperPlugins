@@ -7,6 +7,7 @@ using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts.CustomScenes;
+using SuperCallouts.SimpleFunctions;
 
 #endregion
 
@@ -117,9 +118,7 @@ namespace SuperCallouts.Callouts
 
         public override void End()
         {
-                        BigMessageThread bigMessage = new BigMessageThread();
-            bigMessage.MessageInstance.ShowColoredShard("Code 4", "Callout Ended", HudColor.Green, HudColor.Black,
-                2);
+            CFunctions.Code4Message();
             Game.DisplayHelp("Scene ~g~CODE 4", 5000);
             if (_prisoner1.Exists()) _prisoner1.Dismiss();
             if (_prisoner2.Exists()) _prisoner2.Dismiss();

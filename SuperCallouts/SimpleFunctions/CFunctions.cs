@@ -88,6 +88,13 @@ namespace SuperCallouts.SimpleFunctions
             }
         }
 
+        internal static void Code4Message()
+        {
+            BigMessageThread bigMessage = new BigMessageThread();
+            bigMessage.MessageInstance.ShowColoredShard("Code 4", "Callout Ended", HudColor.Green, HudColor.Black,
+                2);
+        }
+
         internal static void SpawnAnyCar(out Vehicle cVehicle, Vector3 spawnPoint, float heading = 0) //Spawn ANY random car..
         {
             try

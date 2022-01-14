@@ -170,9 +170,7 @@ namespace SuperCallouts.Callouts
             if (_bad1.Exists()) _bad1.Dismiss();
             if (_cBlip.Exists()) _cBlip.Delete();
             _mainMenu.Visible = false;
-            BigMessageThread bigMessage = new BigMessageThread();
-            bigMessage.MessageInstance.ShowColoredShard("Code 4", "Callout Ended", HudColor.Green, HudColor.Black,
-                10);
+            CFunctions.Code4Message();
             Game.DisplayHelp("Scene ~g~CODE 4", 5000);
             base.End();
         }

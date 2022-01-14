@@ -6,6 +6,7 @@ using LSPD_First_Response.Mod.Callouts;
 using System.Drawing;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
+using SuperCallouts.SimpleFunctions;
 
 namespace SuperCallouts.Callouts
 {
@@ -236,9 +237,7 @@ namespace SuperCallouts.Callouts
             if (_blip2.Exists()) _blip2.Delete();
             if (_blip3.Exists()) _blip3.Delete();
             _mainMenu.Visible = false;
-                        BigMessageThread bigMessage = new BigMessageThread();
-            bigMessage.MessageInstance.ShowColoredShard("Code 4", "Callout Ended", HudColor.Green, HudColor.Black,
-                2);
+            CFunctions.Code4Message();
             Game.DisplayHelp("Scene ~g~CODE 4", 5000);
             base.End();
         }

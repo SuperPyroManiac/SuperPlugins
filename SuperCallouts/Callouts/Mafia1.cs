@@ -238,9 +238,7 @@ namespace SuperCallouts.Callouts
             Game.SetRelationshipBetweenRelationshipGroups("COP", "MAFIA", Relationship.Dislike);
             _interaction.CloseAllMenus();
             Game.DisplayHelp("Scene ~g~CODE 4", 5000);
-            BigMessageThread bigMessage = new BigMessageThread();
-            bigMessage.MessageInstance.ShowColoredShard("Code 4", "Callout Ended", HudColor.Green, HudColor.Black,
-                2);
+CFunctions.Code4Message();
                 base.End();
         }
         

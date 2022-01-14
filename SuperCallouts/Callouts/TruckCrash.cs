@@ -8,6 +8,7 @@ using Rage.Native;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts.CustomScenes;
+using SuperCallouts.SimpleFunctions;
 
 #endregion
 
@@ -127,9 +128,7 @@ namespace SuperCallouts.Callouts
             if (_cBlip.Exists()) _cBlip.Delete();
             _mainMenu.Visible = false;
             Game.DisplayHelp("Scene ~g~CODE 4", 5000);
-            BigMessageThread bigMessage = new BigMessageThread();
-            bigMessage.MessageInstance.ShowColoredShard("Code 4", "Callout Ended", HudColor.Green, HudColor.Black,
-                2);
+CFunctions.Code4Message();
             base.End();
         }
     }

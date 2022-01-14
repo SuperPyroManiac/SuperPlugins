@@ -156,9 +156,7 @@ namespace SuperCallouts.Callouts
             foreach (var mafiaCars in _mafiaCars) {if(mafiaCars.Exists()) {mafiaCars.Dismiss();}}
             foreach (var mafiaDudes in _mafiaDudes) {if(mafiaDudes.Exists()) {mafiaDudes.Dismiss();}}
             if (_cBlip.Exists()) {_cBlip.Delete();}
-            BigMessageThread bigMessage = new BigMessageThread();
-            bigMessage.MessageInstance.ShowColoredShard("Code 4", "Callout Ended", HudColor.Green, HudColor.Black,
-                2);
+CFunctions.Code4Message();
             Game.DisplayHelp("Scene ~g~CODE 4", 5000);
             base.End();
         }

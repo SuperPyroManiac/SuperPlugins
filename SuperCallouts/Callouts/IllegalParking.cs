@@ -97,9 +97,7 @@ namespace SuperCallouts.Callouts
         {
             if (_cBlip) _cBlip.Delete();
             if (_cVehicle) _cVehicle.Dismiss();
-                        BigMessageThread bigMessage = new BigMessageThread();
-            bigMessage.MessageInstance.ShowColoredShard("Code 4", "Callout Ended", HudColor.Green, HudColor.Black,
-                2);
+            CFunctions.Code4Message();
             Game.DisplayHelp("Scene ~g~CODE 4", 5000);
             base.End();
         }

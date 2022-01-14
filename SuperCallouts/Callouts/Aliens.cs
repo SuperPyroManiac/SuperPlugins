@@ -5,6 +5,7 @@ using Rage;
 using Rage.Native;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
+using SuperCallouts.SimpleFunctions;
 
 namespace SuperCallouts.Callouts
 {
@@ -101,9 +102,7 @@ namespace SuperCallouts.Callouts
             if (_alien3.Exists()) _alien3.Delete();
             if (_cVehicle1.Exists()) _cVehicle1.Delete();
             if (_cBlip1.Exists()) _cBlip1.Delete();
-                        BigMessageThread bigMessage = new BigMessageThread();
-            bigMessage.MessageInstance.ShowColoredShard("Code 4", "Callout Ended", HudColor.Green, HudColor.Black,
-                2);
+            CFunctions.Code4Message();
             Game.DisplayHelp("Scene ~g~CODE 4", 5000);
             Game.DisplaySubtitle("~g~Me:~s~ The hell was that? I think I need a nap..");
             base.End();
