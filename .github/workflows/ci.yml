@@ -11,28 +11,17 @@ jobs:
         SuperPlugins_BUILD_PATH: ${{ github.workspace }}/Build
     steps:
       - uses: actions/checkout@v2
+      
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '3.1.x'
+      - name: Install dependencies
+        run: dotnet add package MyPackage --version 1.0.0 --source https://www.myget.org/F/superplugins/api/v3/index.json
 
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v1.1
         
-      - name: Install Dependencies - RAGEPluginHook
-        uses: carlosperate/download-file-action@v1.0.3
-        with:
-          file-url: https://github.com/SuperPyroManiac/SuperPlugins/raw/master/.github/workflows/RagePluginHookSDK.dll
-          location: Depend/
-          
-      - name: Install Dependencies - LSPDFR
-        uses: carlosperate/download-file-action@v1.0.3
-        with:
-          file-url: https://www.dropbox.com/s/7cys46u9tz1pwsf/LSPD%20First%20Response.dll?dl=1
-          location: Depend/
-          
-      - name: Install Dependencies - RageNativeUI
-        uses: carlosperate/download-file-action@v1.0.3
-        with:
-          file-url: https://github.com/SuperPyroManiac/SuperPlugins/raw/master/.github/workflows/RAGENativeUI.dll
-          location: Depend/
-      
       - name: Build
         run: |
           msbuild SuperPlugins.sln /p:Configuration=Release /p:Platform="Any CPU"
