@@ -30,11 +30,13 @@ namespace DeadlyWeapons.Modules
                     if (usingUB) 
                     {
                         Wrapper.CallCode3();
-                        return;
                     }
-                    Functions.RequestBackup(Game.LocalPlayer.Character.Position,
-                        EBackupResponseType.Code3,
-                        EBackupUnitType.LocalUnit);
+                    else
+                    {
+                        Functions.RequestBackup(Game.LocalPlayer.Character.Position,
+                            EBackupResponseType.Code3,
+                            EBackupUnitType.LocalUnit);
+                    }
                 }
 
                 if (Settings.SwatBackup)
@@ -42,11 +44,13 @@ namespace DeadlyWeapons.Modules
                     if (usingUB) 
                     {
                         Wrapper.CallSwat();
-                        return;
                     }
-                    Functions.RequestBackup(Game.LocalPlayer.Character.Position,
-                        EBackupResponseType.Code3,
-                        EBackupUnitType.SwatTeam);
+                    else
+                    {
+                        Functions.RequestBackup(Game.LocalPlayer.Character.Position,
+                            EBackupResponseType.Code3,
+                            EBackupUnitType.SwatTeam);
+                    }
                 }
 
                 if (Settings.NooseBackup)
@@ -54,11 +58,13 @@ namespace DeadlyWeapons.Modules
                     if (usingUB) 
                     {
                         Wrapper.CallNoose();
-                        return;
                     }
-                    Functions.RequestBackup(Game.LocalPlayer.Character.Position,
-                        EBackupResponseType.Code3,
-                        EBackupUnitType.NooseTeam);
+                    else
+                    {
+                        Functions.RequestBackup(Game.LocalPlayer.Character.Position,
+                            EBackupResponseType.Code3,
+                            EBackupUnitType.NooseTeam);
+                    }
                 }
 
                 Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~r~Shots Fired", "~y~Panic Activated",
