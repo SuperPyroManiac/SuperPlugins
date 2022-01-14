@@ -20,7 +20,7 @@ jobs:
           msbuild SuperPlugins.sln /p:Configuration=Release /p:Platform="Any CPU"
 
       - name: Upload Artifact
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v2
         with:
           name: SuperPlugins-
           path: ${{ env.SuperPlugins_BUILD_PATH }}
