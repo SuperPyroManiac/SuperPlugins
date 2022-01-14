@@ -19,8 +19,12 @@ jobs:
         run: |
           msbuild SuperPlugins.sln /p:Configuration=Release /p:Platform="Any CPU"
 
-      - name: Upload Artifact
+      - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: SuperPlugins-
-          path: D:\a\SuperPlugins\SuperPlugins\DeadlyWeapons2\bin\Release\
+          #name: SuperCallouts
+          path: |
+          D:\a\SuperPlugins\SuperPlugins\DeadlyWeapons2\bin\Release\DeadlyWeapons2.dll
+          D:\a\SuperPlugins\SuperPlugins\SuperCallouts2\bin\Release\SuperCallouts2.dll
+          D:\a\SuperPlugins\SuperPlugins\SuperEvents2\bin\Release\SuperEvents2.dll
+          D:\a\SuperPlugins\SuperPlugins\TurnOffThatEngine\bin\Release\TurnOffThatEngine.dll
