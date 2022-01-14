@@ -11,13 +11,6 @@ jobs:
         SuperPlugins_BUILD_PATH: ${{ github.workspace }}/Build
     steps:
       - uses: actions/checkout@v2
-      
-      - name: Setup dotnet
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: '3.1.x'
-      - name: Install dependencies
-        run: dotnet add package MyPackage --version 1.0.0 --source https://www.myget.org/F/superplugins/api/v3/index.json
 
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v1.1

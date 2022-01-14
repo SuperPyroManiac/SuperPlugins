@@ -81,19 +81,25 @@
     <Content Include="SuperCallouts.ini" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="LSPD First Response, Version=0.4.7800.3124, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\..\..\Depend\LSPD First Response.dll</HintPath>
+    <Reference Include="LSPD First Response, Version=0.4.8021.24468, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\MyPackagePyroManiac.1.0.0\lib\LSPD First Response.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="RAGENativeUI, Version=1.8.2.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\..\..\Depend\RAGENativeUI.dll</HintPath>
+      <HintPath>..\packages\RAGENativeUI.1.8.2\lib\net472\RAGENativeUI.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="RagePluginHook, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\..\..\Depend\RagePluginHookSDK.dll</HintPath>
+      <HintPath>..\packages\RagePluginHook.1.86.1\lib\net472\RagePluginHook.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
