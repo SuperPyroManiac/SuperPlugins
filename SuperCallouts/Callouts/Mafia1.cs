@@ -72,7 +72,7 @@ namespace SuperCallouts.Callouts
         public override bool OnCalloutAccepted()
         {
             //Setup
-            Game.LogTrivial("SR Callouts Log: Mafia1 callout accepted...");
+            Game.LogTrivial("SuperCallouts Log: Mafia1 callout accepted...");
             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~The Mafia",
                 "FIB reports the Mafia have been using the casino as a drug trafficking hotspot. Speak with FIB agents and plan a raid.");
             Mafia1Pre.BuildPreScene(out _fib1, out _fib2, out _fib3, out _fib4, out _fib5, out _fibCar1, out _fibCar2);
@@ -115,7 +115,7 @@ namespace SuperCallouts.Callouts
                         if (Player.DistanceTo(_fib1.Position) < 10f)
                         {
                             _cBlip.DisableRoute();
-                            Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~y~SR Callouts",
+                            Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~y~SuperCallouts",
                                 "~r~Speak With FIB",
                                 "Press: " + Settings.Interact + " to speak with the FIB.");
                             NativeFunction.Natives.x5AD23D40115353AC(_fib1, Player, -1); //Turn_Ped_To_Face_Entity

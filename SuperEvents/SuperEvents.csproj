@@ -67,6 +67,7 @@
     <Compile Include="Events\CarAccident.cs" />
     <Compile Include="Events\CarFire.cs" />
     <Compile Include="Events\Fight.cs" />
+    <Compile Include="Events\OpenCarry.cs" />
     <Compile Include="Events\PulloverShooting.cs" />
     <Compile Include="Events\RecklessDriver.cs" />
     <Compile Include="Events\WeirdCar.cs" />

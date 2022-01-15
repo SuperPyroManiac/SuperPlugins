@@ -22,7 +22,7 @@ namespace SuperEvents.SimpleFunctions
                         if (!Functions.IsCalloutRunning() && !Functions.IsPlayerPerformingPullover() && Functions.GetActivePursuit() == null && TimeStart && !EventRunning && !Main.PluginPaused)
                         {
                             Game.LogTrivial("SuperEvents: Generating random event.");
-                            var choices = RNd.Next(1, 15);
+                            var choices = RNd.Next(1, 18);
                             
                             switch(choices)
                             {
@@ -96,6 +96,19 @@ namespace SuperEvents.SimpleFunctions
                                     goto case 12;
                                 case 14:
                                     goto case 12;
+                                case 15:
+                                    if (Settings.OpenCarry)
+                                    {
+                                        Game.LogTrivial("SuperEvents: Starting OpenCarry event.");
+                                        var opencarry = new OpenCarry();
+                                        opencarry.StartEvent(default, 0);
+                                    }
+                                    else { Game.LogTrivial("SuperEvents: OpenCarry event disabled in config.. Trying again for another event."); }
+                                    break;
+                                case 16:
+                                    goto case 15;
+                                case 17:
+                                        goto case 15;
                                 default:
                                     Game.LogTrivial("SuperEvents: If you see this error please tell SuperPyroManiac he is a fool. This error should never pop up unless I forget how to count.");
                                     break;

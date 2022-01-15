@@ -16,6 +16,7 @@ namespace SuperEvents
         internal static bool PulloverShooting = true;
         internal static bool RecklessDriver = true;
         internal static bool AbandonedCar = true;
+        internal static bool OpenCarry = true;
         internal static bool ShowBlips = true;
         internal static bool ShowHints = true;
         internal static int TimeBetweenEvents = 300;
@@ -35,6 +36,7 @@ namespace SuperEvents
             CarAccident = ini.ReadBoolean("Events", "CarAccident", true);
             RecklessDriver = ini.ReadBoolean("Events", "RecklessDriver", true);
             AbandonedCar = ini.ReadBoolean("Events", "AbandonedCar", true);
+            OpenCarry = ini.ReadBoolean("Events", "OpenCarry", true);
             ShowBlips = ini.ReadBoolean("Settings", "ShowBlips", true);
             ShowHints = ini.ReadBoolean("Settings", "ShowHints", true);
             TimeBetweenEvents = ini.ReadInt32("Settings", "TimeBetweenEvents", 150);

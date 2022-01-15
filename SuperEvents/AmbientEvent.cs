@@ -21,7 +21,7 @@ namespace SuperEvents
         internal static List<Entity> EntitiesToClear { get; private set; }
         internal static List<Blip> BlipsToClear { get; private set; }
         internal GameFiber ProcessFiber { get; }
-        internal Ped Player => Game.LocalPlayer.Character;
+        internal static Ped Player => Game.LocalPlayer.Character;
         private Vector3 _checkDistance;
         
         //Main Menu
@@ -61,11 +61,13 @@ namespace SuperEvents
 
         internal virtual void StartEvent(Vector3 spawnPoint, float spawnPointH)
         {
-            AmbientEvent.TimeStart = false;
+            TimeStart = false;
             Interaction.Add(MainMenu);
             Interaction.Add(ConvoMenu);
             MainMenu.MouseControlsEnabled = false;
             MainMenu.AllowCameraMovement = true;
+            ConvoMenu.MouseControlsEnabled = false;
+            ConvoMenu.AllowCameraMovement = true;
             MainMenu.AddItem(Questioning);
             MainMenu.AddItem(EndCall);
             MainMenu.BindMenuToItem(ConvoMenu, Questioning);
@@ -122,6 +124,9 @@ namespace SuperEvents
                 if (blip.Exists()) blip.Delete();
             
             Interaction.CloseAllMenus();
+            var bigMessage = new BigMessageThread();
+            bigMessage.MessageInstance.ShowColoredShard("Code 4", "Callout Ended", HudColor.Green, HudColor.Black,
+                2);
             Game.LogTrivial("SuperEvents: Ending Event.");
             //ProcessFiber.Abort();
             EventTimer.TimerStart();
