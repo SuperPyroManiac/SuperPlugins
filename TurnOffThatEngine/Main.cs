@@ -33,7 +33,7 @@ namespace TurnOffThatEngine
                             isDisabled = false;
                         }
                     }
-                    catch (Exception e)
+                    catch (Exception)
                     {
                         //Game.LogTrivial("Oops there was an error here. Please send this log to https://discord.gg/xsdAXJb");
                         //Game.LogTrivial("TurnOffThatEngine Error Report Start");

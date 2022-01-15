@@ -135,6 +135,8 @@ namespace SuperCallouts.SimpleFunctions
             questioning.Enabled = false;
             mainMenu.AllowCameraMovement = true;
             mainMenu.MouseControlsEnabled = false;
+            convoMenu.AllowCameraMovement = true;
+            convoMenu.MouseControlsEnabled = false;
             mainMenu.RefreshIndex();
             convoMenu.RefreshIndex();
         }
