@@ -22,7 +22,7 @@ namespace SuperEvents.SimpleFunctions
                             Functions.GetActivePursuit() == null && TimeStart && !EventRunning && !Main.PluginPaused)
                         {
                             Game.LogTrivial("SuperEvents: Generating random event.");
-                            var choices = RNd.Next(1, 18);
+                            var choices = RNd.Next(1, 19);
 
                             switch (choices)
                             {
@@ -143,7 +143,20 @@ namespace SuperEvents.SimpleFunctions
                                 case 16:
                                     goto case 15;
                                 case 17:
-                                    goto case 15;
+                                    goto case 15; 
+                                case 18:
+                                    if (Settings.WildAnimal)
+                                    {
+                                        Game.LogTrivial("SuperEvents: Starting Wild Animal event.");
+                                        var wildanimal = new WildAnimal();
+                                        wildanimal.StartEvent(default, 0);
+                                    }
+                                    else
+                                    {
+                                        Game.LogTrivial(
+                                            "SuperEvents: Wild Animal event disabled in config.. Trying again for another event.");
+                                    }
+                                    break;
                                 default:
                                     Game.LogTrivial(
                                         "SuperEvents: If you see this error please tell SuperPyroManiac he is a fool. This error should never pop up unless I forget how to count.");
