@@ -71,6 +71,7 @@
     <Compile Include="Events\PulloverShooting.cs" />
     <Compile Include="Events\RecklessDriver.cs" />
     <Compile Include="Events\WeirdCar.cs" />
+    <Compile Include="Events\WildAnimal.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings.cs" />

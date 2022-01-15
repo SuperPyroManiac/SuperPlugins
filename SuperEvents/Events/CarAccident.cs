@@ -11,24 +11,33 @@ namespace SuperEvents.Events
 {
     internal class CarAccident : AmbientEvent
     {
-        private Vehicle _eVehicle;
-        private Vehicle _eVehicle2;
+        private readonly int _choice = new Random().Next(0, 5);
         private Ped _ePed;
         private Ped _ePed2;
-        private readonly int _choice = new Random().Next(0,5);
-        private Vector3 _spawnPoint;
-        private float _spawnPointH;
+        private Vehicle _eVehicle;
+        private Vehicle _eVehicle2;
         private string _name1;
         private string _name2;
+        private Vector3 _spawnPoint;
+
+        private float _spawnPointH;
+
         //UI Items
         private UIMenuItem _speakSuspect;
         private UIMenuItem _speakSuspect2;
-        
+
+        private Tasks _tasks = Tasks.CheckDistance;
+
         internal override void StartEvent(Vector3 s, float f)
         {
             //Setup
             EFunctions.FindSideOfRoad(120, 45, out _spawnPoint, out _spawnPointH);
-            if (_spawnPoint.DistanceTo(Player) < 35f) {End(true); return;}
+            if (_spawnPoint.DistanceTo(Player) < 35f)
+            {
+                End(true);
+                return;
+            }
+
             //Vehicles
             EFunctions.SpawnNormalCar(out _eVehicle, _spawnPoint);
             _eVehicle.Heading = _spawnPointH;
@@ -53,18 +62,18 @@ namespace SuperEvents.Events
             Game.LogTrivial("SuperEvents: Car Accident Scenorio #" + _choice);
             switch (_choice)
             {
-                case 0://Peds fight
+                case 0: //Peds fight
                     _ePed.Tasks.LeaveVehicle(LeaveVehicleFlags.LeaveDoorOpen);
                     _ePed2.Tasks.LeaveVehicle(LeaveVehicleFlags.LeaveDoorOpen);
                     break;
-                case 1://Ped Dies, other flees
+                case 1: //Ped Dies, other flees
                     _ePed.Tasks.LeaveVehicle(LeaveVehicleFlags.LeaveDoorOpen);
                     _ePed2.Kill();
                     break;
-                case 2://Hit and run
+                case 2: //Hit and run
                     _ePed2.Tasks.LeaveVehicle(LeaveVehicleFlags.LeaveDoorOpen);
                     break;
-                case 3://Fire + dead ped.
+                case 3: //Fire + dead ped.
                     _ePed.Kill();
                     _ePed2.Tasks.LeaveVehicle(LeaveVehicleFlags.LeaveDoorOpen);
                     break;
@@ -72,6 +81,7 @@ namespace SuperEvents.Events
                     End(true);
                     break;
             }
+
             //UI Items
             _speakSuspect = new UIMenuItem("Speak with ~y~" + _name1);
             _speakSuspect2 = new UIMenuItem("Speak with ~y~" + _name2);
@@ -79,7 +89,7 @@ namespace SuperEvents.Events
             ConvoMenu.AddItem(_speakSuspect2);
             _speakSuspect.Enabled = false;
             _speakSuspect2.Enabled = false;
-            
+
             base.StartEvent(_spawnPoint, _spawnPointH);
         }
 
@@ -99,28 +109,29 @@ namespace SuperEvents.Events
                             Questioning.Enabled = true;
                             _tasks = Tasks.OnScene;
                         }
+
                         break;
                     case Tasks.OnScene:
                         _ePed.BlockPermanentEvents = false;
                         _ePed2.BlockPermanentEvents = false;
                         switch (_choice)
                         {
-                            case 0://Peds fight
+                            case 0: //Peds fight
                                 _ePed.Tasks.FightAgainst(_ePed2);
                                 _ePed2.Tasks.FightAgainst(_ePed);
                                 break;
-                            case 1://Ped Dies, other flees
+                            case 1: //Ped Dies, other flees
                                 var pursuit = Functions.CreatePursuit();
                                 Functions.AddPedToPursuit(pursuit, _ePed2);
                                 Functions.SetPursuitIsActiveForPlayer(pursuit, true);
                                 break;
-                            case 2://Hit and run
+                            case 2: //Hit and run
                                 var pursuit2 = Functions.CreatePursuit();
                                 Functions.AddPedToPursuit(pursuit2, _ePed2);
                                 Functions.SetPursuitIsActiveForPlayer(pursuit2, true);
                                 _ePed2.Tasks.LeaveVehicle(LeaveVehicleFlags.LeaveDoorOpen);
                                 break;
-                            case 3://Fire + dead ped.
+                            case 3: //Fire + dead ped.
                                 _ePed2.Tasks.Cower(-1);
                                 EFunctions.FireControl(_spawnPoint.Around2D(7f), 24, true);
                                 break;
@@ -151,11 +162,12 @@ namespace SuperEvents.Events
                 Game.LogTrivial("SuperEvents Error Report End");
                 End(true);
             }
+
             base.Process();
         }
 
         protected override void Conversations(UIMenu sender, UIMenuItem selItem, int index)
-        { 
+        {
             if (selItem == _speakSuspect)
             {
                 if (_ePed.IsDead)
@@ -164,6 +176,7 @@ namespace SuperEvents.Events
                     _speakSuspect.RightLabel = "~r~Dead";
                     return;
                 }
+
                 var dialog1 = new List<string>
                 {
                     "~b~You~s~: What happened? Are you ok?",
@@ -180,7 +193,8 @@ namespace SuperEvents.Events
                     "~b~You~s~: What happened? Are you injured?",
                     "~r~" + _name1 + "~s~: No I am not! This idiot crashed into me!",
                     "~b~You~s~: Calm down, can you explain what happened?",
-                    "~r~" + _name1 + "~s~: I was just driving then before I know it my car is totalled! I want him arrested!",
+                    "~r~" + _name1 +
+                    "~s~: I was just driving then before I know it my car is totalled! I want him arrested!",
                     "~b~You~s~: I understand you're upset but I need you to calm down, I'll go speak with them.",
                     "~r~" + _name1 + "~s~: Whatever, I just want him to rot in jail."
                 };
@@ -188,15 +202,16 @@ namespace SuperEvents.Events
                 var dialogIndex2 = 0;
                 var dialogOutcome = new Random().Next(0, 101);
                 var stillTalking = true;
-                
+
                 if (Player.DistanceTo(_ePed) > 5f)
                 {
                     Game.DisplaySubtitle("Too far to talk!");
                     return;
                 }
-                
+
                 NativeFunction.Natives.x5AD23D40115353AC(_ePed, Game.LocalPlayer.Character, -1);
-                GameFiber.StartNew(delegate {
+                GameFiber.StartNew(delegate
+                {
                     while (stillTalking)
                     {
                         if (dialogOutcome > 50)
@@ -215,6 +230,7 @@ namespace SuperEvents.Events
                     }
                 });
             }
+
             if (selItem == _speakSuspect2)
             {
                 if (_ePed2.IsDead)
@@ -223,6 +239,7 @@ namespace SuperEvents.Events
                     _speakSuspect2.RightLabel = "~r~Dead";
                     return;
                 }
+
                 var dialog1 = new List<string>
                 {
                     "~b~You~s~: Hey what's going on? Are you alright?",
@@ -245,15 +262,16 @@ namespace SuperEvents.Events
                 var dialogIndex2 = 0;
                 var dialogOutcome = new Random().Next(0, 101);
                 var stillTalking = true;
-                
+
                 if (Player.DistanceTo(_ePed2) > 5f)
                 {
                     Game.DisplaySubtitle("Too far to talk!");
                     return;
                 }
-                
+
                 NativeFunction.Natives.x5AD23D40115353AC(_ePed2, Game.LocalPlayer.Character, -1);
-                GameFiber.StartNew(delegate {
+                GameFiber.StartNew(delegate
+                {
                     while (stillTalking)
                     {
                         if (dialogOutcome > 50)
@@ -272,11 +290,10 @@ namespace SuperEvents.Events
                     }
                 });
             }
-         
+
             base.Conversations(sender, selItem, index);
         }
-        
-        private Tasks _tasks = Tasks.CheckDistance;
+
         private enum Tasks
         {
             CheckDistance,

@@ -1,30 +1,32 @@
 using System;
-using System.Collections.Generic;
-using LSPD_First_Response.Mod.API;
 using Rage;
-using Rage.Native;
-using RAGENativeUI;
-using RAGENativeUI.Elements;
 using SuperEvents.SimpleFunctions;
 
 namespace SuperEvents.Events
 {
     internal class CarFire : AmbientEvent
     {
+        private Vehicle _eVehicle;
         private Vector3 _spawnPoint;
         private float _spawnPointH;
+
+        private Tasks _tasks = Tasks.CheckDistance;
         private Ped _victim;
-        private Vehicle _eVehicle;
 
         internal override void StartEvent(Vector3 s, float f)
         {
             //Setup
             EFunctions.FindSideOfRoad(120, 45, out _spawnPoint, out _spawnPointH);
-            if (_spawnPoint.DistanceTo(Player) < 35f) {End(true); return;}
+            if (_spawnPoint.DistanceTo(Player) < 35f)
+            {
+                End(true);
+                return;
+            }
+
             //eVehicle
             EFunctions.SpawnNormalCar(out _eVehicle, _spawnPoint);
             EntitiesToClear.Add(_eVehicle);
-            
+
             base.StartEvent(_spawnPoint, _spawnPointH);
         }
 
@@ -43,9 +45,10 @@ namespace SuperEvents.Events
                             Game.DisplayHelp("~y~Press ~r~" + Settings.Interact + "~y~ to open interaction menu.");
                             _tasks = Tasks.OnScene;
                         }
+
                         break;
                     case Tasks.OnScene:
-                        var choice = new Random().Next(1,4);
+                        var choice = new Random().Next(1, 4);
                         Game.LogTrivial("SuperEvents: Fire event picked scenerio #" + choice);
                         switch (choice)
                         {
@@ -68,6 +71,7 @@ namespace SuperEvents.Events
                                 End(true);
                                 break;
                         }
+
                         _tasks = Tasks.End;
                         break;
                     case Tasks.End:
@@ -76,6 +80,7 @@ namespace SuperEvents.Events
                         End(true);
                         break;
                 }
+
                 base.Process();
             }
             catch (Exception e)
@@ -89,8 +94,7 @@ namespace SuperEvents.Events
                 End(true);
             }
         }
-        
-        private Tasks _tasks = Tasks.CheckDistance;
+
         private enum Tasks
         {
             CheckDistance,

@@ -6,19 +6,26 @@ namespace SuperEvents.Events
 {
     internal class WeirdCar : AmbientEvent
     {
+        private Vehicle _eVehicle;
         private Vector3 _spawnPoint;
         private float _spawnPointH;
-        private Vehicle _eVehicle;
+
+        private Tasks _tasks = Tasks.CheckDistance;
 
         internal override void StartEvent(Vector3 s, float f)
         {
             //Setup
             EFunctions.FindSideOfRoad(120, 45, out _spawnPoint, out _spawnPointH);
-            if (_spawnPoint.DistanceTo(Player) < 35f) {End(true); return;}
+            if (_spawnPoint.DistanceTo(Player) < 35f)
+            {
+                End(true);
+                return;
+            }
+
             //eVehicle
             EFunctions.SpawnNormalCar(out _eVehicle, _spawnPoint);
             EntitiesToClear.Add(_eVehicle);
-            
+
             base.StartEvent(_spawnPoint, _spawnPointH);
         }
 
@@ -37,9 +44,10 @@ namespace SuperEvents.Events
                             Game.DisplayHelp("~y~Press ~r~" + Settings.Interact + "~y~ to open interaction menu.");
                             _tasks = Tasks.OnScene;
                         }
+
                         break;
                     case Tasks.OnScene:
-                        var choice = new Random().Next(1,7);
+                        var choice = new Random().Next(1, 7);
                         Game.LogTrivial("SuperEvents: Abandoned Vehicle event picked scenerio #" + choice);
                         switch (choice)
                         {
@@ -67,6 +75,7 @@ namespace SuperEvents.Events
                                 End(true);
                                 break;
                         }
+
                         _tasks = Tasks.End;
                         break;
                     case Tasks.End:
@@ -75,6 +84,7 @@ namespace SuperEvents.Events
                         End(true);
                         break;
                 }
+
                 base.Process();
             }
             catch (Exception e)
@@ -88,8 +98,7 @@ namespace SuperEvents.Events
                 End(true);
             }
         }
-        
-        private Tasks _tasks = Tasks.CheckDistance;
+
         private enum Tasks
         {
             CheckDistance,

@@ -7,18 +7,25 @@ namespace SuperEvents.Events
 {
     internal class PulloverShooting : AmbientEvent
     {
+        private Ped _cPed;
+        private Vehicle _cVehicle;
         private Vector3 _spawnPoint;
         private float _spawnPointH;
-        private Ped _cPed;
         private Ped _sPed;
-        private Vehicle _cVehicle;
         private Vehicle _sVehicle;
+
+        private Tasks _tasks = Tasks.CheckDistance;
 
         internal override void StartEvent(Vector3 s, float f)
         {
             //Setup
             EFunctions.FindSideOfRoad(120, 45, out _spawnPoint, out _spawnPointH);
-            if (_spawnPoint.DistanceTo(Player) < 35f) {End(true); return;}
+            if (_spawnPoint.DistanceTo(Player) < 35f)
+            {
+                End(true);
+                return;
+            }
+
             //Vehicles
             _cVehicle = new Vehicle("POLICE2", _spawnPoint) {Heading = _spawnPointH, IsPersistent = true};
             EFunctions.SpawnNormalCar(out _sVehicle, _cVehicle.GetOffsetPositionFront(8));
@@ -39,7 +46,7 @@ namespace SuperEvents.Events
             _sPed.Metadata.searchPed = "~r~assault rifle~s~, ~r~pistol~s~, ~r~used meth pipe~s~, ~y~suicide letter~s~";
             EntitiesToClear.Add(_cPed);
             EntitiesToClear.Add(_sPed);
-            
+
             base.StartEvent(_spawnPoint, _spawnPointH);
         }
 
@@ -58,9 +65,10 @@ namespace SuperEvents.Events
                             Game.DisplayHelp("~y~Press ~r~" + Settings.Interact + "~y~ to open interaction menu.");
                             _tasks = Tasks.OnScene;
                         }
+
                         break;
                     case Tasks.OnScene:
-                        var choice = new Random().Next(1,4);
+                        var choice = new Random().Next(1, 4);
                         Game.LogTrivial("SuperEvents: PulloverShooting event picked scenerio #" + choice);
                         switch (choice)
                         {
@@ -86,6 +94,7 @@ namespace SuperEvents.Events
                                 End(true);
                                 break;
                         }
+
                         _tasks = Tasks.End;
                         break;
                     case Tasks.End:
@@ -94,6 +103,7 @@ namespace SuperEvents.Events
                         End(true);
                         break;
                 }
+
                 base.Process();
             }
             catch (Exception e)
@@ -107,8 +117,7 @@ namespace SuperEvents.Events
                 End(true);
             }
         }
-        
-        private Tasks _tasks = Tasks.CheckDistance;
+
         private enum Tasks
         {
             CheckDistance,

@@ -11,21 +11,30 @@ namespace SuperEvents.Events
 {
     internal class Fight : AmbientEvent
     {
-        private Vector3 _spawnPoint;
-        private float _spawnPointH;
-        private Ped _suspect;
-        private Ped _suspect2;
         private string _name1;
         private string _name2;
+        private Vector3 _spawnPoint;
+
+        private float _spawnPointH;
+
         //UI Items
         private UIMenuItem _speakSuspect;
         private UIMenuItem _speakSuspect2;
+        private Ped _suspect;
+        private Ped _suspect2;
+
+        private Tasks _tasks = Tasks.CheckDistance;
 
         internal override void StartEvent(Vector3 s, float f)
         {
             //Setup
             EFunctions.FindSideOfRoad(120, 45, out _spawnPoint, out _spawnPointH);
-            if (_spawnPoint.DistanceTo(Player) < 35f) {End(true); return;}
+            if (_spawnPoint.DistanceTo(Player) < 35f)
+            {
+                End(true);
+                return;
+            }
+
             //Peds
             _suspect = new Ped(_spawnPoint) {IsPersistent = true, BlockPermanentEvents = true};
             EFunctions.SetDrunk(_suspect, true);
@@ -44,7 +53,7 @@ namespace SuperEvents.Events
             _speakSuspect2 = new UIMenuItem("Speak with ~y~" + _name2);
             ConvoMenu.AddItem(_speakSuspect);
             ConvoMenu.AddItem(_speakSuspect2);
-            
+
             base.StartEvent(_spawnPoint, _spawnPointH);
         }
 
@@ -66,9 +75,10 @@ namespace SuperEvents.Events
                             Questioning.Enabled = true;
                             _tasks = Tasks.OnScene;
                         }
+
                         break;
                     case Tasks.OnScene:
-                        var choice = new Random().Next(1,4);
+                        var choice = new Random().Next(1, 4);
                         Game.LogTrivial("SuperEvents: Fight event picked scenerio #" + choice);
                         switch (choice)
                         {
@@ -98,6 +108,7 @@ namespace SuperEvents.Events
                                 End(true);
                                 break;
                         }
+
                         _tasks = Tasks.End;
                         break;
                     case Tasks.End:
@@ -106,6 +117,7 @@ namespace SuperEvents.Events
                         End(true);
                         break;
                 }
+
                 base.Process();
             }
             catch (Exception e)
@@ -130,6 +142,7 @@ namespace SuperEvents.Events
                     _speakSuspect.RightLabel = "~r~Dead";
                     return;
                 }
+
                 var dialog1 = new List<string>
                 {
                     "~b~You~s~: What's going on? Why were you guys fighting?",
@@ -149,15 +162,16 @@ namespace SuperEvents.Events
                 var dialogIndex2 = 0;
                 var dialogOutcome = new Random().Next(0, 101);
                 var stillTalking = true;
-                
+
                 if (Player.DistanceTo(_suspect) > 5f)
                 {
                     Game.DisplaySubtitle("Too far to talk!");
                     return;
                 }
-                
+
                 NativeFunction.Natives.x5AD23D40115353AC(_suspect, Game.LocalPlayer.Character, -1);
-                GameFiber.StartNew(delegate {
+                GameFiber.StartNew(delegate
+                {
                     while (stillTalking)
                     {
                         if (dialogOutcome > 50)
@@ -176,6 +190,7 @@ namespace SuperEvents.Events
                     }
                 });
             }
+
             if (selItem == _speakSuspect2)
             {
                 if (_suspect2.IsDead)
@@ -184,6 +199,7 @@ namespace SuperEvents.Events
                     _speakSuspect2.RightLabel = "~r~Dead";
                     return;
                 }
+
                 var dialog1 = new List<string>
                 {
                     "~b~You~s~: Why were you two fighting? What's going on!",
@@ -203,15 +219,16 @@ namespace SuperEvents.Events
                 var dialogIndex2 = 0;
                 var dialogOutcome = new Random().Next(0, 101);
                 var stillTalking = true;
-                
+
                 if (Player.DistanceTo(_suspect2) > 5f)
                 {
                     Game.DisplaySubtitle("Too far to talk!");
                     return;
                 }
-                
+
                 NativeFunction.Natives.x5AD23D40115353AC(_suspect2, Game.LocalPlayer.Character, -1);
-                GameFiber.StartNew(delegate {
+                GameFiber.StartNew(delegate
+                {
                     while (stillTalking)
                     {
                         if (dialogOutcome > 50)
@@ -230,10 +247,10 @@ namespace SuperEvents.Events
                     }
                 });
             }
+
             base.Conversations(sender, selItem, index);
         }
 
-        private Tasks _tasks = Tasks.CheckDistance;
         private enum Tasks
         {
             CheckDistance,

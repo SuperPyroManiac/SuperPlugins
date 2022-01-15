@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using System.Runtime.InteropServices;
 using LSPD_First_Response.Mod.API;
 using Rage;
 using SuperEvents.SimpleFunctions;
@@ -9,22 +8,35 @@ namespace SuperEvents.Events
 {
     internal class RecklessDriver : AmbientEvent
     {
-        private Vehicle _eVehicle;
         private Ped _ePed;
+        private Vehicle _eVehicle;
         private Vector3 _spawnPoint;
         private float _spawnPointH;
+
+        private Tasks _tasks = Tasks.CheckDistance;
 
         internal override void StartEvent(Vector3 s, float f)
         {
             //Setup
             var randomVehicles = Player.GetNearbyVehicles(15);
-            if (randomVehicles == null || randomVehicles.Length == 0) {End(true); return;}
+            if (randomVehicles == null || randomVehicles.Length == 0)
+            {
+                End(true);
+                return;
+            }
+
             foreach (var randomVehicle in randomVehicles)
             {
                 if (!randomVehicle.Exists() || !randomVehicle.HasDriver) return;
                 _eVehicle = randomVehicle;
             }
-            if (_eVehicle == null || !_eVehicle.Exists() || !_eVehicle.HasDriver) {End(true); return;}
+
+            if (_eVehicle == null || !_eVehicle.Exists() || !_eVehicle.HasDriver)
+            {
+                End(true);
+                return;
+            }
+
             _ePed = _eVehicle.Driver;
             _spawnPoint = _eVehicle.Position;
             _spawnPointH = _eVehicle.Heading;
@@ -32,9 +44,13 @@ namespace SuperEvents.Events
             _eVehicle.IsPersistent = true;
             //ePed
             _ePed.IsPersistent = true;
-            if (_ePed == Player || _eVehicle.HasSiren || !_ePed.IsHuman || _ePed.RelationshipGroup == RelationshipGroup.Fireman ||
+            if (_ePed == Player || _eVehicle.HasSiren || !_ePed.IsHuman ||
+                _ePed.RelationshipGroup == RelationshipGroup.Fireman ||
                 _ePed.RelationshipGroup == RelationshipGroup.Medic || _ePed.RelationshipGroup == RelationshipGroup.Cop)
-            {End(false); return;}
+            {
+                End(false);
+                return;
+            }
 
             base.StartEvent(_spawnPoint, _spawnPointH);
         }
@@ -68,16 +84,19 @@ namespace SuperEvents.Events
                                     End(false);
                                     break;
                             }
+
                             _tasks = Tasks.OnScene;
                         }
+
                         break;
                     case Tasks.OnScene:
                         if (Functions.IsPlayerPerformingPullover())
                         {
                             foreach (var blip in BlipsToClear.Where(blip => blip))
                                 blip?.Delete();
-                            _tasks = Tasks.CheckPullover; 
+                            _tasks = Tasks.CheckPullover;
                         }
+
                         break;
                     case Tasks.CheckPullover:
                         var rNd = new Random().Next(1, 5);
@@ -102,6 +121,7 @@ namespace SuperEvents.Events
                                 End(false);
                                 break;
                         }
+
                         _tasks = Tasks.End;
                         break;
                     case Tasks.End:
@@ -110,6 +130,7 @@ namespace SuperEvents.Events
                         End(true);
                         break;
                 }
+
                 base.Process();
             }
             catch (Exception e)
@@ -123,8 +144,7 @@ namespace SuperEvents.Events
                 End(true);
             }
         }
-        
-        private Tasks _tasks = Tasks.CheckDistance;
+
         private enum Tasks
         {
             CheckDistance,

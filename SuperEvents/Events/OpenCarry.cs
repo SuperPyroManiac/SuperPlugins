@@ -10,19 +10,28 @@ namespace SuperEvents.Events
 {
     internal class OpenCarry : AmbientEvent
     {
-        private Vector3 _spawnPoint;
-        private float _spawnPointH;
+        private readonly int _choice = new Random().Next(1, 4);
         private Ped _bad;
         private string _name;
-        private readonly int _choice = new Random().Next(1,4);
+        private Vector3 _spawnPoint;
+
+        private float _spawnPointH;
+
         //UI Items
         private UIMenuItem _speakSuspect;
+
+        private Tasks _tasks = Tasks.CheckDistance;
 
         internal override void StartEvent(Vector3 s, float f)
         {
             //Setup
             EFunctions.FindSideOfRoad(120, 45, out _spawnPoint, out _spawnPointH);
-            if (_spawnPoint.DistanceTo(Player) < 35f) {End(true); return;}
+            if (_spawnPoint.DistanceTo(Player) < 35f)
+            {
+                End(true);
+                return;
+            }
+
             //Ped
             _bad = new Ped(_spawnPoint, _spawnPointH) {IsPersistent = true};
             EntitiesToClear.Add(_bad);
@@ -54,6 +63,7 @@ namespace SuperEvents.Events
                             Questioning.Enabled = true;
                             _tasks = Tasks.End;
                         }
+
                         break;
                     case Tasks.OnScene:
                         Game.LogTrivial("SuperEvents: OpenCarry event picked scenerio #" + _choice);
@@ -63,20 +73,29 @@ namespace SuperEvents.Events
                         switch (_choice)
                         {
                             case 1:
-                                Game.DisplaySubtitle("~r~" + _name + ": ~s~It's.. It's my right.. I'll leave im sorry! Please leave me alone!", 3000);
+                                Game.DisplaySubtitle(
+                                    "~r~" + _name +
+                                    ": ~s~It's.. It's my right.. I'll leave im sorry! Please leave me alone!", 3000);
                                 pursuit = Functions.CreatePursuit();
                                 Functions.AddPedToPursuit(pursuit, _bad);
                                 Functions.SetPursuitIsActiveForPlayer(pursuit, true);
                                 _tasks = Tasks.End;
                                 break;
                             case 2:
-                                Game.DisplaySubtitle("~r~" + _name + ": ~s~Whats it to you? You think you are tough?", 3000);
+                                Game.DisplaySubtitle("~r~" + _name + ": ~s~Whats it to you? You think you are tough?",
+                                    3000);
                                 GameFiber.Wait(3000);
-                                Game.DisplaySubtitle("~g~You: ~s~When you carry a large firearm like that in public, it tends to scare people.", 3000);
+                                Game.DisplaySubtitle(
+                                    "~g~You: ~s~When you carry a large firearm like that in public, it tends to scare people.",
+                                    3000);
                                 GameFiber.Wait(3000);
-                                Game.DisplaySubtitle("~g~You: ~s~So I need to ask for your license, and for you to please sling your weapon for my safety.", 3000);
+                                Game.DisplaySubtitle(
+                                    "~g~You: ~s~So I need to ask for your license, and for you to please sling your weapon for my safety.",
+                                    3000);
                                 GameFiber.Wait(3000);
-                                Game.DisplaySubtitle("~r~" + _name + ": ~s~Why would I do that? How about I give you a better look!", 5000);
+                                Game.DisplaySubtitle(
+                                    "~r~" + _name + ": ~s~Why would I do that? How about I give you a better look!",
+                                    5000);
                                 GameFiber.Wait(1000);
                                 _bad.Tasks.AimWeaponAt(Player, 5000);
                                 GameFiber.Wait(5000);
@@ -90,9 +109,11 @@ namespace SuperEvents.Events
                                 _bad.Inventory.EquippedWeapon.Drop();
                                 NativeFunction.Natives.x5AD23D40115353AC(_bad, Player, -1);
                                 GameFiber.Wait(3000);
-                                Game.DisplaySubtitle("~g~You: ~s~Why are you walking around with large firearm in your hands?", 3000);
+                                Game.DisplaySubtitle(
+                                    "~g~You: ~s~Why are you walking around with large firearm in your hands?", 3000);
                                 GameFiber.Wait(3000);
-                                Game.DisplaySubtitle("~r~" + _name + ": ~s~It's my friends, I want to look cool, that's it!", 3000);
+                                Game.DisplaySubtitle(
+                                    "~r~" + _name + ": ~s~It's my friends, I want to look cool, that's it!", 3000);
                                 GameFiber.Wait(3000);
                                 _tasks = Tasks.End;
                                 break;
@@ -100,6 +121,7 @@ namespace SuperEvents.Events
                                 End(true);
                                 break;
                         }
+
                         _tasks = Tasks.End;
                         break;
                     case Tasks.End:
@@ -108,6 +130,7 @@ namespace SuperEvents.Events
                         End(true);
                         break;
                 }
+
                 base.Process();
             }
             catch (Exception e)
@@ -133,15 +156,16 @@ namespace SuperEvents.Events
                     End(false);
                     return;
                 }
+
                 Game.DisplaySubtitle("~g~You: ~s~Hey there! I want to speak to you about that assault rifle.", 3000);
                 _bad.Tasks.Clear();
                 _speakSuspect.Enabled = false;
                 _tasks = Tasks.OnScene;
             }
+
             base.Conversations(sender, selItem, index);
         }
 
-        private Tasks _tasks = Tasks.CheckDistance;
         private enum Tasks
         {
             CheckDistance,

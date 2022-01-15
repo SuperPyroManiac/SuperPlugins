@@ -1,10 +1,9 @@
 #region
+
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using LSPD_First_Response;
-using LSPD_First_Response.Mod.API;
 using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
@@ -16,20 +15,14 @@ namespace SuperEvents
 {
     internal class AmbientEvent
     {
-        internal static bool EventRunning { get; set; }
-        internal static bool TimeStart { get; set; }
-        internal static List<Entity> EntitiesToClear { get; private set; }
-        internal static List<Blip> BlipsToClear { get; private set; }
-        internal GameFiber ProcessFiber { get; }
-        internal static Ped Player => Game.LocalPlayer.Character;
-        private Vector3 _checkDistance;
-        
+        internal readonly UIMenu ConvoMenu = new("SuperEvents", "~y~Choose a subject to speak with.");
+        internal readonly UIMenuItem EndCall = new("~y~End Event", "Ends the event.");
+
         //Main Menu
-        internal readonly MenuPool Interaction = new MenuPool();
-        internal readonly UIMenu MainMenu = new UIMenu("SuperEvents", "Choose an option.");
-        internal readonly UIMenu ConvoMenu = new UIMenu("SuperEvents", "~y~Choose a subject to speak with.");
-        internal readonly UIMenuItem Questioning = new UIMenuItem("Speak With Subjects");
-        internal readonly UIMenuItem EndCall = new UIMenuItem("~y~End Event", "Ends the event.");
+        internal readonly MenuPool Interaction = new();
+        internal readonly UIMenu MainMenu = new("SuperEvents", "Choose an option.");
+        internal readonly UIMenuItem Questioning = new("Speak With Subjects");
+        private Vector3 _checkDistance;
 
         protected AmbientEvent()
         {
@@ -59,6 +52,13 @@ namespace SuperEvents
             }
         }
 
+        internal static bool EventRunning { get; set; }
+        internal static bool TimeStart { get; set; }
+        internal static List<Entity> EntitiesToClear { get; private set; }
+        internal static List<Blip> BlipsToClear { get; private set; }
+        internal GameFiber ProcessFiber { get; }
+        internal static Ped Player => Game.LocalPlayer.Character;
+
         internal virtual void StartEvent(Vector3 spawnPoint, float spawnPointH)
         {
             TimeStart = false;
@@ -86,6 +86,7 @@ namespace SuperEvents
                 eventBlip.Flash(500, 8000);
                 BlipsToClear.Add(eventBlip);
             }
+
             _checkDistance = spawnPoint;
             EventRunning = true;
             ProcessFiber.Start();
@@ -100,29 +101,33 @@ namespace SuperEvents
                 End(false);
                 Game.LogTrivial("SuperEvents: Ending event due to player being too far.");
             }
+
             Interaction.ProcessMenus();
         }
 
         protected virtual void End(bool forceCleanup)
         {
             EventRunning = false;
-            
+
             if (forceCleanup)
             {
                 foreach (var entity in EntitiesToClear.Where(entity => entity))
-                    if (entity.Exists()) entity.Delete();
+                    if (entity.Exists())
+                        entity.Delete();
                 Game.LogTrivial("SuperEvents: Event has been forcefully cleaned up.");
             }
             else
             {
                 foreach (var entity in EntitiesToClear.Where(entity => entity))
-                    if (entity.Exists()) entity.Dismiss(); 
+                    if (entity.Exists())
+                        entity.Dismiss();
                 Game.DisplayHelp("~y~Event Ended.");
             }
-            
+
             foreach (var blip in BlipsToClear.Where(blip => blip))
-                if (blip.Exists()) blip.Delete();
-            
+                if (blip.Exists())
+                    blip.Delete();
+
             Interaction.CloseAllMenus();
             var bigMessage = new BigMessageThread();
             bigMessage.MessageInstance.ShowColoredShard("Code 4", "Callout Ended", HudColor.Green, HudColor.Black,
@@ -134,10 +139,7 @@ namespace SuperEvents
 
         protected virtual void Interactions(UIMenu sender, UIMenuItem selItem, int index)
         {
-            if (selItem == EndCall)
-            {
-                End(false);
-            }
+            if (selItem == EndCall) End(false);
         }
 
         protected virtual void Conversations(UIMenu sender, UIMenuItem selItem, int index)
