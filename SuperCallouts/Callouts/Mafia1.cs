@@ -133,10 +133,10 @@ namespace SuperCallouts.Callouts
                             switch (_choice)
                             {
                                 case SrChoice.Noose:
-                                    if (Main.UsingUB)
+                                    if (Main.UsingUb)
                                     {
-                                        Wrapper.callSwat(true);
-                                        Wrapper.callSwat(true);
+                                        Wrapper.CallSwat(true);
+                                        Wrapper.CallSwat(true);
                                     }
                                     else
                                     {
@@ -150,10 +150,10 @@ namespace SuperCallouts.Callouts
                                     _state = SrState.RaidScene;
                                     break;
                                 case SrChoice.Swat:
-                                    if (Main.UsingUB)
+                                    if (Main.UsingUb)
                                     {
-                                        Wrapper.callSwat(false);
-                                        Wrapper.callSwat(false);
+                                        Wrapper.CallSwat(false);
+                                        Wrapper.CallSwat(false);
                                     }
                                     else
                                     {
@@ -167,10 +167,10 @@ namespace SuperCallouts.Callouts
                                     _state = SrState.RaidScene;
                                     break;
                                 case SrChoice.You:
-                                    if (Main.UsingUB)
+                                    if (Main.UsingUb)
                                     {
-                                        Wrapper.callCode3();
-                                        Wrapper.callCode3();
+                                        Wrapper.CallCode3();
+                                        Wrapper.CallCode3();
                                     }
                                     else
                                     {

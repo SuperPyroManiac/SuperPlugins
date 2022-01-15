@@ -8,7 +8,7 @@ using Rage;
 
 namespace DeadlyWeapons.Modules
 {
-    internal static class PedCustomAI
+    internal static class PedCustomAi
     {
         internal static void PedReact(Ped ped)
         {

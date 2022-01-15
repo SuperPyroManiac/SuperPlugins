@@ -6,17 +6,17 @@ namespace SuperEvents.Events
     internal class WildAnimal : AmbientEvent
     {
         private Tasks _tasks = Tasks.CheckDistance;
-        private Ped animal;
-        private Vector3 spawnPoint;
-        private float spawnPointH;
+        private Ped _animal;
+        private Vector3 _spawnPoint;
+        private float _spawnPointH;
 
         internal override void StartEvent(Vector3 s, float f)
         {
             //Ped
-            spawnPoint = World.GetNextPositionOnStreet(Player.Position.Around(150f));
+            _spawnPoint = World.GetNextPositionOnStreet(Player.Position.Around(150f));
             Model[] meanAnimal = {"A_C_MTLION", "A_C_COYOTE"};
-            animal = new Ped(meanAnimal[new Random().Next(meanAnimal.Length)], spawnPoint, 50) {IsPersistent = true};
-            base.StartEvent(spawnPoint, spawnPointH);
+            _animal = new Ped(meanAnimal[new Random().Next(meanAnimal.Length)], _spawnPoint, 50) {IsPersistent = true};
+            base.StartEvent(_spawnPoint, _spawnPointH);
         }
 
         protected override void Process()
@@ -26,9 +26,9 @@ namespace SuperEvents.Events
                 switch (_tasks)
                 {
                     case Tasks.CheckDistance:
-                        if (Player.DistanceTo(animal) < 20f)
+                        if (Player.DistanceTo(_animal) < 20f)
                         {
-                            animal.Tasks.FightAgainst(Player);
+                            _animal.Tasks.FightAgainst(Player);
                             if (Settings.ShowHints)
                                 Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~y~Officer Sighting",
                                     "~r~Wild Animal", "Stop the animal from hurting anyone.");

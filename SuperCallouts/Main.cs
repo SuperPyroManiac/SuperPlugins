@@ -9,7 +9,7 @@ namespace SuperCallouts
 {
     internal class Main : Plugin
     {
-        internal static bool UsingUB { get; set; }
+        internal static bool UsingUb { get; set; }
         
         public override void Initialize()
         {
@@ -28,8 +28,8 @@ namespace SuperCallouts
                 GameFiber.StartNew(delegate
                 {
                     GameFiber.Wait(10000);
-                    UsingUB = CFunctions.IsLoaded("UltimateBackup");
-                    if (UsingUB) Game.LogTrivial("SuperCallouts: Using UltimateBackup API.");
+                    UsingUb = CFunctions.IsLoaded("UltimateBackup");
+                    if (UsingUb) Game.LogTrivial("SuperCallouts: Using UltimateBackup API.");
                     RegisterCallouts();
                     VersionChecker.IsUpdateAvailable();
                 });
@@ -63,8 +63,8 @@ namespace SuperCallouts
             if (Settings.PrisonBreak) { Functions.RegisterCallout(typeof(PrisonBreak)); Game.LogTrivial("SuperCallouts: PrisonBreak Enabled"); }
             if (Settings.Mafia1) { Functions.RegisterCallout(typeof(Mafia1)); Game.LogTrivial("SuperCallouts: Mafia1 Enabled"); }
             if (Settings.Mafia2) { Functions.RegisterCallout(typeof(MafiaActivity2)); Game.LogTrivial("SuperCallouts: Mafia2 Enabled"); }
-            if (Settings.LostMC) { Functions.RegisterCallout(typeof(LostGang)); Game.LogTrivial("SuperCallouts: LostMC Enabled"); }
-            if (Settings.LSGTF) { Functions.RegisterCallout(typeof(Lsgtf)); Game.LogTrivial("SuperCallouts: LSGTF Enabled"); }
+            if (Settings.LostMc) { Functions.RegisterCallout(typeof(LostGang)); Game.LogTrivial("SuperCallouts: LostMC Enabled"); }
+            if (Settings.Lsgtf) { Functions.RegisterCallout(typeof(Lsgtf)); Game.LogTrivial("SuperCallouts: LSGTF Enabled"); }
             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~r~SuperCallouts", "~g~Plugin Loaded.",
                 "SuperCallouts version: " +
                 Assembly.GetExecutingAssembly().GetName().Version + " loaded.");

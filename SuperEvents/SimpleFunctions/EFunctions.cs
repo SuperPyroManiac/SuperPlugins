@@ -11,9 +11,9 @@ namespace SuperEvents.SimpleFunctions
 {
     internal class EFunctions
     {
-        private static readonly TupleList<Vector3, float> _sideOfRoads = new();
+        private static readonly TupleList<Vector3, float> SideOfRoads = new();
         private static Tuple<Vector3, float> _chosenSpawnData;
-        private static readonly Random _rNd = new();
+        private static readonly Random RNd = new();
 
         internal static Ped SetWanted(Ped wPed, bool isWanted) //Used to set a ped as wanted.
         {
@@ -120,8 +120,8 @@ namespace SuperEvents.SimpleFunctions
             foreach (var tuple in PulloverSpots.SideOfRoad)
                 if (Vector3.Distance(tuple.Item1, Game.LocalPlayer.Character.Position) < maxDistance &&
                     Vector3.Distance(tuple.Item1, Game.LocalPlayer.Character.Position) > minDistance)
-                    _sideOfRoads.Add(tuple);
-            if (_sideOfRoads.Count == 0)
+                    SideOfRoads.Add(tuple);
+            if (SideOfRoads.Count == 0)
             {
                 Game.LogTrivial("SuperEvents: Failed to find valid spawnpoint. Spawning on road.");
                 spawnPoint = World.GetNextPositionOnStreet(Game.LocalPlayer.Character.Position.Around(45f, 100f));
@@ -129,7 +129,7 @@ namespace SuperEvents.SimpleFunctions
             }
             else
             {
-                _chosenSpawnData = _sideOfRoads[_rNd.Next(_sideOfRoads.Count)];
+                _chosenSpawnData = SideOfRoads[RNd.Next(SideOfRoads.Count)];
                 //_sideOfRoads.OrderBy(x => x.Item1.DistanceTo(Game.LocalPlayer.Character.Position)).FirstOrDefault();
                 spawnPoint = _chosenSpawnData.Item1;
                 spawnPointH = _chosenSpawnData.Item2;

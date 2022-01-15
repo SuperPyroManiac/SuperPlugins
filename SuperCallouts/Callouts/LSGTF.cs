@@ -193,10 +193,10 @@ namespace SuperCallouts.Callouts
                 _onScene = true;
                 Functions.PlayScannerAudioUsingPosition(
                     "DISPATCH_SWAT_UNITS_FROM_01 IN_OR_ON_POSITION UNITS_RESPOND_CODE_99_01", _raidpoint);
-                if (Main.UsingUB)
+                if (Main.UsingUb)
                 {
-                    Wrapper.callSwat(true);
-                    Wrapper.callSwat(false);
+                    Wrapper.CallSwat(true);
+                    Wrapper.CallSwat(false);
                 }
                 else
                 {

@@ -167,10 +167,10 @@ namespace SuperCallouts.Callouts
             if (selItem == _callFd)
             {
                 Game.DisplaySubtitle("~g~You~s~: Dispatch, we have an MVA. One person is seriously injured.");
-                if (Main.UsingUB)
+                if (Main.UsingUb)
                 {
-                    Wrapper.callEMS();
-                    Wrapper.callFD();
+                    Wrapper.CallEms();
+                    Wrapper.CallFd();
                 }
                 else
                 {

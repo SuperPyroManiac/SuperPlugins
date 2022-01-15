@@ -111,12 +111,12 @@ namespace SuperCallouts.Callouts
                         "~r~Dispatch:~s~ Officer on scene, mafia activity spotted. Dispatching specialized units.");
                     Functions.PlayScannerAudioUsingPosition(
                         "DISPATCH_SWAT_UNITS_FROM_01 IN_OR_ON_POSITION UNITS_RESPOND_CODE_99_01", _callPos);
-                    if (Main.UsingUB)
+                    if (Main.UsingUb)
                     {
-                        Wrapper.callSwat(true);
-                        Wrapper.callCode3();
-                        Wrapper.callCode3();
-                        Wrapper.callCode3();
+                        Wrapper.CallSwat(true);
+                        Wrapper.CallCode3();
+                        Wrapper.CallCode3();
+                        Wrapper.CallCode3();
                     }
                     else
                     {

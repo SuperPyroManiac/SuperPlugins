@@ -183,9 +183,9 @@ namespace SuperCallouts.Callouts
             if (selItem == _callSecond)
             {
                 Game.DisplaySubtitle("~g~You~s~: Dispatch, can I get another unit.");
-                if (Main.UsingUB)
+                if (Main.UsingUb)
                 {
-                    Wrapper.callCode2();
+                    Wrapper.CallCode2();
                 }
                 else
                 {

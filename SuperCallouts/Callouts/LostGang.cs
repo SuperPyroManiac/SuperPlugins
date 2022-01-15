@@ -113,11 +113,11 @@ namespace SuperCallouts.Callouts
                     bikerss.Tasks.FightAgainstClosestHatedTarget(50f);
                 }
 
-                if (Main.UsingUB)
+                if (Main.UsingUb)
                 {
-                    Wrapper.callCode3();
-                    Wrapper.callCode3();
-                    Wrapper.callCode3();
+                    Wrapper.CallCode3();
+                    Wrapper.CallCode3();
+                    Wrapper.CallCode3();
                 }
                 else
                 {

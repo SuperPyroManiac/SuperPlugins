@@ -13,21 +13,21 @@ namespace DeadlyWeapons.Modules
     internal static class StartPanic
     {
         private static bool _panic;
-        private static readonly Func<string, bool> IsLoaded = PlugName =>
-            Functions.GetAllUserPlugins().Any(assembly => assembly.GetName().Name.Equals(PlugName));
+        private static readonly Func<string, bool> IsLoaded = plugName =>
+            Functions.GetAllUserPlugins().Any(assembly => assembly.GetName().Name.Equals(plugName));
 
-        private static readonly bool usingUB = IsLoaded("UltimateBackup");
+        private static readonly bool UsingUb = IsLoaded("UltimateBackup");
 
         internal static void PanicHit()
         {
             if (_panic) return;
             _panic = true;
-            if (usingUB) Game.LogTrivial("DeadlyWeapons: UB DETECTED. Using Ultimate Backup for panic.");
+            if (UsingUb) Game.LogTrivial("DeadlyWeapons: UB DETECTED. Using Ultimate Backup for panic.");
             GameFiber.StartNew(delegate
             {
                 if (Settings.Code3Backup)
                 {
-                    if (usingUB) 
+                    if (UsingUb) 
                     {
                         Wrapper.CallCode3();
                     }
@@ -41,7 +41,7 @@ namespace DeadlyWeapons.Modules
 
                 if (Settings.SwatBackup)
                 {
-                    if (usingUB) 
+                    if (UsingUb) 
                     {
                         Wrapper.CallSwat();
                     }
@@ -55,7 +55,7 @@ namespace DeadlyWeapons.Modules
 
                 if (Settings.NooseBackup)
                 {
-                    if (usingUB) 
+                    if (UsingUb) 
                     {
                         Wrapper.CallNoose();
                     }

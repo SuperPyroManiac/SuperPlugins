@@ -30,8 +30,8 @@ namespace SuperCallouts
         internal static bool PrisonBreak = true;
         internal static bool Mafia1 = true;
         internal static bool Mafia2 = true;
-        internal static bool LostMC = true;
-        internal static bool LSGTF = true;
+        internal static bool LostMc = true;
+        internal static bool Lsgtf = true;
         internal static Keys Interact = Keys.Y;
         internal static Keys EndCall = Keys.End;
         internal static string EmergencyNumber = "911";
@@ -67,8 +67,8 @@ namespace SuperCallouts
             PrisonBreak = ini.ReadBoolean("Settings", "PrisonBreak", true);
             Mafia1 = ini.ReadBoolean("Settings", "Mafia1", true);
             Mafia2 = ini.ReadBoolean("Settings", "Mafia2", true);
-            LostMC = ini.ReadBoolean("Settings", "LostMC", true);
-            LSGTF = ini.ReadBoolean("Settings", "LSGTF", true);
+            LostMc = ini.ReadBoolean("Settings", "LostMC", true);
+            Lsgtf = ini.ReadBoolean("Settings", "LSGTF", true);
             Interact = ini.ReadEnum("Keys", "Interact", Keys.Y);
             EndCall = ini.ReadEnum("Keys", "EndCall", Keys.End);
             EmergencyNumber = ini.ReadString("Msc", "EmergencyNumber", "911");

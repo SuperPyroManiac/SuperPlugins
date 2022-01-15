@@ -18,7 +18,7 @@ namespace SuperCallouts.Callouts
         private Blip _cBlip;
         private Vector3 _spawnPoint;
         private float _spawnPointH;
-        private CState _state = CState.checkDistance;
+        private CState _state = CState.CheckDistance;
         private LHandle _pursuit;
         private string _name1;
         //UI Items
@@ -89,16 +89,16 @@ namespace SuperCallouts.Callouts
             {
                 switch(_state)
                 {
-                    case CState.checkDistance:
+                    case CState.CheckDistance:
                         if (Game.LocalPlayer.Character.DistanceTo(_bad) < 30f)
                         {
                             _cBlip.DisableRoute();
                             _pursuit = Functions.CreatePursuit();
                             Game.DisplayHelp($"Press ~{Settings.Interact.GetInstructionalId()}~ to open interaction menu.");
-                            _state = CState.onScene;
+                            _state = CState.OnScene;
                         }
                         break;
-                    case CState.onScene:
+                    case CState.OnScene:
                         Game.DisplayHelp("Suspect is fleeing!");
                         Functions.AddPedToPursuit(_pursuit, _bad);
                         Functions.SetPursuitIsActiveForPlayer(_pursuit, true);
@@ -113,10 +113,10 @@ namespace SuperCallouts.Callouts
                             //_bad.Tasks.Clear();
                             Game.DisplaySubtitle(
                                 "~r~" + _name1 + "~s~: I surrender!", 5000);
-                            _state = CState.letsChat;
+                            _state = CState.LetsChat;
                         }
                         break;
-                    case CState.letsChat:
+                    case CState.LetsChat:
                         Game.DisplayHelp($"Press ~{Settings.Interact.GetInstructionalId()}~ to open interaction menu.");
                         _questioning.Enabled = true;
                         _state = CState.End;
@@ -186,10 +186,10 @@ namespace SuperCallouts.Callouts
 
         private enum CState
         {
-            checkDistance,
-            onScene,
+            CheckDistance,
+            OnScene,
             Pursuit,
-            letsChat,
+            LetsChat,
             End
         }
     }

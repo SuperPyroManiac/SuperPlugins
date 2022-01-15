@@ -44,16 +44,16 @@ namespace DeadlyWeapons.DFunctions
             return persona.Wanted;
         }
 
-        internal static void SetDrunk(Ped Bad, bool isDrunk)
+        internal static void SetDrunk(Ped bad, bool isDrunk)
         {
             GameFiber.StartNew(delegate
             {
                 GameFiber.Yield();
-                Bad.Metadata.stpAlcoholDetected = isDrunk;
+                bad.Metadata.stpAlcoholDetected = isDrunk;
                 var drunkAnimset = new AnimationSet("move_m@drunk@verydrunk");
                 drunkAnimset.LoadAndWait();
-                Bad.MovementAnimationSet = drunkAnimset;
-                NativeFunction.Natives.x95D2D383D5396B8A(Bad, isDrunk);
+                bad.MovementAnimationSet = drunkAnimset;
+                NativeFunction.Natives.x95D2D383D5396B8A(bad, isDrunk);
             });
         }
     }

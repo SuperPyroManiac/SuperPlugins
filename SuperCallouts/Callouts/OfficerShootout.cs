@@ -114,10 +114,10 @@ namespace SuperCallouts.Callouts
                     Functions.PlayScannerAudioUsingPosition("REQUEST_BACKUP", _spawnPoint);
                     Game.SetRelationshipBetweenRelationshipGroups("BADGANG", "COP", Relationship.Hate);
                     Game.SetRelationshipBetweenRelationshipGroups("BADGANG", "PLAYER", Relationship.Hate);
-                    if (Main.UsingUB)
+                    if (Main.UsingUb)
                     {
-                        Wrapper.callCode3();
-                        Wrapper.callCode3();
+                        Wrapper.CallCode3();
+                        Wrapper.CallCode3();
                     }
                     else
                     {

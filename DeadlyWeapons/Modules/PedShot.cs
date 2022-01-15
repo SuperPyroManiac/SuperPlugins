@@ -57,7 +57,7 @@ namespace DeadlyWeapons.Modules
                                         case 3:
                                             ped.Health = 80;
                                             ped.Armor = 0;
-                                            PedCustomAI.PedReact(ped);
+                                            PedCustomAi.PedReact(ped);
                                             break;
                                         default:
                                             ped.Health = 100;
@@ -86,7 +86,7 @@ namespace DeadlyWeapons.Modules
                                             break;
                                         default:
                                             ped.Health -= 80;
-                                            PedCustomAI.PedReact(ped);
+                                            PedCustomAi.PedReact(ped);
                                             break;
                                     }
 

@@ -124,10 +124,10 @@ namespace SuperCallouts.Callouts
             {
                 Game.DisplaySubtitle(
                     "~g~You~s~: Dispatch, we have a person that has been attacked by an animal! We need a medical crew here ASAP!");
-                if (Main.UsingUB)
+                if (Main.UsingUb)
                 {
-                    Wrapper.callEMS();
-                    Wrapper.callFD();
+                    Wrapper.CallEms();
+                    Wrapper.CallFd();
                 }
                 else
                 {

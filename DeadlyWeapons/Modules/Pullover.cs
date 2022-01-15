@@ -16,7 +16,7 @@ namespace DeadlyWeapons.Modules
             var bad = Functions.GetPulloverSuspect(handler);
             var checking = true;
             var hasWeapon = false;
-            var rND = new Random().Next(1, 8);
+            var rNd = new Random().Next(1, 8);
             var checkFiber = new GameFiber(delegate
             {
                 while (checking)
@@ -27,11 +27,11 @@ namespace DeadlyWeapons.Modules
 
                     if (Game.LocalPlayer.Character.DistanceTo(bad) < 3f)
                     {
-                        Game.LogTrivial("DeadlyWeapons: Pullover detected, using scenario: " + rND);
+                        Game.LogTrivial("DeadlyWeapons: Pullover detected, using scenario: " + rNd);
                         checking = false;
                         bad.Inventory.Weapons.Clear();
                         if (SimpleFunctions.IsWanted(bad))
-                            switch (rND)
+                            switch (rNd)
                             {
                                 case 1:
                                     if (!bad.Inventory.HasLoadedWeapon) bad.Inventory.Weapons.Add(WeaponHash.Pistol);
@@ -54,7 +54,7 @@ namespace DeadlyWeapons.Modules
                                     break;
                             }
                         else
-                            switch (rND)
+                            switch (rNd)
                             {
                                 case 1:
                                     if (!bad.Inventory.HasLoadedWeapon) bad.Inventory.Weapons.Add(WeaponHash.Pistol);

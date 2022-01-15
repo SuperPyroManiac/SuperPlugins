@@ -20,11 +20,11 @@ namespace SuperCallouts.Callouts
         private Vector3 _spawnPoint;
         private CState _state = CState.CheckDistance;
         //UI Items
-        private MenuPool Interaction;
-        private UIMenu MainMenu;
-        private UIMenu ConvoMenu;
-        private UIMenuItem Questioning;
-        private UIMenuItem EndCall;
+        private MenuPool _interaction;
+        private UIMenu _mainMenu;
+        private UIMenu _convoMenu;
+        private UIMenuItem _questioning;
+        private UIMenuItem _endCall;
 
         public override bool OnBeforeCalloutDisplayed()
         {
@@ -64,8 +64,8 @@ namespace SuperCallouts.Callouts
             //Task
             _bad.Tasks.CruiseWithVehicle(_cVehicle, 100f, VehicleDrivingFlags.Emergency);
             //UI
-            CFunctions.BuildUi(out Interaction, out MainMenu, out ConvoMenu, out Questioning, out EndCall);
-            MainMenu.OnItemSelect += Interactions;
+            CFunctions.BuildUi(out _interaction, out _mainMenu, out _convoMenu, out _questioning, out _endCall);
+            _mainMenu.OnItemSelect += Interactions;
             return base.OnCalloutAccepted();
         }
 
@@ -88,9 +88,9 @@ namespace SuperCallouts.Callouts
                         Game.DisplayHelp("Suspect is fleeing!");
                         Functions.AddPedToPursuit(_pursuit, _bad);
                         Functions.SetPursuitIsActiveForPlayer(_pursuit, true);
-                        if (Main.UsingUB)
+                        if (Main.UsingUb)
                         {
-                            Wrapper.callPursuit();
+                            Wrapper.CallPursuit();
                         }
                         else
                         {
@@ -104,10 +104,10 @@ namespace SuperCallouts.Callouts
                 if (Game.IsKeyDown(Settings.EndCall)) End();
                 if (Game.IsKeyDown(Settings.Interact))
                 {
-                    MainMenu.Visible = !MainMenu.Visible;
-                    ConvoMenu.Visible = false;
+                    _mainMenu.Visible = !_mainMenu.Visible;
+                    _convoMenu.Visible = false;
                 }
-                Interaction.ProcessMenus();
+                _interaction.ProcessMenus();
             }
             catch (Exception e)
             {
@@ -129,13 +129,13 @@ namespace SuperCallouts.Callouts
             if (_cBlip) _cBlip.Delete();
             if (_cVehicle) _cVehicle.Dismiss();
             if (_bad) _bad.Dismiss();
-            Interaction.CloseAllMenus();
+            _interaction.CloseAllMenus();
             base.End();
         }
         
         private void Interactions(UIMenu sender, UIMenuItem selItem, int index)
         {
-            if (selItem == EndCall)
+            if (selItem == _endCall)
             {
                 Game.DisplaySubtitle("~y~Callout Ended.");
                 End();

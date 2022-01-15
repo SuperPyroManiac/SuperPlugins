@@ -29,27 +29,27 @@ namespace SuperCallouts.SimpleFunctions
             return persona.Wanted;
         }
 
-        internal static void SetDrunk(Ped Bad, bool isDrunk)
+        internal static void SetDrunk(Ped bad, bool isDrunk)
         {
             GameFiber.StartNew(delegate
             {
                 GameFiber.Yield();
-                Bad.Metadata.stpAlcoholDetected = isDrunk;
+                bad.Metadata.stpAlcoholDetected = isDrunk;
                 var drunkAnimset = new AnimationSet("move_m@drunk@verydrunk");
                 drunkAnimset.LoadAndWait();
-                Bad.MovementAnimationSet = drunkAnimset;
-                NativeFunction.Natives.x95D2D383D5396B8A(Bad, isDrunk);
+                bad.MovementAnimationSet = drunkAnimset;
+                NativeFunction.Natives.x95D2D383D5396B8A(bad, isDrunk);
             });
             return;
         }
-        internal static void SetAnimation(Ped Person, string theAnimation)
+        internal static void SetAnimation(Ped person, string theAnimation)
         {
             GameFiber.StartNew(delegate
             {
                 GameFiber.Yield();
                 var drunkAnimset = new AnimationSet(theAnimation);
                 drunkAnimset.LoadAndWait();
-                Person.MovementAnimationSet = drunkAnimset;
+                person.MovementAnimationSet = drunkAnimset;
             });
         }
 
@@ -116,8 +116,8 @@ namespace SuperCallouts.SimpleFunctions
             }
         }
         
-        internal static readonly Func<string, bool> IsLoaded = PlugName =>
-            Functions.GetAllUserPlugins().Any(assembly => assembly.GetName().Name.Equals(PlugName));
+        internal static readonly Func<string, bool> IsLoaded = plugName =>
+            Functions.GetAllUserPlugins().Any(assembly => assembly.GetName().Name.Equals(plugName));
         
         internal static void BuildUi(out MenuPool interaction, out UIMenu mainMenu, out UIMenu convoMenu, out UIMenuItem questioning, out UIMenuItem endCall)
         {
