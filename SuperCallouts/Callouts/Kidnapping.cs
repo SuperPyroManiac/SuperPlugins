@@ -163,7 +163,7 @@ namespace SuperCallouts.Callouts
             }
             catch (Exception e)
             {
-                        Game.LogTrivial("Oops there was an error here. Please send this log to https://discord.gg/xsdAXJb");
+                        Game.LogTrivial("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
                         Game.LogTrivial("SuperCallouts Error Report Start");
                         Game.LogTrivial("======================================================");
                         Game.LogTrivial(e.ToString());
@@ -226,7 +226,7 @@ namespace SuperCallouts.Callouts
             }
             catch (Exception e)
             {
-                        Game.LogTrivial("Oops there was an error here. Please send this log to https://discord.gg/xsdAXJb");
+                        Game.LogTrivial("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
                         Game.LogTrivial("SuperCallouts Error Report Start");
                         Game.LogTrivial("======================================================");
                         Game.LogTrivial(e.ToString());

@@ -31,7 +31,7 @@ namespace SuperEvents.SimpleFunctions
                                     {
                                         Game.LogTrivial("SuperEvents: Starting fight event.");
                                         var fight = new Fight();
-                                        fight.StartEvent(default, 0);
+                                        fight.StartEvent(default);
                                     }
                                     else
                                     {
@@ -45,7 +45,7 @@ namespace SuperEvents.SimpleFunctions
                                     {
                                         Game.LogTrivial("SuperEvents: Starting car fire event.");
                                         var fire = new CarFire();
-                                        fire.StartEvent(default, 0);
+                                        fire.StartEvent(default);
                                     }
                                     else
                                     {
@@ -59,7 +59,7 @@ namespace SuperEvents.SimpleFunctions
                                     {
                                         Game.LogTrivial("SuperEvents: Starting pullover shooting event.");
                                         var shoot = new PulloverShooting();
-                                        shoot.StartEvent(default, 0);
+                                        shoot.StartEvent(default);
                                     }
                                     else
                                     {
@@ -73,7 +73,7 @@ namespace SuperEvents.SimpleFunctions
                                     {
                                         Game.LogTrivial("SuperEvents: Starting reckless driver event.");
                                         var reckless = new RecklessDriver();
-                                        reckless.StartEvent(default, 0);
+                                        reckless.StartEvent(default);
                                     }
                                     else
                                     {
@@ -95,7 +95,7 @@ namespace SuperEvents.SimpleFunctions
                                     {
                                         Game.LogTrivial("SuperEvents: Starting car accident event.");
                                         var accident = new CarAccident();
-                                        accident.StartEvent(default, 0);
+                                        accident.StartEvent(default);
                                     }
                                     else
                                     {
@@ -113,7 +113,7 @@ namespace SuperEvents.SimpleFunctions
                                     {
                                         Game.LogTrivial("SuperEvents: Starting car abandoned event.");
                                         var weridcar = new CarAccident();
-                                        weridcar.StartEvent(default, 0);
+                                        weridcar.StartEvent(default);
                                     }
                                     else
                                     {
@@ -131,7 +131,7 @@ namespace SuperEvents.SimpleFunctions
                                     {
                                         Game.LogTrivial("SuperEvents: Starting OpenCarry event.");
                                         var opencarry = new OpenCarry();
-                                        opencarry.StartEvent(default, 0);
+                                        opencarry.StartEvent(default);
                                     }
                                     else
                                     {
@@ -149,7 +149,7 @@ namespace SuperEvents.SimpleFunctions
                                     {
                                         Game.LogTrivial("SuperEvents: Starting Wild Animal event.");
                                         var wildanimal = new WildAnimal();
-                                        wildanimal.StartEvent(default, 0);
+                                        wildanimal.StartEvent(default);
                                     }
                                     else
                                     {

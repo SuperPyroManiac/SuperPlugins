@@ -41,7 +41,7 @@ namespace SuperEvents
             }
             catch (Exception e)
             {
-                Game.LogTrivial("Oops there was an error here. Please send this log to https://discord.gg/xsdAXJb");
+                Game.LogTrivial("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
                 Game.LogTrivial("SuperEvents Error Report Start");
                 Game.LogTrivial("======================================================");
                 Game.LogTrivial(e.ToString());
@@ -59,7 +59,7 @@ namespace SuperEvents
         internal GameFiber ProcessFiber { get; }
         internal static Ped Player => Game.LocalPlayer.Character;
 
-        internal virtual void StartEvent(Vector3 spawnPoint, float spawnPointH)
+        internal virtual void StartEvent(Vector3 spawnPoint)
         {
             TimeStart = false;
             Interaction.Add(MainMenu);

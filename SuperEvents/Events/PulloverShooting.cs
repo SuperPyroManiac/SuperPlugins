@@ -16,7 +16,7 @@ namespace SuperEvents.Events
 
         private Tasks _tasks = Tasks.CheckDistance;
 
-        internal override void StartEvent(Vector3 s, float f)
+        internal override void StartEvent(Vector3 s)
         {
             //Setup
             EFunctions.FindSideOfRoad(120, 45, out _spawnPoint, out _spawnPointH);
@@ -47,7 +47,7 @@ namespace SuperEvents.Events
             EntitiesToClear.Add(_cPed);
             EntitiesToClear.Add(_sPed);
 
-            base.StartEvent(_spawnPoint, _spawnPointH);
+            base.StartEvent(_spawnPoint);
         }
 
         protected override void Process()
@@ -108,7 +108,7 @@ namespace SuperEvents.Events
             }
             catch (Exception e)
             {
-                Game.LogTrivial("Oops there was an error here. Please send this log to https://discord.gg/xsdAXJb");
+                Game.LogTrivial("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
                 Game.LogTrivial("SuperEvents Error Report Start");
                 Game.LogTrivial("======================================================");
                 Game.LogTrivial(e.ToString());

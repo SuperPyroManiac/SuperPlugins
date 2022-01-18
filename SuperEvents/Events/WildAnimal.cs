@@ -10,13 +10,13 @@ namespace SuperEvents.Events
         private Vector3 _spawnPoint;
         private float _spawnPointH;
 
-        internal override void StartEvent(Vector3 s, float f)
+        internal override void StartEvent(Vector3 s)
         {
             //Ped
             _spawnPoint = World.GetNextPositionOnStreet(Player.Position.Around(150f));
             Model[] meanAnimal = {"A_C_MTLION", "A_C_COYOTE"};
             _animal = new Ped(meanAnimal[new Random().Next(meanAnimal.Length)], _spawnPoint, 50) {IsPersistent = true};
-            base.StartEvent(_spawnPoint, _spawnPointH);
+            base.StartEvent(_spawnPoint);
         }
 
         protected override void Process()
@@ -48,7 +48,7 @@ namespace SuperEvents.Events
             }
             catch (Exception e)
             {
-                Game.LogTrivial("Oops there was an error here. Please send this log to https://discord.gg/xsdAXJb");
+                Game.LogTrivial("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
                 Game.LogTrivial("SuperEvents Error Report Start");
                 Game.LogTrivial("======================================================");
                 Game.LogTrivial(e.ToString());

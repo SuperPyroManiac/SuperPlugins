@@ -15,12 +15,6 @@ namespace SuperCallouts.Callouts
     [CalloutInfo("IllegalParking", CalloutProbability.Medium)]
     internal class IllegalParking : Callout
     {
-        //private List<Tuple<Vector3, float>> _spawnPoints = new List<Tuple<Vector3, float>>
-        //{
-        //    Tuple.Create(new Vector3(5f, 5f, 5f), 360f)//TODO
-        //};
-
-        //private Tuple<Vector3, float> _chosenSpawnData;
         private Vector3 _spawnPoint;
         private Vehicle _cVehicle;
         private Blip _cBlip;
@@ -35,15 +29,6 @@ namespace SuperCallouts.Callouts
         
         public override bool OnBeforeCalloutDisplayed()
         {
-            //Spawnpoint Setup
-            /*foreach (var tupe in _spawnPoints)
-            {
-                _chosenSpawnData = _spawnPoints.OrderBy(x => x.Item1.DistanceTo(Game.LocalPlayer.Character.Position))
-                    .FirstOrDefault();
-            }*/
-            //_spawnPoint = _chosenSpawnData.Item1;
-            //_heading = _chosenSpawnData.Item2; TODO
-            //Setup
             CFunctions.FindSideOfRoad(750, 280, out _spawnPoint, out _heading);
             ShowCalloutAreaBlipBeforeAccepting(_spawnPoint, 10f);
             CalloutMessage = "~r~" + Settings.EmergencyNumber + " Report:~s~ Reports of a vehicle parked illegally.";

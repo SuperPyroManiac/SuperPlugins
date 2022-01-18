@@ -48,7 +48,6 @@ namespace DeadlyWeapons.Modules
                                     Functions.AddPedToPursuit(pursuit, bad);
                                     Functions.SetPursuitIsActiveForPlayer(pursuit, true);
                                     break;*/
-                                    //TODO
                                 default:
                                     if (bad.Inventory.HasLoadedWeapon) hasWeapon = true;
                                     break;

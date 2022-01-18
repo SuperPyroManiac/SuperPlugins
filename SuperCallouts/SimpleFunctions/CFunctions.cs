@@ -77,7 +77,7 @@ namespace SuperCallouts.SimpleFunctions
             }
             catch (Exception e)
             {
-                Game.LogTrivial("Oops there was an error spawning a vehicle. Using generic. Please send this log to https://discord.gg/xsdAXJb");
+                Game.LogTrivial("Oops there was an error spawning a vehicle. Using generic. Please send this log to https://dsc.gg/ulss");
                 Game.LogTrivial("SuperCallouts Error Report Start");
                 Game.LogTrivial("======================================================");
                 Game.LogTrivial(e.ToString());
@@ -105,7 +105,7 @@ namespace SuperCallouts.SimpleFunctions
             }
             catch (Exception e)
             {
-                Game.LogTrivial("Oops there was an error spawning a vehicle. Using generic. Please send this log to https://discord.gg/xsdAXJb");
+                Game.LogTrivial("Oops there was an error spawning a vehicle. Using generic. Please send this log to https://dsc.gg/ulss");
                 Game.LogTrivial("SuperCallouts Error Report Start");
                 Game.LogTrivial("======================================================");
                 Game.LogTrivial(e.ToString());

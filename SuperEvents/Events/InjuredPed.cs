@@ -1,18 +1,26 @@
-using System;
+﻿using System;
+using System.Diagnostics;
+using LSPD_First_Response.Mod.API;
 using Rage;
+using RAGENativeUI.Elements;
 using SuperEvents.SimpleFunctions;
 
 namespace SuperEvents.Events
 {
-    internal class CarFire : AmbientEvent
+    internal class InjuredPed : AmbientEvent
     {
-        private Vehicle _eVehicle;
+        private Ped _bad;
+        private Ped _bad2;
         private Vector3 _spawnPoint;
         private float _spawnPointH;
-
+        private string _name1;
+        private string _name2;
+        private readonly int _choice = new Random().Next(1, 4);
         private Tasks _tasks = Tasks.CheckDistance;
-        private Ped _victim;
-
+        //UI
+        private UIMenuItem _speakInjured;
+        private UIMenuItem _speakInjured2;
+        
         internal override void StartEvent(Vector3 s)
         {
             //Setup
@@ -22,11 +30,32 @@ namespace SuperEvents.Events
                 End(true);
                 return;
             }
-
-            //eVehicle
-            EFunctions.SpawnNormalCar(out _eVehicle, _spawnPoint);
-            EntitiesToClear.Add(_eVehicle);
-
+            //Peds
+            _bad = new Ped(_spawnPoint) {Heading = _spawnPointH, IsPersistent = true, BlockPermanentEvents = true};
+            _name1 = Functions.GetPersonaForPed(_bad).FullName;
+            _name2 = Functions.GetPersonaForPed(_bad2).FullName;
+            switch (_choice)
+            {
+                case 1:
+                    _bad.IsRagdoll = true;
+                    _speakInjured = new UIMenuItem("Speak with ~y~" + _name1);
+                    break;
+                case 2:
+                    _bad.Kill();
+                    _bad2 = new Ped(_bad.GetOffsetPositionFront(2));
+                    _bad2.IsPersistent = true; //TODO
+                    _speakInjured = new UIMenuItem("Speak with ~y~" + _name1);
+                    _speakInjured2 = new UIMenuItem("Speak with ~y~" + _name2);
+                    break;
+                case 3:
+                    _bad.IsRagdoll = true;
+                    EFunctions.SetAnimation(_bad, "move_injured_ground");
+                    _speakInjured = new UIMenuItem("Speak with ~y~" + _name1);
+                    break;
+                default:
+                    End(true);
+                    break;
+            }
             base.StartEvent(_spawnPoint);
         }
 
@@ -37,42 +66,21 @@ namespace SuperEvents.Events
                 switch (_tasks)
                 {
                     case Tasks.CheckDistance:
-                        if (Game.LocalPlayer.Character.DistanceTo(_spawnPoint) < 25f)
-                        {
-                            if (Settings.ShowHints)
-                                Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~y~Officer Sighting",
-                                    "~r~A Fire", "Call the Fire Department and clear the scene!");
-                            Game.DisplayHelp("~y~Press ~r~" + Settings.Interact + "~y~ to open interaction menu.");
-                            _tasks = Tasks.OnScene;
-                        }
-
-                        break;
-                    case Tasks.OnScene:
-                        var choice = new Random().Next(1, 4);
-                        Game.LogTrivial("SuperEvents: Fire event picked scenerio #" + choice);
-                        switch (choice)
+                        switch (_choice)
                         {
                             case 1:
-                                EFunctions.FireControl(_spawnPoint.Around2D(4f), 24, true);
-                                EFunctions.FireControl(_spawnPoint.Around2D(4f), 24, false);
+                                if (!_bad.IsAnySpeechPlaying) _bad.PlayAmbientSpeech("GENERIC_FRIGHTENED_MED");
                                 break;
                             case 2:
-                                _eVehicle.Explode();
-                                EFunctions.FireControl(_spawnPoint.Around2D(4f), 10, true);
+                                if (!_bad2.IsAnySpeechPlaying) _bad2.PlayAmbientSpeech("GENERIC_WAR_CRY");
                                 break;
                             case 3:
-                                _victim = _eVehicle.CreateRandomDriver();
-                                _victim.IsPersistent = true;
-                                EntitiesToClear.Add(_victim);
-                                EFunctions.FireControl(_spawnPoint.Around2D(4f), 24, true);
-                                EFunctions.FireControl(_spawnPoint.Around2D(4f), 24, false);
+                                if (!_bad.IsAnySpeechPlaying) _bad.PlayAmbientSpeech("GENERIC_FRIGHTENED_MED");
                                 break;
                             default:
                                 End(true);
                                 break;
                         }
-
-                        _tasks = Tasks.End;
                         break;
                     case Tasks.End:
                         break;
@@ -80,7 +88,6 @@ namespace SuperEvents.Events
                         End(true);
                         break;
                 }
-
                 base.Process();
             }
             catch (Exception e)
@@ -94,11 +101,10 @@ namespace SuperEvents.Events
                 End(true);
             }
         }
-
+        
         private enum Tasks
         {
             CheckDistance,
-            OnScene,
             End
         }
     }
