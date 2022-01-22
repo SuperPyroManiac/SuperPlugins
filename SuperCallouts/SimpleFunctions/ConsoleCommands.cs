@@ -1,11 +1,12 @@
-namespace SuperCallouts.SimpleFunctions
+using Rage.Attributes;
+
+namespace SuperCallouts.SimpleFunctions;
+
+public static class ConsoleCommands
 {
-    public static class ConsoleCommands
+    [ConsoleCommand]
+    public static void Command_SCReloadConfig()
     {
-        [Rage.Attributes.ConsoleCommand]
-        public static void Command_SCReloadConfig()
-        {
-            Settings.LoadSettings();
-        }
+        Settings.LoadSettings();
     }
 }
