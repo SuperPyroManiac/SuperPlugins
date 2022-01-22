@@ -27,6 +27,7 @@ namespace SuperCallouts.Callouts
             Game.LogTrivial("SuperCallouts Log: Aliens callout accepted...");
             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Alien Sighting",
                 "Caller claims that the subjects are aliens. Low priority, respond ~y~CODE-2");
+            if (Main.UsingCi) Wrapper.StartCi(this, "Code 2", "Local");
             _cVehicle1 = new Vehicle("DUNE2", _spawnPoint);
             _cVehicle1.IsPersistent = true;
             _cVehicle1.IsEngineOn = true;
@@ -62,6 +63,7 @@ namespace SuperCallouts.Callouts
                 GameFiber.StartNew(delegate
                 {
                     _onScene = true;
+                    if (Main.UsingCi) Wrapper.CiSendMessage(this, "On scene. Investigating the area.");
                     _cBlip1.DisableRoute();
                     NativeFunction.Natives.x6A071245EB0D1882(_alien1, Game.LocalPlayer.Character, -1, 2f, 2f,
                         0, 0);
@@ -90,6 +92,7 @@ namespace SuperCallouts.Callouts
             if (_alien3.Exists()) _alien3.Delete();
             if (_cVehicle1.Exists()) _cVehicle1.Delete();
             if (_cBlip1.Exists()) _cBlip1.Delete();
+            if (Main.UsingCi) Wrapper.CiSendMessage(this, "Uhh... Code4");
             CFunctions.Code4Message();
             Game.DisplayHelp("Scene ~g~CODE 4", 5000);
             Game.DisplaySubtitle("~g~Me:~s~ The hell was that? I think I need a nap..");
