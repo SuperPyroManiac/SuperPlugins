@@ -167,7 +167,7 @@ namespace SuperCallouts.CustomScenes
             police.SecondaryColor = Color.FromArgb(255, 0, 0, 0);
             police.PrimaryColor = Color.FromArgb(255, 0, 0, 0);
             police.ConvertibleRoofState = VehicleConvertibleRoofState.Raised;
-            police.LockStatus = (VehicleLockStatus) 5;
+            police.LockStatus = (VehicleLockStatus)5;
             police.DirtLevel = 4f;
             police.LicensePlate = "64HTK085";
             police.CollisionIgnoredEntity = null;

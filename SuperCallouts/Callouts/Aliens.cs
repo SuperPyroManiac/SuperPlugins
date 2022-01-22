@@ -3,8 +3,6 @@ using LSPD_First_Response.Mod.API;
 using LSPD_First_Response.Mod.Callouts;
 using Rage;
 using Rage.Native;
-using RAGENativeUI;
-using RAGENativeUI.Elements;
 using SuperCallouts.SimpleFunctions;
 
 namespace SuperCallouts.Callouts
@@ -12,16 +10,6 @@ namespace SuperCallouts.Callouts
     [CalloutInfo("Aliens", CalloutProbability.Low)]
     internal class Aliens : Callout
     {
-        #region Variables
-        private Ped _alien1;
-        private Ped _alien2;
-        private Ped _alien3;
-        private Blip _cBlip1;
-        private Vehicle _cVehicle1;
-        private Vector3 _spawnPoint;
-        private bool _onScene;
-        #endregion
-
         public override bool OnBeforeCalloutDisplayed()
         {
             _spawnPoint = World.GetNextPositionOnStreet(Game.LocalPlayer.Character.Position.Around(350f));
@@ -62,7 +50,7 @@ namespace SuperCallouts.Callouts
             _alien3.IsPersistent = true;
             var position = _cVehicle1.Position;
             var searcharea = position.Around2D(40f, 75f);
-            _cBlip1 = new Blip(searcharea, 80f) {Color = Color.Yellow, Alpha = .5f};
+            _cBlip1 = new Blip(searcharea, 80f) { Color = Color.Yellow, Alpha = .5f };
             _cBlip1.EnableRoute(Color.Yellow);
             return base.OnCalloutAccepted();
         }
@@ -107,5 +95,17 @@ namespace SuperCallouts.Callouts
             Game.DisplaySubtitle("~g~Me:~s~ The hell was that? I think I need a nap..");
             base.End();
         }
+
+        #region Variables
+
+        private Ped _alien1;
+        private Ped _alien2;
+        private Ped _alien3;
+        private Blip _cBlip1;
+        private Vehicle _cVehicle1;
+        private Vector3 _spawnPoint;
+        private bool _onScene;
+
+        #endregion
     }
 }

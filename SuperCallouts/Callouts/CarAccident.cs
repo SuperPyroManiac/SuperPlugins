@@ -1,9 +1,9 @@
 using System;
-using Rage;
-using LSPD_First_Response.Mod.API;
-using LSPD_First_Response.Mod.Callouts;
 using System.Drawing;
 using LSPD_First_Response;
+using LSPD_First_Response.Mod.API;
+using LSPD_First_Response.Mod.Callouts;
+using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts.SimpleFunctions;
@@ -13,22 +13,6 @@ namespace SuperCallouts.Callouts
     [CalloutInfo("CarAccident", CalloutProbability.Medium)]
     internal class CarAccident : Callout
     {
-        #region Variables
-
-        private Ped _cVictim;
-        private Vehicle _cVehicle;
-        private Blip _cBlip;
-        private Vector3 _spawnPoint;
-        private float _spawnPointH;
-        private bool _onScene;
-        //UI Items
-        private readonly MenuPool _interaction = new MenuPool();
-        private readonly UIMenu _mainMenu = new UIMenu("SuperCallouts", "~y~Choose an option.");
-        private readonly UIMenuItem _callEms =
-            new UIMenuItem("~r~ Call EMS", "Calls for an ambulance.");
-        private readonly UIMenuItem _endCall = new UIMenuItem("~y~End Callout", "Ends the callout early.");
-        #endregion
-
         public override bool OnBeforeCalloutDisplayed()
         {
             CFunctions.FindSideOfRoad(750, 280, out _spawnPoint, out _spawnPointH);
@@ -36,7 +20,8 @@ namespace SuperCallouts.Callouts
             CalloutMessage = "~b~Dispatch:~s~ Reports of a motor vehicle accident.";
             CalloutAdvisory = "Caller reports possible hit and run.";
             CalloutPosition = _spawnPoint;
-            Functions.PlayScannerAudioUsingPosition("CITIZENS_REPORT_04 CRIME_HIT_AND_RUN_03 IN_OR_ON_POSITION UNITS_RESPOND_CODE_03_01",
+            Functions.PlayScannerAudioUsingPosition(
+                "CITIZENS_REPORT_04 CRIME_HIT_AND_RUN_03 IN_OR_ON_POSITION UNITS_RESPOND_CODE_03_01",
                 _spawnPoint);
             return base.OnBeforeCalloutDisplayed();
         }
@@ -84,25 +69,23 @@ namespace SuperCallouts.Callouts
                     _callEms.Enabled = true;
                     Game.DisplayHelp($"Press ~{Settings.Interact.GetInstructionalId()}~ to open interaction menu.");
                 }
+
                 //Keybinds
                 if (Game.IsKeyDown(Settings.EndCall)) End();
-                if (Game.IsKeyDown(Settings.Interact))
-                {
-                    _mainMenu.Visible = !_mainMenu.Visible;
-                }
+                if (Game.IsKeyDown(Settings.Interact)) _mainMenu.Visible = !_mainMenu.Visible;
                 _interaction.ProcessMenus();
-
             }
             catch (Exception e)
             {
-                        Game.LogTrivial("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
-                        Game.LogTrivial("SuperCallouts Error Report Start");
-                        Game.LogTrivial("======================================================");
-                        Game.LogTrivial(e.ToString());
-                        Game.LogTrivial("======================================================");
-                        Game.LogTrivial("SuperCallouts Error Report End");
-                        End();
+                Game.LogTrivial("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
+                Game.LogTrivial("SuperCallouts Error Report Start");
+                Game.LogTrivial("======================================================");
+                Game.LogTrivial(e.ToString());
+                Game.LogTrivial("======================================================");
+                Game.LogTrivial("SuperCallouts Error Report End");
+                End();
             }
+
             base.Process();
         }
 
@@ -116,6 +99,7 @@ namespace SuperCallouts.Callouts
             Game.DisplayHelp("Scene ~g~CODE 4", 5000);
             base.End();
         }
+
         private void Interactions(UIMenu sender, UIMenuItem selItem, int index)
         {
             if (selItem == _callEms)
@@ -129,9 +113,12 @@ namespace SuperCallouts.Callouts
                 }
                 else
                 {
-                    Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Code3, EBackupUnitType.Ambulance);
-                    Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Code3, EBackupUnitType.Firetruck);
+                    Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Code3,
+                        EBackupUnitType.Ambulance);
+                    Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Code3,
+                        EBackupUnitType.Firetruck);
                 }
+
                 _callEms.Enabled = false;
             }
             else if (selItem == _endCall)
@@ -140,5 +127,25 @@ namespace SuperCallouts.Callouts
                 End();
             }
         }
+
+        #region Variables
+
+        private Ped _cVictim;
+        private Vehicle _cVehicle;
+        private Blip _cBlip;
+        private Vector3 _spawnPoint;
+        private float _spawnPointH;
+
+        private bool _onScene;
+
+        //UI Items
+        private readonly MenuPool _interaction = new();
+        private readonly UIMenu _mainMenu = new("SuperCallouts", "~y~Choose an option.");
+
+        private readonly UIMenuItem _callEms = new("~r~ Call EMS", "Calls for an ambulance.");
+
+        private readonly UIMenuItem _endCall = new("~y~End Callout", "Ends the callout early.");
+
+        #endregion
     }
 }

@@ -1,8 +1,8 @@
 using System;
-using Rage;
+using System.Drawing;
 using LSPD_First_Response.Mod.API;
 using LSPD_First_Response.Mod.Callouts;
-using System.Drawing;
+using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts.SimpleFunctions;
@@ -12,22 +12,6 @@ namespace SuperCallouts.Callouts
     [CalloutInfo("PrisonTransport", CalloutProbability.Medium)]
     internal class PrisonTransport : Callout
     {
-        #region Variables
-        private Ped _badguy;
-        private Blip _cBlip1;
-        private Blip _cBlip2;
-        private Ped _cop;
-        private Vehicle _cVehicle;
-        private bool _onScene;
-        private LHandle _pursuit;
-        private readonly Random _rNd = new Random();
-        private Vector3 _spawnPoint;
-        //UI Items
-        private readonly MenuPool _interaction = new MenuPool();
-        private readonly UIMenu _mainMenu = new UIMenu("SuperCallouts", "~y~Choose an option.");
-        private readonly UIMenuItem _endCall = new UIMenuItem("~y~End Callout", "Ends the callout early.");
-        #endregion
-
         public override bool OnBeforeCalloutDisplayed()
         {
             _spawnPoint = World.GetNextPositionOnStreet(Game.LocalPlayer.Character.Position.Around(500f));
@@ -47,7 +31,7 @@ namespace SuperCallouts.Callouts
             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Escaped Prisoner",
                 "DOC reports a prisoner has unlocked the transport vehicle and is on the run. Respond ~r~CODE-3");
             //cVehicle
-            _cVehicle = new Vehicle("POLICET", _spawnPoint) {IsPersistent = true};
+            _cVehicle = new Vehicle("POLICET", _spawnPoint) { IsPersistent = true };
             //Cop
             _cop = new Ped("csb_cop", _spawnPoint, 0f);
             _cop.IsPersistent = true;
@@ -114,12 +98,10 @@ namespace SuperCallouts.Callouts
                             break;
                     }
                 }
+
                 //Keybinds
                 if (Game.IsKeyDown(Settings.EndCall)) End();
-                if (Game.IsKeyDown(Settings.Interact))
-                {
-                    _mainMenu.Visible = !_mainMenu.Visible;
-                }
+                if (Game.IsKeyDown(Settings.Interact)) _mainMenu.Visible = !_mainMenu.Visible;
                 _interaction.ProcessMenus();
             }
             catch (Exception e)
@@ -132,6 +114,7 @@ namespace SuperCallouts.Callouts
                 Game.LogTrivial("SuperCallouts Error Report End");
                 End();
             }
+
             base.Process();
         }
 
@@ -147,6 +130,7 @@ namespace SuperCallouts.Callouts
             Game.DisplayHelp("Scene ~g~CODE 4", 5000);
             base.End();
         }
+
         //UI Items
         private void Interactions(UIMenu sender, UIMenuItem selItem, int index)
         {
@@ -156,5 +140,25 @@ namespace SuperCallouts.Callouts
                 End();
             }
         }
+
+        #region Variables
+
+        private Ped _badguy;
+        private Blip _cBlip1;
+        private Blip _cBlip2;
+        private Ped _cop;
+        private Vehicle _cVehicle;
+        private bool _onScene;
+        private LHandle _pursuit;
+        private readonly Random _rNd = new();
+
+        private Vector3 _spawnPoint;
+
+        //UI Items
+        private readonly MenuPool _interaction = new();
+        private readonly UIMenu _mainMenu = new("SuperCallouts", "~y~Choose an option.");
+        private readonly UIMenuItem _endCall = new("~y~End Callout", "Ends the callout early.");
+
+        #endregion
     }
 }

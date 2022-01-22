@@ -14,17 +14,19 @@ namespace SuperCallouts.Callouts
     internal class StolenCopVehicle : Callout
     {
         private Ped _bad;
-        private Vehicle _cVehicle;
         private Blip _cBlip;
-        private LHandle _pursuit;
-        private Vector3 _spawnPoint;
-        private CState _state = CState.CheckDistance;
+        private UIMenu _convoMenu;
+        private Vehicle _cVehicle;
+
+        private UIMenuItem _endCall;
+
         //UI Items
         private MenuPool _interaction;
         private UIMenu _mainMenu;
-        private UIMenu _convoMenu;
+        private LHandle _pursuit;
         private UIMenuItem _questioning;
-        private UIMenuItem _endCall;
+        private Vector3 _spawnPoint;
+        private CState _state = CState.CheckDistance;
 
         public override bool OnBeforeCalloutDisplayed()
         {
@@ -45,8 +47,9 @@ namespace SuperCallouts.Callouts
             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Stolen Police Vehicle",
                 "A suspect has stolen a police vehicle during his arrest. Respond ~r~CODE-3");
             //cVehicle
-            Model[] vehicleModels = {"POLICE", "POLICE2", "POLICE3", "SHERIFF", "SHERIFF2"};
-            _cVehicle = new Vehicle(vehicleModels[new Random().Next(vehicleModels.Length)], _spawnPoint) {IsPersistent = true, IsStolen = true, IsSirenOn = true, IsSirenSilent = true};
+            Model[] vehicleModels = { "POLICE", "POLICE2", "POLICE3", "SHERIFF", "SHERIFF2" };
+            _cVehicle = new Vehicle(vehicleModels[new Random().Next(vehicleModels.Length)], _spawnPoint)
+                { IsPersistent = true, IsStolen = true, IsSirenOn = true, IsSirenSilent = true };
             //Bad
             _bad = new Ped(_spawnPoint.Around(15f));
             _bad.WarpIntoVehicle(_cVehicle, -1);
@@ -80,26 +83,25 @@ namespace SuperCallouts.Callouts
                         {
                             _cBlip.Delete();
                             _pursuit = Functions.CreatePursuit();
-                            Game.DisplayHelp($"Press ~{Settings.Interact.GetInstructionalId()}~ to open interaction menu.");
+                            Game.DisplayHelp(
+                                $"Press ~{Settings.Interact.GetInstructionalId()}~ to open interaction menu.");
                             _state = CState.OnScene;
                         }
+
                         break;
                     case CState.OnScene:
                         Game.DisplayHelp("Suspect is fleeing!");
                         Functions.AddPedToPursuit(_pursuit, _bad);
                         Functions.SetPursuitIsActiveForPlayer(_pursuit, true);
                         if (Main.UsingUb)
-                        {
                             Wrapper.CallPursuit();
-                        }
                         else
-                        {
-                            Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Pursuit, EBackupUnitType.LocalUnit);
-                        }
+                            Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Pursuit,
+                                EBackupUnitType.LocalUnit);
                         _state = CState.End;
                         break;
                 }
-                
+
                 //Keybinds
                 if (Game.IsKeyDown(Settings.EndCall)) End();
                 if (Game.IsKeyDown(Settings.Interact))
@@ -107,6 +109,7 @@ namespace SuperCallouts.Callouts
                     _mainMenu.Visible = !_mainMenu.Visible;
                     _convoMenu.Visible = false;
                 }
+
                 _interaction.ProcessMenus();
             }
             catch (Exception e)
@@ -119,6 +122,7 @@ namespace SuperCallouts.Callouts
                 Game.LogTrivial("SuperCallouts Error Report End");
                 End();
             }
+
             base.Process();
         }
 
@@ -132,7 +136,7 @@ namespace SuperCallouts.Callouts
             _interaction.CloseAllMenus();
             base.End();
         }
-        
+
         private void Interactions(UIMenu sender, UIMenuItem selItem, int index)
         {
             if (selItem == _endCall)
@@ -141,13 +145,12 @@ namespace SuperCallouts.Callouts
                 End();
             }
         }
-        
+
         private enum CState
         {
             CheckDistance,
             OnScene,
             End
         }
-
     }
 }

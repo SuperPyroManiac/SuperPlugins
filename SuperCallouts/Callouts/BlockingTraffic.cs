@@ -10,20 +10,8 @@ using SuperCallouts.SimpleFunctions;
 namespace SuperCallouts.Callouts
 {
     [CalloutInfo("BlockingTraffic", CalloutProbability.Medium)]
-    class BlockingTraffic : Callout
+    internal class BlockingTraffic : Callout
     {
-        
-        #region Variables
-        private Vehicle _cVehicle;
-        private Blip _cBlip;
-        private Vector3 _spawnPoint;
-        private bool _onScene;
-        //UI Items
-        private readonly MenuPool _interaction = new MenuPool();
-        private readonly UIMenu _mainMenu = new UIMenu("SuperCallouts", "~y~Choose an option.");
-        private readonly UIMenuItem _endCall = new UIMenuItem("~y~End Callout", "Ends the callout.");
-        #endregion
-
         public override bool OnBeforeCalloutDisplayed()
         {
             _spawnPoint = World.GetNextPositionOnStreet(Game.LocalPlayer.Character.Position.Around(450f));
@@ -69,12 +57,10 @@ namespace SuperCallouts.Callouts
                     _cBlip.DisableRoute();
                     Game.DisplayHelp($"Press ~{Settings.Interact.GetInstructionalId()}~ to open interaction menu.");
                 }
+
                 //Keybinds
                 if (Game.IsKeyDown(Settings.EndCall)) End();
-                if (Game.IsKeyDown(Settings.Interact))
-                {
-                    _mainMenu.Visible = !_mainMenu.Visible;
-                }
+                if (Game.IsKeyDown(Settings.Interact)) _mainMenu.Visible = !_mainMenu.Visible;
                 _interaction.ProcessMenus();
             }
             catch (Exception e)
@@ -87,6 +73,7 @@ namespace SuperCallouts.Callouts
                 Game.LogTrivial("SuperCallouts Error Report End");
                 End();
             }
+
             base.Process();
         }
 
@@ -99,7 +86,7 @@ namespace SuperCallouts.Callouts
             Game.DisplayHelp("Scene ~g~CODE 4", 5000);
             base.End();
         }
-        
+
         private void Interactions(UIMenu sender, UIMenuItem selItem, int index)
         {
             if (selItem == _endCall)
@@ -108,5 +95,20 @@ namespace SuperCallouts.Callouts
                 End();
             }
         }
+
+        #region Variables
+
+        private Vehicle _cVehicle;
+        private Blip _cBlip;
+        private Vector3 _spawnPoint;
+
+        private bool _onScene;
+
+        //UI Items
+        private readonly MenuPool _interaction = new();
+        private readonly UIMenu _mainMenu = new("SuperCallouts", "~y~Choose an option.");
+        private readonly UIMenuItem _endCall = new("~y~End Callout", "Ends the callout.");
+
+        #endregion
     }
 }

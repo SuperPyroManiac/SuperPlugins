@@ -1,9 +1,9 @@
 using System;
-using Rage;
-using Rage.Native;
+using System.Drawing;
 using LSPD_First_Response.Mod.API;
 using LSPD_First_Response.Mod.Callouts;
-using System.Drawing;
+using Rage;
+using Rage.Native;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts.SimpleFunctions;
@@ -13,38 +13,6 @@ namespace SuperCallouts.Callouts
     [CalloutInfo("HitRun", CalloutProbability.Medium)]
     internal class HitRun : Callout
     {
-        #region Variables
-        private Ped _victim;
-        private Ped _bad1;
-        private Ped _bad2;
-        private Vehicle _cVehicle1;
-        private Vehicle _cVehicle2;
-        private Blip _cBlip1;
-        private Blip _cBlip2;
-        private Blip _cBlip3;
-        private LHandle _pursuit;
-        private Vector3 _spawnPoint;
-        private float _spawnPointH;
-        private Vector3 _spawnPointOffset;
-        private bool _onScene;
-        private bool _onScene2;
-        private bool _startPursuit;
-        private string _name1;
-        private string _name2;
-        private string _name3;
-        //UI Items
-        private readonly MenuPool _interaction = new MenuPool();
-        private readonly UIMenu _mainMenu = new UIMenu("SuperCallouts", "~y~Choose an option.");
-        private readonly UIMenu _convoMenu = new UIMenu("SuperCallouts", "~y~Choose a subject to speak with.");
-        private readonly UIMenuItem _questioning = new UIMenuItem("Speak With Subjects");
-        private readonly UIMenuItem _dissmisVictim =
-            new UIMenuItem("~r~ Dismiss Victim", "Lets the victim leave.");
-        private readonly UIMenuItem _endCall = new UIMenuItem("~y~End Callout", "Ends the callout early.");
-        private UIMenuItem _speakVictim;
-        private UIMenuItem _speakSuspect1;
-        private UIMenuItem _speakSuspect2;
-        #endregion
-
         public override bool OnBeforeCalloutDisplayed()
         {
             CFunctions.FindSideOfRoad(500, 100, out _spawnPoint, out _spawnPointH);
@@ -131,6 +99,7 @@ namespace SuperCallouts.Callouts
                     _questioning.Enabled = true;
                     _speakVictim.Enabled = true;
                 }
+
                 if (_startPursuit && !_onScene2 && Game.LocalPlayer.Character.DistanceTo(_cVehicle2) < 50f)
                 {
                     _startPursuit = false;
@@ -140,19 +109,19 @@ namespace SuperCallouts.Callouts
                     Functions.AddPedToPursuit(_pursuit, _bad2);
                     Functions.SetPursuitIsActiveForPlayer(_pursuit, true);
                 }
-                if (_onScene2 && Game.LocalPlayer.Character.DistanceTo(_cVehicle2) < 50f && !Functions.IsPursuitStillRunning(_pursuit))
+
+                if (_onScene2 && Game.LocalPlayer.Character.DistanceTo(_cVehicle2) < 50f &&
+                    !Functions.IsPursuitStillRunning(_pursuit))
                 {
                     _onScene2 = false;
                     Game.DisplayHelp($"Press ~{Settings.Interact.GetInstructionalId()}~ to open interaction menu.");
                     _speakSuspect1.Enabled = true;
                     _speakSuspect2.Enabled = true;
                 }
+
                 //KeyBinds
                 if (Game.IsKeyDown(Settings.EndCall)) End();
-                if (Game.IsKeyDown(Settings.Interact))
-                {
-                    _mainMenu.Visible = !_mainMenu.Visible;
-                }
+                if (Game.IsKeyDown(Settings.Interact)) _mainMenu.Visible = !_mainMenu.Visible;
                 _interaction.ProcessMenus();
             }
             catch (Exception e)
@@ -165,6 +134,7 @@ namespace SuperCallouts.Callouts
                 Game.LogTrivial("SuperCallouts Error Report End");
                 End();
             }
+
             base.Process();
         }
 
@@ -183,12 +153,14 @@ namespace SuperCallouts.Callouts
             Game.DisplayHelp("Scene ~g~CODE 4", 5000);
             base.End();
         }
+
         //UI Items
         private void Interactions(UIMenu sender, UIMenuItem selItem, int index)
         {
             if (selItem == _dissmisVictim)
             {
-                Game.DisplaySubtitle("~g~You~s~: You are good to go, we will be in contact once we get more information on the suspect.");
+                Game.DisplaySubtitle(
+                    "~g~You~s~: You are good to go, we will be in contact once we get more information on the suspect.");
                 if (_victim.Exists()) _victim.Dismiss();
                 if (_cVehicle1.Exists()) _cVehicle1.Dismiss();
                 if (_cBlip1.Exists()) _cBlip1.Delete();
@@ -200,54 +172,100 @@ namespace SuperCallouts.Callouts
                 _cBlip3 = _bad2.AttachBlip();
                 _cBlip3.Color = Color.Red;
             }
+
             if (selItem == _endCall)
             {
                 Game.DisplaySubtitle("~y~Callout Ended.");
                 End();
             }
         }
+
         private void Conversations(UIMenu sender, UIMenuItem selItem, int index)
         {
             if (selItem == _speakVictim)
-            {
                 GameFiber.StartNew(delegate
                 {
                     Game.DisplaySubtitle("~g~You~s~: What's going on here? Are you ok?", 5000);
                     NativeFunction.Natives.x5AD23D40115353AC(_victim, Game.LocalPlayer.Character, -1);
                     GameFiber.Wait(5000);
                     _bad1.PlayAmbientSpeech("GENERIC_CURSE_MED");
-                    Game.DisplaySubtitle("~r~" + _name1 + "~s~: I'm ok, someone hit my car and when I got out they drove off!", 5000);
+                    Game.DisplaySubtitle(
+                        "~r~" + _name1 + "~s~: I'm ok, someone hit my car and when I got out they drove off!", 5000);
                     GameFiber.Wait(5000);
-                    Game.DisplaySubtitle("~g~You~s~: Alright, well did you get any information? What did they look like or a vehicle description?", 5000);
+                    Game.DisplaySubtitle(
+                        "~g~You~s~: Alright, well did you get any information? What did they look like or a vehicle description?",
+                        5000);
                     GameFiber.Wait(5000);
-                    Game.DisplaySubtitle("~r~" + _name1 + "~s~: I gave the dispatch lady the license number, but it was so fast I don't recall any details. Im sorry, can I leave?", 5000);
+                    Game.DisplaySubtitle(
+                        "~r~" + _name1 +
+                        "~s~: I gave the dispatch lady the license number, but it was so fast I don't recall any details. Im sorry, can I leave?",
+                        5000);
                     GameFiber.Wait(5000);
-                    Game.DisplaySubtitle("~y~Dispatch~s~: ANPR has located a vehicle matching the license given to us. Dismiss victim and respond ~r~CODE-3", 5000);
+                    Game.DisplaySubtitle(
+                        "~y~Dispatch~s~: ANPR has located a vehicle matching the license given to us. Dismiss victim and respond ~r~CODE-3",
+                        5000);
                     _dissmisVictim.Enabled = true;
                 });
-            }
             if (selItem == _speakSuspect1)
-            {
                 GameFiber.StartNew(delegate
                 {
-                    Game.DisplaySubtitle("~g~You~s~: Why are you running? This could have been a simple ticket and court date for the accident, now you're facing serious charges!", 5000);
+                    Game.DisplaySubtitle(
+                        "~g~You~s~: Why are you running? This could have been a simple ticket and court date for the accident, now you're facing serious charges!",
+                        5000);
                     NativeFunction.Natives.x5AD23D40115353AC(_bad1, Game.LocalPlayer.Character, -1);
                     GameFiber.Wait(5000);
                     _bad1.PlayAmbientSpeech("GENERIC_CURSE_MED");
                     Game.DisplaySubtitle("~r~" + _name1 + "~s~: Screw you pig, I aint talkin to you!", 5000);
                 });
-            }
             if (selItem == _speakSuspect2)
-            {
                 GameFiber.StartNew(delegate
                 {
                     Game.DisplaySubtitle("~g~You~s~: What's going on? Why were you guys running?", 5000);
                     GameFiber.Wait(5000);
                     NativeFunction.Natives.x5AD23D40115353AC(_bad2, Game.LocalPlayer.Character, -1);
                     _bad1.PlayAmbientSpeech("GENERIC_CURSE_MED");
-                    Game.DisplaySubtitle("~r~" + _name1 + "~s~: I didnt do nothing at all, I was just chilling and they hit someone and started running, I was like bro, and they were like bruh, so we dipped.", 5000);
+                    Game.DisplaySubtitle(
+                        "~r~" + _name1 +
+                        "~s~: I didnt do nothing at all, I was just chilling and they hit someone and started running, I was like bro, and they were like bruh, so we dipped.",
+                        5000);
                 });
-            }
         }
+
+        #region Variables
+
+        private Ped _victim;
+        private Ped _bad1;
+        private Ped _bad2;
+        private Vehicle _cVehicle1;
+        private Vehicle _cVehicle2;
+        private Blip _cBlip1;
+        private Blip _cBlip2;
+        private Blip _cBlip3;
+        private LHandle _pursuit;
+        private Vector3 _spawnPoint;
+        private float _spawnPointH;
+        private Vector3 _spawnPointOffset;
+        private bool _onScene;
+        private bool _onScene2;
+        private bool _startPursuit;
+        private string _name1;
+        private string _name2;
+
+        private string _name3;
+
+        //UI Items
+        private readonly MenuPool _interaction = new();
+        private readonly UIMenu _mainMenu = new("SuperCallouts", "~y~Choose an option.");
+        private readonly UIMenu _convoMenu = new("SuperCallouts", "~y~Choose a subject to speak with.");
+        private readonly UIMenuItem _questioning = new("Speak With Subjects");
+
+        private readonly UIMenuItem _dissmisVictim = new("~r~ Dismiss Victim", "Lets the victim leave.");
+
+        private readonly UIMenuItem _endCall = new("~y~End Callout", "Ends the callout early.");
+        private UIMenuItem _speakVictim;
+        private UIMenuItem _speakSuspect1;
+        private UIMenuItem _speakSuspect2;
+
+        #endregion
     }
 }

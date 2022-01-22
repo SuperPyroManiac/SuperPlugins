@@ -156,7 +156,7 @@ namespace SuperCallouts.CustomScenes
             mafiaCars4.PrimaryColor = Color.FromArgb(255, 255, 255, 255);
             mafiaCars4.FuelLevel = 80f;
             mafiaCars4.ConvertibleRoofState = VehicleConvertibleRoofState.Raised;
-            mafiaCars4.LockStatus = (VehicleLockStatus) 1;
+            mafiaCars4.LockStatus = (VehicleLockStatus)1;
             mafiaCars4.DirtLevel = 11f;
             mafiaCars4.LicensePlate = "85QON527";
             mafiaCars4.CollisionIgnoredEntity = null;
@@ -177,7 +177,7 @@ namespace SuperCallouts.CustomScenes
             mafiaCars2.SecondaryColor = Color.FromArgb(255, 0, 0, 0);
             mafiaCars2.PrimaryColor = Color.FromArgb(255, 255, 255, 255);
             mafiaCars2.ConvertibleRoofState = VehicleConvertibleRoofState.Raised;
-            mafiaCars2.LockStatus = (VehicleLockStatus) 1;
+            mafiaCars2.LockStatus = (VehicleLockStatus)1;
             mafiaCars2.DirtLevel = 8f;
             mafiaCars2.LicensePlate = "41ZPP757";
             mafiaCars2.CollisionIgnoredEntity = null;
@@ -198,7 +198,7 @@ namespace SuperCallouts.CustomScenes
             mafiaCars1.SecondaryColor = Color.FromArgb(255, 0, 255, 255);
             mafiaCars1.PrimaryColor = Color.FromArgb(255, 255, 255, 255);
             mafiaCars1.ConvertibleRoofState = VehicleConvertibleRoofState.Raised;
-            mafiaCars1.LockStatus = (VehicleLockStatus) 1;
+            mafiaCars1.LockStatus = (VehicleLockStatus)1;
             mafiaCars1.DirtLevel = 7f;
             mafiaCars1.LicensePlate = "43WPW436";
             mafiaCars1.CollisionIgnoredEntity = null;
@@ -219,7 +219,7 @@ namespace SuperCallouts.CustomScenes
             mafiaCars3.SecondaryColor = Color.FromArgb(255, 0, 255, 255);
             mafiaCars3.PrimaryColor = Color.FromArgb(255, 255, 255, 255);
             mafiaCars3.ConvertibleRoofState = VehicleConvertibleRoofState.Raised;
-            mafiaCars3.LockStatus = (VehicleLockStatus) 1;
+            mafiaCars3.LockStatus = (VehicleLockStatus)1;
             mafiaCars3.DirtLevel = 4f;
             mafiaCars3.LicensePlate = "61UOM514";
             mafiaCars3.CollisionIgnoredEntity = null;

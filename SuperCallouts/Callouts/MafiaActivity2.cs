@@ -8,8 +8,6 @@ using LSPD_First_Response.Engine.Scripting.Entities;
 using LSPD_First_Response.Mod.API;
 using LSPD_First_Response.Mod.Callouts;
 using Rage;
-using RAGENativeUI;
-using RAGENativeUI.Elements;
 using SuperCallouts.CustomScenes;
 using SuperCallouts.SimpleFunctions;
 
@@ -20,10 +18,21 @@ namespace SuperCallouts.Callouts
     [CalloutInfo("MafiaActivity2", CalloutProbability.Low)]
     internal class MafiaActivity2 : Callout
     {
-        private readonly Vector3 _callPos = new Vector3(1543.173f, 3606.55f, 35.19303f);
-        private bool _onScene;
+        private readonly Vector3 _callPos = new(1543.173f, 3606.55f, 35.19303f);
+        private readonly List<Vehicle> _mafiaCars = new();
+        private readonly List<Ped> _mafiaDudes = new();
         private Blip _cBlip;
+        private Vehicle _cVehicle1;
+        private Vehicle _cVehicle2;
+        private Vehicle _cVehicle3;
+        private Vehicle _cVehicle4;
         private Ped _mafiaDude1;
+        private Ped _mafiaDude10;
+        private Ped _mafiaDude11;
+        private Ped _mafiaDude12;
+        private Ped _mafiaDude13;
+        private Ped _mafiaDude14;
+        private Ped _mafiaDude15;
         private Ped _mafiaDude2;
         private Ped _mafiaDude3;
         private Ped _mafiaDude4;
@@ -32,18 +41,7 @@ namespace SuperCallouts.Callouts
         private Ped _mafiaDude7;
         private Ped _mafiaDude8;
         private Ped _mafiaDude9;
-        private Ped _mafiaDude10;
-        private Ped _mafiaDude11;
-        private Ped _mafiaDude12;
-        private Ped _mafiaDude13;
-        private Ped _mafiaDude14;
-        private Ped _mafiaDude15;
-        private Vehicle _cVehicle1;
-        private Vehicle _cVehicle2;
-        private Vehicle _cVehicle3;
-        private Vehicle _cVehicle4;
-        private readonly List<Ped> _mafiaDudes = new List<Ped>();
-        private readonly List<Vehicle> _mafiaCars = new List<Vehicle>();
+        private bool _onScene;
 
         public override bool OnBeforeCalloutDisplayed()
         {
@@ -58,7 +56,10 @@ namespace SuperCallouts.Callouts
 
         public override bool OnCalloutAccepted()
         {
-            Mafia2Setup.ConstructMafia2Scene(out _cVehicle1, out _cVehicle2, out _cVehicle3, out _cVehicle4, out _mafiaDude1, out _mafiaDude2, out _mafiaDude3, out _mafiaDude4, out _mafiaDude5, out _mafiaDude6, out _mafiaDude7, out _mafiaDude8, out _mafiaDude9, out _mafiaDude10, out _mafiaDude11, out _mafiaDude12, out _mafiaDude13, out _mafiaDude14, out _mafiaDude15);
+            Mafia2Setup.ConstructMafia2Scene(out _cVehicle1, out _cVehicle2, out _cVehicle3, out _cVehicle4,
+                out _mafiaDude1, out _mafiaDude2, out _mafiaDude3, out _mafiaDude4, out _mafiaDude5, out _mafiaDude6,
+                out _mafiaDude7, out _mafiaDude8, out _mafiaDude9, out _mafiaDude10, out _mafiaDude11, out _mafiaDude12,
+                out _mafiaDude13, out _mafiaDude14, out _mafiaDude15);
             Game.LogTrivial("SuperCallouts Log: MafiaActivity callout accepted...");
             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~The Mafia",
                 "FIB and IAA reports the Mafia have been spotted near Sandy Shores. Possible large scale drug trafficking. Investigate the scene.");
@@ -91,9 +92,10 @@ namespace SuperCallouts.Callouts
             {
                 mafiaDudes.IsPersistent = true;
                 mafiaDudes.Inventory.Weapons.Add(WeaponHash.CombatPistol).Ammo = -1;
-                SimpleFunctions.CFunctions.SetWanted(mafiaDudes, true);
+                CFunctions.SetWanted(mafiaDudes, true);
                 Functions.AddPedContraband(mafiaDudes, ContrabandType.Narcotics, "Cocaine");
             }
+
             return base.OnCalloutAccepted();
         }
 
@@ -129,6 +131,7 @@ namespace SuperCallouts.Callouts
                         Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Code3,
                             EBackupUnitType.LocalUnit);
                     }
+
                     Game.LocalPlayer.Character.RelationshipGroup = "COP";
                     _mafiaDude13.Tasks.FightAgainst(Game.LocalPlayer.Character, -1);
                     Game.SetRelationshipBetweenRelationshipGroups("MAFIA", "COP", Relationship.Hate);
@@ -145,18 +148,24 @@ namespace SuperCallouts.Callouts
                     Game.LogTrivial("SuperCallouts Error Report End");
                     End();
                 }
+
                 _onScene = true;
             }
+
             if (_onScene && Game.LocalPlayer.Character.DistanceTo(_callPos) > 120f) End();
             base.Process();
         }
 
         public override void End()
         {
-            foreach (var mafiaCars in _mafiaCars) {if(mafiaCars.Exists()) {mafiaCars.Dismiss();}}
-            foreach (var mafiaDudes in _mafiaDudes) {if(mafiaDudes.Exists()) {mafiaDudes.Dismiss();}}
-            if (_cBlip.Exists()) {_cBlip.Delete();}
-CFunctions.Code4Message();
+            foreach (var mafiaCars in _mafiaCars)
+                if (mafiaCars.Exists())
+                    mafiaCars.Dismiss();
+            foreach (var mafiaDudes in _mafiaDudes)
+                if (mafiaDudes.Exists())
+                    mafiaDudes.Dismiss();
+            if (_cBlip.Exists()) _cBlip.Delete();
+            CFunctions.Code4Message();
             Game.DisplayHelp("Scene ~g~CODE 4", 5000);
             base.End();
         }

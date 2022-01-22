@@ -10,7 +10,9 @@ namespace SuperCallouts.CustomScenes
 {
     internal class Mafia1
     {
-        internal static void BuildScene(out Ped xdb, out Ped xbeb, out Ped xa, out Ped xcdcb, out Ped xbaa2, out Ped xcdcb2, out Ped xbaa, out Ped xbaa3, out Vehicle limo, out Vehicle boxville, out Vehicle btype, out Vehicle benson)
+        internal static void BuildScene(out Ped xdb, out Ped xbeb, out Ped xa, out Ped xcdcb, out Ped xbaa2,
+            out Ped xcdcb2, out Ped xbaa, out Ped xbaa3, out Vehicle limo, out Vehicle boxville, out Vehicle btype,
+            out Vehicle benson)
         {
             xdb = new Ped(new Model(0x1422d45b), Vector3.Zero, 0f);
             xdb.DecisionMaker = new DecisionMaker(0xe4df46d5u);
@@ -67,7 +69,7 @@ namespace SuperCallouts.CustomScenes
             limo.SecondaryColor = Color.FromArgb(255, 78, 49, 255);
             limo.PrimaryColor = Color.FromArgb(255, 162, 177, 255);
             limo.ConvertibleRoofState = VehicleConvertibleRoofState.Raised;
-            limo.LockStatus = (VehicleLockStatus) 1;
+            limo.LockStatus = (VehicleLockStatus)1;
             limo.DirtLevel = 0f;
             limo.LicensePlate = "21MFC584";
             limo.CollisionIgnoredEntity = null;
@@ -90,7 +92,7 @@ namespace SuperCallouts.CustomScenes
             boxville.PrimaryColor = Color.FromArgb(255, 181, 255, 255);
             boxville.FuelLevel = 75f;
             boxville.ConvertibleRoofState = VehicleConvertibleRoofState.Raised;
-            boxville.LockStatus = (VehicleLockStatus) 1;
+            boxville.LockStatus = (VehicleLockStatus)1;
             boxville.DirtLevel = 4f;
             boxville.LicensePlate = "24NFG392";
             boxville.CollisionIgnoredEntity = null;
@@ -112,7 +114,7 @@ namespace SuperCallouts.CustomScenes
             btype.SecondaryColor = Color.FromArgb(255, 111, 147, 255);
             btype.PrimaryColor = Color.FromArgb(255, 181, 212, 255);
             btype.ConvertibleRoofState = VehicleConvertibleRoofState.Raised;
-            btype.LockStatus = (VehicleLockStatus) 1;
+            btype.LockStatus = (VehicleLockStatus)1;
             btype.LicensePlate = "43MPN584";
             btype.CollisionIgnoredEntity = null;
             btype.IsGravityDisabled = false;
@@ -191,7 +193,7 @@ namespace SuperCallouts.CustomScenes
             benson.PrimaryColor = Color.FromArgb(255, 181, 255, 255);
             benson.FuelLevel = 80f;
             benson.ConvertibleRoofState = VehicleConvertibleRoofState.Raised;
-            benson.LockStatus = (VehicleLockStatus) 1;
+            benson.LockStatus = (VehicleLockStatus)1;
             benson.DirtLevel = 8f;
             benson.LicensePlate = "22CRW231";
             benson.CollisionIgnoredEntity = null;

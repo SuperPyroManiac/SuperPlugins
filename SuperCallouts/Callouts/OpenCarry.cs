@@ -1,10 +1,9 @@
 using System;
-using Rage;
-using Rage.Native;
+using System.Drawing;
 using LSPD_First_Response.Mod.API;
 using LSPD_First_Response.Mod.Callouts;
-using System.Drawing;
-using System.Windows.Forms;
+using Rage;
+using Rage.Native;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts.SimpleFunctions;
@@ -14,26 +13,6 @@ namespace SuperCallouts.Callouts
     [CalloutInfo("OpenCarry", CalloutProbability.Medium)]
     internal class OpenCarry : Callout
     {
-        #region Variables
-        private Ped _bad1;
-        private Blip _cBlip;
-        private LHandle _pursuit;
-        private readonly Random _rNd = new Random();
-        private Vector3 _spawnPoint;
-        private bool _onScene;
-        private bool _startScene;
-        private string _name1;
-        //UI Items
-        private readonly MenuPool _interaction = new MenuPool();
-        private readonly UIMenu _mainMenu = new UIMenu("SuperCallouts", "~y~Choose an option.");
-        private readonly UIMenu _convoMenu = new UIMenu("SuperCallouts", "~y~Choose a subject to speak with.");
-        private readonly UIMenuItem _questioning = new UIMenuItem("Speak With Subjects");
-        private readonly UIMenuItem _stopSuspect =
-            new UIMenuItem("~r~ Stop Suspect", "Tells the suspect to stop.");
-        private readonly UIMenuItem _endCall = new UIMenuItem("~y~End Callout", "Ends the callout early.");
-        private UIMenuItem _speakSuspect;
-        #endregion
-
         public override bool OnBeforeCalloutDisplayed()
         {
             _spawnPoint = World.GetNextPositionOnStreet(Game.LocalPlayer.Character.Position.Around(350f));
@@ -54,7 +33,7 @@ namespace SuperCallouts.Callouts
             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Person With Gun",
                 "Reports of a person walking around with an assault rifle. Respond ~y~CODE-2");
             //Bad
-            _bad1 = new Ped(_spawnPoint) {IsPersistent = true};
+            _bad1 = new Ped(_spawnPoint) { IsPersistent = true };
             _bad1.Inventory.GiveNewWeapon(WeaponHash.AdvancedRifle, -1, true);
             _bad1.Tasks.Wander();
             _name1 = Functions.GetPersonaForPed(_bad1).FullName;
@@ -144,12 +123,10 @@ namespace SuperCallouts.Callouts
                             break;
                     }
                 }
+
                 //Keybinds
                 if (Game.IsKeyDown(Settings.EndCall)) End();
-                if (Game.IsKeyDown(Settings.Interact))
-                {
-                    _mainMenu.Visible = !_mainMenu.Visible;
-                }
+                if (Game.IsKeyDown(Settings.Interact)) _mainMenu.Visible = !_mainMenu.Visible;
                 _interaction.ProcessMenus();
             }
             catch (Exception e)
@@ -162,6 +139,7 @@ namespace SuperCallouts.Callouts
                 Game.LogTrivial("SuperCallouts Error Report End");
                 End();
             }
+
             base.Process();
         }
 
@@ -174,6 +152,7 @@ namespace SuperCallouts.Callouts
             Game.DisplayHelp("Scene ~g~CODE 4", 5000);
             base.End();
         }
+
         //UI Items
         private void Interactions(UIMenu sender, UIMenuItem selItem, int index)
         {
@@ -183,33 +162,64 @@ namespace SuperCallouts.Callouts
                 _stopSuspect.Enabled = false;
                 _startScene = true;
             }
+
             if (selItem == _endCall)
             {
                 Game.DisplaySubtitle("~y~Callout Ended.");
                 End();
             }
         }
+
         private void Conversations(UIMenu sender, UIMenuItem selItem, int index)
         {
             if (selItem == _speakSuspect)
-            {
                 GameFiber.StartNew(delegate
                 {
-                    Game.DisplaySubtitle("~g~You~s~: I'm with the police. What is the reason for carrying your weapon out?", 5000);
+                    Game.DisplaySubtitle(
+                        "~g~You~s~: I'm with the police. What is the reason for carrying your weapon out?", 5000);
                     NativeFunction.Natives.x5AD23D40115353AC(_bad1, Game.LocalPlayer.Character, -1);
                     GameFiber.Wait(5000);
                     _bad1.PlayAmbientSpeech("GENERIC_CURSE_MED");
-                    Game.DisplaySubtitle("~r~" + _name1 + "~s~: It's my right officer. Nobody can tell me I can't have my gun.''", 5000);
+                    Game.DisplaySubtitle(
+                        "~r~" + _name1 + "~s~: It's my right officer. Nobody can tell me I can't have my gun.''", 5000);
                     GameFiber.Wait(5000);
-                    Game.DisplaySubtitle("~g~You~s~: Alright, I understand your rights and with the proper license you can open carry, but you cannot carry your weapon in your hands like that.", 5000);
+                    Game.DisplaySubtitle(
+                        "~g~You~s~: Alright, I understand your rights and with the proper license you can open carry, but you cannot carry your weapon in your hands like that.",
+                        5000);
                     GameFiber.Wait(5000);
                     Game.DisplaySubtitle("~r~" + _name1 + "~s~: I don't see why not!", 5000);
                     GameFiber.Wait(5000);
-                    Game.DisplaySubtitle("~g~You~s~: It's the law, as well as it scares people to see someone walking around with a rifle in their hands. There's no reason to. Do you have a  for it?", 5000);
+                    Game.DisplaySubtitle(
+                        "~g~You~s~: It's the law, as well as it scares people to see someone walking around with a rifle in their hands. There's no reason to. Do you have a  for it?",
+                        5000);
                     GameFiber.Wait(5000);
                     Game.DisplaySubtitle("~r~" + _name1 + "~s~: Check for yourself.", 5000);
                 });
-            }
         }
+
+        #region Variables
+
+        private Ped _bad1;
+        private Blip _cBlip;
+        private LHandle _pursuit;
+        private readonly Random _rNd = new();
+        private Vector3 _spawnPoint;
+        private bool _onScene;
+        private bool _startScene;
+
+        private string _name1;
+
+        //UI Items
+        private readonly MenuPool _interaction = new();
+        private readonly UIMenu _mainMenu = new("SuperCallouts", "~y~Choose an option.");
+        private readonly UIMenu _convoMenu = new("SuperCallouts", "~y~Choose a subject to speak with.");
+        private readonly UIMenuItem _questioning = new("Speak With Subjects");
+
+        private readonly UIMenuItem _stopSuspect = new("~r~ Stop Suspect", "Tells the suspect to stop.");
+
+        private readonly UIMenuItem _endCall = new("~y~End Callout", "Ends the callout early.");
+        private UIMenuItem _speakSuspect;
+
+        #endregion
     }
 }

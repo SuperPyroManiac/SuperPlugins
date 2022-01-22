@@ -1,9 +1,9 @@
 using System;
-using Rage;
-using LSPD_First_Response.Mod.API;
-using LSPD_First_Response.Mod.Callouts;
 using System.Drawing;
 using LSPD_First_Response;
+using LSPD_First_Response.Mod.API;
+using LSPD_First_Response.Mod.Callouts;
+using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts.SimpleFunctions;
@@ -13,24 +13,26 @@ namespace SuperCallouts.Callouts
     [CalloutInfo("AngryAnimal", CalloutProbability.Medium)]
     internal class AngryAnimal : Callout
     {
+        private readonly UIMenuItem _callEms = new("~r~ Call EMS", "Calls for a medical team.");
+
+        private readonly UIMenuItem _endCall = new("~y~End Callout", "Ends the callout early.");
+
+        //UI Items
+        private readonly MenuPool _interaction = new();
+        private readonly UIMenu _mainMenu = new("SuperCallouts", "~y~Choose an option.");
         private Ped _animal;
-        private Ped _victim;
         private Blip _cBlip;
         private Blip _cBlip2;
-        private Vector3 _spawnPoint;
         private bool _onScene;
-        //UI Items
-        private readonly MenuPool _interaction = new MenuPool();
-        private readonly UIMenu _mainMenu = new UIMenu("SuperCallouts", "~y~Choose an option.");
-        private readonly UIMenuItem _callEms =
-            new UIMenuItem("~r~ Call EMS", "Calls for a medical team.");
-        private readonly UIMenuItem _endCall = new UIMenuItem("~y~End Callout", "Ends the callout early.");
+        private Vector3 _spawnPoint;
+        private Ped _victim;
 
         public override bool OnBeforeCalloutDisplayed()
         {
             _spawnPoint = World.GetNextPositionOnStreet(Game.LocalPlayer.Character.Position.Around(450f));
             ShowCalloutAreaBlipBeforeAccepting(_spawnPoint, 30f);
-            CalloutMessage = "~r~" + Settings.EmergencyNumber + " Report:~s~ Person(s) being attacked by a wild animal.";
+            CalloutMessage = "~r~" + Settings.EmergencyNumber +
+                             " Report:~s~ Person(s) being attacked by a wild animal.";
             CalloutAdvisory = "Caller says a wild animal is attacking people.";
             CalloutPosition = _spawnPoint;
             Functions.PlayScannerAudioUsingPosition("CITIZENS_REPORT_04 CRIME_11_351_02 UNITS_RESPOND_CODE_03_01",
@@ -45,7 +47,7 @@ namespace SuperCallouts.Callouts
             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Help Civilian",
                 "Details are unknown, get to the scene as soon as possible! Respond ~r~CODE-3");
             //_animal
-            Model[] meanAnimal = {"A_C_MTLION", "A_C_COYOTE"};
+            Model[] meanAnimal = { "A_C_MTLION", "A_C_COYOTE" };
             _animal = new Ped(meanAnimal[new Random().Next(meanAnimal.Length)], _spawnPoint, 50);
             _animal.IsPersistent = true;
             _animal.BlockPermanentEvents = true;
@@ -86,12 +88,10 @@ namespace SuperCallouts.Callouts
                     _animal.Tasks.FightAgainst(_victim, -1);
                     _victim.Tasks.ReactAndFlee(_animal);
                 }
+
                 //Keybinds
                 if (Game.IsKeyDown(Settings.EndCall)) End();
-                if (Game.IsKeyDown(Settings.Interact))
-                {
-                    _mainMenu.Visible = !_mainMenu.Visible;
-                }
+                if (Game.IsKeyDown(Settings.Interact)) _mainMenu.Visible = !_mainMenu.Visible;
                 _interaction.ProcessMenus();
             }
             catch (Exception e)
@@ -104,6 +104,7 @@ namespace SuperCallouts.Callouts
                 Game.LogTrivial("SuperCallouts Error Report End");
                 End();
             }
+
             base.Process();
         }
 
@@ -118,6 +119,7 @@ namespace SuperCallouts.Callouts
             Game.DisplayHelp("Scene ~g~CODE 4", 5000);
             base.End();
         }
+
         private void Interactions(UIMenu sender, UIMenuItem selItem, int index)
         {
             if (selItem == _callEms)
@@ -131,9 +133,12 @@ namespace SuperCallouts.Callouts
                 }
                 else
                 {
-                    Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Code3, EBackupUnitType.Ambulance);
-                    Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Code3, EBackupUnitType.Firetruck);
+                    Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Code3,
+                        EBackupUnitType.Ambulance);
+                    Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Code3,
+                        EBackupUnitType.Firetruck);
                 }
+
                 _callEms.Enabled = false;
             }
             else if (selItem == _endCall)

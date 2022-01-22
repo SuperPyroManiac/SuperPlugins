@@ -10,7 +10,8 @@ namespace SuperCallouts.CustomScenes
 {
     internal class Mafia1Pre
     {
-        internal static void BuildPreScene(out Ped fibarchitect, out Ped mpFibsec, out Ped swat, out Ped swat2, out Ped fiboffice, out Vehicle fbi, out Vehicle riot)
+        internal static void BuildPreScene(out Ped fibarchitect, out Ped mpFibsec, out Ped swat, out Ped swat2,
+            out Ped fiboffice, out Vehicle fbi, out Vehicle riot)
         {
             fibarchitect = new Ped("U_M_M_FIBARCHITECT", Vector3.Zero, 0f);
             fibarchitect.DecisionMaker = new DecisionMaker(0xe4df46d5u);
@@ -62,7 +63,7 @@ namespace SuperCallouts.CustomScenes
             fbi.FuelTankHealth = 2000f;
             fbi.EngineHealth = 2000f;
             fbi.ConvertibleRoofState = VehicleConvertibleRoofState.Raised;
-            fbi.LockStatus = (VehicleLockStatus) 1;
+            fbi.LockStatus = (VehicleLockStatus)1;
             fbi.DirtLevel = 0.04603858f;
             fbi.LicensePlate = "89LTV217";
             fbi.IsSirenSilent = true;
@@ -93,7 +94,7 @@ namespace SuperCallouts.CustomScenes
             riot.FuelTankHealth = 2000f;
             riot.EngineHealth = 2000f;
             riot.ConvertibleRoofState = VehicleConvertibleRoofState.Raised;
-            riot.LockStatus = (VehicleLockStatus) 1;
+            riot.LockStatus = (VehicleLockStatus)1;
             riot.DirtLevel = 0.004502276f;
             riot.LicensePlate = "83NSZ428";
             riot.IsMeleeProof = true;

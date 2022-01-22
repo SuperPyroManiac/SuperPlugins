@@ -34,7 +34,7 @@ namespace SuperCallouts.CustomScenes
             pounder.FuelLevel = 80f;
             pounder.FuelTankHealth = 776.2667f;
             pounder.ConvertibleRoofState = VehicleConvertibleRoofState.Raised;
-            pounder.LockStatus = (VehicleLockStatus) 1;
+            pounder.LockStatus = (VehicleLockStatus)1;
             pounder.DirtLevel = 3f;
             pounder.LicensePlate = "85XIG328";
             pounder.CollisionIgnoredEntity = null;
@@ -59,7 +59,7 @@ namespace SuperCallouts.CustomScenes
             bison.FuelTankHealth = 710.7716f;
             bison.EngineHealth = 10f;
             bison.ConvertibleRoofState = VehicleConvertibleRoofState.Raised;
-            bison.LockStatus = (VehicleLockStatus) 1;
+            bison.LockStatus = (VehicleLockStatus)1;
             bison.DirtLevel = 6f;
             bison.LicensePlate = "64UIZ986";
             bison.IsDriveable = false;
@@ -86,7 +86,7 @@ namespace SuperCallouts.CustomScenes
             felon.FuelTankHealth = 700f;
             felon.EngineHealth = 390.5054f;
             felon.ConvertibleRoofState = VehicleConvertibleRoofState.Raised;
-            felon.LockStatus = (VehicleLockStatus) 1;
+            felon.LockStatus = (VehicleLockStatus)1;
             felon.DirtLevel = 0f;
             felon.LicensePlate = "88RTA013";
             felon.CollisionIgnoredEntity = null;

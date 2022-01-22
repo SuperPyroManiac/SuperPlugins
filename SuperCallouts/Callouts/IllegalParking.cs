@@ -1,7 +1,4 @@
-using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
 using LSPD_First_Response.Mod.API;
 using LSPD_First_Response.Mod.Callouts;
 using Rage;
@@ -11,22 +8,23 @@ using SuperCallouts.SimpleFunctions;
 
 namespace SuperCallouts.Callouts
 {
-    
     [CalloutInfo("IllegalParking", CalloutProbability.Medium)]
     internal class IllegalParking : Callout
     {
-        private Vector3 _spawnPoint;
-        private Vehicle _cVehicle;
         private Blip _cBlip;
-        private bool _onScene;
+        private UIMenu _convoMenu;
+        private Vehicle _cVehicle;
+        private UIMenuItem _endCall;
+
         private float _heading;
+
         //UI Items
         private MenuPool _interaction;
         private UIMenu _mainMenu;
-        private UIMenu _convoMenu;
+        private bool _onScene;
         private UIMenuItem _questioning;
-        private UIMenuItem _endCall;
-        
+        private Vector3 _spawnPoint;
+
         public override bool OnBeforeCalloutDisplayed()
         {
             CFunctions.FindSideOfRoad(750, 280, out _spawnPoint, out _heading);
@@ -68,16 +66,14 @@ namespace SuperCallouts.Callouts
                 Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Investigate The Vehicle", "~y~Traffic",
                     "The vehicle appears abandoned. Decide how to deal with it.");
             }
+
             //Keybinds
             if (Game.IsKeyDown(Settings.EndCall)) End();
-            if (Game.IsKeyDown(Settings.Interact))
-            {
-                _mainMenu.Visible = !_mainMenu.Visible;
-            }
+            if (Game.IsKeyDown(Settings.Interact)) _mainMenu.Visible = !_mainMenu.Visible;
             _interaction.ProcessMenus();
             base.Process();
         }
-        
+
         public override void End()
         {
             if (_cBlip) _cBlip.Delete();
@@ -86,7 +82,7 @@ namespace SuperCallouts.Callouts
             Game.DisplayHelp("Scene ~g~CODE 4", 5000);
             base.End();
         }
-        
+
         private void InteractionProcess(UIMenu sender, UIMenuItem selItem, int index)
         {
             if (selItem == _endCall)

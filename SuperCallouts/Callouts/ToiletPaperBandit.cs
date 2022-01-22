@@ -1,9 +1,9 @@
 using System;
-using Rage;
-using LSPD_First_Response.Mod.API;
-using LSPD_First_Response.Mod.Callouts;
 using System.Drawing;
 using LSPD_First_Response;
+using LSPD_First_Response.Mod.API;
+using LSPD_First_Response.Mod.Callouts;
+using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts.SimpleFunctions;
@@ -11,23 +11,25 @@ using SuperCallouts.SimpleFunctions;
 namespace SuperCallouts.Callouts
 {
     [CalloutInfo("ToiletPaperBandit", CalloutProbability.Medium)]
-    class ToiletPaperBandit : Callout
+    internal class ToiletPaperBandit : Callout
     {
+        private readonly UIMenu _convoMenu = new("SuperCallouts", "~y~Choose a subject to speak with.");
+
+        private readonly UIMenuItem _endCall = new("~y~End Callout", "Ends the callout early.");
+
+        //UI Items
+        private readonly MenuPool _interaction = new();
+        private readonly UIMenu _mainMenu = new("SuperCallouts", "~y~Choose an option.");
+        private readonly UIMenuItem _questioning = new("Speak With Subject");
         private Ped _bad;
-        private Vehicle _cVehicle;
         private Blip _cBlip;
+        private Vehicle _cVehicle;
+        private string _name1;
+        private LHandle _pursuit;
         private Vector3 _spawnPoint;
         private float _spawnPointH;
-        private CState _state = CState.CheckDistance;
-        private LHandle _pursuit;
-        private string _name1;
-        //UI Items
-        private readonly MenuPool _interaction = new MenuPool();
-        private readonly UIMenu _mainMenu = new UIMenu("SuperCallouts", "~y~Choose an option.");
-        private readonly UIMenu _convoMenu = new UIMenu("SuperCallouts", "~y~Choose a subject to speak with.");
-        private readonly UIMenuItem _questioning = new UIMenuItem("Speak With Subject");
-        private readonly UIMenuItem _endCall = new UIMenuItem("~y~End Callout", "Ends the callout early.");
         private UIMenuItem _speakSuspect;
+        private CState _state = CState.CheckDistance;
 
         public override bool OnBeforeCalloutDisplayed()
         {
@@ -36,7 +38,8 @@ namespace SuperCallouts.Callouts
             CalloutMessage = "~b~Dispatch:~s~ Reports of a sanitization transport robbery.";
             CalloutAdvisory = "Caller reports the vehicle of full of cleaning supplies. Possible fire hazard.";
             CalloutPosition = _spawnPoint;
-            Functions.PlayScannerAudioUsingPosition("ATTENTION_ALL_UNITS_05 WE_HAVE CRIME_GRAND_THEFT_AUTO_03 IN_OR_ON_POSITION",
+            Functions.PlayScannerAudioUsingPosition(
+                "ATTENTION_ALL_UNITS_05 WE_HAVE CRIME_GRAND_THEFT_AUTO_03 IN_OR_ON_POSITION",
                 _spawnPoint);
             return base.OnBeforeCalloutDisplayed();
         }
@@ -48,12 +51,17 @@ namespace SuperCallouts.Callouts
             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Robbery",
                 "Reports of someone robbing a truck full of cleaning supplies, respond ~r~CODE-3");
             //cVehicle
-            _cVehicle = new Vehicle("pounder", _spawnPoint) {IsPersistent = true, IsStolen = true, Heading = _spawnPointH};
-            _cVehicle.Metadata.searchDriver = "~y~50 travel hand sanitizers~s~, ~y~48 toilet paper rolls~s~, ~g~lighters~s~, ~g~cigarettes~s~";
-            _cVehicle.Metadata.searchPassenger = "~r~multiple packs of cleaning wipes~s~, ~r~box full of medical masks~s~";
-            _cVehicle.Metadata.searchTrunk = "~r~multiple pallets of toilet paper~s~, ~r~hazmat suits~s~, ~r~12 molotov explosives~s~, ~y~22 packs of cigarettes~s~";
+            _cVehicle = new Vehicle("pounder", _spawnPoint)
+                { IsPersistent = true, IsStolen = true, Heading = _spawnPointH };
+            _cVehicle.Metadata.searchDriver =
+                "~y~50 travel hand sanitizers~s~, ~y~48 toilet paper rolls~s~, ~g~lighters~s~, ~g~cigarettes~s~";
+            _cVehicle.Metadata.searchPassenger =
+                "~r~multiple packs of cleaning wipes~s~, ~r~box full of medical masks~s~";
+            _cVehicle.Metadata.searchTrunk =
+                "~r~multiple pallets of toilet paper~s~, ~r~hazmat suits~s~, ~r~12 molotov explosives~s~, ~y~22 packs of cigarettes~s~";
             //Bad
-            _bad = new Ped("s_m_m_movspace_01", _spawnPoint.Around2D(20f), 0f){BlockPermanentEvents = true, IsPersistent = true};
+            _bad = new Ped("s_m_m_movspace_01", _spawnPoint.Around2D(20f), 0f)
+                { BlockPermanentEvents = true, IsPersistent = true };
             _bad.WarpIntoVehicle(_cVehicle, -1);
             _bad.Inventory.Weapons.Add(WeaponHash.Molotov);
             _bad.Metadata.searchPed = "~r~Molotov's~s~, ~g~multiple hand sanitizers~s~, ~g~cleaning wipes~s~";
@@ -87,24 +95,29 @@ namespace SuperCallouts.Callouts
         {
             try
             {
-                switch(_state)
+                switch (_state)
                 {
                     case CState.CheckDistance:
                         if (Game.LocalPlayer.Character.DistanceTo(_bad) < 30f)
                         {
                             _cBlip.DisableRoute();
                             _pursuit = Functions.CreatePursuit();
-                            Game.DisplayHelp($"Press ~{Settings.Interact.GetInstructionalId()}~ to open interaction menu.");
+                            Game.DisplayHelp(
+                                $"Press ~{Settings.Interact.GetInstructionalId()}~ to open interaction menu.");
                             _state = CState.OnScene;
                         }
+
                         break;
                     case CState.OnScene:
                         Game.DisplayHelp("Suspect is fleeing!");
                         Functions.AddPedToPursuit(_pursuit, _bad);
                         Functions.SetPursuitIsActiveForPlayer(_pursuit, true);
-                        Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Pursuit, EBackupUnitType.AirUnit);
-                        Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Pursuit, EBackupUnitType.SwatTeam);
-                        Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Pursuit, EBackupUnitType.LocalUnit);
+                        Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Pursuit,
+                            EBackupUnitType.AirUnit);
+                        Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Pursuit,
+                            EBackupUnitType.SwatTeam);
+                        Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Pursuit,
+                            EBackupUnitType.LocalUnit);
                         _state = CState.Pursuit;
                         break;
                     case CState.Pursuit:
@@ -115,6 +128,7 @@ namespace SuperCallouts.Callouts
                                 "~r~" + _name1 + "~s~: I surrender!", 5000);
                             _state = CState.LetsChat;
                         }
+
                         break;
                     case CState.LetsChat:
                         Game.DisplayHelp($"Press ~{Settings.Interact.GetInstructionalId()}~ to open interaction menu.");
@@ -122,12 +136,10 @@ namespace SuperCallouts.Callouts
                         _state = CState.End;
                         break;
                 }
+
                 //Keybinds
                 if (Game.IsKeyDown(Settings.EndCall)) End();
-                if (Game.IsKeyDown(Settings.Interact))
-                {
-                    _mainMenu.Visible = !_mainMenu.Visible;
-                }
+                if (Game.IsKeyDown(Settings.Interact)) _mainMenu.Visible = !_mainMenu.Visible;
                 _interaction.ProcessMenus();
             }
             catch (Exception e)
@@ -140,6 +152,7 @@ namespace SuperCallouts.Callouts
                 Game.LogTrivial("SuperCallouts Error Report End");
                 End();
             }
+
             base.Process();
         }
 
@@ -147,12 +160,13 @@ namespace SuperCallouts.Callouts
         {
             CFunctions.Code4Message();
             Game.DisplayHelp("Scene ~g~CODE 4", 5000);
-            if(_cVehicle) _cVehicle.Dismiss();
-            if(_bad) _bad.Dismiss();
-            if(_cBlip) _cBlip.Delete();
+            if (_cVehicle) _cVehicle.Dismiss();
+            if (_bad) _bad.Dismiss();
+            if (_cBlip) _cBlip.Delete();
             _interaction.CloseAllMenus();
             base.End();
         }
+
         //UI Functions
         private void Interactions(UIMenu sender, UIMenuItem selItem, int index)
         {
@@ -162,6 +176,7 @@ namespace SuperCallouts.Callouts
                 End();
             }
         }
+
         private void Conversations(UIMenu sender, UIMenuItem selItem, int index)
         {
             if (selItem == _speakSuspect)
@@ -172,15 +187,19 @@ namespace SuperCallouts.Callouts
                     Game.DisplaySubtitle(
                         "~r~" + _name1 + "~s~: Get away from me! You might have that virus!!!", 5000);
                     GameFiber.Wait(5000);
-                    Game.DisplaySubtitle("~g~You~s~: You need to calm down, is that why you stole a truck full of cleaning supplies?", 5000);
+                    Game.DisplaySubtitle(
+                        "~g~You~s~: You need to calm down, is that why you stole a truck full of cleaning supplies?",
+                        5000);
                     GameFiber.Wait(5000);
                     Game.DisplaySubtitle(
-                        "~r~" + _name1 + "~s~: Everyone is infected.. EVERYONE! Let me go, give me my sanitizer!!", 5000);
+                        "~r~" + _name1 + "~s~: Everyone is infected.. EVERYONE! Let me go, give me my sanitizer!!",
+                        5000);
                     GameFiber.Wait(5000);
                     Game.DisplaySubtitle("~g~You~s~: I understand your fears but you need to calm down.", 5000);
                     GameFiber.Wait(5000);
                     Game.DisplaySubtitle(
-                        "~r~" + _name1 + "~s~: Its everywhere.. EVERYWHERE! I need my sanitizer, I NEED IT! I NEED IT!", 5000);
+                        "~r~" + _name1 + "~s~: Its everywhere.. EVERYWHERE! I need my sanitizer, I NEED IT! I NEED IT!",
+                        5000);
                 });
         }
 

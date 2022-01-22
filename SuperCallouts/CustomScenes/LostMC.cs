@@ -26,7 +26,7 @@ namespace SuperCallouts.CustomScenes
             sheriff.SecondaryColor = Color.FromArgb(255, 255, 255, 255);
             sheriff.PrimaryColor = Color.FromArgb(255, 255, 255, 255);
             sheriff.ConvertibleRoofState = VehicleConvertibleRoofState.Raised;
-            sheriff.LockStatus = (VehicleLockStatus) 5;
+            sheriff.LockStatus = (VehicleLockStatus)5;
             sheriff.DirtLevel = 9f;
             sheriff.LicensePlate = "88MGA666";
             sheriff.IsSirenSilent = true;
@@ -46,7 +46,7 @@ namespace SuperCallouts.CustomScenes
             sheriff2.PrimaryColor = Color.FromArgb(255, 255, 255, 255);
             sheriff2.FuelTankHealth = 974.917f;
             sheriff2.ConvertibleRoofState = VehicleConvertibleRoofState.Raised;
-            sheriff2.LockStatus = (VehicleLockStatus) 5;
+            sheriff2.LockStatus = (VehicleLockStatus)5;
             sheriff2.DirtLevel = 0f;
             sheriff2.LicensePlate = "41VRH671";
             sheriff2.IsSirenSilent = true;
@@ -121,7 +121,7 @@ namespace SuperCallouts.CustomScenes
             ratbike.SecondaryColor = Color.FromArgb(255, 0, 255, 255);
             ratbike.PrimaryColor = Color.FromArgb(255, 174, 0, 255);
             ratbike.ConvertibleRoofState = VehicleConvertibleRoofState.Raised;
-            ratbike.LockStatus = (VehicleLockStatus) 1;
+            ratbike.LockStatus = (VehicleLockStatus)1;
             ratbike.DirtLevel = 3f;
             ratbike.LicensePlate = "41AFQ337";
             ratbike.IsGravityDisabled = false;
@@ -141,7 +141,7 @@ namespace SuperCallouts.CustomScenes
             ratbike2.SecondaryColor = Color.FromArgb(255, 132, 150, 255);
             ratbike2.PrimaryColor = Color.FromArgb(255, 95, 219, 255);
             ratbike2.ConvertibleRoofState = VehicleConvertibleRoofState.Raised;
-            ratbike2.LockStatus = (VehicleLockStatus) 1;
+            ratbike2.LockStatus = (VehicleLockStatus)1;
             ratbike2.LicensePlate = "80PCV348";
             ratbike2.IsGravityDisabled = false;
             ratbike2.AngularVelocity = new Rotator(0f, 0f, 0f);
@@ -160,7 +160,7 @@ namespace SuperCallouts.CustomScenes
             deathbike.SecondaryColor = Color.FromArgb(255, 0, 255, 255);
             deathbike.PrimaryColor = Color.FromArgb(255, 95, 255, 255);
             deathbike.ConvertibleRoofState = VehicleConvertibleRoofState.Raised;
-            deathbike.LockStatus = (VehicleLockStatus) 1;
+            deathbike.LockStatus = (VehicleLockStatus)1;
             deathbike.DirtLevel = 0f;
             deathbike.LicensePlate = "87ZBJ416";
             deathbike.IsGravityDisabled = false;
@@ -180,7 +180,7 @@ namespace SuperCallouts.CustomScenes
             deathbike2.SecondaryColor = Color.FromArgb(255, 200, 118, 255);
             deathbike2.PrimaryColor = Color.FromArgb(255, 19, 50, 255);
             deathbike2.ConvertibleRoofState = VehicleConvertibleRoofState.Raised;
-            deathbike2.LockStatus = (VehicleLockStatus) 1;
+            deathbike2.LockStatus = (VehicleLockStatus)1;
             deathbike2.DirtLevel = 3f;
             deathbike2.LicensePlate = "87YZF883";
             deathbike2.IsGravityDisabled = false;
@@ -200,7 +200,7 @@ namespace SuperCallouts.CustomScenes
             deathbike3.SecondaryColor = Color.FromArgb(255, 103, 85, 255);
             deathbike3.PrimaryColor = Color.FromArgb(255, 206, 42, 255);
             deathbike3.ConvertibleRoofState = VehicleConvertibleRoofState.Raised;
-            deathbike3.LockStatus = (VehicleLockStatus) 1;
+            deathbike3.LockStatus = (VehicleLockStatus)1;
             deathbike3.DirtLevel = 9f;
             deathbike3.LicensePlate = "00AQC624";
             deathbike3.IsGravityDisabled = false;
@@ -220,7 +220,7 @@ namespace SuperCallouts.CustomScenes
             ratbike3.SecondaryColor = Color.FromArgb(255, 0, 255, 255);
             ratbike3.PrimaryColor = Color.FromArgb(255, 206, 255, 255);
             ratbike3.ConvertibleRoofState = VehicleConvertibleRoofState.Raised;
-            ratbike3.LockStatus = (VehicleLockStatus) 1;
+            ratbike3.LockStatus = (VehicleLockStatus)1;
             ratbike3.LicensePlate = "60HNN672";
             ratbike3.IsGravityDisabled = false;
             ratbike3.AngularVelocity = new Rotator(0f, 0f, 0f);
@@ -239,7 +239,7 @@ namespace SuperCallouts.CustomScenes
             daemon.SecondaryColor = Color.FromArgb(255, 11, 32, 255);
             daemon.PrimaryColor = Color.FromArgb(255, 203, 5, 255);
             daemon.ConvertibleRoofState = VehicleConvertibleRoofState.Raised;
-            daemon.LockStatus = (VehicleLockStatus) 1;
+            daemon.LockStatus = (VehicleLockStatus)1;
             daemon.DirtLevel = 6f;
             daemon.LicensePlate = "67VJN647";
             daemon.IsGravityDisabled = false;

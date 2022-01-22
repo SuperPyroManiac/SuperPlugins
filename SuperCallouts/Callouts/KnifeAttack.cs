@@ -14,55 +14,53 @@ namespace SuperCallouts.Callouts
     [CalloutInfo("KnifeAttack", CalloutProbability.Medium)]
     internal class KnifeAttack : Callout
     {
-        private Ped _cVictim;
-        private Ped _cSuspect;
         private Blip _cBlip;
-        private Vector3 _cSpawnPoint;
         private float _cHeading;
-        private int _cScene = new Random().Next(1, 4);
+        private Tuple<Vector3, float> _chosenLocation;
+        private UIMenu _convoMenu;
+        private readonly int _cScene = new Random().Next(1, 4);
+        private Vector3 _cSpawnPoint;
+        private Ped _cSuspect;
+        private Tasks _cTasks = Tasks.CheckDistance;
+        private Ped _cVictim;
+
+        private UIMenuItem _endCall;
+
         //UI Items
         private MenuPool _interaction;
-        private UIMenu _mainMenu;
-        private UIMenu _convoMenu;
-        private UIMenuItem _questioning;
-        private UIMenuItem _endCall;
+
         //Locations
-        private List<Tuple<Vector3, float>> _locations = new List<Tuple<Vector3, float>>
+        private readonly List<Tuple<Vector3, float>> _locations = new()
         {
-            Tuple.Create(new Vector3(98.695f,-1711.661f,30.11257f), 226f),
-            Tuple.Create(new Vector3(128.4992f,-1737.29f,30.11015f), 240f),
-            Tuple.Create(new Vector3(-219.8601f,-1049.929f,30.13966f), 168f),
-            Tuple.Create(new Vector3(-498.5762f,-671.4704f,11.80903f), 173f),
-            Tuple.Create(new Vector3(-1337.652f,-494.7437f,15.04538f), 21f),
-            Tuple.Create(new Vector3(-818.4063f,-128.05f,28.17534f), 49f),
-            Tuple.Create(new Vector3(-290.8545f,-338.4935f,10.06309f), 0f),
-            Tuple.Create(new Vector3(297.8111f,-1202.387f,38.89421f), 172f),
-            Tuple.Create(new Vector3(-549.0919f,-1298.383f,26.90161f), 187f),
-            Tuple.Create(new Vector3(-882.8482f,-2308.612f,-11.7328f),  234f),
-            Tuple.Create(new Vector3(-1066.983f,-2700.32f,-7.41007f), 339f)
+            Tuple.Create(new Vector3(98.695f, -1711.661f, 30.11257f), 226f),
+            Tuple.Create(new Vector3(128.4992f, -1737.29f, 30.11015f), 240f),
+            Tuple.Create(new Vector3(-219.8601f, -1049.929f, 30.13966f), 168f),
+            Tuple.Create(new Vector3(-498.5762f, -671.4704f, 11.80903f), 173f),
+            Tuple.Create(new Vector3(-1337.652f, -494.7437f, 15.04538f), 21f),
+            Tuple.Create(new Vector3(-818.4063f, -128.05f, 28.17534f), 49f),
+            Tuple.Create(new Vector3(-290.8545f, -338.4935f, 10.06309f), 0f),
+            Tuple.Create(new Vector3(297.8111f, -1202.387f, 38.89421f), 172f),
+            Tuple.Create(new Vector3(-549.0919f, -1298.383f, 26.90161f), 187f),
+            Tuple.Create(new Vector3(-882.8482f, -2308.612f, -11.7328f), 234f),
+            Tuple.Create(new Vector3(-1066.983f, -2700.32f, -7.41007f), 339f)
         };
-        private Tuple<Vector3, float> _chosenLocation;
-        private enum Tasks
-        {
-            CheckDistance,
-            OnScene,
-            End
-        }
-        private Tasks _cTasks = Tasks.CheckDistance;
-        
+
+        private UIMenu _mainMenu;
+        private UIMenuItem _questioning;
+
         public override bool OnBeforeCalloutDisplayed()
         {
             foreach (var tupe in _locations)
-            {
-                _chosenLocation = _locations.OrderBy(x => x.Item1.DistanceTo(Game.LocalPlayer.Character.Position)).FirstOrDefault();
-            }
+                _chosenLocation = _locations.OrderBy(x => x.Item1.DistanceTo(Game.LocalPlayer.Character.Position))
+                    .FirstOrDefault();
             _cSpawnPoint = _chosenLocation.Item1;
             _cHeading = _chosenLocation.Item2;
             ShowCalloutAreaBlipBeforeAccepting(_cSpawnPoint, 10f);
             CalloutMessage = "~b~Dispatch:~s~ Reports of a knife attack.";
             CalloutAdvisory = "Caller says attacker has injured others.";
             CalloutPosition = _cSpawnPoint;
-            Functions.PlayScannerAudioUsingPosition("CITIZENS_REPORT_04 CRIME_ROBBERY_01 IN_OR_ON_POSITION UNITS_RESPOND_CODE_03_01",
+            Functions.PlayScannerAudioUsingPosition(
+                "CITIZENS_REPORT_04 CRIME_ROBBERY_01 IN_OR_ON_POSITION UNITS_RESPOND_CODE_03_01",
                 _cSpawnPoint);
             return base.OnBeforeCalloutDisplayed();
         }
@@ -107,6 +105,7 @@ namespace SuperCallouts.Callouts
                         _cVictim.Kill();
                         _cTasks = Tasks.OnScene;
                     }
+
                     break;
                 case Tasks.OnScene:
                     Game.DisplayHelp($"Press ~{Settings.Interact.GetInstructionalId()}~ to open interaction menu.");
@@ -124,6 +123,7 @@ namespace SuperCallouts.Callouts
                             _cSuspect.Tasks.Wander();
                             break;
                     }
+
                     Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Locate Suspect",
                         "Search for the suspect. Last was seen carrying a knife.");
                     _cBlip.Delete();
@@ -132,11 +132,9 @@ namespace SuperCallouts.Callouts
                 case Tasks.End:
                     break;
             }
+
             if (Game.IsKeyDown(Settings.EndCall)) End();
-            if (Game.IsKeyDown(Settings.Interact))
-            {
-                _mainMenu.Visible = !_mainMenu.Visible;
-            }
+            if (Game.IsKeyDown(Settings.Interact)) _mainMenu.Visible = !_mainMenu.Visible;
             _interaction.ProcessMenus();
             base.Process();
         }
@@ -147,10 +145,10 @@ namespace SuperCallouts.Callouts
             if (_cVictim) _cVictim.Dismiss();
             if (_cSuspect) _cSuspect.Dismiss();
             Game.DisplayHelp("Scene ~g~CODE 4", 5000);
-CFunctions.Code4Message();
+            CFunctions.Code4Message();
             base.End();
         }
-        
+
         private void InteractionProcess(UIMenu sender, UIMenuItem selItem, int index)
         {
             if (selItem == _endCall)
@@ -158,6 +156,13 @@ CFunctions.Code4Message();
                 Game.DisplaySubtitle("~y~Callout Ended.");
                 End();
             }
+        }
+
+        private enum Tasks
+        {
+            CheckDistance,
+            OnScene,
+            End
         }
     }
 }

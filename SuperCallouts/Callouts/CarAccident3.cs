@@ -1,6 +1,5 @@
 using System;
 using System.Drawing;
-using System.Windows.Forms;
 using LSPD_First_Response.Mod.API;
 using LSPD_First_Response.Mod.Callouts;
 using Rage;
@@ -13,21 +12,22 @@ namespace SuperCallouts.Callouts
     [CalloutInfo("CarAccident3", CalloutProbability.Medium)]
     internal class CarAccident3 : Callout
     {
-        private Vehicle _eVehicle;
-        private Vehicle _eVehicle2;
+        private readonly int _choice = new Random().Next(0, 4);
+        private UIMenu _convoMenu;
+        private Blip _eBlip;
+        private UIMenuItem _endCall;
         private Ped _ePed;
         private Ped _ePed2;
-        private readonly int _choice = new Random().Next(0,4);
-        private Vector3 _spawnPoint;
-        private float _spawnPointH;
-        private Blip _eBlip;
+        private Vehicle _eVehicle;
+        private Vehicle _eVehicle2;
         //UI Items
         private MenuPool _interaction;
         private UIMenu _mainMenu;
-        private UIMenu _convoMenu;
         private UIMenuItem _questioning;
-        private UIMenuItem _endCall;
-        
+        private Vector3 _spawnPoint;
+        private float _spawnPointH;
+        private Tasks _tasks = Tasks.CheckDistance;
+
         public override bool OnBeforeCalloutDisplayed()
         {
             //Setup
@@ -36,7 +36,8 @@ namespace SuperCallouts.Callouts
             CalloutMessage = "~b~Dispatch:~s~ Reports of a motor vehicle accident.";
             CalloutAdvisory = "Caller reports the drivers are violently arguing.";
             CalloutPosition = _spawnPoint;
-            Functions.PlayScannerAudioUsingPosition("CITIZENS_REPORT_04 CRIME_HIT_AND_RUN_03 IN_OR_ON_POSITION UNITS_RESPOND_CODE_03_01",
+            Functions.PlayScannerAudioUsingPosition(
+                "CITIZENS_REPORT_04 CRIME_HIT_AND_RUN_03 IN_OR_ON_POSITION UNITS_RESPOND_CODE_03_01",
                 _spawnPoint);
             return base.OnBeforeCalloutDisplayed();
         }
@@ -71,18 +72,18 @@ namespace SuperCallouts.Callouts
             Game.LogTrivial("PragmaticCallouts: Car Accident Scenorio #" + _choice);
             switch (_choice)
             {
-                case 0://Peds fight
+                case 0: //Peds fight
                     _ePed.Tasks.LeaveVehicle(LeaveVehicleFlags.LeaveDoorOpen);
                     _ePed2.Tasks.LeaveVehicle(LeaveVehicleFlags.LeaveDoorOpen);
                     break;
-                case 1://Ped Dies, other flees
+                case 1: //Ped Dies, other flees
                     _ePed.Kill();
                     _ePed2.Tasks.LeaveVehicle(LeaveVehicleFlags.LeaveDoorOpen);
                     break;
-                case 2://Hit and run
+                case 2: //Hit and run
                     _ePed2.Tasks.LeaveVehicle(LeaveVehicleFlags.LeaveDoorOpen);
                     break;
-                case 3://Fire + dead ped.
+                case 3: //Fire + dead ped.
                     _ePed.Kill();
                     _ePed2.Tasks.LeaveVehicle(LeaveVehicleFlags.LeaveDoorOpen);
                     break;
@@ -90,7 +91,7 @@ namespace SuperCallouts.Callouts
                     End();
                     break;
             }
-            
+
             //UI Items
             CFunctions.BuildUi(out _interaction, out _mainMenu, out _convoMenu, out _questioning, out _endCall);
             _mainMenu.OnItemSelect += InteractionProcess;
@@ -98,7 +99,7 @@ namespace SuperCallouts.Callouts
         }
 
         public override void Process()
-        { 
+        {
             try
             {
                 switch (_tasks)
@@ -106,10 +107,12 @@ namespace SuperCallouts.Callouts
                     case Tasks.CheckDistance:
                         if (Game.LocalPlayer.Character.DistanceTo(_spawnPoint) < 25f)
                         {
-                            Game.DisplayNotification("web_lossantospolicedept", "web_lossantospolicedept", "~y~On Scene",
+                            Game.DisplayNotification("web_lossantospolicedept", "web_lossantospolicedept",
+                                "~y~On Scene",
                                 "~r~Car Accident", "Investigate the scene.");
                             _tasks = Tasks.OnScene;
                         }
+
                         break;
                     case Tasks.OnScene:
                         _eBlip.DisableRoute();
@@ -118,22 +121,22 @@ namespace SuperCallouts.Callouts
                         Game.DisplayHelp($"Press ~{Settings.Interact.GetInstructionalId()}~ to open interaction menu.");
                         switch (_choice)
                         {
-                            case 0://Peds fight
+                            case 0: //Peds fight
                                 _ePed.Tasks.FightAgainst(_ePed2);
                                 _ePed2.Tasks.FightAgainst(_ePed);
                                 break;
-                            case 1://Ped Dies, other flees
+                            case 1: //Ped Dies, other flees
                                 var pursuit = Functions.CreatePursuit();
                                 Functions.AddPedToPursuit(pursuit, _ePed2);
                                 Functions.SetPursuitIsActiveForPlayer(pursuit, true);
                                 break;
-                            case 2://Hit and run
+                            case 2: //Hit and run
                                 var pursuit2 = Functions.CreatePursuit();
                                 Functions.AddPedToPursuit(pursuit2, _ePed);
                                 Functions.SetPursuitIsActiveForPlayer(pursuit2, true);
                                 _ePed2.Tasks.LeaveVehicle(LeaveVehicleFlags.LeaveDoorOpen);
                                 break;
-                            case 3://Fire + dead ped.
+                            case 3: //Fire + dead ped.
                                 _ePed2.Tasks.Cower(-1);
                                 CFunctions.FireControl(_spawnPoint.Around2D(7f), 24, true);
                                 break;
@@ -150,11 +153,9 @@ namespace SuperCallouts.Callouts
                         End();
                         break;
                 }
+
                 if (Game.IsKeyDown(Settings.EndCall)) End();
-                if (Game.IsKeyDown(Settings.Interact))
-                {
-                    _mainMenu.Visible = !_mainMenu.Visible;
-                }
+                if (Game.IsKeyDown(Settings.Interact)) _mainMenu.Visible = !_mainMenu.Visible;
                 _interaction.ProcessMenus();
             }
             catch (Exception e)
@@ -167,9 +168,10 @@ namespace SuperCallouts.Callouts
                 Game.LogTrivial("SuperCallouts Error Report End");
                 End();
             }
+
             base.Process();
         }
-        
+
         public override void End()
         {
             if (_ePed) _ePed.Dismiss();
@@ -181,7 +183,7 @@ namespace SuperCallouts.Callouts
             Game.DisplayHelp("Scene ~g~CODE 4", 5000);
             base.End();
         }
-        
+
         private void InteractionProcess(UIMenu sender, UIMenuItem selItem, int index)
         {
             if (selItem == _endCall)
@@ -190,8 +192,7 @@ namespace SuperCallouts.Callouts
                 End();
             }
         }
-        
-        private Tasks _tasks = Tasks.CheckDistance;
+
         private enum Tasks
         {
             CheckDistance,

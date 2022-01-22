@@ -18,6 +18,7 @@ namespace SuperCallouts.Callouts
     [CalloutInfo("LSGTF", CalloutProbability.Low)]
     internal class Lsgtf : Callout
     {
+        private readonly Vector3 _raidpoint = new(113.1443f, -1926.435f, 20.8231f);
         private Ped _bad1;
         private Ped _bad2;
         private Ped _bad3;
@@ -44,7 +45,6 @@ namespace SuperCallouts.Callouts
         private Vector3 _meetingP;
         private bool _okcool;
         private bool _onScene;
-        private readonly Vector3 _raidpoint = new Vector3(113.1443f, -1926.435f, 20.8231f);
         private UIMenuItem _startConv;
         private UIMenuItem _startConv2;
         private UIMenuItem _startConv3;
@@ -89,14 +89,14 @@ namespace SuperCallouts.Callouts
             _fib2.IsPersistent = true;
             _fib1.BlockPermanentEvents = true;
             _fib2.BlockPermanentEvents = true;
-            SimpleFunctions.CFunctions.SetWanted(_bad1, true);
-            SimpleFunctions.CFunctions.SetWanted(_bad2, true);
-            SimpleFunctions.CFunctions.SetWanted(_bad3, true);
-            SimpleFunctions.CFunctions.SetWanted(_bad4, true);
-            SimpleFunctions.CFunctions.SetWanted(_bad5, true);
-            SimpleFunctions.CFunctions.SetWanted(_bad6, true);
-            SimpleFunctions.CFunctions.SetWanted(_bad7, true);
-            SimpleFunctions.CFunctions.SetWanted(_bad8, true);
+            CFunctions.SetWanted(_bad1, true);
+            CFunctions.SetWanted(_bad2, true);
+            CFunctions.SetWanted(_bad3, true);
+            CFunctions.SetWanted(_bad4, true);
+            CFunctions.SetWanted(_bad5, true);
+            CFunctions.SetWanted(_bad6, true);
+            CFunctions.SetWanted(_bad7, true);
+            CFunctions.SetWanted(_bad8, true);
             _meetingB = _cVehicle.AttachBlip();
             _meetingB.EnableRoute(Color.Aquamarine);
             _meetingB.Color = Color.Aquamarine;
@@ -205,6 +205,7 @@ namespace SuperCallouts.Callouts
                     Functions.RequestBackup(Game.LocalPlayer.Character.Position,
                         EBackupResponseType.Code3, EBackupUnitType.SwatTeam);
                 }
+
                 _cBlip1.DisableRoute();
                 _cBlip2 = _bad2.AttachBlip();
                 _cBlip2.Color = Color.Red;
@@ -233,7 +234,8 @@ namespace SuperCallouts.Callouts
                 });
             }
 
-            if (_onScene && _bad1.IsDead && _bad2.IsDead && _bad3.IsDead && _bad4.IsDead && _bad5.IsDead && _bad6.IsDead &&
+            if (_onScene && _bad1.IsDead && _bad2.IsDead && _bad3.IsDead && _bad4.IsDead && _bad5.IsDead &&
+                _bad6.IsDead &&
                 _bad7.IsDead && _bad8.IsDead)
                 Game.DisplaySubtitle(
                     "~r~Radio: ~s~Well that was to be expected. Clear the scene or leave and we will take care of it.",

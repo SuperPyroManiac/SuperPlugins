@@ -1,9 +1,9 @@
 using System;
-using Rage;
-using LSPD_First_Response.Mod.API;
-using LSPD_First_Response.Mod.Callouts;
 using System.Drawing;
 using LSPD_First_Response;
+using LSPD_First_Response.Mod.API;
+using LSPD_First_Response.Mod.Callouts;
+using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts.SimpleFunctions;
@@ -13,28 +13,6 @@ namespace SuperCallouts.Callouts
     [CalloutInfo("Impersonator", CalloutProbability.Medium)]
     internal class Impersonator : Callout
     {
-        #region Variables
-        private Ped _bad;
-        private Ped _victim;
-        private Vehicle _cVehicle1;
-        private Vehicle _cVehicle2;
-        private Blip _cBlip;
-        private Vector3 _spawnPoint;
-        private LHandle _pursuit;
-        private string _name1;
-        private float _spawnPointH;
-        private bool _onScene;
-        //UI Items
-        private readonly MenuPool _interaction = new MenuPool();
-        private readonly UIMenu _mainMenu = new UIMenu("SuperCallouts", "~y~Choose an option.");
-        private readonly UIMenu _convoMenu = new UIMenu("SuperCallouts", "~y~Choose a subject to speak with.");
-        private readonly UIMenuItem _callSecond =
-            new UIMenuItem("~r~ Call Secondary", "Calls for a second unit to assist.");
-        private readonly UIMenuItem _questioning = new UIMenuItem("Speak With Subject");
-        private readonly UIMenuItem _endCall = new UIMenuItem("~y~End Callout", "Ends the callout early.");
-        private UIMenuItem _speakSuspect;
-        #endregion
-
         public override bool OnBeforeCalloutDisplayed()
         {
             CFunctions.FindSideOfRoad(400, 100, out _spawnPoint, out _spawnPointH);
@@ -51,14 +29,16 @@ namespace SuperCallouts.Callouts
             //Setup
             Game.LogTrivial("SuperCallouts Log: Officer Impersonator callout accepted...");
             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Suspicious Pullover",
-                Settings.EmergencyNumber+ " call of someone being pulled over by a non uniformed officer. Description does not match our department for undercover cops. Respond ~r~CODE-3");
+                Settings.EmergencyNumber +
+                " call of someone being pulled over by a non uniformed officer. Description does not match our department for undercover cops. Respond ~r~CODE-3");
             //cVehicle1
             CFunctions.SpawnNormalCar(out _cVehicle1, _spawnPoint);
             _cVehicle1.Heading = _spawnPointH;
             //cVehicle2
             var cSpawnPoint = _cVehicle1.GetOffsetPositionFront(-9f);
-            _cVehicle2 = new Vehicle("DILETTANTE2", cSpawnPoint) {Heading = _spawnPointH, IsPersistent = true};
-            _cVehicle2.Metadata.searchDriver = "~y~police radio scanner~s~, ~y~handcuffs~s~, ~g~parking ticket~s~, ~g~cigarettes~s~";
+            _cVehicle2 = new Vehicle("DILETTANTE2", cSpawnPoint) { Heading = _spawnPointH, IsPersistent = true };
+            _cVehicle2.Metadata.searchDriver =
+                "~y~police radio scanner~s~, ~y~handcuffs~s~, ~g~parking ticket~s~, ~g~cigarettes~s~";
             //Bad
             _bad = _cVehicle2.CreateRandomDriver();
             _bad.IsPersistent = true;
@@ -144,12 +124,10 @@ namespace SuperCallouts.Callouts
                             break;
                     }
                 }
+
                 //Keybinds
                 if (Game.IsKeyDown(Settings.EndCall)) End();
-                if (Game.IsKeyDown(Settings.Interact))
-                {
-                    _mainMenu.Visible = !_mainMenu.Visible;
-                }
+                if (Game.IsKeyDown(Settings.Interact)) _mainMenu.Visible = !_mainMenu.Visible;
                 _interaction.ProcessMenus();
             }
             catch (Exception e)
@@ -162,6 +140,7 @@ namespace SuperCallouts.Callouts
                 Game.LogTrivial("SuperCallouts Error Report End");
                 End();
             }
+
             base.Process();
         }
 
@@ -177,21 +156,19 @@ namespace SuperCallouts.Callouts
             if (_cBlip.Exists()) _cBlip.Delete();
             base.End();
         }
-                //UI Items
+
+        //UI Items
         private void Interactions(UIMenu sender, UIMenuItem selItem, int index)
         {
             if (selItem == _callSecond)
             {
                 Game.DisplaySubtitle("~g~You~s~: Dispatch, can I get another unit.");
                 if (Main.UsingUb)
-                {
                     Wrapper.CallCode2();
-                }
                 else
-                {
-                    Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Code2, EBackupUnitType.LocalUnit);
-                }
-                
+                    Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Code2,
+                        EBackupUnitType.LocalUnit);
+
                 _callSecond.Enabled = false;
             }
             else if (selItem == _endCall)
@@ -200,6 +177,7 @@ namespace SuperCallouts.Callouts
                 End();
             }
         }
+
         private void Conversations(UIMenu sender, UIMenuItem selItem, int index)
         {
             if (selItem == _speakSuspect)
@@ -210,16 +188,49 @@ namespace SuperCallouts.Callouts
                     Game.DisplaySubtitle(
                         "~r~" + _name1 + "~s~: I'm off duty, that person was driving really dangerously.", 5000);
                     GameFiber.Wait(5000);
-                    Game.DisplaySubtitle("~g~You~s~: Alright, even if you are off duty you can't be doing that. What department do you work with?", 5000);
+                    Game.DisplaySubtitle(
+                        "~g~You~s~: Alright, even if you are off duty you can't be doing that. What department do you work with?",
+                        5000);
                     GameFiber.Wait(5000);
                     Game.DisplaySubtitle(
-                        "~r~" + _name1 + "~s~: I'm with a secret department in Los Santos. I can't disclose it to you.", 5000);
-                    GameFiber.Wait(5000);
-                    Game.DisplaySubtitle("~g~You~s~: If that's the case you may want to call your supervisor. Do you have any identification or a badge?", 5000);
+                        "~r~" + _name1 + "~s~: I'm with a secret department in Los Santos. I can't disclose it to you.",
+                        5000);
                     GameFiber.Wait(5000);
                     Game.DisplaySubtitle(
-                        "~r~" + _name1 + "~s~: I'll have you fired for this officer. I'm not going to talk to you anymore.", 5000);
+                        "~g~You~s~: If that's the case you may want to call your supervisor. Do you have any identification or a badge?",
+                        5000);
+                    GameFiber.Wait(5000);
+                    Game.DisplaySubtitle(
+                        "~r~" + _name1 +
+                        "~s~: I'll have you fired for this officer. I'm not going to talk to you anymore.", 5000);
                 });
         }
+
+        #region Variables
+
+        private Ped _bad;
+        private Ped _victim;
+        private Vehicle _cVehicle1;
+        private Vehicle _cVehicle2;
+        private Blip _cBlip;
+        private Vector3 _spawnPoint;
+        private LHandle _pursuit;
+        private string _name1;
+        private float _spawnPointH;
+
+        private bool _onScene;
+
+        //UI Items
+        private readonly MenuPool _interaction = new();
+        private readonly UIMenu _mainMenu = new("SuperCallouts", "~y~Choose an option.");
+        private readonly UIMenu _convoMenu = new("SuperCallouts", "~y~Choose a subject to speak with.");
+
+        private readonly UIMenuItem _callSecond = new("~r~ Call Secondary", "Calls for a second unit to assist.");
+
+        private readonly UIMenuItem _questioning = new("Speak With Subject");
+        private readonly UIMenuItem _endCall = new("~y~End Callout", "Ends the callout early.");
+        private UIMenuItem _speakSuspect;
+
+        #endregion
     }
 }

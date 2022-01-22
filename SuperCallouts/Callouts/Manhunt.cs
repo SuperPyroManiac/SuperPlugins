@@ -1,9 +1,9 @@
 using System;
-using Rage;
-using LSPD_First_Response.Mod.API;
-using LSPD_First_Response.Mod.Callouts;
 using System.Drawing;
 using LSPD_First_Response;
+using LSPD_First_Response.Mod.API;
+using LSPD_First_Response.Mod.Callouts;
+using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts.SimpleFunctions;
@@ -13,27 +13,6 @@ namespace SuperCallouts.Callouts
     [CalloutInfo("Manhunt", CalloutProbability.Medium)]
     internal class Manhunt : Callout
     {
-        #region Variables
-
-        private Ped _bad;
-        private Blip _cBlip;
-        private Blip _cBlip2;
-        private LHandle _pursuit;
-        private Vector3 _searcharea;
-        private Vector3 _spawnPoint;
-        private string _name1;
-        private bool _onScene;
-        //UI Items
-        private readonly MenuPool _interaction = new MenuPool();
-        private readonly UIMenu _mainMenu = new UIMenu("SuperCallouts", "~y~Choose an option.");
-        private readonly UIMenu _convoMenu = new UIMenu("SuperCallouts", "~y~Choose a subject to speak with.");
-        private readonly UIMenuItem _callAr =
-            new UIMenuItem("~r~ Call Air Unit", "Calls for an air unit.");
-        private readonly UIMenuItem _questioning = new UIMenuItem("Speak With Subject");
-        private readonly UIMenuItem _endCall = new UIMenuItem("~y~End Callout", "Ends the callout.");
-        private UIMenuItem _speakSuspect;
-        #endregion
-
         public override bool OnBeforeCalloutDisplayed()
         {
             _spawnPoint = World.GetNextPositionOnStreet(Game.LocalPlayer.Character.Position.Around(650f));
@@ -53,14 +32,14 @@ namespace SuperCallouts.Callouts
             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Manhunt",
                 "Search for the suspect. High priority, respond ~r~CODE-3");
             //Bad
-            _bad = new Ped(_spawnPoint) {IsPersistent = true};
+            _bad = new Ped(_spawnPoint) { IsPersistent = true };
             CFunctions.SetWanted(_bad, true);
             _name1 = Functions.GetPersonaForPed(_bad).FullName;
             _bad.Tasks.Wander();
             //AreaBlip
             var position = _bad.Position;
             _searcharea = position.Around2D(40f, 75f);
-            _cBlip = new Blip(_searcharea, 90f) {Color = Color.Yellow, Alpha = .5f};
+            _cBlip = new Blip(_searcharea, 90f) { Color = Color.Yellow, Alpha = .5f };
             _cBlip.EnableRoute(Color.Yellow);
             //UI
             _speakSuspect = new UIMenuItem("Speak with ~y~" + _name1);
@@ -107,12 +86,10 @@ namespace SuperCallouts.Callouts
                     Game.DisplayHelp($"Press ~{Settings.Interact.GetInstructionalId()}~ to open interaction menu.");
                     _questioning.Enabled = true;
                 }
+
                 //Keybinds
                 if (Game.IsKeyDown(Settings.EndCall)) End();
-                if (Game.IsKeyDown(Settings.Interact))
-                {
-                    _mainMenu.Visible = !_mainMenu.Visible;
-                }
+                if (Game.IsKeyDown(Settings.Interact)) _mainMenu.Visible = !_mainMenu.Visible;
                 _interaction.ProcessMenus();
             }
             catch (Exception e)
@@ -125,6 +102,7 @@ namespace SuperCallouts.Callouts
                 Game.LogTrivial("SuperCallouts Error Report End");
                 End();
             }
+
             base.Process();
         }
 
@@ -139,6 +117,7 @@ namespace SuperCallouts.Callouts
             Game.DisplayHelp("Scene ~g~CODE 4", 5000);
             base.End();
         }
+
         private void Interactions(UIMenu sender, UIMenuItem selItem, int index)
         {
             if (selItem == _callAr)
@@ -163,6 +142,7 @@ namespace SuperCallouts.Callouts
                 End();
             }
         }
+
         private void Conversations(UIMenu sender, UIMenuItem selItem, int index)
         {
             if (selItem == _speakSuspect)
@@ -173,12 +153,39 @@ namespace SuperCallouts.Callouts
                     Game.DisplaySubtitle(
                         "~r~" + _name1 + "~s~: Man I just didn't want to go back to the slammer.'", 5000);
                     GameFiber.Wait(5000);
-                    Game.DisplaySubtitle("~g~You~s~: I understand that but evading is a whole new charge that will make going back even worse.", 5000);
+                    Game.DisplaySubtitle(
+                        "~g~You~s~: I understand that but evading is a whole new charge that will make going back even worse.",
+                        5000);
                     GameFiber.Wait(5000);
                     Game.DisplaySubtitle(
                         "~r~" + _name1 + "~s~: I know, too late to go back now though.", 5000);
                     GameFiber.Wait(5000);
                 });
         }
+
+        #region Variables
+
+        private Ped _bad;
+        private Blip _cBlip;
+        private Blip _cBlip2;
+        private LHandle _pursuit;
+        private Vector3 _searcharea;
+        private Vector3 _spawnPoint;
+        private string _name1;
+
+        private bool _onScene;
+
+        //UI Items
+        private readonly MenuPool _interaction = new();
+        private readonly UIMenu _mainMenu = new("SuperCallouts", "~y~Choose an option.");
+        private readonly UIMenu _convoMenu = new("SuperCallouts", "~y~Choose a subject to speak with.");
+
+        private readonly UIMenuItem _callAr = new("~r~ Call Air Unit", "Calls for an air unit.");
+
+        private readonly UIMenuItem _questioning = new("Speak With Subject");
+        private readonly UIMenuItem _endCall = new("~y~End Callout", "Ends the callout.");
+        private UIMenuItem _speakSuspect;
+
+        #endregion
     }
 }

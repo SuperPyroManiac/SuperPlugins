@@ -1,9 +1,9 @@
 using System;
-using Rage;
-using Rage.Native;
+using System.Drawing;
 using LSPD_First_Response.Mod.API;
 using LSPD_First_Response.Mod.Callouts;
-using System.Drawing;
+using Rage;
+using Rage.Native;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts.SimpleFunctions;
@@ -13,27 +13,6 @@ namespace SuperCallouts.Callouts
     [CalloutInfo("Robbery", CalloutProbability.Medium)]
     internal class Robbery : Callout
     {
-        #region Variables
-        private Blip _blip1;
-        private Blip _blip2;
-        private Blip _blip3;
-        private Vehicle _cVehicle;
-        private Vehicle _cVehicle2;
-        private bool _onScene;
-        private LHandle _pursuit;
-        private readonly Random _rNd = new Random();
-        private Ped _rude1;
-        private string _rude1Name;
-        private Ped _rude2;
-        private Vector3 _spawnPoint;
-        private Ped _victim;
-        private string _victimName;
-        //UI Items
-        private readonly MenuPool _interaction = new MenuPool();
-        private readonly UIMenu _mainMenu = new UIMenu("SuperCallouts", "~y~Choose an option.");
-        private readonly UIMenuItem _endCall = new UIMenuItem("~y~End Callout", "Ends the callout early.");
-        #endregion
-
         public override bool OnBeforeCalloutDisplayed()
         {
             _spawnPoint = World.GetNextPositionOnStreet(Game.LocalPlayer.Character.Position.Around(450f));
@@ -51,19 +30,20 @@ namespace SuperCallouts.Callouts
             //Setup
             Game.LogTrivial("SuperCallouts Log: Robery callout accepted...");
             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Possible Robbery",
-                "A " + Settings.EmergencyNumber + " report claims 2 armed people are holding 1 person at gunpoint. Respond ~r~CODE-3");
+                "A " + Settings.EmergencyNumber +
+                " report claims 2 armed people are holding 1 person at gunpoint. Respond ~r~CODE-3");
             //cVehicle1
-            SimpleFunctions.CFunctions.SpawnNormalCar(out _cVehicle, _spawnPoint);
+            CFunctions.SpawnNormalCar(out _cVehicle, _spawnPoint);
             _cVehicle.IsPersistent = true;
             _cVehicle.EngineHealth = 0;
-            SimpleFunctions.CFunctions.Damage(_cVehicle, 200, 200);
+            CFunctions.Damage(_cVehicle, 200, 200);
             Functions.SetVehicleOwnerName(_cVehicle, _rude1Name);
             //cVehicle2
-            SimpleFunctions.CFunctions.SpawnNormalCar(out _cVehicle2, _cVehicle.GetOffsetPositionFront(6f));
+            CFunctions.SpawnNormalCar(out _cVehicle2, _cVehicle.GetOffsetPositionFront(6f));
             _cVehicle2.IsPersistent = true;
             _cVehicle2.EngineHealth = 0;
             _cVehicle2.Rotation = new Rotator(0f, 0f, 180f);
-            SimpleFunctions.CFunctions.Damage(_cVehicle2, 200, 200);
+            CFunctions.Damage(_cVehicle2, 200, 200);
             Functions.SetVehicleOwnerName(_cVehicle2, _victimName);
             //rude1
             _rude1 = _cVehicle.CreateRandomDriver();
@@ -169,7 +149,7 @@ namespace SuperCallouts.Callouts
                                 GameFiber.Wait(4000);
                                 NativeFunction.Natives.xF166E48407BAC484(_rude1, Game.LocalPlayer.Character, 0, 1);
                                 NativeFunction.Natives.xF166E48407BAC484(_rude2, Game.LocalPlayer.Character, 0, 1);
-                                SimpleFunctions.CFunctions.SetWanted(_victim, true);
+                                CFunctions.SetWanted(_victim, true);
                                 NativeFunction.Natives.x72C896464915D1B1(_victim, _rude1);
                                 GameFiber.Wait(5000);
                                 Functions.AddPedToPursuit(_pursuit, _rude1);
@@ -205,12 +185,10 @@ namespace SuperCallouts.Callouts
                             break;
                     }
                 }
+
                 //Keybinds
                 if (Game.IsKeyDown(Settings.EndCall)) End();
-                if (Game.IsKeyDown(Settings.Interact))
-                {
-                    _mainMenu.Visible = !_mainMenu.Visible;
-                }
+                if (Game.IsKeyDown(Settings.Interact)) _mainMenu.Visible = !_mainMenu.Visible;
                 _interaction.ProcessMenus();
             }
             catch (Exception e)
@@ -223,6 +201,7 @@ namespace SuperCallouts.Callouts
                 Game.LogTrivial("SuperCallouts Error Report End");
                 End();
             }
+
             base.Process();
         }
 
@@ -241,6 +220,7 @@ namespace SuperCallouts.Callouts
             Game.DisplayHelp("Scene ~g~CODE 4", 5000);
             base.End();
         }
+
         //UI Items
         private void Interactions(UIMenu sender, UIMenuItem selItem, int index)
         {
@@ -250,5 +230,30 @@ namespace SuperCallouts.Callouts
                 End();
             }
         }
+
+        #region Variables
+
+        private Blip _blip1;
+        private Blip _blip2;
+        private Blip _blip3;
+        private Vehicle _cVehicle;
+        private Vehicle _cVehicle2;
+        private bool _onScene;
+        private LHandle _pursuit;
+        private readonly Random _rNd = new();
+        private Ped _rude1;
+        private string _rude1Name;
+        private Ped _rude2;
+        private Vector3 _spawnPoint;
+        private Ped _victim;
+
+        private string _victimName;
+
+        //UI Items
+        private readonly MenuPool _interaction = new();
+        private readonly UIMenu _mainMenu = new("SuperCallouts", "~y~Choose an option.");
+        private readonly UIMenuItem _endCall = new("~y~End Callout", "Ends the callout early.");
+
+        #endregion
     }
 }

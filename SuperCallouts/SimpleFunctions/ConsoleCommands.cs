@@ -1,8 +1,10 @@
+using Rage.Attributes;
+
 namespace SuperCallouts.SimpleFunctions
 {
     public static class ConsoleCommands
     {
-        [Rage.Attributes.ConsoleCommand]
+        [ConsoleCommand]
         public static void Command_SCReloadConfig()
         {
             Settings.LoadSettings();

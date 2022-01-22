@@ -6,8 +6,6 @@ using LSPD_First_Response;
 using LSPD_First_Response.Mod.API;
 using LSPD_First_Response.Mod.Callouts;
 using Rage;
-using RAGENativeUI;
-using RAGENativeUI.Elements;
 using SuperCallouts.CustomScenes;
 using SuperCallouts.SimpleFunctions;
 
@@ -18,6 +16,8 @@ namespace SuperCallouts.Callouts
     [CalloutInfo("LostGang", CalloutProbability.Low)]
     internal class LostGang : Callout
     {
+        private readonly List<Ped> _bikers = new();
+        private readonly List<Vehicle> _cVehicles = new();
         private Vehicle _bike1;
         private Vehicle _bike2;
         private Vehicle _bike3;
@@ -35,14 +35,12 @@ namespace SuperCallouts.Callouts
         private Ped _biker7;
         private Ped _biker8;
         private Ped _biker9;
-        private readonly List<Ped> _bikers = new List<Ped>();
         private Blip _cBlip;
         private Vehicle _cCar1;
         private Vehicle _cCar2;
         private Ped _cop1;
         private Ped _cop2;
         private Ped _cop3;
-        private readonly List<Vehicle> _cVehicles = new List<Vehicle>();
         private bool _onScene;
         private Vector3 _searcharea;
         private Vector3 _spawnPoint;
@@ -65,10 +63,11 @@ namespace SuperCallouts.Callouts
             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Biker Gang Attack",
                 "~r~EMERGENCY~s~ All Units: Multiple officers under fire, 7 plus armed gang members attacking sheriff officers. ~r~Respond CODE-3 EMERGENCY");
             LostMc.ConstructBikersScene(out _cCar1, out _cCar2, out _cop1, out _cop2, out _cop3, out _bike1, out _bike2,
-                out _bike3, out _bike4, out _bike5, out _bike6, out _bike7, out _biker1, out _biker2, out _biker3, out _biker4,
+                out _bike3, out _bike4, out _bike5, out _bike6, out _bike7, out _biker1, out _biker2, out _biker3,
+                out _biker4,
                 out _biker5, out _biker6, out _biker7, out _biker8, out _biker9, out _biker10);
             _searcharea = _spawnPoint.Around2D(1f, 2f);
-            _cBlip = new Blip(_searcharea, 80f) {Color = Color.Yellow, Alpha = .5f};
+            _cBlip = new Blip(_searcharea, 80f) { Color = Color.Yellow, Alpha = .5f };
             _cBlip.EnableRoute(Color.Yellow);
             _cVehicles.Add(_cCar1);
             _cVehicles.Add(_cCar2);
@@ -129,6 +128,7 @@ namespace SuperCallouts.Callouts
                         EBackupUnitType.LocalUnit);
                 }
             }
+
             if (_onScene && Game.LocalPlayer.Character.DistanceTo(_spawnPoint) > 90f) End();
             base.Process();
         }

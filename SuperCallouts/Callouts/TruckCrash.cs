@@ -17,6 +17,7 @@ namespace SuperCallouts.Callouts
     [CalloutInfo("TruckCrash", CalloutProbability.Low)]
     internal class TruckCrash : Callout
     {
+        private readonly Vector3 _spawnPoint = new(2455.644f, -186.7955f, 87.83904f);
         private Vehicle _car1;
         private Vehicle _car2;
         private Blip _cBlip;
@@ -24,7 +25,6 @@ namespace SuperCallouts.Callouts
         private UIMenu _mainMenu;
         private bool _nIce;
         private bool _onScene;
-        private readonly Vector3 _spawnPoint = new Vector3(2455.644f, -186.7955f, 87.83904f);
         private UIMenuItem _startConv;
         private Vehicle _truck;
         private Ped _victim;
@@ -128,7 +128,7 @@ namespace SuperCallouts.Callouts
             if (_cBlip.Exists()) _cBlip.Delete();
             _mainMenu.Visible = false;
             Game.DisplayHelp("Scene ~g~CODE 4", 5000);
-CFunctions.Code4Message();
+            CFunctions.Code4Message();
             base.End();
         }
     }

@@ -13,24 +13,6 @@ namespace SuperCallouts.Callouts
     [CalloutInfo("WeirdCar", CalloutProbability.Medium)]
     internal class WeirdCar : Callout
     {
-        #region Variables
-        private Ped _bad1;
-        private Vehicle _cVehicle1;
-        private Blip _cBlip1;
-        private Vector3 _spawnPoint;
-        private readonly Random _rNd = new Random();
-        private string _name1;
-        private float _spawnPointH;
-        private bool _onScene;
-        //UI Items
-        private readonly MenuPool _interaction = new MenuPool();
-        private readonly UIMenu _mainMenu = new UIMenu("SuperCallouts", "~y~Choose an option.");
-        private readonly UIMenu _convoMenu = new UIMenu("SuperCallouts", "~y~Choose a subject to speak with.");
-        private readonly UIMenuItem _questioning = new UIMenuItem("Speak With Subjects");
-        private readonly UIMenuItem _endCall = new UIMenuItem("~y~End Call", "Ends the callout.");
-        private UIMenuItem _speakSuspect;
-        #endregion
-
         public override bool OnBeforeCalloutDisplayed()
         {
             CFunctions.FindSideOfRoad(750, 280, out _spawnPoint, out _spawnPointH);
@@ -123,24 +105,23 @@ namespace SuperCallouts.Callouts
                             break;
                     }
                 }
+
                 //Keybinds
                 if (Game.IsKeyDown(Settings.EndCall)) End();
-                if (Game.IsKeyDown(Settings.Interact))
-                {
-                    _mainMenu.Visible = !_mainMenu.Visible;
-                }
+                if (Game.IsKeyDown(Settings.Interact)) _mainMenu.Visible = !_mainMenu.Visible;
                 _interaction.ProcessMenus();
             }
             catch (Exception e)
             {
-                        Game.LogTrivial("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
-                        Game.LogTrivial("SuperCallouts Error Report Start");
-                        Game.LogTrivial("======================================================");
-                        Game.LogTrivial(e.ToString());
-                        Game.LogTrivial("======================================================");
-                        Game.LogTrivial("SuperCallouts Error Report End");
-                        End();
+                Game.LogTrivial("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
+                Game.LogTrivial("SuperCallouts Error Report Start");
+                Game.LogTrivial("======================================================");
+                Game.LogTrivial(e.ToString());
+                Game.LogTrivial("======================================================");
+                Game.LogTrivial("SuperCallouts Error Report End");
+                End();
             }
+
             base.Process();
         }
 
@@ -154,6 +135,7 @@ namespace SuperCallouts.Callouts
             Game.DisplayHelp("Scene ~g~CODE 4", 5000);
             base.End();
         }
+
         //UI Items
         private void Interactions(UIMenu sender, UIMenuItem selItem, int index)
         {
@@ -163,20 +145,43 @@ namespace SuperCallouts.Callouts
                 End();
             }
         }
+
         private void Conversations(UIMenu sender, UIMenuItem selItem, int index)
         {
             if (selItem == _speakSuspect)
-            {
                 GameFiber.StartNew(delegate
                 {
-                    Game.DisplaySubtitle("~g~You~s~: We have reports of suspecious activity here, what's going on?", 5000);
+                    Game.DisplaySubtitle("~g~You~s~: We have reports of suspecious activity here, what's going on?",
+                        5000);
                     _bad1.Tasks.LeaveVehicle(_cVehicle1, LeaveVehicleFlags.LeaveDoorOpen);
                     GameFiber.Wait(5000);
                     NativeFunction.Natives.x5AD23D40115353AC(_bad1, Game.LocalPlayer.Character, -1);
                     _bad1.PlayAmbientSpeech("GENERIC_CURSE_MED");
-                    Game.DisplaySubtitle("~r~" + _name1 + "~s~: Nothing is wrong sir, I don't know why you got that idea.", 5000);
+                    Game.DisplaySubtitle(
+                        "~r~" + _name1 + "~s~: Nothing is wrong sir, I don't know why you got that idea.", 5000);
                 });
-            }
         }
+
+        #region Variables
+
+        private Ped _bad1;
+        private Vehicle _cVehicle1;
+        private Blip _cBlip1;
+        private Vector3 _spawnPoint;
+        private readonly Random _rNd = new();
+        private string _name1;
+        private float _spawnPointH;
+
+        private bool _onScene;
+
+        //UI Items
+        private readonly MenuPool _interaction = new();
+        private readonly UIMenu _mainMenu = new("SuperCallouts", "~y~Choose an option.");
+        private readonly UIMenu _convoMenu = new("SuperCallouts", "~y~Choose a subject to speak with.");
+        private readonly UIMenuItem _questioning = new("Speak With Subjects");
+        private readonly UIMenuItem _endCall = new("~y~End Call", "Ends the callout.");
+        private UIMenuItem _speakSuspect;
+
+        #endregion
     }
 }

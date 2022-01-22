@@ -1,9 +1,9 @@
 using System;
-using Rage;
-using LSPD_First_Response.Mod.API;
-using LSPD_First_Response.Mod.Callouts;
 using System.Drawing;
 using LSPD_First_Response;
+using LSPD_First_Response.Mod.API;
+using LSPD_First_Response.Mod.Callouts;
+using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts.SimpleFunctions;
@@ -13,28 +13,9 @@ namespace SuperCallouts.Callouts
     [CalloutInfo("OfficerShootout", CalloutProbability.Medium)]
     internal class OfficerShootout : Callout
     {
-        #region Variables
-        private Ped _bad1;
-        private Ped _bad2;
-        private Blip _cBlip;
-        private Ped _cop1;
-        private Ped _cop2;
-        private Vehicle _copVehicle;
-        private Vector3 _cSpawnPoint;
-        private Vehicle _cVehicle;
-        private bool _onScene;
-        private readonly Random _rNd = new Random();
-        private Vector3 _spawnPoint;
-        private float _spawnPointH;
-        //UI Items
-        private readonly MenuPool _interaction = new MenuPool();
-        private readonly UIMenu _mainMenu = new UIMenu("SuperCallouts", "~y~Choose an option.");
-        private readonly UIMenuItem _endCall = new UIMenuItem("~y~End Callout", "Ends the callout early.");
-        #endregion
-
         public override bool OnBeforeCalloutDisplayed()
         {
-            SimpleFunctions.CFunctions.FindSideOfRoad(400, 100, out _spawnPoint, out _spawnPointH);
+            CFunctions.FindSideOfRoad(400, 100, out _spawnPoint, out _spawnPointH);
             ShowCalloutAreaBlipBeforeAccepting(_spawnPoint, 10f);
             CalloutMessage = "~b~Dispatch:~s~ Felony stop. Shots fired.";
             CalloutAdvisory = "Panic alert issues, shots fired.";
@@ -52,7 +33,7 @@ namespace SuperCallouts.Callouts
             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Officer Shot",
                 "Officer reports shots fired during felony stop, panic button hit. Respond ~r~CODE-99 EMERGENCY");
             //cVehicle
-            SimpleFunctions.CFunctions.SpawnNormalCar(out _cVehicle, _spawnPoint);
+            CFunctions.SpawnNormalCar(out _cVehicle, _spawnPoint);
             _cVehicle.Heading = _spawnPointH;
             _cSpawnPoint = _cVehicle.GetOffsetPositionFront(-9f);
             _cVehicle.IsStolen = true;
@@ -62,26 +43,26 @@ namespace SuperCallouts.Callouts
                 IsPersistent = true, Heading = _spawnPointH, IsSirenOn = true, IsSirenSilent = true
             };
             //bad1
-            _bad1 = new Ped {IsPersistent = true, Health = 400};
+            _bad1 = new Ped { IsPersistent = true, Health = 400 };
             _bad1.Inventory.Weapons.Add(WeaponHash.AssaultShotgun).Ammo = -1;
             _bad1.WarpIntoVehicle(_cVehicle, -1);
             _bad1.RelationshipGroup = new RelationshipGroup("BADGANG");
-            SimpleFunctions.CFunctions.SetWanted(_bad1, true);
+            CFunctions.SetWanted(_bad1, true);
             _bad1.Tasks.LeaveVehicle(_cVehicle, LeaveVehicleFlags.LeaveDoorOpen);
             //bad2
-            _bad2 = new Ped {IsPersistent = true, Health = 400};
+            _bad2 = new Ped { IsPersistent = true, Health = 400 };
             _bad2.Inventory.Weapons.Add(WeaponHash.CarbineRifle).Ammo = -1;
             _bad2.WarpIntoVehicle(_cVehicle, 0);
             _bad2.RelationshipGroup = new RelationshipGroup("BADGANG");
-            SimpleFunctions.CFunctions.SetWanted(_bad2, true);
+            CFunctions.SetWanted(_bad2, true);
             _bad2.Tasks.LeaveVehicle(_cVehicle, LeaveVehicleFlags.LeaveDoorOpen);
             //cop1
-            _cop1 = new Ped("s_m_y_cop_01", _spawnPoint, 0f) {IsPersistent = true};
+            _cop1 = new Ped("s_m_y_cop_01", _spawnPoint, 0f) { IsPersistent = true };
             _cop1.WarpIntoVehicle(_copVehicle, -1);
             _cop1.Inventory.Weapons.Add(WeaponHash.CombatPistol).Ammo = -1;
             _cop1.Tasks.LeaveVehicle(_copVehicle, LeaveVehicleFlags.LeaveDoorOpen);
             //cop2
-            _cop2 = new Ped("s_f_y_cop_01", _spawnPoint, 0f) {IsPersistent = true};
+            _cop2 = new Ped("s_f_y_cop_01", _spawnPoint, 0f) { IsPersistent = true };
             _cop2.WarpIntoVehicle(_copVehicle, 0);
             _cop2.Inventory.Weapons.Add(WeaponHash.CombatPistol).Ammo = -1;
             _cop2.Tasks.LeaveVehicle(_copVehicle, LeaveVehicleFlags.LeaveDoorOpen);
@@ -126,14 +107,13 @@ namespace SuperCallouts.Callouts
                         Functions.RequestBackup(_copVehicle.Position, EBackupResponseType.Code3,
                             EBackupUnitType.LocalUnit);
                     }
+
                     _cBlip.DisableRoute();
                 }
+
                 //Keybinds
                 if (Game.IsKeyDown(Settings.EndCall)) End();
-                if (Game.IsKeyDown(Settings.Interact))
-                {
-                    _mainMenu.Visible = !_mainMenu.Visible;
-                }
+                if (Game.IsKeyDown(Settings.Interact)) _mainMenu.Visible = !_mainMenu.Visible;
                 _interaction.ProcessMenus();
             }
             catch (Exception e)
@@ -146,6 +126,7 @@ namespace SuperCallouts.Callouts
                 Game.LogTrivial("SuperCallouts Error Report End");
                 End();
             }
+
             base.Process();
         }
 
@@ -163,6 +144,7 @@ namespace SuperCallouts.Callouts
             Game.DisplayHelp("Scene ~g~CODE 4", 5000);
             base.End();
         }
+
         //UI Items
         private void Interactions(UIMenu sender, UIMenuItem selItem, int index)
         {
@@ -172,5 +154,28 @@ namespace SuperCallouts.Callouts
                 End();
             }
         }
+
+        #region Variables
+
+        private Ped _bad1;
+        private Ped _bad2;
+        private Blip _cBlip;
+        private Ped _cop1;
+        private Ped _cop2;
+        private Vehicle _copVehicle;
+        private Vector3 _cSpawnPoint;
+        private Vehicle _cVehicle;
+        private bool _onScene;
+        private readonly Random _rNd = new();
+        private Vector3 _spawnPoint;
+
+        private float _spawnPointH;
+
+        //UI Items
+        private readonly MenuPool _interaction = new();
+        private readonly UIMenu _mainMenu = new("SuperCallouts", "~y~Choose an option.");
+        private readonly UIMenuItem _endCall = new("~y~End Callout", "Ends the callout early.");
+
+        #endregion
     }
 }

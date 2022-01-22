@@ -4,8 +4,6 @@ using System.Drawing;
 using LSPD_First_Response.Mod.API;
 using LSPD_First_Response.Mod.Callouts;
 using Rage;
-using RAGENativeUI;
-using RAGENativeUI.Elements;
 using SuperCallouts.CustomScenes;
 using SuperCallouts.SimpleFunctions;
 
@@ -16,6 +14,7 @@ namespace SuperCallouts.Callouts
     [CalloutInfo("PrisonBreak", CalloutProbability.Low)]
     internal class PrisonBreak : Callout
     {
+        private readonly Vector3 _spawnPoint = new(1970.794f, 2624.078f, 46.00704f);
         private Blip _cBlip1;
         private Blip _cBlip2;
         private Blip _cBlip3;
@@ -29,7 +28,6 @@ namespace SuperCallouts.Callouts
         private Ped _prisoner4;
         private Ped _prisoner5;
         private LHandle _pursuit;
-        private readonly Vector3 _spawnPoint = new Vector3(1970.794f, 2624.078f, 46.00704f);
 
         public override bool OnBeforeCalloutDisplayed()
         {
@@ -51,11 +49,11 @@ namespace SuperCallouts.Callouts
                 "DOC has reported multiple groups of prisoners have escaped! They are occupied with another group and need local police assistance.");
             PrisonbreakSetup.ConstructPrisonBreakSetupScene(out _prisoner1, out _prisoner2, out _prisoner3,
                 out _prisoner4, out _prisoner5);
-            SimpleFunctions.CFunctions.SetWanted(_prisoner1, true);
-            SimpleFunctions.CFunctions.SetWanted(_prisoner2, true);
-            SimpleFunctions.CFunctions.SetWanted(_prisoner3, true);
-            SimpleFunctions.CFunctions.SetWanted(_prisoner4, true);
-            SimpleFunctions.CFunctions.SetWanted(_prisoner5, true);
+            CFunctions.SetWanted(_prisoner1, true);
+            CFunctions.SetWanted(_prisoner2, true);
+            CFunctions.SetWanted(_prisoner3, true);
+            CFunctions.SetWanted(_prisoner4, true);
+            CFunctions.SetWanted(_prisoner5, true);
             _cVehicle = new Vehicle("PBUS", _prisoner1.GetOffsetPositionFront(4));
             _cVehicle.IsPersistent = true;
             _cVehicle.IsStolen = true;
