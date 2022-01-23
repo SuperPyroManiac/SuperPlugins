@@ -31,6 +31,7 @@ namespace SuperCallouts.Callouts
             Game.LogTrivial("SuperCallouts Log: Hit And Run callout accepted...");
             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Car Accident",
                 "Victim reports the other driver has left the scene. Get to the victim as soon as possible.");
+            if (Main.UsingCi) Wrapper.StartCi(this, "480");
             //cVehicle
             CFunctions.SpawnNormalCar(out _cVehicle1, _spawnPoint);
             _cVehicle1.Heading = _spawnPointH;
@@ -151,6 +152,7 @@ namespace SuperCallouts.Callouts
             _mainMenu.Visible = false;
             CFunctions.Code4Message();
             Game.DisplayHelp("Scene ~g~CODE 4", 5000);
+            if (Main.UsingCi) Wrapper.CiSendMessage(this, "Scene clear, Code4");
             base.End();
         }
 

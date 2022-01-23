@@ -28,10 +28,11 @@ namespace SuperCallouts.Callouts
         public override bool OnCalloutAccepted()
         {
             //Setup
-            Game.LogTrivial("SuperCallouts Log: Robery callout accepted...");
+            Game.LogTrivial("SuperCallouts Log: Robbery callout accepted...");
             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Possible Robbery",
                 "A " + Settings.EmergencyNumber +
-                " report claims 2 armed people are holding 1 person at gunpoint. Respond ~r~CODE-3");
+                " report claims 2 armed people are holding 1 person at gunpoint. Respond ~r~CODE-211");
+            if (Main.UsingCi) Wrapper.StartCi(this, "Code 211");
             //cVehicle1
             CFunctions.SpawnNormalCar(out _cVehicle, _spawnPoint);
             _cVehicle.IsPersistent = true;
@@ -218,6 +219,7 @@ namespace SuperCallouts.Callouts
             _mainMenu.Visible = false;
             CFunctions.Code4Message();
             Game.DisplayHelp("Scene ~g~CODE 4", 5000);
+            if (Main.UsingCi) Wrapper.CiSendMessage(this, "Scene clear, Code4");
             base.End();
         }
 

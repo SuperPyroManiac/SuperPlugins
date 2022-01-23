@@ -61,7 +61,8 @@ namespace SuperCallouts.Callouts
         {
             Game.LogTrivial("SuperCallouts Log: LostMC callout accepted...");
             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Biker Gang Attack",
-                "~r~EMERGENCY~s~ All Units: Multiple officers under fire, 7 plus armed gang members attacking sheriff officers. ~r~Respond CODE-3 EMERGENCY");
+                "~r~EMERGENCY~s~ All Units: Multiple officers under fire, 7 plus armed gang members attacking sheriff officers. ~r~Respond CODE-33 EMERGENCY");
+            if (Main.UsingCi) Wrapper.StartCi(this, "Code 33");
             LostMc.ConstructBikersScene(out _cCar1, out _cCar2, out _cop1, out _cop2, out _cop3, out _bike1, out _bike2,
                 out _bike3, out _bike4, out _bike5, out _bike6, out _bike7, out _biker1, out _biker2, out _biker3,
                 out _biker4,
@@ -106,6 +107,8 @@ namespace SuperCallouts.Callouts
                     "DISPATCH_SWAT_UNITS_FROM_01 IN_OR_ON_POSITION UNITS_RESPOND_CODE_99_01", _spawnPoint);
                 Game.SetRelationshipBetweenRelationshipGroups("LOSTERS", "COP", Relationship.Hate);
                 Game.SetRelationshipBetweenRelationshipGroups("LOSTERS", "PLAYER", Relationship.Hate);
+                if (Main.UsingCi) Wrapper.CiSendMessage(this, "Arriving on scene, shots fired!");
+                if (Main.UsingCi) Wrapper.CiSendMessage(this, "**Dispatch** Code-33 all units respond. Station is 10-6.");
                 foreach (var bikerss in _bikers)
                 {
                     CFunctions.SetWanted(bikerss, true);
@@ -147,6 +150,7 @@ namespace SuperCallouts.Callouts
             if (_cBlip.Exists()) _cBlip.Delete();
             CFunctions.Code4Message();
             Game.DisplayHelp("Scene ~g~CODE 4", 5000);
+            if (Main.UsingCi) Wrapper.CiSendMessage(this, "Scene clear, Code4");
             base.End();
         }
     }

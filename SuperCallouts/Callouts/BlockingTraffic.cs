@@ -30,6 +30,7 @@ namespace SuperCallouts.Callouts
             Game.LogTrivial("SuperCallouts Log: car blocking traffic callout accepted...");
             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Blocking Traffic",
                 "Reports of a car blocking the road, respond ~y~CODE-2");
+            if (Main.UsingCi) Wrapper.StartCi(this, "10-53");
             //cVehicle
             CFunctions.SpawnNormalCar(out _cVehicle, _spawnPoint);
             //Start UI
@@ -56,6 +57,7 @@ namespace SuperCallouts.Callouts
                     _onScene = true;
                     _cBlip.DisableRoute();
                     Game.DisplayHelp($"Press ~{Settings.Interact.GetInstructionalId()}~ to open interaction menu.");
+                    if (Main.UsingCi) Wrapper.CiSendMessage(this, "Officer on scene.");
                 }
 
                 //Keybinds
@@ -84,6 +86,7 @@ namespace SuperCallouts.Callouts
             _mainMenu.Visible = false;
             CFunctions.Code4Message();
             Game.DisplayHelp("Scene ~g~CODE 4", 5000);
+            if (Main.UsingCi) Wrapper.CiSendMessage(this, "Scene clear, Code4");
             base.End();
         }
 

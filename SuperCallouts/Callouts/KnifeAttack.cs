@@ -14,20 +14,7 @@ namespace SuperCallouts.Callouts
     [CalloutInfo("KnifeAttack", CalloutProbability.Medium)]
     internal class KnifeAttack : Callout
     {
-        private Blip _cBlip;
-        private float _cHeading;
-        private Tuple<Vector3, float> _chosenLocation;
-        private UIMenu _convoMenu;
         private readonly int _cScene = new Random().Next(1, 4);
-        private Vector3 _cSpawnPoint;
-        private Ped _cSuspect;
-        private Tasks _cTasks = Tasks.CheckDistance;
-        private Ped _cVictim;
-
-        private UIMenuItem _endCall;
-
-        //UI Items
-        private MenuPool _interaction;
 
         //Locations
         private readonly List<Tuple<Vector3, float>> _locations = new()
@@ -44,6 +31,20 @@ namespace SuperCallouts.Callouts
             Tuple.Create(new Vector3(-882.8482f, -2308.612f, -11.7328f), 234f),
             Tuple.Create(new Vector3(-1066.983f, -2700.32f, -7.41007f), 339f)
         };
+
+        private Blip _cBlip;
+        private float _cHeading;
+        private Tuple<Vector3, float> _chosenLocation;
+        private UIMenu _convoMenu;
+        private Vector3 _cSpawnPoint;
+        private Ped _cSuspect;
+        private Tasks _cTasks = Tasks.CheckDistance;
+        private Ped _cVictim;
+
+        private UIMenuItem _endCall;
+
+        //UI Items
+        private MenuPool _interaction;
 
         private UIMenu _mainMenu;
         private UIMenuItem _questioning;
@@ -71,6 +72,7 @@ namespace SuperCallouts.Callouts
             Game.LogTrivial("SuperCallouts Log: knife attack callout accepted. Using scenario #:" + _cScene);
             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Knife Attack",
                 "Reports of a person attacking people with a knife at the train station.");
+            if (Main.UsingCi) Wrapper.StartCi(this, "Code 99");
             //Suspect
             _cSuspect = new Ped(_cSpawnPoint);
             _cSuspect.Heading = _cHeading;
@@ -102,6 +104,7 @@ namespace SuperCallouts.Callouts
                 case Tasks.CheckDistance:
                     if (Game.LocalPlayer.Character.DistanceTo(_cSuspect) < 25f)
                     {
+                        if (Main.UsingCi) Wrapper.CiSendMessage(this, "Arriving on scene. 10-23");
                         _cVictim.Kill();
                         _cTasks = Tasks.OnScene;
                     }
@@ -146,6 +149,7 @@ namespace SuperCallouts.Callouts
             if (_cSuspect) _cSuspect.Dismiss();
             Game.DisplayHelp("Scene ~g~CODE 4", 5000);
             CFunctions.Code4Message();
+            if (Main.UsingCi) Wrapper.CiSendMessage(this, "Scene clear, Code4");
             base.End();
         }
 

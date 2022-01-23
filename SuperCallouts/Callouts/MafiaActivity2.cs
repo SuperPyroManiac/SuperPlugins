@@ -63,6 +63,7 @@ namespace SuperCallouts.Callouts
             Game.LogTrivial("SuperCallouts Log: MafiaActivity callout accepted...");
             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~The Mafia",
                 "FIB and IAA reports the Mafia have been spotted near Sandy Shores. Possible large scale drug trafficking. Investigate the scene.");
+            if (Main.UsingCi) Wrapper.StartCi(this, "Code 2");
             Game.LocalPlayer.Character.RelationshipGroup = "COP";
             Game.DisplaySubtitle("Get to the ~r~scene~w~! Proceed with ~r~CAUTION~w~!", 10000);
             _cBlip = _mafiaDude2.AttachBlip();
@@ -167,6 +168,7 @@ namespace SuperCallouts.Callouts
             if (_cBlip.Exists()) _cBlip.Delete();
             CFunctions.Code4Message();
             Game.DisplayHelp("Scene ~g~CODE 4", 5000);
+            if (Main.UsingCi) Wrapper.CiSendMessage(this, "Scene clear, Code4");
             base.End();
         }
     }

@@ -27,7 +27,7 @@ namespace SuperCallouts.Callouts
             CFunctions.FindSideOfRoad(400, 70, out _spawnPoint, out _spawnPointH);
             ShowCalloutAreaBlipBeforeAccepting(_spawnPoint, 10f);
             CalloutMessage = "~b~Dispatch:~s~ Ambulance requests police escort.";
-            CalloutAdvisory = "Help the ambulance by clearing traffic and intersections for them.";
+            CalloutAdvisory = "Ambulance needs assistance clearing traffic.";
             CalloutPosition = _spawnPoint;
             Functions.PlayScannerAudioUsingPosition(
                 "ATTENTION_ALL_UNITS_05 WE_HAVE CRIME_AMBULANCE_REQUESTED_01 IN_OR_ON_POSITION", _spawnPoint);
@@ -40,6 +40,7 @@ namespace SuperCallouts.Callouts
             Game.LogTrivial("SuperCallouts Log: Ambulance Escort callout accepted...");
             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Ambulance Escort",
                 "Ambulance has a wounded police officer in critical condition, ensure the ambulance has a clear path to the nearest hospital, get to the scene! High priority, respond ~y~CODE-3");
+            if (Main.UsingCi) Wrapper.StartCi(this, "Code 3");
             //cVehicle
             _cVehicle = new Vehicle("AMBULANCE", _spawnPoint)
                 { Heading = _spawnPointH, IsPersistent = true, IsSirenOn = true };
@@ -80,6 +81,8 @@ namespace SuperCallouts.Callouts
                     _cBlip2 = new Blip(_hospital);
                     _cBlip2.EnableRoute(Color.Blue);
                     _cBlip2.Color = Color.Blue;
+                    if (Main.UsingCi)
+                        Wrapper.CiSendMessage(this, "Officer on scene, proceed to nearest medical center.");
                 }
 
                 if (_cVehicle.DistanceTo(_hospital) < 15f && _onScene)
@@ -118,9 +121,11 @@ namespace SuperCallouts.Callouts
             if (_cVehicle.Exists()) _cVehicle.Dismiss();
             if (_cBlip.Exists()) _cBlip.Delete();
             if (_cBlip2.Exists()) _cBlip2.Delete();
+            if (Main.UsingCi) Wrapper.CiSendMessage(this, "Scene handled. Code 4.");
             _mainMenu.Visible = false;
             CFunctions.Code4Message();
             Game.DisplayHelp("Scene ~g~CODE 4", 5000);
+            if (Main.UsingCi) Wrapper.CiSendMessage(this, "Scene clear, Code4");
             base.End();
         }
 

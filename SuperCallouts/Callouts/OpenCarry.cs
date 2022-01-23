@@ -32,6 +32,7 @@ namespace SuperCallouts.Callouts
             Game.LogTrivial("SuperCallouts Log: Open Carry callout accepted...");
             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Person With Gun",
                 "Reports of a person walking around with an assault rifle. Respond ~y~CODE-2");
+            if (Main.UsingCi) Wrapper.StartCi(this, "Code 6C");
             //Bad
             _bad1 = new Ped(_spawnPoint) { IsPersistent = true };
             _bad1.Inventory.GiveNewWeapon(WeaponHash.AdvancedRifle, -1, true);
@@ -150,6 +151,7 @@ namespace SuperCallouts.Callouts
             _mainMenu.Visible = false;
             CFunctions.Code4Message();
             Game.DisplayHelp("Scene ~g~CODE 4", 5000);
+            if (Main.UsingCi) Wrapper.CiSendMessage(this, "Scene clear, Code4");
             base.End();
         }
 

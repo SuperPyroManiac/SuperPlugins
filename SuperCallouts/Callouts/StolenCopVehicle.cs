@@ -46,6 +46,7 @@ namespace SuperCallouts.Callouts
             Game.LogTrivial("SuperCallouts Log: StolenCopCar callout accepted...");
             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Stolen Police Vehicle",
                 "A suspect has stolen a police vehicle during his arrest. Respond ~r~CODE-3");
+            if (Main.UsingCi) Wrapper.StartCi(this, "Code 3");
             //cVehicle
             Model[] vehicleModels = { "POLICE", "POLICE2", "POLICE3", "SHERIFF", "SHERIFF2" };
             _cVehicle = new Vehicle(vehicleModels[new Random().Next(vehicleModels.Length)], _spawnPoint)
@@ -134,6 +135,7 @@ namespace SuperCallouts.Callouts
             if (_cVehicle) _cVehicle.Dismiss();
             if (_bad) _bad.Dismiss();
             _interaction.CloseAllMenus();
+            if (Main.UsingCi) Wrapper.CiSendMessage(this, "Scene clear, Code4");
             base.End();
         }
 

@@ -80,6 +80,7 @@ namespace SuperCallouts.Callouts
             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~The Mafia",
                 "FIB reports the Mafia have been using the casino as a drug trafficking hotspot. Speak with FIB agents and plan a raid.");
             Mafia1Pre.BuildPreScene(out _fib1, out _fib2, out _fib3, out _fib4, out _fib5, out _fibCar1, out _fibCar2);
+            if (Main.UsingCi) Wrapper.StartCi(this, "10-25");
 
             _cBlip = new Blip(_fib1.Position);
             _cBlip.Color = Color.Yellow;
@@ -247,6 +248,7 @@ namespace SuperCallouts.Callouts
             _interaction.CloseAllMenus();
             Game.DisplayHelp("Scene ~g~CODE 4", 5000);
             CFunctions.Code4Message();
+            if (Main.UsingCi) Wrapper.CiSendMessage(this, "Scene clear, Code4");
             base.End();
         }
 

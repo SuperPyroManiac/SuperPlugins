@@ -43,6 +43,7 @@ namespace SuperCallouts.Callouts
             Game.LogTrivial("SuperCallouts Log: illegally parked car callout accepted...");
             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~y~Traffic",
                 "Reports of an empty vehicle on private property, respond ~g~CODE-1");
+            if (Main.UsingCi) Wrapper.StartCi(this, "10-37");
             //cVehicle
             CFunctions.SpawnNormalCar(out _cVehicle, _spawnPoint, _heading);
             //Blip
@@ -61,6 +62,7 @@ namespace SuperCallouts.Callouts
             if (!_onScene && Game.LocalPlayer.Character.DistanceTo(_cVehicle) < 25f)
             {
                 _onScene = true;
+                if (Main.UsingCi) Wrapper.CiSendMessage(this, "Arriving on scene. 10-23");
                 _cBlip.DisableRoute();
                 Game.DisplayHelp($"Press ~{Settings.Interact.GetInstructionalId()}~ to open interaction menu.");
                 Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Investigate The Vehicle", "~y~Traffic",
@@ -80,6 +82,7 @@ namespace SuperCallouts.Callouts
             if (_cVehicle) _cVehicle.Dismiss();
             CFunctions.Code4Message();
             Game.DisplayHelp("Scene ~g~CODE 4", 5000);
+            if (Main.UsingCi) Wrapper.CiSendMessage(this, "Scene clear, Code4");
             base.End();
         }
 

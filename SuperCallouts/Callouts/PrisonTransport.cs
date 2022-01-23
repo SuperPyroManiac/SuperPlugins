@@ -29,7 +29,8 @@ namespace SuperCallouts.Callouts
             //Setup
             Game.LogTrivial("SuperCallouts Log: Prison Truck callout accepted...");
             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Escaped Prisoner",
-                "DOC reports a prisoner has unlocked the transport vehicle and is on the run. Respond ~r~CODE-3");
+                "DOC reports a prisoner has unlocked the transport vehicle and is on the run. ~r~10-98");
+            if (Main.UsingCi) Wrapper.StartCi(this, "Code 9");
             //cVehicle
             _cVehicle = new Vehicle("POLICET", _spawnPoint) { IsPersistent = true };
             //Cop
@@ -128,6 +129,7 @@ namespace SuperCallouts.Callouts
             _mainMenu.Visible = false;
             CFunctions.Code4Message();
             Game.DisplayHelp("Scene ~g~CODE 4", 5000);
+            if (Main.UsingCi) Wrapper.CiSendMessage(this, "Scene clear, Code4");
             base.End();
         }
 

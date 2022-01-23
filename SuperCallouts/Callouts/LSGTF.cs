@@ -66,6 +66,8 @@ namespace SuperCallouts.Callouts
             Game.LogTrivial("SuperCallouts Log: LSGTF callout accepted...");
             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Meet with FIB",
                 "FIB has a gang task force ready. Speak with them to conduct the raid.");
+            if (Main.UsingCi) Wrapper.StartCi(this, "10-25");
+            if (Main.UsingCi) Wrapper.CiSendMessage(this, "**Dispatch** Go speak with the federal agents. 10-17");
             LsgtfSetup.ConstructLspdraidScene(out _bad1, out _bad2, out _bad3, out _bad4, out _bad5, out _bad6,
                 out _bad7, out _bad8, out _cVehicle, out _fib1, out _fib2);
             _bad1.IsPersistent = true;
@@ -165,6 +167,7 @@ namespace SuperCallouts.Callouts
                     _bad6.Tasks.Wander();
                     _bad7.Tasks.Wander();
                     _bad8.Tasks.Wander();
+                    if (Main.UsingCi) Wrapper.CiSendMessage(this, "Proceed to raid location.");
                 });
             if (selItem == _startConv3)
                 GameFiber.StartNew(delegate
@@ -191,6 +194,8 @@ namespace SuperCallouts.Callouts
                 _cVehicle.IsSirenOn = true;
                 _cVehicle.IsSirenSilent = true;
                 _onScene = true;
+                if (Main.UsingCi) Wrapper.CiSendMessage(this, "Arriving on scene, shots fired!");
+                if (Main.UsingCi) Wrapper.CiSendMessage(this, "**Dispatch** Code-33 all units respond. Station is 10-6.");
                 Functions.PlayScannerAudioUsingPosition(
                     "DISPATCH_SWAT_UNITS_FROM_01 IN_OR_ON_POSITION UNITS_RESPOND_CODE_99_01", _raidpoint);
                 if (Main.UsingUb)
@@ -275,6 +280,7 @@ namespace SuperCallouts.Callouts
             if (_meetingB.Exists()) _meetingB.Delete();
             CFunctions.Code4Message();
             Game.DisplayHelp("Scene ~g~CODE 4", 5000);
+            if (Main.UsingCi) Wrapper.CiSendMessage(this, "Scene clear, Code4");
             base.End();
         }
     }

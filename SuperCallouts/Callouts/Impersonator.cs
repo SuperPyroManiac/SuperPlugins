@@ -31,6 +31,7 @@ namespace SuperCallouts.Callouts
             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Suspicious Pullover",
                 Settings.EmergencyNumber +
                 " call of someone being pulled over by a non uniformed officer. Description does not match our department for undercover cops. Respond ~r~CODE-3");
+            if (Main.UsingCi) Wrapper.StartCi(this, "Code 3");
             //cVehicle1
             CFunctions.SpawnNormalCar(out _cVehicle1, _spawnPoint);
             _cVehicle1.Heading = _spawnPointH;
@@ -82,6 +83,7 @@ namespace SuperCallouts.Callouts
                 if (!_onScene && Game.LocalPlayer.Character.DistanceTo(_cVehicle2) < 30f)
                 {
                     _onScene = true;
+                    if (Main.UsingCi) Wrapper.CiSendMessage(this, "Arriving on scene. 10-23");
                     _cBlip.DisableRoute();
                     _victim.Tasks.CruiseWithVehicle(10f, VehicleDrivingFlags.Normal);
                     _pursuit = Functions.CreatePursuit();
@@ -96,6 +98,7 @@ namespace SuperCallouts.Callouts
                             Game.DisplayHelp("Suspect is fleeing!");
                             Functions.AddPedToPursuit(_pursuit, _bad);
                             Functions.SetPursuitIsActiveForPlayer(_pursuit, true);
+                            if (Main.UsingCi) Wrapper.CiSendMessage(this, "Suspect is fleeing, show me in pursuit!");
                             //cVehicle2.IsSirenOn = false;
                             break;
                         case 2:
@@ -105,6 +108,8 @@ namespace SuperCallouts.Callouts
                                 _bad.Inventory.Weapons.Add(WeaponHash.CombatPistol).Ammo = -1;
                                 GameFiber.Wait(3000);
                                 _bad.Tasks.FightAgainst(Game.LocalPlayer.Character, -1);
+                                if (Main.UsingCi) Wrapper.CiSendMessage(this, "Shots fired!");
+                                if (Main.UsingCi) Wrapper.CiSendMessage(this, "**Dispatch** Code-33 all units respond. Station is 10-6.");
                                 //cVehicle2.IsSirenOn = false;
                             });
                             break;
@@ -154,6 +159,7 @@ namespace SuperCallouts.Callouts
             if (_cVehicle1.Exists()) _cVehicle1.Dismiss();
             if (_cVehicle2.Exists()) _cVehicle2.Dismiss();
             if (_cBlip.Exists()) _cBlip.Delete();
+            if (Main.UsingCi) Wrapper.CiSendMessage(this, "Scene clear, Code4");
             base.End();
         }
 
@@ -203,6 +209,7 @@ namespace SuperCallouts.Callouts
                     Game.DisplaySubtitle(
                         "~r~" + _name1 +
                         "~s~: I'll have you fired for this officer. I'm not going to talk to you anymore.", 5000);
+                    if (Main.UsingCi) Wrapper.CiSendMessage(this, "Report taken from suspect.");
                 });
         }
 

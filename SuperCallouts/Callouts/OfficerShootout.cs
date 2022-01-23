@@ -31,7 +31,8 @@ namespace SuperCallouts.Callouts
             //Setup
             Game.LogTrivial("SuperCallouts Log: Officer Shootout accepted...");
             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Officer Shot",
-                "Officer reports shots fired during felony stop, panic button hit. Respond ~r~CODE-99 EMERGENCY");
+                "Officer reports shots fired during felony stop, panic button hit. Respond ~r~CODE-30 EMERGENCY");
+            if (Main.UsingCi) Wrapper.StartCi(this, "Code 30");
             //cVehicle
             CFunctions.SpawnNormalCar(out _cVehicle, _spawnPoint);
             _cVehicle.Heading = _spawnPointH;
@@ -142,6 +143,7 @@ namespace SuperCallouts.Callouts
             _mainMenu.Visible = false;
             CFunctions.Code4Message();
             Game.DisplayHelp("Scene ~g~CODE 4", 5000);
+            if (Main.UsingCi) Wrapper.CiSendMessage(this, "Scene clear, Code4");
             base.End();
         }
 

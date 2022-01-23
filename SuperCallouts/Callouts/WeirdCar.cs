@@ -30,6 +30,7 @@ namespace SuperCallouts.Callouts
             Game.LogTrivial("SuperCallouts Log: Wierd Car callout accepted...");
             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Suspicious Vehicle",
                 "Report of a suspicious vehicle on the side of the road. Respond ~y~CODE-2");
+            if (Main.UsingCi) Wrapper.StartCi(this, "Code 2");
             //cVehicle1
             CFunctions.SpawnNormalCar(out _cVehicle1, _spawnPoint);
             _cVehicle1.Heading = _spawnPointH;
@@ -71,6 +72,7 @@ namespace SuperCallouts.Callouts
                         case 1:
                             CFunctions.Damage(_cVehicle1, 500, 500);
                             _cVehicle1.IsStolen = true;
+                            if (Main.UsingCi) Wrapper.CiSendMessage(this, "Officer on scene.");
                             break;
                         case 2:
                             GameFiber.StartNew(delegate
@@ -83,6 +85,8 @@ namespace SuperCallouts.Callouts
                                 Game.DisplaySubtitle("~r~Driver:~s~ The world will end with fire!");
                                 GameFiber.Wait(3000);
                                 _cVehicle1.Explode();
+                                if (Main.UsingCi) Wrapper.CiSendMessage(this, "Officer on scene.");
+                                if (Main.UsingCi) Wrapper.CiSendMessage(this, "Vehicle explosion.");
                             });
                             break;
                         case 3:
@@ -92,6 +96,7 @@ namespace SuperCallouts.Callouts
                             _name1 = Functions.GetPersonaForPed(_bad1).FullName;
                             CFunctions.SetWanted(_bad1, true);
                             _cVehicle1.IsStolen = true;
+                            if (Main.UsingCi) Wrapper.CiSendMessage(this, "Officer on scene.");
                             //UI Setup
                             _speakSuspect = new UIMenuItem("Speak with ~y~" + _name1);
                             _convoMenu.AddItem(_speakSuspect);
@@ -133,6 +138,7 @@ namespace SuperCallouts.Callouts
             _mainMenu.Visible = false;
             CFunctions.Code4Message();
             Game.DisplayHelp("Scene ~g~CODE 4", 5000);
+            if (Main.UsingCi) Wrapper.CiSendMessage(this, "Scene clear, Code4");
             base.End();
         }
 
@@ -151,7 +157,7 @@ namespace SuperCallouts.Callouts
             if (selItem == _speakSuspect)
                 GameFiber.StartNew(delegate
                 {
-                    Game.DisplaySubtitle("~g~You~s~: We have reports of suspecious activity here, what's going on?",
+                    Game.DisplaySubtitle("~g~You~s~: We have reports of suspicious activity here, what's going on?",
                         5000);
                     _bad1.Tasks.LeaveVehicle(_cVehicle1, LeaveVehicleFlags.LeaveDoorOpen);
                     GameFiber.Wait(5000);

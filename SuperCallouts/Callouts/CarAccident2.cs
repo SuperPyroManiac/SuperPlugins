@@ -33,6 +33,7 @@ namespace SuperCallouts.Callouts
             Game.LogTrivial("SuperCallouts Log: car accident callout accepted...");
             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~MVA",
                 "Reports of a car accident, respond ~r~CODE-3");
+            if (Main.UsingCi) Wrapper.StartCi(this, "10-50");
             //cVehicle1
             CFunctions.SpawnNormalCar(out _cVehicle1, _spawnPoint);
             _cVehicle1.EngineHealth = 0;
@@ -96,6 +97,7 @@ namespace SuperCallouts.Callouts
                 if (!_onScene && Game.LocalPlayer.Character.DistanceTo(_cVehicle1) < 25f)
                 {
                     _onScene = true;
+                    if (Main.UsingCi) Wrapper.CiSendMessage(this, "Arriving on scene. 10-23");
                     _cBlip1.DisableRoute();
                     _questioning.Enabled = true;
                     _callFd.Enabled = true;
@@ -136,6 +138,7 @@ namespace SuperCallouts.Callouts
             _mainMenu.Visible = false;
             CFunctions.Code4Message();
             Game.DisplayHelp("Scene ~g~CODE 4", 5000);
+            if (Main.UsingCi) Wrapper.CiSendMessage(this, "Scene clear, Code4");
             base.End();
         }
 
@@ -145,6 +148,7 @@ namespace SuperCallouts.Callouts
             if (selItem == _callFd)
             {
                 Game.DisplaySubtitle("~g~You~s~: Dispatch, we have an MVA. One person is seriously injured.");
+                if (Main.UsingCi) Wrapper.CiSendMessage(this, "**Dispatch** EMS has been notified and is on route. 11-78");
                 if (Main.UsingUb)
                 {
                     Wrapper.CallEms();
@@ -172,18 +176,20 @@ namespace SuperCallouts.Callouts
             if (selItem == _speakSuspect)
                 GameFiber.StartNew(delegate
                 {
+                    if (Main.UsingCi) Wrapper.CiSendMessage(this, "Speaking with subject.");
                     Game.DisplaySubtitle("~g~You~s~: What happened? Are you ok?", 5000);
                     NativeFunction.Natives.x5AD23D40115353AC(_victim2,
                         Game.LocalPlayer.Character, -1);
                     GameFiber.Wait(5000);
                     Game.DisplaySubtitle(
-                        "~r~" + _name1 + "~s~: Who are you? I don't have to talk to you!'", 5000);
+                        "~r~" + _name1 + "~s~: Who are you? I don't have to talk to you!", 5000);
                     GameFiber.Wait(5000);
                     Game.DisplaySubtitle(
-                        "~g~You~s~: I'm a police officer, I need you to tell me what happened, someone is really hurt!'",
+                        "~g~You~s~: I'm a police officer, I need you to tell me what happened, someone is really hurt!",
                         5000);
                     GameFiber.Wait(5000);
                     Game.DisplaySubtitle("~r~" + _name1 + "~s~: No!", 5000);
+                    if (Main.UsingCi) Wrapper.CiSendMessage(this, "Subject refuses to speak.");
                     _victim2.Tasks.EnterVehicle(_cVehicle2, -1);
                     _victim2.BlockPermanentEvents = true;
                 });

@@ -1,4 +1,5 @@
 ﻿using LSPD_First_Response.Mod.Callouts;
+using SuperCallouts.SimpleFunctions;
 
 namespace SuperCallouts.Callouts
 {
@@ -23,6 +24,7 @@ namespace SuperCallouts.Callouts
 
         public override void End()
         {
+            if (Main.UsingCi) Wrapper.CiSendMessage(this, "Scene clear, Code4");
             base.End();
         }
     }

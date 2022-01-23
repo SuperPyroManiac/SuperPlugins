@@ -50,6 +50,7 @@ namespace SuperCallouts.Callouts
             Game.LogTrivial("SuperCallouts Log: toilet paper bandit accepted...");
             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Robbery",
                 "Reports of someone robbing a truck full of cleaning supplies, respond ~r~CODE-3");
+            if (Main.UsingCi) Wrapper.StartCi(this, "Code 2");
             //cVehicle
             _cVehicle = new Vehicle("pounder", _spawnPoint)
                 { IsPersistent = true, IsStolen = true, Heading = _spawnPointH };
@@ -164,6 +165,7 @@ namespace SuperCallouts.Callouts
             if (_bad) _bad.Dismiss();
             if (_cBlip) _cBlip.Delete();
             _interaction.CloseAllMenus();
+            if (Main.UsingCi) Wrapper.CiSendMessage(this, "Scene clear, Code4");
             base.End();
         }
 

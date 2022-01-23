@@ -46,6 +46,7 @@ namespace SuperCallouts.Callouts
             Game.LogTrivial("SuperCallouts Log: Angry Animal callout accepted...");
             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Help Civilian",
                 "Details are unknown, get to the scene as soon as possible! Respond ~r~CODE-3");
+            if (Main.UsingCi) Wrapper.StartCi(this, "11-14");
             //_animal
             Model[] meanAnimal = { "A_C_MTLION", "A_C_COYOTE" };
             _animal = new Ped(meanAnimal[new Random().Next(meanAnimal.Length)], _spawnPoint, 50);
@@ -83,6 +84,7 @@ namespace SuperCallouts.Callouts
                 if (!_onScene && Game.LocalPlayer.Character.DistanceTo(_spawnPoint) < 30f)
                 {
                     _onScene = true;
+                    if (Main.UsingCi) Wrapper.CiSendMessage(this, "Officer on scene.");
                     _callEms.Enabled = true;
                     _cBlip.DisableRoute();
                     _animal.Tasks.FightAgainst(_victim, -1);
@@ -117,6 +119,7 @@ namespace SuperCallouts.Callouts
             _mainMenu.Visible = false;
             CFunctions.Code4Message();
             Game.DisplayHelp("Scene ~g~CODE 4", 5000);
+            if (Main.UsingCi) Wrapper.CiSendMessage(this, "Scene is code4.");
             base.End();
         }
 
@@ -126,6 +129,8 @@ namespace SuperCallouts.Callouts
             {
                 Game.DisplaySubtitle(
                     "~g~You~s~: Dispatch, we have a person that has been attacked by an animal! We need a medical crew here ASAP!");
+                if (Main.UsingCi)
+                    Wrapper.CiSendMessage(this, "EMS has been notified and is on route. 11-78");
                 if (Main.UsingUb)
                 {
                     Wrapper.CallEms();

@@ -33,6 +33,7 @@ namespace SuperCallouts.Callouts
             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch",
                 "~r~Possible Missing Person Found",
                 "A person reported missing last week has been recognized. Possible kidnapping. Respond ~r~CODE-3");
+            if (Main.UsingCi) Wrapper.StartCi(this, "207");
             //cVehicle
             CFunctions.SpawnNormalCar(out _cVehicle, _spawnPoint);
             //bad1
@@ -89,6 +90,7 @@ namespace SuperCallouts.Callouts
                 if (!_onScene && Game.LocalPlayer.Character.DistanceTo(_cVehicle) < 25f)
                 {
                     _cBlip1.Delete();
+                    if (Main.UsingCi) Wrapper.CiSendMessage(this, "Arriving on scene. 10-23");
                     _bad1.BlockPermanentEvents = false;
                     _pursuit = Functions.CreatePursuit();
                     Functions.AddPedToPursuit(_pursuit, _bad1);
@@ -170,6 +172,7 @@ namespace SuperCallouts.Callouts
             _mainMenu.Visible = false;
             CFunctions.Code4Message();
             Game.DisplayHelp("Scene ~g~CODE 4", 5000);
+            if (Main.UsingCi) Wrapper.CiSendMessage(this, "Scene clear, Code4");
             base.End();
         }
 
@@ -195,6 +198,7 @@ namespace SuperCallouts.Callouts
                         GameFiber.Wait(5000);
                         _bad1.PlayAmbientSpeech("GENERIC_CURSE_MED");
                         Game.DisplaySubtitle("~r~" + _name1 + "~s~: I don't know, why do you think?'", 5000);
+                        if (Main.UsingCi) Wrapper.CiSendMessage(this, "Suspect in custody.");
                     });
                 if (selItem == _speakSuspect2)
                     GameFiber.StartNew(delegate
@@ -215,6 +219,7 @@ namespace SuperCallouts.Callouts
                         _victim1.Tasks.Cower(-1);
                         Game.DisplaySubtitle(
                             "~b~Bailey Smith~s~: They gave me this fake id.. They were going to give me away I think! Please I want to go home!");
+                        if (Main.UsingCi) Wrapper.CiSendMessage(this, "Victim is safely in custody.");
                     });
             }
             catch (Exception e)

@@ -46,7 +46,8 @@ namespace SuperCallouts.Callouts
         {
             Game.LogTrivial("SuperCallouts Log: PrisonBreak callout accepted...");
             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Prison Break",
-                "DOC has reported multiple groups of prisoners have escaped! They are occupied with another group and need local police assistance.");
+                "DOC has reported multiple groups of prisoners have escaped! They are occupied with another group and need local police assistance. 10-98");
+            if (Main.UsingCi) Wrapper.StartCi(this, "Code 9");
             PrisonbreakSetup.ConstructPrisonBreakSetupScene(out _prisoner1, out _prisoner2, out _prisoner3,
                 out _prisoner4, out _prisoner5);
             CFunctions.SetWanted(_prisoner1, true);
@@ -129,6 +130,7 @@ namespace SuperCallouts.Callouts
             if (_cBlip3.Exists()) _cBlip3.Delete();
             if (_cBlip4.Exists()) _cBlip4.Delete();
             if (_cBlip5.Exists()) _cBlip5.Delete();
+            if (Main.UsingCi) Wrapper.CiSendMessage(this, "Scene clear, Code4");
             base.End();
         }
     }

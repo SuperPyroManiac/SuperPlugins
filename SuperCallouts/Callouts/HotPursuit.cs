@@ -31,6 +31,7 @@ namespace SuperCallouts.Callouts
             Game.LogTrivial("SuperCallouts Log: HotPursuit callout accepted...");
             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Stolen Car",
                 "ANPR has spotted a stolen vehicle. This vehicle is high performance and has fled before. Respond ~r~CODE-3");
+            if (Main.UsingCi) Wrapper.StartCi(this, "Code 3");
             //cVehicle
             Model[] vehicleModels =
                 { "ZENTORNO", "TEMPESTA", "AUTARCH", "cheetah", "nero2", "tezeract", "visione", "prototipo", "emerus" };
@@ -98,6 +99,7 @@ namespace SuperCallouts.Callouts
                 //GamePlay
                 if (!_onScene && Game.LocalPlayer.Character.DistanceTo(_cVehicle) < 25f)
                 {
+                    if (Main.UsingCi) Wrapper.CiSendMessage(this, "Show me code 100, in pursuit!");
                     _cBlip1.Delete();
                     _cBlip2.Delete();
                     _bad1.BlockPermanentEvents = false;
@@ -170,6 +172,7 @@ namespace SuperCallouts.Callouts
             _mainMenu.Visible = false;
             CFunctions.Code4Message();
             Game.DisplayHelp("Scene ~g~CODE 4", 5000);
+            if (Main.UsingCi) Wrapper.CiSendMessage(this, "Scene clear, Code4");
             base.End();
         }
 

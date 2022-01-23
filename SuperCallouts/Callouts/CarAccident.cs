@@ -32,6 +32,7 @@ namespace SuperCallouts.Callouts
             Game.LogTrivial("SuperCallouts Log: car accident callout accepted...");
             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~MVA",
                 "Reports of a car accident, respond ~r~CODE-3");
+            if (Main.UsingCi) Wrapper.StartCi(this, "10-50");
             //cVehicle
             CFunctions.SpawnAnyCar(out _cVehicle, _spawnPoint);
             _cVehicle.Heading = _spawnPointH;
@@ -65,6 +66,7 @@ namespace SuperCallouts.Callouts
                 if (!_onScene && Game.LocalPlayer.Character.DistanceTo(_cVehicle) < 25f)
                 {
                     _onScene = true;
+                    if (Main.UsingCi) Wrapper.CiSendMessage(this, "Arriving on scene. 10-23");
                     _cBlip.DisableRoute();
                     _callEms.Enabled = true;
                     Game.DisplayHelp($"Press ~{Settings.Interact.GetInstructionalId()}~ to open interaction menu.");
@@ -97,6 +99,7 @@ namespace SuperCallouts.Callouts
             _mainMenu.Visible = false;
             CFunctions.Code4Message();
             Game.DisplayHelp("Scene ~g~CODE 4", 5000);
+            if (Main.UsingCi) Wrapper.CiSendMessage(this, "Scene clear, Code4");
             base.End();
         }
 
@@ -106,6 +109,8 @@ namespace SuperCallouts.Callouts
             {
                 Game.DisplaySubtitle(
                     "~g~You~s~: Dispatch, we have a vehicle accident, possible hit and run. Looks like someone is inside and injured! I need EMS out here.");
+                if (Main.UsingCi)
+                    Wrapper.CiSendMessage(this, "EMS has been notified and is on route. 11-78");
                 if (Main.UsingUb)
                 {
                     Wrapper.CallEms();

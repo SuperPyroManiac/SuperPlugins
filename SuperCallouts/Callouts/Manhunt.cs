@@ -31,6 +31,7 @@ namespace SuperCallouts.Callouts
             Game.LogTrivial("SuperCallouts Log: Manhunt callout accepted...");
             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Manhunt",
                 "Search for the suspect. High priority, respond ~r~CODE-3");
+            if (Main.UsingCi) Wrapper.StartCi(this, "Code 6C");
             //Bad
             _bad = new Ped(_spawnPoint) { IsPersistent = true };
             CFunctions.SetWanted(_bad, true);
@@ -115,6 +116,7 @@ namespace SuperCallouts.Callouts
             _mainMenu.Visible = false;
             CFunctions.Code4Message();
             Game.DisplayHelp("Scene ~g~CODE 4", 5000);
+            if (Main.UsingCi) Wrapper.CiSendMessage(this, "Scene clear, Code4");
             base.End();
         }
 

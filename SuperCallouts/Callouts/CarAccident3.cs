@@ -19,7 +19,9 @@ namespace SuperCallouts.Callouts
         private Ped _ePed;
         private Ped _ePed2;
         private Vehicle _eVehicle;
+
         private Vehicle _eVehicle2;
+
         //UI Items
         private MenuPool _interaction;
         private UIMenu _mainMenu;
@@ -48,6 +50,7 @@ namespace SuperCallouts.Callouts
             Game.LogTrivial("SuperCallouts Log: car accident callout accepted...");
             Game.DisplayNotification("web_lossantospolicedept", "web_lossantospolicedept", "~b~Dispatch", "~r~MVA",
                 "Reports of a car accident, respond ~r~CODE-3");
+            if (Main.UsingCi) Wrapper.StartCi(this, "10-50");
             //Vehicles
             CFunctions.SpawnNormalCar(out _eVehicle, _spawnPoint, _spawnPointH);
             CFunctions.Damage(_eVehicle, 200, 200);
@@ -110,6 +113,7 @@ namespace SuperCallouts.Callouts
                             Game.DisplayNotification("web_lossantospolicedept", "web_lossantospolicedept",
                                 "~y~On Scene",
                                 "~r~Car Accident", "Investigate the scene.");
+                            if (Main.UsingCi) Wrapper.CiSendMessage(this, "Arriving on scene. 10-23");
                             _tasks = Tasks.OnScene;
                         }
 
@@ -124,21 +128,25 @@ namespace SuperCallouts.Callouts
                             case 0: //Peds fight
                                 _ePed.Tasks.FightAgainst(_ePed2);
                                 _ePed2.Tasks.FightAgainst(_ePed);
+                                if (Main.UsingCi) Wrapper.CiSendMessage(this, "Subjects are fighting!");
                                 break;
                             case 1: //Ped Dies, other flees
                                 var pursuit = Functions.CreatePursuit();
                                 Functions.AddPedToPursuit(pursuit, _ePed2);
                                 Functions.SetPursuitIsActiveForPlayer(pursuit, true);
+                                if (Main.UsingCi) Wrapper.CiSendMessage(this, "Subject running on foot, currently in pursuit!");
                                 break;
                             case 2: //Hit and run
                                 var pursuit2 = Functions.CreatePursuit();
                                 Functions.AddPedToPursuit(pursuit2, _ePed);
                                 Functions.SetPursuitIsActiveForPlayer(pursuit2, true);
                                 _ePed2.Tasks.LeaveVehicle(LeaveVehicleFlags.LeaveDoorOpen);
+                                if (Main.UsingCi) Wrapper.CiSendMessage(this, "Appears to be a 480, hit and run.");
                                 break;
                             case 3: //Fire + dead ped.
                                 _ePed2.Tasks.Cower(-1);
                                 CFunctions.FireControl(_spawnPoint.Around2D(7f), 24, true);
+                                if (Main.UsingCi) Wrapper.CiSendMessage(this, "We have a fire, and someone is injured!");
                                 break;
                             default:
                                 End();
@@ -181,6 +189,7 @@ namespace SuperCallouts.Callouts
             if (_eBlip) _eBlip.Delete();
             CFunctions.Code4Message();
             Game.DisplayHelp("Scene ~g~CODE 4", 5000);
+            if (Main.UsingCi) Wrapper.CiSendMessage(this, "Scene clear, Code4");
             base.End();
         }
 
