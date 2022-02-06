@@ -109,6 +109,8 @@ namespace SuperCallouts.Callouts
                     Functions.AddPedToPursuit(_pursuit, _bad1);
                     Functions.AddPedToPursuit(_pursuit, _bad2);
                     Functions.SetPursuitIsActiveForPlayer(_pursuit, true);
+                    if (_cBlip2.Exists()) _cBlip2.Delete();
+                    if (_cBlip3.Exists()) _cBlip3.Delete();
                 }
 
                 if (_onScene2 && Game.LocalPlayer.Character.DistanceTo(_cVehicle2) < 50f &&
