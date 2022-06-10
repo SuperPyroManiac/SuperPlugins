@@ -23,7 +23,11 @@ namespace DeadlyWeapons.Modules
                 {
                     GameFiber.Yield();
 
-                    if (!Functions.IsPlayerPerformingPullover()) checking = false;
+                    if (!Functions.IsPlayerPerformingPullover())
+                    {
+                        checking = false;
+                        return;
+                    }
 
                     if (Game.LocalPlayer.Character.DistanceTo(bad) < 3f)
                     {
