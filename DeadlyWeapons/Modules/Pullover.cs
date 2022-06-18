@@ -23,7 +23,7 @@ namespace DeadlyWeapons.Modules
                 {
                     GameFiber.Yield();
 
-                    if (!Functions.IsPlayerPerformingPullover())
+                    if (!Functions.IsPlayerPerformingPullover() || !bad.Exists())
                     {
                         checking = false;
                         return;

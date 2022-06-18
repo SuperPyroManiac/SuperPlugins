@@ -19,7 +19,7 @@ namespace DeadlyWeapons.Modules
             {
                 GameFiber.StartNew(delegate
                 {
-                    if (!ped) return;
+                    if (!ped.Exists()) return;
                     if (ped.IsDead) return;
                     ped.Accuracy = Settings.AiAccuracy;
                     if (Game.LocalPlayer.Character.IsRagdoll)
@@ -36,7 +36,7 @@ namespace DeadlyWeapons.Modules
                                     ped.LastDamageBone == PedBoneId.RightUpperArm ||
                                     ped.LastDamageBone == PedBoneId.RightForearm)
                                 {
-                                    if (!ped) return;
+                                    if (!ped.Exists()) return;
                                     if (ped.Inventory.HasLoadedWeapon) ped.Inventory.EquippedWeapon.Drop();
                                 }
 
