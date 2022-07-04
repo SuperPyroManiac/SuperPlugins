@@ -65,7 +65,7 @@ namespace SuperEvents.SimpleFunctions
                 var randomInt1 = MathHelper.GetRandomSingle(vector31.X, vector32.X);
                 var randomInt2 = MathHelper.GetRandomSingle(vector31.Y, vector32.Y);
                 var randomInt3 = MathHelper.GetRandomSingle(vector31.Z, vector32.Z);
-                vehicle?.Deform(new Vector3(randomInt1, randomInt2, randomInt3), radius, amount);
+                vehicle.Deform(new Vector3(randomInt1, randomInt2, randomInt3), radius, amount);
             }
         }
 

@@ -93,7 +93,7 @@ namespace SuperEvents.Events
                         if (Functions.IsPlayerPerformingPullover())
                         {
                             foreach (var blip in BlipsToClear.Where(blip => blip))
-                                blip?.Delete();
+                            {if (blip.Exists()) blip.Delete();}
                             _tasks = Tasks.CheckPullover;
                         }
 

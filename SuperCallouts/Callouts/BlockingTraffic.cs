@@ -81,8 +81,8 @@ namespace SuperCallouts.Callouts
 
         public override void End()
         {
-            _cVehicle?.Dismiss();
-            _cBlip?.Delete();
+            if(_cBlip.Exists()) _cBlip.Delete();
+            if(_cVehicle.Exists()) _cVehicle.Dismiss();
             _mainMenu.Visible = false;
             CFunctions.Code4Message();
             Game.DisplayHelp("Scene ~g~CODE 4", 5000);

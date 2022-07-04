@@ -200,7 +200,8 @@ namespace SuperCallouts.Callouts
 
                         break;
                     case SrState.RaidScene:
-                        foreach (var entity in _goodguys.Where(entity => entity)) entity?.Dismiss();
+                        foreach (var entity in _goodguys.Where(entity => entity))
+                        {if (entity.Exists()) entity.Dismiss();}
                         foreach (var entity in _badGuys.Where(entity => entity)) entity.BlockPermanentEvents = false;
                         GameFiber.StartNew(delegate
                         {
@@ -238,12 +239,14 @@ namespace SuperCallouts.Callouts
 
         public override void End()
         {
-            _cBlip?.Delete();
-            _aBlip?.Delete();
+            if (_cBlip.Exists()) _cBlip.Delete();
             if (_aBlip.Exists()) _aBlip.Delete();
-            foreach (var entity in _badGuys.Where(entity => entity)) entity?.Dismiss();
-            foreach (var entity in _goodguys.Where(entity => entity)) entity?.Dismiss();
-            foreach (var entity in _vehicles.Where(entity => entity)) entity?.Dismiss();
+            foreach (var entity in _badGuys.Where(entity => entity))
+            {if (entity.Exists()) entity.Dismiss();}
+            foreach (var entity in _goodguys.Where(entity => entity))
+            {if (entity.Exists()) entity.Dismiss();}
+            foreach (var entity in _vehicles.Where(entity => entity))
+            {if (entity.Exists()) entity.Dismiss();}
             Game.SetRelationshipBetweenRelationshipGroups("COP", "MAFIA", Relationship.Dislike);
             _interaction.CloseAllMenus();
             Game.DisplayHelp("Scene ~g~CODE 4", 5000);
@@ -310,7 +313,7 @@ namespace SuperCallouts.Callouts
                     _questioning.Enabled = false;
                     Game.DisplaySubtitle("~b~Agent~s~: We will have a NOOSE team on standby until you arrive on scene.",
                         6000);
-                    _cBlip?.Delete();
+                    if (_cBlip.Exists()) _cBlip.Delete();
                     _aBlip = new Blip(_callPos.Around2D(1, 2), 30);
                     _aBlip.Color = Color.Red;
                     _aBlip.Alpha = .5f;
@@ -326,7 +329,7 @@ namespace SuperCallouts.Callouts
                     _questioning.Enabled = false;
                     Game.DisplaySubtitle("~b~Agent~s~: Your departments SWAT team will standby for your arrival.",
                         6000);
-                    _cBlip?.Delete();
+                    if (_cBlip.Exists()) _cBlip.Delete();
                     _aBlip = new Blip(_callPos.Around2D(1, 2), 30);
                     _aBlip.Color = Color.Red;
                     _aBlip.Alpha = .5f;
@@ -342,7 +345,7 @@ namespace SuperCallouts.Callouts
                     _questioning.Enabled = false;
                     Game.DisplaySubtitle(
                         "~b~Agent~s~: We will leave it to you then. Seems like a dangerous choice though.", 6000);
-                    _cBlip?.Delete();
+                    if (_cBlip.Exists()) _cBlip.Delete();
                     _aBlip = new Blip(_callPos.Around2D(1, 2), 30);
                     _aBlip.Color = Color.Red;
                     _aBlip.Alpha = .5f;
