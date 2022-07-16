@@ -15,7 +15,7 @@ using SuperCallouts.SimpleFunctions;
 
 namespace SuperCallouts.Callouts
 {
-    [CalloutInfo("MafiaActivity2", CalloutProbability.Low)]
+    [CalloutInfo("MafiaActivity2", CalloutProbability.Medium)]
     internal class MafiaActivity2 : Callout
     {
         private readonly Vector3 _callPos = new(1543.173f, 3606.55f, 35.19303f);
@@ -60,7 +60,7 @@ namespace SuperCallouts.Callouts
                 out _mafiaDude1, out _mafiaDude2, out _mafiaDude3, out _mafiaDude4, out _mafiaDude5, out _mafiaDude6,
                 out _mafiaDude7, out _mafiaDude8, out _mafiaDude9, out _mafiaDude10, out _mafiaDude11, out _mafiaDude12,
                 out _mafiaDude13, out _mafiaDude14, out _mafiaDude15);
-            Game.LogTrivial("SuperCallouts Log: MafiaActivity callout accepted...");
+            Game.LogTrivial("SuperCallouts Log: Mafia2 callout accepted...");
             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~The Mafia",
                 "FIB and IAA reports the Mafia have been spotted near Sandy Shores. Possible large scale drug trafficking. Investigate the scene.");
             if (Main.UsingCi) Wrapper.StartCi(this, "Code 2");

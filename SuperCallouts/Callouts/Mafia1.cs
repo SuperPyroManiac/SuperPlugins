@@ -44,8 +44,6 @@ namespace SuperCallouts.Callouts
         private Vector3 _callPos = new(909.56f, 4.041f, 78.67f);
         private Blip _cBlip;
         private SrChoice _choice;
-        private UIMenu _convoMenu;
-        private UIMenuItem _endCall;
         private Ped _fib1;
         private Ped _fib2;
         private Ped _fib3;
@@ -58,7 +56,9 @@ namespace SuperCallouts.Callouts
         //UI Items
         private MenuPool _interaction;
         private UIMenu _mainMenu;
+        private UIMenu _convoMenu;
         private UIMenuItem _questioning;
+        private UIMenuItem _endCall;
         private SrState _state = SrState.CheckDistance;
         private static Ped Player => Game.LocalPlayer.Character;
 
