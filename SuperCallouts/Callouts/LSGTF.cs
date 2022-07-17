@@ -195,7 +195,8 @@ namespace SuperCallouts.Callouts
                 _cVehicle.IsSirenSilent = true;
                 _onScene = true;
                 if (Main.UsingCi) Wrapper.CiSendMessage(this, "Arriving on scene, shots fired!");
-                if (Main.UsingCi) Wrapper.CiSendMessage(this, "**Dispatch** Code-33 all units respond. Station is 10-6.");
+                if (Main.UsingCi)
+                    Wrapper.CiSendMessage(this, "**Dispatch** Code-33 all units respond. Station is 10-6.");
                 Functions.PlayScannerAudioUsingPosition(
                     "DISPATCH_SWAT_UNITS_FROM_01 IN_OR_ON_POSITION UNITS_RESPOND_CODE_99_01", _raidpoint);
                 if (Main.UsingUb)

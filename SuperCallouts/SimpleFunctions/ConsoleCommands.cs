@@ -1,4 +1,8 @@
+#region
+
 using Rage.Attributes;
+
+#endregion
 
 namespace SuperCallouts.SimpleFunctions
 {

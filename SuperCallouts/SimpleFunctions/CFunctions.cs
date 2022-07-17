@@ -1,3 +1,5 @@
+#region
+
 using System;
 using System.Linq;
 using LSPD_First_Response.Mod.API;
@@ -5,6 +7,8 @@ using Rage;
 using Rage.Native;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
+
+#endregion
 
 namespace SuperCallouts.SimpleFunctions
 {
@@ -106,8 +110,8 @@ namespace SuperCallouts.SimpleFunctions
             GameFiber.StartNew(delegate
             {
                 var bigMessage = new BigMessageThread();
-            bigMessage.MessageInstance.ShowColoredShard("Code 4", "Callout Ended", HudColor.Green, HudColor.Black,
-                2);
+                bigMessage.MessageInstance.ShowColoredShard("Code 4", "Callout Ended", HudColor.Green, HudColor.Black,
+                    2);
             });
         }
 

@@ -1,4 +1,6 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -12,23 +14,24 @@ using RAGENativeUI.Elements;
 using SuperCallouts.CustomScenes;
 using SuperCallouts.SimpleFunctions;
 
+#endregion
+
 namespace SuperCallouts.Callouts
 {
     [CalloutInfo("Mafia3", CalloutProbability.Medium)]
     internal class Mafia3 : Callout
     {
+        private readonly Vector3 _callPos = new(949.3857f, -3129.14f, 5.900989f);
+
         //Lists
         private readonly List<Ped> _peds = new();
         private readonly List<Vehicle> _vehicles = new();
-        
-        //Items
-        private static Ped Player => Game.LocalPlayer.Character;
-        private RunState _state = RunState.CheckDistance;
-        private readonly Vector3 _callPos = new Vector3(949.3857f, -3129.14f, 5.900989f);
-        private Blip _cBlip;
-        
+
         //Peds
         private Ped _bad1;
+        private Ped _bad10;
+        private Ped _bad11;
+        private Ped _bad12;
         private Ped _bad2;
         private Ped _bad3;
         private Ped _bad4;
@@ -37,25 +40,27 @@ namespace SuperCallouts.Callouts
         private Ped _bad7;
         private Ped _bad8;
         private Ped _bad9;
-        private Ped _bad10;
-        private Ped _bad11;
-        private Ped _bad12;
+        private Blip _cBlip;
+        private UIMenu _convoMenu;
+        private Vehicle _defender;
+        private UIMenuItem _endCall;
+
+        //UI Items
+        private MenuPool _interaction;
 
         //Vehicles
         private Vehicle _limo;
-        private Vehicle _defender;
+        private UIMenu _mainMenu;
+        private UIMenuItem _questioning;
+        private RunState _state = RunState.CheckDistance;
         private Vehicle _truck1;
         private Vehicle _truck2;
         private Vehicle _truck3;
-        
-        //UI Items
-        private MenuPool _interaction;
-        private UIMenu _mainMenu;
-        private UIMenu _convoMenu;
-        private UIMenuItem _questioning;
-        private UIMenuItem _endCall;
 
-        
+        //Items
+        private static Ped Player => Game.LocalPlayer.Character;
+
+
         public override bool OnBeforeCalloutDisplayed()
         {
             ShowCalloutAreaBlipBeforeAccepting(_callPos, 80f);
@@ -66,11 +71,13 @@ namespace SuperCallouts.Callouts
                 _callPos);
             return base.OnBeforeCalloutDisplayed();
         }
-        
+
         public override bool OnCalloutAccepted()
         {
             //Setup
-            Mafia3Setup.ConstructMafia3Scene(out _limo, out _defender, out _truck1, out _truck2, out _truck3, out _bad1, out _bad2, out _bad3, out _bad4, out _bad5, out _bad6, out _bad7, out _bad8, out _bad9, out _bad10, out _bad11, out _bad12);
+            Mafia3Setup.ConstructMafia3Scene(out _limo, out _defender, out _truck1, out _truck2, out _truck3, out _bad1,
+                out _bad2, out _bad3, out _bad4, out _bad5, out _bad6, out _bad7, out _bad8, out _bad9, out _bad10,
+                out _bad11, out _bad12);
             Game.LogTrivial("SuperCallouts Log: Mafia3 callout accepted...");
             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~The Mafia",
                 "FIB and IAA began a raid on a drug scene at the harbor. Suspects are heavily armed and backup is required. Get to the scene.");
@@ -109,6 +116,7 @@ namespace SuperCallouts.Callouts
                 CFunctions.SetWanted(mafiaDudes, true);
                 Functions.AddPedContraband(mafiaDudes, ContrabandType.Narcotics, "Cocaine");
             }
+
             //Add Items
             _truck1.Metadata.searchTrunk =
                 "~r~multiple pallets of cocaine~s~, ~r~hazmat suits~s~, ~r~multiple weapons~s~, ~y~empty body bags~s~";
@@ -149,8 +157,10 @@ namespace SuperCallouts.Callouts
                                     EBackupUnitType.SwatTeam);
                                 Functions.RequestBackup(_callPos, EBackupResponseType.Code3, EBackupUnitType.LocalUnit);
                             }
+
                             _state = RunState.RaidScene;
                         }
+
                         break;
                     case RunState.RaidScene:
                         GameFiber.StartNew(delegate
@@ -161,6 +171,7 @@ namespace SuperCallouts.Callouts
                                 mafiaDudes.BlockPermanentEvents = false;
                                 mafiaDudes.Tasks.FightAgainstClosestHatedTarget(100, -1);
                             }
+
                             _cBlip.DisableRoute();
                         });
                         _state = RunState.End;
@@ -179,6 +190,7 @@ namespace SuperCallouts.Callouts
                 Game.LogTrivial("SuperCallouts Error Report End");
                 End();
             }
+
             //Keybinds
             if (Game.IsKeyDown(Settings.EndCall)) End();
             if (Game.IsKeyDown(Settings.Interact)) _mainMenu.Visible = !_mainMenu.Visible;
@@ -209,6 +221,7 @@ namespace SuperCallouts.Callouts
                 End();
             }
         }
+
         private enum RunState
         {
             CheckDistance,

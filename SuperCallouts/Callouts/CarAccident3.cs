@@ -1,3 +1,5 @@
+#region
+
 using System;
 using System.Drawing;
 using LSPD_First_Response.Mod.API;
@@ -6,6 +8,8 @@ using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts.SimpleFunctions;
+
+#endregion
 
 namespace SuperCallouts.Callouts
 {
@@ -134,7 +138,8 @@ namespace SuperCallouts.Callouts
                                 var pursuit = Functions.CreatePursuit();
                                 Functions.AddPedToPursuit(pursuit, _ePed2);
                                 Functions.SetPursuitIsActiveForPlayer(pursuit, true);
-                                if (Main.UsingCi) Wrapper.CiSendMessage(this, "Subject running on foot, currently in pursuit!");
+                                if (Main.UsingCi)
+                                    Wrapper.CiSendMessage(this, "Subject running on foot, currently in pursuit!");
                                 break;
                             case 2: //Hit and run
                                 var pursuit2 = Functions.CreatePursuit();
@@ -146,7 +151,8 @@ namespace SuperCallouts.Callouts
                             case 3: //Fire + dead ped.
                                 _ePed2.Tasks.Cower(-1);
                                 CFunctions.FireControl(_spawnPoint.Around2D(7f), 24, true);
-                                if (Main.UsingCi) Wrapper.CiSendMessage(this, "We have a fire, and someone is injured!");
+                                if (Main.UsingCi)
+                                    Wrapper.CiSendMessage(this, "We have a fire, and someone is injured!");
                                 break;
                             default:
                                 End();

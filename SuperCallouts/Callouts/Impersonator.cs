@@ -1,3 +1,5 @@
+#region
+
 using System;
 using System.Drawing;
 using LSPD_First_Response;
@@ -7,6 +9,8 @@ using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts.SimpleFunctions;
+
+#endregion
 
 namespace SuperCallouts.Callouts
 {
@@ -109,7 +113,9 @@ namespace SuperCallouts.Callouts
                                 GameFiber.Wait(3000);
                                 _bad.Tasks.FightAgainst(Game.LocalPlayer.Character, -1);
                                 if (Main.UsingCi) Wrapper.CiSendMessage(this, "Shots fired!");
-                                if (Main.UsingCi) Wrapper.CiSendMessage(this, "**Dispatch** Code-33 all units respond. Station is 10-6.");
+                                if (Main.UsingCi)
+                                    Wrapper.CiSendMessage(this,
+                                        "**Dispatch** Code-33 all units respond. Station is 10-6.");
                                 //cVehicle2.IsSirenOn = false;
                             });
                             break;

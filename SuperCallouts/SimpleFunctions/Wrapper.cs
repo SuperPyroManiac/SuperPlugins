@@ -1,6 +1,11 @@
-﻿using System;
+﻿#region
+
+using System;
+using LSPD_First_Response.Mod.Callouts;
 using Rage;
 using UltimateBackup.API;
+
+#endregion
 
 namespace SuperCallouts.SimpleFunctions
 {
@@ -36,9 +41,9 @@ namespace SuperCallouts.SimpleFunctions
         {
             Functions.callAmbulance();
         }
-        
+
         //Callout Interface
-        internal static void StartCi(LSPD_First_Response.Mod.Callouts.Callout sender, string priority, string agency = "")
+        internal static void StartCi(Callout sender, string priority, string agency = "")
         {
             try
             {
@@ -53,10 +58,9 @@ namespace SuperCallouts.SimpleFunctions
                 Game.LogTrivial("======================================================");
                 Game.LogTrivial("SuperCallouts Error Report End");
             }
-            
         }
-        
-        internal static void CiSendMessage(LSPD_First_Response.Mod.Callouts.Callout sender, string message)
+
+        internal static void CiSendMessage(Callout sender, string message)
         {
             try
             {

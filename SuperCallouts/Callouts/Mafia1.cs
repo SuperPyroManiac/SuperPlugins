@@ -1,3 +1,5 @@
+#region
+
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -11,6 +13,8 @@ using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts.CustomScenes;
 using SuperCallouts.SimpleFunctions;
+
+#endregion
 
 namespace SuperCallouts.Callouts
 {
@@ -44,6 +48,8 @@ namespace SuperCallouts.Callouts
         private Vector3 _callPos = new(909.56f, 4.041f, 78.67f);
         private Blip _cBlip;
         private SrChoice _choice;
+        private UIMenu _convoMenu;
+        private UIMenuItem _endCall;
         private Ped _fib1;
         private Ped _fib2;
         private Ped _fib3;
@@ -56,9 +62,7 @@ namespace SuperCallouts.Callouts
         //UI Items
         private MenuPool _interaction;
         private UIMenu _mainMenu;
-        private UIMenu _convoMenu;
         private UIMenuItem _questioning;
-        private UIMenuItem _endCall;
         private SrState _state = SrState.CheckDistance;
         private static Ped Player => Game.LocalPlayer.Character;
 
@@ -201,7 +205,8 @@ namespace SuperCallouts.Callouts
                         break;
                     case SrState.RaidScene:
                         foreach (var entity in _goodguys.Where(entity => entity))
-                        {if (entity.Exists()) entity.Dismiss();}
+                            if (entity.Exists())
+                                entity.Dismiss();
                         foreach (var entity in _badGuys.Where(entity => entity)) entity.BlockPermanentEvents = false;
                         GameFiber.StartNew(delegate
                         {
@@ -242,11 +247,14 @@ namespace SuperCallouts.Callouts
             if (_cBlip.Exists()) _cBlip.Delete();
             if (_aBlip.Exists()) _aBlip.Delete();
             foreach (var entity in _badGuys.Where(entity => entity))
-            {if (entity.Exists()) entity.Dismiss();}
+                if (entity.Exists())
+                    entity.Dismiss();
             foreach (var entity in _goodguys.Where(entity => entity))
-            {if (entity.Exists()) entity.Dismiss();}
+                if (entity.Exists())
+                    entity.Dismiss();
             foreach (var entity in _vehicles.Where(entity => entity))
-            {if (entity.Exists()) entity.Dismiss();}
+                if (entity.Exists())
+                    entity.Dismiss();
             Game.SetRelationshipBetweenRelationshipGroups("COP", "MAFIA", Relationship.Dislike);
             _interaction.CloseAllMenus();
             Game.DisplayHelp("Scene ~g~CODE 4", 5000);

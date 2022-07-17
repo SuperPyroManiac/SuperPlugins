@@ -1,3 +1,5 @@
+#region
+
 using System;
 using System.Drawing;
 using LSPD_First_Response.Mod.API;
@@ -6,6 +8,8 @@ using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts.SimpleFunctions;
+
+#endregion
 
 namespace SuperCallouts.Callouts
 {
@@ -81,8 +85,8 @@ namespace SuperCallouts.Callouts
 
         public override void End()
         {
-            if(_cBlip.Exists()) _cBlip.Delete();
-            if(_cVehicle.Exists()) _cVehicle.Dismiss();
+            if (_cBlip.Exists()) _cBlip.Delete();
+            if (_cVehicle.Exists()) _cVehicle.Dismiss();
             _mainMenu.Visible = false;
             CFunctions.Code4Message();
             Game.DisplayHelp("Scene ~g~CODE 4", 5000);

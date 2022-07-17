@@ -1,6 +1,10 @@
+#region
+
 using System;
 using System.Collections.Generic;
 using Rage;
+
+#endregion
 
 namespace SuperCallouts.SimpleFunctions
 {

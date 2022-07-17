@@ -108,7 +108,8 @@ namespace SuperCallouts.Callouts
                 Game.SetRelationshipBetweenRelationshipGroups("LOSTERS", "COP", Relationship.Hate);
                 Game.SetRelationshipBetweenRelationshipGroups("LOSTERS", "PLAYER", Relationship.Hate);
                 if (Main.UsingCi) Wrapper.CiSendMessage(this, "Arriving on scene, shots fired!");
-                if (Main.UsingCi) Wrapper.CiSendMessage(this, "**Dispatch** Code-33 all units respond. Station is 10-6.");
+                if (Main.UsingCi)
+                    Wrapper.CiSendMessage(this, "**Dispatch** Code-33 all units respond. Station is 10-6.");
                 foreach (var bikerss in _bikers)
                 {
                     CFunctions.SetWanted(bikerss, true);

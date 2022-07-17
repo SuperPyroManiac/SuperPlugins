@@ -1,3 +1,5 @@
+#region
+
 using System;
 using System.Drawing;
 using LSPD_First_Response;
@@ -8,6 +10,8 @@ using Rage.Native;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts.SimpleFunctions;
+
+#endregion
 
 namespace SuperCallouts.Callouts
 {
@@ -148,7 +152,8 @@ namespace SuperCallouts.Callouts
             if (selItem == _callFd)
             {
                 Game.DisplaySubtitle("~g~You~s~: Dispatch, we have an MVA. One person is seriously injured.");
-                if (Main.UsingCi) Wrapper.CiSendMessage(this, "**Dispatch** EMS has been notified and is on route. 11-78");
+                if (Main.UsingCi)
+                    Wrapper.CiSendMessage(this, "**Dispatch** EMS has been notified and is on route. 11-78");
                 if (Main.UsingUb)
                 {
                     Wrapper.CallEms();
