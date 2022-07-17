@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using LSPD_First_Response;
 using LSPD_First_Response.Engine.Scripting.Entities;
 using LSPD_First_Response.Mod.API;
 using LSPD_First_Response.Mod.Callouts;
@@ -66,7 +67,7 @@ namespace SuperCallouts.Callouts
             return base.OnBeforeCalloutDisplayed();
         }
         
-                public override bool OnCalloutAccepted()
+        public override bool OnCalloutAccepted()
         {
             //Setup
             Mafia3Setup.ConstructMafia3Scene(out _limo, out _defender, out _truck1, out _truck2, out _truck3, out _bad1, out _bad2, out _bad3, out _bad4, out _bad5, out _bad6, out _bad7, out _bad8, out _bad9, out _bad10, out _bad11, out _bad12);
@@ -109,7 +110,12 @@ namespace SuperCallouts.Callouts
                 Functions.AddPedContraband(mafiaDudes, ContrabandType.Narcotics, "Cocaine");
             }
             //Add Items
-            //TODO:
+            _truck1.Metadata.searchTrunk =
+                "~r~multiple pallets of cocaine~s~, ~r~hazmat suits~s~, ~r~multiple weapons~s~, ~y~empty body bags~s~";
+            _truck2.Metadata.searchTrunk =
+                "~r~multiple pallets of cocaine~s~, ~r~hazmat suits~s~, ~r~multiple weapons~s~, ~y~bags of cash~s~";
+            _truck3.Metadata.searchTrunk =
+                "~r~multiple pallets of cocaine~s~, ~r~hazmat suits~s~, ~r~multiple weapons~s~, ~r~explosives~s~";
             //UI Items
             CFunctions.BuildUi(out _interaction, out _mainMenu, out _convoMenu, out _questioning, out _endCall);
             _mainMenu.OnItemSelect += InteractionProcess;
@@ -118,14 +124,46 @@ namespace SuperCallouts.Callouts
 
         public override void Process()
         {
-
             try
             {
                 switch (_state)
                 {
                     case RunState.CheckDistance:
+                        if (Player.DistanceTo(_callPos) < 120f)
+                        {
+                            Game.SetRelationshipBetweenRelationshipGroups("MAFIA", "COP", Relationship.Hate);
+                            Game.SetRelationshipBetweenRelationshipGroups("MAFIA", "PLAYER", Relationship.Hate);
+                            Game.SetRelationshipBetweenRelationshipGroups("COP", "MAFIA", Relationship.Hate);
+                            Wrapper.CiSendMessage(this, "NOOSE Units on-route to scene.");
+                            if (Main.UsingUb)
+                            {
+                                Wrapper.CallSwat(true);
+                                Wrapper.CallSwat(true);
+                                Wrapper.CallCode3();
+                            }
+                            else
+                            {
+                                Functions.RequestBackup(_callPos, EBackupResponseType.Code3,
+                                    EBackupUnitType.SwatTeam);
+                                Functions.RequestBackup(_callPos, EBackupResponseType.Code3,
+                                    EBackupUnitType.SwatTeam);
+                                Functions.RequestBackup(_callPos, EBackupResponseType.Code3, EBackupUnitType.LocalUnit);
+                            }
+                            _state = RunState.RaidScene;
+                        }
                         break;
                     case RunState.RaidScene:
+                        GameFiber.StartNew(delegate
+                        {
+                            GameFiber.Wait(5000);
+                            foreach (var mafiaDudes in _peds.Where(mafiaDudes => mafiaDudes.Exists()))
+                            {
+                                mafiaDudes.BlockPermanentEvents = false;
+                                mafiaDudes.Tasks.FightAgainstClosestHatedTarget(100, -1);
+                            }
+                            _cBlip.DisableRoute();
+                        });
+                        _state = RunState.End;
                         break;
                     case RunState.End:
                         break;
@@ -152,7 +190,12 @@ namespace SuperCallouts.Callouts
         {
             if (_cBlip.Exists()) _cBlip.Delete();
             foreach (var mafiaCars in _vehicles.Where(mafiaCars => mafiaCars.Exists())) mafiaCars.Delete();
-            foreach (var mafiaDudes in _peds.Where(mafiaDudes => mafiaDudes.Exists())) mafiaDudes.Delete();
+            foreach (var mafiaDudes in _peds.Where(mafiaDudes => mafiaDudes.Exists())) mafiaDudes.Dismiss();
+            Game.SetRelationshipBetweenRelationshipGroups("COP", "MAFIA", Relationship.Dislike);
+            _interaction.CloseAllMenus();
+            Game.DisplayHelp("Scene ~g~CODE 4", 5000);
+            CFunctions.Code4Message();
+            if (Main.UsingCi) Wrapper.CiSendMessage(this, "Scene clear, Code4");
 
             base.End();
         }
