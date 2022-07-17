@@ -65,7 +65,8 @@ namespace SuperCallouts
             if (Settings.KnifeAttack) { Functions.RegisterCallout(typeof(KnifeAttack)); Game.LogTrivial("SuperCallouts: Knife Attack Enabled"); }
             if (Settings.PrisonBreak) { Functions.RegisterCallout(typeof(PrisonBreak)); Game.LogTrivial("SuperCallouts: PrisonBreak Enabled"); }
             if (Settings.Mafia1) { Functions.RegisterCallout(typeof(Mafia1)); Game.LogTrivial("SuperCallouts: Mafia1 Enabled"); }
-            if (Settings.Mafia2) { Functions.RegisterCallout(typeof(MafiaActivity2)); Game.LogTrivial("SuperCallouts: Mafia2 Enabled"); }
+            if (Settings.Mafia2) { Functions.RegisterCallout(typeof(Mafia2)); Game.LogTrivial("SuperCallouts: Mafia2 Enabled"); }
+            if (Settings.Mafia3) { Functions.RegisterCallout(typeof(Mafia3)); Game.LogTrivial("SuperCallouts: Mafia3 Enabled"); }
             if (Settings.LostMc) { Functions.RegisterCallout(typeof(LostGang)); Game.LogTrivial("SuperCallouts: LostMC Enabled"); }
             if (Settings.Lsgtf) { Functions.RegisterCallout(typeof(Lsgtf)); Game.LogTrivial("SuperCallouts: LSGTF Enabled"); }
             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~r~SuperCallouts", "~g~Plugin Loaded.",

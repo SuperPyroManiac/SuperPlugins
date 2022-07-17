@@ -15,8 +15,8 @@ using SuperCallouts.SimpleFunctions;
 
 namespace SuperCallouts.Callouts
 {
-    [CalloutInfo("MafiaActivity2", CalloutProbability.Medium)]
-    internal class MafiaActivity2 : Callout
+    [CalloutInfo("Mafia2", CalloutProbability.Medium)]
+    internal class Mafia2 : Callout
     {
         private readonly Vector3 _callPos = new(1543.173f, 3606.55f, 35.19303f);
         private readonly List<Vehicle> _mafiaCars = new();
