@@ -25,9 +25,7 @@ namespace SuperCallouts.Callouts
         private readonly List<Ped> _badGuys = new();
         private readonly UIMenuItem _choiceNoose = new("- NOOSE Team");
         private readonly UIMenuItem _choiceSwat = new("- Local SWAT Team");
-
         private readonly UIMenuItem _choiceYou = new("- Handle It Yourself");
-
         //Setup Scene
         private readonly List<Ped> _goodguys = new();
         private readonly UIMenuItem _speakFib = new("- Speak With FIB Agent");
@@ -56,9 +54,7 @@ namespace SuperCallouts.Callouts
         private Ped _fib4;
         private Ped _fib5;
         private Vehicle _fibCar1;
-
         private Vehicle _fibCar2;
-
         //UI Items
         private MenuPool _interaction;
         private UIMenu _mainMenu;
@@ -140,6 +136,7 @@ namespace SuperCallouts.Callouts
                         {
                             Game.SetRelationshipBetweenRelationshipGroups("MAFIA", "COP", Relationship.Hate);
                             Game.SetRelationshipBetweenRelationshipGroups("COP", "MAFIA", Relationship.Hate);
+                            Game.DisplayHelp($"Press ~{Settings.Interact.GetInstructionalId()}~ to open interaction menu.");
                             switch (_choice)
                             {
                                 case SrChoice.Noose:

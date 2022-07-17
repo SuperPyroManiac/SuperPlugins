@@ -22,11 +22,9 @@ namespace SuperCallouts.Callouts
     internal class Mafia3 : Callout
     {
         private readonly Vector3 _callPos = new(949.3857f, -3129.14f, 5.900989f);
-
         //Lists
         private readonly List<Ped> _peds = new();
         private readonly List<Vehicle> _vehicles = new();
-
         //Peds
         private Ped _bad1;
         private Ped _bad10;
@@ -44,10 +42,8 @@ namespace SuperCallouts.Callouts
         private UIMenu _convoMenu;
         private Vehicle _defender;
         private UIMenuItem _endCall;
-
         //UI Items
         private MenuPool _interaction;
-
         //Vehicles
         private Vehicle _limo;
         private UIMenu _mainMenu;
@@ -56,7 +52,6 @@ namespace SuperCallouts.Callouts
         private Vehicle _truck1;
         private Vehicle _truck2;
         private Vehicle _truck3;
-
         //Items
         private static Ped Player => Game.LocalPlayer.Character;
 
@@ -171,6 +166,7 @@ namespace SuperCallouts.Callouts
                                 mafiaDudes.BlockPermanentEvents = false;
                                 mafiaDudes.Tasks.FightAgainstClosestHatedTarget(100, -1);
                             }
+                            _bad1.Tasks.FightAgainst(Player);
 
                             _cBlip.DisableRoute();
                         });
