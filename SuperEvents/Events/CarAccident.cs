@@ -41,9 +41,11 @@ namespace SuperEvents.Events
             //Vehicles
             EFunctions.SpawnNormalCar(out _eVehicle, _spawnPoint);
             _eVehicle.Heading = _spawnPointH;
+            _eVehicle.IsPersistent = true;
             EFunctions.Damage(_eVehicle, 200, 200);
             EFunctions.SpawnNormalCar(out _eVehicle2, _eVehicle.GetOffsetPositionFront(7f));
             _eVehicle2.Rotation = new Rotator(0f, 0f, 90f);
+            _eVehicle2.IsPersistent = true;
             EFunctions.Damage(_eVehicle2, 200, 200);
             EntitiesToClear.Add(_eVehicle);
             EntitiesToClear.Add(_eVehicle2);
