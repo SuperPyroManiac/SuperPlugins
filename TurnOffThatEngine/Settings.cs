@@ -17,7 +17,7 @@ namespace TurnOffThatEngine
             var ini = new InitializationFile(path);
             ini.Create();
             Turnoffenginekey = ini.ReadEnum("Keys", "TurnOffEngine", Keys.C);
-            Turnoffenginebutton = ini.ReadEnum<ControllerButtons>("Controller", "TurnOffEngine", ControllerButtons.None);
+            Turnoffenginebutton = ini.ReadEnum("Controller", "TurnOffEngine", ControllerButtons.None);
             Game.LogTrivial("TurnOffThatEngine: Config loaded.");
         }
     }

@@ -1,6 +1,5 @@
 #region
 
-using System;
 using System.Net;
 using Rage;
 
@@ -8,15 +7,12 @@ using Rage;
 
 namespace DeadlyWeapons.DFunctions
 {
-    internal class VersionChecker
+    internal static class VersionChecker
     {
         internal static bool IsUpdateAvailable()
         {
             var curVersion = Settings.CalloutVersion;
 
-            var latestVersionUri =
-                new Uri(
-                    "https://www.lcpdfr.com/applications/downloadsng/interface/api.php?do=checkForUpdates&fileId=27453&textOnly=1");
             var webClient = new WebClient();
             var receivedData = string.Empty;
 

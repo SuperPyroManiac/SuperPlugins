@@ -1,6 +1,7 @@
 ﻿using System;
 using Rage;
 using Rage.Native;
+// ReSharper disable FunctionNeverReturns
 
 namespace TurnOffThatEngine
 {

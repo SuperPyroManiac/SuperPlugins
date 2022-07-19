@@ -1,7 +1,6 @@
 #region
 
 using System;
-using System.Collections.Generic;
 using DeadlyWeapons.DFunctions;
 using LSPD_First_Response.Mod.API;
 using Rage;

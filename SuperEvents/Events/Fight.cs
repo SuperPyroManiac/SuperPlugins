@@ -15,7 +15,6 @@ namespace SuperEvents.Events
         private string _name2;
         private Vector3 _spawnPoint;
 
-        private float _spawnPointH;
 
         //UI Items
         private UIMenuItem _speakSuspect;
@@ -28,7 +27,7 @@ namespace SuperEvents.Events
         internal override void StartEvent(Vector3 s)
         {
             //Setup
-            EFunctions.FindSideOfRoad(120, 45, out _spawnPoint, out _spawnPointH);
+            EFunctions.FindSideOfRoad(120, 45, out _spawnPoint, out _);
             if (_spawnPoint.DistanceTo(Player) < 35f)
             {
                 End(true);

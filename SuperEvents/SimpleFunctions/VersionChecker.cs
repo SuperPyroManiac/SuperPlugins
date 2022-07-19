@@ -1,4 +1,3 @@
-using System;
 using System.Net;
 using Rage;
 
@@ -10,9 +9,6 @@ namespace SuperEvents.SimpleFunctions
         {
             var curVersion = Settings.CalloutVersion;
 
-            var latestVersionUri =
-                new Uri(
-                    "https://www.lcpdfr.com/applications/downloadsng/interface/api.php?do=checkForUpdates&fileId=24437&textOnly=1");
             var webClient = new WebClient();
             var receivedData = string.Empty;
 

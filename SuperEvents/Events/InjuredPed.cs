@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using LSPD_First_Response.Mod.API;
 using Rage;
 using RAGENativeUI.Elements;
@@ -43,7 +42,7 @@ namespace SuperEvents.Events
                 case 2:
                     _bad.Kill();
                     _bad2 = new Ped(_bad.GetOffsetPositionFront(2));
-                    _bad2.IsPersistent = true; //TODO
+                    _bad2.IsPersistent = true;
                     _speakInjured = new UIMenuItem("Speak with ~y~" + _name1);
                     _speakInjured2 = new UIMenuItem("Speak with ~y~" + _name2);
                     break;

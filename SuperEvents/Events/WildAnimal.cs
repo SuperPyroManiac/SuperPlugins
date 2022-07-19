@@ -8,7 +8,6 @@ namespace SuperEvents.Events
         private Tasks _tasks = Tasks.CheckDistance;
         private Ped _animal;
         private Vector3 _spawnPoint;
-        private float _spawnPointH;
 
         internal override void StartEvent(Vector3 s)
         {

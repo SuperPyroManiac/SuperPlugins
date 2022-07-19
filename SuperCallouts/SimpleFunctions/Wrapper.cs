@@ -7,74 +7,73 @@ using UltimateBackup.API;
 
 #endregion
 
-namespace SuperCallouts.SimpleFunctions
+namespace SuperCallouts.SimpleFunctions;
+
+internal static class Wrapper
 {
-    internal static class Wrapper
+    //ULTIMATE BACKUP
+    internal static void CallCode3()
     {
-        //ULTIMATE BACKUP
-        internal static void CallCode3()
-        {
-            Functions.callCode3Backup(false);
-        }
+        Functions.callCode3Backup(false);
+    }
 
-        internal static void CallCode2()
-        {
-            Functions.callCode2Backup(false);
-        }
+    internal static void CallCode2()
+    {
+        Functions.callCode2Backup(false);
+    }
 
-        internal static void CallSwat(bool noose)
-        {
-            Functions.callCode3SwatBackup(false, noose);
-        }
+    internal static void CallSwat(bool noose)
+    {
+        Functions.callCode3SwatBackup(false, noose);
+    }
 
-        internal static void CallPursuit()
-        {
-            Functions.callPursuitBackup(false);
-        }
+    internal static void CallPursuit()
+    {
+        Functions.callPursuitBackup(false);
+    }
 
-        internal static void CallFd()
-        {
-            Functions.callFireDepartment();
-        }
+    internal static void CallFd()
+    {
+        Functions.callFireDepartment();
+    }
 
-        internal static void CallEms()
-        {
-            Functions.callAmbulance();
-        }
+    internal static void CallEms()
+    {
+        Functions.callAmbulance();
+    }
 
-        //Callout Interface
-        internal static void StartCi(Callout sender, string priority, string agency = "")
+    //Callout Interface
+    internal static void StartCi(Callout sender, string priority, string agency = "")
+    {
+        try
         {
-            try
-            {
-                CalloutInterface.API.Functions.SendCalloutDetails(sender, priority, agency);
-            }
-            catch (Exception e)
-            {
-                Game.LogTrivial("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
-                Game.LogTrivial("SuperCallouts Error Report Start");
-                Game.LogTrivial("======================================================");
-                Game.LogTrivial(e.ToString());
-                Game.LogTrivial("======================================================");
-                Game.LogTrivial("SuperCallouts Error Report End");
-            }
+            CalloutInterface.API.Functions.SendCalloutDetails(sender, priority, agency);
         }
-
-        internal static void CiSendMessage(Callout sender, string message)
+        catch (Exception e)
         {
-            try
-            {
-                CalloutInterface.API.Functions.SendMessage(sender, message);
-            }
-            catch (Exception e)
-            {
-                Game.LogTrivial("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
-                Game.LogTrivial("SuperCallouts Error Report Start");
-                Game.LogTrivial("======================================================");
-                Game.LogTrivial(e.ToString());
-                Game.LogTrivial("======================================================");
-                Game.LogTrivial("SuperCallouts Error Report End");
-            }
+            Game.LogTrivial("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
+            Game.LogTrivial("SuperCallouts Error Report Start");
+            Game.LogTrivial("======================================================");
+            Game.LogTrivial(e.ToString());
+            Game.LogTrivial("======================================================");
+            Game.LogTrivial("SuperCallouts Error Report End");
+        }
+    }
+
+    internal static void CiSendMessage(Callout sender, string message)
+    {
+        try
+        {
+            CalloutInterface.API.Functions.SendMessage(sender, message);
+        }
+        catch (Exception e)
+        {
+            Game.LogTrivial("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
+            Game.LogTrivial("SuperCallouts Error Report Start");
+            Game.LogTrivial("======================================================");
+            Game.LogTrivial(e.ToString());
+            Game.LogTrivial("======================================================");
+            Game.LogTrivial("SuperCallouts Error Report End");
         }
     }
 }

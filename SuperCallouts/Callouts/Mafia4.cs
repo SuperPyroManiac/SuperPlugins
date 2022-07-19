@@ -247,9 +247,8 @@ internal class Mafia4 : Callout
     private bool Safe()
     {
         foreach (var mafiaDudes in _peds.Where(mafiaDudes => mafiaDudes.Exists()))
-        {
-            if (!mafiaDudes.IsDead) return false;
-        }
+            if (!mafiaDudes.IsDead)
+                return false;
         return true;
     }
 
