@@ -222,9 +222,9 @@ internal class Mafia4 : Callout
         {
             while (_running)
             {
-                GameFiber.Wait(1);
-                _cTimerBar.Percentage -= 0.000008f;
-                if (_cTimerBar.Percentage < 0.000008f) Failed();
+                GameFiber.Wait(500);
+                _cTimerBar.Percentage -= 0.5f;
+                if (_cTimerBar.Percentage < 0.001f) Failed();
             }
         });
     }
