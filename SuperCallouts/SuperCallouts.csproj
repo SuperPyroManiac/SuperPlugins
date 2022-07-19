@@ -53,6 +53,7 @@
         <Compile Include="Callouts\Mafia1.cs" />
         <Compile Include="Callouts\Mafia2.cs" />
         <Compile Include="Callouts\Mafia3.cs" />
+        <Compile Include="Callouts\Mafia4.cs" />
         <Compile Include="Callouts\Manhunt.cs" />
         <Compile Include="Callouts\OfficerShootout.cs" />
         <Compile Include="Callouts\OpenCarry.cs" />

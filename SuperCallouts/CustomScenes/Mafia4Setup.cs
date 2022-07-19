@@ -14,7 +14,7 @@ public class Mafia4Setup
 //ConstructMafia4Scene(out fiboffice, out fiboffice2, out fiboffice3, out fiboffice4, out doctor, out doctor2, out fiboffice5, out fiboffice6, out fiboffice7, out benson, out burrito, out burrito2, out burrito3, out propMbCargoa);
 
     internal static void ConstructMafia4Scene(out Ped fiboffice, out Ped fiboffice2, out Ped fiboffice3,
-        out Ped fiboffice4, out Ped doctor, out Ped doctor2, out Ped fiboffice5, out Ped fiboffice6, out Ped fiboffice7,
+        out Ped fiboffice4, out Ped fiboffice5, out Ped fiboffice6, out Ped fiboffice7, out Ped doctor, out Ped doctor2,
         out Vehicle benson, out Vehicle burrito, out Vehicle burrito2, out Vehicle burrito3, out Object propMbCargoa)
     {
         fiboffice = new Ped("S_M_M_FIBOFFICE_01", Vector3.Zero, 0f)

@@ -31,6 +31,7 @@ namespace SuperCallouts
         internal static bool Mafia1 = true;
         internal static bool Mafia2 = true;
         internal static bool Mafia3 = true;
+        internal static bool Mafia4 = true;
         internal static bool LostMc = true;
         internal static bool Lsgtf = true;
         internal static Keys Interact = Keys.Y;
@@ -69,6 +70,7 @@ namespace SuperCallouts
             Mafia1 = ini.ReadBoolean("Settings", "Mafia1", true);
             Mafia2 = ini.ReadBoolean("Settings", "Mafia2", true);
             Mafia3 = ini.ReadBoolean("Settings", "Mafia3", true);
+            Mafia4 = ini.ReadBoolean("Settings", "Mafia4", true);
             LostMc = ini.ReadBoolean("Settings", "LostMC", true);
             Lsgtf = ini.ReadBoolean("Settings", "LSGTF", true);
             Interact = ini.ReadEnum("Keys", "Interact", Keys.Y);

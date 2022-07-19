@@ -13,56 +13,53 @@ using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts.CustomScenes;
 using SuperCallouts.SimpleFunctions;
+using Object = Rage.Object;
 
 #endregion
 
 namespace SuperCallouts.Callouts
 {
-    [CalloutInfo("Mafia3", CalloutProbability.Medium)]
-    internal class Mafia3 : Callout
+    [CalloutInfo("Mafia4", CalloutProbability.Medium)]
+    internal class Mafia4 : Callout
     {
         private readonly Vector3 _callPos = new(949.3857f, -3129.14f, 5.900989f);
-        //Lists
         private readonly List<Ped> _peds = new();
         private readonly List<Vehicle> _vehicles = new();
-        //Peds
         private Ped _bad1;
-        private Ped _bad10;
-        private Ped _bad11;
-        private Ped _bad12;
         private Ped _bad2;
         private Ped _bad3;
         private Ped _bad4;
         private Ped _bad5;
         private Ped _bad6;
         private Ped _bad7;
-        private Ped _bad8;
-        private Ped _bad9;
+        private Ped _doctor1;
+        private Ped _doctor2;
+        private Object _bomb;
         private Blip _cBlip;
         private UIMenu _convoMenu;
-        private Vehicle _defender;
         private UIMenuItem _endCall;
-        //UI Items
         private MenuPool _interaction;
-        //Vehicles
-        private Vehicle _limo;
         private UIMenu _mainMenu;
+        private TimerBarPool _cTimer = new TimerBarPool();
+        private BarTimerBar _cTimerBar;
         private UIMenuItem _questioning;
         private RunState _state = RunState.CheckDistance;
-        private Vehicle _truck1;
-        private Vehicle _truck2;
-        private Vehicle _truck3;
-        //Items
+        private Vehicle _eVehicle;
+        private Vehicle _eVehicle2;
+        private Vehicle _eVehicle3;
+        private Vehicle _eVehicle4;
+        private bool _running = true;
         private static Ped Player => Game.LocalPlayer.Character;
 
 
         public override bool OnBeforeCalloutDisplayed()
         {
             ShowCalloutAreaBlipBeforeAccepting(_callPos, 80f);
-            CalloutMessage = "~b~FIB Report:~s~ Organized crime members spotted.";
+            CalloutMessage = "~b~Dispatch:~s~ Organized crime members spotted.";
+            CalloutAdvisory = "Organized crime members have setup a large bomb downtown, multiple armed suspects.";
             CalloutPosition = _callPos;
             Functions.PlayScannerAudioUsingPosition(
-                "ATTENTION_ALL_SWAT_UNITS_01 WE_HAVE CRIME_BRANDISHING_WEAPON_01 IN_OR_ON_POSITION UNITS_RESPOND_CODE_03_01",
+                "ATTENTION_ALL_UNITS_05 WE_HAVE CRIME_SHOTS_FIRED_AT_AN_OFFICER_01 IN_OR_ON_POSITION UNITS_RESPOND_CODE_99_02",
                 _callPos);
             return base.OnBeforeCalloutDisplayed();
         }
@@ -70,25 +67,22 @@ namespace SuperCallouts.Callouts
         public override bool OnCalloutAccepted()
         {
             //Setup
-            Mafia3Setup.ConstructMafia3Scene(out _limo, out _defender, out _truck1, out _truck2, out _truck3, out _bad1,
-                out _bad2, out _bad3, out _bad4, out _bad5, out _bad6, out _bad7, out _bad8, out _bad9, out _bad10,
-                out _bad11, out _bad12);
-            Game.LogTrivial("SuperCallouts Log: Mafia3 callout accepted...");
+            Mafia4Setup.ConstructMafia4Scene(out _bad1, out _bad2, out _bad3, out _bad4, out _bad5, out _bad6, out _bad7, out _doctor1, out _doctor2, out _eVehicle, out _eVehicle2, out _eVehicle3, out _eVehicle4, out _bomb);
+            Game.LogTrivial("SuperCallouts Log: Mafia4 callout accepted...");
             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~The Mafia",
-                "FIB and IAA began a raid on a drug scene at the harbor. Suspects are heavily armed and backup is required. Get to the scene.");
+                "A massive bomb has been spotted downtown, multiple armed suspects. Get to the scene.");
             if (Main.UsingCi) Wrapper.StartCi(this, "Code 3");
             Game.LocalPlayer.Character.RelationshipGroup = "COP";
             Game.DisplaySubtitle("Get to the ~r~scene~w~! Proceed with ~r~CAUTION~w~!", 10000);
             //World
-            _cBlip = _truck2.AttachBlip();
+            _cBlip = _bomb.AttachBlip();
             _cBlip.EnableRoute(Color.Red);
             _cBlip.Color = Color.Red;
             //Entities
-            _vehicles.Add(_limo);
-            _vehicles.Add(_defender);
-            _vehicles.Add(_truck1);
-            _vehicles.Add(_truck2);
-            _vehicles.Add(_truck3);
+            _vehicles.Add(_eVehicle);
+            _vehicles.Add(_eVehicle2);
+            _vehicles.Add(_eVehicle3);
+            _vehicles.Add(_eVehicle4);
             _peds.Add(_bad1);
             _peds.Add(_bad2);
             _peds.Add(_bad3);
@@ -96,11 +90,6 @@ namespace SuperCallouts.Callouts
             _peds.Add(_bad5);
             _peds.Add(_bad6);
             _peds.Add(_bad7);
-            _peds.Add(_bad8);
-            _peds.Add(_bad9);
-            _peds.Add(_bad10);
-            _peds.Add(_bad11);
-            _peds.Add(_bad12);
             foreach (var mafiaCars in _vehicles) mafiaCars.IsPersistent = true;
             foreach (var mafiaDudes in _peds)
             {
@@ -111,14 +100,9 @@ namespace SuperCallouts.Callouts
                 CFunctions.SetWanted(mafiaDudes, true);
                 Functions.AddPedContraband(mafiaDudes, ContrabandType.Narcotics, "Cocaine");
             }
-
-            //Add Items
-            _truck1.Metadata.searchTrunk =
-                "~r~multiple pallets of cocaine~s~, ~r~hazmat suits~s~, ~r~multiple weapons~s~, ~y~empty body bags~s~";
-            _truck2.Metadata.searchTrunk =
-                "~r~multiple pallets of cocaine~s~, ~r~hazmat suits~s~, ~r~multiple weapons~s~, ~y~bags of cash~s~";
-            _truck3.Metadata.searchTrunk =
-                "~r~multiple pallets of cocaine~s~, ~r~hazmat suits~s~, ~r~multiple weapons~s~, ~r~explosives~s~";
+            _bomb.IsPersistent = true;
+            if (Main.UsingCi) Wrapper.CiSendMessage(this, "Multiple unites en-route to the scene.");
+            
             //UI Items
             CFunctions.BuildUi(out _interaction, out _mainMenu, out _convoMenu, out _questioning, out _endCall);
             _mainMenu.OnItemSelect += InteractionProcess;
@@ -132,24 +116,25 @@ namespace SuperCallouts.Callouts
                 switch (_state)
                 {
                     case RunState.CheckDistance:
-                        if (Player.DistanceTo(_callPos) < 90f)
+                        if (Player.DistanceTo(_callPos) < 80f)
                         {
                             Game.SetRelationshipBetweenRelationshipGroups("MAFIA", "COP", Relationship.Hate);
                             Game.SetRelationshipBetweenRelationshipGroups("MAFIA", "PLAYER", Relationship.Hate);
                             Game.SetRelationshipBetweenRelationshipGroups("COP", "MAFIA", Relationship.Hate);
-                            if (Main.UsingCi) Wrapper.CiSendMessage(this, "NOOSE Units on-route to scene.");
+                            if (Main.UsingCi) Wrapper.CiSendMessage(this, "Gang members in the area have been paid off by the mob and may also be a thread. Be cautious.");
                             if (Main.UsingUb)
                             {
-                                Wrapper.CallSwat(true);
-                                Wrapper.CallSwat(true);
+                                Wrapper.CallSwat(false);
+                                Wrapper.CallCode3();
+                                Wrapper.CallCode3();
                                 Wrapper.CallCode3();
                             }
                             else
                             {
                                 Functions.RequestBackup(_callPos, EBackupResponseType.Code3,
                                     EBackupUnitType.SwatTeam);
-                                Functions.RequestBackup(_callPos, EBackupResponseType.Code3,
-                                    EBackupUnitType.SwatTeam);
+                                Functions.RequestBackup(_callPos, EBackupResponseType.Code3, EBackupUnitType.LocalUnit);
+                                Functions.RequestBackup(_callPos, EBackupResponseType.Code3, EBackupUnitType.LocalUnit);
                                 Functions.RequestBackup(_callPos, EBackupResponseType.Code3, EBackupUnitType.LocalUnit);
                             }
 
@@ -169,10 +154,12 @@ namespace SuperCallouts.Callouts
                             _bad1.Tasks.FightAgainst(Player);
 
                             _cBlip.DisableRoute();
+                            TimerBarCounter();
                         });
                         _state = RunState.End;
                         break;
                     case RunState.End:
+                        _cTimer.Draw();
                         break;
                 }
             }
@@ -196,12 +183,13 @@ namespace SuperCallouts.Callouts
 
         public override void End()
         {
+            _running = false;
             if (_cBlip.Exists()) _cBlip.Delete();
             foreach (var mafiaCars in _vehicles.Where(mafiaCars => mafiaCars.Exists())) mafiaCars.Dismiss();
             foreach (var mafiaDudes in _peds.Where(mafiaDudes => mafiaDudes.Exists())) mafiaDudes.Dismiss();
+            if (_bomb.Exists()) _bomb.Delete();
             Game.SetRelationshipBetweenRelationshipGroups("COP", "MAFIA", Relationship.Dislike);
             Game.SetRelationshipBetweenRelationshipGroups("MAFIA", "COP", Relationship.Dislike);
-
             _interaction.CloseAllMenus();
             Game.DisplayHelp("Scene ~g~CODE 4", 5000);
             CFunctions.Code4Message();
@@ -218,6 +206,30 @@ namespace SuperCallouts.Callouts
                 Game.DisplaySubtitle("~y~Callout Ended.");
                 End();
             }
+        }
+        
+        //Timer
+        private void TimerBarCounter()
+        {
+            _cTimerBar = new BarTimerBar("Bomb") { Percentage = 1f };
+            _cTimer.Add(_cTimerBar);
+            GameFiber.StartNew(delegate
+            {
+                while (_running)
+                {
+                    GameFiber.Wait(1);
+                    _cTimerBar.Percentage -= 0.000008f;
+                    if (_cTimerBar.Percentage < 0.000008f) Failed();
+                }
+            });
+        }
+
+        private void Failed()
+        {
+            _running = false;
+            foreach (var mafiaCars in _vehicles.Where(mafiaCars => mafiaCars.Exists())) mafiaCars.Explode();
+            foreach (var mafiaDudes in _peds.Where(mafiaDudes => mafiaDudes.Exists())) mafiaDudes.Kill();
+            End();
         }
 
         private enum RunState
