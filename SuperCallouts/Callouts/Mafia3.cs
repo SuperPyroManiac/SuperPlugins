@@ -132,7 +132,7 @@ namespace SuperCallouts.Callouts
                 switch (_state)
                 {
                     case RunState.CheckDistance:
-                        if (Player.DistanceTo(_callPos) < 120f)
+                        if (Player.DistanceTo(_callPos) < 90f)
                         {
                             Game.SetRelationshipBetweenRelationshipGroups("MAFIA", "COP", Relationship.Hate);
                             Game.SetRelationshipBetweenRelationshipGroups("MAFIA", "PLAYER", Relationship.Hate);
@@ -197,7 +197,7 @@ namespace SuperCallouts.Callouts
         public override void End()
         {
             if (_cBlip.Exists()) _cBlip.Delete();
-            foreach (var mafiaCars in _vehicles.Where(mafiaCars => mafiaCars.Exists())) mafiaCars.Delete();
+            foreach (var mafiaCars in _vehicles.Where(mafiaCars => mafiaCars.Exists())) mafiaCars.Dismiss();
             foreach (var mafiaDudes in _peds.Where(mafiaDudes => mafiaDudes.Exists())) mafiaDudes.Dismiss();
             Game.SetRelationshipBetweenRelationshipGroups("COP", "MAFIA", Relationship.Dislike);
             _interaction.CloseAllMenus();

@@ -66,9 +66,9 @@
         <Compile Include="CustomScenes\LostMCSetup.cs" />
         <Compile Include="CustomScenes\LSGTFSetup.cs" />
         <Compile Include="CustomScenes\Mafia1Setup.cs" />
-        <Compile Include="CustomScenes\Mafia1Pre.cs" />
         <Compile Include="CustomScenes\Mafia2Setup.cs" />
         <Compile Include="CustomScenes\Mafia3Setup.cs" />
+        <Compile Include="CustomScenes\Mafia4Setup.cs" />
         <Compile Include="CustomScenes\PrisonbreakSetup.cs" />
         <Compile Include="CustomScenes\TruckCrashSetup.cs" />
         <Compile Include="Main.cs" />

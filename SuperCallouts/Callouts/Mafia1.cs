@@ -79,7 +79,7 @@ namespace SuperCallouts.Callouts
             Game.LogTrivial("SuperCallouts Log: Mafia1 callout accepted...");
             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~The Mafia",
                 "FIB reports the Mafia have been using the casino as a drug trafficking hotspot. Speak with FIB agents and plan a raid.");
-            Mafia1Pre.BuildPreScene(out _fib1, out _fib2, out _fib3, out _fib4, out _fib5, out _fibCar1, out _fibCar2);
+            Mafia1Setup.BuildMafia1PreScene(out _fib1, out _fib2, out _fib3, out _fib4, out _fib5, out _fibCar1, out _fibCar2);
             if (Main.UsingCi) Wrapper.StartCi(this, "10-25");
 
             _cBlip = new Blip(_fib1.Position);
@@ -363,7 +363,7 @@ namespace SuperCallouts.Callouts
 
         private void LoadRaid()
         {
-            CustomScenes.Mafia1.BuildScene(out _bad1, out _bad2, out _bad3, out _bad4, out _bad5, out _bad6, out _bad7,
+            Mafia1Setup.BuildScene(out _bad1, out _bad2, out _bad3, out _bad4, out _bad5, out _bad6, out _bad7,
                 out _bad8, out _badCar1, out _badCar2, out _badCar3, out _badCar4);
             _vehicles.Add(_badCar1);
             _vehicles.Add(_badCar2);
