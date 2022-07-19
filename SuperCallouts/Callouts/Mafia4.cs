@@ -223,8 +223,14 @@ internal class Mafia4 : Callout
             while (_running)
             {
                 GameFiber.Wait(500);
-                _cTimerBar.Percentage -= 0.5f;
+                _cTimerBar.Percentage -= 0.005f;
                 if (_cTimerBar.Percentage < 0.001f) Failed();
+                if (Safe())
+                {
+                    _running = false;
+                    if (Main.UsingCi) Wrapper.CiSendMessage(this, "All suspects are down. Bomb has been disarmed.");
+                    Game.DisplayHelp("Bomb Disarmed", 4000);
+                }
             }
         });
     }
@@ -235,6 +241,15 @@ internal class Mafia4 : Callout
         foreach (var mafiaCars in _vehicles.Where(mafiaCars => mafiaCars.Exists())) mafiaCars.Explode();
         foreach (var mafiaDudes in _peds.Where(mafiaDudes => mafiaDudes.Exists())) mafiaDudes.Kill();
         End();
+    }
+
+    private bool Safe()
+    {
+        foreach (var mafiaDudes in _peds.Where(mafiaDudes => mafiaDudes.Exists()))
+        {
+            if (!mafiaDudes.IsDead) return false;
+        }
+        return true;
     }
 
     private enum RunState
