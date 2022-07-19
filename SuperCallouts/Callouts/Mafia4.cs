@@ -223,11 +223,12 @@ internal class Mafia4 : Callout
             while (_running)
             {
                 GameFiber.Wait(500);
-                _cTimerBar.Percentage -= 0.005f;
+                _cTimerBar.Percentage -= 0.003f;
                 if (_cTimerBar.Percentage < 0.001f) Failed();
                 if (Safe())
                 {
                     _running = false;
+                    _cTimerBar.Label = "Disarmed";
                     if (Main.UsingCi) Wrapper.CiSendMessage(this, "All suspects are down. Bomb has been disarmed.");
                     Game.DisplayHelp("Bomb Disarmed", 4000);
                 }
