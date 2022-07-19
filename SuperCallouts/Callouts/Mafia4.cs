@@ -22,7 +22,7 @@ namespace SuperCallouts.Callouts;
 [CalloutInfo("Mafia4", CalloutProbability.Medium)]
 internal class Mafia4 : Callout
 {
-    private readonly Vector3 _callPos = new(949.3857f, -3129.14f, 5.900989f);
+    private readonly Vector3 _callPos = new(288.916f, -1588.429f, 29.53253f);
     private readonly TimerBarPool _cTimer = new();
     private readonly List<Ped> _peds = new();
     private readonly List<Vehicle> _vehicles = new();
