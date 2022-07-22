@@ -11,7 +11,7 @@ using SuperCallouts.SimpleFunctions;
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInfo("Aliens", CalloutProbability.Low)]
+[CalloutInfo("Aliens", CalloutProbability.VeryLow)]
 internal class Aliens : Callout
 {
     public override bool OnBeforeCalloutDisplayed()

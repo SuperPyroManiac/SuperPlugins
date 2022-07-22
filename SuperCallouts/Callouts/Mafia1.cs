@@ -286,7 +286,6 @@ internal class Mafia1 : Callout
                     return;
                 }
 
-                //_convoMenu.RemoveItemAt(0);
                 Game.DisplaySubtitle(
                     "~b~Agent~s~: Hello sergeant, you may be aware of the current crime family in the city.", 7000);
                 GameFiber.Wait(7000);

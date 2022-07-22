@@ -18,10 +18,7 @@ internal class IllegalParking : Callout
     private Blip _cBlip;
     private Vehicle _cVehicle;
     private UIMenuItem _endCall;
-
     private float _heading;
-
-    //UI Items
     private MenuPool _interaction;
     private UIMenu _mainMenu;
     private bool _onScene;
