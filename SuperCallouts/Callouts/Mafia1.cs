@@ -248,15 +248,9 @@ internal class Mafia1 : Callout
     {
         if (_cBlip.Exists()) _cBlip.Delete();
         if (_aBlip.Exists()) _aBlip.Delete();
-        foreach (var entity in _badGuys.Where(entity => entity))
-            if (entity.Exists())
-                entity.Dismiss();
-        foreach (var entity in _goodguys.Where(entity => entity))
-            if (entity.Exists())
-                entity.Dismiss();
-        foreach (var entity in _vehicles.Where(entity => entity))
-            if (entity.Exists())
-                entity.Dismiss();
+        foreach (var entity in _badGuys.Where(entity => entity)) if (entity.Exists()) entity.Dismiss();
+        foreach (var entity in _goodguys.Where(entity => entity)) if (entity.Exists()) entity.Dismiss();
+        foreach (var entity in _vehicles.Where(entity => entity)) if (entity.Exists()) entity.Dismiss();
         Game.SetRelationshipBetweenRelationshipGroups("COP", "MAFIA", Relationship.Dislike);
         _interaction.CloseAllMenus();
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
