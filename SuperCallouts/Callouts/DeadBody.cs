@@ -33,10 +33,13 @@ internal class DeadBody : Callout
 
     public override bool OnCalloutAccepted()
     {
+        //Setup
         Game.LogTrivial("SuperCallouts Log: Dead body callout accepted...");
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~y~Medical Emergency",
             "Caller reports an injured person that is not breathing, respond ~r~CODE-3");
         if (Main.UsingCi) Wrapper.StartCi(this, "Code 3");
+        //Peds
+        //UI
         return base.OnCalloutAccepted();
     }
 
