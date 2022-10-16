@@ -35,7 +35,7 @@ internal class HitRun : Callout
         Game.LogTrivial("SuperCallouts Log: Hit And Run callout accepted...");
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Car Accident",
             "Victim reports the other driver has left the scene. Get to the victim as soon as possible.");
-        if (Main.UsingCi) Wrapper.StartCi(this, "480");
+        if (Main.UsingCi) Wrapper.StartCi(this, "Code 3");
         //cVehicle
         CFunctions.SpawnNormalCar(out _cVehicle1, _spawnPoint);
         _cVehicle1.Heading = _spawnPointH;

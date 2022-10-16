@@ -33,8 +33,8 @@ internal class PrisonTransport : Callout
         //Setup
         Game.LogTrivial("SuperCallouts Log: Prison Truck callout accepted...");
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Escaped Prisoner",
-            "DOC reports a prisoner has unlocked the transport vehicle and is on the run. ~r~10-98");
-        if (Main.UsingCi) Wrapper.StartCi(this, "Code 9");
+            "DOC reports a prisoner has unlocked the transport vehicle and is on the run. ~r~CODE-3");
+        if (Main.UsingCi) Wrapper.StartCi(this, "Code 3");
         //cVehicle
         _cVehicle = new Vehicle("POLICET", _spawnPoint) { IsPersistent = true };
         //Cop

@@ -35,8 +35,8 @@ internal class OfficerShootout : Callout
         //Setup
         Game.LogTrivial("SuperCallouts Log: Officer Shootout accepted...");
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Officer Shot",
-            "Officer reports shots fired during felony stop, panic button hit. Respond ~r~CODE-30 EMERGENCY");
-        if (Main.UsingCi) Wrapper.StartCi(this, "Code 30");
+            "Officer reports shots fired during felony stop, panic button hit. Respond ~r~CODE-3");
+        if (Main.UsingCi) Wrapper.StartCi(this, "Code 3");
         //cVehicle
         CFunctions.SpawnNormalCar(out _cVehicle, _spawnPoint);
         _cVehicle.Heading = _spawnPointH;

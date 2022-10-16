@@ -72,7 +72,7 @@ internal class KnifeAttack : Callout
         Game.LogTrivial("SuperCallouts Log: knife attack callout accepted. Using scenario #:" + _cScene);
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Knife Attack",
             "Reports of a person attacking people with a knife at the train station.");
-        if (Main.UsingCi) Wrapper.StartCi(this, "Code 99");
+        if (Main.UsingCi) Wrapper.StartCi(this, "Code 3");
         //Suspect
         _cSuspect = new Ped(_cSpawnPoint);
         _cSuspect.Heading = _cHeading;

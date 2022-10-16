@@ -50,7 +50,7 @@ internal class AngryAnimal : Callout
         Game.LogTrivial("SuperCallouts Log: Angry Animal callout accepted...");
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Help Civilian",
             "Details are unknown, get to the scene as soon as possible! Respond ~r~CODE-3");
-        if (Main.UsingCi) Wrapper.StartCi(this, "11-14");
+        if (Main.UsingCi) Wrapper.StartCi(this, "Code 3");
         //_animal
         Model[] meanAnimal = { "A_C_MTLION", "A_C_COYOTE" };
         _animal = new Ped(meanAnimal[new Random().Next(meanAnimal.Length)], _spawnPoint, 50);

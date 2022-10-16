@@ -66,8 +66,8 @@ internal class Lsgtf : Callout
         Game.LogTrivial("SuperCallouts Log: LSGTF callout accepted...");
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Meet with FIB",
             "FIB has a gang task force ready. Speak with them to conduct the raid.");
-        if (Main.UsingCi) Wrapper.StartCi(this, "10-25");
-        if (Main.UsingCi) Wrapper.CiSendMessage(this, "**Dispatch** Go speak with the federal agents. 10-17");
+        if (Main.UsingCi) Wrapper.StartCi(this, "Code 1");
+        if (Main.UsingCi) Wrapper.CiSendMessage(this, "**Dispatch** Go speak with the federal agents.");
         LsgtfSetup.ConstructLspdraidScene(out _bad1, out _bad2, out _bad3, out _bad4, out _bad5, out _bad6,
             out _bad7, out _bad8, out _cVehicle, out _fib1, out _fib2);
         _bad1.IsPersistent = true;

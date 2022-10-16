@@ -34,7 +34,7 @@ internal class Fire : Callout
         Game.LogTrivial("SuperCallouts Log: fire callout accepted...");
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Fire",
             "Reports of a car fire, respond ~r~CODE-3");
-        if (Main.UsingCi) Wrapper.StartCi(this, "904C");
+        if (Main.UsingCi) Wrapper.StartCi(this, "Code 3");
         //cVehicle
         CFunctions.SpawnAnyCar(out _cVehicle, _spawnPoint);
         _cVehicle.Heading = _spawnPointH;

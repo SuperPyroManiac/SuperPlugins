@@ -46,8 +46,8 @@ internal class PrisonBreak : Callout
     {
         Game.LogTrivial("SuperCallouts Log: PrisonBreak callout accepted...");
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Prison Break",
-            "DOC has reported multiple groups of prisoners have escaped! They are occupied with another group and need local police assistance. 10-98");
-        if (Main.UsingCi) Wrapper.StartCi(this, "Code 9");
+            "DOC has reported multiple groups of prisoners have escaped! They are occupied with another group and need local police assistance. ~r~CODE-3");
+        if (Main.UsingCi) Wrapper.StartCi(this, "Code 3");
         PrisonbreakSetup.ConstructPrisonBreakSetupScene(out _prisoner1, out _prisoner2, out _prisoner3,
             out _prisoner4, out _prisoner5);
         CFunctions.SetWanted(_prisoner1, true);

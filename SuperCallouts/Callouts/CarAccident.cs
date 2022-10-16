@@ -36,7 +36,7 @@ internal class CarAccident : Callout
         Game.LogTrivial("SuperCallouts Log: car accident callout accepted...");
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~MVA",
             "Reports of a car accident, respond ~r~CODE-3");
-        if (Main.UsingCi) Wrapper.StartCi(this, "10-50");
+        if (Main.UsingCi) Wrapper.StartCi(this, "Code 3");
         //cVehicle
         CFunctions.SpawnAnyCar(out _cVehicle, _spawnPoint);
         _cVehicle.Heading = _spawnPointH;

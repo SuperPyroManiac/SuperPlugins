@@ -85,7 +85,7 @@ internal class Mafia1 : Callout
             "FIB reports the Mafia have been using the casino as a drug trafficking hotspot. Speak with FIB agents and plan a raid.");
         Mafia1Setup.BuildMafia1PreScene(out _fib1, out _fib2, out _fib3, out _fib4, out _fib5, out _fibCar1,
             out _fibCar2);
-        if (Main.UsingCi) Wrapper.StartCi(this, "10-25");
+        if (Main.UsingCi) Wrapper.StartCi(this, "Code 3");
 
         _cBlip = new Blip(_fib1.Position);
         _cBlip.Color = Color.Yellow;

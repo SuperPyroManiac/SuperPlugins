@@ -42,7 +42,7 @@ internal class IllegalParking : Callout
         Game.LogTrivial("SuperCallouts Log: illegally parked car callout accepted...");
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~y~Traffic",
             "Reports of an empty vehicle on private property, respond ~g~CODE-1");
-        if (Main.UsingCi) Wrapper.StartCi(this, "10-37");
+        if (Main.UsingCi) Wrapper.StartCi(this, "Code 1");
         //cVehicle
         CFunctions.SpawnNormalCar(out _cVehicle, _spawnPoint, _heading);
         //Blip

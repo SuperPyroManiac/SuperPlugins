@@ -37,7 +37,7 @@ internal class Kidnapping : Callout
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch",
             "~r~Possible Missing Person Found",
             "A person reported missing last week has been recognized. Possible kidnapping. Respond ~r~CODE-3");
-        if (Main.UsingCi) Wrapper.StartCi(this, "207");
+        if (Main.UsingCi) Wrapper.StartCi(this, "Code 3");
         //cVehicle
         CFunctions.SpawnNormalCar(out _cVehicle, _spawnPoint);
         //bad1

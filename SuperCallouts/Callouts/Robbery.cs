@@ -35,8 +35,8 @@ internal class Robbery : Callout
         Game.LogTrivial("SuperCallouts Log: Robbery callout accepted...");
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Possible Robbery",
             "A " + Settings.EmergencyNumber +
-            " report claims 2 armed people are holding 1 person at gunpoint. Respond ~r~CODE-211");
-        if (Main.UsingCi) Wrapper.StartCi(this, "Code 211");
+            " report claims 2 armed people are holding 1 person at gunpoint. Respond ~r~CODE-3");
+        if (Main.UsingCi) Wrapper.StartCi(this, "Code 3");
         //cVehicle1
         CFunctions.SpawnNormalCar(out _cVehicle, _spawnPoint);
         _cVehicle.IsPersistent = true;

@@ -35,7 +35,7 @@ internal class Manhunt : Callout
         Game.LogTrivial("SuperCallouts Log: Manhunt callout accepted...");
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Manhunt",
             "Search for the suspect. High priority, respond ~r~CODE-3");
-        if (Main.UsingCi) Wrapper.StartCi(this, "Code 6C");
+        if (Main.UsingCi) Wrapper.StartCi(this, "Code 3");
         //Bad
         _bad = new Ped(_spawnPoint) { IsPersistent = true };
         CFunctions.SetWanted(_bad, true);

@@ -36,7 +36,7 @@ internal class OpenCarry : Callout
         Game.LogTrivial("SuperCallouts Log: Open Carry callout accepted...");
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Person With Gun",
             "Reports of a person walking around with an assault rifle. Respond ~y~CODE-2");
-        if (Main.UsingCi) Wrapper.StartCi(this, "Code 6C");
+        if (Main.UsingCi) Wrapper.StartCi(this, "Code 2");
         //Bad
         _bad1 = new Ped(_spawnPoint) { IsPersistent = true };
         _bad1.Inventory.GiveNewWeapon(WeaponHash.AdvancedRifle, -1, true);
