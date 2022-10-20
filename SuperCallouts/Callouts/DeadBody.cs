@@ -4,6 +4,7 @@ using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts.SimpleFunctions;
+using System;
 using System.Drawing;
 
 namespace SuperCallouts.Callouts;
@@ -57,16 +58,50 @@ internal class DeadBody : Callout
         _cBlip.Color = Color.Red;
         _cBlip.EnableRoute(Color.Red);
         //UI
+        //TODO:
         return base.OnCalloutAccepted();
     }
 
     public override void Process()
     {
+        try
+        {
+            if (!_onScene && Game.LocalPlayer.Character.Position.DistanceTo(_spawnPoint) < 60)
+            {
+                _onScene = true;
+                _witness.Kill();
+                _cBlip.DisableRoute();
+            }
+
+            //Keybinds
+            if (Game.IsKeyDown(Settings.EndCall)) End();
+            if (Game.IsKeyDown(Settings.Interact)) _mainMenu.Visible = !_mainMenu.Visible;
+            _interaction.ProcessMenus();
+        }
+        catch (Exception e) 
+        {
+            Game.LogTrivial("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
+            Game.LogTrivial("SuperCallouts Error Report Start");
+            Game.LogTrivial("======================================================");
+            Game.LogTrivial(e.ToString());
+            Game.LogTrivial("======================================================");
+            Game.LogTrivial("SuperCallouts Error Report End");
+            End();
+        }
+
         base.Process();
     }
 
     public override void End()
     {
+        if(_cVehicle.Exists()) _cVehicle.Dismiss();
+        if (_witness.Exists()) _witness.Dismiss();
+        if (!_victim.Exists()) _victim.Dismiss();
+        if (_cBlip.Exists()) _cBlip.Delete();
+        _mainMenu.Visible = false;
+        CFunctions.Code4Message();
+        Game.DisplayHelp("Scene ~g~CODE 4", 5000);
+        if (Main.UsingCi) Wrapper.CiSendMessage(this, "Scene clear, Code4");
         base.End();
     }
 }
