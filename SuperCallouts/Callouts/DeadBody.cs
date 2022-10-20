@@ -4,6 +4,7 @@ using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts.SimpleFunctions;
+using System.Drawing;
 
 namespace SuperCallouts.Callouts;
 
@@ -12,6 +13,8 @@ internal class DeadBody : Callout
 {
     private Blip _cBlip;
     private Vehicle _cVehicle;
+    private Ped _victim;
+    private Ped _witness;
     private UIMenuItem _endCall;
     private float _heading;
     private MenuPool _interaction;
@@ -38,7 +41,21 @@ internal class DeadBody : Callout
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~y~Medical Emergency",
             "Caller reports an injured person that is not breathing, respond ~r~CODE-3");
         if (Main.UsingCi) Wrapper.StartCi(this, "Code 3");
+        //Vehicle
+        CFunctions.SpawnNormalCar(out _cVehicle, _spawnPoint, _heading);
         //Peds
+        _witness = new Ped(_cVehicle.GetOffsetPositionFront(-9f));
+        _witness.IsPersistent = true;
+        _witness.BlockPermanentEvents = true;
+        _witness.Tasks.Cower(-1);
+        _victim = new Ped(_witness.GetOffsetPositionFront(-2f));
+        _victim.IsPersistent = true;
+        _victim.BlockPermanentEvents = true;
+        _victim.Tasks.Cower(-1);
+        //cBlip
+        _cBlip = _cVehicle.AttachBlip();
+        _cBlip.Color = Color.Red;
+        _cBlip.EnableRoute(Color.Red);
         //UI
         return base.OnCalloutAccepted();
     }
