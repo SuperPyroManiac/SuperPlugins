@@ -17,9 +17,11 @@ internal class DeadBody : Callout
     private Ped _victim;
     private Ped _witness;
     private UIMenuItem _endCall;
+    private UIMenuItem _questioning;
     private float _heading;
     private MenuPool _interaction;
     private UIMenu _mainMenu;
+    private UIMenu _convoMenu;
     private bool _onScene;
     private Vector3 _spawnPoint;
     
@@ -58,7 +60,8 @@ internal class DeadBody : Callout
         _cBlip.Color = Color.Red;
         _cBlip.EnableRoute(Color.Red);
         //UI
-        //TODO:
+        CFunctions.BuildUi(out _interaction, out _mainMenu, out _convoMenu, out _questioning, out _endCall);
+        _mainMenu.OnItemSelect += InteractionProcess;
         return base.OnCalloutAccepted();
     }
 
@@ -71,6 +74,8 @@ internal class DeadBody : Callout
                 _onScene = true;
                 _witness.Kill();
                 _cBlip.DisableRoute();
+                _questioning.Enabled = true;
+                Game.DisplayHelp($"Press ~{Settings.Interact.GetInstructionalId()}~ to open interaction menu.");
             }
 
             //Keybinds
@@ -103,5 +108,14 @@ internal class DeadBody : Callout
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
         if (Main.UsingCi) Wrapper.CiSendMessage(this, "Scene clear, Code4");
         base.End();
+    }
+
+    private void InteractionProcess(UIMenu sender, UIMenuItem selItem, int index)
+    {
+        if (selItem == _endCall)
+        {
+            Game.DisplaySubtitle("~y~Callout Ended.");
+            End();
+        }
     }
 }
