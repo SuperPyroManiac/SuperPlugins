@@ -1,6 +1,7 @@
 ﻿using LSPD_First_Response.Mod.API;
 using LSPD_First_Response.Mod.Callouts;
 using Rage;
+using Rage.Native;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts.SimpleFunctions;
@@ -22,6 +23,8 @@ internal class DeadBody : Callout
     private MenuPool _interaction;
     private UIMenu _mainMenu;
     private UIMenu _convoMenu;
+    private UIMenuItem _speakSuspect;
+    private string _name;
     private bool _onScene;
     private Vector3 _spawnPoint;
     
@@ -51,6 +54,7 @@ internal class DeadBody : Callout
         _witness.IsPersistent = true;
         _witness.BlockPermanentEvents = true;
         _witness.Tasks.Cower(-1);
+        _name = Functions.GetPersonaForPed(_witness).FullName;
         _victim = new Ped(_witness.GetOffsetPositionFront(-2f));
         _victim.IsPersistent = true;
         _victim.BlockPermanentEvents = true;
@@ -60,8 +64,11 @@ internal class DeadBody : Callout
         _cBlip.Color = Color.Red;
         _cBlip.EnableRoute(Color.Red);
         //UI
-        CFunctions.BuildUi(out _interaction, out _mainMenu, out _convoMenu, out _questioning, out _endCall);
+        _speakSuspect = new UIMenuItem("Speak with ~y~" + _name);
+        _convoMenu.AddItem(_speakSuspect);
         _mainMenu.OnItemSelect += InteractionProcess;
+        _convoMenu.OnItemSelect += Conversations;
+        CFunctions.BuildUi(out _interaction, out _mainMenu, out _convoMenu, out _questioning, out _endCall);
         return base.OnCalloutAccepted();
     }
 
@@ -72,10 +79,16 @@ internal class DeadBody : Callout
             if (!_onScene && Game.LocalPlayer.Character.Position.DistanceTo(_spawnPoint) < 60)
             {
                 _onScene = true;
-                _witness.Kill();
+                _victim.Kill();
                 _cBlip.DisableRoute();
                 _questioning.Enabled = true;
                 Game.DisplayHelp($"Press ~{Settings.Interact.GetInstructionalId()}~ to open interaction menu.");
+
+                if (_witness.IsDead)
+                {
+                    _speakSuspect.Enabled = false;
+                    _speakSuspect.RightLabel = "~r~Dead";
+                }
             }
 
             //Keybinds
@@ -101,7 +114,7 @@ internal class DeadBody : Callout
     {
         if(_cVehicle.Exists()) _cVehicle.Dismiss();
         if (_witness.Exists()) _witness.Dismiss();
-        if (!_victim.Exists()) _victim.Dismiss();
+        if (_victim.Exists()) _victim.Dismiss();
         if (_cBlip.Exists()) _cBlip.Delete();
         _mainMenu.Visible = false;
         CFunctions.Code4Message();
@@ -115,6 +128,40 @@ internal class DeadBody : Callout
         if (selItem == _endCall)
         {
             Game.DisplaySubtitle("~y~Callout Ended.");
+            End();
+        }
+    }
+
+    private void Conversations(UIMenu sender, UIMenuItem selItem, int index)
+    {
+        try
+        {
+            if (selItem == _speakSuspect)
+                GameFiber.StartNew(delegate
+                {
+                    Game.DisplaySubtitle("~g~You~s~: Do you know what happened to this person?", 4000);
+                    NativeFunction.Natives.x5AD23D40115353AC(_witness, Game.LocalPlayer.Character, -1);
+                    GameFiber.Wait(4000);
+                    _witness.PlayAmbientSpeech("GENERIC_CURSE_MED");
+                    Game.DisplaySubtitle("~r~" + _name + "~s~: I don't know, I just found them here and called you guys right away!", 4000);
+                    GameFiber.Wait(4000);
+                    Game.DisplaySubtitle("~g~You~s~: Do you know who this is?", 4000);
+                    GameFiber.Wait(4000);
+                    Game.DisplaySubtitle("~r~" + _name + "~s~: I don't know anything about them, sorry I wish I could help more.", 4000);
+                    GameFiber.Wait(4000);
+                    Game.DisplaySubtitle("~g~You~s~: It's alright, thank you for your time and the call. You are free to go home.", 4000);
+                    if (_witness.Exists()) _witness.Dismiss();
+                    if (Main.UsingCi) Wrapper.CiSendMessage(this, "Witness has been questioned, no useful information.");
+                });
+        }
+        catch (Exception e)
+        {
+            Game.LogTrivial("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
+            Game.LogTrivial("SuperCallouts Error Report Start");
+            Game.LogTrivial("======================================================");
+            Game.LogTrivial(e.ToString());
+            Game.LogTrivial("======================================================");
+            Game.LogTrivial("SuperCallouts Error Report End");
             End();
         }
     }

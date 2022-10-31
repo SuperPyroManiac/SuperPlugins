@@ -17,6 +17,26 @@ namespace SuperCallouts.Callouts;
 [CalloutInfo("Kidnapping", CalloutProbability.Medium)]
 internal class Kidnapping : Callout
 {
+    private Ped _bad1;
+    private Ped _victim1;
+    private Vehicle _cVehicle;
+    private LHandle _pursuit;
+    private Blip _cBlip1;
+    private Vector3 _spawnPoint;
+    private string _name1;
+    private string _name2;
+    private readonly Random _rNd = new();
+    private bool _pursuitOver;
+    private bool _onScene;
+    //UI Items
+    private readonly MenuPool _interaction = new();
+    private readonly UIMenu _mainMenu = new("SuperCallouts", "~y~Choose an option.");
+    private readonly UIMenu _convoMenu = new("SuperCallouts", "~y~Choose a subject to speak with.");
+    private readonly UIMenuItem _questioning = new("Speak With Subjects");
+    private readonly UIMenuItem _endCall = new("~y~End Call", "Ends the callout.");
+    private UIMenuItem _speakSuspect;
+    private UIMenuItem _speakSuspect2;
+
     public override bool OnBeforeCalloutDisplayed()
     {
         _spawnPoint = World.GetNextPositionOnStreet(Game.LocalPlayer.Character.Position.Around(350f));
@@ -237,30 +257,4 @@ internal class Kidnapping : Callout
             End();
         }
     }
-
-    #region Variables
-
-    private Ped _bad1;
-    private Ped _victim1;
-    private Vehicle _cVehicle;
-    private LHandle _pursuit;
-    private Blip _cBlip1;
-    private Vector3 _spawnPoint;
-    private string _name1;
-    private string _name2;
-    private readonly Random _rNd = new();
-    private bool _pursuitOver;
-
-    private bool _onScene;
-
-    //UI Items
-    private readonly MenuPool _interaction = new();
-    private readonly UIMenu _mainMenu = new("SuperCallouts", "~y~Choose an option.");
-    private readonly UIMenu _convoMenu = new("SuperCallouts", "~y~Choose a subject to speak with.");
-    private readonly UIMenuItem _questioning = new("Speak With Subjects");
-    private readonly UIMenuItem _endCall = new("~y~End Call", "Ends the callout.");
-    private UIMenuItem _speakSuspect;
-    private UIMenuItem _speakSuspect2;
-
-    #endregion
 }
