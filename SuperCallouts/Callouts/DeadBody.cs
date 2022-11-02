@@ -7,6 +7,7 @@ using RAGENativeUI.Elements;
 using SuperCallouts.SimpleFunctions;
 using System;
 using System.Drawing;
+using System.Windows.Forms;
 
 namespace SuperCallouts.Callouts;
 
@@ -64,11 +65,13 @@ internal class DeadBody : Callout
         _cBlip.Color = Color.Red;
         _cBlip.EnableRoute(Color.Red);
         //UI
+        CFunctions.BuildUi(out _interaction, out _mainMenu, out _convoMenu, out _questioning, out _endCall);
         _speakSuspect = new UIMenuItem("Speak with ~y~" + _name);
         _convoMenu.AddItem(_speakSuspect);
         _mainMenu.OnItemSelect += InteractionProcess;
         _convoMenu.OnItemSelect += Conversations;
-        CFunctions.BuildUi(out _interaction, out _mainMenu, out _convoMenu, out _questioning, out _endCall);
+        _mainMenu.RefreshIndex();
+        _convoMenu.RefreshIndex();
         return base.OnCalloutAccepted();
     }
 
