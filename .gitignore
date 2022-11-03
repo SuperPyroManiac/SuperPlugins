@@ -208,6 +208,9 @@ project.lock.json
 # Rider
 .idea/
 
+# Fleet
+.fleet/
+
 # Visual Studio Code
 .vscode/
 
