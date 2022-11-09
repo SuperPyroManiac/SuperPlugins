@@ -1,13 +1,18 @@
-﻿using LSPD_First_Response.Mod.API;
+﻿#region
+
+using System;
+using System.Drawing;
+using LSPD_First_Response;
+using LSPD_First_Response.Engine.Scripting.Entities;
+using LSPD_First_Response.Mod.API;
 using LSPD_First_Response.Mod.Callouts;
 using Rage;
 using Rage.Native;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts.SimpleFunctions;
-using System;
-using System.Drawing;
-using System.Windows.Forms;
+
+#endregion
 
 namespace SuperCallouts.Callouts;
 
@@ -15,20 +20,20 @@ namespace SuperCallouts.Callouts;
 internal class DeadBody : Callout
 {
     private Blip _cBlip;
+    private UIMenu _convoMenu;
     private Vehicle _cVehicle;
-    private Ped _victim;
-    private Ped _witness;
     private UIMenuItem _endCall;
-    private UIMenuItem _questioning;
     private float _heading;
     private MenuPool _interaction;
     private UIMenu _mainMenu;
-    private UIMenu _convoMenu;
-    private UIMenuItem _speakSuspect;
     private string _name;
     private bool _onScene;
+    private UIMenuItem _questioning;
     private Vector3 _spawnPoint;
-    
+    private UIMenuItem _speakSuspect;
+    private Ped _victim;
+    private Ped _witness;
+
     public override bool OnBeforeCalloutDisplayed()
     {
         CFunctions.FindSideOfRoad(750, 280, out _spawnPoint, out _heading);
@@ -36,7 +41,8 @@ internal class DeadBody : Callout
         CalloutMessage = "~r~" + Settings.EmergencyNumber + " Report:~s~ Reports of an injured person.";
         CalloutAdvisory = "Caller says the person is not breathing.";
         CalloutPosition = _spawnPoint;
-        Functions.PlayScannerAudioUsingPosition("ATTENTION_ALL_UNITS_05 WE_HAVE CRIME_AMBULANCE_REQUESTED_01 IN_OR_ON_POSITION",
+        Functions.PlayScannerAudioUsingPosition(
+            "ATTENTION_ALL_UNITS_05 WE_HAVE CRIME_AMBULANCE_REQUESTED_01 IN_OR_ON_POSITION",
             _spawnPoint);
         return base.OnBeforeCalloutDisplayed();
     }
@@ -51,14 +57,19 @@ internal class DeadBody : Callout
         //Vehicle
         CFunctions.SpawnNormalCar(out _cVehicle, _spawnPoint, _heading);
         //Peds
-        _witness = new Ped(_cVehicle.GetOffsetPositionFront(-9f));
-        _witness.IsPersistent = true;
-        _witness.BlockPermanentEvents = true;
+        _witness = new Ped(_cVehicle.GetOffsetPositionFront(-9f))
+        {
+            IsPersistent = true,
+            BlockPermanentEvents = true
+        };
         _witness.Tasks.Cower(-1);
         _name = Functions.GetPersonaForPed(_witness).FullName;
-        _victim = new Ped(_witness.GetOffsetPositionFront(-2f));
-        _victim.IsPersistent = true;
-        _victim.BlockPermanentEvents = true;
+        _victim = new Ped(_witness.GetOffsetPositionFront(-2f))
+        {
+            IsPersistent = true,
+            BlockPermanentEvents = true
+        };
+        Functions.SetPersonaForPed(_victim, new Persona("Lusica", "Stynnix", Gender.Female));
         _victim.Tasks.Cower(-1);
         //cBlip
         _cBlip = _cVehicle.AttachBlip();
@@ -99,7 +110,7 @@ internal class DeadBody : Callout
             if (Game.IsKeyDown(Settings.Interact)) _mainMenu.Visible = !_mainMenu.Visible;
             _interaction.ProcessMenus();
         }
-        catch (Exception e) 
+        catch (Exception e)
         {
             Game.LogTrivial("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
             Game.LogTrivial("SuperCallouts Error Report Start");
@@ -115,7 +126,7 @@ internal class DeadBody : Callout
 
     public override void End()
     {
-        if(_cVehicle.Exists()) _cVehicle.Dismiss();
+        if (_cVehicle.Exists()) _cVehicle.Dismiss();
         if (_witness.Exists()) _witness.Dismiss();
         if (_victim.Exists()) _victim.Dismiss();
         if (_cBlip.Exists()) _cBlip.Delete();
@@ -146,15 +157,21 @@ internal class DeadBody : Callout
                     NativeFunction.Natives.x5AD23D40115353AC(_witness, Game.LocalPlayer.Character, -1);
                     GameFiber.Wait(4000);
                     _witness.PlayAmbientSpeech("GENERIC_CURSE_MED");
-                    Game.DisplaySubtitle("~r~" + _name + "~s~: I don't know, I just found them here and called you guys right away!", 4000);
+                    Game.DisplaySubtitle(
+                        "~r~" + _name + "~s~: I don't know, I just found them here and called you guys right away!",
+                        4000);
                     GameFiber.Wait(4000);
                     Game.DisplaySubtitle("~g~You~s~: Do you know who this is?", 4000);
                     GameFiber.Wait(4000);
-                    Game.DisplaySubtitle("~r~" + _name + "~s~: I don't know anything about them, sorry I wish I could help more.", 4000);
+                    Game.DisplaySubtitle(
+                        "~r~" + _name + "~s~: I don't know anything about them, sorry I wish I could help more.", 4000);
                     GameFiber.Wait(4000);
-                    Game.DisplaySubtitle("~g~You~s~: It's alright, thank you for your time and the call. You are free to go home.", 4000);
+                    Game.DisplaySubtitle(
+                        "~g~You~s~: It's alright, thank you for your time and the call. You are free to go home.",
+                        4000);
                     if (_witness.Exists()) _witness.Dismiss();
-                    if (Main.UsingCi) Wrapper.CiSendMessage(this, "Witness has been questioned, no useful information.");
+                    if (Main.UsingCi)
+                        Wrapper.CiSendMessage(this, "Witness has been questioned, no useful information.");
                 });
         }
         catch (Exception e)
