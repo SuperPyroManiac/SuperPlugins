@@ -42,6 +42,7 @@
         <Compile Include="Callouts\CarAccident2.cs" />
         <Compile Include="Callouts\CarAccident3.cs" />
         <Compile Include="Callouts\DeadBody.cs" />
+        <Compile Include="Callouts\FakeCall.cs" />
         <Compile Include="Callouts\Fire.cs" />
         <Compile Include="Callouts\HitRun.cs" />
         <Compile Include="Callouts\HotPursuit.cs" />
