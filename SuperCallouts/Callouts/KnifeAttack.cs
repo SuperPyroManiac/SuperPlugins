@@ -53,7 +53,8 @@ internal class KnifeAttack : Callout
 
     public override bool OnBeforeCalloutDisplayed()
     {
-        foreach (var unused in _locations) _chosenLocation = _locations.OrderBy(x => x.Item1.DistanceTo(Game.LocalPlayer.Character.Position)).FirstOrDefault();
+        foreach (var unused in _locations) _chosenLocation = _locations.OrderBy(x => 
+            x.Item1.DistanceTo(Game.LocalPlayer.Character.Position)).FirstOrDefault();
         _cSpawnPoint = _chosenLocation!.Item1;
         _cHeading = _chosenLocation.Item2;
         ShowCalloutAreaBlipBeforeAccepting(_cSpawnPoint, 10f);
