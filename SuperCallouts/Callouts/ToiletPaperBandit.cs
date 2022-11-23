@@ -1,5 +1,3 @@
-#region
-
 using System;
 using System.Drawing;
 using LSPD_First_Response;
@@ -10,18 +8,13 @@ using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts.SimpleFunctions;
 
-#endregion
-
 namespace SuperCallouts.Callouts;
 
 [CalloutInfo("ToiletPaperBandit", CalloutProbability.Medium)]
 internal class ToiletPaperBandit : Callout
 {
     private readonly UIMenu _convoMenu = new("SuperCallouts", "~y~Choose a subject to speak with.");
-
     private readonly UIMenuItem _endCall = new("~y~End Callout", "Ends the callout early.");
-
-    //UI Items
     private readonly MenuPool _interaction = new();
     private readonly UIMenu _mainMenu = new("SuperCallouts", "~y~Choose an option.");
     private readonly UIMenuItem _questioning = new("Speak With Subject");

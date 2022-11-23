@@ -1,5 +1,3 @@
-#region
-
 using System;
 using System.Drawing;
 using LSPD_First_Response.Mod.API;
@@ -10,32 +8,29 @@ using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts.SimpleFunctions;
 
-#endregion
-
 namespace SuperCallouts.Callouts;
 
 [CalloutInfo("Kidnapping", CalloutProbability.Medium)]
 internal class Kidnapping : Callout
 {
-    private Ped _bad1;
-    private Ped _victim1;
-    private Vehicle _cVehicle;
-    private LHandle _pursuit;
-    private Blip _cBlip1;
-    private Vector3 _spawnPoint;
-    private string _name1;
-    private string _name2;
-    private readonly Random _rNd = new();
-    private bool _pursuitOver;
-    private bool _onScene;
-    //UI Items
+    private readonly UIMenu _convoMenu = new("SuperCallouts", "~y~Choose a subject to speak with.");
+    private readonly UIMenuItem _endCall = new("~y~End Call", "Ends the callout.");
     private readonly MenuPool _interaction = new();
     private readonly UIMenu _mainMenu = new("SuperCallouts", "~y~Choose an option.");
-    private readonly UIMenu _convoMenu = new("SuperCallouts", "~y~Choose a subject to speak with.");
     private readonly UIMenuItem _questioning = new("Speak With Subjects");
-    private readonly UIMenuItem _endCall = new("~y~End Call", "Ends the callout.");
+    private readonly Random _rNd = new();
+    private Ped _bad1;
+    private Blip _cBlip1;
+    private Vehicle _cVehicle;
+    private string _name1;
+    private string _name2;
+    private bool _onScene;
+    private LHandle _pursuit;
+    private bool _pursuitOver;
+    private Vector3 _spawnPoint;
     private UIMenuItem _speakSuspect;
     private UIMenuItem _speakSuspect2;
+    private Ped _victim1;
 
     public override bool OnBeforeCalloutDisplayed()
     {

@@ -1,5 +1,3 @@
-#region
-
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -11,13 +9,26 @@ using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts.SimpleFunctions;
 
-#endregion
-
 namespace SuperCallouts.Callouts;
 
 [CalloutInfo("AmbulanceEscort", CalloutProbability.Medium)]
 internal class AmbulanceEscort : Callout
 {
+    private Ped _victim;
+    private Ped _doc1;
+    private Ped _doc2;
+    private Vehicle _cVehicle;
+    private Blip _cBlip;
+    private Blip _cBlip2;
+    private readonly List<Vector3> _hospitals = new();
+    private Vector3 _hospital;
+    private Vector3 _spawnPoint;
+    private float _spawnPointH;
+    private bool _onScene;
+    private readonly MenuPool _interaction = new();
+    private readonly UIMenu _mainMenu = new("SuperCallouts", "~y~Choose an option.");
+    private readonly UIMenuItem _endCall = new("~y~End Callout", "Ends the callout early.");
+    
     public override bool OnBeforeCalloutDisplayed()
     {
         //Hospital Locations
@@ -142,26 +153,4 @@ internal class AmbulanceEscort : Callout
             End();
         }
     }
-
-    #region Variables
-
-    private Ped _victim;
-    private Ped _doc1;
-    private Ped _doc2;
-    private Vehicle _cVehicle;
-    private Blip _cBlip;
-    private Blip _cBlip2;
-    private readonly List<Vector3> _hospitals = new();
-    private Vector3 _hospital;
-    private Vector3 _spawnPoint;
-    private float _spawnPointH;
-
-    private bool _onScene;
-
-    //UI Items
-    private readonly MenuPool _interaction = new();
-    private readonly UIMenu _mainMenu = new("SuperCallouts", "~y~Choose an option.");
-    private readonly UIMenuItem _endCall = new("~y~End Callout", "Ends the callout early.");
-
-    #endregion
 }

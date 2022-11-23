@@ -1,5 +1,3 @@
-#region
-
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -11,16 +9,12 @@ using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts.SimpleFunctions;
 
-#endregion
-
 namespace SuperCallouts.Callouts;
 
 [CalloutInfo("KnifeAttack", CalloutProbability.Medium)]
 internal class KnifeAttack : Callout
 {
     private readonly int _cScene = new Random().Next(1, 4);
-
-    //Locations
     private readonly List<Tuple<Vector3, float>> _locations = new()
     {
         Tuple.Create(new Vector3(98.695f, -1711.661f, 30.11257f), 226f),
@@ -35,7 +29,6 @@ internal class KnifeAttack : Callout
         Tuple.Create(new Vector3(-882.8482f, -2308.612f, -11.7328f), 234f),
         Tuple.Create(new Vector3(-1066.983f, -2700.32f, -7.41007f), 339f)
     };
-
     private Blip _cBlip;
     private float _cHeading;
     private Tuple<Vector3, float> _chosenLocation;
@@ -43,18 +36,15 @@ internal class KnifeAttack : Callout
     private Ped _cSuspect;
     private Tasks _cTasks = Tasks.CheckDistance;
     private Ped _cVictim;
-
     private UIMenuItem _endCall;
-
-    //UI Items
     private MenuPool _interaction;
-
     private UIMenu _mainMenu;
 
     public override bool OnBeforeCalloutDisplayed()
     {
-        foreach (var unused in _locations) _chosenLocation = _locations.OrderBy(x => 
-            x.Item1.DistanceTo(Game.LocalPlayer.Character.Position)).FirstOrDefault();
+        foreach (var unused in _locations)
+            _chosenLocation = _locations.OrderBy(x =>
+                x.Item1.DistanceTo(Game.LocalPlayer.Character.Position)).FirstOrDefault();
         _cSpawnPoint = _chosenLocation!.Item1;
         _cHeading = _chosenLocation.Item2;
         ShowCalloutAreaBlipBeforeAccepting(_cSpawnPoint, 10f);

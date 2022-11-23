@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -14,21 +12,14 @@ using RAGENativeUI.Elements;
 using SuperCallouts.CustomScenes;
 using SuperCallouts.SimpleFunctions;
 
-#endregion
-
 namespace SuperCallouts.Callouts;
 
 [CalloutInfo("Mafia3", CalloutProbability.Medium)]
 internal class Mafia3 : Callout
 {
     private readonly Vector3 _callPos = new(949.3857f, -3129.14f, 5.900989f);
-
-    //Lists
     private readonly List<Ped> _peds = new();
-
     private readonly List<Vehicle> _vehicles = new();
-
-    //Peds
     private Ped _bad1;
     private Ped _bad10;
     private Ped _bad11;
@@ -43,22 +34,14 @@ internal class Mafia3 : Callout
     private Ped _bad9;
     private Blip _cBlip;
     private Vehicle _defender;
-
     private UIMenuItem _endCall;
-
-    //UI Items
     private MenuPool _interaction;
-
-    //Vehicles
     private Vehicle _limo;
     private UIMenu _mainMenu;
     private RunState _state = RunState.CheckDistance;
     private Vehicle _truck1;
     private Vehicle _truck2;
-
     private Vehicle _truck3;
-
-    //Items
     private static Ped Player => Game.LocalPlayer.Character;
 
 

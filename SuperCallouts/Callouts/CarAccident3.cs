@@ -1,5 +1,3 @@
-#region
-
 using System;
 using System.Drawing;
 using LSPD_First_Response.Mod.API;
@@ -8,8 +6,6 @@ using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts.SimpleFunctions;
-
-#endregion
 
 namespace SuperCallouts.Callouts;
 
@@ -22,10 +18,7 @@ internal class CarAccident3 : Callout
     private Ped _ePed;
     private Ped _ePed2;
     private Vehicle _eVehicle;
-
     private Vehicle _eVehicle2;
-
-    //UI Items
     private MenuPool _interaction;
     private UIMenu _mainMenu;
     private Vector3 _spawnPoint;

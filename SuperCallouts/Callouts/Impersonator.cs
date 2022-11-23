@@ -1,5 +1,3 @@
-#region
-
 using System;
 using System.Drawing;
 using LSPD_First_Response;
@@ -10,13 +8,29 @@ using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts.SimpleFunctions;
 
-#endregion
-
 namespace SuperCallouts.Callouts;
 
 [CalloutInfo("Impersonator", CalloutProbability.Medium)]
 internal class Impersonator : Callout
 {
+    private Ped _bad;
+    private Ped _victim;
+    private Vehicle _cVehicle1;
+    private Vehicle _cVehicle2;
+    private Blip _cBlip;
+    private Vector3 _spawnPoint;
+    private LHandle _pursuit;
+    private string _name1;
+    private float _spawnPointH;
+    private bool _onScene;
+    private readonly MenuPool _interaction = new();
+    private readonly UIMenu _mainMenu = new("SuperCallouts", "~y~Choose an option.");
+    private readonly UIMenu _convoMenu = new("SuperCallouts", "~y~Choose a subject to speak with.");
+    private readonly UIMenuItem _callSecond = new("~r~ Call Secondary", "Calls for a second unit to assist.");
+    private readonly UIMenuItem _questioning = new("Speak With Subject");
+    private readonly UIMenuItem _endCall = new("~y~End Callout", "Ends the callout early.");
+    private UIMenuItem _speakSuspect;
+    
     public override bool OnBeforeCalloutDisplayed()
     {
         CFunctions.FindSideOfRoad(400, 100, out _spawnPoint, out _spawnPointH);
@@ -218,31 +232,4 @@ internal class Impersonator : Callout
                 if (Main.UsingCi) Wrapper.CiSendMessage(this, "Report taken from suspect.");
             });
     }
-
-    #region Variables
-
-    private Ped _bad;
-    private Ped _victim;
-    private Vehicle _cVehicle1;
-    private Vehicle _cVehicle2;
-    private Blip _cBlip;
-    private Vector3 _spawnPoint;
-    private LHandle _pursuit;
-    private string _name1;
-    private float _spawnPointH;
-
-    private bool _onScene;
-
-    //UI Items
-    private readonly MenuPool _interaction = new();
-    private readonly UIMenu _mainMenu = new("SuperCallouts", "~y~Choose an option.");
-    private readonly UIMenu _convoMenu = new("SuperCallouts", "~y~Choose a subject to speak with.");
-
-    private readonly UIMenuItem _callSecond = new("~r~ Call Secondary", "Calls for a second unit to assist.");
-
-    private readonly UIMenuItem _questioning = new("Speak With Subject");
-    private readonly UIMenuItem _endCall = new("~y~End Callout", "Ends the callout early.");
-    private UIMenuItem _speakSuspect;
-
-    #endregion
 }

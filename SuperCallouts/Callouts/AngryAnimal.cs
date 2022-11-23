@@ -1,5 +1,3 @@
-#region
-
 using System;
 using System.Drawing;
 using LSPD_First_Response;
@@ -10,18 +8,13 @@ using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts.SimpleFunctions;
 
-#endregion
-
 namespace SuperCallouts.Callouts;
 
 [CalloutInfo("AngryAnimal", CalloutProbability.Medium)]
 internal class AngryAnimal : Callout
 {
     private readonly UIMenuItem _callEms = new("~r~ Call EMS", "Calls for a medical team.");
-
     private readonly UIMenuItem _endCall = new("~y~End Callout", "Ends the callout early.");
-
-    //UI Items
     private readonly MenuPool _interaction = new();
     private readonly UIMenu _mainMenu = new("SuperCallouts", "~y~Choose an option.");
     private Ped _animal;

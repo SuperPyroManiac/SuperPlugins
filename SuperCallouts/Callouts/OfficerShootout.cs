@@ -1,5 +1,3 @@
-#region
-
 using System;
 using System.Drawing;
 using LSPD_First_Response;
@@ -10,13 +8,26 @@ using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts.SimpleFunctions;
 
-#endregion
-
 namespace SuperCallouts.Callouts;
 
 [CalloutInfo("OfficerShootout", CalloutProbability.Medium)]
 internal class OfficerShootout : Callout
 {
+    private Ped _bad1;
+    private Ped _bad2;
+    private Blip _cBlip;
+    private Ped _cop1;
+    private Ped _cop2;
+    private Vehicle _copVehicle;
+    private Vector3 _cSpawnPoint;
+    private Vehicle _cVehicle;
+    private bool _onScene;
+    private Vector3 _spawnPoint;
+    private float _spawnPointH;
+    private readonly MenuPool _interaction = new();
+    private readonly UIMenu _mainMenu = new("SuperCallouts", "~y~Choose an option.");
+    private readonly UIMenuItem _endCall = new("~y~End Callout", "Ends the callout early.");
+    
     public override bool OnBeforeCalloutDisplayed()
     {
         CFunctions.FindSideOfRoad(400, 100, out _spawnPoint, out _spawnPointH);
@@ -160,26 +171,4 @@ internal class OfficerShootout : Callout
             End();
         }
     }
-
-    #region Variables
-
-    private Ped _bad1;
-    private Ped _bad2;
-    private Blip _cBlip;
-    private Ped _cop1;
-    private Ped _cop2;
-    private Vehicle _copVehicle;
-    private Vector3 _cSpawnPoint;
-    private Vehicle _cVehicle;
-    private bool _onScene;
-    private Vector3 _spawnPoint;
-
-    private float _spawnPointH;
-
-    //UI Items
-    private readonly MenuPool _interaction = new();
-    private readonly UIMenu _mainMenu = new("SuperCallouts", "~y~Choose an option.");
-    private readonly UIMenuItem _endCall = new("~y~End Callout", "Ends the callout early.");
-
-    #endregion
 }

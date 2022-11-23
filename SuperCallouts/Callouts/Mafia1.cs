@@ -1,5 +1,3 @@
-#region
-
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -14,21 +12,15 @@ using RAGENativeUI.Elements;
 using SuperCallouts.CustomScenes;
 using SuperCallouts.SimpleFunctions;
 
-#endregion
-
 namespace SuperCallouts.Callouts;
 
 [CalloutInfo("Mafia1", CalloutProbability.Medium)]
 internal class Mafia1 : Callout
 {
-    //Raid Scene
     private readonly List<Ped> _badGuys = new();
     private readonly UIMenuItem _choiceNoose = new("- NOOSE Team");
     private readonly UIMenuItem _choiceSwat = new("- Local SWAT Team");
-
     private readonly UIMenuItem _choiceYou = new("- Handle It Yourself");
-
-    //Setup Scene
     private readonly List<Ped> _goodguys = new();
     private readonly UIMenuItem _speakFib = new("- Speak With FIB Agent");
     private readonly List<Vehicle> _vehicles = new();
@@ -56,10 +48,7 @@ internal class Mafia1 : Callout
     private Ped _fib4;
     private Ped _fib5;
     private Vehicle _fibCar1;
-
     private Vehicle _fibCar2;
-
-    //UI Items
     private MenuPool _interaction;
     private UIMenu _mainMenu;
     private UIMenuItem _questioning;
@@ -248,9 +237,15 @@ internal class Mafia1 : Callout
     {
         if (_cBlip.Exists()) _cBlip.Delete();
         if (_aBlip.Exists()) _aBlip.Delete();
-        foreach (var entity in _badGuys.Where(entity => entity)) if (entity.Exists()) entity.Dismiss();
-        foreach (var entity in _goodguys.Where(entity => entity)) if (entity.Exists()) entity.Dismiss();
-        foreach (var entity in _vehicles.Where(entity => entity)) if (entity.Exists()) entity.Dismiss();
+        foreach (var entity in _badGuys.Where(entity => entity))
+            if (entity.Exists())
+                entity.Dismiss();
+        foreach (var entity in _goodguys.Where(entity => entity))
+            if (entity.Exists())
+                entity.Dismiss();
+        foreach (var entity in _vehicles.Where(entity => entity))
+            if (entity.Exists())
+                entity.Dismiss();
         Game.SetRelationshipBetweenRelationshipGroups("COP", "MAFIA", Relationship.Dislike);
         _interaction.CloseAllMenus();
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);

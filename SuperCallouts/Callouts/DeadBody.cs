@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Drawing;
 using LSPD_First_Response;
 using LSPD_First_Response.Engine.Scripting.Entities;
@@ -11,8 +9,6 @@ using Rage.Native;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts.SimpleFunctions;
-
-#endregion
 
 namespace SuperCallouts.Callouts;
 

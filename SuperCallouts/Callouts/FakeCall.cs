@@ -1,4 +1,6 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Drawing;
 using LSPD_First_Response.Mod.API;
 using LSPD_First_Response.Mod.Callouts;
@@ -6,6 +8,8 @@ using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts.SimpleFunctions;
+
+#endregion
 
 namespace SuperCallouts.Callouts;
 
@@ -51,7 +55,6 @@ internal class FakeCall : Callout
 
     public override void Process()
     {
-        
         try
         {
             if (!_onScene && Game.LocalPlayer.Character.Position.DistanceTo(_spawnPoint) < 60)
@@ -91,9 +94,10 @@ internal class FakeCall : Callout
             Game.LogTrivial("SuperCallouts Error Report End");
             End();
         }
+
         base.Process();
     }
-    
+
     public override void End()
     {
         if (_cBlip.Exists()) _cBlip.Delete();
@@ -103,7 +107,7 @@ internal class FakeCall : Callout
         if (Main.UsingCi) Wrapper.CiSendMessage(this, "Scene clear, Code4");
         base.End();
     }
-    
+
     private void InteractionProcess(UIMenu sender, UIMenuItem selItem, int index)
     {
         if (selItem == _endCall)

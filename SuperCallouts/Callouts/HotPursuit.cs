@@ -1,5 +1,3 @@
-#region
-
 using System;
 using System.Drawing;
 using LSPD_First_Response.Mod.API;
@@ -10,13 +8,30 @@ using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts.SimpleFunctions;
 
-#endregion
-
 namespace SuperCallouts.Callouts;
 
 [CalloutInfo("HotPursuit", CalloutProbability.Medium)]
 internal class HotPursuit : Callout
 {
+    private Ped _bad1;
+    private Ped _bad2;
+    private Vehicle _cVehicle;
+    private LHandle _pursuit;
+    private Blip _cBlip1;
+    private Blip _cBlip2;
+    private Vector3 _spawnPoint;
+    private string _name1;
+    private string _name2;
+    private bool _pursuitOver;
+    private bool _onScene;
+    private readonly MenuPool _interaction = new();
+    private readonly UIMenu _mainMenu = new("SuperCallouts", "~y~Choose an option.");
+    private readonly UIMenu _convoMenu = new("SuperCallouts", "~y~Choose a subject to speak with.");
+    private readonly UIMenuItem _questioning = new("Speak With Subjects");
+    private readonly UIMenuItem _endCall = new("~y~End Call", "Ends the callout.");
+    private UIMenuItem _speakSuspect;
+    private UIMenuItem _speakSuspect2;
+    
     public override bool OnBeforeCalloutDisplayed()
     {
         _spawnPoint = World.GetNextPositionOnStreet(Game.LocalPlayer.Character.Position.Around(350f));
@@ -214,30 +229,4 @@ internal class HotPursuit : Callout
                     5000);
             });
     }
-
-    #region Variables
-
-    private Ped _bad1;
-    private Ped _bad2;
-    private Vehicle _cVehicle;
-    private LHandle _pursuit;
-    private Blip _cBlip1;
-    private Blip _cBlip2;
-    private Vector3 _spawnPoint;
-    private string _name1;
-    private string _name2;
-    private bool _pursuitOver;
-
-    private bool _onScene;
-
-    //UI Items
-    private readonly MenuPool _interaction = new();
-    private readonly UIMenu _mainMenu = new("SuperCallouts", "~y~Choose an option.");
-    private readonly UIMenu _convoMenu = new("SuperCallouts", "~y~Choose a subject to speak with.");
-    private readonly UIMenuItem _questioning = new("Speak With Subjects");
-    private readonly UIMenuItem _endCall = new("~y~End Call", "Ends the callout.");
-    private UIMenuItem _speakSuspect;
-    private UIMenuItem _speakSuspect2;
-
-    #endregion
 }

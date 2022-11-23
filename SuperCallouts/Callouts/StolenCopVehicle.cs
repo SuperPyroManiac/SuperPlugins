@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Drawing;
 using LSPD_First_Response;
 using LSPD_First_Response.Mod.API;
@@ -9,8 +7,6 @@ using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts.SimpleFunctions;
-
-#endregion
 
 namespace SuperCallouts.Callouts;
 
@@ -21,10 +17,7 @@ internal class StolenCopVehicle : Callout
     private Blip _cBlip;
     private UIMenu _convoMenu;
     private Vehicle _cVehicle;
-
     private UIMenuItem _endCall;
-
-    //UI Items
     private MenuPool _interaction;
     private UIMenu _mainMenu;
     private LHandle _pursuit;

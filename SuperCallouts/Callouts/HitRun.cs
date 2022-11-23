@@ -1,5 +1,3 @@
-#region
-
 using System;
 using System.Drawing;
 using LSPD_First_Response.Mod.API;
@@ -10,13 +8,39 @@ using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts.SimpleFunctions;
 
-#endregion
-
 namespace SuperCallouts.Callouts;
 
 [CalloutInfo("HitRun", CalloutProbability.Medium)]
 internal class HitRun : Callout
 {
+    private Ped _victim;
+    private Ped _bad1;
+    private Ped _bad2;
+    private Vehicle _cVehicle1;
+    private Vehicle _cVehicle2;
+    private Blip _cBlip1;
+    private Blip _cBlip2;
+    private Blip _cBlip3;
+    private LHandle _pursuit;
+    private Vector3 _spawnPoint;
+    private float _spawnPointH;
+    private Vector3 _spawnPointOffset;
+    private bool _onScene;
+    private bool _onScene2;
+    private bool _startPursuit;
+    private string _name1;
+    private string _name2;
+    private string _name3;
+    private readonly MenuPool _interaction = new();
+    private readonly UIMenu _mainMenu = new("SuperCallouts", "~y~Choose an option.");
+    private readonly UIMenu _convoMenu = new("SuperCallouts", "~y~Choose a subject to speak with.");
+    private readonly UIMenuItem _questioning = new("Speak With Subjects");
+    private readonly UIMenuItem _dissmisVictim = new("~r~ Dismiss Victim", "Lets the victim leave.");
+    private readonly UIMenuItem _endCall = new("~y~End Callout", "Ends the callout early.");
+    private UIMenuItem _speakVictim;
+    private UIMenuItem _speakSuspect1;
+    private UIMenuItem _speakSuspect2;
+    
     public override bool OnBeforeCalloutDisplayed()
     {
         CFunctions.FindSideOfRoad(500, 100, out _spawnPoint, out _spawnPointH);
@@ -238,41 +262,4 @@ internal class HitRun : Callout
                     5000);
             });
     }
-
-    #region Variables
-
-    private Ped _victim;
-    private Ped _bad1;
-    private Ped _bad2;
-    private Vehicle _cVehicle1;
-    private Vehicle _cVehicle2;
-    private Blip _cBlip1;
-    private Blip _cBlip2;
-    private Blip _cBlip3;
-    private LHandle _pursuit;
-    private Vector3 _spawnPoint;
-    private float _spawnPointH;
-    private Vector3 _spawnPointOffset;
-    private bool _onScene;
-    private bool _onScene2;
-    private bool _startPursuit;
-    private string _name1;
-    private string _name2;
-
-    private string _name3;
-
-    //UI Items
-    private readonly MenuPool _interaction = new();
-    private readonly UIMenu _mainMenu = new("SuperCallouts", "~y~Choose an option.");
-    private readonly UIMenu _convoMenu = new("SuperCallouts", "~y~Choose a subject to speak with.");
-    private readonly UIMenuItem _questioning = new("Speak With Subjects");
-
-    private readonly UIMenuItem _dissmisVictim = new("~r~ Dismiss Victim", "Lets the victim leave.");
-
-    private readonly UIMenuItem _endCall = new("~y~End Callout", "Ends the callout early.");
-    private UIMenuItem _speakVictim;
-    private UIMenuItem _speakSuspect1;
-    private UIMenuItem _speakSuspect2;
-
-    #endregion
 }
