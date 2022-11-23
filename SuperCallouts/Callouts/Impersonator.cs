@@ -1,3 +1,5 @@
+#region
+
 using System;
 using System.Drawing;
 using LSPD_First_Response;
@@ -8,29 +10,31 @@ using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts.SimpleFunctions;
 
+#endregion
+
 namespace SuperCallouts.Callouts;
 
 [CalloutInfo("Impersonator", CalloutProbability.Medium)]
 internal class Impersonator : Callout
 {
-    private Ped _bad;
-    private Ped _victim;
-    private Vehicle _cVehicle1;
-    private Vehicle _cVehicle2;
-    private Blip _cBlip;
-    private Vector3 _spawnPoint;
-    private LHandle _pursuit;
-    private string _name1;
-    private float _spawnPointH;
-    private bool _onScene;
+    private readonly UIMenuItem _callSecond = new("~r~ Call Secondary", "Calls for a second unit to assist.");
+    private readonly UIMenu _convoMenu = new("SuperCallouts", "~y~Choose a subject to speak with.");
+    private readonly UIMenuItem _endCall = new("~y~End Callout", "Ends the callout early.");
     private readonly MenuPool _interaction = new();
     private readonly UIMenu _mainMenu = new("SuperCallouts", "~y~Choose an option.");
-    private readonly UIMenu _convoMenu = new("SuperCallouts", "~y~Choose a subject to speak with.");
-    private readonly UIMenuItem _callSecond = new("~r~ Call Secondary", "Calls for a second unit to assist.");
     private readonly UIMenuItem _questioning = new("Speak With Subject");
-    private readonly UIMenuItem _endCall = new("~y~End Callout", "Ends the callout early.");
+    private Ped _bad;
+    private Blip _cBlip;
+    private Vehicle _cVehicle1;
+    private Vehicle _cVehicle2;
+    private string _name1;
+    private bool _onScene;
+    private LHandle _pursuit;
+    private Vector3 _spawnPoint;
+    private float _spawnPointH;
     private UIMenuItem _speakSuspect;
-    
+    private Ped _victim;
+
     public override bool OnBeforeCalloutDisplayed()
     {
         CFunctions.FindSideOfRoad(400, 100, out _spawnPoint, out _spawnPointH);

@@ -1,3 +1,5 @@
+#region
+
 using System;
 using System.Drawing;
 using LSPD_First_Response.Mod.API;
@@ -8,26 +10,28 @@ using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts.SimpleFunctions;
 
+#endregion
+
 namespace SuperCallouts.Callouts;
 
 [CalloutInfo("WeirdCar", CalloutProbability.Medium)]
 internal class WeirdCar : Callout
 {
-    private Ped _bad1;
-    private Vehicle _cVehicle1;
-    private Blip _cBlip1;
-    private Vector3 _spawnPoint;
-    private readonly Random _rNd = new();
-    private string _name1;
-    private float _spawnPointH;
-    private bool _onScene;
+    private readonly UIMenu _convoMenu = new("SuperCallouts", "~y~Choose a subject to speak with.");
+    private readonly UIMenuItem _endCall = new("~y~End Call", "Ends the callout.");
     private readonly MenuPool _interaction = new();
     private readonly UIMenu _mainMenu = new("SuperCallouts", "~y~Choose an option.");
-    private readonly UIMenu _convoMenu = new("SuperCallouts", "~y~Choose a subject to speak with.");
     private readonly UIMenuItem _questioning = new("Speak With Subjects");
-    private readonly UIMenuItem _endCall = new("~y~End Call", "Ends the callout.");
+    private readonly Random _rNd = new();
+    private Ped _bad1;
+    private Blip _cBlip1;
+    private Vehicle _cVehicle1;
+    private string _name1;
+    private bool _onScene;
+    private Vector3 _spawnPoint;
+    private float _spawnPointH;
     private UIMenuItem _speakSuspect;
-    
+
     public override bool OnBeforeCalloutDisplayed()
     {
         CFunctions.FindSideOfRoad(750, 280, out _spawnPoint, out _spawnPointH);

@@ -1,3 +1,5 @@
+#region
+
 using System;
 using System.Drawing;
 using LSPD_First_Response;
@@ -9,29 +11,31 @@ using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts.SimpleFunctions;
 
+#endregion
+
 namespace SuperCallouts.Callouts;
 
 [CalloutInfo("CarAccident2", CalloutProbability.Medium)]
 internal class CarAccident2 : Callout
 {
-    private Ped _victim1;
-    private Ped _victim2;
-    private Vehicle _cVehicle1;
-    private Vehicle _cVehicle2;
-    private Blip _cBlip1;
-    private Blip _cBlip2;
-    private Vector3 _spawnPoint;
-    private Vector3 _spawnPointoffset;
-    private bool _onScene;
-    private string _name1;
+    private readonly UIMenuItem _callFd = new("~r~ Call Fire Department", "Calls for ambulance and firetruck.");
+    private readonly UIMenu _convoMenu = new("SuperCallouts", "~y~Choose a subject to speak with.");
+    private readonly UIMenuItem _endCall = new("~y~End Callout", "Ends the event early.");
     private readonly MenuPool _interaction = new();
     private readonly UIMenu _mainMenu = new("SuperCallouts", "~y~Choose an option.");
-    private readonly UIMenu _convoMenu = new("SuperCallouts", "~y~Choose a subject to speak with.");
-    private readonly UIMenuItem _callFd = new("~r~ Call Fire Department", "Calls for ambulance and firetruck.");
     private readonly UIMenuItem _questioning = new("Speak With Subjects");
-    private readonly UIMenuItem _endCall = new("~y~End Callout", "Ends the event early.");
+    private Blip _cBlip1;
+    private Blip _cBlip2;
+    private Vehicle _cVehicle1;
+    private Vehicle _cVehicle2;
+    private string _name1;
+    private bool _onScene;
+    private Vector3 _spawnPoint;
+    private Vector3 _spawnPointoffset;
     private UIMenuItem _speakSuspect;
-    
+    private Ped _victim1;
+    private Ped _victim2;
+
     public override bool OnBeforeCalloutDisplayed()
     {
         _spawnPoint = World.GetNextPositionOnStreet(Game.LocalPlayer.Character.Position.Around(45f, 320f));

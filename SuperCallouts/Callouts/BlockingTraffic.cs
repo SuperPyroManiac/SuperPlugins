@@ -1,3 +1,5 @@
+#region
+
 using System;
 using System.Drawing;
 using LSPD_First_Response.Mod.API;
@@ -7,19 +9,21 @@ using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts.SimpleFunctions;
 
+#endregion
+
 namespace SuperCallouts.Callouts;
 
 [CalloutInfo("BlockingTraffic", CalloutProbability.Medium)]
 internal class BlockingTraffic : Callout
 {
-    private Vehicle _cVehicle;
-    private Blip _cBlip;
-    private Vector3 _spawnPoint;
-    private bool _onScene;
+    private readonly UIMenuItem _endCall = new("~y~End Callout", "Ends the callout.");
     private readonly MenuPool _interaction = new();
     private readonly UIMenu _mainMenu = new("SuperCallouts", "~y~Choose an option.");
-    private readonly UIMenuItem _endCall = new("~y~End Callout", "Ends the callout.");
-    
+    private Blip _cBlip;
+    private Vehicle _cVehicle;
+    private bool _onScene;
+    private Vector3 _spawnPoint;
+
     public override bool OnBeforeCalloutDisplayed()
     {
         _spawnPoint = World.GetNextPositionOnStreet(Game.LocalPlayer.Character.Position.Around(450f));

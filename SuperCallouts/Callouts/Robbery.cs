@@ -1,3 +1,5 @@
+#region
+
 using System;
 using System.Drawing;
 using LSPD_First_Response.Mod.API;
@@ -8,11 +10,17 @@ using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts.SimpleFunctions;
 
+#endregion
+
 namespace SuperCallouts.Callouts;
 
 [CalloutInfo("Robbery", CalloutProbability.Medium)]
 internal class Robbery : Callout
 {
+    private readonly UIMenuItem _endCall = new("~y~End Callout", "Ends the callout early.");
+    private readonly MenuPool _interaction = new();
+    private readonly UIMenu _mainMenu = new("SuperCallouts", "~y~Choose an option.");
+    private readonly Random _rNd = new();
     private Blip _blip1;
     private Blip _blip2;
     private Blip _blip3;
@@ -20,17 +28,13 @@ internal class Robbery : Callout
     private Vehicle _cVehicle2;
     private bool _onScene;
     private LHandle _pursuit;
-    private readonly Random _rNd = new();
     private Ped _rude1;
     private string _rude1Name;
     private Ped _rude2;
     private Vector3 _spawnPoint;
     private Ped _victim;
     private string _victimName;
-    private readonly MenuPool _interaction = new();
-    private readonly UIMenu _mainMenu = new("SuperCallouts", "~y~Choose an option.");
-    private readonly UIMenuItem _endCall = new("~y~End Callout", "Ends the callout early.");
-    
+
     public override bool OnBeforeCalloutDisplayed()
     {
         _spawnPoint = World.GetNextPositionOnStreet(Game.LocalPlayer.Character.Position.Around(450f));

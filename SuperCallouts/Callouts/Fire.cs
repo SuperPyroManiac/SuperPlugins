@@ -1,3 +1,5 @@
+#region
+
 using System;
 using System.Drawing;
 using LSPD_First_Response.Mod.API;
@@ -7,20 +9,22 @@ using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts.SimpleFunctions;
 
+#endregion
+
 namespace SuperCallouts.Callouts;
 
 [CalloutInfo("Fire", CalloutProbability.Medium)]
 internal class Fire : Callout
 {
+    private readonly UIMenuItem _endCall = new("~y~End Callout", "Ends the callout early.");
+    private readonly MenuPool _interaction = new();
+    private readonly UIMenu _mainMenu = new("SuperCallouts", "~y~Choose an option.");
     private Blip _cBlip;
     private Vehicle _cVehicle;
     private bool _onScene;
     private Vector3 _spawnPoint;
     private float _spawnPointH;
-    private readonly MenuPool _interaction = new();
-    private readonly UIMenu _mainMenu = new("SuperCallouts", "~y~Choose an option.");
-    private readonly UIMenuItem _endCall = new("~y~End Callout", "Ends the callout early.");
-    
+
     public override bool OnBeforeCalloutDisplayed()
     {
         CFunctions.FindSideOfRoad(750, 280, out _spawnPoint, out _spawnPointH);

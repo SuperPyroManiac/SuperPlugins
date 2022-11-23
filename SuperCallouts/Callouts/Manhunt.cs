@@ -1,3 +1,5 @@
+#region
+
 using System;
 using System.Drawing;
 using LSPD_First_Response;
@@ -8,28 +10,29 @@ using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts.SimpleFunctions;
 
+#endregion
 
 namespace SuperCallouts.Callouts;
 
 [CalloutInfo("Manhunt", CalloutProbability.Medium)]
 internal class Manhunt : Callout
 {
+    private readonly UIMenuItem _callAr = new("~r~ Call Air Unit", "Calls for an air unit.");
+    private readonly UIMenu _convoMenu = new("SuperCallouts", "~y~Choose a subject to speak with.");
+    private readonly UIMenuItem _endCall = new("~y~End Callout", "Ends the callout.");
+    private readonly MenuPool _interaction = new();
+    private readonly UIMenu _mainMenu = new("SuperCallouts", "~y~Choose an option.");
+    private readonly UIMenuItem _questioning = new("Speak With Subject");
     private Ped _bad;
     private Blip _cBlip;
     private Blip _cBlip2;
+    private string _name1;
+    private bool _onScene;
     private LHandle _pursuit;
     private Vector3 _searcharea;
     private Vector3 _spawnPoint;
-    private string _name1;
-    private bool _onScene;
-    private readonly MenuPool _interaction = new();
-    private readonly UIMenu _mainMenu = new("SuperCallouts", "~y~Choose an option.");
-    private readonly UIMenu _convoMenu = new("SuperCallouts", "~y~Choose a subject to speak with.");
-    private readonly UIMenuItem _callAr = new("~r~ Call Air Unit", "Calls for an air unit.");
-    private readonly UIMenuItem _questioning = new("Speak With Subject");
-    private readonly UIMenuItem _endCall = new("~y~End Callout", "Ends the callout.");
     private UIMenuItem _speakSuspect;
-    
+
     public override bool OnBeforeCalloutDisplayed()
     {
         _spawnPoint = World.GetNextPositionOnStreet(Game.LocalPlayer.Character.Position.Around(650f));

@@ -1,4 +1,6 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using LSPD_First_Response;
@@ -8,6 +10,8 @@ using LSPD_First_Response.Mod.Callouts;
 using Rage;
 using SuperCallouts.CustomScenes;
 using SuperCallouts.SimpleFunctions;
+
+#endregion
 
 namespace SuperCallouts.Callouts;
 

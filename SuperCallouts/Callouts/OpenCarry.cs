@@ -1,3 +1,5 @@
+#region
+
 using System;
 using System.Drawing;
 using LSPD_First_Response.Mod.API;
@@ -8,27 +10,29 @@ using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts.SimpleFunctions;
 
+#endregion
+
 namespace SuperCallouts.Callouts;
 
 [CalloutInfo("OpenCarry", CalloutProbability.Medium)]
 internal class OpenCarry : Callout
 {
-    private Ped _bad1;
-    private Blip _cBlip;
-    private LHandle _pursuit;
-    private readonly Random _rNd = new();
-    private Vector3 _spawnPoint;
-    private bool _onScene;
-    private bool _startScene;
-    private string _name1;
+    private readonly UIMenu _convoMenu = new("SuperCallouts", "~y~Choose a subject to speak with.");
+    private readonly UIMenuItem _endCall = new("~y~End Callout", "Ends the callout early.");
     private readonly MenuPool _interaction = new();
     private readonly UIMenu _mainMenu = new("SuperCallouts", "~y~Choose an option.");
-    private readonly UIMenu _convoMenu = new("SuperCallouts", "~y~Choose a subject to speak with.");
     private readonly UIMenuItem _questioning = new("Speak With Subjects");
+    private readonly Random _rNd = new();
     private readonly UIMenuItem _stopSuspect = new("~r~ Stop Suspect", "Tells the suspect to stop.");
-    private readonly UIMenuItem _endCall = new("~y~End Callout", "Ends the callout early.");
+    private Ped _bad1;
+    private Blip _cBlip;
+    private string _name1;
+    private bool _onScene;
+    private LHandle _pursuit;
+    private Vector3 _spawnPoint;
     private UIMenuItem _speakSuspect;
-    
+    private bool _startScene;
+
     public override bool OnBeforeCalloutDisplayed()
     {
         _spawnPoint = World.GetNextPositionOnStreet(Game.LocalPlayer.Character.Position.Around(350f));

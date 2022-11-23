@@ -1,3 +1,5 @@
+#region
+
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -11,6 +13,8 @@ using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts.CustomScenes;
 using SuperCallouts.SimpleFunctions;
+
+#endregion
 
 namespace SuperCallouts.Callouts;
 

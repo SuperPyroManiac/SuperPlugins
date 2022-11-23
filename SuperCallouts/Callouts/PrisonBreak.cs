@@ -1,9 +1,13 @@
-﻿using System.Drawing;
+﻿#region
+
+using System.Drawing;
 using LSPD_First_Response.Mod.API;
 using LSPD_First_Response.Mod.Callouts;
 using Rage;
 using SuperCallouts.CustomScenes;
 using SuperCallouts.SimpleFunctions;
+
+#endregion
 
 namespace SuperCallouts.Callouts;
 

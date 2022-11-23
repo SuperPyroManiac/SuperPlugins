@@ -1,9 +1,13 @@
+#region
+
 using System.Drawing;
 using LSPD_First_Response.Mod.API;
 using LSPD_First_Response.Mod.Callouts;
 using Rage;
 using Rage.Native;
 using SuperCallouts.SimpleFunctions;
+
+#endregion
 
 namespace SuperCallouts.Callouts;
 
@@ -15,9 +19,9 @@ internal class Aliens : Callout
     private Ped _alien3;
     private Blip _cBlip1;
     private Vehicle _cVehicle1;
-    private Vector3 _spawnPoint;
     private bool _onScene;
-    
+    private Vector3 _spawnPoint;
+
     public override bool OnBeforeCalloutDisplayed()
     {
         _spawnPoint = World.GetNextPositionOnStreet(Game.LocalPlayer.Character.Position.Around(350f));

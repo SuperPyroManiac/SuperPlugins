@@ -1,3 +1,5 @@
+#region
+
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -9,12 +11,15 @@ using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts.SimpleFunctions;
 
+#endregion
+
 namespace SuperCallouts.Callouts;
 
 [CalloutInfo("KnifeAttack", CalloutProbability.Medium)]
 internal class KnifeAttack : Callout
 {
     private readonly int _cScene = new Random().Next(1, 4);
+
     private readonly List<Tuple<Vector3, float>> _locations = new()
     {
         Tuple.Create(new Vector3(98.695f, -1711.661f, 30.11257f), 226f),
@@ -29,6 +34,7 @@ internal class KnifeAttack : Callout
         Tuple.Create(new Vector3(-882.8482f, -2308.612f, -11.7328f), 234f),
         Tuple.Create(new Vector3(-1066.983f, -2700.32f, -7.41007f), 339f)
     };
+
     private Blip _cBlip;
     private float _cHeading;
     private Tuple<Vector3, float> _chosenLocation;
