@@ -19,7 +19,7 @@ public class Trespassing : Callout
 {
     private readonly int _cScene = new Random().Next(0, 4);
     private readonly List<Tuple<Vector3, float>> _locations = new()
-    {
+    {//TODO: GET LOCATIONS IN GAS STATIONS
         Tuple.Create(new Vector3(98.695f, -1711.661f, 30.11257f), 226f),
         Tuple.Create(new Vector3(128.4992f, -1737.29f, 30.11015f), 240f),
         Tuple.Create(new Vector3(-219.8601f, -1049.929f, 30.13966f), 168f),
@@ -45,6 +45,7 @@ public class Trespassing : Callout
     private UIMenuItem _questioning;
     private Vector3 _spawnPoint;
     private UIMenuItem _speakSuspect;
+    private LHandle _pursuit;
     private Ped _suspect;
 
     public override bool OnBeforeCalloutDisplayed()
@@ -184,16 +185,29 @@ public class Trespassing : Callout
                     switch (_cScene)
                     {
                         case 0:
+                            _suspect.PlayAmbientSpeech("GENERIC_CURSE_MED");
+                            _suspect.BlockPermanentEvents = false;
+                            _pursuit = Functions.CreatePursuit();
+                            Functions.AddPedToPursuit(_pursuit, _suspect);
+                            Functions.SetPursuitIsActiveForPlayer(_pursuit, true);
                             break;
                         case 1:
+                            _suspect.Tasks.FightAgainst(Game.LocalPlayer.Character, -1);
                             break;
                         case 2:
+                            _suspect.PlayAmbientSpeech("GENERIC_CURSE_MED");
+                            _suspect.Inventory.Weapons.Add(WeaponHash.Pistol).Ammo = -1;
+                            _suspect.Tasks.ClearImmediately();
+                            _suspect.Tasks.AimWeaponAt(Game.LocalPlayer.Character, -1);
+                            Game.DisplaySubtitle(
+                                "~r~" + _name + "~s~: Don't make me do this!", 4000);
                             break;
                         case 3:
+                            _suspect.PlayAmbientSpeech("GENERIC_CURSE_MED");
+                            Game.DisplaySubtitle("~r~" + _name + "~s~: Ok, ok, I am leaving. Now leave me alone.", 4000);
+                            _suspect.Dismiss();
                             break;
                     }
-                    if (Main.UsingCi)
-                        Wrapper.CiSendMessage(this, "Witness has been questioned, no useful information.");
                 });
         }
         catch (Exception e)
