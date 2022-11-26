@@ -28,6 +28,7 @@ namespace SuperCallouts
         internal static bool KnifeAttack = true;
         internal static bool DeadBody = true;
         internal static bool FakeCall = true;
+        internal static bool Trespassing = true;
         internal static bool PrisonTransport = true;
         internal static bool PrisonBreak = true;
         internal static bool Mafia1 = true;
@@ -69,6 +70,7 @@ namespace SuperCallouts
             KnifeAttack = ini.ReadBoolean("Settings", "KnifeAttack", true);
             DeadBody = ini.ReadBoolean("Settings", "DeadBody", true);
             FakeCall = ini.ReadBoolean("Settings", "FakeCall", true);
+            Trespassing = ini.ReadBoolean("Settings", "Trespassing", true);
             PrisonTransport = ini.ReadBoolean("Settings", "PrisonTransport", true);
             PrisonBreak = ini.ReadBoolean("Settings", "PrisonBreak", true);
             Mafia1 = ini.ReadBoolean("Settings", "Mafia1", true);

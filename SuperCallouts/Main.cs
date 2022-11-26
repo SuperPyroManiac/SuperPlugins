@@ -65,6 +65,7 @@ namespace SuperCallouts
             if (Settings.KnifeAttack) { Functions.RegisterCallout(typeof(KnifeAttack)); Game.LogTrivial("SuperCallouts: Knife Attack Enabled"); }
             if (Settings.DeadBody) { Functions.RegisterCallout(typeof(DeadBody)); Game.LogTrivial("SuperCallouts: Dead Body Enabled"); }
             if (Settings.FakeCall) { Functions.RegisterCallout(typeof(FakeCall)); Game.LogTrivial("SuperCallouts: FakeCall Enabled"); }
+            if (Settings.Trespassing) { Functions.RegisterCallout(typeof(Trespassing)); Game.LogTrivial("SuperCallouts: Trespassing Enabled"); }
             if (Settings.PrisonBreak) { Functions.RegisterCallout(typeof(PrisonBreak)); Game.LogTrivial("SuperCallouts: PrisonBreak Enabled"); }
             if (Settings.Mafia1) { Functions.RegisterCallout(typeof(Mafia1)); Game.LogTrivial("SuperCallouts: Mafia1 Enabled"); }
             if (Settings.Mafia2) { Functions.RegisterCallout(typeof(Mafia2)); Game.LogTrivial("SuperCallouts: Mafia2 Enabled"); }
