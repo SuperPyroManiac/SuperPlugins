@@ -10,7 +10,7 @@ jobs:
         ACTIONS_ALLOW_UNSECURE_COMMANDS: true
         SuperPlugins_BUILD_PATH: ${{ github.workspace }}/Build
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v1.1
