@@ -62,8 +62,6 @@ internal class DeadBody : Callout
             IsPersistent = true,
             BlockPermanentEvents = true
         };
-        NativeFunction.Natives.x5AD23D40115353AC(_witness, _victim, -1);
-        _witness.Tasks.Cower(-1);
         _name = Functions.GetPersonaForPed(_witness).FullName;
         _victim = new Ped(_witness.GetOffsetPositionFront(-2f))
         {
@@ -72,6 +70,9 @@ internal class DeadBody : Callout
         };
         Functions.SetPersonaForPed(_victim, new Persona("Lusica", "Stynnix", Gender.Female));
         _victim.Tasks.Cower(-1);
+        //Actions
+        NativeFunction.Natives.x5AD23D40115353AC(_witness, _victim, -1);
+        _witness.Tasks.Cower(-1);
         //cBlip
         _cBlip = _cVehicle.AttachBlip();
         _cBlip.Color = Color.Red;
