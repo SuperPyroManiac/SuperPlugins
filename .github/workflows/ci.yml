@@ -10,7 +10,7 @@ jobs:
         ACTIONS_ALLOW_UNSECURE_COMMANDS: true
         SuperPlugins_BUILD_PATH: ${{ github.workspace }}/Build
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v1.1
@@ -20,25 +20,25 @@ jobs:
           msbuild SuperPlugins.sln /p:Configuration=Release /p:Platform="Any CPU"
 
       - name: Upload DeadlyWeapons
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: DeadlyWeapons
           path: D:\a\SuperPlugins\SuperPlugins\DeadlyWeapons\bin\Release\DeadlyWeapons.dll
           
       - name: Upload SuperCallouts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: SuperCallouts
           path: D:\a\SuperPlugins\SuperPlugins\SuperCallouts\bin\Release\SuperCallouts.dll
           
       - name: Upload SuperEvents
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: SuperEvents
           path: D:\a\SuperPlugins\SuperPlugins\SuperEvents\bin\Release\SuperEvents.dll
           
       - name: Upload TurnOffThatEngine
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: TurnOffThatEngine
           path: D:\a\SuperPlugins\SuperPlugins\TurnOffThatEngine\bin\Release\TurnOffThatEngine.dll
