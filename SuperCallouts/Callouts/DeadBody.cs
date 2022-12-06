@@ -62,6 +62,7 @@ internal class DeadBody : Callout
             IsPersistent = true,
             BlockPermanentEvents = true
         };
+        NativeFunction.Natives.x5AD23D40115353AC(_witness, _victim, -1);
         _witness.Tasks.Cower(-1);
         _name = Functions.GetPersonaForPed(_witness).FullName;
         _victim = new Ped(_witness.GetOffsetPositionFront(-2f))

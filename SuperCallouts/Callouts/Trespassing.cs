@@ -19,18 +19,17 @@ public class Trespassing : Callout
 {
     private readonly int _cScene = new Random().Next(0, 4);
     private readonly List<Tuple<Vector3, float>> _locations = new()
-    {//TODO: GET LOCATIONS IN GAS STATIONS
-        Tuple.Create(new Vector3(98.695f, -1711.661f, 30.11257f), 226f),
-        Tuple.Create(new Vector3(128.4992f, -1737.29f, 30.11015f), 240f),
-        Tuple.Create(new Vector3(-219.8601f, -1049.929f, 30.13966f), 168f),
-        Tuple.Create(new Vector3(-498.5762f, -671.4704f, 11.80903f), 173f),
-        Tuple.Create(new Vector3(-1337.652f, -494.7437f, 15.04538f), 21f),
-        Tuple.Create(new Vector3(-818.4063f, -128.05f, 28.17534f), 49f),
-        Tuple.Create(new Vector3(-290.8545f, -338.4935f, 10.06309f), 0f),
-        Tuple.Create(new Vector3(297.8111f, -1202.387f, 38.89421f), 172f),
-        Tuple.Create(new Vector3(-549.0919f, -1298.383f, 26.90161f), 187f),
-        Tuple.Create(new Vector3(-882.8482f, -2308.612f, -11.7328f), 234f),
-        Tuple.Create(new Vector3(-1066.983f, -2700.32f, -7.41007f), 339f)
+    {
+        Tuple.Create(new Vector3(1323.59f, -1652.35f, 52.27f), 99f),
+        Tuple.Create(new Vector3(77.46f, -1390.56f, 29.3761f), 86f),
+        Tuple.Create(new Vector3(423.18f, -808.52f, 29.49f), 268f),
+        Tuple.Create(new Vector3(-711.29f, -156.18f, 37.41f), 344f),
+        Tuple.Create(new Vector3(1392.59f, 3602.87f, 34.98f), 24f),
+        Tuple.Create(new Vector3(1699.71f, 4926.49f, 42.06f), 167f),
+        Tuple.Create(new Vector3(1733.94f, 6420.61f, 35.03f), 245f),
+        Tuple.Create(new Vector3(2679.04f, 3281.72f, 55.24f), 128f),
+        Tuple.Create(new Vector3(-49.33f, -1756.87f, 29.42f), 255f),
+        Tuple.Create(new Vector3(-1224.55f, -906.21f, 12.32f), 229f)
     };
     private Blip _cBlip;
     private UIMenu _convoMenu;
@@ -72,6 +71,7 @@ public class Trespassing : Callout
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~y~Trespassing",
             "Caller reports an individual trespassing and causing a disturbance. ~r~CODE-2");
         if (Main.UsingCi) Wrapper.StartCi(this, "Code 2");
+        if (Main.UsingCi) Wrapper.CiSendMessage(this, "Dispatch: Caller reports suspect is drunk and may be armed.");
         //Ped
         _suspect = new Ped(_spawnPoint, _heading)
         {
@@ -174,7 +174,7 @@ public class Trespassing : Callout
                         "~r~" + _name + "~s~: Nothing, beat it im not doing anything wrong.",
                         4000);
                     GameFiber.Wait(4000);
-                    Game.DisplaySubtitle("~g~You~s~: Well we have records showing you have been trespassed from this area.", 4000);
+                    Game.DisplaySubtitle("~g~You~s~: Well we have records showing you have been trespassed from this business.", 4000);
                     GameFiber.Wait(4000);
                     Game.DisplaySubtitle(
                         "~r~" + _name + "~s~: I don't know anything about that, this is a free country!", 4000);
