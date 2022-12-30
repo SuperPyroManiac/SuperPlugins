@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuperCallouts", "SuperCallouts\SuperCallouts.csproj", "{6D43CF3C-4E95-4DFF-8F49-64E4633EF793}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuperCalloutsLegacy", "SuperCalloutsLegacy\SuperCalloutsLegacy.csproj", "{6D43CF3C-4E95-4DFF-8F49-64E4633EF793}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuperEvents", "SuperEvents\SuperEvents.csproj", "{8F8EF7EA-0500-4243-A0CD-2C5013197AA5}"
 EndProject
