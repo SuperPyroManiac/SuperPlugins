@@ -1,13 +1,13 @@
 #region
 
 using System;
-using DeadlyWeapons.DFunctions;
+using DeadlyWeaponsLegacy.DFunctions;
 using Rage;
 using Rage.Native;
 
 #endregion
 
-namespace DeadlyWeapons.Modules
+namespace DeadlyWeaponsLegacy.Modules
 {
     internal class PlayerShot
     {

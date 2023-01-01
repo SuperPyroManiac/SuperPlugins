@@ -7,8 +7,8 @@
     <ProjectGuid>{7E461B22-8190-4526-85C8-F507E9E3758B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DeadlyWeapons</RootNamespace>
-    <AssemblyName>DeadlyWeapons</AssemblyName>
+    <RootNamespace>DeadlyWeaponsLegacy</RootNamespace>
+    <AssemblyName>DeadlyWeaponsLegacy</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <LangVersion>latest</LangVersion>

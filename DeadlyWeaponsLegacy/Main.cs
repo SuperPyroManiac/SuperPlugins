@@ -1,14 +1,14 @@
 ﻿#region
 
 using System.Reflection;
-using DeadlyWeapons.DFunctions;
-using DeadlyWeapons.Modules;
+using DeadlyWeaponsLegacy.DFunctions;
+using DeadlyWeaponsLegacy.Modules;
 using LSPD_First_Response.Mod.API;
 using Rage;
 
 #endregion
 
-namespace DeadlyWeapons
+namespace DeadlyWeaponsLegacy
 {
     internal class Main : Plugin
     {

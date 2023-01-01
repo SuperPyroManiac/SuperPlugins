@@ -5,7 +5,7 @@ using Rage;
 
 #endregion
 
-namespace DeadlyWeapons.DFunctions
+namespace DeadlyWeaponsLegacy.DFunctions
 {
     internal static class VersionChecker
     {

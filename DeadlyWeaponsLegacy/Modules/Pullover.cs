@@ -1,13 +1,13 @@
 #region
 
 using System;
-using DeadlyWeapons.DFunctions;
+using DeadlyWeaponsLegacy.DFunctions;
 using LSPD_First_Response.Mod.API;
 using Rage;
 
 #endregion
 
-namespace DeadlyWeapons.Modules
+namespace DeadlyWeaponsLegacy.Modules
 {
     internal static class Pullover
     {

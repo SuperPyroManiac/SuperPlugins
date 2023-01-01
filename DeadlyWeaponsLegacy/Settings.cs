@@ -5,7 +5,7 @@ using Rage;
 
 #endregion
 
-namespace DeadlyWeapons
+namespace DeadlyWeaponsLegacy
 {
     internal static class Settings
     {

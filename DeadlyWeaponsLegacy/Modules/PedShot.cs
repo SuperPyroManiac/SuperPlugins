@@ -1,14 +1,14 @@
 #region
 
 using System;
-using DeadlyWeapons.DFunctions;
+using DeadlyWeaponsLegacy.DFunctions;
 using LSPD_First_Response.Mod.API;
 using Rage;
 using Rage.Native;
 
 #endregion
 
-namespace DeadlyWeapons.Modules
+namespace DeadlyWeaponsLegacy.Modules
 {
     internal class PedShot
     {

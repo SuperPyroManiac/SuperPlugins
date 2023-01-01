@@ -6,7 +6,7 @@ using Rage;
 
 #endregion
 
-namespace DeadlyWeapons.Modules
+namespace DeadlyWeaponsLegacy.Modules
 {
     internal class Run
     {
