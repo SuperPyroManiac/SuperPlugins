@@ -12,7 +12,7 @@ namespace DeadlyWeaponsLegacy
 {
     internal class Main : Plugin
     {
-        private static readonly Run Startup = new Run();
+        private static readonly Run Startup = new();
 
         public override void Initialize()
         {

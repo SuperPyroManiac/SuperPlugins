@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeadlyWeaponsLegacy", "Dead
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TurnOffThatEngine", "TurnOffThatEngine\TurnOffThatEngine.csproj", "{A480B054-7630-459D-B63A-78D2AC11B385}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeadlyWeapons", "DeadlyWeapons\DeadlyWeapons.csproj", "{6460C304-75FF-46FD-B4E9-EF4E2B8D7AC7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{A480B054-7630-459D-B63A-78D2AC11B385}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A480B054-7630-459D-B63A-78D2AC11B385}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A480B054-7630-459D-B63A-78D2AC11B385}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6460C304-75FF-46FD-B4E9-EF4E2B8D7AC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6460C304-75FF-46FD-B4E9-EF4E2B8D7AC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6460C304-75FF-46FD-B4E9-EF4E2B8D7AC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6460C304-75FF-46FD-B4E9-EF4E2B8D7AC7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
