@@ -32,6 +32,9 @@
         <WarningLevel>4</WarningLevel>
     </PropertyGroup>
     <ItemGroup>
+        <Reference Include="DamageTrackerLib">
+          <HintPath>..\..\..\Depend\LSPDFR\DamageTrackerLib.dll</HintPath>
+        </Reference>
         <Reference Include="LSPD First Response">
           <HintPath>..\packages\MyPackagePyroManiac.1.0.0\lib\LSPD First Response.dll</HintPath>
         </Reference>
@@ -47,13 +50,13 @@
         </Reference>
     </ItemGroup>
     <ItemGroup>
+        <Compile Include="DFunctions\VersionChecker.cs" />
         <Compile Include="Main.cs" />
+        <Compile Include="Modules\PedShot.cs" />
+        <Compile Include="Modules\PlayerShot.cs" />
+        <Compile Include="Modules\Pullover.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
         <Compile Include="Settings.cs" />
-    </ItemGroup>
-    <ItemGroup>
-      <Folder Include="DFunctions" />
-      <Folder Include="Modules" />
     </ItemGroup>
     <ItemGroup>
       <Content Include="DeadlyWeapons.ini" />
