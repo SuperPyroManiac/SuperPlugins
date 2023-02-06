@@ -1,7 +1,6 @@
 ﻿using System.Reflection;
 using DeadlyWeapons.DFunctions;
 using LSPD_First_Response.Mod.API;
-using LSPD_First_Response.Mod.Utils;
 using Rage;
 
 namespace DeadlyWeapons
@@ -15,7 +14,7 @@ namespace DeadlyWeapons
             Game.LogTrivial("Deadly Weapons " + Assembly.GetExecutingAssembly().GetName().Version +
                             " by SuperPyroManiac has been initialised.");
             Game.LogTrivial("Go on duty with LSPDFR to start the plugin.");
-            Game.AddConsoleCommands(new[] {typeof(ConsoleCommands)});
+            Game.AddConsoleCommands(new[] {typeof(DFunctions.ConsoleCommands)});
         }
 
         private static void OnOnDutyStateChangedHandler(bool onDuty)

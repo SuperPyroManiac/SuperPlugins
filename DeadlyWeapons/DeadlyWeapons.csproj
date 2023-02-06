@@ -50,6 +50,7 @@
         </Reference>
     </ItemGroup>
     <ItemGroup>
+        <Compile Include="DFunctions\ConsoleCommands.cs" />
         <Compile Include="DFunctions\VersionChecker.cs" />
         <Compile Include="Main.cs" />
         <Compile Include="Modules\PedShot.cs" />
