@@ -17,28 +17,29 @@ namespace DeadlyWeapons
             Game.LogTrivial("DeadlyWeapons " + Assembly.GetExecutingAssembly().GetName().Version +
                             " by SuperPyroManiac has been initialised.");
             Game.LogTrivial("Go on duty with LSPDFR to start the plugin.");
-            Game.AddConsoleCommands(new[] {typeof(DFunctions.ConsoleCommands)});
+            Game.AddConsoleCommands(new[] {typeof(ConsoleCommands)});
         }
 
         private static void OnOnDutyStateChangedHandler(bool onDuty)
         {
             if (onDuty)
+            {
+                DamageTrackerService.Start();
+                if (Settings.EnablePlayerDamageSystem)
+                    DamageTrackerService.OnPlayerTookDamage += PlayerShot.OnPlayerDamaged;
+                if (Settings.EnableAIDamageSystem)
+                    DamageTrackerService.OnPedTookDamage += PedShot.OnPedDamaged;
                 GameFiber.StartNew(delegate
                 {
                     GameFiber.Wait(10000);
-                    DamageTrackerService.Start();
                     if (Settings.EnablePanic) Panic.StartPanicWatch();
-                    if (Settings.EnablePlayerDamageSystem)
-                        DamageTrackerService.OnPlayerTookDamage += PlayerShot.OnPlayerDamaged;
-                    if (Settings.EnableAIDamageSystem)
-                        DamageTrackerService.OnPedTookDamage += PedShot.OnPedDamaged;
-
                     Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~r~Deadly Weapons",
                         "~g~Plugin Loaded.",
                         "Deadly Weapons version: " +
                         Assembly.GetExecutingAssembly().GetName().Version + " loaded.");
                     VersionChecker.IsUpdateAvailable();
                 });
+            }
         }
         
         

@@ -15,7 +15,7 @@ namespace DeadlyWeapons.Modules
 
         internal static void OnPlayerDamaged(Ped victim, Ped attacker, PedDamageInfo damageInfo)
         {
-            if (Player.IsDead || !Player.Exists()) return;
+            if (Player.IsDead) return;
             if (damageInfo.WeaponInfo.Group != DamageGroup.Bullet) return;
             var rnd = new Random().Next(1, 5);
             if (Settings.EnableDebug)
