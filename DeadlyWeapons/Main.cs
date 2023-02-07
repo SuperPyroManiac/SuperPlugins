@@ -14,7 +14,7 @@ namespace DeadlyWeapons
         {
             Settings.LoadSettings();
             Functions.OnOnDutyStateChanged += OnOnDutyStateChangedHandler;
-            Game.LogTrivial("Deadly Weapons " + Assembly.GetExecutingAssembly().GetName().Version +
+            Game.LogTrivial("DeadlyWeapons " + Assembly.GetExecutingAssembly().GetName().Version +
                             " by SuperPyroManiac has been initialised.");
             Game.LogTrivial("Go on duty with LSPDFR to start the plugin.");
             Game.AddConsoleCommands(new[] {typeof(DFunctions.ConsoleCommands)});
@@ -28,6 +28,8 @@ namespace DeadlyWeapons
                     GameFiber.Wait(10000);
                     DamageTrackerService.Start();
                     if (Settings.EnablePanic) Panic.StartPanicWatch();
+                    if (Settings.EnablePlayerDamageSystem)
+                        DamageTrackerService.OnPlayerTookDamage += PlayerShot.OnPlayerDamaged;
 
                     Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~r~Deadly Weapons",
                         "~g~Plugin Loaded.",
@@ -43,7 +45,7 @@ namespace DeadlyWeapons
         {
             DamageTrackerService.Stop();
             Panic.StopPanicWatch();
-            Game.LogTrivial("Deadly Weapons by SuperPyroManiac has been disabled.");
+            Game.LogTrivial("DeadlyWeapons by SuperPyroManiac has been disabled.");
         }
     }
 }

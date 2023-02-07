@@ -23,7 +23,7 @@ namespace DeadlyWeaponsLegacy
 
         internal static void LoadSettings()
         {
-            Game.LogTrivial("Loading Deadly Weapons config.");
+            Game.LogTrivial("Loading DeadlyWeapons config.");
             var path = "Plugins/LSPDFR/DeadlyWeapons.ini";
             var ini = new InitializationFile(path);
             ini.Create();
@@ -37,7 +37,7 @@ namespace DeadlyWeaponsLegacy
             AiAccuracy = ini.ReadInt32("Features", "AIAccuracy", 20);
             PanicCooldown = ini.ReadInt32("Features", "TimeBetweenEvents", 150);
             PluginDelay = ini.ReadInt32("Advanced", "PluginDelay", 250);
-            Game.LogTrivial("Deadly Weapons: Config loaded.");
+            Game.LogTrivial("DeadlyWeapons: Config loaded.");
         }
     }
 }

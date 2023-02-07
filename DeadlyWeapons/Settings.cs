@@ -10,7 +10,9 @@ namespace DeadlyWeapons
 {
     internal static class Settings
     {
-        internal static bool EnableDamageSystem = true;
+        internal static bool EnablePlayerDamageSystem = true;
+        internal static bool EnableAIDamageSystem = true;
+        internal static bool EnablePlayerHeadshotInstakill = true;
         internal static bool EnablePanic = true;
         internal static bool Code3Backup = true;
         internal static bool SwatBackup;
@@ -28,7 +30,9 @@ namespace DeadlyWeapons
             var path = "Plugins/LSPDFR/DeadlyWeapons.ini";
             var ini = new InitializationFile(path);
             ini.Create();
-            EnableDamageSystem = ini.ReadBoolean("Features", "EnableDamageSystem", true);
+            EnablePlayerDamageSystem = ini.ReadBoolean("Features", "EnablePlayerDamageSystem", true);
+            EnableAIDamageSystem = ini.ReadBoolean("Features", "EnableAIDamageSystem", true);
+            EnablePlayerHeadshotInstakill = ini.ReadBoolean("Features", "EnablePlayerHeadshotInstakill", true);
             EnablePanic = ini.ReadBoolean("Features", "EnablePanic", true);
             Code3Backup = ini.ReadBoolean("Backup", "Code3Backup", true);
             SwatBackup = ini.ReadBoolean("Backup", "SwatBackup");

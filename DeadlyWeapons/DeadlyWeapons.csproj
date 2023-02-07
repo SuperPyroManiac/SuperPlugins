@@ -38,6 +38,7 @@
         <Reference Include="LSPD First Response">
           <HintPath>..\packages\MyPackagePyroManiac.1.0.0\lib\LSPD First Response.dll</HintPath>
         </Reference>
+        <Reference Include="Microsoft.CSharp" />
         <Reference Include="RagePluginHook">
           <HintPath>..\packages\RagePluginHook.1.86.1\lib\net472\RagePluginHook.dll</HintPath>
         </Reference>
@@ -51,6 +52,7 @@
     </ItemGroup>
     <ItemGroup>
         <Compile Include="DFunctions\ConsoleCommands.cs" />
+        <Compile Include="DFunctions\SimpleFunctions.cs" />
         <Compile Include="DFunctions\VersionChecker.cs" />
         <Compile Include="DFunctions\Wrapper.cs" />
         <Compile Include="Main.cs" />
