@@ -35,7 +35,7 @@ namespace DeadlyWeapons
             Code3Backup = ini.ReadBoolean("Backup", "Code3Backup", true);
             SwatBackup = ini.ReadBoolean("Backup", "SwatBackup");
             NooseBackup = ini.ReadBoolean("Backup", "NooseBackup");
-            EnablePanic = ini.ReadBoolean("Debug", "EnableDebug", false);
+            EnableDebug = ini.ReadBoolean("Debug", "EnableDebug", false);
             Game.LogTrivial("Deadly Weapons: Config loaded.");
         }
     }

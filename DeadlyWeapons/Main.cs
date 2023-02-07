@@ -40,6 +40,11 @@ namespace DeadlyWeapons
                     VersionChecker.IsUpdateAvailable();
                 });
             }
+            else
+            {
+                DamageTrackerService.OnPlayerTookDamage -= PlayerShot.OnPlayerDamaged;
+                DamageTrackerService.OnPedTookDamage -= PedShot.OnPedDamaged;
+            }
         }
         
         

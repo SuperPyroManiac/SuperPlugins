@@ -2,6 +2,7 @@
 
 using System;
 using System.Linq;
+using DamageTrackerLib;
 using DeadlyWeapons.DFunctions;
 using LSPD_First_Response;
 using LSPD_First_Response.Mod.API;
@@ -29,7 +30,8 @@ namespace DeadlyWeapons.Modules
                 Game.LogTrivial("DeadlyWeapons: Starting PanicFiber.");
                 while (true)
                 {
-                    if (Player.IsShooting && Player.Inventory.EquippedWeapon.Hash != WeaponHash.StunGun &&
+                    if (Player.IsInAnyVehicle(true)) return;
+                    if (Player.IsShooting && (DamageTrackerLib.DamageInfo.WeaponHash)Player.Inventory.EquippedWeapon.Hash != DamageTrackerLib.DamageInfo.WeaponHash.Stun_Gun &&
                         Player.Inventory.EquippedWeapon.Hash != WeaponHash.FireExtinguisher &&
                         Player.Inventory.EquippedWeapon.Hash != WeaponHash.Flare && Settings.EnablePanic)
                         PanicHit();
