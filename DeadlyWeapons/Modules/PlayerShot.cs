@@ -10,9 +10,15 @@ namespace DeadlyWeapons.Modules
         private static Ped Player => Game.LocalPlayer.Character;
         internal static void OnPlayerDamaged(Ped victim, Ped attacker, PedDamageInfo pedDamageInfo)
         {
-            var rnd = new Random().Next(1, 5);
             if (Player.IsDead || !Player.Exists()) return;
-            //TODO: Check weapon types!
+            if (pedDamageInfo.WeaponInfo.Type != DamageType.Rifle &&
+                pedDamageInfo.WeaponInfo.Type != DamageType.Pistol &&
+                pedDamageInfo.WeaponInfo.Type != DamageType.Shotgun &&
+                pedDamageInfo.WeaponInfo.Type != DamageType.Sniper && 
+                pedDamageInfo.WeaponInfo.Type != DamageType.MG &&
+                pedDamageInfo.WeaponInfo.Type != DamageType.SMG) return;
+            var rnd = new Random().Next(1, 5);
+
             
             if (pedDamageInfo.BoneInfo.BodyRegion == BodyRegion.Head && Settings.EnablePlayerHeadshotInstakill)
             {
@@ -31,7 +37,7 @@ namespace DeadlyWeapons.Modules
                 Game.LogTrivial("DeadlyWeapons: Player tripped due to leg injury. (50/50 chance)");
                 return;
             }
-            
+
             if (pedDamageInfo.BoneInfo.BodyRegion == BodyRegion.Arms)
             {
                 var rnd2 = new Random().Next(1, 3);
