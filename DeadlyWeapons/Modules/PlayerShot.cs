@@ -8,26 +8,21 @@ namespace DeadlyWeapons.Modules
     internal static class PlayerShot
     {
         private static Ped Player => Game.LocalPlayer.Character;
-        internal static void OnPlayerDamaged(Ped victim, Ped attacker, PedDamageInfo pedDamageInfo)
+        internal static void OnPlayerDamaged(Ped victim, Ped attacker, PedDamageInfo damageInfo)
         {
             if (Player.IsDead || !Player.Exists()) return;
-            if (pedDamageInfo.WeaponInfo.Type != DamageType.Rifle &&
-                pedDamageInfo.WeaponInfo.Type != DamageType.Pistol &&
-                pedDamageInfo.WeaponInfo.Type != DamageType.Shotgun &&
-                pedDamageInfo.WeaponInfo.Type != DamageType.Sniper && 
-                pedDamageInfo.WeaponInfo.Type != DamageType.MG &&
-                pedDamageInfo.WeaponInfo.Type != DamageType.SMG) return;
+            if (damageInfo.WeaponInfo.Group != DamageGroup.Bullet) return;
             var rnd = new Random().Next(1, 5);
 
             
-            if (pedDamageInfo.BoneInfo.BodyRegion == BodyRegion.Head && Settings.EnablePlayerHeadshotInstakill)
+            if (damageInfo.BoneInfo.BodyRegion == BodyRegion.Head && Settings.EnablePlayerHeadshotInstakill)
             {
                 Game.LogTrivial("DeadlyWeapons: Player shot in head - killing.");
                 Player.Kill();
                 return;
             }
 
-            if (pedDamageInfo.BoneInfo.BodyRegion == BodyRegion.Legs)
+            if (damageInfo.BoneInfo.BodyRegion == BodyRegion.Legs)
             {
                 var rnd2 = new Random().Next(1, 3);
                 Player.Health -= 30;
@@ -38,9 +33,8 @@ namespace DeadlyWeapons.Modules
                 return;
             }
 
-            if (pedDamageInfo.BoneInfo.BodyRegion == BodyRegion.Arms)
+            if (damageInfo.BoneInfo.BodyRegion == BodyRegion.Arms)
             {
-                var rnd2 = new Random().Next(1, 3);
                 Player.Health -= 30;
                 Game.LogTrivial("DeadlyWeapons: Player shot in arm - deducting 30 health.");
                 return;

@@ -30,6 +30,8 @@ namespace DeadlyWeapons
                     if (Settings.EnablePanic) Panic.StartPanicWatch();
                     if (Settings.EnablePlayerDamageSystem)
                         DamageTrackerService.OnPlayerTookDamage += PlayerShot.OnPlayerDamaged;
+                    if (Settings.EnableAIDamageSystem)
+                        DamageTrackerService.OnPedTookDamage += PedShot.OnPedDamaged;
 
                     Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~r~Deadly Weapons",
                         "~g~Plugin Loaded.",
