@@ -1,20 +1,30 @@
-﻿using System;
+﻿#region
+
+using System;
 using DamageTrackerLib.DamageInfo;
 using DeadlyWeapons.DFunctions;
 using Rage;
+
+#endregion
 
 namespace DeadlyWeapons.Modules
 {
     internal static class PlayerShot
     {
         private static Ped Player => Game.LocalPlayer.Character;
+
         internal static void OnPlayerDamaged(Ped victim, Ped attacker, PedDamageInfo damageInfo)
         {
             if (Player.IsDead || !Player.Exists()) return;
             if (damageInfo.WeaponInfo.Group != DamageGroup.Bullet) return;
             var rnd = new Random().Next(1, 5);
+            if (Settings.EnableDebug)
+                Game.DisplayHelp(
+                    $"~w~{victim.Model.Name} (~r~{damageInfo.Damage} Dmg~w~) ({(victim.IsAlive ? "~g~Alive" : "~r~Dead")}~w~)" +
+                    $"\n~r~{attacker?.Model.Name ?? "None"}" +
+                    $"\n~y~{damageInfo.WeaponInfo.Hash.ToString()} {damageInfo.WeaponInfo.Type.ToString()} {damageInfo.WeaponInfo.Group.ToString()}" +
+                    $"\n~r~{damageInfo.BoneInfo.BoneId.ToString()} {damageInfo.BoneInfo.Limb.ToString()} {damageInfo.BoneInfo.BodyRegion.ToString()}");
 
-            
             if (damageInfo.BoneInfo.BodyRegion == BodyRegion.Head && Settings.EnablePlayerHeadshotInstakill)
             {
                 Game.LogTrivial("DeadlyWeapons: Player shot in head - killing.");
