@@ -52,10 +52,11 @@
     <ItemGroup>
         <Compile Include="DFunctions\ConsoleCommands.cs" />
         <Compile Include="DFunctions\VersionChecker.cs" />
+        <Compile Include="DFunctions\Wrapper.cs" />
         <Compile Include="Main.cs" />
+        <Compile Include="Modules\Panic.cs" />
         <Compile Include="Modules\PedShot.cs" />
         <Compile Include="Modules\PlayerShot.cs" />
-        <Compile Include="Modules\Pullover.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
         <Compile Include="Settings.cs" />
     </ItemGroup>
