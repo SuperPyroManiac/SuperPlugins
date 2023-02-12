@@ -2,7 +2,6 @@
 
 using System;
 using System.Linq;
-using DamageTrackerLib;
 using DeadlyWeapons.DFunctions;
 using LSPD_First_Response;
 using LSPD_First_Response.Mod.API;
@@ -49,6 +48,7 @@ namespace DeadlyWeapons.Modules
         private static void PanicHit()
         {
             if (_panic) return;
+            if (Settings.EnableDebug) Game.LogTrivial("DeadlyWeapons: [DEBUG]: Panic has been activated! Waiting cooldown to activate again: " + Settings.PanicCooldown * 1000 + " seconds.");
             _panic = true;
             if (UsingUb) Game.LogTrivial("DeadlyWeapons: UB DETECTED. Using Ultimate Backup for panic.");
             GameFiber.StartNew(delegate
@@ -87,6 +87,7 @@ namespace DeadlyWeapons.Modules
                     "Your weapon has been discharged. Dispatch has been alerted.");
                 GameFiber.Wait(Settings.PanicCooldown * 1000);
                 _panic = false;
+                Game.LogTrivial("DeadlyWeapons: [DEBUG]: Panic cooldown complete. Ready to run again!");
             });
         }
     }
