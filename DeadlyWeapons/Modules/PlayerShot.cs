@@ -15,15 +15,26 @@ namespace DeadlyWeapons.Modules
 
         internal static void OnPlayerDamaged(Ped victim, Ped attacker, PedDamageInfo damageInfo)
         {
-            //if (Player.IsDead) return;
+            if (Player.IsDead) return;
             if (damageInfo.WeaponInfo.Group != DamageGroup.Bullet) return;
             var rnd = new Random().Next(1, 5);
             if (Settings.EnableDebug)
+            {
                 Game.DisplayHelp(
                     $"~w~{victim.Model.Name} (~r~{damageInfo.Damage} Dmg~w~) ({(victim.IsAlive ? "~g~Alive" : "~r~Dead")}~w~)" +
                     $"\n~r~{attacker?.Model.Name ?? "None"}" +
                     $"\n~y~{damageInfo.WeaponInfo.Hash.ToString()} {damageInfo.WeaponInfo.Type.ToString()} {damageInfo.WeaponInfo.Group.ToString()}" +
                     $"\n~r~{damageInfo.BoneInfo.BoneId.ToString()} {damageInfo.BoneInfo.Limb.ToString()} {damageInfo.BoneInfo.BodyRegion.ToString()}");
+                Game.LogTrivial("Deadly Weapons: [DEBUG]: Detailed damage info Start");
+                Game.LogTrivial(
+                    $"~w~{victim.Model.Name} (~r~{damageInfo.Damage} Dmg~w~) ({(victim.IsAlive ? "~g~Alive" : "~r~Dead")}~w~)" +
+                    $"\n~r~{attacker?.Model.Name ?? "None"}" +
+                    $"\n~y~{damageInfo.WeaponInfo.Hash.ToString()} {damageInfo.WeaponInfo.Type.ToString()} {damageInfo.WeaponInfo.Group.ToString()}" +
+                    $"\n~r~{damageInfo.BoneInfo.BoneId.ToString()} {damageInfo.BoneInfo.Limb.ToString()} {damageInfo.BoneInfo.BodyRegion.ToString()}");
+                Game.LogTrivial("Deadly Weapons: [DEBUG]: Detailed damage info Stop");
+                Game.LogTrivial("Deadly Weapons: [DEBUG]: Player health before shot: " + Player.Health);
+                Game.LogTrivial("Deadly Weapons: [DEBUG]: Player armor before shot: " + Player.Armor);
+            }
 
             if (damageInfo.BoneInfo.BodyRegion == BodyRegion.Head && Settings.EnablePlayerHeadshotInstakill)
             {
@@ -37,9 +48,17 @@ namespace DeadlyWeapons.Modules
                 var rnd2 = new Random().Next(1, 3);
                 Player.Health -= 30;
                 Game.LogTrivial("DeadlyWeapons: Player shot in leg - deducting 30 health.");
-                if (rnd2 != 2) return;
-                SimpleFunctions.Ragdoll(Player);
-                Game.LogTrivial("DeadlyWeapons: Player tripped due to leg injury. (50/50 chance)");
+                if (rnd2 == 2)
+                {
+                    SimpleFunctions.Ragdoll(Player);
+                    Game.LogTrivial("DeadlyWeapons: Player tripped due to leg injury. (50/50 chance)");
+                }
+
+                if (Settings.EnableDebug)
+                {
+                    Game.LogTrivial("Deadly Weapons: [DEBUG]: Player health after shot: " + Player.Health);
+                    Game.LogTrivial("Deadly Weapons: [DEBUG]: Player armor after shot: " + Player.Armor);
+                }
                 return;
             }
 
@@ -47,6 +66,11 @@ namespace DeadlyWeapons.Modules
             {
                 Player.Health -= 30;
                 Game.LogTrivial("DeadlyWeapons: Player shot in arm - deducting 30 health.");
+                if (Settings.EnableDebug)
+                {
+                    Game.LogTrivial("Deadly Weapons: [DEBUG]: Player health after shot: " + Player.Health);
+                    Game.LogTrivial("Deadly Weapons: [DEBUG]: Player armor after shot: " + Player.Armor);
+                }
                 return;
             }
 
@@ -67,8 +91,13 @@ namespace DeadlyWeapons.Modules
                         Player.Armor -= 35;
                         break;
                     case 4:
-                        Player.Armor -= 45;
+                        Player.Armor -= 65;
                         break;
+                }
+                if (Settings.EnableDebug)
+                {
+                    Game.LogTrivial("Deadly Weapons: [DEBUG]: Player health after shot: " + Player.Health);
+                    Game.LogTrivial("Deadly Weapons: [DEBUG]: Player armor after shot: " + Player.Armor);
                 }
             }
 
@@ -78,7 +107,7 @@ namespace DeadlyWeapons.Modules
                 switch (rnd)
                 {
                     case 1:
-                        Player.Health = 5;
+                        Player.Health = 105;
                         break;
                     case 2:
                         Player.Kill();
@@ -90,6 +119,11 @@ namespace DeadlyWeapons.Modules
                         Player.Health -= 50;
                         SimpleFunctions.Ragdoll(Player);
                         break;
+                }
+                if (Settings.EnableDebug)
+                {
+                    Game.LogTrivial("Deadly Weapons: [DEBUG]: Player health after shot: " + Player.Health);
+                    Game.LogTrivial("Deadly Weapons: [DEBUG]: Player armor after shot: " + Player.Armor);
                 }
             }
         }
