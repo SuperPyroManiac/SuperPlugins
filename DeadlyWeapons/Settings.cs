@@ -15,6 +15,7 @@ namespace DeadlyWeapons
         internal static bool EnablePlayerHeadshotInstakill;
         internal static bool EnablePanic = true;
         internal static int PanicCooldown = 120;
+        internal static bool EnablePulloverAi = true;
         internal static bool Code3Backup = true;
         internal static bool SwatBackup;
         internal static bool NooseBackup;
@@ -32,6 +33,7 @@ namespace DeadlyWeapons
             EnablePlayerHeadshotInstakill = ini.ReadBoolean("Features", "EnablePlayerHeadshotInstakill", false);
             EnablePanic = ini.ReadBoolean("Features", "EnablePanic", true);
             PanicCooldown = ini.ReadInt32("Features", "PanicCooldown", 120);
+            EnablePulloverAi = ini.ReadBoolean("Features", "EnablePulloverAi", true);
             Code3Backup = ini.ReadBoolean("Backup", "Code3Backup", true);
             SwatBackup = ini.ReadBoolean("Backup", "SwatBackup");
             NooseBackup = ini.ReadBoolean("Backup", "NooseBackup");

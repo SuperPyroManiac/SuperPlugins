@@ -2,6 +2,7 @@
 using DamageTrackerLib;
 using DeadlyWeapons.DFunctions;
 using DeadlyWeapons.Modules;
+using LSPD_First_Response.Engine;
 using LSPD_First_Response.Mod.API;
 using Rage;
 
@@ -29,10 +30,12 @@ namespace DeadlyWeapons
                     DamageTrackerService.OnPlayerTookDamage += PlayerShot.OnPlayerDamaged;
                 if (Settings.EnableAIDamageSystem)
                     DamageTrackerService.OnPedTookDamage += PedShot.OnPedDamaged;
+                if (Settings.EnablePanic) Panic.StartPanicWatch();
+                if (Settings.EnablePulloverAi) 
+                    Events.OnPulloverStarted += CustomPullover.PulloverModule;
                 GameFiber.StartNew(delegate
                 {
                     GameFiber.Wait(10000);
-                    if (Settings.EnablePanic) Panic.StartPanicWatch();
                     Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~r~DeadlyWeapons",
                         "~g~Plugin Loaded.",
                         "DeadlyWeapons version: " +
@@ -53,6 +56,7 @@ namespace DeadlyWeapons
         {
             DamageTrackerService.Stop();
             Panic.StopPanicWatch();
+            Events.OnPulloverStarted -= CustomPullover.PulloverModule;
             Game.LogTrivial("DeadlyWeapons by SuperPyroManiac has been disabled.");
         }
     }
