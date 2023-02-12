@@ -23,7 +23,7 @@ namespace DeadlyWeapons
 
         internal static void LoadSettings()
         {
-            Game.LogTrivial("Loading Deadly Weapons config.");
+            Game.LogTrivial("Loading DeadlyWeapons config.");
             var path = "Plugins/LSPDFR/DeadlyWeapons.ini";
             var ini = new InitializationFile(path);
             ini.Create();
@@ -36,7 +36,7 @@ namespace DeadlyWeapons
             SwatBackup = ini.ReadBoolean("Backup", "SwatBackup");
             NooseBackup = ini.ReadBoolean("Backup", "NooseBackup");
             EnableDebug = ini.ReadBoolean("Debug", "EnableDebug", false);
-            Game.LogTrivial("Deadly Weapons: Config loaded.");
+            Game.LogTrivial("DeadlyWeapons: Config loaded.");
         }
     }
 }

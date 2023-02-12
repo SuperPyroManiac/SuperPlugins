@@ -33,9 +33,9 @@ namespace DeadlyWeapons
                 {
                     GameFiber.Wait(10000);
                     if (Settings.EnablePanic) Panic.StartPanicWatch();
-                    Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~r~Deadly Weapons",
+                    Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~r~DeadlyWeapons",
                         "~g~Plugin Loaded.",
-                        "Deadly Weapons version: " +
+                        "DeadlyWeapons version: " +
                         Assembly.GetExecutingAssembly().GetName().Version + " loaded.");
                     VersionChecker.IsUpdateAvailable();
                 });
