@@ -25,12 +25,12 @@ namespace DeadlyWeapons.Modules
             Game.LogTrivial("DeadlyWeapons: Starting PanicFiber.");
             while (true)
             {
-                if (Player.IsInAnyVehicle(true)) return;
+                GameFiber.Yield();
+                if (Player.IsInAnyVehicle(true)) continue;
                 if (Player.IsShooting && (DamageTrackerLib.DamageInfo.WeaponHash)Player.Inventory.EquippedWeapon.Hash != DamageTrackerLib.DamageInfo.WeaponHash.Stun_Gun &&
                     Player.Inventory.EquippedWeapon.Hash != WeaponHash.FireExtinguisher &&
                     Player.Inventory.EquippedWeapon.Hash != WeaponHash.Flare && Settings.EnablePanic)
                     PanicHit();
-                GameFiber.Yield();
             }
         }
         private static void PanicHit()
