@@ -13,44 +13,32 @@ namespace DeadlyWeapons.Modules
 {
     internal static class Panic
     {
-        private static GameFiber _panicFiber;
         private static bool _panic;
 
         private static readonly Func<string, bool> IsLoaded = plugName =>
             Functions.GetAllUserPlugins().Any(assembly => assembly.GetName().Name.Equals(plugName));
-
         private static readonly bool UsingUb = IsLoaded("UltimateBackup");
         private static Ped Player => Game.LocalPlayer.Character;
 
         internal static void StartPanicWatch()
         {
-            _panicFiber = new GameFiber(delegate
+            Game.LogTrivial("DeadlyWeapons: Starting PanicFiber.");
+            while (true)
             {
-                Game.LogTrivial("DeadlyWeapons: Starting PanicFiber.");
-                while (true)
-                {
-                    if (Player.IsInAnyVehicle(true)) return;
-                    if (Player.IsShooting && (DamageTrackerLib.DamageInfo.WeaponHash)Player.Inventory.EquippedWeapon.Hash != DamageTrackerLib.DamageInfo.WeaponHash.Stun_Gun &&
-                        Player.Inventory.EquippedWeapon.Hash != WeaponHash.FireExtinguisher &&
-                        Player.Inventory.EquippedWeapon.Hash != WeaponHash.Flare && Settings.EnablePanic)
-                        PanicHit();
-                    GameFiber.Yield();
-                }
-            });
-            _panicFiber.Start();
+                if (Player.IsInAnyVehicle(true)) return;
+                if (Player.IsShooting && (DamageTrackerLib.DamageInfo.WeaponHash)Player.Inventory.EquippedWeapon.Hash != DamageTrackerLib.DamageInfo.WeaponHash.Stun_Gun &&
+                    Player.Inventory.EquippedWeapon.Hash != WeaponHash.FireExtinguisher &&
+                    Player.Inventory.EquippedWeapon.Hash != WeaponHash.Flare && Settings.EnablePanic)
+                    PanicHit();
+                GameFiber.Yield();
+            }
         }
-
-        internal static void StopPanicWatch()
-        {
-            _panicFiber.Abort();
-        }
-
         private static void PanicHit()
         {
             if (_panic) return;
             if (Settings.EnableDebug) Game.LogTrivial("DeadlyWeapons: [DEBUG]: Panic has been activated! Waiting cooldown to activate again: " + Settings.PanicCooldown * 1000 + " seconds.");
             _panic = true;
-            if (UsingUb) Game.LogTrivial("DeadlyWeapons: UB DETECTED. Using Ultimate Backup for panic.");
+            if (UsingUb) Game.LogTrivial("DeadlyWeapons: Using Ultimate Backup for panic.");
             GameFiber.StartNew(delegate
             {
                 if (Settings.Code3Backup)

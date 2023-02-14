@@ -2,7 +2,6 @@
 using DamageTrackerLib;
 using DeadlyWeapons.DFunctions;
 using DeadlyWeapons.Modules;
-using LSPD_First_Response.Engine;
 using LSPD_First_Response.Mod.API;
 using Rage;
 
@@ -10,6 +9,7 @@ namespace DeadlyWeapons
 {
     public class Main : Plugin
     {
+        internal GameFiber _panicFiber;
  
         public override void Initialize()
         {
@@ -21,7 +21,7 @@ namespace DeadlyWeapons
             Game.AddConsoleCommands(new[] {typeof(ConsoleCommands)});
         }
 
-        private static void OnOnDutyStateChangedHandler(bool onDuty)
+        private void OnOnDutyStateChangedHandler(bool onDuty)
         {
             if (onDuty)
             {
@@ -30,7 +30,7 @@ namespace DeadlyWeapons
                     DamageTrackerService.OnPlayerTookDamage += PlayerShot.OnPlayerDamaged;
                 if (Settings.EnableAIDamageSystem)
                     DamageTrackerService.OnPedTookDamage += PedShot.OnPedDamaged;
-                if (Settings.EnablePanic) Panic.StartPanicWatch();
+                if (Settings.EnablePanic) _panicFiber = GameFiber.StartNew(Panic.StartPanicWatch);
                 if (Settings.EnablePulloverAi) 
                     Events.OnPulloverStarted += CustomPullover.PulloverModule;
                 GameFiber.StartNew(delegate
@@ -55,7 +55,7 @@ namespace DeadlyWeapons
         public override void Finally()
         {
             DamageTrackerService.Stop();
-            Panic.StopPanicWatch();
+            _panicFiber.Abort();
             Events.OnPulloverStarted -= CustomPullover.PulloverModule;
             Game.LogTrivial("DeadlyWeapons by SuperPyroManiac has been disabled.");
         }
