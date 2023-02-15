@@ -1,11 +1,7 @@
-#region
-
-using System;
+﻿using System;
 using LSPD_First_Response.Mod.API;
 using Rage;
 using Rage.Native;
-
-#endregion
 
 namespace DeadlyWeapons.DFunctions
 {
@@ -17,16 +13,16 @@ namespace DeadlyWeapons.DFunctions
             {
                 GameFiber.StartNew(delegate
                 {
-                    if (!ped) return;
+                    if (!ped.Exists()) return;
                     ped.IsRagdoll = true;
-                    GameFiber.Wait(2000);
-                    if (!ped) return;
+                    GameFiber.Wait(500);
+                    if (!ped.Exists()) return;
                     ped.IsRagdoll = false;
                 });
             }
             catch (Exception)
             {
-                Game.LogTrivial("Deadly Weapons: Unable to remove ragdoll. Most likely the subject died first.");
+                Game.LogTrivial("DeadlyWeapons: Unable to remove ragdoll. Most likely the subject died first.");
             }
         }
 

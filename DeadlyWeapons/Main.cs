@@ -1,48 +1,63 @@
-﻿#region
-
-using System.Reflection;
+﻿using System.Reflection;
+using DamageTrackerLib;
 using DeadlyWeapons.DFunctions;
 using DeadlyWeapons.Modules;
 using LSPD_First_Response.Mod.API;
 using Rage;
 
-#endregion
-
 namespace DeadlyWeapons
 {
-    internal class Main : Plugin
+    public class Main : Plugin
     {
-        private static readonly Run Startup = new Run();
-
+        private GameFiber _panicFiber;
+ 
         public override void Initialize()
         {
             Settings.LoadSettings();
             Functions.OnOnDutyStateChanged += OnOnDutyStateChangedHandler;
-            Game.LogTrivial("Deadly Weapons " + Assembly.GetExecutingAssembly().GetName().Version +
+            Game.LogTrivial("DeadlyWeapons " + Assembly.GetExecutingAssembly().GetName().Version +
                             " by SuperPyroManiac has been initialised.");
             Game.LogTrivial("Go on duty with LSPDFR to start the plugin.");
             Game.AddConsoleCommands(new[] {typeof(ConsoleCommands)});
         }
 
-        private static void OnOnDutyStateChangedHandler(bool onDuty)
+        private void OnOnDutyStateChangedHandler(bool onDuty)
         {
             if (onDuty)
+            {
+                DamageTrackerService.Start();
+                if (Settings.EnablePlayerDamageSystem)
+                    DamageTrackerService.OnPlayerTookDamage += PlayerShot.OnPlayerDamaged;
+                if (Settings.EnableAIDamageSystem)
+                    DamageTrackerService.OnPedTookDamage += PedShot.OnPedDamaged;
+                if (Settings.EnablePanic) _panicFiber = GameFiber.StartNew(Panic.StartPanicWatch);
+                if (Settings.EnablePulloverAi) 
+                    Events.OnPulloverStarted += CustomPullover.PulloverModule;
                 GameFiber.StartNew(delegate
                 {
                     GameFiber.Wait(10000);
-                    Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~r~Deadly Weapons",
+                    Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~r~DeadlyWeapons",
                         "~g~Plugin Loaded.",
-                        "Deadly Weapons version: " +
+                        "DeadlyWeapons version: " +
                         Assembly.GetExecutingAssembly().GetName().Version + " loaded.");
                     VersionChecker.IsUpdateAvailable();
-                    Startup.Start();
                 });
+            }
+            else
+            {
+                DamageTrackerService.OnPlayerTookDamage -= PlayerShot.OnPlayerDamaged;
+                DamageTrackerService.OnPedTookDamage -= PedShot.OnPedDamaged;
+            }
         }
+        
+        
         
         public override void Finally()
         {
-            Game.LogTrivial("Deadly Weapons by SuperPyroManiac has been disabled.");
-            Startup.Stop();
+            DamageTrackerService.Stop();
+            _panicFiber.Abort();
+            Events.OnPulloverStarted -= CustomPullover.PulloverModule;
+            Game.LogTrivial("DeadlyWeapons by SuperPyroManiac has been disabled.");
         }
     }
 }

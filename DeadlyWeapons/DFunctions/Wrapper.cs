@@ -1,4 +1,4 @@
-﻿namespace DeadlyWeapons.Modules
+﻿namespace DeadlyWeapons.DFunctions
 {
     internal static class Wrapper
     {

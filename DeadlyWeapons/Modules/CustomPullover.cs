@@ -1,15 +1,11 @@
-#region
-
-using System;
+﻿using System;
 using DeadlyWeapons.DFunctions;
 using LSPD_First_Response.Mod.API;
 using Rage;
 
-#endregion
-
 namespace DeadlyWeapons.Modules
 {
-    internal static class Pullover
+    internal static class CustomPullover
     {
         internal static void PulloverModule(LHandle handler)
         {

@@ -1,110 +1,133 @@
-#region
+﻿#region
 
 using System;
+using DamageTrackerLib.DamageInfo;
 using DeadlyWeapons.DFunctions;
 using LSPD_First_Response.Mod.API;
 using Rage;
-using Rage.Native;
 
 #endregion
 
 namespace DeadlyWeapons.Modules
 {
-    internal class PedShot
+    internal static class PedShot
     {
-        internal static void PedAi(Ped ped)
+        internal static void OnPedDamaged(Ped victim, Ped attacker, PedDamageInfo damageInfo)
         {
-            try
+            if (!victim.Exists()) return;
+            //if (victim.IsDead) return;
+            if (damageInfo.WeaponInfo.Group != DamageGroup.Bullet) return;
+            var rnd = new Random().Next(1, 5);
+            if (Settings.EnableDebug)
             {
-                GameFiber.StartNew(delegate
-                {
-                    if (!ped.Exists()) return;
-                    if (ped.IsDead) return;
-                    ped.Accuracy = Settings.AiAccuracy;
-                    if (Game.LocalPlayer.Character.IsRagdoll)
-                    {
-                        ped.Tasks.Flee(Game.LocalPlayer.Character, 50, 10);
-                    }
-
-                    foreach (var w in WeaponHashs.WeaponHashes)
-                        if (NativeFunction.Natives.x131D401334815E94<bool>(ped, (uint) w, 0) &&
-                                Settings.EnableDamageSystem) //Has_Entity_Been_Damaged_By_Weapon
-                            {
-                                if (ped.LastDamageBone == PedBoneId.LeftUpperArm ||
-                                    ped.LastDamageBone == PedBoneId.LeftForeArm ||
-                                    ped.LastDamageBone == PedBoneId.RightUpperArm ||
-                                    ped.LastDamageBone == PedBoneId.RightForearm)
-                                {
-                                    if (!ped.Exists()) return;
-                                    if (ped.Inventory.HasLoadedWeapon) ped.Inventory.EquippedWeapon.Drop();
-                                }
-
-                                if (ped.Armor >= 60)
-                                {
-                                    var rnd = new Random().Next(0, 10);
-                                    switch (rnd)
-                                    {
-                                        case 1:
-                                            ped.Health = 100;
-                                            ped.Armor = 61;
-                                            break;
-                                        case 2:
-                                            ped.Health = 100;
-                                            ped.Armor = 61;
-                                            SimpleFunctions.Ragdoll(ped);
-                                            break;
-                                        case 3:
-                                            ped.Health = 80;
-                                            ped.Armor = 0;
-                                            PedCustomAi.PedReact(ped);
-                                            break;
-                                        default:
-                                            ped.Health = 100;
-                                            ped.Armor = 0;
-                                            break;
-                                    }
-
-                                    Game.LogTrivial("Deadly Weapons: " + Functions.GetPersonaForPed(ped).FullName +
-                                                    " rolled 1-" + rnd);
-                                }
-                                else
-                                {
-                                    var rnd = new Random().Next(0, 10);
-                                    switch (rnd)
-                                    {
-                                        case 1:
-                                            ped.Health -= 50;
-                                            SimpleFunctions.Ragdoll(ped);
-                                            break;
-                                        case 2:
-                                            goto case 1;
-                                        case 3:
-                                            goto case 1;
-                                        case 4:
-                                            ped.Kill();
-                                            break;
-                                        default:
-                                            ped.Health -= 80;
-                                            PedCustomAi.PedReact(ped);
-                                            break;
-                                    }
-
-                                    Game.LogTrivial("Deadly Weapons: " + Functions.GetPersonaForPed(ped).FullName +
-                                                    " rolled 2-" + rnd);
-                                }
-
-                                NativeFunction.Natives.xAC678E40BE7C74D2(ped); //CLEAR_ENTITY_LAST_WEAPON_DAMAGE
-                            }
-                });
+                Game.DisplayHelp(
+                    $"~w~{victim.Model.Name} (~r~{damageInfo.Damage} Dmg~w~) ({(victim.IsAlive ? "~g~Alive" : "~r~Dead")}~w~)" +
+                    $"\n~r~{attacker?.Model.Name ?? "None"}" +
+                    $"\n~y~{damageInfo.WeaponInfo.Hash.ToString()} {damageInfo.WeaponInfo.Type.ToString()} {damageInfo.WeaponInfo.Group.ToString()}" +
+                    $"\n~r~{damageInfo.BoneInfo.BoneId.ToString()} {damageInfo.BoneInfo.Limb.ToString()} {damageInfo.BoneInfo.BodyRegion.ToString()}");
+                Game.LogTrivial("DeadlyWeapons: [DEBUG]: Detailed damage info Start");
+                Game.LogTrivial(
+                    $"\n{victim.Model.Name} ({damageInfo.Damage} Dmg) ({(victim.IsAlive ? "Alive" : "Dead")})" +
+                    $"\n{attacker?.Model.Name ?? "None"}" +
+                    $"\n{damageInfo.WeaponInfo.Hash.ToString()} {damageInfo.WeaponInfo.Type.ToString()} {damageInfo.WeaponInfo.Group.ToString()}" +
+                    $"\n{damageInfo.BoneInfo.BoneId.ToString()} {damageInfo.BoneInfo.Limb.ToString()} {damageInfo.BoneInfo.BodyRegion.ToString()}");
+                Game.LogTrivial("DeadlyWeapons: [DEBUG]: Detailed damage info Stop");
+                Game.LogTrivial("DeadlyWeapons: [DEBUG]: " + Functions.GetPersonaForPed(victim).FullName + "'s health before shot: " + victim.Health);
+                Game.LogTrivial("DeadlyWeapons: [DEBUG]: " + Functions.GetPersonaForPed(victim).FullName + "'s armor before shot: " + victim.Armor);
             }
-            catch (Exception e)
+
+            if (damageInfo.BoneInfo.BodyRegion == BodyRegion.Head)
             {
-                Game.LogTrivial("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
-                Game.LogTrivial("Deadly Weapons Error Report Start");
-                Game.LogTrivial("======================================================");
-                Game.LogTrivial(e.ToString());
-                Game.LogTrivial("======================================================");
-                Game.LogTrivial("Deadly Weapons Error Report End");
+                Game.LogTrivial("DeadlyWeapons: " + Functions.GetPersonaForPed(victim).FullName +
+                                " shot in head - killing.");
+                victim.Kill();
+                return;
+            }
+
+            if (damageInfo.BoneInfo.BodyRegion == BodyRegion.Legs)
+            {
+                var rnd2 = new Random().Next(1, 3);
+                victim.Health -= 30;
+                Game.LogTrivial("DeadlyWeapons: " + Functions.GetPersonaForPed(victim).FullName +
+                                " shot in leg - deducting 30 health.");
+                if (rnd2 == 2) SimpleFunctions.Ragdoll(victim);
+                Game.LogTrivial("DeadlyWeapons: " + Functions.GetPersonaForPed(victim).FullName +
+                                " tripped due to leg injury. (50/50 chance)");
+                if (Settings.EnableDebug)
+                {
+                    Game.LogTrivial("DeadlyWeapons: [DEBUG]: " + Functions.GetPersonaForPed(victim).FullName + "'s health after shot: " + victim.Health);
+                    Game.LogTrivial("DeadlyWeapons: [DEBUG]: " + Functions.GetPersonaForPed(victim).FullName + "'s armor after shot: " + victim.Armor);
+                }
+                return;
+            }
+
+            if (damageInfo.BoneInfo.BodyRegion == BodyRegion.Arms)
+            {
+                var rnd2 = new Random().Next(1, 3);
+                victim.Health -= 30;
+                Game.LogTrivial("DeadlyWeapons: " + Functions.GetPersonaForPed(victim).FullName +
+                                " shot in arm - deducting 30 health.");
+                if (Settings.EnableDebug)
+                {
+                    Game.LogTrivial("DeadlyWeapons: [DEBUG]: " + Functions.GetPersonaForPed(victim).FullName + "'s health after shot: " + victim.Health);
+                    Game.LogTrivial("DeadlyWeapons: [DEBUG]: " + Functions.GetPersonaForPed(victim).FullName + "'s armor after shot: " + victim.Armor);
+                }
+                return;
+            }
+
+            if (victim.Armor > 5)
+            {
+                Game.LogTrivial("DeadlyWeapons: " + Functions.GetPersonaForPed(victim).FullName +
+                                " shot with armor. Rolled " + rnd);
+                switch (rnd)
+                {
+                    case 1:
+                        victim.Armor = 0;
+                        break;
+                    case 2:
+                        victim.Health -= 45;
+                        victim.Armor = 0;
+                        SimpleFunctions.Ragdoll(victim);
+                        break;
+                    case 3:
+                        victim.Armor -= 35;
+                        break;
+                    case 4:
+                        victim.Armor -= 45;
+                        break;
+                }
+                if (Settings.EnableDebug)
+                {
+                    Game.LogTrivial("DeadlyWeapons: [DEBUG]: " + Functions.GetPersonaForPed(victim).FullName + "'s health after shot: " + victim.Health);
+                    Game.LogTrivial("DeadlyWeapons: [DEBUG]: " + Functions.GetPersonaForPed(victim).FullName + "'s armor after shot: " + victim.Armor);
+                }
+            }
+
+            if (victim.Armor <= 5)
+            {
+                Game.LogTrivial("DeadlyWeapons: " + Functions.GetPersonaForPed(victim).FullName +
+                                " shot without armor. Rolled " + rnd);
+                switch (rnd)
+                {
+                    case 1:
+                        victim.Health = 5;
+                        break;
+                    case 2:
+                        victim.Kill();
+                        break;
+                    case 3:
+                        victim.Health -= 40;
+                        break;
+                    case 4:
+                        victim.Health -= 50;
+                        SimpleFunctions.Ragdoll(victim);
+                        break;
+                }
+                if (Settings.EnableDebug)
+                {
+                    Game.LogTrivial("DeadlyWeapons: [DEBUG]: " + Functions.GetPersonaForPed(victim).FullName + "'s health after shot: " + victim.Health);
+                    Game.LogTrivial("DeadlyWeapons: [DEBUG]: " + Functions.GetPersonaForPed(victim).FullName + "'s armor after shot: " + victim.Armor);
+                }
             }
         }
     }
