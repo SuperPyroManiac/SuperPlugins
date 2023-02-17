@@ -50,8 +50,6 @@ namespace DeadlyWeapons
             }
         }
         
-        
-        
         public override void Finally()
         {
             DamageTrackerService.Stop();
