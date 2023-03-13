@@ -63,6 +63,7 @@
         <Compile Include="Callouts\PrisonTransport.cs" />
         <Compile Include="Callouts\Robbery.cs" />
         <Compile Include="Callouts\StolenCopVehicle.cs" />
+        <Compile Include="Callouts\StolenDumptruck.cs" />
         <Compile Include="Callouts\ToiletPaperBandit.cs" />
         <Compile Include="Callouts\Trespassing.cs" />
         <Compile Include="Callouts\TruckCrash.cs" />

@@ -51,6 +51,7 @@ namespace SuperCallouts
             if (Settings.PrisonTransport) { Functions.RegisterCallout(typeof(PrisonTransport)); Game.LogTrivial("SuperCallouts: PrisonTransport Enabled"); }
             if (Settings.HitRun) { Functions.RegisterCallout(typeof(HitRun)); Game.LogTrivial("SuperCallouts: Hit and Run Enabled"); }
             if (Settings.StolenCopVehicle) { Functions.RegisterCallout(typeof(StolenCopVehicle)); Game.LogTrivial("SuperCallouts: Stolen police vehicle Enabled"); }
+            if (Settings.StolenDumptruck) { Functions.RegisterCallout(typeof(StolenDumptruck)); Game.LogTrivial("SuperCallouts: Stolen dump truck Enabled"); }
             if (Settings.AmbulanceEscort) { Functions.RegisterCallout(typeof(AmbulanceEscort)); Game.LogTrivial("SuperCallouts: AmbulanceEscort Enabled"); }
             if (Settings.Aliens) { Functions.RegisterCallout(typeof(Aliens)); Game.LogTrivial("SuperCallouts: Aliens Enabled"); }
             if (Settings.OpenCarry) { Functions.RegisterCallout(typeof(OpenCarry)); Game.LogTrivial("SuperCallouts: Open Carry Enabled"); }
