@@ -45,11 +45,11 @@ internal class StolenDumptruck : Callout
         if (Main.UsingCi)
         {
             Wrapper.StartCi(this, "Code 3");
-            Wrapper.CiSendMessage(this, "A dump truck has been stolen from a construction site. This vehicle is very large and driving on public streets. NOOSE has also been alerted to the situation.");
+            Wrapper.CiSendMessage(this, "A dump truck has been stolen from a construction site. This vehicle is very large and driving on public streets.");
         }
         //cVehicle
         _cVehicle = new Vehicle("dump", _spawnPoint)
-            { IsPersistent = true, IsStolen = true, IsSirenOn = true, IsSirenSilent = true };
+            { IsPersistent = true, IsStolen = true};
         //Bad
         _bad = new Ped(_spawnPoint.Around(15f));
         _bad.WarpIntoVehicle(_cVehicle, -1);
