@@ -42,7 +42,7 @@ internal class Vandalizing : Callout
         if (Main.UsingCi)
         {
             Wrapper.StartCi(this, "Code 3");
-            Wrapper.CiSendMessage(this, "A dump truck has been stolen from a construction site. This vehicle is very large and driving on public streets.");
+            Wrapper.CiSendMessage(this, "A dump truck has been stolen from a construction site. This vehicle is very large and driving on public streets.");//TODO: From here!
         }
         //cVehicle
         _cVehicle = new Vehicle("dump", _spawnPoint)

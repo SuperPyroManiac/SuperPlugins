@@ -67,6 +67,7 @@
         <Compile Include="Callouts\ToiletPaperBandit.cs" />
         <Compile Include="Callouts\Trespassing.cs" />
         <Compile Include="Callouts\TruckCrash.cs" />
+        <Compile Include="Callouts\Vandalizing.cs" />
         <Compile Include="Callouts\WeirdCar.cs" />
         <Compile Include="CustomScenes\LostMCSetup.cs" />
         <Compile Include="CustomScenes\LSGTFSetup.cs" />
