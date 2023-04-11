@@ -32,6 +32,7 @@ namespace DeadlyWeapons.Modules
                     Player.Inventory.EquippedWeapon.Hash != WeaponHash.Flare && Settings.EnablePanic)
                     PanicHit();
             }
+            // ReSharper disable once FunctionNeverReturns
         }
         private static void PanicHit()
         {

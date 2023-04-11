@@ -33,9 +33,8 @@
         <WarningLevel>4</WarningLevel>
     </PropertyGroup>
     <ItemGroup>
-        <Reference Include="DamageTrackerFramework" />
-        <Reference Include="DamageTrackerLib">
-          <HintPath>..\..\..\Depend\LSPDFR\DamageTrackerLib.dll</HintPath>
+        <Reference Include="DamageTrackerLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+          <HintPath>..\packages\PyroVariDamageTracker.1.0.2\lib\DamageTrackerLib.dll</HintPath>
         </Reference>
         <Reference Include="LSPD First Response">
           <HintPath>..\packages\MyPackagePyroManiac.1.0.0\lib\LSPD First Response.dll</HintPath>
@@ -69,6 +68,7 @@
       <Content Include="DeadlyWeapons.ini" />
     </ItemGroup>
     <ItemGroup>
+      <None Include="App.config" />
       <None Include="packages.config" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
