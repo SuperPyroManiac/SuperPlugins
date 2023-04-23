@@ -196,6 +196,7 @@ public class Trespassing : Callout
                             break;
                         case 2:
                             _suspect.PlayAmbientSpeech("GENERIC_CURSE_MED");
+                            _suspect.Inventory.Weapons.Clear();
                             _suspect.Inventory.Weapons.Add(WeaponHash.Pistol).Ammo = -1;
                             _suspect.Tasks.ClearImmediately();
                             _suspect.Tasks.AimWeaponAt(Game.LocalPlayer.Character, -1);
