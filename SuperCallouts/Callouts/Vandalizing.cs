@@ -1,4 +1,4 @@
-﻿using System.Drawing;
+﻿/*using System.Drawing;
 using LSPD_First_Response.Mod.API;
 using LSPD_First_Response.Mod.Callouts;
 using Rage;
@@ -25,28 +25,27 @@ internal class Vandalizing : Callout
     {
         _spawnPoint = World.GetNextPositionOnStreet(Game.LocalPlayer.Character.Position.Around(350f));
         ShowCalloutAreaBlipBeforeAccepting(_spawnPoint, 30f);
-        CalloutMessage = "~b~Dispatch:~s~ Stolen construction vehicle.";
-        CalloutAdvisory = "A very large vehicle was stolen from a construction site.";
+        CalloutMessage = "~b~Dispatch:~s~ Person vandalizing a vehicle.";
+        CalloutAdvisory = "Caller states a person is damaging a parked vehicle.";
         CalloutPosition = _spawnPoint;
         Functions.PlayScannerAudioUsingPosition(
-            "WE_HAVE CRIME_BRANDISHING_WEAPON_01 CRIME_ROBBERY_01 IN_OR_ON_POSITION", _spawnPoint);
+            "WE_HAVE CRIME_SUSPECT_ON_THE_RUN_03 IN_OR_ON_POSITION", _spawnPoint);
         return base.OnBeforeCalloutDisplayed();
     }
     
     public override bool OnCalloutAccepted()
     {
         //Setup
-        Game.LogTrivial("SuperCallouts Log: StolenDumptruck callout accepted...");
+        Game.LogTrivial("SuperCallouts Log: Vandalizing callout accepted...");
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Vandalizing",
             "A suspect has been reported damaging a vehicle. Respond ~r~CODE-3");
         if (Main.UsingCi)
         {
             Wrapper.StartCi(this, "Code 3");
-            Wrapper.CiSendMessage(this, "A dump truck has been stolen from a construction site. This vehicle is very large and driving on public streets.");//TODO: From here!
+            Wrapper.CiSendMessage(this, "A call came in about a person attacking a vehicle causing serious damage to it. Further details are unknown.");
         }
         //cVehicle
-        _cVehicle = new Vehicle("dump", _spawnPoint)
-            { IsPersistent = true};
+        CFunctions.SpawnNormalCar(out _cVehicle, _spawnPoint);
         //Bad
         _bad = new Ped(_spawnPoint.Around(15f));
         _bad.WarpIntoVehicle(_cVehicle, -1);
@@ -84,3 +83,4 @@ internal class Vandalizing : Callout
         End
     }
 }
+*/
