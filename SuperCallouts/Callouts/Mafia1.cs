@@ -4,8 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using CalloutInterfaceAPI;
 using LSPD_First_Response;
-using LSPD_First_Response.Mod.API;
 using LSPD_First_Response.Mod.Callouts;
 using Rage;
 using Rage.Native;
@@ -13,12 +13,13 @@ using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts.CustomScenes;
 using SuperCallouts.SimpleFunctions;
+using Functions = LSPD_First_Response.Mod.API.Functions;
 
 #endregion
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInfo("Mafia1", CalloutProbability.Medium)]
+[CalloutInterface("Casino Raid", CalloutProbability.Low, "FIB have discovered serious drug smuggling at the casino - meet with FIB", "Code 5", "SWAT")]
 internal class Mafia1 : Callout
 {
     private readonly List<Ped> _badGuys = new();
@@ -78,8 +79,6 @@ internal class Mafia1 : Callout
             "FIB reports the Mafia have been using the casino as a drug trafficking hotspot. Speak with FIB agents and plan a raid.");
         Mafia1Setup.BuildMafia1PreScene(out _fib1, out _fib2, out _fib3, out _fib4, out _fib5, out _fibCar1,
             out _fibCar2);
-        if (Main.UsingCi) Wrapper.StartCi(this, "Code 3");
-
         _cBlip = new Blip(_fib1.Position);
         _cBlip.Color = Color.Yellow;
         _cBlip.EnableRoute(Color.Yellow);
@@ -254,7 +253,7 @@ internal class Mafia1 : Callout
         _interaction.CloseAllMenus();
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
         CFunctions.Code4Message();
-        if (Main.UsingCi) Wrapper.CiSendMessage(this, "Scene clear, Code4");
+        CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code4");
         base.End();
     }
 

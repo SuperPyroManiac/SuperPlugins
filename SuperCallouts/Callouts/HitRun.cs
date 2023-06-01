@@ -2,6 +2,7 @@
 
 using System;
 using System.Drawing;
+using CalloutInterfaceAPI;
 using LSPD_First_Response.Mod.API;
 using LSPD_First_Response.Mod.Callouts;
 using Rage;
@@ -9,12 +10,13 @@ using Rage.Native;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts.SimpleFunctions;
+using Functions = LSPD_First_Response.Mod.API.Functions;
 
 #endregion
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInfo("HitRun", CalloutProbability.Medium)]
+[CalloutInterface("Hit and Run", CalloutProbability.Medium, "Car accident, one subject fleeing scene", "Code 3")]
 internal class HitRun : Callout
 {
     private readonly UIMenu _convoMenu = new("SuperCallouts", "~y~Choose a subject to speak with.");
@@ -63,7 +65,6 @@ internal class HitRun : Callout
         Game.LogTrivial("SuperCallouts Log: Hit And Run callout accepted...");
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Car Accident",
             "Victim reports the other driver has left the scene. Get to the victim as soon as possible.");
-        if (Main.UsingCi) Wrapper.StartCi(this, "Code 3");
         //cVehicle
         CFunctions.SpawnNormalCar(out _cVehicle1, _spawnPoint);
         _cVehicle1.Heading = _spawnPointH;
@@ -186,7 +187,7 @@ internal class HitRun : Callout
         _mainMenu.Visible = false;
         CFunctions.Code4Message();
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
-        if (Main.UsingCi) Wrapper.CiSendMessage(this, "Scene clear, Code4");
+        CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code4");
         base.End();
     }
 

@@ -1,8 +1,8 @@
 ﻿#region
 
 using System.Drawing;
+using CalloutInterfaceAPI;
 using LSPD_First_Response;
-using LSPD_First_Response.Mod.API;
 using LSPD_First_Response.Mod.Callouts;
 using Rage;
 using Rage.Native;
@@ -10,12 +10,13 @@ using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts.CustomScenes;
 using SuperCallouts.SimpleFunctions;
+using Functions = LSPD_First_Response.Mod.API.Functions;
 
 #endregion
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInfo("LSGTF", CalloutProbability.Low)]
+[CalloutInterface("Gang Taskforce", CalloutProbability.Low, "Stakeout has found a wanted cop killer - Speak with FIB", "Code 5", "SWAT")]
 internal class Lsgtf : Callout
 {
     private readonly Vector3 _raidpoint = new(113.1443f, -1926.435f, 20.8231f);
@@ -66,8 +67,7 @@ internal class Lsgtf : Callout
         Game.LogTrivial("SuperCallouts Log: LSGTF callout accepted...");
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Meet with FIB",
             "FIB has a gang task force ready. Speak with them to conduct the raid.");
-        if (Main.UsingCi) Wrapper.StartCi(this, "Code 1");
-        if (Main.UsingCi) Wrapper.CiSendMessage(this, "**Dispatch** Go speak with the federal agents.");
+        CalloutInterfaceAPI.Functions.SendMessage(this, "**Dispatch** Go speak with the federal agents.");
         LsgtfSetup.ConstructLspdraidScene(out _bad1, out _bad2, out _bad3, out _bad4, out _bad5, out _bad6,
             out _bad7, out _bad8, out _cVehicle, out _fib1, out _fib2);
         _bad1.IsPersistent = true;
@@ -167,7 +167,7 @@ internal class Lsgtf : Callout
                 _bad6.Tasks.Wander();
                 _bad7.Tasks.Wander();
                 _bad8.Tasks.Wander();
-                if (Main.UsingCi) Wrapper.CiSendMessage(this, "Proceed to raid location.");
+                CalloutInterfaceAPI.Functions.SendMessage(this, "Proceed to raid location.");
             });
         if (selItem == _startConv3)
             GameFiber.StartNew(delegate
@@ -194,9 +194,8 @@ internal class Lsgtf : Callout
             _cVehicle.IsSirenOn = true;
             _cVehicle.IsSirenSilent = true;
             _onScene = true;
-            if (Main.UsingCi) Wrapper.CiSendMessage(this, "Arriving on scene, shots fired!");
-            if (Main.UsingCi)
-                Wrapper.CiSendMessage(this, "**Dispatch** Code-33 all units respond. Station is 10-6.");
+            CalloutInterfaceAPI.Functions.SendMessage(this, "Arriving on scene, shots fired!");
+CalloutInterfaceAPI.Functions.SendMessage(this, "**Dispatch** Code-33 all units respond. Station is 10-6.");
             Functions.PlayScannerAudioUsingPosition(
                 "DISPATCH_SWAT_UNITS_FROM_01 IN_OR_ON_POSITION UNITS_RESPOND_CODE_99_01", _raidpoint);
             if (Main.UsingUb)
@@ -281,7 +280,7 @@ internal class Lsgtf : Callout
         if (_meetingB.Exists()) _meetingB.Delete();
         CFunctions.Code4Message();
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
-        if (Main.UsingCi) Wrapper.CiSendMessage(this, "Scene clear, Code4");
+        CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code4");
         base.End();
     }
 }

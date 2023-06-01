@@ -2,6 +2,7 @@
 
 using System;
 using System.Drawing;
+using CalloutInterfaceAPI;
 using LSPD_First_Response;
 using LSPD_First_Response.Mod.API;
 using LSPD_First_Response.Mod.Callouts;
@@ -9,12 +10,13 @@ using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts.SimpleFunctions;
+using Functions = LSPD_First_Response.Mod.API.Functions;
 
 #endregion
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInfo("Impersonator", CalloutProbability.Medium)]
+[CalloutInterface("Police Impersonator", CalloutProbability.Medium, "Active traffic stop with an impersonator", "Code 3")]
 internal class Impersonator : Callout
 {
     private readonly UIMenuItem _callSecond = new("~r~ Call Secondary", "Calls for a second unit to assist.");
@@ -53,7 +55,7 @@ internal class Impersonator : Callout
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Suspicious Pullover",
             Settings.EmergencyNumber +
             " call of someone being pulled over by a non uniformed officer. Description does not match our department for undercover cops. Respond ~r~CODE-3");
-        if (Main.UsingCi) Wrapper.StartCi(this, "Code 3");
+        CalloutInterfaceAPI.Functions.SendMessage(this, "Caller feels that they are in danger, this is a high priority call.");
         //cVehicle1
         CFunctions.SpawnNormalCar(out _cVehicle1, _spawnPoint);
         _cVehicle1.Heading = _spawnPointH;
@@ -105,7 +107,7 @@ internal class Impersonator : Callout
             if (!_onScene && Game.LocalPlayer.Character.DistanceTo(_cVehicle2) < 30f)
             {
                 _onScene = true;
-                if (Main.UsingCi) Wrapper.CiSendMessage(this, "Arriving on scene. 10-23");
+                CalloutInterfaceAPI.Functions.SendMessage(this, "Arriving on scene.");
                 _cBlip.DisableRoute();
                 _victim.Tasks.CruiseWithVehicle(10f, VehicleDrivingFlags.Normal);
                 _pursuit = Functions.CreatePursuit();
@@ -120,7 +122,7 @@ internal class Impersonator : Callout
                         Game.DisplayHelp("Suspect is fleeing!");
                         Functions.AddPedToPursuit(_pursuit, _bad);
                         Functions.SetPursuitIsActiveForPlayer(_pursuit, true);
-                        if (Main.UsingCi) Wrapper.CiSendMessage(this, "Suspect is fleeing, show me in pursuit!");
+                        CalloutInterfaceAPI.Functions.SendMessage(this, "Suspect is fleeing, show me in pursuit!");
                         //cVehicle2.IsSirenOn = false;
                         break;
                     case 2:
@@ -130,9 +132,8 @@ internal class Impersonator : Callout
                             _bad.Inventory.Weapons.Add(WeaponHash.CombatPistol).Ammo = -1;
                             GameFiber.Wait(3000);
                             _bad.Tasks.FightAgainst(Game.LocalPlayer.Character, -1);
-                            if (Main.UsingCi) Wrapper.CiSendMessage(this, "Shots fired!");
-                            if (Main.UsingCi)
-                                Wrapper.CiSendMessage(this,
+                            CalloutInterfaceAPI.Functions.SendMessage(this, "Shots fired!");
+                            CalloutInterfaceAPI.Functions.SendMessage(this,
                                     "**Dispatch** Code-33 all units respond. Station is 10-6.");
                             //cVehicle2.IsSirenOn = false;
                         });
@@ -183,7 +184,7 @@ internal class Impersonator : Callout
         if (_cVehicle1.Exists()) _cVehicle1.Dismiss();
         if (_cVehicle2.Exists()) _cVehicle2.Dismiss();
         if (_cBlip.Exists()) _cBlip.Delete();
-        if (Main.UsingCi) Wrapper.CiSendMessage(this, "Scene clear, Code4");
+        CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code4");
         base.End();
     }
 
@@ -233,7 +234,7 @@ internal class Impersonator : Callout
                 Game.DisplaySubtitle(
                     "~r~" + _name1 +
                     "~s~: I'll have you fired for this officer. I'm not going to talk to you anymore.", 5000);
-                if (Main.UsingCi) Wrapper.CiSendMessage(this, "Report taken from suspect.");
+                CalloutInterfaceAPI.Functions.SendMessage(this, "Report taken from suspect.");
             });
     }
 }

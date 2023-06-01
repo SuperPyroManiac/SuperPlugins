@@ -2,19 +2,20 @@
 
 using System;
 using System.Drawing;
+using CalloutInterfaceAPI;
 using LSPD_First_Response;
-using LSPD_First_Response.Mod.API;
 using LSPD_First_Response.Mod.Callouts;
 using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts.SimpleFunctions;
+using Functions = LSPD_First_Response.Mod.API.Functions;
 
 #endregion
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInfo("OfficerShootout", CalloutProbability.Medium)]
+[CalloutInterface("Shots Fired", CalloutProbability.Low, "Officers under fire - high priority", "Code 99")]
 internal class OfficerShootout : Callout
 {
     private readonly UIMenuItem _endCall = new("~y~End Callout", "Ends the callout early.");
@@ -51,7 +52,6 @@ internal class OfficerShootout : Callout
         Game.LogTrivial("SuperCallouts Log: Officer Shootout accepted...");
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Officer Shot",
             "Officer reports shots fired during felony stop, panic button hit. Respond ~r~CODE-3");
-        if (Main.UsingCi) Wrapper.StartCi(this, "Code 3");
         //cVehicle
         CFunctions.SpawnNormalCar(out _cVehicle, _spawnPoint);
         _cVehicle.Heading = _spawnPointH;
@@ -162,7 +162,7 @@ internal class OfficerShootout : Callout
         _mainMenu.Visible = false;
         CFunctions.Code4Message();
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
-        if (Main.UsingCi) Wrapper.CiSendMessage(this, "Scene clear, Code4");
+        CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code4");
         base.End();
     }
 

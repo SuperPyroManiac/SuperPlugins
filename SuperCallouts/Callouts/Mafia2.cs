@@ -3,19 +3,20 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using CalloutInterfaceAPI;
 using LSPD_First_Response;
 using LSPD_First_Response.Engine.Scripting.Entities;
-using LSPD_First_Response.Mod.API;
 using LSPD_First_Response.Mod.Callouts;
 using Rage;
 using SuperCallouts.CustomScenes;
 using SuperCallouts.SimpleFunctions;
+using Functions = LSPD_First_Response.Mod.API.Functions;
 
 #endregion
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInfo("Mafia2", CalloutProbability.Medium)]
+[CalloutInterface("Drug Raid", CalloutProbability.Low, "Drug smuggling in abandoned apartment - Stakeout for SWAT teams", "Code 5", "SWAT")]
 internal class Mafia2 : Callout
 {
     private readonly Vector3 _callPos = new(1543.173f, 3606.55f, 35.19303f);
@@ -63,7 +64,6 @@ internal class Mafia2 : Callout
         Game.LogTrivial("SuperCallouts Log: Mafia2 callout accepted...");
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~The Mafia",
             "FIB and IAA reports the Mafia have been spotted near Sandy Shores. Possible large scale drug trafficking. Investigate the scene.");
-        if (Main.UsingCi) Wrapper.StartCi(this, "Code 2");
         Game.LocalPlayer.Character.RelationshipGroup = "COP";
         Game.DisplaySubtitle("Get to the ~r~scene~w~! Proceed with ~r~CAUTION~w~!", 10000);
         _cBlip = _mafiaDude2.AttachBlip();
@@ -168,7 +168,7 @@ internal class Mafia2 : Callout
         if (_cBlip.Exists()) _cBlip.Delete();
         CFunctions.Code4Message();
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
-        if (Main.UsingCi) Wrapper.CiSendMessage(this, "Scene clear, Code4");
+        CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code4");
         base.End();
     }
 }

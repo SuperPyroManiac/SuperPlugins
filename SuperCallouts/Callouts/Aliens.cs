@@ -6,12 +6,14 @@ using LSPD_First_Response.Mod.Callouts;
 using Rage;
 using Rage.Native;
 using SuperCallouts.SimpleFunctions;
+using CalloutInterfaceAPI;
+using Functions = LSPD_First_Response.Mod.API.Functions;
 
 #endregion
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInfo("Aliens", CalloutProbability.VeryLow)]
+[CalloutInterface("Aliens", CalloutProbability.VeryLow, "Alien sighting - possible prank", "Code 2")]
 internal class Aliens : Callout
 {
     private Ped _alien1;
@@ -39,7 +41,6 @@ internal class Aliens : Callout
         Game.LogTrivial("SuperCallouts Log: Aliens callout accepted...");
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Alien Sighting",
             "Caller claims that the subjects are aliens. Low priority, respond ~y~CODE-2");
-        if (Main.UsingCi) Wrapper.StartCi(this, "Code 2");
         _cVehicle1 = new Vehicle("DUNE2", _spawnPoint);
         _cVehicle1.IsPersistent = true;
         _cVehicle1.IsEngineOn = true;
@@ -75,7 +76,7 @@ internal class Aliens : Callout
             GameFiber.StartNew(delegate
             {
                 _onScene = true;
-                if (Main.UsingCi) Wrapper.CiSendMessage(this, "Officer on scene.");
+                CalloutInterfaceAPI.Functions.SendMessage(this, "Officer on scene.");
                 _cBlip1.DisableRoute();
                 NativeFunction.Natives.x6A071245EB0D1882(_alien1, Game.LocalPlayer.Character, -1, 2f, 2f,
                     0, 0);
@@ -104,11 +105,10 @@ internal class Aliens : Callout
         if (_alien3.Exists()) _alien3.Delete();
         if (_cVehicle1.Exists()) _cVehicle1.Delete();
         if (_cBlip1.Exists()) _cBlip1.Delete();
-        if (Main.UsingCi) Wrapper.CiSendMessage(this, "Uhh... Code4");
         CFunctions.Code4Message();
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
         Game.DisplaySubtitle("~g~Me:~s~ The hell was that? I think I need a nap..");
-        if (Main.UsingCi) Wrapper.CiSendMessage(this, "Scene clear, Code4");
+        CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code4");
         base.End();
     }
 }

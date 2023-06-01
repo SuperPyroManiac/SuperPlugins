@@ -4,22 +4,23 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using CalloutInterfaceAPI;
 using LSPD_First_Response;
 using LSPD_First_Response.Engine.Scripting.Entities;
-using LSPD_First_Response.Mod.API;
 using LSPD_First_Response.Mod.Callouts;
 using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts.CustomScenes;
 using SuperCallouts.SimpleFunctions;
+using Functions = LSPD_First_Response.Mod.API.Functions;
 using Object = Rage.Object;
 
 #endregion
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInfo("Mafia4", CalloutProbability.Medium)]
+[CalloutInterface("Bomb Report", CalloutProbability.Low, "A bomb has been found downtown - high priority all units", "Code 99", "SWAT")]
 internal class Mafia4 : Callout
 {
     private readonly Vector3 _callPos = new(288.916f, -1588.429f, 29.53253f);
@@ -70,7 +71,6 @@ internal class Mafia4 : Callout
         Game.LogTrivial("SuperCallouts Log: Mafia4 callout accepted...");
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~The Mafia",
             "A massive bomb has been spotted downtown, multiple armed suspects. Get to the scene.");
-        if (Main.UsingCi) Wrapper.StartCi(this, "Code 3");
         Game.LocalPlayer.Character.RelationshipGroup = "COP";
         Game.DisplaySubtitle("Get to the ~r~scene~w~! Proceed with ~r~CAUTION~w~!", 10000);
         //World
@@ -103,7 +103,7 @@ internal class Mafia4 : Callout
         }
 
         _bomb.IsPersistent = true;
-        if (Main.UsingCi) Wrapper.CiSendMessage(this, "Multiple unites en-route to the scene.");
+        CalloutInterfaceAPI.Functions.SendMessage(this, "Multiple unites en-route to the scene.");
 
         //UI Items
         CFunctions.BuildUi(out _interaction, out _mainMenu, out _, out _, out _endCall);
@@ -123,8 +123,7 @@ internal class Mafia4 : Callout
                         Game.SetRelationshipBetweenRelationshipGroups("MAFIA", "COP", Relationship.Hate);
                         Game.SetRelationshipBetweenRelationshipGroups("MAFIA", "PLAYER", Relationship.Hate);
                         Game.SetRelationshipBetweenRelationshipGroups("COP", "MAFIA", Relationship.Hate);
-                        if (Main.UsingCi)
-                            Wrapper.CiSendMessage(this,
+                        CalloutInterfaceAPI.Functions.SendMessage(this,
                                 "Gang members in the area have been paid off by the mob and may also be a thread. Be cautious.");
                         if (Main.UsingUb)
                         {
@@ -198,7 +197,7 @@ internal class Mafia4 : Callout
         _interaction.CloseAllMenus();
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
         CFunctions.Code4Message();
-        if (Main.UsingCi) Wrapper.CiSendMessage(this, "Scene clear, Code4");
+        CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code4");
 
         base.End();
     }
@@ -229,7 +228,7 @@ internal class Mafia4 : Callout
                 {
                     _running = false;
                     _cTimerBar.Label = "Disarmed";
-                    if (Main.UsingCi) Wrapper.CiSendMessage(this, "All suspects are down. Bomb has been disarmed.");
+                    CalloutInterfaceAPI.Functions.SendMessage(this, "All suspects are down. Bomb has been disarmed.");
                     Game.DisplayHelp("Bomb Disarmed", 4000);
                 }
             }

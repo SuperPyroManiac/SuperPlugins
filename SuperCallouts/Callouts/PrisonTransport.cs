@@ -2,18 +2,20 @@
 
 using System;
 using System.Drawing;
+using CalloutInterfaceAPI;
 using LSPD_First_Response.Mod.API;
 using LSPD_First_Response.Mod.Callouts;
 using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts.SimpleFunctions;
+using Functions = LSPD_First_Response.Mod.API.Functions;
 
 #endregion
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInfo("PrisonTransport", CalloutProbability.Medium)]
+[CalloutInterface("Transport Escape", CalloutProbability.Medium, "Prisoner escaped transport vehicle - high priority", "Code 3")]
 internal class PrisonTransport : Callout
 {
     private readonly UIMenuItem _endCall = new("~y~End Callout", "Ends the callout early.");
@@ -47,7 +49,6 @@ internal class PrisonTransport : Callout
         Game.LogTrivial("SuperCallouts Log: Prison Truck callout accepted...");
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Escaped Prisoner",
             "DOC reports a prisoner has unlocked the transport vehicle and is on the run. ~r~CODE-3");
-        if (Main.UsingCi) Wrapper.StartCi(this, "Code 3");
         //cVehicle
         _cVehicle = new Vehicle("POLICET", _spawnPoint) { IsPersistent = true };
         //Cop
@@ -146,7 +147,7 @@ internal class PrisonTransport : Callout
         _mainMenu.Visible = false;
         CFunctions.Code4Message();
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
-        if (Main.UsingCi) Wrapper.CiSendMessage(this, "Scene clear, Code4");
+        CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code4");
         base.End();
     }
 

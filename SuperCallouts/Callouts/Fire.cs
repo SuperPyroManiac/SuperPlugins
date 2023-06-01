@@ -2,18 +2,19 @@
 
 using System;
 using System.Drawing;
-using LSPD_First_Response.Mod.API;
+using CalloutInterfaceAPI;
 using LSPD_First_Response.Mod.Callouts;
 using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts.SimpleFunctions;
+using Functions = LSPD_First_Response.Mod.API.Functions;
 
 #endregion
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInfo("Fire", CalloutProbability.Medium)]
+[CalloutInterface("Fire", CalloutProbability.Medium, "Reports of a vehicle fire", "Code 3")]
 internal class Fire : Callout
 {
     private readonly UIMenuItem _endCall = new("~y~End Callout", "Ends the callout early.");
@@ -43,7 +44,6 @@ internal class Fire : Callout
         Game.LogTrivial("SuperCallouts Log: fire callout accepted...");
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Fire",
             "Reports of a car fire, respond ~r~CODE-3");
-        if (Main.UsingCi) Wrapper.StartCi(this, "Code 3");
         //cVehicle
         CFunctions.SpawnAnyCar(out _cVehicle, _spawnPoint);
         _cVehicle.Heading = _spawnPointH;
@@ -101,7 +101,7 @@ internal class Fire : Callout
         _mainMenu.Visible = false;
         CFunctions.Code4Message();
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
-        if (Main.UsingCi) Wrapper.CiSendMessage(this, "Scene clear, Code4");
+        CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code4");
         base.End();
     }
 

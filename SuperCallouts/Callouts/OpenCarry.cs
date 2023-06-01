@@ -2,6 +2,7 @@
 
 using System;
 using System.Drawing;
+using CalloutInterfaceAPI;
 using LSPD_First_Response.Mod.API;
 using LSPD_First_Response.Mod.Callouts;
 using Rage;
@@ -9,12 +10,13 @@ using Rage.Native;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts.SimpleFunctions;
+using Functions = LSPD_First_Response.Mod.API.Functions;
 
 #endregion
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInfo("OpenCarry", CalloutProbability.Medium)]
+[CalloutInterface("Open Carry", CalloutProbability.Low, "Person walking around with an assault rifle", "Code 2")]
 internal class OpenCarry : Callout
 {
     private readonly UIMenu _convoMenu = new("SuperCallouts", "~y~Choose a subject to speak with.");
@@ -52,7 +54,6 @@ internal class OpenCarry : Callout
         Game.LogTrivial("SuperCallouts Log: Open Carry callout accepted...");
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Person With Gun",
             "Reports of a person walking around with an assault rifle. Respond ~y~CODE-2");
-        if (Main.UsingCi) Wrapper.StartCi(this, "Code 2");
         //Bad
         _bad1 = new Ped(_spawnPoint) { IsPersistent = true };
         _bad1.Inventory.GiveNewWeapon(WeaponHash.AdvancedRifle, -1, true);
@@ -171,7 +172,7 @@ internal class OpenCarry : Callout
         _mainMenu.Visible = false;
         CFunctions.Code4Message();
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
-        if (Main.UsingCi) Wrapper.CiSendMessage(this, "Scene clear, Code4");
+        CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code4");
         base.End();
     }
 

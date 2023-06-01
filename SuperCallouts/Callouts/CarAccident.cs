@@ -2,19 +2,20 @@
 
 using System;
 using System.Drawing;
+using CalloutInterfaceAPI;
 using LSPD_First_Response;
-using LSPD_First_Response.Mod.API;
 using LSPD_First_Response.Mod.Callouts;
 using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts.SimpleFunctions;
+using Functions = LSPD_First_Response.Mod.API.Functions;
 
 #endregion
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInfo("CarAccident", CalloutProbability.Medium)]
+[CalloutInterface("Car Accident", CalloutProbability.Medium, "Reports of a vehicle crash, limited details", "Code 3")]
 internal class CarAccident : Callout
 {
     private readonly UIMenuItem _callEms = new("~r~ Call EMS", "Calls for an ambulance.");
@@ -47,7 +48,6 @@ internal class CarAccident : Callout
         Game.LogTrivial("SuperCallouts Log: car accident callout accepted...");
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~MVA",
             "Reports of a car accident, respond ~r~CODE-3");
-        if (Main.UsingCi) Wrapper.StartCi(this, "Code 3");
         //cVehicle
         CFunctions.SpawnAnyCar(out _cVehicle, _spawnPoint);
         _cVehicle.Heading = _spawnPointH;
@@ -81,7 +81,7 @@ internal class CarAccident : Callout
             if (!_onScene && Game.LocalPlayer.Character.DistanceTo(_cVehicle) < 25f)
             {
                 _onScene = true;
-                if (Main.UsingCi) Wrapper.CiSendMessage(this, "Arriving on scene. 10-23");
+                CalloutInterfaceAPI.Functions.SendMessage(this, "Arriving on scene. 10-23");
                 _cBlip.DisableRoute();
                 _callEms.Enabled = true;
                 Game.DisplayHelp($"Press ~{Settings.Interact.GetInstructionalId()}~ to open interaction menu.");
@@ -114,7 +114,7 @@ internal class CarAccident : Callout
         _mainMenu.Visible = false;
         CFunctions.Code4Message();
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
-        if (Main.UsingCi) Wrapper.CiSendMessage(this, "Scene clear, Code4");
+        CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code4");
         base.End();
     }
 
@@ -124,8 +124,7 @@ internal class CarAccident : Callout
         {
             Game.DisplaySubtitle(
                 "~g~You~s~: Dispatch, we have a vehicle accident, possible hit and run. Looks like someone is inside and injured! I need EMS out here.");
-            if (Main.UsingCi)
-                Wrapper.CiSendMessage(this, "EMS has been notified and is on route. 11-78");
+            CalloutInterfaceAPI.Functions.SendMessage(this, "EMS has been notified and is on route. 11-78");
             if (Main.UsingUb)
             {
                 Wrapper.CallEms();

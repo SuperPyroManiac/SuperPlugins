@@ -2,6 +2,7 @@
 
 using System;
 using System.Drawing;
+using CalloutInterfaceAPI;
 using LSPD_First_Response;
 using LSPD_First_Response.Mod.API;
 using LSPD_First_Response.Mod.Callouts;
@@ -9,12 +10,13 @@ using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts.SimpleFunctions;
+using Functions = LSPD_First_Response.Mod.API.Functions;
 
 #endregion
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInfo("Manhunt", CalloutProbability.Medium)]
+[CalloutInterface("Manhunt", CalloutProbability.Low, "Suspect evading police", "Code 3")]
 internal class Manhunt : Callout
 {
     private readonly UIMenuItem _callAr = new("~r~ Call Air Unit", "Calls for an air unit.");
@@ -51,7 +53,6 @@ internal class Manhunt : Callout
         Game.LogTrivial("SuperCallouts Log: Manhunt callout accepted...");
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Manhunt",
             "Search for the suspect. High priority, respond ~r~CODE-3");
-        if (Main.UsingCi) Wrapper.StartCi(this, "Code 3");
         //Bad
         _bad = new Ped(_spawnPoint) { IsPersistent = true };
         CFunctions.SetWanted(_bad, true);
@@ -136,7 +137,7 @@ internal class Manhunt : Callout
         _mainMenu.Visible = false;
         CFunctions.Code4Message();
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
-        if (Main.UsingCi) Wrapper.CiSendMessage(this, "Scene clear, Code4");
+        CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code4");
         base.End();
     }
 

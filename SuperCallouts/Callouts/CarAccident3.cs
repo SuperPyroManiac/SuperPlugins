@@ -2,18 +2,19 @@
 
 using System;
 using System.Drawing;
-using LSPD_First_Response.Mod.API;
+using CalloutInterfaceAPI;
 using LSPD_First_Response.Mod.Callouts;
 using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts.SimpleFunctions;
+using Functions = LSPD_First_Response.Mod.API.Functions;
 
 #endregion
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInfo("CarAccident3", CalloutProbability.Medium)]
+[CalloutInterface("Car Accident", CalloutProbability.Medium, "Reports of a vehicle crash, limited details", "Code 3")]
 internal class CarAccident3 : Callout
 {
     private readonly int _choice = new Random().Next(0, 4);
@@ -49,7 +50,6 @@ internal class CarAccident3 : Callout
         Game.LogTrivial("SuperCallouts Log: car accident callout accepted...");
         Game.DisplayNotification("web_lossantospolicedept", "web_lossantospolicedept", "~b~Dispatch", "~r~MVA",
             "Reports of a car accident, respond ~r~CODE-3");
-        if (Main.UsingCi) Wrapper.StartCi(this, "Code 3");
         //Vehicles
         CFunctions.SpawnNormalCar(out _eVehicle, _spawnPoint, _spawnPointH);
         CFunctions.Damage(_eVehicle, 200, 200);
@@ -112,7 +112,7 @@ internal class CarAccident3 : Callout
                         Game.DisplayNotification("web_lossantospolicedept", "web_lossantospolicedept",
                             "~y~On Scene",
                             "~r~Car Accident", "Investigate the scene.");
-                        if (Main.UsingCi) Wrapper.CiSendMessage(this, "Arriving on scene. 10-23");
+                        CalloutInterfaceAPI.Functions.SendMessage(this, "Arriving on scene. 10-23");
                         _tasks = Tasks.OnScene;
                     }
 
@@ -127,27 +127,25 @@ internal class CarAccident3 : Callout
                         case 0: //Peds fight
                             _ePed.Tasks.FightAgainst(_ePed2);
                             _ePed2.Tasks.FightAgainst(_ePed);
-                            if (Main.UsingCi) Wrapper.CiSendMessage(this, "Subjects are fighting!");
+                            CalloutInterfaceAPI.Functions.SendMessage(this, "Subjects are fighting!");
                             break;
                         case 1: //Ped Dies, other flees
                             var pursuit = Functions.CreatePursuit();
                             Functions.AddPedToPursuit(pursuit, _ePed2);
                             Functions.SetPursuitIsActiveForPlayer(pursuit, true);
-                            if (Main.UsingCi)
-                                Wrapper.CiSendMessage(this, "Subject running on foot, currently in pursuit!");
+                            CalloutInterfaceAPI.Functions.SendMessage(this, "Subject running on foot, currently in pursuit!");
                             break;
                         case 2: //Hit and run
                             var pursuit2 = Functions.CreatePursuit();
                             Functions.AddPedToPursuit(pursuit2, _ePed);
                             Functions.SetPursuitIsActiveForPlayer(pursuit2, true);
                             _ePed2.Tasks.LeaveVehicle(LeaveVehicleFlags.LeaveDoorOpen);
-                            if (Main.UsingCi) Wrapper.CiSendMessage(this, "Appears to be a 480, hit and run.");
+                            CalloutInterfaceAPI.Functions.SendMessage(this, "Appears to be a 480, hit and run.");
                             break;
                         case 3: //Fire + dead ped.
                             _ePed2.Tasks.Cower(-1);
                             CFunctions.FireControl(_spawnPoint.Around2D(7f), 24, true);
-                            if (Main.UsingCi)
-                                Wrapper.CiSendMessage(this, "We have a fire, and someone is injured!");
+                            CalloutInterfaceAPI.Functions.SendMessage(this, "We have a fire, and someone is injured!");
                             break;
                         default:
                             End();
@@ -190,7 +188,7 @@ internal class CarAccident3 : Callout
         if (_eBlip) _eBlip.Delete();
         CFunctions.Code4Message();
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
-        if (Main.UsingCi) Wrapper.CiSendMessage(this, "Scene clear, Code4");
+        CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code4");
         base.End();
     }
 

@@ -4,18 +4,19 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using LSPD_First_Response.Mod.API;
+using CalloutInterfaceAPI;
 using LSPD_First_Response.Mod.Callouts;
 using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts.SimpleFunctions;
+using Functions = LSPD_First_Response.Mod.API.Functions;
 
 #endregion
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInfo("KnifeAttack", CalloutProbability.Medium)]
+[CalloutInterface("Knife Attack", CalloutProbability.Medium, "Reports of suspect attacking people with large knife", "Code 3")]
 internal class KnifeAttack : Callout
 {
     private readonly int _cScene = new Random().Next(1, 4);
@@ -69,7 +70,6 @@ internal class KnifeAttack : Callout
         Game.LogTrivial("SuperCallouts Log: knife attack callout accepted. Using scenario #:" + _cScene);
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Knife Attack",
             "Reports of a person attacking people with a knife at the train station.");
-        if (Main.UsingCi) Wrapper.StartCi(this, "Code 3");
         //Suspect
         _cSuspect = new Ped(_cSpawnPoint);
         _cSuspect.Heading = _cHeading;
@@ -101,7 +101,7 @@ internal class KnifeAttack : Callout
             case Tasks.CheckDistance:
                 if (Game.LocalPlayer.Character.DistanceTo(_cSuspect) < 25f)
                 {
-                    if (Main.UsingCi) Wrapper.CiSendMessage(this, "Arriving on scene. 10-23");
+                    CalloutInterfaceAPI.Functions.SendMessage(this, "Arriving on scene. 10-23");
                     _cVictim.Kill();
                     _cTasks = Tasks.OnScene;
                 }
@@ -146,7 +146,7 @@ internal class KnifeAttack : Callout
         if (_cSuspect) _cSuspect.Dismiss();
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
         CFunctions.Code4Message();
-        if (Main.UsingCi) Wrapper.CiSendMessage(this, "Scene clear, Code4");
+        CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code4");
         base.End();
     }
 

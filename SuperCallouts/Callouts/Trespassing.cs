@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using CalloutInterfaceAPI;
 using LSPD_First_Response;
 using LSPD_First_Response.Engine.Scripting.Entities;
 using LSPD_First_Response.Mod.API;
@@ -11,10 +12,11 @@ using Rage.Native;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts.SimpleFunctions;
+using Functions = LSPD_First_Response.Mod.API.Functions;
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInfo("Trespassing", CalloutProbability.Medium)]
+[CalloutInterface("Trespassing", CalloutProbability.Medium, "Aggressive person damaging property", "Code 3")]
 public class Trespassing : Callout
 {
     private readonly int _cScene = new Random().Next(0, 4);
@@ -70,8 +72,7 @@ public class Trespassing : Callout
         Game.LogTrivial("SuperCallouts Log: trespassing callout accepted...");
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~y~Trespassing",
             "Caller reports an individual trespassing and causing a disturbance. ~r~CODE-2");
-        if (Main.UsingCi) Wrapper.StartCi(this, "Code 2");
-        if (Main.UsingCi) Wrapper.CiSendMessage(this, "Dispatch: Caller reports suspect is drunk and may be armed.");
+        CalloutInterfaceAPI.Functions.SendMessage(this, "Dispatch: Caller reports suspect is drunk and may be armed.");
         //Ped
         _suspect = new Ped(_spawnPoint, _heading)
         {
@@ -108,7 +109,7 @@ public class Trespassing : Callout
                 _onScene = true;
                 _cBlip.DisableRoute();
                 _questioning.Enabled = true;
-                if (Main.UsingCi) Wrapper.CiSendMessage(this, "Dispatch: We ran the name given to us by the caller and can confirm this individual has been trespassed in the past from this location.");
+                CalloutInterfaceAPI.Functions.SendMessage(this, "Dispatch: We ran the name given to us by the caller and can confirm this individual has been trespassed in the past from this location.");
                 NativeFunction.Natives.x5AD23D40115353AC(_suspect, Game.LocalPlayer.Character, -1);
                 Game.DisplayHelp($"Press ~{Settings.Interact.GetInstructionalId()}~ to open interaction menu.", 5000);
                 Game.DisplaySubtitle("~r~" + _name + "~s~: What do you want?", 3000);
@@ -147,7 +148,7 @@ public class Trespassing : Callout
         _mainMenu.Visible = false;
         CFunctions.Code4Message();
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
-        if (Main.UsingCi) Wrapper.CiSendMessage(this, "Scene clear, Code4");
+        CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code4");
         base.End();
     }
 

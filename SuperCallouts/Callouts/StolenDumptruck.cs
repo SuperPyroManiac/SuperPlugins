@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using CalloutInterfaceAPI;
 using LSPD_First_Response;
 using LSPD_First_Response.Mod.API;
 using LSPD_First_Response.Mod.Callouts;
@@ -7,10 +8,11 @@ using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts.SimpleFunctions;
+using Functions = LSPD_First_Response.Mod.API.Functions;
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInfo("StolenDumptruck", CalloutProbability.Low)]
+[CalloutInterface("Stolen Construction Vehicle", CalloutProbability.Low, "Very large construction vehicle reported stolen", "Code 3")]
 internal class StolenDumptruck : Callout
 {
     private Ped _bad;
@@ -42,12 +44,8 @@ internal class StolenDumptruck : Callout
         Game.LogTrivial("SuperCallouts Log: StolenDumptruck callout accepted...");
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Stolen Construction Vehicle",
             "A suspect has stolen a very large construction vehicle. Respond ~r~CODE-3");
-        if (Main.UsingCi)
-        {
-            Wrapper.StartCi(this, "Code 3");
-            Wrapper.CiSendMessage(this, "A dump truck has been stolen from a construction site. This vehicle is very large and driving on public streets.");
-        }
-        //cVehicle
+        CalloutInterfaceAPI.Functions.SendMessage(this, "A dump truck has been stolen from a construction site. This vehicle is very large and driving on public streets.");
+            //cVehicle
         _cVehicle = new Vehicle("dump", _spawnPoint)
             { IsPersistent = true, IsStolen = true};
         //Bad
@@ -132,7 +130,7 @@ internal class StolenDumptruck : Callout
         if (_cVehicle) _cVehicle.Dismiss();
         if (_bad) _bad.Dismiss();
         _interaction.CloseAllMenus();
-        if (Main.UsingCi) Wrapper.CiSendMessage(this, "Scene clear, Code4");
+        CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code4");
         base.End();
     }
     

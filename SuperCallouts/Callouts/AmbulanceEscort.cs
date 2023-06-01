@@ -4,18 +4,19 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using LSPD_First_Response.Mod.API;
+using CalloutInterfaceAPI;
 using LSPD_First_Response.Mod.Callouts;
 using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts.SimpleFunctions;
+using Functions = LSPD_First_Response.Mod.API.Functions;
 
 #endregion
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInfo("AmbulanceEscort", CalloutProbability.Medium)]
+[CalloutInterface("Ambulance Escort", CalloutProbability.Medium, "Ambulance requires escort", "Code 3")]
 internal class AmbulanceEscort : Callout
 {
     private readonly UIMenuItem _endCall = new("~y~End Callout", "Ends the callout early.");
@@ -59,7 +60,6 @@ internal class AmbulanceEscort : Callout
         Game.LogTrivial("SuperCallouts Log: Ambulance Escort callout accepted...");
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Ambulance Escort",
             "Ambulance has a wounded police officer in critical condition, ensure the ambulance has a clear path to the nearest hospital, get to the scene! High priority, respond ~y~CODE-3");
-        if (Main.UsingCi) Wrapper.StartCi(this, "Code 3");
         //cVehicle
         _cVehicle = new Vehicle("AMBULANCE", _spawnPoint)
             { Heading = _spawnPointH, IsPersistent = true, IsSirenOn = true };
@@ -100,8 +100,7 @@ internal class AmbulanceEscort : Callout
                 _cBlip2 = new Blip(_hospital);
                 _cBlip2.EnableRoute(Color.Blue);
                 _cBlip2.Color = Color.Blue;
-                if (Main.UsingCi)
-                    Wrapper.CiSendMessage(this, "Officer on scene, proceed to nearest medical center.");
+                CalloutInterfaceAPI.Functions.SendMessage(this, "Officer on scene, proceed to nearest medical center.");
             }
 
             if (_cVehicle.DistanceTo(_hospital) < 15f && _onScene)
@@ -140,11 +139,11 @@ internal class AmbulanceEscort : Callout
         if (_cVehicle.Exists()) _cVehicle.Dismiss();
         if (_cBlip.Exists()) _cBlip.Delete();
         if (_cBlip2.Exists()) _cBlip2.Delete();
-        if (Main.UsingCi) Wrapper.CiSendMessage(this, "Scene handled. Code 4.");
+        CalloutInterfaceAPI.Functions.SendMessage(this, "Scene handled. Code 4.");
         _mainMenu.Visible = false;
         CFunctions.Code4Message();
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
-        if (Main.UsingCi) Wrapper.CiSendMessage(this, "Scene clear, Code4");
+        CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code4");
         base.End();
     }
 

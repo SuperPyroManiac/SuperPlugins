@@ -8,7 +8,7 @@ using SuperCallouts.SimpleFunctions;
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInfo("Vandalizing", CalloutProbability.Medium)]
+[CalloutInterface("Vandalizing", CalloutProbability.Medium, "Reports of a person vandalizing property", "Code 3")]
 internal class Vandalizing : Callout
 {
     private CState _state = CState.CheckDistance;
@@ -39,11 +39,7 @@ internal class Vandalizing : Callout
         Game.LogTrivial("SuperCallouts Log: Vandalizing callout accepted...");
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Vandalizing",
             "A suspect has been reported damaging a vehicle. Respond ~r~CODE-3");
-        if (Main.UsingCi)
-        {
-            Wrapper.StartCi(this, "Code 3");
-            Wrapper.CiSendMessage(this, "A call came in about a person attacking a vehicle causing serious damage to it. Further details are unknown.");
-        }
+        Wrapper.CiSendMessage(this, "A call came in about a person attacking a vehicle causing serious damage to it. Further details are unknown.");
         //cVehicle
         CFunctions.SpawnNormalCar(out _cVehicle, _spawnPoint);
         //Bad

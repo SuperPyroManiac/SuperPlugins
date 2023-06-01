@@ -2,6 +2,7 @@
 
 using System;
 using System.Drawing;
+using CalloutInterfaceAPI;
 using LSPD_First_Response.Mod.API;
 using LSPD_First_Response.Mod.Callouts;
 using Rage;
@@ -9,12 +10,13 @@ using Rage.Native;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts.SimpleFunctions;
+using Functions = LSPD_First_Response.Mod.API.Functions;
 
 #endregion
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInfo("Robbery", CalloutProbability.Medium)]
+[CalloutInterface("Armed Robbery", CalloutProbability.Medium, "Armed robbery on civilian", "Code 3")]
 internal class Robbery : Callout
 {
     private readonly UIMenuItem _endCall = new("~y~End Callout", "Ends the callout early.");
@@ -54,7 +56,6 @@ internal class Robbery : Callout
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Possible Robbery",
             "A " + Settings.EmergencyNumber +
             " report claims 2 armed people are holding 1 person at gunpoint. Respond ~r~CODE-3");
-        if (Main.UsingCi) Wrapper.StartCi(this, "Code 3");
         //cVehicle1
         CFunctions.SpawnNormalCar(out _cVehicle, _spawnPoint);
         _cVehicle.IsPersistent = true;
@@ -241,7 +242,7 @@ internal class Robbery : Callout
         _mainMenu.Visible = false;
         CFunctions.Code4Message();
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
-        if (Main.UsingCi) Wrapper.CiSendMessage(this, "Scene clear, Code4");
+        CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code4");
         base.End();
     }
 

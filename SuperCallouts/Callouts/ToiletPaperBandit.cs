@@ -2,6 +2,7 @@
 
 using System;
 using System.Drawing;
+using CalloutInterfaceAPI;
 using LSPD_First_Response;
 using LSPD_First_Response.Mod.API;
 using LSPD_First_Response.Mod.Callouts;
@@ -9,12 +10,13 @@ using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts.SimpleFunctions;
+using Functions = LSPD_First_Response.Mod.API.Functions;
 
 #endregion
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInfo("ToiletPaperBandit", CalloutProbability.Medium)]
+[CalloutInterface("Stolen Cleaning Truck", CalloutProbability.Low, "Reports of a stolen sanitization truck", "Code 3")]
 internal class ToiletPaperBandit : Callout
 {
     private readonly UIMenu _convoMenu = new("SuperCallouts", "~y~Choose a subject to speak with.");
@@ -51,7 +53,6 @@ internal class ToiletPaperBandit : Callout
         Game.LogTrivial("SuperCallouts Log: toilet paper bandit accepted...");
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Robbery",
             "Reports of someone robbing a truck full of cleaning supplies, respond ~r~CODE-3");
-        if (Main.UsingCi) Wrapper.StartCi(this, "Code 2");
         //cVehicle
         _cVehicle = new Vehicle("pounder", _spawnPoint)
             { IsPersistent = true, IsStolen = true, Heading = _spawnPointH };
@@ -166,7 +167,7 @@ internal class ToiletPaperBandit : Callout
         if (_bad) _bad.Dismiss();
         if (_cBlip) _cBlip.Delete();
         _interaction.CloseAllMenus();
-        if (Main.UsingCi) Wrapper.CiSendMessage(this, "Scene clear, Code4");
+        CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code4");
         base.End();
     }
 

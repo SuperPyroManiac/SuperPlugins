@@ -10,7 +10,6 @@ namespace SuperCallouts
     internal class Main : Plugin
     {
         internal static bool UsingUb { get; set; }
-        internal static bool UsingCi { get; set; }
 
         public override void Initialize()
         {
@@ -31,8 +30,6 @@ namespace SuperCallouts
                     GameFiber.Wait(10000);
                     UsingUb = CFunctions.IsLoaded("UltimateBackup");
                     if (UsingUb) Game.LogTrivial("SuperCallouts: Using UltimateBackup API.");
-                    UsingCi = CFunctions.IsLoaded("CalloutInterface");
-                    if (UsingCi) Game.LogTrivial("SuperCallouts: Using CalloutInterface API.");
                     RegisterCallouts();
                     VersionChecker.IsUpdateAvailable();
                 });

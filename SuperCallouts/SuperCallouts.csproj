@@ -90,9 +90,8 @@
         <Content Include="SuperCallouts.ini" />
     </ItemGroup>
     <ItemGroup>
-        <Reference Include="CalloutInterface, Version=1.2.0.0, Culture=neutral, PublicKeyToken=null">
-          <HintPath>..\packages\PyroTheCI.1.0.0\lib\CalloutInterface.dll</HintPath>
-          <Private>True</Private>
+        <Reference Include="CalloutInterfaceAPI">
+          <HintPath>..\..\..\Depend\LSPDFR\CalloutInterfaceAPI.dll</HintPath>
         </Reference>
         <Reference Include="LSPD First Response, Version=0.4.8021.24468, Culture=neutral, PublicKeyToken=null">
             <HintPath>..\packages\MyPackagePyroManiac.1.0.0\lib\LSPD First Response.dll</HintPath>

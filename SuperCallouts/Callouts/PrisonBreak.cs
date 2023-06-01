@@ -1,17 +1,19 @@
 ﻿#region
 
 using System.Drawing;
+using CalloutInterfaceAPI;
 using LSPD_First_Response.Mod.API;
 using LSPD_First_Response.Mod.Callouts;
 using Rage;
 using SuperCallouts.CustomScenes;
 using SuperCallouts.SimpleFunctions;
+using Functions = LSPD_First_Response.Mod.API.Functions;
 
 #endregion
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInfo("PrisonBreak", CalloutProbability.Low)]
+[CalloutInterface("Prison Break", CalloutProbability.Low, "Multiple prisoners have escaped - high priority all units", "Code 99")]
 internal class PrisonBreak : Callout
 {
     private readonly Vector3 _spawnPoint = new(1970.794f, 2624.078f, 46.00704f);
@@ -47,7 +49,6 @@ internal class PrisonBreak : Callout
         Game.LogTrivial("SuperCallouts Log: PrisonBreak callout accepted...");
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Prison Break",
             "DOC has reported multiple groups of prisoners have escaped! They are occupied with another group and need local police assistance. ~r~CODE-3");
-        if (Main.UsingCi) Wrapper.StartCi(this, "Code 3");
         PrisonbreakSetup.ConstructPrisonBreakSetupScene(out _prisoner1, out _prisoner2, out _prisoner3,
             out _prisoner4, out _prisoner5);
         CFunctions.SetWanted(_prisoner1, true);
@@ -129,7 +130,7 @@ internal class PrisonBreak : Callout
         if (_cBlip3.Exists()) _cBlip3.Delete();
         if (_cBlip4.Exists()) _cBlip4.Delete();
         if (_cBlip5.Exists()) _cBlip5.Delete();
-        if (Main.UsingCi) Wrapper.CiSendMessage(this, "Scene clear, Code4");
+        CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code4");
         base.End();
     }
 }

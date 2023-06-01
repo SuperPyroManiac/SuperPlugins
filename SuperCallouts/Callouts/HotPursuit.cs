@@ -2,6 +2,7 @@
 
 using System;
 using System.Drawing;
+using CalloutInterfaceAPI;
 using LSPD_First_Response.Mod.API;
 using LSPD_First_Response.Mod.Callouts;
 using Rage;
@@ -9,12 +10,13 @@ using Rage.Native;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts.SimpleFunctions;
+using Functions = LSPD_First_Response.Mod.API.Functions;
 
 #endregion
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInfo("HotPursuit", CalloutProbability.Medium)]
+[CalloutInterface("High Speed Pursuit", CalloutProbability.Medium, "High performance vehicle fleeing from police", "Code 3")]
 internal class HotPursuit : Callout
 {
     private readonly UIMenu _convoMenu = new("SuperCallouts", "~y~Choose a subject to speak with.");
@@ -54,7 +56,6 @@ internal class HotPursuit : Callout
         Game.LogTrivial("SuperCallouts Log: HotPursuit callout accepted...");
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Stolen Car",
             "ANPR has spotted a stolen vehicle. This vehicle is high performance and has fled before. Respond ~r~CODE-3");
-        if (Main.UsingCi) Wrapper.StartCi(this, "Code 3");
         //cVehicle
         Model[] vehicleModels =
             { "ZENTORNO", "TEMPESTA", "AUTARCH", "cheetah", "nero2", "tezeract", "visione", "prototipo", "emerus" };
@@ -122,7 +123,7 @@ internal class HotPursuit : Callout
             //GamePlay
             if (!_onScene && Game.LocalPlayer.Character.DistanceTo(_cVehicle) < 25f)
             {
-                if (Main.UsingCi) Wrapper.CiSendMessage(this, "Show me code 100, in pursuit!");
+                CalloutInterfaceAPI.Functions.SendMessage(this, "Show me code 100, in pursuit!");
                 _cBlip1.Delete();
                 _cBlip2.Delete();
                 _bad1.BlockPermanentEvents = false;
@@ -195,7 +196,7 @@ internal class HotPursuit : Callout
         _mainMenu.Visible = false;
         CFunctions.Code4Message();
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
-        if (Main.UsingCi) Wrapper.CiSendMessage(this, "Scene clear, Code4");
+        CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code4");
         base.End();
     }
 

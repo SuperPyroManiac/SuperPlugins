@@ -4,21 +4,22 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using CalloutInterfaceAPI;
 using LSPD_First_Response;
 using LSPD_First_Response.Engine.Scripting.Entities;
-using LSPD_First_Response.Mod.API;
 using LSPD_First_Response.Mod.Callouts;
 using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts.CustomScenes;
 using SuperCallouts.SimpleFunctions;
+using Functions = LSPD_First_Response.Mod.API.Functions;
 
 #endregion
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInfo("Mafia3", CalloutProbability.Medium)]
+[CalloutInterface("Mafia Raid", CalloutProbability.Low, "Stakeout has found a meeting point for mob bosses - Raid in progress", "Code 5", "SWAT")]
 internal class Mafia3 : Callout
 {
     private readonly Vector3 _callPos = new(949.3857f, -3129.14f, 5.900989f);
@@ -69,7 +70,6 @@ internal class Mafia3 : Callout
         Game.LogTrivial("SuperCallouts Log: Mafia3 callout accepted...");
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~The Mafia",
             "FIB and IAA began a raid on a drug scene at the harbor. Suspects are heavily armed and backup is required. Get to the scene.");
-        if (Main.UsingCi) Wrapper.StartCi(this, "Code 3");
         Game.LocalPlayer.Character.RelationshipGroup = "COP";
         Game.DisplaySubtitle("Get to the ~r~scene~w~! Proceed with ~r~CAUTION~w~!", 10000);
         //World
@@ -130,7 +130,7 @@ internal class Mafia3 : Callout
                         Game.SetRelationshipBetweenRelationshipGroups("MAFIA", "COP", Relationship.Hate);
                         Game.SetRelationshipBetweenRelationshipGroups("MAFIA", "PLAYER", Relationship.Hate);
                         Game.SetRelationshipBetweenRelationshipGroups("COP", "MAFIA", Relationship.Hate);
-                        if (Main.UsingCi) Wrapper.CiSendMessage(this, "NOOSE Units on-route to scene.");
+                        CalloutInterfaceAPI.Functions.SendMessage(this, "NOOSE Units on-route to scene.");
                         if (Main.UsingUb)
                         {
                             Wrapper.CallSwat(true);
@@ -199,7 +199,7 @@ internal class Mafia3 : Callout
         _interaction.CloseAllMenus();
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
         CFunctions.Code4Message();
-        if (Main.UsingCi) Wrapper.CiSendMessage(this, "Scene clear, Code4");
+        CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code4");
 
         base.End();
     }

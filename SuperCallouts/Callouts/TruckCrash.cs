@@ -1,7 +1,7 @@
 ﻿#region
 
 using System.Drawing;
-using LSPD_First_Response.Mod.API;
+using CalloutInterfaceAPI;
 using LSPD_First_Response.Mod.Callouts;
 using Rage;
 using Rage.Native;
@@ -9,12 +9,13 @@ using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts.CustomScenes;
 using SuperCallouts.SimpleFunctions;
+using Functions = LSPD_First_Response.Mod.API.Functions;
 
 #endregion
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInfo("TruckCrash", CalloutProbability.Low)]
+[CalloutInterface("Truck Crash", CalloutProbability.Low, "A large truck has tipped over blocking entire freeway", "Code 3")]
 internal class TruckCrash : Callout
 {
     private readonly Vector3 _spawnPoint = new(2455.644f, -186.7955f, 87.83904f);
@@ -69,7 +70,6 @@ internal class TruckCrash : Callout
         Game.LogTrivial("SuperCallouts Log: TruckCash callout accepted...");
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Truck Accident",
             "Reports of a truck tipped over on the highway. Respond ~r~CODE-3");
-        if (Main.UsingCi) Wrapper.StartCi(this, "Code 3");
         TruckCrashSetup.ConstructTrucksScene(out _victim, out _victim2, out _victim3, out _truck, out _car1,
             out _car2);
         _victim.IsPersistent = true;

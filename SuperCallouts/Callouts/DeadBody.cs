@@ -2,21 +2,22 @@
 
 using System;
 using System.Drawing;
+using CalloutInterfaceAPI;
 using LSPD_First_Response;
 using LSPD_First_Response.Engine.Scripting.Entities;
-using LSPD_First_Response.Mod.API;
 using LSPD_First_Response.Mod.Callouts;
 using Rage;
 using Rage.Native;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts.SimpleFunctions;
+using Functions = LSPD_First_Response.Mod.API.Functions;
 
 #endregion
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInfo("DeadBody", CalloutProbability.Medium)]
+[CalloutInterface("Dead Body", CalloutProbability.Medium, "Reports of a dead body on the road, limited details", "Code 3")]
 internal class DeadBody : Callout
 {
     private Blip _cBlip;
@@ -53,7 +54,6 @@ internal class DeadBody : Callout
         Game.LogTrivial("SuperCallouts Log: Dead body callout accepted...");
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~y~Medical Emergency",
             "Caller reports an injured person that is not breathing, respond ~r~CODE-3");
-        if (Main.UsingCi) Wrapper.StartCi(this, "Code 3");
         //Vehicle
         CFunctions.SpawnNormalCar(out _cVehicle, _spawnPoint, _heading);
         //Peds
@@ -135,7 +135,7 @@ internal class DeadBody : Callout
         _mainMenu.Visible = false;
         CFunctions.Code4Message();
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
-        if (Main.UsingCi) Wrapper.CiSendMessage(this, "Scene clear, Code4");
+        CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code4");
         base.End();
     }
 
@@ -172,8 +172,7 @@ internal class DeadBody : Callout
                         "~g~You~s~: It's alright, thank you for your time and the call. You are free to go home.",
                         4000);
                     if (_witness.Exists()) _witness.Dismiss();
-                    if (Main.UsingCi)
-                        Wrapper.CiSendMessage(this, "Witness has been questioned, no useful information.");
+                    CalloutInterfaceAPI.Functions.SendMessage(this, "Witness has been questioned, no useful information.");
                 });
         }
         catch (Exception e)

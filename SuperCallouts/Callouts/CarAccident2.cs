@@ -2,20 +2,21 @@
 
 using System;
 using System.Drawing;
+using CalloutInterfaceAPI;
 using LSPD_First_Response;
-using LSPD_First_Response.Mod.API;
 using LSPD_First_Response.Mod.Callouts;
 using Rage;
 using Rage.Native;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts.SimpleFunctions;
+using Functions = LSPD_First_Response.Mod.API.Functions;
 
 #endregion
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInfo("CarAccident2", CalloutProbability.Medium)]
+[CalloutInterface("Car Accident", CalloutProbability.Medium, "Reports of a vehicle crash, limited details", "Code 3")]
 internal class CarAccident2 : Callout
 {
     private readonly UIMenuItem _callFd = new("~r~ Call Fire Department", "Calls for ambulance and firetruck.");
@@ -55,7 +56,6 @@ internal class CarAccident2 : Callout
         Game.LogTrivial("SuperCallouts Log: car accident callout accepted...");
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~MVA",
             "Reports of a car accident, respond ~r~CODE-3");
-        if (Main.UsingCi) Wrapper.StartCi(this, "Code 3");
         //cVehicle1
         CFunctions.SpawnNormalCar(out _cVehicle1, _spawnPoint);
         _cVehicle1.EngineHealth = 0;
@@ -119,7 +119,7 @@ internal class CarAccident2 : Callout
             if (!_onScene && Game.LocalPlayer.Character.DistanceTo(_cVehicle1) < 25f)
             {
                 _onScene = true;
-                if (Main.UsingCi) Wrapper.CiSendMessage(this, "Arriving on scene. 10-23");
+                CalloutInterfaceAPI.Functions.SendMessage(this, "Arriving on scene. 10-23");
                 _cBlip1.DisableRoute();
                 _questioning.Enabled = true;
                 _callFd.Enabled = true;
@@ -160,7 +160,7 @@ internal class CarAccident2 : Callout
         _mainMenu.Visible = false;
         CFunctions.Code4Message();
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
-        if (Main.UsingCi) Wrapper.CiSendMessage(this, "Scene clear, Code4");
+        CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code4");
         base.End();
     }
 
@@ -170,8 +170,7 @@ internal class CarAccident2 : Callout
         if (selItem == _callFd)
         {
             Game.DisplaySubtitle("~g~You~s~: Dispatch, we have an MVA. One person is seriously injured.");
-            if (Main.UsingCi)
-                Wrapper.CiSendMessage(this, "**Dispatch** EMS has been notified and is on route. 11-78");
+CalloutInterfaceAPI.Functions.SendMessage(this, "**Dispatch** EMS has been notified and is on route. 11-78");
             if (Main.UsingUb)
             {
                 Wrapper.CallEms();
@@ -199,7 +198,7 @@ internal class CarAccident2 : Callout
         if (selItem == _speakSuspect)
             GameFiber.StartNew(delegate
             {
-                if (Main.UsingCi) Wrapper.CiSendMessage(this, "Speaking with subject.");
+                CalloutInterfaceAPI.Functions.SendMessage(this, "Speaking with subject.");
                 Game.DisplaySubtitle("~g~You~s~: What happened? Are you ok?", 5000);
                 NativeFunction.Natives.x5AD23D40115353AC(_victim2,
                     Game.LocalPlayer.Character, -1);
@@ -212,7 +211,7 @@ internal class CarAccident2 : Callout
                     5000);
                 GameFiber.Wait(5000);
                 Game.DisplaySubtitle("~r~" + _name1 + "~s~: No!", 5000);
-                if (Main.UsingCi) Wrapper.CiSendMessage(this, "Subject refuses to speak.");
+                CalloutInterfaceAPI.Functions.SendMessage(this, "Subject refuses to speak.");
                 _victim2.Tasks.EnterVehicle(_cVehicle2, -1);
                 _victim2.BlockPermanentEvents = true;
             });

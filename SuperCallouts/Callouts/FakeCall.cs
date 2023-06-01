@@ -2,18 +2,19 @@
 
 using System;
 using System.Drawing;
-using LSPD_First_Response.Mod.API;
+using CalloutInterfaceAPI;
 using LSPD_First_Response.Mod.Callouts;
 using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts.SimpleFunctions;
+using Functions = LSPD_First_Response.Mod.API.Functions;
 
 #endregion
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInfo("FakeCall", CalloutProbability.Medium)]
+[CalloutInterface("Call Dropped", CalloutProbability.Medium, "911 call dropped - conduct wellness check", "LOW")]
 internal class FakeCall : Callout
 {
     private Blip _cBlip;
@@ -42,7 +43,6 @@ internal class FakeCall : Callout
         Game.LogTrivial("SuperCallouts Log: Dead body callout accepted...");
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~y~Call Dropped",
             "Caller disconnected from call quickly. Unable to reach them back. Last location recorded, respond to the last known location. ~r~CODE-2");
-        if (Main.UsingCi) Wrapper.StartCi(this, "Code 2");
         //cBlip
         _cBlip = new Blip(_spawnPoint);
         _cBlip.Color = Color.Red;
@@ -73,8 +73,7 @@ internal class FakeCall : Callout
                         "REPORT_RESPONSE_COPY_02",
                         _spawnPoint);
                     GameFiber.Wait(3500);
-                    if (Main.UsingCi)
-                        Wrapper.CiSendMessage(this, "Area has been checked, appears to be a fake call.");
+                    CalloutInterfaceAPI.Functions.SendMessage(this, "Area has been checked, appears to be a fake call.");
                     End();
                 });
             }
@@ -104,7 +103,7 @@ internal class FakeCall : Callout
         _mainMenu.Visible = false;
         CFunctions.Code4Message();
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
-        if (Main.UsingCi) Wrapper.CiSendMessage(this, "Scene clear, Code4");
+        CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code4");
         base.End();
     }
 

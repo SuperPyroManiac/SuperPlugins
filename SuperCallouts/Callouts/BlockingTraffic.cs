@@ -2,18 +2,19 @@
 
 using System;
 using System.Drawing;
-using LSPD_First_Response.Mod.API;
+using CalloutInterfaceAPI;
 using LSPD_First_Response.Mod.Callouts;
 using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts.SimpleFunctions;
+using Functions = LSPD_First_Response.Mod.API.Functions;
 
 #endregion
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInfo("BlockingTraffic", CalloutProbability.Medium)]
+[CalloutInterface("Blocking Traffic", CalloutProbability.Medium, "Vehicle parked in the road", "Code 3")]
 internal class BlockingTraffic : Callout
 {
     private readonly UIMenuItem _endCall = new("~y~End Callout", "Ends the callout.");
@@ -42,7 +43,6 @@ internal class BlockingTraffic : Callout
         Game.LogTrivial("SuperCallouts Log: car blocking traffic callout accepted...");
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Blocking Traffic",
             "Reports of a car blocking the road, respond ~y~CODE-2");
-        if (Main.UsingCi) Wrapper.StartCi(this, "Code 2");
         //cVehicle
         CFunctions.SpawnNormalCar(out _cVehicle, _spawnPoint);
         //Start UI
@@ -69,7 +69,7 @@ internal class BlockingTraffic : Callout
                 _onScene = true;
                 _cBlip.DisableRoute();
                 Game.DisplayHelp($"Press ~{Settings.Interact.GetInstructionalId()}~ to open interaction menu.");
-                if (Main.UsingCi) Wrapper.CiSendMessage(this, "Officer on scene.");
+                CalloutInterfaceAPI.Functions.SendMessage(this, "Officer on scene.");
             }
 
             //Keybinds
@@ -98,7 +98,7 @@ internal class BlockingTraffic : Callout
         _mainMenu.Visible = false;
         CFunctions.Code4Message();
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
-        if (Main.UsingCi) Wrapper.CiSendMessage(this, "Scene clear, Code4");
+        CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code4");
         base.End();
     }
 
