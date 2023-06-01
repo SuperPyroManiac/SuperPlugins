@@ -93,14 +93,12 @@
         <Reference Include="CalloutInterfaceAPI, Version=1.0.1.0, Culture=neutral, processorArchitecture=Amd64">
           <HintPath>..\packages\CalloutInterfaceAPI.1.0.1\lib\net48\CalloutInterfaceAPI.dll</HintPath>
         </Reference>
-        <Reference Include="LSPD First Response, Version=0.4.8021.24468, Culture=neutral, PublicKeyToken=null">
-            <HintPath>..\packages\MyPackagePyroManiac.1.0.0\lib\LSPD First Response.dll</HintPath>
-            <Private>True</Private>
+        <Reference Include="LSPD First Response, Version=0.4.8433.20359, Culture=neutral, processorArchitecture=MSIL">
+          <HintPath>..\packages\PyroSpecial.1.0.1\lib\LSPD First Response.dll</HintPath>
         </Reference>
         <Reference Include="Microsoft.CSharp" />
-        <Reference Include="RAGENativeUI, Version=1.8.2.0, Culture=neutral, PublicKeyToken=null">
-            <HintPath>..\packages\RAGENativeUI.1.8.2\lib\net472\RAGENativeUI.dll</HintPath>
-            <Private>True</Private>
+        <Reference Include="RAGENativeUI, Version=1.9.2.0, Culture=neutral, processorArchitecture=Amd64">
+          <HintPath>..\packages\RAGENativeUI.1.9.2\lib\net472\RAGENativeUI.dll</HintPath>
         </Reference>
         <Reference Include="RagePluginHook, Version=0.0.0.0, Culture=neutral, processorArchitecture=Amd64">
           <HintPath>..\packages\RagePluginHook.1.98.0\lib\net472\RagePluginHook.dll</HintPath>
@@ -109,7 +107,7 @@
         <Reference Include="System.Drawing" />
         <Reference Include="System.Windows.Forms" />
         <Reference Include="UltimateBackup, Version=1.8.7.0, Culture=neutral, processorArchitecture=MSIL">
-          <HintPath>..\packages\PyroSpecial.1.0.0\lib\UltimateBackup.dll</HintPath>
+          <HintPath>..\packages\PyroSpecial.1.0.1\lib\UltimateBackup.dll</HintPath>
         </Reference>
     </ItemGroup>
     <ItemGroup>

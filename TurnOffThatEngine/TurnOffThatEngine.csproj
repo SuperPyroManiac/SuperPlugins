@@ -34,9 +34,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="RagePluginHook, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\packages\RagePluginHook.1.86.1\lib\net472\RagePluginHook.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="RagePluginHook, Version=0.0.0.0, Culture=neutral, processorArchitecture=Amd64">
+      <HintPath>..\packages\RagePluginHook.1.98.0\lib\net472\RagePluginHook.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
