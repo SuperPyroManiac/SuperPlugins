@@ -27,10 +27,11 @@ namespace SuperCallouts
             if (onDuty)
                 GameFiber.StartNew(delegate
                 {
-                    GameFiber.Wait(10000);
+                    GameFiber.Wait(5000);
                     UsingUb = CFunctions.IsLoaded("UltimateBackup");
                     if (UsingUb) Game.LogTrivial("SuperCallouts: Using UltimateBackup API.");
                     RegisterCallouts();
+                    GameFiber.Wait(17000);
                     VersionChecker.IsUpdateAvailable();
                 });
         }
