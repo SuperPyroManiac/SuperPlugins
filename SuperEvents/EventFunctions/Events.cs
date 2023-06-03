@@ -22,7 +22,7 @@ namespace SuperEvents.EventFunctions
                             Game.LogTrivial("SuperEvents: Generating random event.");
                             var RnD = new Random().Next(API.RegisteredEvents.Count);
                             var Event = API.RegisteredEvents[RnD];
-                            var theMethod = Event.GetMethod("StartEvent");
+                            var theMethod = Event.GetMethod(nameof(StartEvent));
                             if (theMethod != null) theMethod.Invoke(this, default);
                         }
                         else
