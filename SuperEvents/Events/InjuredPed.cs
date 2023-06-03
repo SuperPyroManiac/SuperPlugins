@@ -2,7 +2,7 @@
 using LSPD_First_Response.Mod.API;
 using Rage;
 using RAGENativeUI.Elements;
-using SuperEvents.SimpleFunctions;
+using SuperEvents.EventFunctions;
 
 namespace SuperEvents.Events
 {

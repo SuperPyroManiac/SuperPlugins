@@ -4,7 +4,7 @@ using Rage;
 using Rage.Native;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
-using SuperEvents.SimpleFunctions;
+using SuperEvents.EventFunctions;
 
 namespace SuperEvents.Events
 {

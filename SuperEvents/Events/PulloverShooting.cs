@@ -1,7 +1,7 @@
 using System;
 using LSPD_First_Response.Mod.API;
 using Rage;
-using SuperEvents.SimpleFunctions;
+using SuperEvents.EventFunctions;
 
 namespace SuperEvents.Events
 {

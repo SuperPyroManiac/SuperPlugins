@@ -7,7 +7,7 @@ using System.Linq;
 using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
-using SuperEvents.SimpleFunctions;
+using SuperEvents.EventFunctions;
 
 #endregion
 
@@ -52,11 +52,11 @@ namespace SuperEvents
             }
         }
 
-        internal static bool EventRunning { get; set; }
+        protected static bool EventRunning { get; private set; }
         internal static bool TimeStart { get; set; }
         internal static List<Entity> EntitiesToClear { get; private set; }
         internal static List<Blip> BlipsToClear { get; private set; }
-        internal GameFiber ProcessFiber { get; }
+        private GameFiber ProcessFiber { get; }
         internal static Ped Player => Game.LocalPlayer.Character;
 
         internal virtual void StartEvent(Vector3 spawnPoint)

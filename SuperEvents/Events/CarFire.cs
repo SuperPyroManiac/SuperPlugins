@@ -1,6 +1,6 @@
 using System;
 using Rage;
-using SuperEvents.SimpleFunctions;
+using SuperEvents.EventFunctions;
 
 namespace SuperEvents.Events
 {

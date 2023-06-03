@@ -60,6 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AmbientEvent.cs" />
+    <Compile Include="EventFunctions\API.cs" />
     <Compile Include="Events\CarAccident.cs" />
     <Compile Include="Events\CarFire.cs" />
     <Compile Include="Events\Fight.cs" />
@@ -72,12 +73,12 @@
     <Compile Include="Main.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings.cs" />
-    <Compile Include="SimpleFunctions\ConsoleCommands.cs" />
-    <Compile Include="SimpleFunctions\EFunctions.cs" />
-    <Compile Include="SimpleFunctions\Events.cs" />
-    <Compile Include="SimpleFunctions\EventTimer.cs" />
-    <Compile Include="SimpleFunctions\PulloverSpots.cs" />
-    <Compile Include="SimpleFunctions\VersionChecker.cs" />
+    <Compile Include="EventFunctions\ConsoleCommands.cs" />
+    <Compile Include="EventFunctions\EFunctions.cs" />
+    <Compile Include="EventFunctions\Events.cs" />
+    <Compile Include="EventFunctions\EventTimer.cs" />
+    <Compile Include="EventFunctions\PulloverSpots.cs" />
+    <Compile Include="EventFunctions\VersionChecker.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="SuperEvents.ini" />

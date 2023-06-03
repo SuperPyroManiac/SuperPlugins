@@ -2,13 +2,14 @@
 using System.Reflection;
 using LSPD_First_Response.Mod.API;
 using Rage;
-using SuperEvents.SimpleFunctions;
+using SuperEvents.EventFunctions;
+using SuperEvents.Events;
 
 namespace SuperEvents
 {
     internal class Main : Plugin
     {
-        internal static bool PluginRunning { get; set; }
+        internal static bool PluginRunning { get; private set; }
         internal static bool PluginPaused { get; set; }
 
         public override void Initialize()
@@ -26,14 +27,26 @@ namespace SuperEvents
             if (onDuty)
                 GameFiber.StartNew(delegate
                 {
-                    GameFiber.Wait(10000);
+                    RegisterAllEvents();
+                    GameFiber.Wait(5000);
                     Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~r~SuperEvents", "~g~Plugin Loaded.",
                         "SuperEvents version: " + Assembly.GetExecutingAssembly().GetName().Version + " loaded.");
                     PluginRunning = true;
-                    SimpleFunctions.Events.InitEvents();
+                    var InitEvents = new EventFunctions.Events();
+                    InitEvents.InitEvents();
                     EventTimer.TimerStart();
+                    GameFiber.Wait(17000);
                     VersionChecker.IsUpdateAvailable();
                 });
+        }
+
+        private static void RegisterAllEvents()
+        {
+            API.RegisterEvent(typeof(CarAccident));
+            API.RegisterEvent(typeof(Fight));
+            API.RegisterEvent((typeof(CarFire)));
+            API.RegisterEvent(typeof(PulloverShooting));
+            API.RegisterEvent(typeof(WeirdCar));
         }
 
         public override void Finally()

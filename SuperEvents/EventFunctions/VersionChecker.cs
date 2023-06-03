@@ -1,7 +1,7 @@
 using System.Net;
 using Rage;
 
-namespace SuperEvents.SimpleFunctions
+namespace SuperEvents.EventFunctions
 {
     internal class VersionChecker
     {
