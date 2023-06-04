@@ -21,11 +21,10 @@ namespace SuperEvents.Events
         private string _name2;
         private Vector3 _spawnPoint;
         private float _spawnPointH;
+        private Tasks _tasks = Tasks.CheckDistance;
         //UI Items
         private UIMenuItem _speakSuspect;
         private UIMenuItem _speakSuspect2;
-
-        private Tasks _tasks = Tasks.CheckDistance;
 
         protected override void StartEvent()
         {
@@ -60,7 +59,7 @@ namespace SuperEvents.Events
             EntitiesToClear.Add(_ePed);
             EntitiesToClear.Add(_ePed2);
             //Randomize
-            Game.LogTrivial("SuperEvents: Car Accident Scenorio #" + _choice);
+            Game.LogTrivial("SuperEvents: Car Accident Scenario #" + _choice);
             switch (_choice)
             {
                 case 0: //Peds fight
