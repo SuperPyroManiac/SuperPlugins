@@ -11,6 +11,7 @@ namespace SuperEvents.Events
 {
     internal class CarAccident : AmbientEvent
     {
+        
         private readonly int _choice = new Random().Next(0, 5);
         private Ped _ePed;
         private Ped _ePed2;
@@ -19,25 +20,23 @@ namespace SuperEvents.Events
         private string _name1;
         private string _name2;
         private Vector3 _spawnPoint;
-
         private float _spawnPointH;
-
         //UI Items
         private UIMenuItem _speakSuspect;
         private UIMenuItem _speakSuspect2;
 
         private Tasks _tasks = Tasks.CheckDistance;
 
-        internal override void StartEvent(Vector3 s)
+        public override void StartEvent()
         {
             //Setup
             EFunctions.FindSideOfRoad(120, 45, out _spawnPoint, out _spawnPointH);
+            EventLocation = _spawnPoint;
             if (_spawnPoint.DistanceTo(Player) < 35f)
             {
                 End(true);
                 return;
             }
-
             //Vehicles
             EFunctions.SpawnNormalCar(out _eVehicle, _spawnPoint);
             _eVehicle.Heading = _spawnPointH;
@@ -83,7 +82,6 @@ namespace SuperEvents.Events
                     End(true);
                     break;
             }
-
             //UI Items
             _speakSuspect = new UIMenuItem("Speak with ~y~" + _name1);
             _speakSuspect2 = new UIMenuItem("Speak with ~y~" + _name2);
@@ -92,10 +90,10 @@ namespace SuperEvents.Events
             _speakSuspect.Enabled = false;
             _speakSuspect2.Enabled = false;
 
-            base.StartEvent(_spawnPoint);
+            base.StartEvent();
         }
 
-        protected override void Process()
+        public override void Process()
         {
             try
             {
@@ -168,7 +166,7 @@ namespace SuperEvents.Events
             base.Process();
         }
 
-        protected override void Conversations(UIMenu sender, UIMenuItem selItem, int index)
+        public override void Conversations(UIMenu sender, UIMenuItem selItem, int index)
         {
             if (selItem == _speakSuspect)
             {

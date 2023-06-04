@@ -1,5 +1,4 @@
 using System;
-using System.Reflection;
 using LSPD_First_Response.Mod.API;
 using Rage;
 
@@ -11,7 +10,6 @@ namespace SuperEvents.EventFunctions
         {
             try
             {
-                GameFiber.StartNew(delegate
                 {
                     while (Main.PluginRunning)
                     {
@@ -20,17 +18,18 @@ namespace SuperEvents.EventFunctions
                             Functions.GetActivePursuit() == null && TimeStart && !EventRunning && !Main.PluginPaused)
                         {
                             Game.LogTrivial("SuperEvents: Generating random event.");
-                            var RnD = new Random().Next(API.RegisteredEvents.Count);
-                            var Event = API.RegisteredEvents[RnD];
-                            var theMethod = Event.GetMethod(nameof(StartEvent));
-                            if (theMethod != null) theMethod.Invoke(this, default);
+                            var rnD = new Random().Next(API.RegisteredEvents.Count);
+                            var sEvent = API.RegisteredEvents[rnD];
+                            var theMethod = sEvent.GetMethod("StartEvent");
+                            var eventClass = Activator.CreateInstance(sEvent);
+                            if (theMethod != null) theMethod.Invoke(eventClass, null);
                         }
                         else
                         {
                             GameFiber.Wait(10000);
                         }
                     }
-                });
+                };
             }
             catch (Exception e)
             {

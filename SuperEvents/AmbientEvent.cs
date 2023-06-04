@@ -13,12 +13,10 @@ using SuperEvents.EventFunctions;
 
 namespace SuperEvents
 {
-    internal class AmbientEvent
+    public class AmbientEvent
     {
         internal readonly UIMenu ConvoMenu = new("SuperEvents", "~y~Choose a subject to speak with.");
         internal readonly UIMenuItem EndCall = new("~y~End Event", "Ends the event.");
-
-        //Main Menu
         internal readonly MenuPool Interaction = new();
         internal readonly UIMenu MainMenu = new("SuperEvents", "Choose an option.");
         internal readonly UIMenuItem Questioning = new("Speak With Subjects");
@@ -53,13 +51,14 @@ namespace SuperEvents
         }
 
         protected static bool EventRunning { get; private set; }
+        public Vector3 EventLocation { get; set; }
         internal static bool TimeStart { get; set; }
         internal static List<Entity> EntitiesToClear { get; private set; }
         internal static List<Blip> BlipsToClear { get; private set; }
         private GameFiber ProcessFiber { get; }
         internal static Ped Player => Game.LocalPlayer.Character;
 
-        internal virtual void StartEvent(Vector3 spawnPoint)
+        public virtual void StartEvent()
         {
             TimeStart = false;
             Interaction.Add(MainMenu);
@@ -79,7 +78,7 @@ namespace SuperEvents
             ConvoMenu.OnItemSelect += Conversations;
             if (Settings.ShowBlips)
             {
-                var eventBlip = new Blip(spawnPoint, 15f);
+                var eventBlip = new Blip(EventLocation, 15f);
                 eventBlip.Color = Color.Red;
                 eventBlip.Alpha /= 2;
                 eventBlip.Name = "Event";
@@ -87,12 +86,12 @@ namespace SuperEvents
                 BlipsToClear.Add(eventBlip);
             }
 
-            _checkDistance = spawnPoint;
+            _checkDistance = EventLocation;
             EventRunning = true;
             ProcessFiber.Start();
         }
 
-        protected virtual void Process()
+        public virtual void Process()
         {
             if (Game.IsKeyDown(Settings.EndEvent)) End(false);
             if (Game.IsKeyDown(Settings.Interact)) MainMenu.Visible = !MainMenu.Visible;
@@ -105,7 +104,7 @@ namespace SuperEvents
             Interaction.ProcessMenus();
         }
 
-        protected virtual void End(bool forceCleanup)
+        public virtual void End(bool forceCleanup)
         {
             EventRunning = false;
 
@@ -137,12 +136,12 @@ namespace SuperEvents
             EventTimer.TimerStart();
         }
 
-        protected virtual void Interactions(UIMenu sender, UIMenuItem selItem, int index)
+        public virtual void Interactions(UIMenu sender, UIMenuItem selItem, int index)
         {
             if (selItem == EndCall) End(false);
         }
 
-        protected virtual void Conversations(UIMenu sender, UIMenuItem selItem, int index)
+        public virtual void Conversations(UIMenu sender, UIMenuItem selItem, int index)
         {
         }
     }

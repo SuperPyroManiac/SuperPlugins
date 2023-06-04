@@ -11,6 +11,8 @@ namespace SuperEvents
     {
         internal static bool PluginRunning { get; private set; }
         internal static bool PluginPaused { get; set; }
+        private static GameFiber InitFiber;
+        
 
         public override void Initialize()
         {
@@ -33,7 +35,7 @@ namespace SuperEvents
                         "SuperEvents version: " + Assembly.GetExecutingAssembly().GetName().Version + " loaded.");
                     PluginRunning = true;
                     var InitEvents = new EventFunctions.Events();
-                    InitEvents.InitEvents();
+                    InitFiber = GameFiber.StartNew(InitEvents.InitEvents);
                     EventTimer.TimerStart();
                     GameFiber.Wait(17000);
                     VersionChecker.IsUpdateAvailable();

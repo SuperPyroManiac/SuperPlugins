@@ -16,10 +16,11 @@ namespace SuperEvents.Events
 
         private Tasks _tasks = Tasks.CheckDistance;
 
-        internal override void StartEvent(Vector3 s)
+        public override void StartEvent()
         {
             //Setup
             EFunctions.FindSideOfRoad(120, 45, out _spawnPoint, out _spawnPointH);
+            EventLocation = _spawnPoint;
             if (_spawnPoint.DistanceTo(Player) < 35f)
             {
                 End(true);
@@ -47,10 +48,10 @@ namespace SuperEvents.Events
             EntitiesToClear.Add(_cPed);
             EntitiesToClear.Add(_sPed);
 
-            base.StartEvent(_spawnPoint);
+            base.StartEvent();
         }
 
-        protected override void Process()
+        public override void Process()
         {
             try
             {

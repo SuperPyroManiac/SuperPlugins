@@ -9,16 +9,17 @@ namespace SuperEvents.Events
         private Ped _animal;
         private Vector3 _spawnPoint;
 
-        internal override void StartEvent(Vector3 s)
+        public override void StartEvent()
         {
             //Ped
             _spawnPoint = World.GetNextPositionOnStreet(Player.Position.Around(150f));
+            EventLocation = _spawnPoint;
             Model[] meanAnimal = {"A_C_MTLION", "A_C_COYOTE"};
             _animal = new Ped(meanAnimal[new Random().Next(meanAnimal.Length)], _spawnPoint, 50) {IsPersistent = true};
-            base.StartEvent(_spawnPoint);
+            base.StartEvent();
         }
 
-        protected override void Process()
+        public override void Process()
         {
             try
             {

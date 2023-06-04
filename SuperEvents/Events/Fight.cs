@@ -24,10 +24,11 @@ namespace SuperEvents.Events
 
         private Tasks _tasks = Tasks.CheckDistance;
 
-        internal override void StartEvent(Vector3 s)
+        public override void StartEvent()
         {
             //Setup
             EFunctions.FindSideOfRoad(120, 45, out _spawnPoint, out _);
+            EventLocation = _spawnPoint;
             if (_spawnPoint.DistanceTo(Player) < 35f)
             {
                 End(true);
@@ -53,10 +54,10 @@ namespace SuperEvents.Events
             ConvoMenu.AddItem(_speakSuspect);
             ConvoMenu.AddItem(_speakSuspect2);
 
-            base.StartEvent(_spawnPoint);
+            base.StartEvent();
         }
 
-        protected override void Process()
+        public override void Process()
         {
             try
             {
@@ -131,7 +132,7 @@ namespace SuperEvents.Events
             }
         }
 
-        protected override void Conversations(UIMenu sender, UIMenuItem selItem, int index)
+        public override void Conversations(UIMenu sender, UIMenuItem selItem, int index)
         {
             if (selItem == _speakSuspect)
             {

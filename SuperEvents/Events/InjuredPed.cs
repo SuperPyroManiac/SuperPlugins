@@ -19,11 +19,12 @@ namespace SuperEvents.Events
         //UI
         private UIMenuItem _speakInjured;
         private UIMenuItem _speakInjured2;
-        
-        internal override void StartEvent(Vector3 s)
+
+        public override void StartEvent()
         {
             //Setup
             EFunctions.FindSideOfRoad(120, 45, out _spawnPoint, out _spawnPointH);
+            EventLocation = _spawnPoint;
             if (_spawnPoint.DistanceTo(Player) < 35f)
             {
                 End(true);
@@ -55,10 +56,10 @@ namespace SuperEvents.Events
                     End(true);
                     break;
             }
-            base.StartEvent(_spawnPoint);
+            base.StartEvent();
         }
 
-        protected override void Process()
+        public override void Process()
         {
             try
             {

@@ -15,7 +15,7 @@ namespace SuperEvents.Events
 
         private Tasks _tasks = Tasks.CheckDistance;
 
-        internal override void StartEvent(Vector3 s)
+        public override void StartEvent()
         {
             //Setup
             var randomVehicles = Player.GetNearbyVehicles(15);
@@ -39,6 +39,7 @@ namespace SuperEvents.Events
 
             _ePed = _eVehicle.Driver;
             _spawnPoint = _eVehicle.Position;
+            EventLocation = _spawnPoint;
             _spawnPointH = _eVehicle.Heading;
             //eVehicle
             _eVehicle.IsPersistent = true;
@@ -52,10 +53,10 @@ namespace SuperEvents.Events
                 return;
             }
 
-            base.StartEvent(_spawnPoint);
+            base.StartEvent();
         }
 
-        protected override void Process()
+        public override void Process()
         {
             try
             {
