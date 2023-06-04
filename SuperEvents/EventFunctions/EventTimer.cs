@@ -1,19 +1,26 @@
+using System;
 using Rage;
 
 namespace SuperEvents.EventFunctions
 {
     internal abstract class EventTimer
     {
-        private static GameFiber TimerFiber;
+        private static GameFiber _timerFiber;
+        private static int _timerDuration;
+        
         internal static void TimerStart()
         {
-            TimerFiber = GameFiber.StartNew(EventTimer.TimerRun);
+            _timerDuration = Settings.TimeBetweenEvents * 1000;
+            var rndDuration = new Random().Next(-15000, 15000);
+            _timerDuration = _timerDuration + rndDuration;
+            _timerFiber = GameFiber.StartNew(TimerRun);
         }
 
-        internal static void TimerRun()
+        private static void TimerRun()
         {
             if (AmbientEvent.TimeStart) return;
-            GameFiber.Wait(Settings.TimeBetweenEvents * 1000);
+            Game.LogTrivial("SuperEvents: Event Timer started for: " + _timerDuration / 1000 + " seconds.");
+            GameFiber.Wait(_timerDuration);
             AmbientEvent.TimeStart = true;
             Game.LogTrivial("SuperEvents: New events can now generate...");
         }

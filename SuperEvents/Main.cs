@@ -11,9 +11,8 @@ namespace SuperEvents
     {
         internal static bool PluginRunning { get; private set; }
         internal static bool PluginPaused { get; set; }
-        private static GameFiber InitFiber;
+        private static GameFiber _initFiber;
         
-
         public override void Initialize()
         {
             Functions.OnOnDutyStateChanged += OnOnDutyStateChangedHandler;
@@ -29,13 +28,13 @@ namespace SuperEvents
             if (onDuty)
                 GameFiber.StartNew(delegate
                 {
-                    RegisterAllEvents();
+                    //RegisterAllEvents();
                     GameFiber.Wait(5000);
                     Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~r~SuperEvents", "~g~Plugin Loaded.",
                         "SuperEvents version: " + Assembly.GetExecutingAssembly().GetName().Version + " loaded.");
                     PluginRunning = true;
                     var InitEvents = new EventFunctions.Events();
-                    InitFiber = GameFiber.StartNew(InitEvents.InitEvents);
+                    _initFiber = GameFiber.StartNew(EventFunctions.Events.InitEvents);
                     EventTimer.TimerStart();
                     GameFiber.Wait(17000);
                     VersionChecker.IsUpdateAvailable();

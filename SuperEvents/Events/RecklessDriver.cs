@@ -15,7 +15,7 @@ namespace SuperEvents.Events
 
         private Tasks _tasks = Tasks.CheckDistance;
 
-        public override void StartEvent()
+        protected override void StartEvent()
         {
             //Setup
             var randomVehicles = Player.GetNearbyVehicles(15);
@@ -56,7 +56,7 @@ namespace SuperEvents.Events
             base.StartEvent();
         }
 
-        public override void Process()
+        protected override void Process()
         {
             try
             {

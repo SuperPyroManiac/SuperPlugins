@@ -16,9 +16,9 @@ namespace SuperEvents
     public class AmbientEvent
     {
         internal readonly UIMenu ConvoMenu = new("SuperEvents", "~y~Choose a subject to speak with.");
-        internal readonly UIMenuItem EndCall = new("~y~End Event", "Ends the event.");
-        internal readonly MenuPool Interaction = new();
-        internal readonly UIMenu MainMenu = new("SuperEvents", "Choose an option.");
+        private readonly UIMenuItem EndCall = new("~y~End Event", "Ends the event.");
+        private readonly MenuPool Interaction = new();
+        private readonly UIMenu MainMenu = new("SuperEvents", "Choose an option.");
         internal readonly UIMenuItem Questioning = new("Speak With Subjects");
         private Vector3 _checkDistance;
 
@@ -58,7 +58,7 @@ namespace SuperEvents
         private GameFiber ProcessFiber { get; }
         internal static Ped Player => Game.LocalPlayer.Character;
 
-        public virtual void StartEvent()
+        protected virtual void StartEvent()
         {
             TimeStart = false;
             Interaction.Add(MainMenu);
@@ -91,7 +91,7 @@ namespace SuperEvents
             ProcessFiber.Start();
         }
 
-        public virtual void Process()
+        protected virtual void Process()
         {
             if (Game.IsKeyDown(Settings.EndEvent)) End(false);
             if (Game.IsKeyDown(Settings.Interact)) MainMenu.Visible = !MainMenu.Visible;
@@ -104,7 +104,7 @@ namespace SuperEvents
             Interaction.ProcessMenus();
         }
 
-        public virtual void End(bool forceCleanup)
+        protected virtual void End(bool forceCleanup)
         {
             EventRunning = false;
 
@@ -128,20 +128,17 @@ namespace SuperEvents
                     blip.Delete();
 
             Interaction.CloseAllMenus();
-            var bigMessage = new BigMessageThread();
-            bigMessage.MessageInstance.ShowColoredShard("Code 4", "Callout Ended", HudColor.Green, HudColor.Black,
-                2);
             Game.LogTrivial("SuperEvents: Ending Event.");
             //ProcessFiber.Abort();
             EventTimer.TimerStart();
         }
 
-        public virtual void Interactions(UIMenu sender, UIMenuItem selItem, int index)
+        protected virtual void Interactions(UIMenu sender, UIMenuItem selItem, int index)
         {
             if (selItem == EndCall) End(false);
         }
 
-        public virtual void Conversations(UIMenu sender, UIMenuItem selItem, int index)
+        protected virtual void Conversations(UIMenu sender, UIMenuItem selItem, int index)
         {
         }
     }

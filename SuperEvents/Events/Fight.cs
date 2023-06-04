@@ -14,17 +14,13 @@ namespace SuperEvents.Events
         private string _name1;
         private string _name2;
         private Vector3 _spawnPoint;
-
-
-        //UI Items
         private UIMenuItem _speakSuspect;
         private UIMenuItem _speakSuspect2;
         private Ped _suspect;
         private Ped _suspect2;
-
         private Tasks _tasks = Tasks.CheckDistance;
 
-        public override void StartEvent()
+        protected override void StartEvent()
         {
             //Setup
             EFunctions.FindSideOfRoad(120, 45, out _spawnPoint, out _);
@@ -57,7 +53,7 @@ namespace SuperEvents.Events
             base.StartEvent();
         }
 
-        public override void Process()
+        protected override void Process()
         {
             try
             {
@@ -132,7 +128,7 @@ namespace SuperEvents.Events
             }
         }
 
-        public override void Conversations(UIMenu sender, UIMenuItem selItem, int index)
+        protected override void Conversations(UIMenu sender, UIMenuItem selItem, int index)
         {
             if (selItem == _speakSuspect)
             {

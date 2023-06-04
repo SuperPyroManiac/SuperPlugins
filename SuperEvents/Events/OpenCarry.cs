@@ -22,7 +22,7 @@ namespace SuperEvents.Events
 
         private Tasks _tasks = Tasks.CheckDistance;
 
-        public override void StartEvent()
+        protected override void StartEvent()
         {
             //Setup
             EFunctions.FindSideOfRoad(120, 45, out _spawnPoint, out _spawnPointH);
@@ -48,7 +48,7 @@ namespace SuperEvents.Events
             base.StartEvent();
         }
 
-        public override void Process()
+        protected override void Process()
         {
             try
             {
@@ -146,7 +146,7 @@ namespace SuperEvents.Events
             }
         }
 
-        public override void Conversations(UIMenu sender, UIMenuItem selItem, int index)
+        protected override void Conversations(UIMenu sender, UIMenuItem selItem, int index)
         {
             if (selItem == _speakSuspect)
             {
