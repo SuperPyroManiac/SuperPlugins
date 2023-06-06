@@ -28,11 +28,11 @@ namespace SuperEvents
             if (onDuty)
                 GameFiber.StartNew(delegate
                 {
-                    //RegisterAllEvents();
+                    PluginRunning = true;
+                    RegisterAllEvents();
                     GameFiber.Wait(5000);
                     Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~r~SuperEvents", "~g~Plugin Loaded.",
                         "SuperEvents version: " + Assembly.GetExecutingAssembly().GetName().Version + " loaded.");
-                    PluginRunning = true;
                     var InitEvents = new EventFunctions.Events();
                     _initFiber = GameFiber.StartNew(EventFunctions.Events.InitEvents);
                     EventTimer.TimerStart();
@@ -43,11 +43,7 @@ namespace SuperEvents
 
         private static void RegisterAllEvents()
         {
-            API.RegisterEvent(typeof(CarAccident));
-            API.RegisterEvent(typeof(Fight));
-            API.RegisterEvent((typeof(CarFire)));
-            API.RegisterEvent(typeof(PulloverShooting));
-            API.RegisterEvent(typeof(WeirdCar));
+            API.RegisterEvent(typeof(PulloverShooting), API.Priority.Low);
         }
 
         public override void Finally()

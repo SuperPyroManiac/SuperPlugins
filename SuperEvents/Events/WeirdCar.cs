@@ -48,7 +48,7 @@ namespace SuperEvents.Events
                         break;
                     case Tasks.OnScene:
                         var choice = new Random().Next(1, 7);
-                        Game.LogTrivial("SuperEvents: Abandoned Vehicle event picked scenerio #" + choice);
+                        Game.LogTrivial("SuperEvents: Abandoned Vehicle event picked scenario #" + choice);
                         switch (choice)
                         {
                             case 1:

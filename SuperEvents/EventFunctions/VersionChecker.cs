@@ -7,7 +7,7 @@ namespace SuperEvents.EventFunctions
     {
         internal static bool IsUpdateAvailable()
         {
-            var curVersion = Settings.CalloutVersion;
+            var curVersion = Settings.SEventsVersion;
 
             var webClient = new WebClient();
             var receivedData = string.Empty;
@@ -38,7 +38,7 @@ namespace SuperEvents.EventFunctions
                 // server or connection is having issues
             }
 
-            if (receivedData != Settings.CalloutVersion)
+            if (receivedData != Settings.SEventsVersion)
             {
                 Game.DisplayNotification("commonmenu", "mp_alerttriangle", "~r~SuperEvents Warning",
                     "~y~A new Update is available!",

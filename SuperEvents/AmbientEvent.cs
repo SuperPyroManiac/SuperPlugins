@@ -13,11 +13,11 @@ namespace SuperEvents
 {
     public class AmbientEvent
     {
-        internal readonly UIMenu ConvoMenu = new("SuperEvents", "~y~Choose a subject to speak with.");
-        private readonly UIMenuItem _endCall = new("~y~End Event", "Ends the event.");
-        private readonly MenuPool _interaction = new();
-        private readonly UIMenu _mainMenu = new("SuperEvents", "Choose an option.");
-        internal readonly UIMenuItem Questioning = new("Speak With Subjects");
+        protected readonly UIMenu ConvoMenu = new("SuperEvents", "~y~Choose a subject to speak with.");
+        protected readonly UIMenuItem EndCall = new("~y~End Event", "Ends the event.");
+        protected readonly MenuPool Interaction = new();
+        protected readonly UIMenu MainMenu = new("SuperEvents", "Choose an option.");
+        protected readonly UIMenuItem Questioning = new("Speak With Subjects");
         protected AmbientEvent()
         {
             try
@@ -46,31 +46,34 @@ namespace SuperEvents
             }
         }
 
-        protected static bool EventRunning { get; private set; }
+        public static bool EventRunning { get; private set; }
         protected Vector3 EventLocation { get; set; }
+        protected string EventTitle { get; set; }
+        protected string EventDescription { get; set; }
         internal static bool TimeStart { get; set; }
-        internal static List<Entity> EntitiesToClear { get; private set; }
-        internal static List<Blip> BlipsToClear { get; private set; }
+        public static List<Entity> EntitiesToClear { get; private set; }
+        public static List<Blip> BlipsToClear { get; private set; }
         private GameFiber ProcessFiber { get; }
-        internal static Ped Player => Game.LocalPlayer.Character;
+        protected static Ped Player => Game.LocalPlayer.Character;
+        private bool onScene;
 
         protected virtual void StartEvent()
         {
             TimeStart = false;
-            _interaction.Add(_mainMenu);
-            _interaction.Add(ConvoMenu);
-            _mainMenu.MouseControlsEnabled = false;
-            _mainMenu.AllowCameraMovement = true;
+            Interaction.Add(MainMenu);
+            Interaction.Add(ConvoMenu);
+            MainMenu.MouseControlsEnabled = false;
+            MainMenu.AllowCameraMovement = true;
             ConvoMenu.MouseControlsEnabled = false;
             ConvoMenu.AllowCameraMovement = true;
-            _mainMenu.AddItem(Questioning);
-            _mainMenu.AddItem(_endCall);
-            _mainMenu.BindMenuToItem(ConvoMenu, Questioning);
-            ConvoMenu.ParentMenu = _mainMenu;
+            MainMenu.AddItem(Questioning);
+            MainMenu.AddItem(EndCall);
+            MainMenu.BindMenuToItem(ConvoMenu, Questioning);
+            ConvoMenu.ParentMenu = MainMenu;
             Questioning.Enabled = false;
-            _mainMenu.RefreshIndex();
+            MainMenu.RefreshIndex();
             ConvoMenu.RefreshIndex();
-            _mainMenu.OnItemSelect += Interactions;
+            MainMenu.OnItemSelect += Interactions;
             ConvoMenu.OnItemSelect += Conversations;
             if (Settings.ShowBlips)
             {
@@ -88,17 +91,25 @@ namespace SuperEvents
         protected virtual void Process()
         {
             if (Game.IsKeyDown(Settings.EndEvent)) End(false);
-            if (Game.IsKeyDown(Settings.Interact)) _mainMenu.Visible = !_mainMenu.Visible;
+            if (Game.IsKeyDown(Settings.Interact)) MainMenu.Visible = !MainMenu.Visible;
             if (EventLocation.DistanceTo(Player) > 200f)
             {
                 End(false);
                 Game.LogTrivial("SuperEvents: Ending event due to player being too far.");
             }
+            if (!onScene && Game.LocalPlayer.Character.DistanceTo(EventLocation) < 20f)
+            {
+                onScene = true;
+                if (Settings.ShowHints)
+                    Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~y~Officer Sighting",
+                        "~r~" + EventTitle, EventDescription);
+                Game.DisplayHelp("~y~Press ~r~" + Settings.Interact + "~y~ to open interaction menu.");
+            }
 
-            _interaction.ProcessMenus();
+            Interaction.ProcessMenus();
         }
 
-        protected virtual void End(bool forceCleanup)
+        protected virtual void End(bool forceCleanup = false)
         {
             EventRunning = false;
 
@@ -118,14 +129,14 @@ namespace SuperEvents
             foreach (var blip in BlipsToClear.Where(blip => blip))
                 if (blip.Exists()) blip.Delete();
 
-            _interaction.CloseAllMenus();
+            Interaction.CloseAllMenus();
             Game.LogTrivial("SuperEvents: Ending Event.");
             EventTimer.TimerStart();
         }
 
         protected virtual void Interactions(UIMenu sender, UIMenuItem selItem, int index)
         {
-            if (selItem == _endCall) End(false);
+            if (selItem == EndCall) End(false);
         }
 
         protected virtual void Conversations(UIMenu sender, UIMenuItem selItem, int index)

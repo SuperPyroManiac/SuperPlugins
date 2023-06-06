@@ -8,7 +8,7 @@ using Rage;
 
 namespace SuperEvents
 {
-    internal static class Settings
+    public static class Settings
     {
         internal static bool Fight = true;
         internal static bool CarFire = true;
@@ -18,12 +18,12 @@ namespace SuperEvents
         internal static bool AbandonedCar = true;
         internal static bool OpenCarry = true;
         internal static bool WildAnimal = true;
-        internal static bool ShowBlips = true;
-        internal static bool ShowHints = true;
-        internal static int TimeBetweenEvents = 300;
-        internal static Keys Interact = Keys.Y;
-        internal static Keys EndEvent = Keys.End;
-        internal static readonly string CalloutVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+        public static bool ShowBlips = true;
+        public static bool ShowHints = true;
+        public static int TimeBetweenEvents = 300;
+        public static Keys Interact = Keys.Y;
+        public static Keys EndEvent = Keys.End;
+        public static readonly string SEventsVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
         internal static void LoadSettings()
         {
