@@ -27,6 +27,7 @@ namespace PyroCommon.Events
         protected readonly UIMenuItem Questioning = new("Speak With Subjects");
         public static bool EventRunning { get; private set; }
         protected Vector3 EventLocation { get; set; }
+        protected float OnSceneDistance { get; set; } = 20;
         protected string EventTitle { get; set; }
         protected string EventDescription { get; set; }
         public static bool TimeStart { get; set; }
@@ -95,6 +96,10 @@ namespace PyroCommon.Events
             ProcessFiber.Start();
         }
 
+        protected virtual void OnScene()
+        {
+        }
+
         protected virtual void Process()
         {
             if (Game.IsKeyDown(EndEvent)) End(false);
@@ -104,13 +109,14 @@ namespace PyroCommon.Events
                 End(false);
                 Game.LogTrivial("SuperEvents: Ending event due to player being too far.");
             }
-            if (!onScene && Game.LocalPlayer.Character.DistanceTo(EventLocation) < 20f)
+            if (!onScene && Game.LocalPlayer.Character.DistanceTo(EventLocation) < OnSceneDistance)
             {
                 onScene = true;
                 if (ShowHints)
                     Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~y~Officer Sighting",
                         "~r~" + EventTitle, EventDescription);
                 Game.DisplayHelp("~y~Press ~r~" + Interact + "~y~ to open interaction menu.");
+                OnScene();
             }
 
             Interaction.ProcessMenus();
