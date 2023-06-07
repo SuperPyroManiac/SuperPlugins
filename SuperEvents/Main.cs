@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Reflection;
 using LSPD_First_Response.Mod.API;
+using PyroCommon.Events;
 using Rage;
 using SuperEvents.EventFunctions;
 using SuperEvents.Events;
@@ -43,7 +44,7 @@ namespace SuperEvents
 
         private static void RegisterAllEvents()
         {
-            API.RegisterEvent(typeof(PulloverShooting), API.Priority.Low);
+            EventFunctions.Events.RegisterEvent(typeof(PulloverShooting), EventFunctions.Events.Priority.Low);
         }
 
         public override void Finally()

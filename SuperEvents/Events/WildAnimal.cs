@@ -1,4 +1,5 @@
 ﻿using System;
+using PyroCommon.Events;
 using Rage;
 
 namespace SuperEvents.Events

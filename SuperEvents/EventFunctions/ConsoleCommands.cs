@@ -23,7 +23,7 @@ namespace SuperEvents.EventFunctions
         public static void Command_SEListEvents()
         {
             Game.LogTrivial("SuperEvents: Listing all Events========");
-            Game.LogTrivial(string.Join(", ", API.AllEvents));
+            Game.LogTrivial(string.Join(", ", Events.AllEvents));
             Game.LogTrivial("=======================================");
         }
     }

@@ -1,5 +1,6 @@
 using System;
 using LSPD_First_Response.Mod.API;
+using PyroCommon.Events;
 using Rage;
 using SuperEvents.EventFunctions;
 

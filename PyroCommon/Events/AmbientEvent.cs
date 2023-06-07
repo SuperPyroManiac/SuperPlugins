@@ -1,23 +1,41 @@
 #region
+
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Windows.Forms;
 using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
-using SuperEvents.EventFunctions;
+
 #endregion
 
-namespace SuperEvents
+namespace PyroCommon.Events
 {
     public class AmbientEvent
     {
+        internal bool HasEnded { get; set; }
+        internal bool ShowBlips { get; set; }
+        internal bool ShowHints { get; set; }
+        internal Keys EndEvent { get; set; }
+        internal Keys Interact { get; set; }
         protected readonly UIMenu ConvoMenu = new("SuperEvents", "~y~Choose a subject to speak with.");
         protected readonly UIMenuItem EndCall = new("~y~End Event", "Ends the event.");
         protected readonly MenuPool Interaction = new();
         protected readonly UIMenu MainMenu = new("SuperEvents", "Choose an option.");
         protected readonly UIMenuItem Questioning = new("Speak With Subjects");
+        public static bool EventRunning { get; private set; }
+        protected Vector3 EventLocation { get; set; }
+        protected string EventTitle { get; set; }
+        protected string EventDescription { get; set; }
+        public static bool TimeStart { get; set; }
+        public static List<Entity> EntitiesToClear { get; private set; }
+        public static List<Blip> BlipsToClear { get; private set; }
+        private GameFiber ProcessFiber { get; }
+        protected static Ped Player => Game.LocalPlayer.Character;
+        private bool onScene;
+        
         protected AmbientEvent()
         {
             try
@@ -46,17 +64,6 @@ namespace SuperEvents
             }
         }
 
-        public static bool EventRunning { get; private set; }
-        protected Vector3 EventLocation { get; set; }
-        protected string EventTitle { get; set; }
-        protected string EventDescription { get; set; }
-        internal static bool TimeStart { get; set; }
-        public static List<Entity> EntitiesToClear { get; private set; }
-        public static List<Blip> BlipsToClear { get; private set; }
-        private GameFiber ProcessFiber { get; }
-        protected static Ped Player => Game.LocalPlayer.Character;
-        private bool onScene;
-
         protected virtual void StartEvent()
         {
             TimeStart = false;
@@ -75,7 +82,7 @@ namespace SuperEvents
             ConvoMenu.RefreshIndex();
             MainMenu.OnItemSelect += Interactions;
             ConvoMenu.OnItemSelect += Conversations;
-            if (Settings.ShowBlips)
+            if (ShowBlips)
             {
                 var eventBlip = new Blip(EventLocation, 15f);
                 eventBlip.Color = Color.Red;
@@ -90,8 +97,8 @@ namespace SuperEvents
 
         protected virtual void Process()
         {
-            if (Game.IsKeyDown(Settings.EndEvent)) End(false);
-            if (Game.IsKeyDown(Settings.Interact)) MainMenu.Visible = !MainMenu.Visible;
+            if (Game.IsKeyDown(EndEvent)) End(false);
+            if (Game.IsKeyDown(Interact)) MainMenu.Visible = !MainMenu.Visible;
             if (EventLocation.DistanceTo(Player) > 200f)
             {
                 End(false);
@@ -100,10 +107,10 @@ namespace SuperEvents
             if (!onScene && Game.LocalPlayer.Character.DistanceTo(EventLocation) < 20f)
             {
                 onScene = true;
-                if (Settings.ShowHints)
+                if (ShowHints)
                     Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~y~Officer Sighting",
                         "~r~" + EventTitle, EventDescription);
-                Game.DisplayHelp("~y~Press ~r~" + Settings.Interact + "~y~ to open interaction menu.");
+                Game.DisplayHelp("~y~Press ~r~" + Interact + "~y~ to open interaction menu.");
             }
 
             Interaction.ProcessMenus();
@@ -131,7 +138,7 @@ namespace SuperEvents
 
             Interaction.CloseAllMenus();
             Game.LogTrivial("SuperEvents: Ending Event.");
-            EventTimer.TimerStart();
+            HasEnded = true; //TODO: DONT FORGET THIS THINGY IN SE
         }
 
         protected virtual void Interactions(UIMenu sender, UIMenuItem selItem, int index)

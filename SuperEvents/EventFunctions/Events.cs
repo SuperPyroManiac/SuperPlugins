@@ -1,11 +1,41 @@
 using System;
+using System.Collections.Generic;
 using LSPD_First_Response.Mod.API;
+using PyroCommon.Events;
 using Rage;
 
 namespace SuperEvents.EventFunctions;
 
 internal class Events : AmbientEvent
 {
+    
+    
+    internal static List<Type> RegisteredEvents = new();
+    internal static List<Type> AllEvents = new();
+    public enum Priority
+    {
+        Low,
+        Normal,
+        High
+    }
+    public static void RegisterEvent(Type type, Priority EventPriority = Priority.Normal)
+    {
+        AllEvents.Add(type);
+        var PRI = EventPriority switch
+        {
+            Priority.Low => 1,
+            Priority.Normal => 2,
+            Priority.High => 3,
+            _ => 0
+        };
+        while (PRI > 0)
+        {
+            RegisteredEvents.Add(type);
+            PRI--;
+        }
+    }
+    
+    
     internal static void InitEvents()
     {
         try
@@ -17,8 +47,8 @@ internal class Events : AmbientEvent
                     Functions.GetActivePursuit() == null && TimeStart && !EventRunning && !Main.PluginPaused)
                 {
                     Game.LogTrivial("SuperEvents: Generating random event.");
-                    var rnD = new Random().Next(API.RegisteredEvents.Count);
-                    var sEvent = API.RegisteredEvents[rnD];
+                    var rnD = new Random().Next(RegisteredEvents.Count);
+                    var sEvent = RegisteredEvents[rnD];
                     Game.LogTrivial("SuperEvents: Loading " + sEvent.Name + " from " + sEvent.Assembly.FullName);
                     var theMethod = sEvent.GetMethod("StartEvent");
                     var eventClass = Activator.CreateInstance(sEvent);
