@@ -6,7 +6,7 @@ using Rage;
 using Rage.Native;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
-using SuperEvents.EventFunctions;
+using PyroCommon.API;
 
 namespace SuperEvents.Events
 {
@@ -30,7 +30,7 @@ namespace SuperEvents.Events
         protected override void StartEvent()
         {
             //Setup
-            EFunctions.FindSideOfRoad(120, 45, out _spawnPoint, out _spawnPointH);
+            PyroFunctions.FindSideOfRoad(120, 45, out _spawnPoint, out _spawnPointH);
             EventLocation = _spawnPoint;
             if (_spawnPoint.DistanceTo(Player) < 35f)
             {
@@ -38,14 +38,14 @@ namespace SuperEvents.Events
                 return;
             }
             //Vehicles
-            EFunctions.SpawnNormalCar(out _eVehicle, _spawnPoint);
+            PyroFunctions.SpawnNormalCar(out _eVehicle, _spawnPoint);
             _eVehicle.Heading = _spawnPointH;
             _eVehicle.IsPersistent = true;
-            EFunctions.Damage(_eVehicle, 200, 200);
-            EFunctions.SpawnNormalCar(out _eVehicle2, _eVehicle.GetOffsetPositionFront(7f));
+            PyroFunctions.DamageVehicle(_eVehicle, 200, 200);
+            PyroFunctions.SpawnNormalCar(out _eVehicle2, _eVehicle.GetOffsetPositionFront(7f));
             _eVehicle2.Rotation = new Rotator(0f, 0f, 90f);
             _eVehicle2.IsPersistent = true;
-            EFunctions.Damage(_eVehicle2, 200, 200);
+            PyroFunctions.DamageVehicle(_eVehicle2, 200, 200);
             EntitiesToClear.Add(_eVehicle);
             EntitiesToClear.Add(_eVehicle2);
             //Peds
@@ -133,7 +133,7 @@ namespace SuperEvents.Events
                                 break;
                             case 3: //Fire + dead ped.
                                 _ePed2.Tasks.Cower(-1);
-                                EFunctions.FireControl(_spawnPoint.Around2D(7f), 24, true);
+                                PyroFunctions.FireControl(_spawnPoint.Around2D(7f), 24, true);
                                 break;
                             default:
                                 End(true);

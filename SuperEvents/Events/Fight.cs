@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using LSPD_First_Response.Mod.API;
+using PyroCommon.API;
 using PyroCommon.Events;
 using Rage;
 using Rage.Native;
@@ -24,7 +25,7 @@ namespace SuperEvents.Events
         protected override void StartEvent()
         {
             //Setup
-            EFunctions.FindSideOfRoad(120, 45, out _spawnPoint, out _);
+            PyroFunctions.FindSideOfRoad(120, 45, out _spawnPoint, out _);
             EventLocation = _spawnPoint;
             if (_spawnPoint.DistanceTo(Player) < 35f)
             {
@@ -34,12 +35,12 @@ namespace SuperEvents.Events
 
             //Peds
             _suspect = new Ped(_spawnPoint) {IsPersistent = true, BlockPermanentEvents = true};
-            EFunctions.SetDrunk(_suspect, true);
+            PyroFunctions.SetDrunk(_suspect, true);
             _name1 = Functions.GetPersonaForPed(_suspect).FullName;
             _suspect.Metadata.stpAlcoholDetected = true;
             EntitiesToClear.Add(_suspect);
             _suspect2 = new Ped(_suspect.FrontPosition) {IsPersistent = true, BlockPermanentEvents = true};
-            EFunctions.SetDrunk(_suspect2, true);
+            PyroFunctions.SetDrunk(_suspect2, true);
             _name2 = Functions.GetPersonaForPed(_suspect2).FullName;
             _suspect2.Metadata.stpAlcoholDetected = true;
             NativeFunction.Natives.x5AD23D40115353AC(_suspect2, _suspect, -1);

@@ -9,7 +9,7 @@ using Rage.Native;
 
 namespace SuperEvents.EventFunctions
 {
-    internal class EFunctions
+    internal class PyroFunctions
     {
     }
 }

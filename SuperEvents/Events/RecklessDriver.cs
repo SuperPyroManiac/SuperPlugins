@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using LSPD_First_Response.Mod.API;
+using PyroCommon.API;
 using PyroCommon.Events;
 using Rage;
 using SuperEvents.EventFunctions;
@@ -111,13 +112,13 @@ namespace SuperEvents.Events
                                 Functions.SetPursuitIsActiveForPlayer(pursuit, true);
                                 break;
                             case 2:
-                                EFunctions.SetWanted(_ePed, true);
+                                PyroFunctions.SetWanted(_ePed, true);
                                 break;
                             case 3:
-                                EFunctions.SetDrunk(_ePed, true);
+                                PyroFunctions.SetDrunk(_ePed, true);
                                 break;
                             case 4:
-                                EFunctions.SetWanted(_ePed, false);
+                                PyroFunctions.SetWanted(_ePed, false);
                                 break;
                             default:
                                 End(false);

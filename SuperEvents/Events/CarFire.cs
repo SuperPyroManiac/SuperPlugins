@@ -1,4 +1,5 @@
 using System;
+using PyroCommon.API;
 using PyroCommon.Events;
 using Rage;
 using SuperEvents.EventFunctions;
@@ -15,7 +16,7 @@ namespace SuperEvents.Events
         protected override void StartEvent()
         {
             //Setup
-            EFunctions.FindSideOfRoad(120, 45, out _spawnPoint, out _);
+            PyroFunctions.FindSideOfRoad(120, 45, out _spawnPoint, out _);
             EventLocation = _spawnPoint;
             if (_spawnPoint.DistanceTo(Player) < 35f)
             {
@@ -24,7 +25,7 @@ namespace SuperEvents.Events
             }
 
             //eVehicle
-            EFunctions.SpawnNormalCar(out _eVehicle, _spawnPoint);
+            PyroFunctions.SpawnNormalCar(out _eVehicle, _spawnPoint);
             EntitiesToClear.Add(_eVehicle);
 
             base.StartEvent();
@@ -53,19 +54,19 @@ namespace SuperEvents.Events
                         switch (choice)
                         {
                             case 1:
-                                EFunctions.FireControl(_spawnPoint.Around2D(4f), 24, true);
-                                EFunctions.FireControl(_spawnPoint.Around2D(4f), 24, false);
+                                PyroFunctions.FireControl(_spawnPoint.Around2D(4f), 24, true);
+                                PyroFunctions.FireControl(_spawnPoint.Around2D(4f), 24, false);
                                 break;
                             case 2:
                                 _eVehicle.Explode();
-                                EFunctions.FireControl(_spawnPoint.Around2D(4f), 10, true);
+                                PyroFunctions.FireControl(_spawnPoint.Around2D(4f), 10, true);
                                 break;
                             case 3:
                                 _victim = _eVehicle.CreateRandomDriver();
                                 _victim.IsPersistent = true;
                                 EntitiesToClear.Add(_victim);
-                                EFunctions.FireControl(_spawnPoint.Around2D(4f), 24, true);
-                                EFunctions.FireControl(_spawnPoint.Around2D(4f), 24, false);
+                                PyroFunctions.FireControl(_spawnPoint.Around2D(4f), 24, true);
+                                PyroFunctions.FireControl(_spawnPoint.Around2D(4f), 24, false);
                                 break;
                             default:
                                 End(true);

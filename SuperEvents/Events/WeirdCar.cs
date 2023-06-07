@@ -1,4 +1,5 @@
 using System;
+using PyroCommon.API;
 using PyroCommon.Events;
 using Rage;
 using SuperEvents.EventFunctions;
@@ -15,7 +16,7 @@ namespace SuperEvents.Events
         protected override void StartEvent()
         {
             //Setup
-            EFunctions.FindSideOfRoad(120, 45, out _spawnPoint, out _);
+            PyroFunctions.FindSideOfRoad(120, 45, out _spawnPoint, out _);
             EventLocation = _spawnPoint;
             if (_spawnPoint.DistanceTo(Player) < 35f)
             {
@@ -24,7 +25,7 @@ namespace SuperEvents.Events
             }
 
             //eVehicle
-            EFunctions.SpawnNormalCar(out _eVehicle, _spawnPoint);
+            PyroFunctions.SpawnNormalCar(out _eVehicle, _spawnPoint);
             EntitiesToClear.Add(_eVehicle);
 
             base.StartEvent();
@@ -53,10 +54,10 @@ namespace SuperEvents.Events
                         switch (choice)
                         {
                             case 1:
-                                EFunctions.Damage(_eVehicle, 200, 200);
+                                PyroFunctions.DamageVehicle(_eVehicle, 200, 200);
                                 break;
                             case 2:
-                                EFunctions.Damage(_eVehicle, 200, 200);
+                                PyroFunctions.DamageVehicle(_eVehicle, 200, 200);
                                 _eVehicle.IsStolen = true;
                                 break;
                             case 3:

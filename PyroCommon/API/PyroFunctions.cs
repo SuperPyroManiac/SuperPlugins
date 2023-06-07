@@ -6,13 +6,13 @@ using Rage.Native;
 
 namespace PyroCommon.API;
 
-public class PyroFunctions
+internal abstract class PyroFunctions
 {
     private static readonly TupleList<Vector3, float> SideOfRoads = new();
     private static Tuple<Vector3, float> _chosenSpawnData;
     private static readonly Random RNd = new();
     
-    public static void SpawnNormalCar(out Vehicle cVehicle, Vector3 spawnPoint) //Spawn normal random car..
+    internal static void SpawnNormalCar(out Vehicle cVehicle, Vector3 spawnPoint) //Spawn normal random car..
         {
             Model[] vehicleModels =
             {
@@ -27,7 +27,7 @@ public class PyroFunctions
             cVehicle.IsPersistent = true;
         }
 
-    public static void SpawnAnyCar(out Vehicle cVehicle, Vector3 spawnPoint) //Spawn ANY random car..
+    internal static void SpawnAnyCar(out Vehicle cVehicle, Vector3 spawnPoint) //Spawn ANY random car..
         {
             Model[] vehicleModels =
             {
@@ -49,7 +49,7 @@ public class PyroFunctions
             cVehicle.IsPersistent = true;
         }
     
-    public static void DamageVehicle(Vehicle vehicle, float radius, float amount)
+    internal static void DamageVehicle(Vehicle vehicle, float radius, float amount)
     {
         var model = vehicle.Model;
         model.GetDimensions(out var vector31, out var vector32);
@@ -63,7 +63,18 @@ public class PyroFunctions
         }
     }
     
-    public static Ped SetWanted(Ped ped, bool isWanted) //Used to set a ped as wanted.
+    internal static void SetAnimation(Ped person, string theAnimation)
+    {
+        GameFiber.StartNew(delegate
+        {
+            GameFiber.Yield();
+            var drunkAnimset = new AnimationSet(theAnimation);
+            drunkAnimset.LoadAndWait();
+            person.MovementAnimationSet = drunkAnimset;
+        });
+    }
+    
+    internal static Ped SetWanted(Ped ped, bool isWanted) //Used to set a ped as wanted.
     {
         if (!ped.Exists()) return null;
         var thePersona = Functions.GetPersonaForPed(ped);
@@ -71,7 +82,7 @@ public class PyroFunctions
         return ped;
     }
     
-    public static void SetDrunk(Ped ped, bool isDrunk)
+    internal static void SetDrunk(Ped ped, bool isDrunk)
     {
         GameFiber.StartNew(delegate
         {
@@ -84,6 +95,13 @@ public class PyroFunctions
             NativeFunction.Natives.x95D2D383D5396B8A(ped, isDrunk);
         });
     }
+    
+    internal static void FireControl(Vector3 position, int children, bool isGasFire)
+    {
+        if (children > 25) return;
+        NativeFunction.Natives.x6B83617E04503888(position.X, position.Y, position.Z, children, isGasFire);
+    }
+    
     internal static void FindSideOfRoad(int maxDistance, int minDistance, out Vector3 spawnPoint,
         out float spawnPointH)
     {

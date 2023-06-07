@@ -1,5 +1,6 @@
 ﻿using System;
 using LSPD_First_Response.Mod.API;
+using PyroCommon.API;
 using PyroCommon.Events;
 using Rage;
 using Rage.Native;
@@ -26,7 +27,7 @@ namespace SuperEvents.Events
         protected override void StartEvent()
         {
             //Setup
-            EFunctions.FindSideOfRoad(120, 45, out _spawnPoint, out _spawnPointH);
+            PyroFunctions.FindSideOfRoad(120, 45, out _spawnPoint, out _spawnPointH);
             EventLocation = _spawnPoint;
             if (_spawnPoint.DistanceTo(Player) < 35f)
             {
