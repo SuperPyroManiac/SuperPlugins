@@ -25,12 +25,11 @@ namespace PyroCommon.Events
         protected readonly MenuPool Interaction = new();
         protected readonly UIMenu MainMenu = new("SuperEvents", "Choose an option.");
         protected readonly UIMenuItem Questioning = new("Speak With Subjects");
-        public static bool EventRunning { get; private set; }
+        public static bool EventRunning { get; internal set; }
         protected Vector3 EventLocation { get; set; }
         protected float OnSceneDistance { get; set; } = 20;
         protected string EventTitle { get; set; }
         protected string EventDescription { get; set; }
-        public static bool TimeStart { get; set; }
         public static List<Entity> EntitiesToClear { get; private set; }
         public static List<Blip> BlipsToClear { get; private set; }
         private GameFiber ProcessFiber { get; }
@@ -65,9 +64,8 @@ namespace PyroCommon.Events
             }
         }
 
-        protected virtual void StartEvent()
+        protected internal virtual void StartEvent()
         {
-            TimeStart = false;
             Interaction.Add(MainMenu);
             Interaction.Add(ConvoMenu);
             MainMenu.MouseControlsEnabled = false;
@@ -96,11 +94,11 @@ namespace PyroCommon.Events
             ProcessFiber.Start();
         }
 
-        protected virtual void OnScene()
+        protected internal virtual void OnScene()
         {
         }
 
-        protected virtual void Process()
+        protected internal virtual void Process()
         {
             if (Game.IsKeyDown(EndEvent)) End(false);
             if (Game.IsKeyDown(Interact)) MainMenu.Visible = !MainMenu.Visible;
@@ -122,7 +120,7 @@ namespace PyroCommon.Events
             Interaction.ProcessMenus();
         }
 
-        protected virtual void End(bool forceCleanup = false)
+        protected internal virtual void End(bool forceCleanup = false)
         {
             EventRunning = false;
 
