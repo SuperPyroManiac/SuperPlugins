@@ -6,13 +6,13 @@ using Rage.Native;
 
 namespace PyroCommon.API;
 
-internal abstract class PyroFunctions
+public abstract class PyroFunctions
 {
     private static readonly TupleList<Vector3, float> SideOfRoads = new();
     private static Tuple<Vector3, float> _chosenSpawnData;
     private static readonly Random RNd = new();
     
-    internal static void SpawnNormalCar(out Vehicle cVehicle, Vector3 spawnPoint) //Spawn normal random car..
+    public static void SpawnNormalCar(out Vehicle cVehicle, Vector3 spawnPoint) //Spawn normal random car..
         {
             Model[] vehicleModels =
             {
@@ -27,7 +27,7 @@ internal abstract class PyroFunctions
             cVehicle.IsPersistent = true;
         }
 
-    internal static void SpawnAnyCar(out Vehicle cVehicle, Vector3 spawnPoint) //Spawn ANY random car..
+    public static void SpawnAnyCar(out Vehicle cVehicle, Vector3 spawnPoint) //Spawn ANY random car..
         {
             Model[] vehicleModels =
             {
@@ -49,7 +49,7 @@ internal abstract class PyroFunctions
             cVehicle.IsPersistent = true;
         }
     
-    internal static void DamageVehicle(Vehicle vehicle, float radius, float amount)
+    public static void DamageVehicle(Vehicle vehicle, float radius, float amount)
     {
         var model = vehicle.Model;
         model.GetDimensions(out var vector31, out var vector32);
@@ -63,7 +63,7 @@ internal abstract class PyroFunctions
         }
     }
     
-    internal static void SetAnimation(Ped person, string theAnimation)
+    public static void SetAnimation(Ped person, string theAnimation)
     {
         GameFiber.StartNew(delegate
         {
@@ -74,7 +74,7 @@ internal abstract class PyroFunctions
         });
     }
     
-    internal static Ped SetWanted(Ped ped, bool isWanted) //Used to set a ped as wanted.
+    public static Ped SetWanted(Ped ped, bool isWanted) //Used to set a ped as wanted.
     {
         if (!ped.Exists()) return null;
         var thePersona = Functions.GetPersonaForPed(ped);
@@ -82,7 +82,7 @@ internal abstract class PyroFunctions
         return ped;
     }
     
-    internal static void SetDrunk(Ped ped, bool isDrunk)
+    public static void SetDrunk(Ped ped, bool isDrunk)
     {
         GameFiber.StartNew(delegate
         {
@@ -96,13 +96,13 @@ internal abstract class PyroFunctions
         });
     }
     
-    internal static void FireControl(Vector3 position, int children, bool isGasFire)
+    public static void FireControl(Vector3 position, int children, bool isGasFire)
     {
         if (children > 25) return;
         NativeFunction.Natives.x6B83617E04503888(position.X, position.Y, position.Z, children, isGasFire);
     }
     
-    internal static void FindSideOfRoad(int maxDistance, int minDistance, out Vector3 spawnPoint,
+    public static void FindSideOfRoad(int maxDistance, int minDistance, out Vector3 spawnPoint,
         out float spawnPointH)
     {
         foreach (var tuple in API.PulloverSpots.SideOfRoad)

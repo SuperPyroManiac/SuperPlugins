@@ -6,7 +6,7 @@ using Rage;
 
 namespace SuperEvents.EventFunctions;
 
-internal class Events : AmbientEvent
+public class Events : AmbientEvent
 {
     
     
