@@ -16,8 +16,11 @@ namespace SuperEvents.EventFunctions
             _timerDuration = Settings.TimeBetweenEvents * 1000 + new Random().Next(-15000, 15000);
             Finished = false;
             _elapsedMilliseconds = 0;
+            _timerFiber?.Abort();
             _timerFiber = GameFiber.StartNew(Run);
         }
+
+        internal static void Stop() => Finished = true;
 
         private static void Run()
         {

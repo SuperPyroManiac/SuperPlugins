@@ -45,6 +45,8 @@ public static class EventManager
     {
         try
         {
+            CurrentEvent?.End(true);
+            CurrentEvent = null;
             EventTimer.Start();
             while (Main.PluginRunning)
             {
@@ -89,7 +91,10 @@ public static class EventManager
         Game.LogTrivial("SuperEvents: Generating eventName event.");
         foreach (var currentEvent in RegisteredEvents)
             if (currentEvent.Name == eventName)
+            {
                 StartEvent(currentEvent);
+                return;
+            }
         Game.LogTrivial($"SuperEvents: Event \"{eventName}\" not found.");
     }
 
@@ -98,5 +103,6 @@ public static class EventManager
         Game.LogTrivial("SuperEvents: Loading " + eventType.Name + " from " + eventType.Assembly.FullName);
         CurrentEvent = Activator.CreateInstance(eventType) as AmbientEvent;
         CurrentEvent.StartEvent();
+        EventTimer.Stop();
     }
 }
