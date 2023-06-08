@@ -28,7 +28,7 @@ namespace SuperEvents.EventFunctions
                 var prevTime = Game.GameTime;
                 GameFiber.Yield();
                 _elapsedMilliseconds += Game.GameTime - prevTime;
-                if (_elapsedMilliseconds >= _timerDuration) continue;
+                if (_elapsedMilliseconds < _timerDuration) continue;
                 Finished = true;
                 Game.LogTrivial("SuperEvents: New events can now generate...");
             }
