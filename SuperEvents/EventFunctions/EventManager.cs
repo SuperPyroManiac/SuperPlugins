@@ -91,7 +91,7 @@ public static class EventManager
 
         Game.LogTrivial("SuperEvents: Generating eventName event.");
         foreach (var currentEvent in RegisteredEvents)
-            if (currentEvent.Name == eventName)
+            if (currentEvent.FullName == eventName)
             {
                 StartEvent(currentEvent);
                 return;

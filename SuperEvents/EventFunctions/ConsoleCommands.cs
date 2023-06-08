@@ -1,9 +1,6 @@
-using System;
 using System.Linq;
 using Rage;
 using Rage.Attributes;
-using Rage.ConsoleCommands;
-using Rage.ConsoleCommands.AutoCompleters;
 
 namespace SuperEvents.EventFunctions;
 
@@ -34,21 +31,6 @@ public static class ConsoleCommands
 
     [ConsoleCommand]
     public static void Command_SEForceEvent(
-        [ConsoleCommandParameter(AutoCompleterType = typeof(EventParameterAutoCompleter))] string eventName) =>
-        EventManager.ForceEvent(eventName);
-}
-
-[ConsoleCommandParameterAutoCompleter(typeof(string))]
-public class EventParameterAutoCompleter : ConsoleCommandParameterAutoCompleter
-{
-    public EventParameterAutoCompleter(Type type) : base(type)
-    {
-    }
-    
-    public override void UpdateOptions()
-    {
-        Options.Clear();
-        foreach (var eventType in EventManager.AllEvents)
-            Options.Add(new AutoCompleteOption(eventType.Name, eventType.Name, "An Event"));
-    }
+        [ConsoleCommandParameter(AutoCompleterType = typeof(EventParameterAutoCompleter))]
+        string eventName) => EventManager.ForceEvent(eventName);
 }
