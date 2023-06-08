@@ -13,7 +13,7 @@ using RAGENativeUI.Elements;
 
 namespace PyroCommon.Events
 {
-    public class AmbientEvent
+    public abstract class AmbientEvent
     {
         internal bool HasEnded { get; set; }
         internal bool ShowBlips { get; set; }
