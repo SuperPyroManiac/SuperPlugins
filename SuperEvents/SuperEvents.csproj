@@ -74,7 +74,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="EventFunctions\ConsoleCommands.cs" />
-    <Compile Include="EventFunctions\Events.cs" />
+    <Compile Include="EventFunctions\EventManager.cs" />
     <Compile Include="EventFunctions\EventTimer.cs" />
   </ItemGroup>
   <ItemGroup>

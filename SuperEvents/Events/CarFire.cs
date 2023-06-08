@@ -13,7 +13,7 @@ namespace SuperEvents.Events
         private Tasks _tasks = Tasks.CheckDistance;
         private Ped _victim;
 
-        protected override void StartEvent()
+        protected internal override void StartEvent()
         {
             //Setup
             PyroFunctions.FindSideOfRoad(120, 45, out _spawnPoint, out _);
@@ -31,7 +31,7 @@ namespace SuperEvents.Events
             base.StartEvent();
         }
 
-        protected override void Process()
+        protected internal override void Process()
         {
             try
             {

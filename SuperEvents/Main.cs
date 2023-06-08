@@ -34,17 +34,16 @@ namespace SuperEvents
                     GameFiber.Wait(5000);
                     Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~r~SuperEvents", "~g~Plugin Loaded.",
                         "SuperEvents version: " + Assembly.GetExecutingAssembly().GetName().Version + " loaded.");
-                    var InitEvents = new EventFunctions.Events();
-                    _initFiber = GameFiber.StartNew(EventFunctions.Events.InitEvents);
-                    EventTimer.TimerStart();
+                    _initFiber = GameFiber.StartNew(EventManager.InitEvents);
                     GameFiber.Wait(17000);
                     VersionChecker.IsUpdateAvailable();
                 });
+            // TODO: Maybe set PluginRunning to false on offDuty.
         }
 
         private static void RegisterAllEvents()
         {
-            EventFunctions.Events.RegisterEvent(typeof(PulloverShooting), EventFunctions.Events.Priority.Low);
+            EventFunctions.EventManager.RegisterEvent(typeof(PulloverShooting), EventFunctions.EventManager.Priority.Low);
         }
 
         public override void Finally()

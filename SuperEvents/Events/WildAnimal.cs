@@ -10,7 +10,7 @@ namespace SuperEvents.Events
         private Ped _animal;
         private Vector3 _spawnPoint;
 
-        protected override void StartEvent()
+        protected internal override void StartEvent()
         {
             //Ped
             _spawnPoint = World.GetNextPositionOnStreet(Player.Position.Around(150f));
@@ -20,7 +20,7 @@ namespace SuperEvents.Events
             base.StartEvent();
         }
 
-        protected override void Process()
+        protected internal override void Process()
         {
             try
             {

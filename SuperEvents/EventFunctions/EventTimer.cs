@@ -1,29 +1,40 @@
 using System;
-using PyroCommon.Events;
 using Rage;
 
 namespace SuperEvents.EventFunctions
 {
-    internal abstract class EventTimer
+    internal static class EventTimer
     {
         private static GameFiber _timerFiber;
         private static int _timerDuration;
-        
-        internal static void TimerStart()
+        private static uint _elapsedMilliseconds;
+        internal static bool Finished { get; private set; }
+        internal static bool Paused { get; set; }
+
+        internal static void Start()
         {
-            _timerDuration = Settings.TimeBetweenEvents * 1000;
-            var rndDuration = new Random().Next(-15000, 15000);
-            _timerDuration = _timerDuration + rndDuration;
-            _timerFiber = GameFiber.StartNew(TimerRun);
+            _timerDuration = Settings.TimeBetweenEvents * 1000 + new Random().Next(-15000, 15000);
+            Finished = false;
+            _elapsedMilliseconds = 0;
+            _timerFiber?.Abort();
+            _timerFiber = GameFiber.StartNew(Run);
         }
 
-        private static void TimerRun()
+        internal static void Stop() => Finished = true;
+
+        private static void Run()
         {
-            if (AmbientEvent.TimeStart) return;
-            Game.LogTrivial("SuperEvents: Event Timer started for: " + _timerDuration / 1000 + " seconds.");
-            GameFiber.Wait(_timerDuration);
-            AmbientEvent.TimeStart = true;
-            Game.LogTrivial("SuperEvents: New events can now generate...");
+            while (!Finished)
+            {
+                if (Paused || Finished) continue;
+                Game.LogTrivial("SuperEvents: Event Timer started for: " + _timerDuration / 1000 + " seconds.");
+                var prevTime = Game.GameTime;
+                GameFiber.Yield();
+                _elapsedMilliseconds += Game.GameTime - prevTime;
+                if (_elapsedMilliseconds < _timerDuration) continue;
+                Finished = true;
+                Game.LogTrivial("SuperEvents: New events can now generate...");
+            }
         }
     }
 }
