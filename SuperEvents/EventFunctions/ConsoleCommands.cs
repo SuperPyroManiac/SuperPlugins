@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Rage;
 using Rage.Attributes;
 using Rage.ConsoleCommands;
@@ -26,7 +27,8 @@ namespace SuperEvents.EventFunctions
         public static void Command_SEListEvents()
         {
             Game.LogTrivial("SuperEvents: Listing all Events========");
-            Game.LogTrivial(string.Join(", ", EventManager.AllEvents));
+            var eventNames = EventManager.AllEvents.Select(s => s.Name).ToList();
+            Game.LogTrivial(string.Join(", ", eventNames));
             Game.LogTrivial("=======================================");
         }
 
