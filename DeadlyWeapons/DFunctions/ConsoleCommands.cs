@@ -4,14 +4,13 @@ using Rage.Attributes;
 
 #endregion
 
-namespace DeadlyWeapons.DFunctions
+namespace DeadlyWeapons.DFunctions;
+
+public class ConsoleCommands
 {
-    public class ConsoleCommands
+    [ConsoleCommand]
+    public static void Command_DWReloadConfig()
     {
-        [ConsoleCommand]
-        public static void Command_DWReloadConfig()
-        {
-            Settings.LoadSettings();
-        }
+        Settings.LoadSettings();
     }
 }

@@ -1,6 +1,5 @@
-﻿namespace PyroCommon
+﻿namespace PyroCommon;
+
+public class Main
 {
-    public class Main
-    {
-    }
 }
