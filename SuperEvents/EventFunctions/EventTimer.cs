@@ -8,12 +8,14 @@ internal static class EventTimer
     private static GameFiber _timerFiber;
     private static int _timerDuration;
     private static uint _elapsedMilliseconds;
+    private static readonly Random Random = new(Guid.NewGuid().GetHashCode());
     internal static bool Finished { get; private set; }
     internal static bool Paused { get; set; }
 
     internal static void Start()
     {
-        _timerDuration = Settings.TimeBetweenEvents; //* 1000 + new Random().Next(-15000, 15000);
+        _timerDuration = Settings.TimeBetweenEvents <= 20 ? 20000 : Settings.TimeBetweenEvents * 1000;
+        _timerDuration += Random.Next(-15000, 15000);
         Game.LogTrivial("SuperEvents: Event Timer started for: " + _timerDuration / 1000 + " seconds.");
         Finished = false;
         _elapsedMilliseconds = 0;
