@@ -105,7 +105,7 @@ public abstract class PyroFunctions
     public static void FindSideOfRoad(int maxDistance, int minDistance, out Vector3 spawnPoint,
         out float spawnPointH)
     {
-        foreach (var tuple in API.PulloverSpots.SideOfRoad)
+        foreach (var tuple in PulloverSpots.SideOfRoad)
             if (Vector3.Distance(tuple.Item1, Game.LocalPlayer.Character.Position) < maxDistance &&
                 Vector3.Distance(tuple.Item1, Game.LocalPlayer.Character.Position) > minDistance)
                 SideOfRoads.Add(tuple);

@@ -44,6 +44,11 @@ public static class Settings
         TimeBetweenEvents = ini.ReadInt32("Settings", "TimeBetweenEvents", 150);
         Interact = ini.ReadEnum("Keys", "Interact", Keys.Y);
         EndEvent = ini.ReadEnum("Keys", "EndEvent", Keys.End);
+        //Apply SE Settings to PyroCommon
+        PyroCommon.Events.AmbientEvent.ShowBlips = ShowBlips;
+        PyroCommon.Events.AmbientEvent.ShowHints = ShowHints;
+        PyroCommon.Events.AmbientEvent.Interact = Interact;
+        PyroCommon.Events.AmbientEvent.EndEvent = EndEvent;
         Game.LogTrivial("SuperCallouts: Config loaded.");
     }
 }

@@ -13,7 +13,8 @@ internal static class EventTimer
 
     internal static void Start()
     {
-        _timerDuration = Settings.TimeBetweenEvents * 1000 + new Random().Next(-15000, 15000);
+        _timerDuration = Settings.TimeBetweenEvents; //* 1000 + new Random().Next(-15000, 15000);
+        Game.LogTrivial("SuperEvents: Event Timer started for: " + _timerDuration / 1000 + " seconds.");
         Finished = false;
         _elapsedMilliseconds = 0;
         _timerFiber?.Abort();
@@ -27,7 +28,6 @@ internal static class EventTimer
         while (!Finished)
         {
             if (Paused || Finished) continue;
-            Game.LogTrivial("SuperEvents: Event Timer started for: " + _timerDuration / 1000 + " seconds.");
             var prevTime = Game.GameTime;
             GameFiber.Yield();
             _elapsedMilliseconds += Game.GameTime - prevTime;

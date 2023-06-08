@@ -38,12 +38,19 @@ internal class Main : Plugin
                 GameFiber.Wait(17000);
                 VersionChecker.IsUpdateAvailable();
             });
-        // TODO: Maybe set PluginRunning to false on offDuty.
     }
 
     private static void RegisterAllEvents()
     {
-        EventFunctions.EventManager.RegisterEvent(typeof(PulloverShooting), EventFunctions.EventManager.Priority.Low);
+        if (Settings.CarAccident) EventManager.RegisterEvent(typeof(CarAccident), EventManager.Priority.High);
+        if (Settings.CarFire) EventManager.RegisterEvent(typeof(CarFire));
+        if (Settings.Fight) EventManager.RegisterEvent(typeof(Fight));
+        //if (Settings.) EventManager.RegisterEvent(typeof(InjuredPed)); TODO: Complete IP Event
+        if (Settings.OpenCarry) EventManager.RegisterEvent(typeof(OpenCarry), EventManager.Priority.Low);
+        if (Settings.PulloverShooting) EventManager.RegisterEvent(typeof(PulloverShooting), EventManager.Priority.Low);
+        if (Settings.RecklessDriver) EventManager.RegisterEvent(typeof(RecklessDriver));
+        //if (Settings.) EventManager.RegisterEvent(typeof(WeirdCar)); TODO: Complete WC Event
+        if (Settings.WildAnimal) EventManager.RegisterEvent(typeof(WildAnimal));
     }
 
     public override void Finally()
@@ -52,6 +59,7 @@ internal class Main : Plugin
             entity.Delete();
         foreach (var blip in AmbientEvent.BlipsToClear.Where(blip => blip))
             blip.Delete();
+        PluginRunning = false;
         Game.LogTrivial("SuperEvents by SuperPyroManiac has been cleaned up.");
     }
 }

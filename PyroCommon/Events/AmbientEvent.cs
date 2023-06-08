@@ -16,10 +16,10 @@ namespace PyroCommon.Events;
 public abstract class AmbientEvent
 {
     internal bool HasEnded { get; set; }
-    internal bool ShowBlips { get; set; }
-    internal bool ShowHints { get; set; }
-    internal Keys EndEvent { get; set; }
-    internal Keys Interact { get; set; }
+    internal static bool ShowBlips { get; set; }
+    internal static bool ShowHints { get; set; }
+    internal static Keys EndEvent { get; set; }
+    internal static Keys Interact { get; set; }
     protected readonly UIMenu ConvoMenu = new("SuperEvents", "~y~Choose a subject to speak with.");
     protected readonly UIMenuItem EndCall = new("~y~End Event", "Ends the event.");
     protected readonly MenuPool Interaction = new();
@@ -104,7 +104,7 @@ public abstract class AmbientEvent
         if (Game.IsKeyDown(Interact)) MainMenu.Visible = !MainMenu.Visible;
         if (EventLocation.DistanceTo(Player) > 200f)
         {
-            End(false);
+            End();
             Game.LogTrivial("SuperEvents: Ending event due to player being too far.");
         }
         if (!onScene && Game.LocalPlayer.Character.DistanceTo(EventLocation) < OnSceneDistance)
@@ -142,7 +142,7 @@ public abstract class AmbientEvent
 
         Interaction.CloseAllMenus();
         Game.LogTrivial("SuperEvents: Ending Event.");
-        HasEnded = true; //TODO: DONT FORGET THIS THINGY IN SE
+        HasEnded = true;
     }
 
     protected virtual void Interactions(UIMenu sender, UIMenuItem selItem, int index)
