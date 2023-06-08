@@ -27,6 +27,8 @@ internal class Fight : AmbientEvent
         //Setup
         PyroFunctions.FindSideOfRoad(120, 45, out _spawnPoint, out _);
         EventLocation = _spawnPoint;
+        EventTitle = "A Fight";
+        EventDescription = "Stop the fight, and make sure everyone is ok.";
         if (_spawnPoint.DistanceTo(Player) < 35f)
         {
             End(true);
@@ -66,10 +68,6 @@ internal class Fight : AmbientEvent
                     {
                         _suspect.PlayAmbientSpeech("GENERIC_CURSE_MED");
                         _suspect2.PlayAmbientSpeech("GENERIC_CURSE_MED");
-                        if (Settings.ShowHints)
-                            Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~y~Officer Sighting",
-                                "~r~A Fight", "Stop the fight, and make sure everyone is ok.");
-                        Game.DisplayHelp("~y~Press ~r~" + Settings.Interact + "~y~ to open interaction menu.");
                         Questioning.Enabled = true;
                         _tasks = Tasks.OnScene;
                     }

@@ -49,7 +49,7 @@ internal class Main : Plugin
         if (Settings.OpenCarry) EventManager.RegisterEvent(typeof(OpenCarry), EventManager.Priority.Low);
         if (Settings.PulloverShooting) EventManager.RegisterEvent(typeof(PulloverShooting), EventManager.Priority.Low);
         if (Settings.RecklessDriver) EventManager.RegisterEvent(typeof(RecklessDriver));
-        //if (Settings.) EventManager.RegisterEvent(typeof(WeirdCar)); TODO: Complete WC Event
+        if (Settings.AbandonedCar) EventManager.RegisterEvent(typeof(WeirdCar));
         if (Settings.WildAnimal) EventManager.RegisterEvent(typeof(WildAnimal));
     }
 

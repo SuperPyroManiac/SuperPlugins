@@ -29,6 +29,8 @@ internal class OpenCarry : AmbientEvent
         //Setup
         PyroFunctions.FindSideOfRoad(120, 45, out _spawnPoint, out _spawnPointH);
         EventLocation = _spawnPoint;
+        EventTitle = "Open Carry";
+        EventDescription = "Investigate the person.";
         if (_spawnPoint.DistanceTo(Player) < 35f)
         {
             End(true);
@@ -59,10 +61,6 @@ internal class OpenCarry : AmbientEvent
                 case Tasks.CheckDistance:
                     if (Player.DistanceTo(_bad) < 10f)
                     {
-                        if (Settings.ShowHints)
-                            Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~y~Officer Sighting",
-                                "~r~Open Carry", "Investigate the person.");
-                        Game.DisplayHelp("~y~Press ~r~" + Settings.Interact + "~y~ to open interaction menu.");
                         Questioning.Enabled = true;
                         _tasks = Tasks.End;
                     }

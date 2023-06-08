@@ -20,6 +20,8 @@ internal class RecklessDriver : AmbientEvent
     protected internal override void StartEvent()
     {
         //Setup
+        EventTitle = "Reckless Driving";
+        EventDescription = "Stop the vehicle.";
         var randomVehicles = Player.GetNearbyVehicles(15);
         if (randomVehicles == null || randomVehicles.Length == 0)
         {
@@ -67,10 +69,6 @@ internal class RecklessDriver : AmbientEvent
                 case Tasks.CheckDistance:
                     if (Game.LocalPlayer.Character.DistanceTo(_spawnPoint) < 15f)
                     {
-                        if (Settings.ShowHints)
-                            Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~y~Officer Sighting",
-                                "~r~Reckless Driving", "Stop the vehicle.");
-                        Game.DisplayHelp("~y~Press ~r~" + Settings.Interact + "~y~ to open interaction menu.");
                         var rrNd = new Random().Next(1, 3);
                         switch (rrNd)
                         {

@@ -25,6 +25,7 @@ public static class EventManager
 
     public static void RegisterEvent(Type type, Priority EventPriority = Priority.Normal)
     {
+        Game.LogTrivial("SuperEvents: Registering event - " + type.Assembly.FullName);
         AllEvents.Add(type);
         var PRI = EventPriority switch
         {

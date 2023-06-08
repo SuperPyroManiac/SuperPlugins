@@ -28,8 +28,8 @@ public abstract class AmbientEvent
     public static bool EventRunning { get; internal set; }
     protected Vector3 EventLocation { get; set; }
     protected float OnSceneDistance { get; set; } = 20;
-    protected string EventTitle { get; set; }
-    protected string EventDescription { get; set; }
+    protected string EventTitle { get; set; } = "Forgot to set me!";
+    protected string EventDescription { get; set; } = "Double check the API docs friend!";
     public static List<Entity> EntitiesToClear { get; private set; }
     public static List<Blip> BlipsToClear { get; private set; }
     private GameFiber ProcessFiber { get; }
@@ -60,6 +60,7 @@ public abstract class AmbientEvent
             Game.LogTrivial("======================================================");
             Game.LogTrivial("SuperEvents Error Report End");
             // ReSharper disable once VirtualMemberCallInConstructor
+            HasEnded = true;
             End(true);
         }
     }

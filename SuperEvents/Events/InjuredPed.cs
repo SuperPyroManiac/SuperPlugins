@@ -27,6 +27,8 @@ internal class InjuredPed : AmbientEvent
         //Setup
         PyroFunctions.FindSideOfRoad(120, 45, out _spawnPoint, out _spawnPointH);
         EventLocation = _spawnPoint;
+        EventTitle = "Injured Person";
+        EventDescription = "Ensure the person is ok!";
         if (_spawnPoint.DistanceTo(Player) < 35f)
         {
             End(true);

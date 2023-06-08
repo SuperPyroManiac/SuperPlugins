@@ -32,6 +32,8 @@ internal class CarAccident : AmbientEvent
         //Setup
         PyroFunctions.FindSideOfRoad(120, 45, out _spawnPoint, out _spawnPointH);
         EventLocation = _spawnPoint;
+        EventTitle = "Car Accident";
+        EventDescription = "Investigate the scene.";
         if (_spawnPoint.DistanceTo(Player) < 35f)
         {
             End(true);
@@ -101,11 +103,7 @@ internal class CarAccident : AmbientEvent
             {
                 case Tasks.CheckDistance:
                     if (Game.LocalPlayer.Character.DistanceTo(_spawnPoint) < 25f)
-                    {
-                        if (Settings.ShowHints)
-                            Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~y~Officer Sighting",
-                                "~r~Car Accident", "Investigate the scene.");
-                        Game.DisplayHelp("~y~Press ~r~" + Settings.Interact + "~y~ to open interaction menu.");
+                    { ;
                         Questioning.Enabled = true;
                         _tasks = Tasks.OnScene;
                     }

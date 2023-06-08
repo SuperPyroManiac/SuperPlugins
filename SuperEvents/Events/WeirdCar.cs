@@ -18,6 +18,8 @@ internal class WeirdCar : AmbientEvent
         //Setup
         PyroFunctions.FindSideOfRoad(120, 45, out _spawnPoint, out _);
         EventLocation = _spawnPoint;
+        EventTitle = "Abandoned Vehicle";
+        EventDescription = "Investigate the vehicle.";
         if (_spawnPoint.DistanceTo(Player) < 35f)
         {
             End(true);
@@ -40,10 +42,6 @@ internal class WeirdCar : AmbientEvent
                 case Tasks.CheckDistance:
                     if (Game.LocalPlayer.Character.DistanceTo(_spawnPoint) < 25f)
                     {
-                        if (Settings.ShowHints)
-                            Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~y~Officer Sighting",
-                                "~r~Abandoned Vehicle", "Investigate the vehicle.");
-                        Game.DisplayHelp("~y~Press ~r~" + Settings.Interact + "~y~ to open interaction menu.");
                         _tasks = Tasks.OnScene;
                     }
 

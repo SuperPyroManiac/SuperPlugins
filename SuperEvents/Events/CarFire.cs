@@ -18,6 +18,8 @@ internal class CarFire : AmbientEvent
         //Setup
         PyroFunctions.FindSideOfRoad(120, 45, out _spawnPoint, out _);
         EventLocation = _spawnPoint;
+        EventTitle = "A Fire";
+        EventDescription = "Call the Fire Department and clear the scene!";
         if (_spawnPoint.DistanceTo(Player) < 35f)
         {
             End(true);
@@ -40,10 +42,6 @@ internal class CarFire : AmbientEvent
                 case Tasks.CheckDistance:
                     if (Game.LocalPlayer.Character.DistanceTo(_spawnPoint) < 25f)
                     {
-                        if (Settings.ShowHints)
-                            Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~y~Officer Sighting",
-                                "~r~A Fire", "Call the Fire Department and clear the scene!");
-                        Game.DisplayHelp("~y~Press ~r~" + Settings.Interact + "~y~ to open interaction menu.");
                         _tasks = Tasks.OnScene;
                     }
 

@@ -23,6 +23,8 @@ internal class PulloverShooting : AmbientEvent
         //Setup
         PyroFunctions.FindSideOfRoad(120, 45, out _spawnPoint, out _spawnPointH);
         EventLocation = _spawnPoint;
+        EventTitle = "Officer Under Fire";
+        EventDescription = "Help the other officer!";
         if (_spawnPoint.DistanceTo(Player) < 35f)
         {
             End(true);
@@ -62,10 +64,6 @@ internal class PulloverShooting : AmbientEvent
                 case Tasks.CheckDistance:
                     if (Game.LocalPlayer.Character.DistanceTo(_spawnPoint) < 30f)
                     {
-                        if (Settings.ShowHints)
-                            Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~y~Officer Sighting",
-                                "~r~Officer Under Fire", "Help the other officer!");
-                        Game.DisplayHelp("~y~Press ~r~" + Settings.Interact + "~y~ to open interaction menu.");
                         _tasks = Tasks.OnScene;
                     }
 

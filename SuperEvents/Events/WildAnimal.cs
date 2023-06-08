@@ -15,6 +15,8 @@ internal class WildAnimal : AmbientEvent
         //Ped
         _spawnPoint = World.GetNextPositionOnStreet(Player.Position.Around(150f));
         EventLocation = _spawnPoint;
+        EventTitle = "Wild Animal";
+        EventDescription = "Stop the animal from hurting anyone.";
         Model[] meanAnimal = {"A_C_MTLION", "A_C_COYOTE"};
         _animal = new Ped(meanAnimal[new Random().Next(meanAnimal.Length)], _spawnPoint, 50) {IsPersistent = true};
         base.StartEvent();
@@ -30,10 +32,6 @@ internal class WildAnimal : AmbientEvent
                     if (Player.DistanceTo(_animal) < 20f)
                     {
                         _animal.Tasks.FightAgainst(Player);
-                        if (Settings.ShowHints)
-                            Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~y~Officer Sighting",
-                                "~r~Wild Animal", "Stop the animal from hurting anyone.");
-                        Game.DisplayHelp("~y~Press ~r~" + Settings.Interact + "~y~ to open interaction menu.");
                         _tasks = Tasks.OnScene;
                     }
 
