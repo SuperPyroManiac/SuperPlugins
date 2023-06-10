@@ -1,22 +1,24 @@
 ﻿using System;
 using PyroCommon.Events;
 using Rage;
+using SuperEvents.EventFunctions;
 
 namespace SuperEvents.Events;
 
+[EventInfo("Wild Animal", "Stop the animal from hurting anyone.")]
 internal class WildAnimal : AmbientEvent
 {
     private Tasks _tasks = Tasks.CheckDistance;
     private Ped _animal;
     private Vector3 _spawnPoint;
 
+    protected override Vector3 EventLocation { get; set; }
+
     protected internal override void StartEvent()
     {
         //Ped
         _spawnPoint = World.GetNextPositionOnStreet(Player.Position.Around(150f));
         EventLocation = _spawnPoint;
-        EventTitle = "Wild Animal";
-        EventDescription = "Stop the animal from hurting anyone.";
         Model[] meanAnimal = {"A_C_MTLION", "A_C_COYOTE"};
         _animal = new Ped(meanAnimal[new Random().Next(meanAnimal.Length)], _spawnPoint, 50) {IsPersistent = true};
         base.StartEvent();
@@ -47,14 +49,18 @@ internal class WildAnimal : AmbientEvent
         }
         catch (Exception e)
         {
-            Game.LogTrivial("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
-            Game.LogTrivial("SuperEvents Error Report Start");
-            Game.LogTrivial("======================================================");
-            Game.LogTrivial(e.ToString());
-            Game.LogTrivial("======================================================");
-            Game.LogTrivial("SuperEvents Error Report End");
+            Game.Console.Print("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
+            Game.Console.Print("SuperEvents Error Report Start");
+            Game.Console.Print("======================================================");
+            Game.Console.Print(e.ToString());
+            Game.Console.Print("======================================================");
+            Game.Console.Print("SuperEvents Error Report End");
             End(true);
         }
+    }
+
+    protected internal override void OnCleanup()
+    {
     }
 
     private enum Tasks

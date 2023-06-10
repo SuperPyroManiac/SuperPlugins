@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
+using SuperEvents.EventFunctions;
 
 #endregion
 
@@ -20,24 +21,27 @@ public abstract class AmbientEvent
     internal static bool ShowHints { get; set; }
     internal static Keys EndEvent { get; set; }
     internal static Keys Interact { get; set; }
+    private readonly string _eventTitle;
+    private readonly string _eventDescription;
     protected readonly UIMenu ConvoMenu = new("SuperEvents", "~y~Choose a subject to speak with.");
     protected readonly UIMenuItem EndCall = new("~y~End Event", "Ends the event.");
     protected readonly MenuPool Interaction = new();
     protected readonly UIMenu MainMenu = new("SuperEvents", "Choose an option.");
     protected readonly UIMenuItem Questioning = new("Speak With Subjects");
     public static bool EventRunning { get; internal set; }
-    protected Vector3 EventLocation { get; set; }
+    protected abstract Vector3 EventLocation { get; set; }
     protected float OnSceneDistance { get; set; } = 20;
-    protected string EventTitle { get; set; } = "Forgot to set me!";
-    protected string EventDescription { get; set; } = "Double check the API docs friend!";
     public static List<Entity> EntitiesToClear { get; private set; }
     public static List<Blip> BlipsToClear { get; private set; }
     private GameFiber ProcessFiber { get; }
     protected static Ped Player => Game.LocalPlayer.Character;
     private bool onScene;
-        
+
     protected AmbientEvent()
     {
+        var eventInfo = GetType().GetEventInfo();
+        _eventTitle = eventInfo.Title;
+        _eventDescription = eventInfo.Description;
         try
         {
             EntitiesToClear = new List<Entity>();
@@ -53,12 +57,12 @@ public abstract class AmbientEvent
         }
         catch (Exception e)
         {
-            Game.LogTrivial("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
-            Game.LogTrivial("SuperEvents Error Report Start");
-            Game.LogTrivial("======================================================");
-            Game.LogTrivial(e.ToString());
-            Game.LogTrivial("======================================================");
-            Game.LogTrivial("SuperEvents Error Report End");
+            Game.Console.Print("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
+            Game.Console.Print("SuperEvents Error Report Start");
+            Game.Console.Print("======================================================");
+            Game.Console.Print(e.ToString());
+            Game.Console.Print("======================================================");
+            Game.Console.Print("SuperEvents Error Report End");
             // ReSharper disable once VirtualMemberCallInConstructor
             HasEnded = true;
             End(true);
@@ -106,14 +110,14 @@ public abstract class AmbientEvent
         if (EventLocation.DistanceTo(Player) > 200f)
         {
             End();
-            Game.LogTrivial("SuperEvents: Ending event due to player being too far.");
+            Game.Console.Print("SuperEvents: Ending event due to player being too far.");
         }
         if (!onScene && Game.LocalPlayer.Character.DistanceTo(EventLocation) < OnSceneDistance)
         {
             onScene = true;
             if (ShowHints)
                 Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~y~Officer Sighting",
-                    "~r~" + EventTitle, EventDescription);
+                    "~r~" + _eventTitle, _eventDescription);
             Game.DisplayHelp("~y~Press ~r~" + Interact + "~y~ to open interaction menu.");
             OnScene();
         }
@@ -121,15 +125,15 @@ public abstract class AmbientEvent
         Interaction.ProcessMenus();
     }
 
-    protected internal virtual void End(bool forceCleanup = false)
+    protected internal void End(bool forceCleanup = false)
     {
         EventRunning = false;
-
+        End();
         if (forceCleanup)
         {
             foreach (var entity in EntitiesToClear.Where(entity => entity))
                 if (entity.Exists()) entity.Delete();
-            Game.LogTrivial("SuperEvents: Event has been forcefully cleaned up.");
+            Game.Console.Print("SuperEvents: Event has been forcefully cleaned up.");
         }
         else
         {
@@ -142,13 +146,15 @@ public abstract class AmbientEvent
             if (blip.Exists()) blip.Delete();
 
         Interaction.CloseAllMenus();
-        Game.LogTrivial("SuperEvents: Ending Event.");
+        Game.Console.Print("SuperEvents: Ending Event.");
         HasEnded = true;
     }
 
+    protected internal abstract void OnCleanup();
+
     protected virtual void Interactions(UIMenu sender, UIMenuItem selItem, int index)
     {
-        if (selItem == EndCall) End(false);
+        if (selItem == EndCall) End();
     }
 
     protected virtual void Conversations(UIMenu sender, UIMenuItem selItem, int index)
