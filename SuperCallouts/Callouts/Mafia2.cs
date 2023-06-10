@@ -61,7 +61,7 @@ internal class Mafia2 : Callout
             out _mafiaDude1, out _mafiaDude2, out _mafiaDude3, out _mafiaDude4, out _mafiaDude5, out _mafiaDude6,
             out _mafiaDude7, out _mafiaDude8, out _mafiaDude9, out _mafiaDude10, out _mafiaDude11, out _mafiaDude12,
             out _mafiaDude13, out _mafiaDude14, out _mafiaDude15);
-        Game.LogTrivial("SuperCallouts Log: Mafia2 callout accepted...");
+        Game.Console.Print("SuperCallouts Log: Mafia2 callout accepted...");
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~The Mafia",
             "FIB and IAA reports the Mafia have been spotted near Sandy Shores. Possible large scale drug trafficking. Investigate the scene.");
         Game.LocalPlayer.Character.RelationshipGroup = "COP";
@@ -141,12 +141,12 @@ internal class Mafia2 : Callout
             }
             catch (Exception e)
             {
-                Game.LogTrivial("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
-                Game.LogTrivial("SuperCallouts Error Report Start");
-                Game.LogTrivial("======================================================");
-                Game.LogTrivial(e.ToString());
-                Game.LogTrivial("======================================================");
-                Game.LogTrivial("SuperCallouts Error Report End");
+                Game.Console.Print("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
+                Game.Console.Print("SuperCallouts Error Report Start");
+                Game.Console.Print("======================================================");
+                Game.Console.Print(e.ToString());
+                Game.Console.Print("======================================================");
+                Game.Console.Print("SuperCallouts Error Report End");
                 End();
             }
 

@@ -111,7 +111,7 @@ public abstract class PyroFunctions
                 SideOfRoads.Add(tuple);
         if (SideOfRoads.Count == 0)
         {
-            Game.LogTrivial("SuperEvents: Failed to find valid spawnpoint. Spawning on road.");
+            Game.Console.Print("SuperEvents: Failed to find valid spawnpoint. Spawning on road.");
             spawnPoint = World.GetNextPositionOnStreet(Game.LocalPlayer.Character.Position.Around(45f, 100f));
             spawnPointH = 0;
         }

@@ -18,9 +18,9 @@ internal class Main : Plugin
     {
         Functions.OnOnDutyStateChanged += OnOnDutyStateChangedHandler;
         Settings.LoadSettings();
-        Game.LogTrivial("SuperEvents " + Assembly.GetExecutingAssembly().GetName().Version +
+        Game.Console.Print("SuperEvents " + Assembly.GetExecutingAssembly().GetName().Version +
                         " by SuperPyroManiac has been initialised.");
-        Game.LogTrivial("Go on duty with LSPDFR to fully load SuperEvents.");
+        Game.Console.Print("Go on duty with LSPDFR to fully load SuperEvents.");
         Game.AddConsoleCommands(new[] {typeof(ConsoleCommands)});
     }
 
@@ -60,6 +60,6 @@ internal class Main : Plugin
         foreach (var blip in AmbientEvent.BlipsToClear.Where(blip => blip))
             blip.Delete();
         PluginRunning = false;
-        Game.LogTrivial("SuperEvents by SuperPyroManiac has been cleaned up.");
+        Game.Console.Print("SuperEvents by SuperPyroManiac has been cleaned up.");
     }
 }

@@ -40,7 +40,7 @@ internal class FakeCall : Callout
     public override bool OnCalloutAccepted()
     {
         //Setup
-        Game.LogTrivial("SuperCallouts Log: Dead body callout accepted...");
+        Game.Console.Print("SuperCallouts Log: Dead body callout accepted...");
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~y~Call Dropped",
             "Caller disconnected from call quickly. Unable to reach them back. Last location recorded, respond to the last known location. ~r~CODE-2");
         //cBlip
@@ -85,12 +85,12 @@ internal class FakeCall : Callout
         }
         catch (Exception e)
         {
-            Game.LogTrivial("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
-            Game.LogTrivial("SuperCallouts Error Report Start");
-            Game.LogTrivial("======================================================");
-            Game.LogTrivial(e.ToString());
-            Game.LogTrivial("======================================================");
-            Game.LogTrivial("SuperCallouts Error Report End");
+            Game.Console.Print("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
+            Game.Console.Print("SuperCallouts Error Report Start");
+            Game.Console.Print("======================================================");
+            Game.Console.Print(e.ToString());
+            Game.Console.Print("======================================================");
+            Game.Console.Print("SuperCallouts Error Report End");
             End();
         }
 

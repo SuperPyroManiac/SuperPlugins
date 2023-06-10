@@ -16,7 +16,7 @@ internal static class EventTimer
     {
         _timerDuration = Settings.TimeBetweenEvents <= 20 ? 20000 : Settings.TimeBetweenEvents * 1000;
         _timerDuration += Random.Next(-15000, 15000);
-        Game.LogTrivial("SuperEvents: Event Timer started for: " + _timerDuration / 1000 + " seconds.");
+        Game.Console.Print("SuperEvents: Event Timer started for: " + _timerDuration / 1000 + " seconds.");
         Finished = false;
         _elapsedMilliseconds = 0;
         _timerFiber?.Abort();
@@ -35,7 +35,7 @@ internal static class EventTimer
             _elapsedMilliseconds += Game.GameTime - prevTime;
             if (_elapsedMilliseconds < _timerDuration) continue;
             Finished = true;
-            Game.LogTrivial("SuperEvents: New events can now generate...");
+            Game.Console.Print("SuperEvents: New events can now generate...");
         }
     }
 }

@@ -8,6 +8,7 @@ using SuperEvents.EventFunctions;
 
 namespace SuperEvents.Events;
 
+[EventInfo("Injured Person", "Ensure the person is ok!")]
 internal class InjuredPed : AmbientEvent
 {
     private Ped _bad;
@@ -22,13 +23,13 @@ internal class InjuredPed : AmbientEvent
     private UIMenuItem _speakInjured;
     private UIMenuItem _speakInjured2;
 
+    protected override Vector3 EventLocation { get; set; }
+
     protected internal override void StartEvent()
     {
         //Setup
         PyroFunctions.FindSideOfRoad(120, 45, out _spawnPoint, out _spawnPointH);
         EventLocation = _spawnPoint;
-        EventTitle = "Injured Person";
-        EventDescription = "Ensure the person is ok!";
         if (_spawnPoint.DistanceTo(Player) < 35f)
         {
             End(true);
@@ -96,16 +97,20 @@ internal class InjuredPed : AmbientEvent
         }
         catch (Exception e)
         {
-            Game.LogTrivial("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
-            Game.LogTrivial("SuperEvents Error Report Start");
-            Game.LogTrivial("======================================================");
-            Game.LogTrivial(e.ToString());
-            Game.LogTrivial("======================================================");
-            Game.LogTrivial("SuperEvents Error Report End");
+            Game.Console.Print("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
+            Game.Console.Print("SuperEvents Error Report Start");
+            Game.Console.Print("======================================================");
+            Game.Console.Print(e.ToString());
+            Game.Console.Print("======================================================");
+            Game.Console.Print("SuperEvents Error Report End");
             End(true);
         }
     }
-        
+
+    protected internal override void OnCleanup()
+    {
+    }
+
     private enum Tasks
     {
         CheckDistance,

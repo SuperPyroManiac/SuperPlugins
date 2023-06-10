@@ -67,7 +67,7 @@ internal class KnifeAttack : Callout
     public override bool OnCalloutAccepted()
     {
         //Setup
-        Game.LogTrivial("SuperCallouts Log: knife attack callout accepted. Using scenario #:" + _cScene);
+        Game.Console.Print("SuperCallouts Log: knife attack callout accepted. Using scenario #:" + _cScene);
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Knife Attack",
             "Reports of a person attacking people with a knife at the train station.");
         //Suspect

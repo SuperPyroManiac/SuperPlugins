@@ -8,6 +8,7 @@ using SuperEvents.EventFunctions;
 
 namespace SuperEvents.Events;
 
+[EventInfo("Reckless Driving", "Stop The Vehicle")]
 internal class RecklessDriver : AmbientEvent
 {
     private Ped _ePed;
@@ -17,11 +18,11 @@ internal class RecklessDriver : AmbientEvent
 
     private Tasks _tasks = Tasks.CheckDistance;
 
+    protected override Vector3 EventLocation { get; set; }
+
     protected internal override void StartEvent()
     {
         //Setup
-        EventTitle = "Reckless Driving";
-        EventDescription = "Stop the vehicle.";
         var randomVehicles = Player.GetNearbyVehicles(15);
         if (randomVehicles == null || randomVehicles.Length == 0)
         {
@@ -136,14 +137,18 @@ internal class RecklessDriver : AmbientEvent
         }
         catch (Exception e)
         {
-            Game.LogTrivial("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
-            Game.LogTrivial("SuperEvents Error Report Start");
-            Game.LogTrivial("======================================================");
-            Game.LogTrivial(e.ToString());
-            Game.LogTrivial("======================================================");
-            Game.LogTrivial("SuperEvents Error Report End");
+            Game.Console.Print("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
+            Game.Console.Print("SuperEvents Error Report Start");
+            Game.Console.Print("======================================================");
+            Game.Console.Print(e.ToString());
+            Game.Console.Print("======================================================");
+            Game.Console.Print("SuperEvents Error Report End");
             End(true);
         }
+    }
+
+    protected internal override void OnCleanup()
+    {
     }
 
     private enum Tasks

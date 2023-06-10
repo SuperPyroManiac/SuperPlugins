@@ -60,7 +60,7 @@ internal class LostGang : Callout
 
     public override bool OnCalloutAccepted()
     {
-        Game.LogTrivial("SuperCallouts Log: LostMC callout accepted...");
+        Game.Console.Print("SuperCallouts Log: LostMC callout accepted...");
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Biker Gang Attack",
             "~r~EMERGENCY~s~ All Units: Multiple officers under fire, 7 plus armed gang members attacking sheriff officers. ~r~Respond CODE-3");
         LostMc.ConstructBikersScene(out _cCar1, out _cCar2, out _cop1, out _cop2, out _cop3, out _bike1, out _bike2,

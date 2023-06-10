@@ -38,7 +38,7 @@ internal class Aliens : Callout
 
     public override bool OnCalloutAccepted()
     {
-        Game.LogTrivial("SuperCallouts Log: Aliens callout accepted...");
+        Game.Console.Print("SuperCallouts Log: Aliens callout accepted...");
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Alien Sighting",
             "Caller claims that the subjects are aliens. Low priority, respond ~y~CODE-2");
         _cVehicle1 = new Vehicle("DUNE2", _spawnPoint);

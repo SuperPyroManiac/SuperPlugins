@@ -11,6 +11,7 @@ using SuperEvents.EventFunctions;
 
 namespace SuperEvents.Events;
 
+[EventInfo("A Fight", "Stop the fight, and make sure everyone is ok.")]
 internal class Fight : AmbientEvent
 {
     private string _name1;
@@ -22,13 +23,13 @@ internal class Fight : AmbientEvent
     private Ped _suspect2;
     private Tasks _tasks = Tasks.CheckDistance;
 
+    protected override Vector3 EventLocation { get; set; }
+
     protected internal override void StartEvent()
     {
         //Setup
         PyroFunctions.FindSideOfRoad(120, 45, out _spawnPoint, out _);
         EventLocation = _spawnPoint;
-        EventTitle = "A Fight";
-        EventDescription = "Stop the fight, and make sure everyone is ok.";
         if (_spawnPoint.DistanceTo(Player) < 35f)
         {
             End(true);
@@ -75,7 +76,7 @@ internal class Fight : AmbientEvent
                     break;
                 case Tasks.OnScene:
                     var choice = new Random().Next(1, 4);
-                    Game.LogTrivial("SuperEvents: Fight event picked scenerio #" + choice);
+                    Game.Console.Print("SuperEvents: Fight event picked scenerio #" + choice);
                     switch (choice)
                     {
                         case 1:
@@ -118,14 +119,18 @@ internal class Fight : AmbientEvent
         }
         catch (Exception e)
         {
-            Game.LogTrivial("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
-            Game.LogTrivial("SuperEvents Error Report Start");
-            Game.LogTrivial("======================================================");
-            Game.LogTrivial(e.ToString());
-            Game.LogTrivial("======================================================");
-            Game.LogTrivial("SuperEvents Error Report End");
+            Game.Console.Print("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
+            Game.Console.Print("SuperEvents Error Report Start");
+            Game.Console.Print("======================================================");
+            Game.Console.Print(e.ToString());
+            Game.Console.Print("======================================================");
+            Game.Console.Print("SuperEvents Error Report End");
             End(true);
         }
+    }
+
+    protected internal override void OnCleanup()
+    {
     }
 
     protected override void Conversations(UIMenu sender, UIMenuItem selItem, int index)

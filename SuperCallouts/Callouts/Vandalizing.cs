@@ -36,7 +36,7 @@ internal class Vandalizing : Callout
     public override bool OnCalloutAccepted()
     {
         //Setup
-        Game.LogTrivial("SuperCallouts Log: Vandalizing callout accepted...");
+        Game.Console.Print("SuperCallouts Log: Vandalizing callout accepted...");
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Vandalizing",
             "A suspect has been reported damaging a vehicle. Respond ~r~CODE-3");
         Wrapper.CiSendMessage(this, "A call came in about a person attacking a vehicle causing serious damage to it. Further details are unknown.");

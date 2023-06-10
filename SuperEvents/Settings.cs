@@ -27,7 +27,7 @@ public static class Settings
 
     internal static void LoadSettings()
     {
-        Game.LogTrivial("Loading SuperEvents config.");
+        Game.Console.Print("Loading SuperEvents config.");
         var path = "Plugins/LSPDFR/SuperEvents.ini";
         var ini = new InitializationFile(path);
         ini.Create();
@@ -49,6 +49,6 @@ public static class Settings
         PyroCommon.Events.AmbientEvent.ShowHints = ShowHints;
         PyroCommon.Events.AmbientEvent.Interact = Interact;
         PyroCommon.Events.AmbientEvent.EndEvent = EndEvent;
-        Game.LogTrivial("SuperCallouts: Config loaded.");
+        Game.Console.Print("SuperCallouts: Config loaded.");
     }
 }
