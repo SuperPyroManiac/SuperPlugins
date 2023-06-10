@@ -47,7 +47,7 @@ internal class CarAccident3 : Callout
     public override bool OnCalloutAccepted()
     {
         //Setup
-        Game.LogTrivial("SuperCallouts Log: car accident callout accepted...");
+        Game.Console.Print("SuperCallouts Log: car accident callout accepted...");
         Game.DisplayNotification("web_lossantospolicedept", "web_lossantospolicedept", "~b~Dispatch", "~r~MVA",
             "Reports of a car accident, respond ~r~CODE-3");
         //Vehicles
@@ -71,7 +71,7 @@ internal class CarAccident3 : Callout
         _eBlip.Flash(500, 8000);
         _eBlip.EnableRoute(Color.Red);
         //Randomize
-        Game.LogTrivial("PragmaticCallouts: Car Accident Scenorio #" + _choice);
+        Game.Console.Print("PragmaticCallouts: Car Accident Scenorio #" + _choice);
         switch (_choice)
         {
             case 0: //Peds fight
@@ -167,12 +167,12 @@ internal class CarAccident3 : Callout
         }
         catch (Exception e)
         {
-            Game.LogTrivial("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
-            Game.LogTrivial("SuperCallouts Error Report Start");
-            Game.LogTrivial("======================================================");
-            Game.LogTrivial(e.ToString());
-            Game.LogTrivial("======================================================");
-            Game.LogTrivial("SuperCallouts Error Report End");
+            Game.Console.Print("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
+            Game.Console.Print("SuperCallouts Error Report Start");
+            Game.Console.Print("======================================================");
+            Game.Console.Print(e.ToString());
+            Game.Console.Print("======================================================");
+            Game.Console.Print("SuperCallouts Error Report End");
             End();
         }
 

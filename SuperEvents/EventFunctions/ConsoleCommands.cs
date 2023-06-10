@@ -23,10 +23,10 @@ public static class ConsoleCommands
     [ConsoleCommand]
     public static void Command_SEListEvents()
     {
-        Game.LogTrivial("SuperEvents: Listing all Events========");
+        Game.Console.Print("SuperEvents: Listing all Events========");
         var eventNames = EventManager.AllEvents.Select(s => s.Name).ToList();
-        Game.LogTrivial(string.Join(", ", eventNames));
-        Game.LogTrivial("=======================================");
+        Game.Console.Print(string.Join(", ", eventNames));
+        Game.Console.Print("=======================================");
     }
 
     [ConsoleCommand]

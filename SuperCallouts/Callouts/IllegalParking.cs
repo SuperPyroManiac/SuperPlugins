@@ -40,7 +40,7 @@ internal class IllegalParking : Callout
     public override bool OnCalloutAccepted()
     {
         //Setup
-        Game.LogTrivial("SuperCallouts Log: illegally parked car callout accepted...");
+        Game.Console.Print("SuperCallouts Log: illegally parked car callout accepted...");
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~y~Traffic",
             "Reports of an empty vehicle on private property, respond ~g~CODE-1");
         //cVehicle

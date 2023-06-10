@@ -31,7 +31,7 @@ internal class CFunctions
     internal static bool IsWanted(Ped oPed) //Debugging: Used to check if the ped is wanted.
     {
         var persona = Functions.GetPersonaForPed(oPed);
-        Game.LogTrivial("Ped is Wanted? = " + persona.Wanted);
+        Game.Console.Print("Ped is Wanted? = " + persona.Wanted);
         return persona.Wanted;
     }
 
@@ -93,13 +93,13 @@ internal class CFunctions
         }
         catch (Exception e)
         {
-            Game.LogTrivial(
+            Game.Console.Print(
                 "Oops there was an error spawning a vehicle. Using generic. Please send this log to https://dsc.gg/ulss");
-            Game.LogTrivial("SuperCallouts Error Report Start");
-            Game.LogTrivial("======================================================");
-            Game.LogTrivial(e.ToString());
-            Game.LogTrivial("======================================================");
-            Game.LogTrivial("SuperCallouts Error Report End");
+            Game.Console.Print("SuperCallouts Error Report Start");
+            Game.Console.Print("======================================================");
+            Game.Console.Print(e.ToString());
+            Game.Console.Print("======================================================");
+            Game.Console.Print("SuperCallouts Error Report End");
             cVehicle = new Vehicle("FELON", spawnPoint);
             cVehicle.IsPersistent = true;
         }
@@ -141,13 +141,13 @@ internal class CFunctions
         }
         catch (Exception e)
         {
-            Game.LogTrivial(
+            Game.Console.Print(
                 "Oops there was an error spawning a vehicle. Using generic. Please send this log to https://dsc.gg/ulss");
-            Game.LogTrivial("SuperCallouts Error Report Start");
-            Game.LogTrivial("======================================================");
-            Game.LogTrivial(e.ToString());
-            Game.LogTrivial("======================================================");
-            Game.LogTrivial("SuperCallouts Error Report End");
+            Game.Console.Print("SuperCallouts Error Report Start");
+            Game.Console.Print("======================================================");
+            Game.Console.Print(e.ToString());
+            Game.Console.Print("======================================================");
+            Game.Console.Print("SuperCallouts Error Report End");
             cVehicle = new Vehicle("FELON", spawnPoint);
             cVehicle.IsPersistent = true;
         }
@@ -191,7 +191,7 @@ internal class CFunctions
                 SideOfRoads.Add(tuple);
         if (SideOfRoads.Count == 0)
         {
-            Game.LogTrivial("SuperCallouts: Failed to find valid spawnpoint. Spawning on road.");
+            Game.Console.Print("SuperCallouts: Failed to find valid spawnpoint. Spawning on road.");
             spawnPoint = World.GetNextPositionOnStreet(Game.LocalPlayer.Character.Position.Around(45f, 100f));
             spawnPointH = 0;
         }

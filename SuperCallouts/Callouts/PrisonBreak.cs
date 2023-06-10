@@ -46,7 +46,7 @@ internal class PrisonBreak : Callout
 
     public override bool OnCalloutAccepted()
     {
-        Game.LogTrivial("SuperCallouts Log: PrisonBreak callout accepted...");
+        Game.Console.Print("SuperCallouts Log: PrisonBreak callout accepted...");
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Prison Break",
             "DOC has reported multiple groups of prisoners have escaped! They are occupied with another group and need local police assistance. ~r~CODE-3");
         PrisonbreakSetup.ConstructPrisonBreakSetupScene(out _prisoner1, out _prisoner2, out _prisoner3,

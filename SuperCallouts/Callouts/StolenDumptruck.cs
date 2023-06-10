@@ -41,7 +41,7 @@ internal class StolenDumptruck : Callout
     public override bool OnCalloutAccepted()
     {
         //Setup
-        Game.LogTrivial("SuperCallouts Log: StolenDumptruck callout accepted...");
+        Game.Console.Print("SuperCallouts Log: StolenDumptruck callout accepted...");
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Stolen Construction Vehicle",
             "A suspect has stolen a very large construction vehicle. Respond ~r~CODE-3");
         CalloutInterfaceAPI.Functions.SendMessage(this, "A dump truck has been stolen from a construction site. This vehicle is very large and driving on public streets.");
@@ -110,12 +110,12 @@ internal class StolenDumptruck : Callout
         }
         catch (Exception e)
         {
-            Game.LogTrivial("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
-            Game.LogTrivial("SuperCallouts Error Report Start");
-            Game.LogTrivial("======================================================");
-            Game.LogTrivial(e.ToString());
-            Game.LogTrivial("======================================================");
-            Game.LogTrivial("SuperCallouts Error Report End");
+            Game.Console.Print("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
+            Game.Console.Print("SuperCallouts Error Report Start");
+            Game.Console.Print("======================================================");
+            Game.Console.Print(e.ToString());
+            Game.Console.Print("======================================================");
+            Game.Console.Print("SuperCallouts Error Report End");
             End();
         }
 

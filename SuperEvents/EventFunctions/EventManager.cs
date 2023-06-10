@@ -25,7 +25,7 @@ public static class EventManager
 
     public static void RegisterEvent(Type type, Priority EventPriority = Priority.Normal)
     {
-        Game.LogTrivial("SuperEvents: Registering event - " + type.Assembly.FullName);
+        Game.Console.Print("SuperEvents: Registering event - " + type.Assembly.FullName);
         AllEvents.Add(type);
         var PRI = EventPriority switch
         {
@@ -64,18 +64,18 @@ public static class EventManager
         }
         catch (Exception e)
         {
-            Game.LogTrivial("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
-            Game.LogTrivial("SuperEvents Error Report Start");
-            Game.LogTrivial("======================================================");
-            Game.LogTrivial(e.ToString());
-            Game.LogTrivial("======================================================");
-            Game.LogTrivial("SuperEvents Error Report End");
+            Game.Console.Print("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
+            Game.Console.Print("SuperEvents Error Report Start");
+            Game.Console.Print("======================================================");
+            Game.Console.Print(e.ToString());
+            Game.Console.Print("======================================================");
+            Game.Console.Print("SuperEvents Error Report End");
         }
     }
 
     private static void StartRandomEvent()
     {
-        Game.LogTrivial("SuperEvents: Generating random event.");
+        Game.Console.Print("SuperEvents: Generating random event.");
         var rnD = new Random().Next(RegisteredEvents.Count);
         var eventType = RegisteredEvents[rnD];
         StartEvent(eventType);
@@ -85,23 +85,23 @@ public static class EventManager
     {
         if (PlayerIsBusy)
         {
-            Game.LogTrivial($"SuperEvents: Failed to start \"{eventName}\", player is busy.");
+            Game.Console.Print($"SuperEvents: Failed to start \"{eventName}\", player is busy.");
             return;
         }
 
-        Game.LogTrivial("SuperEvents: Generating eventName event.");
+        Game.Console.Print("SuperEvents: Generating eventName event.");
         foreach (var currentEvent in RegisteredEvents)
             if (currentEvent.FullName == eventName)
             {
                 StartEvent(currentEvent);
                 return;
             }
-        Game.LogTrivial($"SuperEvents: Event \"{eventName}\" not found.");
+        Game.Console.Print($"SuperEvents: Event \"{eventName}\" not found.");
     }
 
     private static void StartEvent(Type eventType)
     {
-        Game.LogTrivial("SuperEvents: Loading " + eventType.Name + " from " + eventType.Assembly.FullName);
+        Game.Console.Print("SuperEvents: Loading " + eventType.Name + " from " + eventType.Assembly.FullName);
         CurrentEvent = Activator.CreateInstance(eventType) as AmbientEvent;
         CurrentEvent.StartEvent();
         EventTimer.Stop();

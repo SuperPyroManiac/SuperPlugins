@@ -45,7 +45,7 @@ internal static class Settings
 
     internal static void LoadSettings()
     {
-        Game.LogTrivial("Loading SuperCallouts config.");
+        Game.Console.Print("Loading SuperCallouts config.");
         var path = "Plugins/LSPDFR/SuperCallouts.ini";
         var ini = new InitializationFile(path);
         ini.Create();
@@ -84,6 +84,6 @@ internal static class Settings
         Interact = ini.ReadEnum("Keys", "Interact", Keys.Y);
         EndCall = ini.ReadEnum("Keys", "EndCall", Keys.End);
         EmergencyNumber = ini.ReadString("Msc", "EmergencyNumber", "911");
-        Game.LogTrivial("SuperCallouts: Config loaded.");
+        Game.Console.Print("SuperCallouts: Config loaded.");
     }
 }

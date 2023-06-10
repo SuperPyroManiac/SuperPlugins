@@ -64,7 +64,7 @@ internal class Lsgtf : Callout
 
     public override bool OnCalloutAccepted()
     {
-        Game.LogTrivial("SuperCallouts Log: LSGTF callout accepted...");
+        Game.Console.Print("SuperCallouts Log: LSGTF callout accepted...");
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Meet with FIB",
             "FIB has a gang task force ready. Speak with them to conduct the raid.");
         CalloutInterfaceAPI.Functions.SendMessage(this, "**Dispatch** Go speak with the federal agents.");

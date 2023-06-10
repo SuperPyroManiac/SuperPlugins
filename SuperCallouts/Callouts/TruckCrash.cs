@@ -67,7 +67,7 @@ internal class TruckCrash : Callout
 
     public override bool OnCalloutAccepted()
     {
-        Game.LogTrivial("SuperCallouts Log: TruckCash callout accepted...");
+        Game.Console.Print("SuperCallouts Log: TruckCash callout accepted...");
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Truck Accident",
             "Reports of a truck tipped over on the highway. Respond ~r~CODE-3");
         TruckCrashSetup.ConstructTrucksScene(out _victim, out _victim2, out _victim3, out _truck, out _car1,

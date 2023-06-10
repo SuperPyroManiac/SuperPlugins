@@ -50,7 +50,7 @@ internal class Manhunt : Callout
     public override bool OnCalloutAccepted()
     {
         //Setup
-        Game.LogTrivial("SuperCallouts Log: Manhunt callout accepted...");
+        Game.Console.Print("SuperCallouts Log: Manhunt callout accepted...");
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Manhunt",
             "Search for the suspect. High priority, respond ~r~CODE-3");
         //Bad
@@ -116,12 +116,12 @@ internal class Manhunt : Callout
         }
         catch (Exception e)
         {
-            Game.LogTrivial("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
-            Game.LogTrivial("SuperCallouts Error Report Start");
-            Game.LogTrivial("======================================================");
-            Game.LogTrivial(e.ToString());
-            Game.LogTrivial("======================================================");
-            Game.LogTrivial("SuperCallouts Error Report End");
+            Game.Console.Print("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
+            Game.Console.Print("SuperCallouts Error Report Start");
+            Game.Console.Print("======================================================");
+            Game.Console.Print(e.ToString());
+            Game.Console.Print("======================================================");
+            Game.Console.Print("SuperCallouts Error Report End");
             End();
         }
 
@@ -152,7 +152,7 @@ internal class Manhunt : Callout
             }
             catch (Exception)
             {
-                Game.LogTrivial(
+                Game.Console.Print(
                     "SuperEvents Warning: Ultimate Backup is not installed! Backup was not automatically called!");
                 Game.DisplayHelp("~r~Ultimate Backup is not installed! Backup was not automatically called!", 8000);
             }
