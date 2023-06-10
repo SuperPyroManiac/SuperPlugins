@@ -18,14 +18,16 @@ internal class InjuredPed : AmbientEvent
     private string _name1;
     private string _name2;
     private readonly int _choice = new Random().Next(1, 4);
+
     private Tasks _tasks = Tasks.CheckDistance;
+
     //UI
     private UIMenuItem _speakInjured;
     private UIMenuItem _speakInjured2;
 
     protected override Vector3 EventLocation { get; set; }
 
-    protected internal override void StartEvent()
+    protected override void OnStartEvent()
     {
         //Setup
         PyroFunctions.FindSideOfRoad(120, 45, out _spawnPoint, out _spawnPointH);
@@ -35,8 +37,9 @@ internal class InjuredPed : AmbientEvent
             End(true);
             return;
         }
+
         //Peds
-        _bad = new Ped(_spawnPoint) {Heading = _spawnPointH, IsPersistent = true, BlockPermanentEvents = true};
+        _bad = new Ped(_spawnPoint) { Heading = _spawnPointH, IsPersistent = true, BlockPermanentEvents = true };
         _name1 = Functions.GetPersonaForPed(_bad).FullName;
         _name2 = Functions.GetPersonaForPed(_bad2).FullName;
         switch (_choice)
@@ -61,10 +64,9 @@ internal class InjuredPed : AmbientEvent
                 End(true);
                 break;
         }
-        base.StartEvent();
     }
 
-    protected internal override void Process()
+    protected override void OnProcess()
     {
         try
         {
@@ -86,6 +88,7 @@ internal class InjuredPed : AmbientEvent
                             End(true);
                             break;
                     }
+
                     break;
                 case Tasks.End:
                     break;
@@ -93,7 +96,8 @@ internal class InjuredPed : AmbientEvent
                     End(true);
                     break;
             }
-            base.Process();
+
+            base.OnProcess();
         }
         catch (Exception e)
         {
@@ -107,7 +111,7 @@ internal class InjuredPed : AmbientEvent
         }
     }
 
-    protected internal override void OnCleanup()
+    protected override void OnCleanup()
     {
     }
 

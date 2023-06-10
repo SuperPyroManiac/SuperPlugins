@@ -16,7 +16,7 @@ internal class CarFire : AmbientEvent
 
     protected override Vector3 EventLocation { get; set; }
 
-    protected internal override void StartEvent()
+    protected override void OnStartEvent()
     {
         //Setup
         PyroFunctions.FindSideOfRoad(120, 45, out _spawnPoint, out _);
@@ -30,11 +30,9 @@ internal class CarFire : AmbientEvent
         //eVehicle
         PyroFunctions.SpawnNormalCar(out _eVehicle, _spawnPoint);
         EntitiesToClear.Add(_eVehicle);
-
-        base.StartEvent();
     }
 
-    protected internal override void Process()
+    protected override void OnProcess()
     {
         try
         {
@@ -81,7 +79,7 @@ internal class CarFire : AmbientEvent
                     break;
             }
 
-            base.Process();
+            base.OnProcess();
         }
         catch (Exception e)
         {
@@ -95,7 +93,7 @@ internal class CarFire : AmbientEvent
         }
     }
 
-    protected internal override void OnCleanup()
+    protected override void OnCleanup()
     {
     }
 
