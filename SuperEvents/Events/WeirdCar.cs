@@ -16,7 +16,7 @@ internal class WeirdCar : AmbientEvent
 
     protected override Vector3 EventLocation { get; set; }
 
-    protected internal override void StartEvent()
+    protected override void OnStartEvent()
     {
         //Setup
         PyroFunctions.FindSideOfRoad(120, 45, out _spawnPoint, out _);
@@ -30,11 +30,9 @@ internal class WeirdCar : AmbientEvent
         //eVehicle
         PyroFunctions.SpawnNormalCar(out _eVehicle, _spawnPoint);
         EntitiesToClear.Add(_eVehicle);
-
-        base.StartEvent();
     }
 
-    protected internal override void Process()
+    protected override void OnProcess()
     {
         try
         {
@@ -86,7 +84,7 @@ internal class WeirdCar : AmbientEvent
                     break;
             }
 
-            base.Process();
+            base.OnProcess();
         }
         catch (Exception e)
         {
@@ -100,7 +98,7 @@ internal class WeirdCar : AmbientEvent
         }
     }
 
-    protected internal override void OnCleanup()
+    protected override void OnCleanup()
     {
     }
 

@@ -14,17 +14,16 @@ internal class WildAnimal : AmbientEvent
 
     protected override Vector3 EventLocation { get; set; }
 
-    protected internal override void StartEvent()
+    protected override void OnStartEvent()
     {
         //Ped
         _spawnPoint = World.GetNextPositionOnStreet(Player.Position.Around(150f));
         EventLocation = _spawnPoint;
-        Model[] meanAnimal = {"A_C_MTLION", "A_C_COYOTE"};
-        _animal = new Ped(meanAnimal[new Random().Next(meanAnimal.Length)], _spawnPoint, 50) {IsPersistent = true};
-        base.StartEvent();
+        Model[] meanAnimal = { "A_C_MTLION", "A_C_COYOTE" };
+        _animal = new Ped(meanAnimal[new Random().Next(meanAnimal.Length)], _spawnPoint, 50) { IsPersistent = true };
     }
 
-    protected internal override void Process()
+    protected override void OnProcess()
     {
         try
         {
@@ -45,7 +44,7 @@ internal class WildAnimal : AmbientEvent
                     break;
             }
 
-            base.Process();
+            base.OnProcess();
         }
         catch (Exception e)
         {
@@ -59,7 +58,7 @@ internal class WildAnimal : AmbientEvent
         }
     }
 
-    protected internal override void OnCleanup()
+    protected override void OnCleanup()
     {
     }
 

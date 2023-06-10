@@ -13,15 +13,15 @@ internal class Main : Plugin
     internal static bool PluginRunning { get; private set; }
     internal static bool PluginPaused { get; set; }
     private static GameFiber _initFiber;
-        
+
     public override void Initialize()
     {
         Functions.OnOnDutyStateChanged += OnOnDutyStateChangedHandler;
         Settings.LoadSettings();
         Game.Console.Print("SuperEvents " + Assembly.GetExecutingAssembly().GetName().Version +
-                        " by SuperPyroManiac has been initialised.");
+                           " by SuperPyroManiac has been initialised.");
         Game.Console.Print("Go on duty with LSPDFR to fully load SuperEvents.");
-        Game.AddConsoleCommands(new[] {typeof(ConsoleCommands)});
+        Game.AddConsoleCommands(new[] { typeof(ConsoleCommands) });
     }
 
     private static void OnOnDutyStateChangedHandler(bool onDuty)
@@ -55,10 +55,13 @@ internal class Main : Plugin
 
     public override void Finally()
     {
-        foreach (var entity in AmbientEvent.EntitiesToClear.Where(entity => entity))
-            entity.Delete();
-        foreach (var blip in AmbientEvent.BlipsToClear.Where(blip => blip))
-            blip.Delete();
+        if (EventManager.CurrentEvent != null)
+        {
+            foreach (var entity in EventManager.CurrentEvent.EntitiesToClear.Where(entity => entity))
+                entity.Delete();
+            foreach (var blip in EventManager.CurrentEvent.BlipsToClear.Where(blip => blip))
+                blip.Delete();
+        }
         PluginRunning = false;
         Game.Console.Print("SuperEvents by SuperPyroManiac has been cleaned up.");
     }

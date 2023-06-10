@@ -25,7 +25,7 @@ internal class Fight : AmbientEvent
 
     protected override Vector3 EventLocation { get; set; }
 
-    protected internal override void StartEvent()
+    protected override void OnStartEvent()
     {
         //Setup
         PyroFunctions.FindSideOfRoad(120, 45, out _spawnPoint, out _);
@@ -37,12 +37,12 @@ internal class Fight : AmbientEvent
         }
 
         //Peds
-        _suspect = new Ped(_spawnPoint) {IsPersistent = true, BlockPermanentEvents = true};
+        _suspect = new Ped(_spawnPoint) { IsPersistent = true, BlockPermanentEvents = true };
         PyroFunctions.SetDrunk(_suspect, true);
         _name1 = Functions.GetPersonaForPed(_suspect).FullName;
         _suspect.Metadata.stpAlcoholDetected = true;
         EntitiesToClear.Add(_suspect);
-        _suspect2 = new Ped(_suspect.FrontPosition) {IsPersistent = true, BlockPermanentEvents = true};
+        _suspect2 = new Ped(_suspect.FrontPosition) { IsPersistent = true, BlockPermanentEvents = true };
         PyroFunctions.SetDrunk(_suspect2, true);
         _name2 = Functions.GetPersonaForPed(_suspect2).FullName;
         _suspect2.Metadata.stpAlcoholDetected = true;
@@ -54,11 +54,9 @@ internal class Fight : AmbientEvent
         _speakSuspect2 = new UIMenuItem("Speak with ~y~" + _name2);
         ConvoMenu.AddItem(_speakSuspect);
         ConvoMenu.AddItem(_speakSuspect2);
-
-        base.StartEvent();
     }
 
-    protected internal override void Process()
+    protected override void OnProcess()
     {
         try
         {
@@ -115,7 +113,7 @@ internal class Fight : AmbientEvent
                     break;
             }
 
-            base.Process();
+            base.OnProcess();
         }
         catch (Exception e)
         {
@@ -129,7 +127,7 @@ internal class Fight : AmbientEvent
         }
     }
 
-    protected internal override void OnCleanup()
+    protected override void OnCleanup()
     {
     }
 

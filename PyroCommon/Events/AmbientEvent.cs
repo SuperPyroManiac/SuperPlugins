@@ -31,8 +31,8 @@ public abstract class AmbientEvent
     public static bool EventRunning { get; internal set; }
     protected abstract Vector3 EventLocation { get; set; }
     protected float OnSceneDistance { get; set; } = 20;
-    public static List<Entity> EntitiesToClear { get; private set; }
-    public static List<Blip> BlipsToClear { get; private set; }
+    public List<Entity> EntitiesToClear { get; } = new();
+    public List<Blip> BlipsToClear { get; } = new();
     private GameFiber ProcessFiber { get; }
     protected static Ped Player => Game.LocalPlayer.Character;
     private bool onScene;
@@ -44,13 +44,11 @@ public abstract class AmbientEvent
         _eventDescription = eventInfo.Description;
         try
         {
-            EntitiesToClear = new List<Entity>();
-            BlipsToClear = new List<Blip>();
             ProcessFiber = new GameFiber(delegate
             {
                 while (EventRunning)
                 {
-                    Process();
+                    OnProcess();
                     GameFiber.Yield();
                 }
             });
@@ -69,7 +67,7 @@ public abstract class AmbientEvent
         }
     }
 
-    protected internal virtual void StartEvent()
+    internal void StartEvent()
     {
         Interaction.Add(MainMenu);
         Interaction.Add(ConvoMenu);
@@ -96,14 +94,19 @@ public abstract class AmbientEvent
             BlipsToClear.Add(eventBlip);
         }
         EventRunning = true;
+        OnStartEvent();
         ProcessFiber.Start();
     }
-
-    protected internal virtual void OnScene()
+    
+    protected virtual void OnStartEvent()
     {
     }
 
-    protected internal virtual void Process()
+    protected virtual void OnScene()
+    {
+    }
+
+    private void Process()
     {
         if (Game.IsKeyDown(EndEvent)) End(false);
         if (Game.IsKeyDown(Interact)) MainMenu.Visible = !MainMenu.Visible;
@@ -121,8 +124,12 @@ public abstract class AmbientEvent
             Game.DisplayHelp("~y~Press ~r~" + Interact + "~y~ to open interaction menu.");
             OnScene();
         }
-
+        OnProcess();
         Interaction.ProcessMenus();
+    }
+    
+    protected virtual void OnProcess()
+    {
     }
 
     protected internal void End(bool forceCleanup = false)
@@ -150,7 +157,7 @@ public abstract class AmbientEvent
         HasEnded = true;
     }
 
-    protected internal abstract void OnCleanup();
+    protected abstract void OnCleanup();
 
     protected virtual void Interactions(UIMenu sender, UIMenuItem selItem, int index)
     {

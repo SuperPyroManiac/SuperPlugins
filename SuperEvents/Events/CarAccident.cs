@@ -14,7 +14,6 @@ namespace SuperEvents.Events;
 [EventInfo("Car Accident", "Investigate the scene.")]
 internal class CarAccident : AmbientEvent
 {
-        
     private readonly int _choice = new Random().Next(0, 5);
     private Ped _ePed;
     private Ped _ePed2;
@@ -24,14 +23,16 @@ internal class CarAccident : AmbientEvent
     private string _name2;
     private Vector3 _spawnPoint;
     private float _spawnPointH;
+
     private Tasks _tasks = Tasks.CheckDistance;
+
     //UI Items
     private UIMenuItem _speakSuspect;
     private UIMenuItem _speakSuspect2;
 
     protected override Vector3 EventLocation { get; set; }
 
-    protected internal override void StartEvent()
+    protected override void OnStartEvent()
     {
         //Setup
         PyroFunctions.FindSideOfRoad(120, 45, out _spawnPoint, out _spawnPointH);
@@ -41,6 +42,7 @@ internal class CarAccident : AmbientEvent
             End(true);
             return;
         }
+
         //Vehicles
         PyroFunctions.SpawnNormalCar(out _eVehicle, _spawnPoint);
         _eVehicle.Heading = _spawnPointH;
@@ -86,6 +88,7 @@ internal class CarAccident : AmbientEvent
                 End(true);
                 break;
         }
+
         //UI Items
         _speakSuspect = new UIMenuItem("Speak with ~y~" + _name1);
         _speakSuspect2 = new UIMenuItem("Speak with ~y~" + _name2);
@@ -93,11 +96,9 @@ internal class CarAccident : AmbientEvent
         ConvoMenu.AddItem(_speakSuspect2);
         _speakSuspect.Enabled = false;
         _speakSuspect2.Enabled = false;
-
-        base.StartEvent();
     }
 
-    protected internal override void Process()
+    protected override void OnProcess()
     {
         try
         {
@@ -105,7 +106,8 @@ internal class CarAccident : AmbientEvent
             {
                 case Tasks.CheckDistance:
                     if (Game.LocalPlayer.Character.DistanceTo(_spawnPoint) < 25f)
-                    { ;
+                    {
+                        ;
                         Questioning.Enabled = true;
                         _tasks = Tasks.OnScene;
                     }
@@ -163,10 +165,10 @@ internal class CarAccident : AmbientEvent
             End(true);
         }
 
-        base.Process();
+        base.OnProcess();
     }
 
-    protected internal override void OnCleanup()
+    protected override void OnCleanup()
     {
     }
 

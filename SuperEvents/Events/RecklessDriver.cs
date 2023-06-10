@@ -20,7 +20,7 @@ internal class RecklessDriver : AmbientEvent
 
     protected override Vector3 EventLocation { get; set; }
 
-    protected internal override void StartEvent()
+    protected override void OnStartEvent()
     {
         //Setup
         var randomVehicles = Player.GetNearbyVehicles(15);
@@ -57,11 +57,9 @@ internal class RecklessDriver : AmbientEvent
             End(false);
             return;
         }
-
-        base.StartEvent();
     }
 
-    protected internal override void Process()
+    protected override void OnProcess()
     {
         try
         {
@@ -95,7 +93,10 @@ internal class RecklessDriver : AmbientEvent
                     if (Functions.IsPlayerPerformingPullover())
                     {
                         foreach (var blip in BlipsToClear.Where(blip => blip))
-                        {if (blip.Exists()) blip.Delete();}
+                        {
+                            if (blip.Exists()) blip.Delete();
+                        }
+
                         _tasks = Tasks.CheckPullover;
                     }
 
@@ -133,7 +134,7 @@ internal class RecklessDriver : AmbientEvent
                     break;
             }
 
-            base.Process();
+            base.OnProcess();
         }
         catch (Exception e)
         {
@@ -147,7 +148,7 @@ internal class RecklessDriver : AmbientEvent
         }
     }
 
-    protected internal override void OnCleanup()
+    protected override void OnCleanup()
     {
     }
 

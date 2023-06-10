@@ -27,7 +27,7 @@ internal class OpenCarry : AmbientEvent
 
     protected override Vector3 EventLocation { get; set; }
 
-    protected internal override void StartEvent()
+    protected override void OnStartEvent()
     {
         //Setup
         PyroFunctions.FindSideOfRoad(120, 45, out _spawnPoint, out _spawnPointH);
@@ -39,7 +39,7 @@ internal class OpenCarry : AmbientEvent
         }
 
         //Ped
-        _bad = new Ped(_spawnPoint, _spawnPointH) {IsPersistent = true};
+        _bad = new Ped(_spawnPoint, _spawnPointH) { IsPersistent = true };
         EntitiesToClear.Add(_bad);
         _bad.Inventory.GiveNewWeapon(WeaponHash.AdvancedRifle, -1, true);
         _bad.Metadata.stpAlcoholDetected = true;
@@ -50,10 +50,9 @@ internal class OpenCarry : AmbientEvent
         //UI
         _speakSuspect = new UIMenuItem("Speak with ~y~" + _name);
         ConvoMenu.AddItem(_speakSuspect);
-        base.StartEvent();
     }
 
-    protected internal override void Process()
+    protected override void OnProcess()
     {
         try
         {
@@ -133,7 +132,7 @@ internal class OpenCarry : AmbientEvent
                     break;
             }
 
-            base.Process();
+            base.OnProcess();
         }
         catch (Exception e)
         {
@@ -147,7 +146,7 @@ internal class OpenCarry : AmbientEvent
         }
     }
 
-    protected internal override void OnCleanup()
+    protected override void OnCleanup()
     {
     }
 
