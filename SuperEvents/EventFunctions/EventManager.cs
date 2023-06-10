@@ -8,8 +8,9 @@ namespace SuperEvents.EventFunctions;
 
 public static class EventManager
 {
-    internal static List<Type> RegisteredEvents = new();
-    internal static List<Type> AllEvents = new();
+    internal static readonly List<Type> RegisteredEvents = new();
+    internal static readonly List<Type> AllEvents = new();
+    private static readonly List<Type> BrokenEvents = new();
     internal static AmbientEvent CurrentEvent;
 
     internal static bool PlayerIsBusy =>
@@ -26,6 +27,16 @@ public static class EventManager
     public static void RegisterEvent(Type type, Priority EventPriority = Priority.Normal)
     {
         Game.Console.Print("SuperEvents: Registering event - " + type.Assembly.FullName);
+        try
+        {
+            type.GetEventInfo();
+        }
+        catch (AttributeExpectedException)
+        {
+            BrokenEvents.Add(type);
+            return;
+        }
+
         AllEvents.Add(type);
         var PRI = EventPriority switch
         {
@@ -46,6 +57,7 @@ public static class EventManager
     {
         try
         {
+            if (BrokenEvents.Count > 0) LogBrokenEvents();
             CurrentEvent?.End(true);
             CurrentEvent = null;
             EventTimer.Start();
@@ -73,6 +85,14 @@ public static class EventManager
         }
     }
 
+    private static void LogBrokenEvents()
+    {
+        var message = "~b~SuperEvents\n~w~The following events could not be loaded:\n";
+        foreach (var type in BrokenEvents) message += $"{type.FullName} ";
+        Game.DisplayHelp(message);
+        // TODO: Add RPH Console Logging.
+    }
+
     private static void StartRandomEvent()
     {
         Game.Console.Print("SuperEvents: Generating random event.");
@@ -96,6 +116,7 @@ public static class EventManager
                 StartEvent(currentEvent);
                 return;
             }
+
         Game.Console.Print($"SuperEvents: Event \"{eventName}\" not found.");
     }
 
