@@ -59,7 +59,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AmbientEvent.cs" />
+    <Compile Include="EventFunctions\EventParameterAutoCompleter.cs" />
+    <Compile Include="EventFunctions\VersionChecker.cs" />
     <Compile Include="Events\CarAccident.cs" />
     <Compile Include="Events\CarFire.cs" />
     <Compile Include="Events\Fight.cs" />
@@ -72,12 +73,9 @@
     <Compile Include="Main.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings.cs" />
-    <Compile Include="SimpleFunctions\ConsoleCommands.cs" />
-    <Compile Include="SimpleFunctions\EFunctions.cs" />
-    <Compile Include="SimpleFunctions\Events.cs" />
-    <Compile Include="SimpleFunctions\EventTimer.cs" />
-    <Compile Include="SimpleFunctions\PulloverSpots.cs" />
-    <Compile Include="SimpleFunctions\VersionChecker.cs" />
+    <Compile Include="EventFunctions\ConsoleCommands.cs" />
+    <Compile Include="EventFunctions\EventManager.cs" />
+    <Compile Include="EventFunctions\EventTimer.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="SuperEvents.ini" />
@@ -85,6 +83,12 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PyroCommon\PyroCommon.csproj">
+      <Project>{6e27f96f-aa33-477f-80f4-4245324be25c}</Project>
+      <Name>PyroCommon</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

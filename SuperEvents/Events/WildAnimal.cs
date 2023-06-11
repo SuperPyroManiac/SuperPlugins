@@ -1,66 +1,66 @@
 ﻿using System;
+using PyroCommon.API;
+using PyroCommon.Events;
 using Rage;
+using SuperEvents.EventFunctions;
 
-namespace SuperEvents.Events
+namespace SuperEvents.Events;
+
+[EventInfo("Wild Animal", "Stop the animal from hurting anyone.")]
+internal class WildAnimal : AmbientEvent
 {
-    internal class WildAnimal : AmbientEvent
+    private Tasks _tasks = Tasks.CheckDistance;
+    private Ped _animal;
+    private Vector3 _spawnPoint;
+
+    protected override Vector3 EventLocation { get; set; }
+
+    protected override void OnStartEvent()
     {
-        private Tasks _tasks = Tasks.CheckDistance;
-        private Ped _animal;
-        private Vector3 _spawnPoint;
+        //Ped
+        _spawnPoint = World.GetNextPositionOnStreet(Player.Position.Around(150f));
+        EventLocation = _spawnPoint;
+        Model[] meanAnimal = { "A_C_MTLION", "A_C_COYOTE" };
+        _animal = new Ped(meanAnimal[new Random().Next(meanAnimal.Length)], _spawnPoint, 50) { IsPersistent = true };
+    }
 
-        internal override void StartEvent(Vector3 s)
+    protected override void OnProcess()
+    {
+        try
         {
-            //Ped
-            _spawnPoint = World.GetNextPositionOnStreet(Player.Position.Around(150f));
-            Model[] meanAnimal = {"A_C_MTLION", "A_C_COYOTE"};
-            _animal = new Ped(meanAnimal[new Random().Next(meanAnimal.Length)], _spawnPoint, 50) {IsPersistent = true};
-            base.StartEvent(_spawnPoint);
-        }
-
-        protected override void Process()
-        {
-            try
+            switch (_tasks)
             {
-                switch (_tasks)
-                {
-                    case Tasks.CheckDistance:
-                        if (Player.DistanceTo(_animal) < 20f)
-                        {
-                            _animal.Tasks.FightAgainst(Player);
-                            if (Settings.ShowHints)
-                                Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~y~Officer Sighting",
-                                    "~r~Wild Animal", "Stop the animal from hurting anyone.");
-                            Game.DisplayHelp("~y~Press ~r~" + Settings.Interact + "~y~ to open interaction menu.");
-                            _tasks = Tasks.OnScene;
-                        }
+                case Tasks.CheckDistance:
+                    if (Player.DistanceTo(_animal) < 20f)
+                    {
+                        _animal.Tasks.FightAgainst(Player);
+                        _tasks = Tasks.OnScene;
+                    }
 
-                        break;
-                    case Tasks.OnScene:
-                        break;
-                    default:
-                        End(true);
-                        break;
-                }
+                    break;
+                case Tasks.OnScene:
+                    break;
+                default:
+                    End(true);
+                    break;
+            }
 
-                base.Process();
-            }
-            catch (Exception e)
-            {
-                Game.LogTrivial("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
-                Game.LogTrivial("SuperEvents Error Report Start");
-                Game.LogTrivial("======================================================");
-                Game.LogTrivial(e.ToString());
-                Game.LogTrivial("======================================================");
-                Game.LogTrivial("SuperEvents Error Report End");
-                End(true);
-            }
+            base.OnProcess();
         }
-
-        private enum Tasks
+        catch (Exception e)
         {
-            CheckDistance,
-            OnScene
+            Log.Error( e.ToString());
+            End(true);
         }
+    }
+
+    protected override void OnCleanup()
+    {
+    }
+
+    private enum Tasks
+    {
+        CheckDistance,
+        OnScene
     }
 }

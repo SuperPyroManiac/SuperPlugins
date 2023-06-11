@@ -4,18 +4,19 @@ using System;
 using System.Drawing;
 using CalloutInterfaceAPI;
 using LSPD_First_Response.Mod.Callouts;
+using PyroCommon.API;
 using Rage;
 using Rage.Native;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
-using SuperCallouts.SimpleFunctions;
 using Functions = LSPD_First_Response.Mod.API.Functions;
 
 #endregion
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInterface("Suspicious Vehicle", CalloutProbability.Medium, "Reports of a suspicious vehicle, limited details", "Code 2")]
+[CalloutInterface("Suspicious Vehicle", CalloutProbability.Medium, "Reports of a suspicious vehicle, limited details",
+    "Code 2")]
 internal class WeirdCar : Callout
 {
     private readonly UIMenu _convoMenu = new("SuperCallouts", "~y~Choose a subject to speak with.");
@@ -35,7 +36,7 @@ internal class WeirdCar : Callout
 
     public override bool OnBeforeCalloutDisplayed()
     {
-        CFunctions.FindSideOfRoad(750, 280, out _spawnPoint, out _spawnPointH);
+        PyroFunctions.FindSideOfRoad(750, 280, out _spawnPoint, out _spawnPointH);
         ShowCalloutAreaBlipBeforeAccepting(_spawnPoint, 10f);
         CalloutMessage = "~b~Dispatch:~s~ Suspicious vehicle.";
         CalloutAdvisory = "Suspicious vehicle was found on the side of the road. Approach with caution.";
@@ -47,11 +48,11 @@ internal class WeirdCar : Callout
     public override bool OnCalloutAccepted()
     {
         //Setup
-        Game.LogTrivial("SuperCallouts Log: Wierd Car callout accepted...");
+        Log.Info("Wierd Car callout accepted...");
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Suspicious Vehicle",
             "Report of a suspicious vehicle on the side of the road. Respond ~y~CODE-2");
         //cVehicle1
-        CFunctions.SpawnNormalCar(out _cVehicle1, _spawnPoint);
+        PyroFunctions.SpawnNormalCar(out _cVehicle1, _spawnPoint);
         _cVehicle1.Heading = _spawnPointH;
         _cVehicle1.IsPersistent = true;
         //Start UI
@@ -89,7 +90,7 @@ internal class WeirdCar : Callout
                 switch (choices)
                 {
                     case 1:
-                        CFunctions.Damage(_cVehicle1, 500, 500);
+                        PyroFunctions.DamageVehicle(_cVehicle1, 500, 500);
                         _cVehicle1.IsStolen = true;
                         CalloutInterfaceAPI.Functions.SendMessage(this, "Officer on scene.");
                         break;
@@ -113,7 +114,7 @@ internal class WeirdCar : Callout
                         _bad1.IsPersistent = true;
                         _bad1.BlockPermanentEvents = true;
                         _name1 = Functions.GetPersonaForPed(_bad1).FullName;
-                        CFunctions.SetWanted(_bad1, true);
+                        PyroFunctions.SetWanted(_bad1, true);
                         _cVehicle1.IsStolen = true;
                         CalloutInterfaceAPI.Functions.SendMessage(this, "Officer on scene.");
                         //UI Setup
@@ -137,12 +138,7 @@ internal class WeirdCar : Callout
         }
         catch (Exception e)
         {
-            Game.LogTrivial("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
-            Game.LogTrivial("SuperCallouts Error Report Start");
-            Game.LogTrivial("======================================================");
-            Game.LogTrivial(e.ToString());
-            Game.LogTrivial("======================================================");
-            Game.LogTrivial("SuperCallouts Error Report End");
+            Log.Error(e.ToString());
             End();
         }
 
@@ -155,7 +151,7 @@ internal class WeirdCar : Callout
         if (_cVehicle1.Exists()) _cVehicle1.Dismiss();
         if (_cBlip1.Exists()) _cBlip1.Delete();
         _mainMenu.Visible = false;
-        CFunctions.Code4Message();
+
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
         CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code4");
         base.End();

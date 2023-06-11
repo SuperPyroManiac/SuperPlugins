@@ -8,11 +8,11 @@ using CalloutInterfaceAPI;
 using LSPD_First_Response;
 using LSPD_First_Response.Engine.Scripting.Entities;
 using LSPD_First_Response.Mod.Callouts;
+using PyroCommon.API;
 using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts.CustomScenes;
-using SuperCallouts.SimpleFunctions;
 using Functions = LSPD_First_Response.Mod.API.Functions;
 using Object = Rage.Object;
 
@@ -20,7 +20,8 @@ using Object = Rage.Object;
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInterface("Bomb Report", CalloutProbability.Low, "A bomb has been found downtown - high priority all units", "Code 99", "SWAT")]
+[CalloutInterface("Bomb Report", CalloutProbability.Low, "A bomb has been found downtown - high priority all units",
+    "Code 99", "SWAT")]
 internal class Mafia4 : Callout
 {
     private readonly Vector3 _callPos = new(288.916f, -1588.429f, 29.53253f);
@@ -68,7 +69,7 @@ internal class Mafia4 : Callout
         //Setup
         Mafia4Setup.ConstructMafia4Scene(out _bad1, out _bad2, out _bad3, out _bad4, out _bad5, out _bad6, out _bad7,
             out _doctor1, out _doctor2, out _eVehicle, out _eVehicle2, out _eVehicle3, out _eVehicle4, out _bomb);
-        Game.LogTrivial("SuperCallouts Log: Mafia4 callout accepted...");
+        Log.Info("Mafia4 callout accepted...");
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~The Mafia",
             "A massive bomb has been spotted downtown, multiple armed suspects. Get to the scene.");
         Game.LocalPlayer.Character.RelationshipGroup = "COP";
@@ -98,7 +99,7 @@ internal class Mafia4 : Callout
             mafiaDudes.BlockPermanentEvents = true;
             mafiaDudes.Inventory.Weapons.Add(WeaponHash.AssaultRifle).Ammo = -1;
             mafiaDudes.RelationshipGroup = new RelationshipGroup("MAFIA");
-            CFunctions.SetWanted(mafiaDudes, true);
+            PyroFunctions.SetWanted(mafiaDudes, true);
             Functions.AddPedContraband(mafiaDudes, ContrabandType.Narcotics, "Cocaine");
         }
 
@@ -106,7 +107,7 @@ internal class Mafia4 : Callout
         CalloutInterfaceAPI.Functions.SendMessage(this, "Multiple unites en-route to the scene.");
 
         //UI Items
-        CFunctions.BuildUi(out _interaction, out _mainMenu, out _, out _, out _endCall);
+        PyroFunctions.BuildUi(out _interaction, out _mainMenu, out _, out _, out _endCall);
         _mainMenu.OnItemSelect += InteractionProcess;
         return base.OnCalloutAccepted();
     }
@@ -124,8 +125,8 @@ internal class Mafia4 : Callout
                         Game.SetRelationshipBetweenRelationshipGroups("MAFIA", "PLAYER", Relationship.Hate);
                         Game.SetRelationshipBetweenRelationshipGroups("COP", "MAFIA", Relationship.Hate);
                         CalloutInterfaceAPI.Functions.SendMessage(this,
-                                "Gang members in the area have been paid off by the mob and may also be a thread. Be cautious.");
-                        if (Main.UsingUb)
+                            "Gang members in the area have been paid off by the mob and may also be a thread. Be cautious.");
+                        if (PyroCommon.Main.UsingUB)
                         {
                             Wrapper.CallSwat(false);
                             Wrapper.CallCode3();
@@ -169,12 +170,7 @@ internal class Mafia4 : Callout
         }
         catch (Exception e)
         {
-            Game.LogTrivial("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
-            Game.LogTrivial("SuperCallouts Error Report Start");
-            Game.LogTrivial("======================================================");
-            Game.LogTrivial(e.ToString());
-            Game.LogTrivial("======================================================");
-            Game.LogTrivial("SuperCallouts Error Report End");
+            Log.Error(e.ToString());
             End();
         }
 
@@ -196,7 +192,7 @@ internal class Mafia4 : Callout
         Game.SetRelationshipBetweenRelationshipGroups("MAFIA", "COP", Relationship.Dislike);
         _interaction.CloseAllMenus();
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
-        CFunctions.Code4Message();
+
         CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code4");
 
         base.End();

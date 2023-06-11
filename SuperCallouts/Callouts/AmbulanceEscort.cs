@@ -6,10 +6,10 @@ using System.Drawing;
 using System.Linq;
 using CalloutInterfaceAPI;
 using LSPD_First_Response.Mod.Callouts;
+using PyroCommon.API;
 using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
-using SuperCallouts.SimpleFunctions;
 using Functions = LSPD_First_Response.Mod.API.Functions;
 
 #endregion
@@ -44,7 +44,7 @@ internal class AmbulanceEscort : Callout
         _hospitals.Add(new Vector3(294, -1439, 29));
         _hospital = _hospitals.OrderBy(x => x.DistanceTo(Game.LocalPlayer.Character.Position)).FirstOrDefault();
         //Startup
-        CFunctions.FindSideOfRoad(400, 70, out _spawnPoint, out _spawnPointH);
+        PyroFunctions.FindSideOfRoad(400, 70, out _spawnPoint, out _spawnPointH);
         ShowCalloutAreaBlipBeforeAccepting(_spawnPoint, 10f);
         CalloutMessage = "~b~Dispatch:~s~ Ambulance requests police escort.";
         CalloutAdvisory = "Ambulance needs assistance clearing traffic.";
@@ -57,7 +57,7 @@ internal class AmbulanceEscort : Callout
     public override bool OnCalloutAccepted()
     {
         //Setup
-        Game.LogTrivial("SuperCallouts Log: Ambulance Escort callout accepted...");
+        Log.Info("Ambulance Escort callout accepted...");
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Ambulance Escort",
             "Ambulance has a wounded police officer in critical condition, ensure the ambulance has a clear path to the nearest hospital, get to the scene! High priority, respond ~y~CODE-3");
         //cVehicle
@@ -119,12 +119,7 @@ internal class AmbulanceEscort : Callout
         }
         catch (Exception e)
         {
-            Game.LogTrivial("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
-            Game.LogTrivial("SuperCallouts Error Report Start");
-            Game.LogTrivial("======================================================");
-            Game.LogTrivial(e.ToString());
-            Game.LogTrivial("======================================================");
-            Game.LogTrivial("SuperCallouts Error Report End");
+            Log.Error(e.ToString());
             End();
         }
 
@@ -141,7 +136,7 @@ internal class AmbulanceEscort : Callout
         if (_cBlip2.Exists()) _cBlip2.Delete();
         CalloutInterfaceAPI.Functions.SendMessage(this, "Scene handled. Code 4.");
         _mainMenu.Visible = false;
-        CFunctions.Code4Message();
+
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
         CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code4");
         base.End();

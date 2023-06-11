@@ -6,18 +6,19 @@ using CalloutInterfaceAPI;
 using LSPD_First_Response;
 using LSPD_First_Response.Engine.Scripting.Entities;
 using LSPD_First_Response.Mod.Callouts;
+using PyroCommon.API;
 using Rage;
 using Rage.Native;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
-using SuperCallouts.SimpleFunctions;
 using Functions = LSPD_First_Response.Mod.API.Functions;
 
 #endregion
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInterface("Dead Body", CalloutProbability.Medium, "Reports of a dead body on the road, limited details", "Code 3")]
+[CalloutInterface("Dead Body", CalloutProbability.Medium, "Reports of a dead body on the road, limited details",
+    "Code 3")]
 internal class DeadBody : Callout
 {
     private Blip _cBlip;
@@ -37,7 +38,7 @@ internal class DeadBody : Callout
 
     public override bool OnBeforeCalloutDisplayed()
     {
-        CFunctions.FindSideOfRoad(750, 280, out _spawnPoint, out _heading);
+        PyroFunctions.FindSideOfRoad(750, 280, out _spawnPoint, out _heading);
         ShowCalloutAreaBlipBeforeAccepting(_spawnPoint, 10f);
         CalloutMessage = "~r~" + Settings.EmergencyNumber + " Report:~s~ Reports of an injured person.";
         CalloutAdvisory = "Caller says the person is not breathing.";
@@ -51,11 +52,11 @@ internal class DeadBody : Callout
     public override bool OnCalloutAccepted()
     {
         //Setup
-        Game.LogTrivial("SuperCallouts Log: Dead body callout accepted...");
+        Log.Info("Dead body callout accepted...");
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~y~Medical Emergency",
             "Caller reports an injured person that is not breathing, respond ~r~CODE-3");
         //Vehicle
-        CFunctions.SpawnNormalCar(out _cVehicle, _spawnPoint, _heading);
+        PyroFunctions.SpawnNormalCar(out _cVehicle, _spawnPoint, _heading);
         //Peds
         _witness = new Ped(_cVehicle.GetOffsetPositionFront(-9f))
         {
@@ -78,7 +79,7 @@ internal class DeadBody : Callout
         _cBlip.Color = Color.Red;
         _cBlip.EnableRoute(Color.Red);
         //UI
-        CFunctions.BuildUi(out _interaction, out _mainMenu, out _convoMenu, out _questioning, out _endCall);
+        PyroFunctions.BuildUi(out _interaction, out _mainMenu, out _convoMenu, out _questioning, out _endCall);
         _speakSuspect = new UIMenuItem("Speak with ~y~" + _name);
         _convoMenu.AddItem(_speakSuspect);
         _mainMenu.OnItemSelect += InteractionProcess;
@@ -114,12 +115,7 @@ internal class DeadBody : Callout
         }
         catch (Exception e)
         {
-            Game.LogTrivial("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
-            Game.LogTrivial("SuperCallouts Error Report Start");
-            Game.LogTrivial("======================================================");
-            Game.LogTrivial(e.ToString());
-            Game.LogTrivial("======================================================");
-            Game.LogTrivial("SuperCallouts Error Report End");
+            Log.Error(e.ToString());
             End();
         }
 
@@ -133,7 +129,7 @@ internal class DeadBody : Callout
         if (_victim.Exists()) _victim.Dismiss();
         if (_cBlip.Exists()) _cBlip.Delete();
         _mainMenu.Visible = false;
-        CFunctions.Code4Message();
+
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
         CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code4");
         base.End();
@@ -172,17 +168,13 @@ internal class DeadBody : Callout
                         "~g~You~s~: It's alright, thank you for your time and the call. You are free to go home.",
                         4000);
                     if (_witness.Exists()) _witness.Dismiss();
-                    CalloutInterfaceAPI.Functions.SendMessage(this, "Witness has been questioned, no useful information.");
+                    CalloutInterfaceAPI.Functions.SendMessage(this,
+                        "Witness has been questioned, no useful information.");
                 });
         }
         catch (Exception e)
         {
-            Game.LogTrivial("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
-            Game.LogTrivial("SuperCallouts Error Report Start");
-            Game.LogTrivial("======================================================");
-            Game.LogTrivial(e.ToString());
-            Game.LogTrivial("======================================================");
-            Game.LogTrivial("SuperCallouts Error Report End");
+            Log.Error(e.ToString());
             End();
         }
     }

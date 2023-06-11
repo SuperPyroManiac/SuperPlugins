@@ -8,18 +8,19 @@ using CalloutInterfaceAPI;
 using LSPD_First_Response;
 using LSPD_First_Response.Engine.Scripting.Entities;
 using LSPD_First_Response.Mod.Callouts;
+using PyroCommon.API;
 using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts.CustomScenes;
-using SuperCallouts.SimpleFunctions;
 using Functions = LSPD_First_Response.Mod.API.Functions;
 
 #endregion
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInterface("Mafia Raid", CalloutProbability.Low, "Stakeout has found a meeting point for mob bosses - Raid in progress", "Code 5", "SWAT")]
+[CalloutInterface("Mafia Raid", CalloutProbability.Low,
+    "Stakeout has found a meeting point for mob bosses - Raid in progress", "Code 5", "SWAT")]
 internal class Mafia3 : Callout
 {
     private readonly Vector3 _callPos = new(949.3857f, -3129.14f, 5.900989f);
@@ -67,7 +68,7 @@ internal class Mafia3 : Callout
         Mafia3Setup.ConstructMafia3Scene(out _limo, out _defender, out _truck1, out _truck2, out _truck3, out _bad1,
             out _bad2, out _bad3, out _bad4, out _bad5, out _bad6, out _bad7, out _bad8, out _bad9, out _bad10,
             out _bad11, out _bad12);
-        Game.LogTrivial("SuperCallouts Log: Mafia3 callout accepted...");
+        Log.Info("Mafia3 callout accepted...");
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~The Mafia",
             "FIB and IAA began a raid on a drug scene at the harbor. Suspects are heavily armed and backup is required. Get to the scene.");
         Game.LocalPlayer.Character.RelationshipGroup = "COP";
@@ -101,7 +102,7 @@ internal class Mafia3 : Callout
             mafiaDudes.BlockPermanentEvents = true;
             mafiaDudes.Inventory.Weapons.Add(WeaponHash.AssaultRifle).Ammo = -1;
             mafiaDudes.RelationshipGroup = new RelationshipGroup("MAFIA");
-            CFunctions.SetWanted(mafiaDudes, true);
+            PyroFunctions.SetWanted(mafiaDudes, true);
             Functions.AddPedContraband(mafiaDudes, ContrabandType.Narcotics, "Cocaine");
         }
 
@@ -113,7 +114,7 @@ internal class Mafia3 : Callout
         _truck3.Metadata.searchTrunk =
             "~r~multiple pallets of cocaine~s~, ~r~hazmat suits~s~, ~r~multiple weapons~s~, ~r~explosives~s~";
         //UI Items
-        CFunctions.BuildUi(out _interaction, out _mainMenu, out _, out _, out _endCall);
+        PyroFunctions.BuildUi(out _interaction, out _mainMenu, out _, out _, out _endCall);
         _mainMenu.OnItemSelect += InteractionProcess;
         return base.OnCalloutAccepted();
     }
@@ -131,7 +132,7 @@ internal class Mafia3 : Callout
                         Game.SetRelationshipBetweenRelationshipGroups("MAFIA", "PLAYER", Relationship.Hate);
                         Game.SetRelationshipBetweenRelationshipGroups("COP", "MAFIA", Relationship.Hate);
                         CalloutInterfaceAPI.Functions.SendMessage(this, "NOOSE Units on-route to scene.");
-                        if (Main.UsingUb)
+                        if (PyroCommon.Main.UsingUB)
                         {
                             Wrapper.CallSwat(true);
                             Wrapper.CallSwat(true);
@@ -172,12 +173,7 @@ internal class Mafia3 : Callout
         }
         catch (Exception e)
         {
-            Game.LogTrivial("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
-            Game.LogTrivial("SuperCallouts Error Report Start");
-            Game.LogTrivial("======================================================");
-            Game.LogTrivial(e.ToString());
-            Game.LogTrivial("======================================================");
-            Game.LogTrivial("SuperCallouts Error Report End");
+            Log.Error(e.ToString());
             End();
         }
 
@@ -198,7 +194,7 @@ internal class Mafia3 : Callout
 
         _interaction.CloseAllMenus();
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
-        CFunctions.Code4Message();
+
         CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code4");
 
         base.End();

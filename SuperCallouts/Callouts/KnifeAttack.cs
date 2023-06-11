@@ -6,17 +6,18 @@ using System.Drawing;
 using System.Linq;
 using CalloutInterfaceAPI;
 using LSPD_First_Response.Mod.Callouts;
+using PyroCommon.API;
 using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
-using SuperCallouts.SimpleFunctions;
 using Functions = LSPD_First_Response.Mod.API.Functions;
 
 #endregion
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInterface("Knife Attack", CalloutProbability.Medium, "Reports of suspect attacking people with large knife", "Code 3")]
+[CalloutInterface("Knife Attack", CalloutProbability.Medium, "Reports of suspect attacking people with large knife",
+    "Code 3")]
 internal class KnifeAttack : Callout
 {
     private readonly int _cScene = new Random().Next(1, 4);
@@ -67,7 +68,7 @@ internal class KnifeAttack : Callout
     public override bool OnCalloutAccepted()
     {
         //Setup
-        Game.LogTrivial("SuperCallouts Log: knife attack callout accepted. Using scenario #:" + _cScene);
+        Log.Info("knife attack callout accepted. Using scenario #:" + _cScene);
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Knife Attack",
             "Reports of a person attacking people with a knife at the train station.");
         //Suspect
@@ -89,7 +90,7 @@ internal class KnifeAttack : Callout
         _cBlip.Flash(500, 8000);
         _cBlip.EnableRoute(Color.Red);
         //UI Items
-        CFunctions.BuildUi(out _interaction, out _mainMenu, out _, out _, out _endCall);
+        PyroFunctions.BuildUi(out _interaction, out _mainMenu, out _, out _, out _endCall);
         _mainMenu.OnItemSelect += InteractionProcess;
         return base.OnCalloutAccepted();
     }
@@ -145,7 +146,7 @@ internal class KnifeAttack : Callout
         if (_cVictim) _cVictim.Dismiss();
         if (_cSuspect) _cSuspect.Dismiss();
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
-        CFunctions.Code4Message();
+
         CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code4");
         base.End();
     }

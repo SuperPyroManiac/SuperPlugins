@@ -5,10 +5,10 @@ using System.Drawing;
 using CalloutInterfaceAPI;
 using LSPD_First_Response;
 using LSPD_First_Response.Mod.Callouts;
+using PyroCommon.API;
 using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
-using SuperCallouts.SimpleFunctions;
 using Functions = LSPD_First_Response.Mod.API.Functions;
 
 #endregion
@@ -31,7 +31,7 @@ internal class CarAccident : Callout
 
     public override bool OnBeforeCalloutDisplayed()
     {
-        CFunctions.FindSideOfRoad(750, 280, out _spawnPoint, out _spawnPointH);
+        PyroFunctions.FindSideOfRoad(750, 280, out _spawnPoint, out _spawnPointH);
         ShowCalloutAreaBlipBeforeAccepting(_spawnPoint, 10f);
         CalloutMessage = "~b~Dispatch:~s~ Reports of a motor vehicle accident.";
         CalloutAdvisory = "Caller reports possible hit and run.";
@@ -45,13 +45,13 @@ internal class CarAccident : Callout
     public override bool OnCalloutAccepted()
     {
         //Setup
-        Game.LogTrivial("SuperCallouts Log: car accident callout accepted...");
+        Log.Info("car accident callout accepted...");
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~MVA",
             "Reports of a car accident, respond ~r~CODE-3");
         //cVehicle
-        CFunctions.SpawnAnyCar(out _cVehicle, _spawnPoint);
+        PyroFunctions.SpawnAnyCar(out _cVehicle, _spawnPoint);
         _cVehicle.Heading = _spawnPointH;
-        CFunctions.Damage(_cVehicle, 200, 200);
+        PyroFunctions.DamageVehicle(_cVehicle, 200, 200);
         //cVictim
         _cVictim = _cVehicle.CreateRandomDriver();
         _cVictim.IsPersistent = true;
@@ -94,12 +94,7 @@ internal class CarAccident : Callout
         }
         catch (Exception e)
         {
-            Game.LogTrivial("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
-            Game.LogTrivial("SuperCallouts Error Report Start");
-            Game.LogTrivial("======================================================");
-            Game.LogTrivial(e.ToString());
-            Game.LogTrivial("======================================================");
-            Game.LogTrivial("SuperCallouts Error Report End");
+            Log.Error(e.ToString());
             End();
         }
 
@@ -112,7 +107,7 @@ internal class CarAccident : Callout
         if (_cVictim.Exists()) _cVictim.Dismiss();
         if (_cBlip.Exists()) _cBlip.Delete();
         _mainMenu.Visible = false;
-        CFunctions.Code4Message();
+
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
         CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code4");
         base.End();
@@ -125,7 +120,7 @@ internal class CarAccident : Callout
             Game.DisplaySubtitle(
                 "~g~You~s~: Dispatch, we have a vehicle accident, possible hit and run. Looks like someone is inside and injured! I need EMS out here.");
             CalloutInterfaceAPI.Functions.SendMessage(this, "EMS has been notified and is on route. 11-78");
-            if (Main.UsingUb)
+            if (PyroCommon.Main.UsingUB)
             {
                 Wrapper.CallEms();
                 Wrapper.CallFd();

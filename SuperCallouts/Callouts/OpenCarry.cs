@@ -5,11 +5,11 @@ using System.Drawing;
 using CalloutInterfaceAPI;
 using LSPD_First_Response.Mod.API;
 using LSPD_First_Response.Mod.Callouts;
+using PyroCommon.API;
 using Rage;
 using Rage.Native;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
-using SuperCallouts.SimpleFunctions;
 using Functions = LSPD_First_Response.Mod.API.Functions;
 
 #endregion
@@ -51,7 +51,7 @@ internal class OpenCarry : Callout
     public override bool OnCalloutAccepted()
     {
         //Setup
-        Game.LogTrivial("SuperCallouts Log: Open Carry callout accepted...");
+        Log.Info("Open Carry callout accepted...");
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Person With Gun",
             "Reports of a person walking around with an assault rifle. Respond ~y~CODE-2");
         //Bad
@@ -59,7 +59,7 @@ internal class OpenCarry : Callout
         _bad1.Inventory.GiveNewWeapon(WeaponHash.AdvancedRifle, -1, true);
         _bad1.Tasks.Wander();
         _name1 = Functions.GetPersonaForPed(_bad1).FullName;
-        CFunctions.SetDrunk(_bad1, true);
+        PyroFunctions.SetDrunk(_bad1, true);
         _bad1.Metadata.stpAlcoholDetected = true;
         _bad1.Metadata.hasGunPermit = false;
         _bad1.Metadata.searchPed = "~r~assaultrifle~s~, ~y~pocket knife~s~, ~g~wallet~s~";
@@ -153,12 +153,7 @@ internal class OpenCarry : Callout
         }
         catch (Exception e)
         {
-            Game.LogTrivial("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
-            Game.LogTrivial("SuperCallouts Error Report Start");
-            Game.LogTrivial("======================================================");
-            Game.LogTrivial(e.ToString());
-            Game.LogTrivial("======================================================");
-            Game.LogTrivial("SuperCallouts Error Report End");
+            Log.Error(e.ToString());
             End();
         }
 
@@ -170,7 +165,7 @@ internal class OpenCarry : Callout
         if (_bad1.Exists()) _bad1.Dismiss();
         if (_cBlip.Exists()) _cBlip.Delete();
         _mainMenu.Visible = false;
-        CFunctions.Code4Message();
+
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
         CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code4");
         base.End();

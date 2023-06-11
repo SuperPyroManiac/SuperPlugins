@@ -5,10 +5,10 @@ using System.Drawing;
 using CalloutInterfaceAPI;
 using LSPD_First_Response;
 using LSPD_First_Response.Mod.Callouts;
+using PyroCommon.API;
 using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
-using SuperCallouts.SimpleFunctions;
 using Functions = LSPD_First_Response.Mod.API.Functions;
 
 #endregion
@@ -45,7 +45,7 @@ internal class AngryAnimal : Callout
     public override bool OnCalloutAccepted()
     {
         //Setup
-        Game.LogTrivial("SuperCallouts Log: Angry Animal callout accepted...");
+        Log.Info("Angry Animal callout accepted...");
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Help Civilian",
             "Details are unknown, get to the scene as soon as possible! Respond ~r~CODE-3");
         //_animal
@@ -99,12 +99,7 @@ internal class AngryAnimal : Callout
         }
         catch (Exception e)
         {
-            Game.LogTrivial("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
-            Game.LogTrivial("SuperCallouts Error Report Start");
-            Game.LogTrivial("======================================================");
-            Game.LogTrivial(e.ToString());
-            Game.LogTrivial("======================================================");
-            Game.LogTrivial("SuperCallouts Error Report End");
+            Log.Error(e.ToString());
             End();
         }
 
@@ -118,7 +113,7 @@ internal class AngryAnimal : Callout
         if (_cBlip.Exists()) _cBlip.Delete();
         if (_cBlip2.Exists()) _cBlip2.Delete();
         _mainMenu.Visible = false;
-        CFunctions.Code4Message();
+
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
         CalloutInterfaceAPI.Functions.SendMessage(this, "Scene is code4.");
         base.End();
@@ -131,7 +126,7 @@ internal class AngryAnimal : Callout
             Game.DisplaySubtitle(
                 "~g~You~s~: Dispatch, we have a person that has been attacked by an animal! We need a medical crew here ASAP!");
             CalloutInterfaceAPI.Functions.SendMessage(this, "EMS has been notified and is on route. 11-78");
-            if (Main.UsingUb)
+            if (PyroCommon.Main.UsingUB)
             {
                 Wrapper.CallEms();
                 Wrapper.CallFd();

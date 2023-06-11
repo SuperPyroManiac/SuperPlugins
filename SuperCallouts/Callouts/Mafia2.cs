@@ -7,16 +7,17 @@ using CalloutInterfaceAPI;
 using LSPD_First_Response;
 using LSPD_First_Response.Engine.Scripting.Entities;
 using LSPD_First_Response.Mod.Callouts;
+using PyroCommon.API;
 using Rage;
 using SuperCallouts.CustomScenes;
-using SuperCallouts.SimpleFunctions;
 using Functions = LSPD_First_Response.Mod.API.Functions;
 
 #endregion
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInterface("Drug Raid", CalloutProbability.Low, "Drug smuggling in abandoned apartment - Stakeout for SWAT teams", "Code 5", "SWAT")]
+[CalloutInterface("Drug Raid", CalloutProbability.Low,
+    "Drug smuggling in abandoned apartment - Stakeout for SWAT teams", "Code 5", "SWAT")]
 internal class Mafia2 : Callout
 {
     private readonly Vector3 _callPos = new(1543.173f, 3606.55f, 35.19303f);
@@ -61,7 +62,7 @@ internal class Mafia2 : Callout
             out _mafiaDude1, out _mafiaDude2, out _mafiaDude3, out _mafiaDude4, out _mafiaDude5, out _mafiaDude6,
             out _mafiaDude7, out _mafiaDude8, out _mafiaDude9, out _mafiaDude10, out _mafiaDude11, out _mafiaDude12,
             out _mafiaDude13, out _mafiaDude14, out _mafiaDude15);
-        Game.LogTrivial("SuperCallouts Log: Mafia2 callout accepted...");
+        Log.Info("Mafia2 callout accepted...");
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~The Mafia",
             "FIB and IAA reports the Mafia have been spotted near Sandy Shores. Possible large scale drug trafficking. Investigate the scene.");
         Game.LocalPlayer.Character.RelationshipGroup = "COP";
@@ -93,7 +94,7 @@ internal class Mafia2 : Callout
         {
             mafiaDudes.IsPersistent = true;
             mafiaDudes.Inventory.Weapons.Add(WeaponHash.CombatPistol).Ammo = -1;
-            CFunctions.SetWanted(mafiaDudes, true);
+            PyroFunctions.SetWanted(mafiaDudes, true);
             Functions.AddPedContraband(mafiaDudes, ContrabandType.Narcotics, "Cocaine");
         }
 
@@ -114,7 +115,7 @@ internal class Mafia2 : Callout
                     "~r~Dispatch:~s~ Officer on scene, mafia activity spotted. Dispatching specialized units.");
                 Functions.PlayScannerAudioUsingPosition(
                     "DISPATCH_SWAT_UNITS_FROM_01 IN_OR_ON_POSITION UNITS_RESPOND_CODE_99_01", _callPos);
-                if (Main.UsingUb)
+                if (PyroCommon.Main.UsingUB)
                 {
                     Wrapper.CallSwat(true);
                     Wrapper.CallCode3();
@@ -141,12 +142,7 @@ internal class Mafia2 : Callout
             }
             catch (Exception e)
             {
-                Game.LogTrivial("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
-                Game.LogTrivial("SuperCallouts Error Report Start");
-                Game.LogTrivial("======================================================");
-                Game.LogTrivial(e.ToString());
-                Game.LogTrivial("======================================================");
-                Game.LogTrivial("SuperCallouts Error Report End");
+                Log.Error(e.ToString());
                 End();
             }
 
@@ -166,7 +162,7 @@ internal class Mafia2 : Callout
             if (mafiaDudes.Exists())
                 mafiaDudes.Dismiss();
         if (_cBlip.Exists()) _cBlip.Delete();
-        CFunctions.Code4Message();
+
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
         CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code4");
         base.End();

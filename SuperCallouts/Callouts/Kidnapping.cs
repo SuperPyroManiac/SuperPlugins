@@ -5,11 +5,11 @@ using System.Drawing;
 using CalloutInterfaceAPI;
 using LSPD_First_Response.Mod.API;
 using LSPD_First_Response.Mod.Callouts;
+using PyroCommon.API;
 using Rage;
 using Rage.Native;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
-using SuperCallouts.SimpleFunctions;
 using Functions = LSPD_First_Response.Mod.API.Functions;
 
 #endregion
@@ -54,12 +54,12 @@ internal class Kidnapping : Callout
     public override bool OnCalloutAccepted()
     {
         //Setup
-        Game.LogTrivial("SuperCallouts Log: Kidnapping callout accepted...");
+        Log.Info("Kidnapping callout accepted...");
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch",
             "~r~Possible Missing Person Found",
             "A person reported missing last week has been recognized. Possible kidnapping. Respond ~r~CODE-3");
         //cVehicle
-        CFunctions.SpawnNormalCar(out _cVehicle, _spawnPoint);
+        PyroFunctions.SpawnNormalCar(out _cVehicle, _spawnPoint);
         //bad1
         _bad1 = _cVehicle.CreateRandomDriver();
         _bad1.IsPersistent = true;
@@ -131,7 +131,7 @@ internal class Kidnapping : Callout
                         _victim1.Tasks.Cower(-1);
                         break;
                     default:
-                        Game.LogTrivial("Default scenorio loaded.");
+                        Log.Info("Default scenario loaded.");
                         break;
                 }
 
@@ -175,12 +175,7 @@ internal class Kidnapping : Callout
         }
         catch (Exception e)
         {
-            Game.LogTrivial("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
-            Game.LogTrivial("SuperCallouts Error Report Start");
-            Game.LogTrivial("======================================================");
-            Game.LogTrivial(e.ToString());
-            Game.LogTrivial("======================================================");
-            Game.LogTrivial("SuperCallouts Error Report End");
+            Log.Error(e.ToString());
             End();
         }
 
@@ -194,7 +189,7 @@ internal class Kidnapping : Callout
         if (_cVehicle.Exists()) _cVehicle.Dismiss();
         if (_cBlip1.Exists()) _cBlip1.Delete();
         _mainMenu.Visible = false;
-        CFunctions.Code4Message();
+
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
         CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code4");
         base.End();
@@ -248,12 +243,7 @@ internal class Kidnapping : Callout
         }
         catch (Exception e)
         {
-            Game.LogTrivial("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
-            Game.LogTrivial("SuperCallouts Error Report Start");
-            Game.LogTrivial("======================================================");
-            Game.LogTrivial(e.ToString());
-            Game.LogTrivial("======================================================");
-            Game.LogTrivial("SuperCallouts Error Report End");
+            Log.Error(e.ToString());
             End();
         }
     }

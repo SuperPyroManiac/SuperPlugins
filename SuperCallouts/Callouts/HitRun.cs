@@ -5,11 +5,11 @@ using System.Drawing;
 using CalloutInterfaceAPI;
 using LSPD_First_Response.Mod.API;
 using LSPD_First_Response.Mod.Callouts;
+using PyroCommon.API;
 using Rage;
 using Rage.Native;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
-using SuperCallouts.SimpleFunctions;
 using Functions = LSPD_First_Response.Mod.API.Functions;
 
 #endregion
@@ -49,7 +49,7 @@ internal class HitRun : Callout
 
     public override bool OnBeforeCalloutDisplayed()
     {
-        CFunctions.FindSideOfRoad(500, 100, out _spawnPoint, out _spawnPointH);
+        PyroFunctions.FindSideOfRoad(500, 100, out _spawnPoint, out _spawnPointH);
         ShowCalloutAreaBlipBeforeAccepting(_spawnPoint, 40f);
         CalloutMessage = "~r~" + Settings.EmergencyNumber + " Report:~s~ Vehicle hit and run.";
         CalloutAdvisory = "Caller reports other driver has left the scene.";
@@ -62,17 +62,17 @@ internal class HitRun : Callout
     public override bool OnCalloutAccepted()
     {
         //Setup
-        Game.LogTrivial("SuperCallouts Log: Hit And Run callout accepted...");
+        Log.Info("Hit And Run callout accepted...");
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Car Accident",
             "Victim reports the other driver has left the scene. Get to the victim as soon as possible.");
         //cVehicle
-        CFunctions.SpawnNormalCar(out _cVehicle1, _spawnPoint);
+        PyroFunctions.SpawnNormalCar(out _cVehicle1, _spawnPoint);
         _cVehicle1.Heading = _spawnPointH;
-        CFunctions.Damage(_cVehicle1, 50, 50);
+        PyroFunctions.DamageVehicle(_cVehicle1, 50, 50);
         _spawnPointOffset = World.GetNextPositionOnStreet(_cVehicle1.Position.Around(100f));
         //cVehicle2
-        CFunctions.SpawnNormalCar(out _cVehicle2, _spawnPointOffset);
-        CFunctions.Damage(_cVehicle2, 200, 200);
+        PyroFunctions.SpawnNormalCar(out _cVehicle2, _spawnPointOffset);
+        PyroFunctions.DamageVehicle(_cVehicle2, 200, 200);
         //Victim
         _victim = _cVehicle1.CreateRandomDriver();
         _victim.Tasks.LeaveVehicle(LeaveVehicleFlags.LeaveDoorOpen);
@@ -162,12 +162,7 @@ internal class HitRun : Callout
         }
         catch (Exception e)
         {
-            Game.LogTrivial("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
-            Game.LogTrivial("SuperCallouts Error Report Start");
-            Game.LogTrivial("======================================================");
-            Game.LogTrivial(e.ToString());
-            Game.LogTrivial("======================================================");
-            Game.LogTrivial("SuperCallouts Error Report End");
+            Log.Error(e.ToString());
             End();
         }
 
@@ -185,7 +180,7 @@ internal class HitRun : Callout
         if (_cBlip2.Exists()) _cBlip2.Delete();
         if (_cBlip3.Exists()) _cBlip3.Delete();
         _mainMenu.Visible = false;
-        CFunctions.Code4Message();
+
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
         CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code4");
         base.End();

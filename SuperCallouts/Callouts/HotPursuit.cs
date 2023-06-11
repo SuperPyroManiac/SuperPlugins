@@ -5,18 +5,19 @@ using System.Drawing;
 using CalloutInterfaceAPI;
 using LSPD_First_Response.Mod.API;
 using LSPD_First_Response.Mod.Callouts;
+using PyroCommon.API;
 using Rage;
 using Rage.Native;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
-using SuperCallouts.SimpleFunctions;
 using Functions = LSPD_First_Response.Mod.API.Functions;
 
 #endregion
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInterface("High Speed Pursuit", CalloutProbability.Medium, "High performance vehicle fleeing from police", "Code 3")]
+[CalloutInterface("High Speed Pursuit", CalloutProbability.Medium, "High performance vehicle fleeing from police",
+    "Code 3")]
 internal class HotPursuit : Callout
 {
     private readonly UIMenu _convoMenu = new("SuperCallouts", "~y~Choose a subject to speak with.");
@@ -53,7 +54,7 @@ internal class HotPursuit : Callout
     public override bool OnCalloutAccepted()
     {
         //Setup
-        Game.LogTrivial("SuperCallouts Log: HotPursuit callout accepted...");
+        Log.Info("HotPursuit callout accepted...");
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Stolen Car",
             "ANPR has spotted a stolen vehicle. This vehicle is high performance and has fled before. Respond ~r~CODE-3");
         //cVehicle
@@ -74,8 +75,8 @@ internal class HotPursuit : Callout
         _bad1.Metadata.searchPed =
             "~r~pistol~s~, ~r~used meth pipe~s~, ~y~hotwire tools~s~, ~g~suspicious taco~s~, ~g~wallet~s~";
         _bad1.Metadata.hasGunPermit = false;
-        CFunctions.SetWanted(_bad1, true);
-        CFunctions.SetDrunk(_bad1, true);
+        PyroFunctions.SetWanted(_bad1, true);
+        PyroFunctions.SetDrunk(_bad1, true);
         //bad2
         _bad2 = new Ped();
         _bad2.WarpIntoVehicle(_cVehicle, 0);
@@ -83,7 +84,7 @@ internal class HotPursuit : Callout
         _bad2.BlockPermanentEvents = true;
         _name2 = Functions.GetPersonaForPed(_bad2).FullName;
         _bad2.Metadata.stpAlcoholDetected = true;
-        CFunctions.SetDrunk(_bad2, true);
+        PyroFunctions.SetDrunk(_bad2, true);
         //Start UI
         _mainMenu.MouseControlsEnabled = false;
         _mainMenu.AllowCameraMovement = true;
@@ -174,12 +175,7 @@ internal class HotPursuit : Callout
         }
         catch (Exception e)
         {
-            Game.LogTrivial("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
-            Game.LogTrivial("SuperCallouts Error Report Start");
-            Game.LogTrivial("======================================================");
-            Game.LogTrivial(e.ToString());
-            Game.LogTrivial("======================================================");
-            Game.LogTrivial("SuperCallouts Error Report End");
+            Log.Error(e.ToString());
             End();
         }
 
@@ -194,7 +190,7 @@ internal class HotPursuit : Callout
         if (_cBlip1.Exists()) _cBlip1.Delete();
         if (_cBlip2.Exists()) _cBlip2.Delete();
         _mainMenu.Visible = false;
-        CFunctions.Code4Message();
+
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
         CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code4");
         base.End();

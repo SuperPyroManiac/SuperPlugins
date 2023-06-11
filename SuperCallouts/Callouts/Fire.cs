@@ -4,10 +4,10 @@ using System;
 using System.Drawing;
 using CalloutInterfaceAPI;
 using LSPD_First_Response.Mod.Callouts;
+using PyroCommon.API;
 using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
-using SuperCallouts.SimpleFunctions;
 using Functions = LSPD_First_Response.Mod.API.Functions;
 
 #endregion
@@ -28,7 +28,7 @@ internal class Fire : Callout
 
     public override bool OnBeforeCalloutDisplayed()
     {
-        CFunctions.FindSideOfRoad(750, 280, out _spawnPoint, out _spawnPointH);
+        PyroFunctions.FindSideOfRoad(750, 280, out _spawnPoint, out _spawnPointH);
         ShowCalloutAreaBlipBeforeAccepting(_spawnPoint, 10f);
         CalloutMessage = "~b~Dispatch:~s~ Reports of a car fire";
         CalloutAdvisory = "Caller reports large flames coming from the vehicle.";
@@ -41,11 +41,11 @@ internal class Fire : Callout
     public override bool OnCalloutAccepted()
     {
         //Setup
-        Game.LogTrivial("SuperCallouts Log: fire callout accepted...");
+        Log.Info("fire callout accepted...");
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Fire",
             "Reports of a car fire, respond ~r~CODE-3");
         //cVehicle
-        CFunctions.SpawnAnyCar(out _cVehicle, _spawnPoint);
+        PyroFunctions.SpawnAnyCar(out _cVehicle, _spawnPoint);
         _cVehicle.Heading = _spawnPointH;
         //Start UI
         _mainMenu.MouseControlsEnabled = false;
@@ -70,8 +70,8 @@ internal class Fire : Callout
             {
                 _onScene = true;
                 _cBlip.DisableRoute();
-                for (var i = 0; i < 5; i++) CFunctions.FireControl(_spawnPoint.Around2D(1f, 5f), 24, true);
-                for (var i = 0; i < 10; i++) CFunctions.FireControl(_spawnPoint.Around2D(1f, 5f), 24, false);
+                for (var i = 0; i < 5; i++) PyroFunctions.FireControl(_spawnPoint.Around2D(1f, 5f), 24, true);
+                for (var i = 0; i < 10; i++) PyroFunctions.FireControl(_spawnPoint.Around2D(1f, 5f), 24, false);
                 Game.DisplayHelp($"Press ~{Settings.Interact.GetInstructionalId()}~ to open interaction menu.");
             }
 
@@ -82,12 +82,7 @@ internal class Fire : Callout
         }
         catch (Exception e)
         {
-            Game.LogTrivial("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
-            Game.LogTrivial("SuperCallouts Error Report Start");
-            Game.LogTrivial("======================================================");
-            Game.LogTrivial(e.ToString());
-            Game.LogTrivial("======================================================");
-            Game.LogTrivial("SuperCallouts Error Report End");
+            Log.Error(e.ToString());
             End();
         }
 
@@ -99,7 +94,7 @@ internal class Fire : Callout
         if (_cVehicle.Exists()) _cVehicle.Dismiss();
         if (_cBlip.Exists()) _cBlip.Delete();
         _mainMenu.Visible = false;
-        CFunctions.Code4Message();
+
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
         CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code4");
         base.End();

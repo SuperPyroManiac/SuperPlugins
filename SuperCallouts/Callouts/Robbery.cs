@@ -5,11 +5,11 @@ using System.Drawing;
 using CalloutInterfaceAPI;
 using LSPD_First_Response.Mod.API;
 using LSPD_First_Response.Mod.Callouts;
+using PyroCommon.API;
 using Rage;
 using Rage.Native;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
-using SuperCallouts.SimpleFunctions;
 using Functions = LSPD_First_Response.Mod.API.Functions;
 
 #endregion
@@ -52,22 +52,22 @@ internal class Robbery : Callout
     public override bool OnCalloutAccepted()
     {
         //Setup
-        Game.LogTrivial("SuperCallouts Log: Robbery callout accepted...");
+        Log.Info("Robbery callout accepted...");
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Possible Robbery",
             "A " + Settings.EmergencyNumber +
             " report claims 2 armed people are holding 1 person at gunpoint. Respond ~r~CODE-3");
         //cVehicle1
-        CFunctions.SpawnNormalCar(out _cVehicle, _spawnPoint);
+        PyroFunctions.SpawnNormalCar(out _cVehicle, _spawnPoint);
         _cVehicle.IsPersistent = true;
         _cVehicle.EngineHealth = 0;
-        CFunctions.Damage(_cVehicle, 200, 200);
+        PyroFunctions.DamageVehicle(_cVehicle, 200, 200);
         Functions.SetVehicleOwnerName(_cVehicle, _rude1Name);
         //cVehicle2
-        CFunctions.SpawnNormalCar(out _cVehicle2, _cVehicle.GetOffsetPositionFront(6f));
+        PyroFunctions.SpawnNormalCar(out _cVehicle2, _cVehicle.GetOffsetPositionFront(6f));
         _cVehicle2.IsPersistent = true;
         _cVehicle2.EngineHealth = 0;
         _cVehicle2.Rotation = new Rotator(0f, 0f, 180f);
-        CFunctions.Damage(_cVehicle2, 200, 200);
+        PyroFunctions.DamageVehicle(_cVehicle2, 200, 200);
         Functions.SetVehicleOwnerName(_cVehicle2, _victimName);
         //rude1
         _rude1 = _cVehicle.CreateRandomDriver();
@@ -173,7 +173,7 @@ internal class Robbery : Callout
                             GameFiber.Wait(4000);
                             NativeFunction.Natives.xF166E48407BAC484(_rude1, Game.LocalPlayer.Character, 0, 1);
                             NativeFunction.Natives.xF166E48407BAC484(_rude2, Game.LocalPlayer.Character, 0, 1);
-                            CFunctions.SetWanted(_victim, true);
+                            PyroFunctions.SetWanted(_victim, true);
                             NativeFunction.Natives.x72C896464915D1B1(_victim, _rude1);
                             GameFiber.Wait(5000);
                             Functions.AddPedToPursuit(_pursuit, _rude1);
@@ -217,12 +217,7 @@ internal class Robbery : Callout
         }
         catch (Exception e)
         {
-            Game.LogTrivial("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
-            Game.LogTrivial("SuperCallouts Error Report Start");
-            Game.LogTrivial("======================================================");
-            Game.LogTrivial(e.ToString());
-            Game.LogTrivial("======================================================");
-            Game.LogTrivial("SuperCallouts Error Report End");
+            Log.Error(e.ToString());
             End();
         }
 
@@ -240,7 +235,7 @@ internal class Robbery : Callout
         if (_blip2.Exists()) _blip2.Delete();
         if (_blip3.Exists()) _blip3.Delete();
         _mainMenu.Visible = false;
-        CFunctions.Code4Message();
+
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
         CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code4");
         base.End();

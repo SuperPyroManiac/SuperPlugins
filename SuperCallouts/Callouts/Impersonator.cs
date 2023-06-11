@@ -6,17 +6,18 @@ using CalloutInterfaceAPI;
 using LSPD_First_Response;
 using LSPD_First_Response.Mod.API;
 using LSPD_First_Response.Mod.Callouts;
+using PyroCommon.API;
 using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
-using SuperCallouts.SimpleFunctions;
 using Functions = LSPD_First_Response.Mod.API.Functions;
 
 #endregion
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInterface("Police Impersonator", CalloutProbability.Medium, "Active traffic stop with an impersonator", "Code 3")]
+[CalloutInterface("Police Impersonator", CalloutProbability.Medium, "Active traffic stop with an impersonator",
+    "Code 3")]
 internal class Impersonator : Callout
 {
     private readonly UIMenuItem _callSecond = new("~r~ Call Secondary", "Calls for a second unit to assist.");
@@ -39,7 +40,7 @@ internal class Impersonator : Callout
 
     public override bool OnBeforeCalloutDisplayed()
     {
-        CFunctions.FindSideOfRoad(400, 100, out _spawnPoint, out _spawnPointH);
+        PyroFunctions.FindSideOfRoad(400, 100, out _spawnPoint, out _spawnPointH);
         ShowCalloutAreaBlipBeforeAccepting(_spawnPoint, 10f);
         CalloutMessage = "~b~Dispatch:~s~ Officer impersonator.";
         CalloutAdvisory = "Caller says they have been stopped by someone that does not look like an officer.";
@@ -51,13 +52,14 @@ internal class Impersonator : Callout
     public override bool OnCalloutAccepted()
     {
         //Setup
-        Game.LogTrivial("SuperCallouts Log: Officer Impersonator callout accepted...");
+        Log.Info("Officer Impersonator callout accepted...");
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Suspicious Pullover",
             Settings.EmergencyNumber +
             " call of someone being pulled over by a non uniformed officer. Description does not match our department for undercover cops. Respond ~r~CODE-3");
-        CalloutInterfaceAPI.Functions.SendMessage(this, "Caller feels that they are in danger, this is a high priority call.");
+        CalloutInterfaceAPI.Functions.SendMessage(this,
+            "Caller feels that they are in danger, this is a high priority call.");
         //cVehicle1
-        CFunctions.SpawnNormalCar(out _cVehicle1, _spawnPoint);
+        PyroFunctions.SpawnNormalCar(out _cVehicle1, _spawnPoint);
         _cVehicle1.Heading = _spawnPointH;
         //cVehicle2
         var cSpawnPoint = _cVehicle1.GetOffsetPositionFront(-9f);
@@ -134,7 +136,7 @@ internal class Impersonator : Callout
                             _bad.Tasks.FightAgainst(Game.LocalPlayer.Character, -1);
                             CalloutInterfaceAPI.Functions.SendMessage(this, "Shots fired!");
                             CalloutInterfaceAPI.Functions.SendMessage(this,
-                                    "**Dispatch** Code-33 all units respond. Station is 10-6.");
+                                "**Dispatch** Code-33 all units respond. Station is 10-6.");
                             //cVehicle2.IsSirenOn = false;
                         });
                         break;
@@ -162,12 +164,7 @@ internal class Impersonator : Callout
         }
         catch (Exception e)
         {
-            Game.LogTrivial("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
-            Game.LogTrivial("SuperCallouts Error Report Start");
-            Game.LogTrivial("======================================================");
-            Game.LogTrivial(e.ToString());
-            Game.LogTrivial("======================================================");
-            Game.LogTrivial("SuperCallouts Error Report End");
+            Log.Error(e.ToString());
             End();
         }
 
@@ -176,7 +173,6 @@ internal class Impersonator : Callout
 
     public override void End()
     {
-        CFunctions.Code4Message();
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
         _interaction.CloseAllMenus();
         if (_bad.Exists()) _bad.Dismiss();
@@ -194,7 +190,7 @@ internal class Impersonator : Callout
         if (selItem == _callSecond)
         {
             Game.DisplaySubtitle("~g~You~s~: Dispatch, can I get another unit.");
-            if (Main.UsingUb)
+            if (PyroCommon.Main.UsingUB)
                 Wrapper.CallCode2();
             else
                 Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Code2,
