@@ -1,6 +1,7 @@
 ﻿using System;
 using DeadlyWeapons.DFunctions;
 using LSPD_First_Response.Mod.API;
+using PyroCommon.API;
 using Rage;
 
 namespace DeadlyWeapons.Modules;
@@ -30,7 +31,7 @@ internal static class CustomPullover
                     Game.LogTrivial("DeadlyWeapons: Pullover detected, using scenario: " + rNd);
                     checking = false;
                     bad.Inventory.Weapons.Clear();
-                    if (SimpleFunctions.IsWanted(bad))
+                    if (PyroFunctions.IsWanted(bad))
                         switch (rNd)
                         {
                             case 1:

@@ -12,6 +12,25 @@ public abstract class PyroFunctions
     private static Tuple<Vector3, float> _chosenSpawnData;
     private static readonly Random RNd = new();
     
+    internal static void Ragdoll(Ped ped)
+    {
+        try
+        {
+            GameFiber.StartNew(delegate
+            {
+                if (!ped.Exists()) return;
+                ped.IsRagdoll = true;
+                GameFiber.Wait(500);
+                if (!ped.Exists()) return;
+                ped.IsRagdoll = false;
+            });
+        }
+        catch (Exception)
+        {
+            Log.Warning("Unable to remove ragdoll. Most likely the subject died first.");
+        }
+    }
+    
     public static void SpawnNormalCar(out Vehicle cVehicle, Vector3 spawnPoint) //Spawn normal random car..
         {
             Model[] vehicleModels =
@@ -80,6 +99,13 @@ public abstract class PyroFunctions
         var thePersona = Functions.GetPersonaForPed(ped);
         thePersona.Wanted = true;
         return ped;
+    }
+    
+    public static bool IsWanted(Ped oPed) //Debugging: Used to check if the ped is wanted.
+    {
+        var persona = Functions.GetPersonaForPed(oPed);
+        Log.Info("Ped is Wanted? = " + persona.Wanted);
+        return persona.Wanted;
     }
     
     public static void SetDrunk(Ped ped, bool isDrunk)

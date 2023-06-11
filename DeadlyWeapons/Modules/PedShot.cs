@@ -4,6 +4,7 @@ using System;
 using DamageTrackerLib.DamageInfo;
 using DeadlyWeapons.DFunctions;
 using LSPD_First_Response.Mod.API;
+using PyroCommon.API;
 using Rage;
 
 #endregion
@@ -50,7 +51,7 @@ internal static class PedShot
             victim.Health -= 30;
             Game.LogTrivial("DeadlyWeapons: " + Functions.GetPersonaForPed(victim).FullName +
                             " shot in leg - deducting 30 health.");
-            if (rnd2 == 2) SimpleFunctions.Ragdoll(victim);
+            if (rnd2 == 2) PyroFunctions.Ragdoll(victim);
             Game.LogTrivial("DeadlyWeapons: " + Functions.GetPersonaForPed(victim).FullName +
                             " tripped due to leg injury. (50/50 chance)");
             if (Settings.EnableDebug)
@@ -87,7 +88,7 @@ internal static class PedShot
                 case 2:
                     victim.Health -= 45;
                     victim.Armor = 0;
-                    SimpleFunctions.Ragdoll(victim);
+                    PyroFunctions.Ragdoll(victim);
                     break;
                 case 3:
                     victim.Armor -= 35;
@@ -120,7 +121,7 @@ internal static class PedShot
                     break;
                 case 4:
                     victim.Health -= 50;
-                    SimpleFunctions.Ragdoll(victim);
+                    PyroFunctions.Ragdoll(victim);
                     break;
             }
             if (Settings.EnableDebug)

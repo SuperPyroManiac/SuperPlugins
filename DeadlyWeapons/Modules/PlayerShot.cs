@@ -2,7 +2,7 @@
 
 using System;
 using DamageTrackerLib.DamageInfo;
-using DeadlyWeapons.DFunctions;
+using PyroCommon.API;
 using Rage;
 
 #endregion
@@ -50,7 +50,7 @@ internal static class PlayerShot
             Game.LogTrivial("DeadlyWeapons: Player shot in leg - deducting 30 health.");
             if (rnd2 == 2)
             {
-                SimpleFunctions.Ragdoll(Player);
+                PyroFunctions.Ragdoll(Player);
                 Game.LogTrivial("DeadlyWeapons: Player tripped due to leg injury. (50/50 chance)");
             }
 
@@ -85,7 +85,7 @@ internal static class PlayerShot
                 case 2:
                     Player.Health -= 45;
                     Player.Armor = 0;
-                    SimpleFunctions.Ragdoll(Player);
+                    PyroFunctions.Ragdoll(Player);
                     break;
                 case 3:
                     Player.Armor -= 35;
@@ -117,7 +117,7 @@ internal static class PlayerShot
                     break;
                 case 4:
                     Player.Health -= 50;
-                    SimpleFunctions.Ragdoll(Player);
+                    PyroFunctions.Ragdoll(Player);
                     break;
             }
             if (Settings.EnableDebug)
