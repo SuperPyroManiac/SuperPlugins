@@ -5,6 +5,7 @@ using System.Drawing;
 using CalloutInterfaceAPI;
 using LSPD_First_Response;
 using LSPD_First_Response.Mod.Callouts;
+using PyroCommon.API;
 using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
@@ -35,7 +36,7 @@ internal class OfficerShootout : Callout
 
     public override bool OnBeforeCalloutDisplayed()
     {
-        CFunctions.FindSideOfRoad(400, 100, out _spawnPoint, out _spawnPointH);
+        PyroFunctions.FindSideOfRoad(400, 100, out _spawnPoint, out _spawnPointH);
         ShowCalloutAreaBlipBeforeAccepting(_spawnPoint, 10f);
         CalloutMessage = "~b~Dispatch:~s~ Felony stop. Shots fired.";
         CalloutAdvisory = "Panic alert issues, shots fired.";
@@ -49,11 +50,11 @@ internal class OfficerShootout : Callout
     public override bool OnCalloutAccepted()
     {
         //Setup
-        Game.Console.Print("SuperCallouts Log: Officer Shootout accepted...");
+        Log.Info("Officer Shootout accepted...");
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Officer Shot",
             "Officer reports shots fired during felony stop, panic button hit. Respond ~r~CODE-3");
         //cVehicle
-        CFunctions.SpawnNormalCar(out _cVehicle, _spawnPoint);
+        PyroFunctions.SpawnNormalCar(out _cVehicle, _spawnPoint);
         _cVehicle.Heading = _spawnPointH;
         _cSpawnPoint = _cVehicle.GetOffsetPositionFront(-9f);
         _cVehicle.IsStolen = true;
@@ -67,14 +68,14 @@ internal class OfficerShootout : Callout
         _bad1.Inventory.Weapons.Add(WeaponHash.AssaultShotgun).Ammo = -1;
         _bad1.WarpIntoVehicle(_cVehicle, -1);
         _bad1.RelationshipGroup = new RelationshipGroup("BADGANG");
-        CFunctions.SetWanted(_bad1, true);
+        PyroFunctions.SetWanted(_bad1, true);
         _bad1.Tasks.LeaveVehicle(_cVehicle, LeaveVehicleFlags.LeaveDoorOpen);
         //bad2
         _bad2 = new Ped { IsPersistent = true, Health = 400 };
         _bad2.Inventory.Weapons.Add(WeaponHash.CarbineRifle).Ammo = -1;
         _bad2.WarpIntoVehicle(_cVehicle, 0);
         _bad2.RelationshipGroup = new RelationshipGroup("BADGANG");
-        CFunctions.SetWanted(_bad2, true);
+        PyroFunctions.SetWanted(_bad2, true);
         _bad2.Tasks.LeaveVehicle(_cVehicle, LeaveVehicleFlags.LeaveDoorOpen);
         //cop1
         _cop1 = new Ped("s_m_y_cop_01", _spawnPoint, 0f) { IsPersistent = true };
@@ -138,12 +139,7 @@ internal class OfficerShootout : Callout
         }
         catch (Exception e)
         {
-            Game.Console.Print("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
-            Game.Console.Print("SuperCallouts Error Report Start");
-            Game.Console.Print("======================================================");
-            Game.Console.Print(e.ToString());
-            Game.Console.Print("======================================================");
-            Game.Console.Print("SuperCallouts Error Report End");
+Log.Error(e.ToString());
             End();
         }
 
@@ -160,7 +156,7 @@ internal class OfficerShootout : Callout
         if (_copVehicle.Exists()) _copVehicle.Dismiss();
         if (_cBlip.Exists()) _cBlip.Delete();
         _mainMenu.Visible = false;
-        CFunctions.Code4Message();
+        
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
         CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code4");
         base.End();

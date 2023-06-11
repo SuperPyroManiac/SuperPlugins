@@ -7,6 +7,7 @@ using LSPD_First_Response;
 using LSPD_First_Response.Engine.Scripting.Entities;
 using LSPD_First_Response.Mod.API;
 using LSPD_First_Response.Mod.Callouts;
+using PyroCommon.API;
 using Rage;
 using Rage.Native;
 using RAGENativeUI;
@@ -69,7 +70,7 @@ public class Trespassing : Callout
     public override bool OnCalloutAccepted()
     {
         //Setup
-        Game.Console.Print("SuperCallouts Log: trespassing callout accepted...");
+        Log.Info("trespassing callout accepted...");
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~y~Trespassing",
             "Caller reports an individual trespassing and causing a disturbance. ~r~CODE-2");
         CalloutInterfaceAPI.Functions.SendMessage(this, "Dispatch: Caller reports suspect is drunk and may be armed.");
@@ -79,7 +80,7 @@ public class Trespassing : Callout
             IsPersistent = true,
             BlockPermanentEvents = true
         };
-        CFunctions.SetDrunk(_suspect, true);
+        PyroFunctions.SetDrunk(_suspect, true);
         _suspect.Metadata.stpAlcoholDetected = true;
         Functions.SetPersonaForPed(_suspect, new Persona("Benzo", "Smith", Gender.Male));
         _name = Functions.GetPersonaForPed(_suspect).FullName;
@@ -89,7 +90,7 @@ public class Trespassing : Callout
         _cBlip.Color = Color.Red;
         _cBlip.EnableRoute(Color.Red);
         //UI
-        CFunctions.BuildUi(out _interaction, out _mainMenu, out _convoMenu, out _questioning, out _endCall);
+        PyroFunctions.BuildUi(out _interaction, out _mainMenu, out _convoMenu, out _questioning, out _endCall);
         _speakSuspect = new UIMenuItem("Speak with ~y~" + _name);
         _convoMenu.AddItem(_speakSuspect);
         _mainMenu.OnItemSelect += InteractionProcess;
@@ -129,12 +130,7 @@ public class Trespassing : Callout
         }
         catch (Exception e)
         {
-            Game.Console.Print("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
-            Game.Console.Print("SuperCallouts Error Report Start");
-            Game.Console.Print("======================================================");
-            Game.Console.Print(e.ToString());
-            Game.Console.Print("======================================================");
-            Game.Console.Print("SuperCallouts Error Report End");
+Log.Error(e.ToString());
             End();
         }
 
@@ -146,7 +142,7 @@ public class Trespassing : Callout
         if (_suspect.Exists()) _suspect.Dismiss();
         if (_cBlip.Exists()) _cBlip.Delete();
         _mainMenu.Visible = false;
-        CFunctions.Code4Message();
+        
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
         CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code4");
         base.End();
@@ -214,12 +210,7 @@ public class Trespassing : Callout
         }
         catch (Exception e)
         {
-            Game.Console.Print("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
-            Game.Console.Print("SuperCallouts Error Report Start");
-            Game.Console.Print("======================================================");
-            Game.Console.Print(e.ToString());
-            Game.Console.Print("======================================================");
-            Game.Console.Print("SuperCallouts Error Report End");
+Log.Error(e.ToString());
             End();
         }
     }

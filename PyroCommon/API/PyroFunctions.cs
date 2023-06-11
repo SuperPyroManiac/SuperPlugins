@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using LSPD_First_Response.Mod.API;
 using Rage;
 using Rage.Native;
+using RAGENativeUI;
+using RAGENativeUI.Elements;
 
 namespace PyroCommon.API;
 
@@ -30,8 +32,8 @@ public abstract class PyroFunctions
             Log.Warning("Unable to remove ragdoll. Most likely the subject died first.");
         }
     }
-    
-    public static void SpawnNormalCar(out Vehicle cVehicle, Vector3 spawnPoint) //Spawn normal random car..
+
+    public static void SpawnNormalCar(out Vehicle cVehicle, Vector3 spawnPoint, float heading = 0) //Spawn normal random car..
         {
             Model[] vehicleModels =
             {
@@ -46,7 +48,7 @@ public abstract class PyroFunctions
             cVehicle.IsPersistent = true;
         }
 
-    public static void SpawnAnyCar(out Vehicle cVehicle, Vector3 spawnPoint) //Spawn ANY random car..
+    public static void SpawnAnyCar(out Vehicle cVehicle, Vector3 spawnPoint, float heading = 0) //Spawn ANY random car..
         {
             Model[] vehicleModels =
             {
@@ -80,6 +82,29 @@ public abstract class PyroFunctions
             var randomInt3 = MathHelper.GetRandomSingle(vector31.Z, vector32.Z);
             vehicle.Deform(new Vector3(randomInt1, randomInt2, randomInt3), radius, amount);
         }
+    }
+    
+    internal static void BuildUi(out MenuPool interaction, out UIMenu mainMenu, out UIMenu convoMenu,
+        out UIMenuItem questioning, out UIMenuItem endCall) //TODO: Replace with custom base class for callouts!
+    {
+        interaction = new MenuPool();
+        mainMenu = new UIMenu("SuperCallouts", "Choose an option.");
+        convoMenu = new UIMenu("SuperCallouts", "~s~Choose an option.");
+        questioning = new UIMenuItem("Speak With Subjects");
+        endCall = new UIMenuItem("~y~End Callout", "Ends the callout.");
+        interaction.Add(mainMenu);
+        interaction.Add(convoMenu);
+        mainMenu.AddItem(questioning);
+        mainMenu.AddItem(endCall);
+        mainMenu.BindMenuToItem(convoMenu, questioning);
+        convoMenu.ParentMenu = mainMenu;
+        questioning.Enabled = false;
+        mainMenu.AllowCameraMovement = true;
+        mainMenu.MouseControlsEnabled = false;
+        convoMenu.AllowCameraMovement = true;
+        convoMenu.MouseControlsEnabled = false;
+        mainMenu.RefreshIndex();
+        convoMenu.RefreshIndex();
     }
     
     public static void SetAnimation(Ped person, string theAnimation)

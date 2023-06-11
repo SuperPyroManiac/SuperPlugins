@@ -4,6 +4,7 @@ using System.Drawing;
 using CalloutInterfaceAPI;
 using LSPD_First_Response;
 using LSPD_First_Response.Mod.Callouts;
+using PyroCommon.API;
 using Rage;
 using Rage.Native;
 using RAGENativeUI;
@@ -64,7 +65,7 @@ internal class Lsgtf : Callout
 
     public override bool OnCalloutAccepted()
     {
-        Game.Console.Print("SuperCallouts Log: LSGTF callout accepted...");
+        Log.Info("LSGTF callout accepted...");
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Meet with FIB",
             "FIB has a gang task force ready. Speak with them to conduct the raid.");
         CalloutInterfaceAPI.Functions.SendMessage(this, "**Dispatch** Go speak with the federal agents.");
@@ -91,14 +92,14 @@ internal class Lsgtf : Callout
         _fib2.IsPersistent = true;
         _fib1.BlockPermanentEvents = true;
         _fib2.BlockPermanentEvents = true;
-        CFunctions.SetWanted(_bad1, true);
-        CFunctions.SetWanted(_bad2, true);
-        CFunctions.SetWanted(_bad3, true);
-        CFunctions.SetWanted(_bad4, true);
-        CFunctions.SetWanted(_bad5, true);
-        CFunctions.SetWanted(_bad6, true);
-        CFunctions.SetWanted(_bad7, true);
-        CFunctions.SetWanted(_bad8, true);
+        PyroFunctions.SetWanted(_bad1, true);
+        PyroFunctions.SetWanted(_bad2, true);
+        PyroFunctions.SetWanted(_bad3, true);
+        PyroFunctions.SetWanted(_bad4, true);
+        PyroFunctions.SetWanted(_bad5, true);
+        PyroFunctions.SetWanted(_bad6, true);
+        PyroFunctions.SetWanted(_bad7, true);
+        PyroFunctions.SetWanted(_bad8, true);
         _meetingB = _cVehicle.AttachBlip();
         _meetingB.EnableRoute(Color.Aquamarine);
         _meetingB.Color = Color.Aquamarine;
@@ -278,7 +279,7 @@ CalloutInterfaceAPI.Functions.SendMessage(this, "**Dispatch** Code-33 all units 
         if (_cBlip7.Exists()) _cBlip7.Delete();
         if (_cBlip8.Exists()) _cBlip8.Delete();
         if (_meetingB.Exists()) _meetingB.Delete();
-        CFunctions.Code4Message();
+        
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
         CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code4");
         base.End();

@@ -4,6 +4,7 @@ using System;
 using System.Drawing;
 using CalloutInterfaceAPI;
 using LSPD_First_Response.Mod.Callouts;
+using PyroCommon.API;
 using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
@@ -40,11 +41,11 @@ internal class BlockingTraffic : Callout
     public override bool OnCalloutAccepted()
     {
         //Setup
-        Game.Console.Print("SuperCallouts Log: car blocking traffic callout accepted...");
+        Log.Info("car blocking traffic callout accepted...");
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Blocking Traffic",
             "Reports of a car blocking the road, respond ~y~CODE-2");
         //cVehicle
-        CFunctions.SpawnNormalCar(out _cVehicle, _spawnPoint);
+        PyroFunctions.SpawnNormalCar(out _cVehicle, _spawnPoint);
         //Start UI
         _mainMenu.MouseControlsEnabled = false;
         _mainMenu.AllowCameraMovement = true;
@@ -79,12 +80,7 @@ internal class BlockingTraffic : Callout
         }
         catch (Exception e)
         {
-            Game.Console.Print("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
-            Game.Console.Print("SuperCallouts Error Report Start");
-            Game.Console.Print("======================================================");
-            Game.Console.Print(e.ToString());
-            Game.Console.Print("======================================================");
-            Game.Console.Print("SuperCallouts Error Report End");
+Log.Error(e.ToString());
             End();
         }
 
@@ -96,7 +92,7 @@ internal class BlockingTraffic : Callout
         if (_cBlip.Exists()) _cBlip.Delete();
         if (_cVehicle.Exists()) _cVehicle.Dismiss();
         _mainMenu.Visible = false;
-        CFunctions.Code4Message();
+        
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
         CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code4");
         base.End();

@@ -7,6 +7,7 @@ using System.Linq;
 using CalloutInterfaceAPI;
 using LSPD_First_Response;
 using LSPD_First_Response.Mod.Callouts;
+using PyroCommon.API;
 using Rage;
 using Rage.Native;
 using RAGENativeUI;
@@ -74,7 +75,7 @@ internal class Mafia1 : Callout
     public override bool OnCalloutAccepted()
     {
         //Setup
-        Game.Console.Print("SuperCallouts Log: Mafia1 callout accepted...");
+        Log.Info("Mafia1 callout accepted...");
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~The Mafia",
             "FIB reports the Mafia have been using the casino as a drug trafficking hotspot. Speak with FIB agents and plan a raid.");
         Mafia1Setup.BuildMafia1PreScene(out _fib1, out _fib2, out _fib3, out _fib4, out _fib5, out _fibCar1,
@@ -101,7 +102,7 @@ internal class Mafia1 : Callout
         }
 
         //UI Items
-        CFunctions.BuildUi(out _interaction, out _mainMenu, out _convoMenu, out _questioning, out _endCall);
+        PyroFunctions.BuildUi(out _interaction, out _mainMenu, out _convoMenu, out _questioning, out _endCall);
         _mainMenu.OnItemSelect += InteractionProcess;
         _convoMenu.OnItemSelect += ConversationProcess;
         return base.OnCalloutAccepted();
@@ -189,8 +190,7 @@ internal class Mafia1 : Callout
                                 _state = SrState.RaidScene;
                                 break;
                             default:
-                                Game.Console.Print(
-                                    "Oops there was an error here. There was an issue detecting your choice!");
+                                Log.Error("Oops there was an error here. There was an issue detecting your choice!");
                                 End();
                                 break;
                         }
@@ -226,12 +226,7 @@ internal class Mafia1 : Callout
         }
         catch (Exception e)
         {
-            Game.Console.Print("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
-            Game.Console.Print("SuperCallouts Error Report Start");
-            Game.Console.Print("======================================================");
-            Game.Console.Print(e.ToString());
-            Game.Console.Print("======================================================");
-            Game.Console.Print("SuperCallouts Error Report End");
+Log.Error(e.ToString());
             End();
         }
     }
@@ -252,7 +247,7 @@ internal class Mafia1 : Callout
         Game.SetRelationshipBetweenRelationshipGroups("COP", "MAFIA", Relationship.Dislike);
         _interaction.CloseAllMenus();
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
-        CFunctions.Code4Message();
+        
         CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code4");
         base.End();
     }
@@ -378,7 +373,7 @@ internal class Mafia1 : Callout
             entity.IsPersistent = true;
             entity.Inventory.Weapons.Add(WeaponHash.AdvancedRifle);
             entity.BlockPermanentEvents = true;
-            CFunctions.SetWanted(entity, true);
+            PyroFunctions.SetWanted(entity, true);
         }
 
         foreach (var entity in _vehicles.Where(entity => entity))

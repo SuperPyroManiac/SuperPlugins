@@ -4,6 +4,7 @@ using System;
 using System.Drawing;
 using CalloutInterfaceAPI;
 using LSPD_First_Response.Mod.Callouts;
+using PyroCommon.API;
 using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
@@ -26,7 +27,7 @@ internal class FakeCall : Callout
 
     public override bool OnBeforeCalloutDisplayed()
     {
-        CFunctions.FindSideOfRoad(750, 280, out _spawnPoint, out _);
+        PyroFunctions.FindSideOfRoad(750, 280, out _spawnPoint, out _);
         ShowCalloutAreaBlipBeforeAccepting(_spawnPoint, 10f);
         CalloutMessage = "~r~" + Settings.EmergencyNumber + " Report:~s~ Emergency call dropped.";
         CalloutAdvisory = "Call dropped and dispatch is unable to reach caller back.";
@@ -40,7 +41,7 @@ internal class FakeCall : Callout
     public override bool OnCalloutAccepted()
     {
         //Setup
-        Game.Console.Print("SuperCallouts Log: Dead body callout accepted...");
+        Log.Info("Dead body callout accepted...");
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~y~Call Dropped",
             "Caller disconnected from call quickly. Unable to reach them back. Last location recorded, respond to the last known location. ~r~CODE-2");
         //cBlip
@@ -48,7 +49,7 @@ internal class FakeCall : Callout
         _cBlip.Color = Color.Red;
         _cBlip.EnableRoute(Color.Red);
         //UI
-        CFunctions.BuildUi(out _interaction, out _mainMenu, out _, out _, out _endCall);
+        PyroFunctions.BuildUi(out _interaction, out _mainMenu, out _, out _, out _endCall);
         _mainMenu.OnItemSelect += InteractionProcess;
         return base.OnCalloutAccepted();
     }
@@ -85,12 +86,7 @@ internal class FakeCall : Callout
         }
         catch (Exception e)
         {
-            Game.Console.Print("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
-            Game.Console.Print("SuperCallouts Error Report Start");
-            Game.Console.Print("======================================================");
-            Game.Console.Print(e.ToString());
-            Game.Console.Print("======================================================");
-            Game.Console.Print("SuperCallouts Error Report End");
+Log.Error(e.ToString());
             End();
         }
 
@@ -101,7 +97,7 @@ internal class FakeCall : Callout
     {
         if (_cBlip.Exists()) _cBlip.Delete();
         _mainMenu.Visible = false;
-        CFunctions.Code4Message();
+        
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
         CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code4");
         base.End();

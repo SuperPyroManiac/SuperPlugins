@@ -6,6 +6,7 @@ using CalloutInterfaceAPI;
 using LSPD_First_Response;
 using LSPD_First_Response.Mod.API;
 using LSPD_First_Response.Mod.Callouts;
+using PyroCommon.API;
 using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
@@ -36,7 +37,7 @@ internal class ToiletPaperBandit : Callout
 
     public override bool OnBeforeCalloutDisplayed()
     {
-        CFunctions.FindSideOfRoad(750, 280, out _spawnPoint, out _spawnPointH);
+        PyroFunctions.FindSideOfRoad(750, 280, out _spawnPoint, out _spawnPointH);
         ShowCalloutAreaBlipBeforeAccepting(_spawnPoint, 10f);
         CalloutMessage = "~b~Dispatch:~s~ Reports of a sanitization transport robbery.";
         CalloutAdvisory = "Caller reports the vehicle of full of cleaning supplies. Possible fire hazard.";
@@ -50,7 +51,7 @@ internal class ToiletPaperBandit : Callout
     public override bool OnCalloutAccepted()
     {
         //Setup
-        Game.Console.Print("SuperCallouts Log: toilet paper bandit accepted...");
+        Log.Info("toilet paper bandit accepted...");
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Robbery",
             "Reports of someone robbing a truck full of cleaning supplies, respond ~r~CODE-3");
         //cVehicle
@@ -147,12 +148,7 @@ internal class ToiletPaperBandit : Callout
         }
         catch (Exception e)
         {
-            Game.Console.Print("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
-            Game.Console.Print("SuperCallouts Error Report Start");
-            Game.Console.Print("======================================================");
-            Game.Console.Print(e.ToString());
-            Game.Console.Print("======================================================");
-            Game.Console.Print("SuperCallouts Error Report End");
+Log.Error(e.ToString());
             End();
         }
 
@@ -161,7 +157,7 @@ internal class ToiletPaperBandit : Callout
 
     public override void End()
     {
-        CFunctions.Code4Message();
+        
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
         if (_cVehicle) _cVehicle.Dismiss();
         if (_bad) _bad.Dismiss();

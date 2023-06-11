@@ -3,6 +3,7 @@
 using System.Drawing;
 using CalloutInterfaceAPI;
 using LSPD_First_Response.Mod.Callouts;
+using PyroCommon.API;
 using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
@@ -27,7 +28,7 @@ internal class IllegalParking : Callout
 
     public override bool OnBeforeCalloutDisplayed()
     {
-        CFunctions.FindSideOfRoad(750, 280, out _spawnPoint, out _heading);
+        PyroFunctions.FindSideOfRoad(750, 280, out _spawnPoint, out _heading);
         ShowCalloutAreaBlipBeforeAccepting(_spawnPoint, 10f);
         CalloutMessage = "~r~" + Settings.EmergencyNumber + " Report:~s~ Reports of a vehicle parked illegally.";
         CalloutAdvisory = "Caller says a vehicle is parked on their property without permission.";
@@ -40,17 +41,17 @@ internal class IllegalParking : Callout
     public override bool OnCalloutAccepted()
     {
         //Setup
-        Game.Console.Print("SuperCallouts Log: illegally parked car callout accepted...");
+        Log.Info("illegally parked car callout accepted...");
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~y~Traffic",
             "Reports of an empty vehicle on private property, respond ~g~CODE-1");
         //cVehicle
-        CFunctions.SpawnNormalCar(out _cVehicle, _spawnPoint, _heading);
+        PyroFunctions.SpawnNormalCar(out _cVehicle, _spawnPoint, _heading);
         //Blip
         _cBlip = _cVehicle.AttachBlip();
         _cBlip.Color = Color.DodgerBlue;
         _cBlip.EnableRoute(Color.DodgerBlue);
         //UI Items
-        CFunctions.BuildUi(out _interaction, out _mainMenu, out _, out _, out _endCall);
+        PyroFunctions.BuildUi(out _interaction, out _mainMenu, out _, out _, out _endCall);
         _mainMenu.OnItemSelect += InteractionProcess;
         return base.OnCalloutAccepted();
     }
@@ -79,7 +80,7 @@ internal class IllegalParking : Callout
     {
         if (_cBlip) _cBlip.Delete();
         if (_cVehicle) _cVehicle.Dismiss();
-        CFunctions.Code4Message();
+        
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
         CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code4");
         base.End();

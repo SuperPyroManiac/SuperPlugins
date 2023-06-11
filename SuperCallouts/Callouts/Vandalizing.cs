@@ -36,12 +36,12 @@ internal class Vandalizing : Callout
     public override bool OnCalloutAccepted()
     {
         //Setup
-        Game.Console.Print("SuperCallouts Log: Vandalizing callout accepted...");
+        Log.Info("Vandalizing callout accepted...");
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Vandalizing",
             "A suspect has been reported damaging a vehicle. Respond ~r~CODE-3");
         Wrapper.CiSendMessage(this, "A call came in about a person attacking a vehicle causing serious damage to it. Further details are unknown.");
         //cVehicle
-        CFunctions.SpawnNormalCar(out _cVehicle, _spawnPoint);
+        PyroFunctions.SpawnNormalCar(out _cVehicle, _spawnPoint);
         //Bad
         _bad = new Ped(_spawnPoint.Around(15f));
         _bad.WarpIntoVehicle(_cVehicle, -1);
@@ -49,7 +49,7 @@ internal class Vandalizing : Callout
         _bad.BlockPermanentEvents = true;
         _bad.Metadata.stpDrugsDetected = true;
         _bad.Metadata.stpAlcoholDetected = true;
-        CFunctions.SetDrunk(_bad, true);
+        PyroFunctions.SetDrunk(_bad, true);
         //Blip
         _cBlip = _bad.AttachBlip();
         _cBlip.EnableRoute(Color.Red);
@@ -58,7 +58,7 @@ internal class Vandalizing : Callout
         //Task
         _bad.Tasks.CruiseWithVehicle(_cVehicle, 100f, VehicleDrivingFlags.Emergency);
         //UI
-        CFunctions.BuildUi(out _interaction, out _mainMenu, out _convoMenu, out _, out _endCall);
+        PyroFunctions.BuildUi(out _interaction, out _mainMenu, out _convoMenu, out _, out _endCall);
         _mainMenu.OnItemSelect += Interactions;
         return base.OnCalloutAccepted();
     }

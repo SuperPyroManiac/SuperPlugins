@@ -5,6 +5,7 @@ using System.Drawing;
 using CalloutInterfaceAPI;
 using LSPD_First_Response;
 using LSPD_First_Response.Mod.Callouts;
+using PyroCommon.API;
 using Rage;
 using Rage.Native;
 using RAGENativeUI;
@@ -53,19 +54,19 @@ internal class CarAccident2 : Callout
     public override bool OnCalloutAccepted()
     {
         //Setup
-        Game.Console.Print("SuperCallouts Log: car accident callout accepted...");
+        Log.Info("car accident callout accepted...");
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~MVA",
             "Reports of a car accident, respond ~r~CODE-3");
         //cVehicle1
-        CFunctions.SpawnNormalCar(out _cVehicle1, _spawnPoint);
+        PyroFunctions.SpawnNormalCar(out _cVehicle1, _spawnPoint);
         _cVehicle1.EngineHealth = 0;
         _spawnPointoffset = _cVehicle1.GetOffsetPosition(new Vector3(0, 7.0f, 0));
-        CFunctions.Damage(_cVehicle1, 200, 200);
+        PyroFunctions.DamageVehicle(_cVehicle1, 200, 200);
         //cVehicle2
-        CFunctions.SpawnNormalCar(out _cVehicle2, _spawnPointoffset);
+        PyroFunctions.SpawnNormalCar(out _cVehicle2, _spawnPointoffset);
         _cVehicle2.EngineHealth = 0;
         _cVehicle2.Rotation = new Rotator(0f, 0f, 180f);
-        CFunctions.Damage(_cVehicle2, 200, 200);
+        PyroFunctions.DamageVehicle(_cVehicle2, 200, 200);
         _cVehicle2.Metadata.searchDriver =
             "~r~half full hard liqure bottle~s~, ~y~pack of lighters~s~, ~g~coke cans~s~, ~g~cigarettes~s~";
         //Victim1
@@ -73,13 +74,13 @@ internal class CarAccident2 : Callout
         _victim1.IsPersistent = true;
         _victim1.BlockPermanentEvents = true;
         _victim1.Tasks.LeaveVehicle(_cVehicle1, LeaveVehicleFlags.LeaveDoorOpen);
-        CFunctions.SetAnimation(_victim1, "move_injured_ground");
+        PyroFunctions.SetAnimation(_victim1, "move_injured_ground");
         //Victim2
         _victim2 = _cVehicle2.CreateRandomDriver();
         _victim2.IsPersistent = true;
         _victim2.BlockPermanentEvents = true;
         _victim2.Tasks.LeaveVehicle(_cVehicle2, LeaveVehicleFlags.LeaveDoorOpen);
-        CFunctions.SetDrunk(_victim2, true);
+        PyroFunctions.SetDrunk(_victim2, true);
         _victim2.Metadata.searchPed = "~r~crushed beer can~s~, ~g~wallet~s~";
         _victim2.Metadata.stpAlcoholDetected = true;
         _name1 = Functions.GetPersonaForPed(_victim2).FullName;
@@ -137,12 +138,7 @@ internal class CarAccident2 : Callout
         }
         catch (Exception e)
         {
-            Game.Console.Print("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
-            Game.Console.Print("SuperCallouts Error Report Start");
-            Game.Console.Print("======================================================");
-            Game.Console.Print(e.ToString());
-            Game.Console.Print("======================================================");
-            Game.Console.Print("SuperCallouts Error Report End");
+Log.Error(e.ToString());
             End();
         }
 
@@ -158,7 +154,7 @@ internal class CarAccident2 : Callout
         if (_cBlip1.Exists()) _cBlip1.Delete();
         if (_cBlip2.Exists()) _cBlip2.Delete();
         _mainMenu.Visible = false;
-        CFunctions.Code4Message();
+        
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
         CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code4");
         base.End();

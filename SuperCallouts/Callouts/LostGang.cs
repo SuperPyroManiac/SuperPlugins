@@ -5,6 +5,7 @@ using System.Drawing;
 using CalloutInterfaceAPI;
 using LSPD_First_Response;
 using LSPD_First_Response.Mod.Callouts;
+using PyroCommon.API;
 using Rage;
 using SuperCallouts.CustomScenes;
 using SuperCallouts.SimpleFunctions;
@@ -60,7 +61,7 @@ internal class LostGang : Callout
 
     public override bool OnCalloutAccepted()
     {
-        Game.Console.Print("SuperCallouts Log: LostMC callout accepted...");
+        Log.Info("LostMC callout accepted...");
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Biker Gang Attack",
             "~r~EMERGENCY~s~ All Units: Multiple officers under fire, 7 plus armed gang members attacking sheriff officers. ~r~Respond CODE-3");
         LostMc.ConstructBikersScene(out _cCar1, out _cCar2, out _cop1, out _cop2, out _cop3, out _bike1, out _bike2,
@@ -111,7 +112,7 @@ internal class LostGang : Callout
 CalloutInterfaceAPI.Functions.SendMessage(this, "**Dispatch** Code-33 all units respond. Station is 10-6.");
             foreach (var bikerss in _bikers)
             {
-                CFunctions.SetWanted(bikerss, true);
+                PyroFunctions.SetWanted(bikerss, true);
                 bikerss.Tasks.FightAgainstClosestHatedTarget(50f);
             }
 
@@ -148,7 +149,7 @@ CalloutInterfaceAPI.Functions.SendMessage(this, "**Dispatch** Code-33 all units 
         if (_cop2.Exists()) _cop2.Dismiss();
         if (_cop3.Exists()) _cop3.Dismiss();
         if (_cBlip.Exists()) _cBlip.Delete();
-        CFunctions.Code4Message();
+        
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
         CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code4");
         base.End();

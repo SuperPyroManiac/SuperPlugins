@@ -6,6 +6,7 @@ using CalloutInterfaceAPI;
 using LSPD_First_Response;
 using LSPD_First_Response.Mod.API;
 using LSPD_First_Response.Mod.Callouts;
+using PyroCommon.API;
 using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
@@ -50,12 +51,12 @@ internal class Manhunt : Callout
     public override bool OnCalloutAccepted()
     {
         //Setup
-        Game.Console.Print("SuperCallouts Log: Manhunt callout accepted...");
+        Log.Info("Manhunt callout accepted...");
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Manhunt",
             "Search for the suspect. High priority, respond ~r~CODE-3");
         //Bad
         _bad = new Ped(_spawnPoint) { IsPersistent = true };
-        CFunctions.SetWanted(_bad, true);
+        PyroFunctions.SetWanted(_bad, true);
         _name1 = Functions.GetPersonaForPed(_bad).FullName;
         _bad.Tasks.Wander();
         //AreaBlip
@@ -116,12 +117,7 @@ internal class Manhunt : Callout
         }
         catch (Exception e)
         {
-            Game.Console.Print("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
-            Game.Console.Print("SuperCallouts Error Report Start");
-            Game.Console.Print("======================================================");
-            Game.Console.Print(e.ToString());
-            Game.Console.Print("======================================================");
-            Game.Console.Print("SuperCallouts Error Report End");
+Log.Error(e.ToString());
             End();
         }
 
@@ -135,7 +131,7 @@ internal class Manhunt : Callout
         if (_cBlip.Exists()) _cBlip.Delete();
         if (_cBlip2.Exists()) _cBlip2.Delete();
         _mainMenu.Visible = false;
-        CFunctions.Code4Message();
+        
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
         CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code4");
         base.End();
@@ -152,7 +148,7 @@ internal class Manhunt : Callout
             }
             catch (Exception)
             {
-                Game.Console.Print(
+                Log.Warning(
                     "SuperEvents Warning: Ultimate Backup is not installed! Backup was not automatically called!");
                 Game.DisplayHelp("~r~Ultimate Backup is not installed! Backup was not automatically called!", 8000);
             }

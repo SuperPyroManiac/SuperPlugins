@@ -1,5 +1,6 @@
 using System.Reflection;
 using System.Windows.Forms;
+using PyroCommon.API;
 using Rage;
 
 namespace SuperCallouts;
@@ -84,6 +85,6 @@ internal static class Settings
         Interact = ini.ReadEnum("Keys", "Interact", Keys.Y);
         EndCall = ini.ReadEnum("Keys", "EndCall", Keys.End);
         EmergencyNumber = ini.ReadString("Msc", "EmergencyNumber", "911");
-        Game.Console.Print("SuperCallouts: Config loaded.");
+        Log.Info("Config loaded.");
     }
 }

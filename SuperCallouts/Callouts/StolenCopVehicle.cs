@@ -6,6 +6,7 @@ using CalloutInterfaceAPI;
 using LSPD_First_Response;
 using LSPD_First_Response.Mod.API;
 using LSPD_First_Response.Mod.Callouts;
+using PyroCommon.API;
 using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
@@ -45,7 +46,7 @@ internal class StolenCopVehicle : Callout
     public override bool OnCalloutAccepted()
     {
         //Setup
-        Game.Console.Print("SuperCallouts Log: StolenCopCar callout accepted...");
+        Log.Info("StolenCopCar callout accepted...");
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Stolen Police Vehicle",
             "A suspect has stolen a police vehicle during his arrest. Respond ~r~CODE-3");
         //cVehicle
@@ -59,8 +60,8 @@ internal class StolenCopVehicle : Callout
         _bad.BlockPermanentEvents = true;
         _bad.Metadata.stpDrugsDetected = true;
         _bad.Metadata.stpAlcoholDetected = true;
-        CFunctions.SetWanted(_bad, true);
-        CFunctions.SetDrunk(_bad, true);
+        PyroFunctions.SetWanted(_bad, true);
+        PyroFunctions.SetDrunk(_bad, true);
         //Blip
         _cBlip = _bad.AttachBlip();
         _cBlip.EnableRoute(Color.Red);
@@ -69,7 +70,7 @@ internal class StolenCopVehicle : Callout
         //Task
         _bad.Tasks.CruiseWithVehicle(_cVehicle, 100f, VehicleDrivingFlags.Emergency);
         //UI
-        CFunctions.BuildUi(out _interaction, out _mainMenu, out _convoMenu, out _, out _endCall);
+        PyroFunctions.BuildUi(out _interaction, out _mainMenu, out _convoMenu, out _, out _endCall);
         _mainMenu.OnItemSelect += Interactions;
         return base.OnCalloutAccepted();
     }
@@ -116,12 +117,7 @@ internal class StolenCopVehicle : Callout
         }
         catch (Exception e)
         {
-            Game.Console.Print("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
-            Game.Console.Print("SuperCallouts Error Report Start");
-            Game.Console.Print("======================================================");
-            Game.Console.Print(e.ToString());
-            Game.Console.Print("======================================================");
-            Game.Console.Print("SuperCallouts Error Report End");
+Log.Error(e.ToString());
             End();
         }
 
@@ -130,7 +126,7 @@ internal class StolenCopVehicle : Callout
 
     public override void End()
     {
-        CFunctions.Code4Message();
+        
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
         if (_cBlip) _cBlip.Delete();
         if (_cVehicle) _cVehicle.Dismiss();

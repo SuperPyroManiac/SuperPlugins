@@ -7,6 +7,7 @@ using Rage;
 using Rage.Native;
 using SuperCallouts.SimpleFunctions;
 using CalloutInterfaceAPI;
+using PyroCommon.API;
 using Functions = LSPD_First_Response.Mod.API.Functions;
 
 #endregion
@@ -38,7 +39,7 @@ internal class Aliens : Callout
 
     public override bool OnCalloutAccepted()
     {
-        Game.Console.Print("SuperCallouts Log: Aliens callout accepted...");
+        Log.Info("Aliens callout accepted...");
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Alien Sighting",
             "Caller claims that the subjects are aliens. Low priority, respond ~y~CODE-2");
         _cVehicle1 = new Vehicle("DUNE2", _spawnPoint);
@@ -105,7 +106,7 @@ internal class Aliens : Callout
         if (_alien3.Exists()) _alien3.Delete();
         if (_cVehicle1.Exists()) _cVehicle1.Delete();
         if (_cBlip1.Exists()) _cBlip1.Delete();
-        CFunctions.Code4Message();
+        
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
         Game.DisplaySubtitle("~g~Me:~s~ The hell was that? I think I need a nap..");
         CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code4");

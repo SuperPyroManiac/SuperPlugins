@@ -4,6 +4,7 @@ using System.Drawing;
 using CalloutInterfaceAPI;
 using LSPD_First_Response.Mod.API;
 using LSPD_First_Response.Mod.Callouts;
+using PyroCommon.API;
 using Rage;
 using SuperCallouts.CustomScenes;
 using SuperCallouts.SimpleFunctions;
@@ -46,16 +47,16 @@ internal class PrisonBreak : Callout
 
     public override bool OnCalloutAccepted()
     {
-        Game.Console.Print("SuperCallouts Log: PrisonBreak callout accepted...");
+        Log.Info("PrisonBreak callout accepted...");
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Prison Break",
             "DOC has reported multiple groups of prisoners have escaped! They are occupied with another group and need local police assistance. ~r~CODE-3");
         PrisonbreakSetup.ConstructPrisonBreakSetupScene(out _prisoner1, out _prisoner2, out _prisoner3,
             out _prisoner4, out _prisoner5);
-        CFunctions.SetWanted(_prisoner1, true);
-        CFunctions.SetWanted(_prisoner2, true);
-        CFunctions.SetWanted(_prisoner3, true);
-        CFunctions.SetWanted(_prisoner4, true);
-        CFunctions.SetWanted(_prisoner5, true);
+        PyroFunctions.SetWanted(_prisoner1, true);
+        PyroFunctions.SetWanted(_prisoner2, true);
+        PyroFunctions.SetWanted(_prisoner3, true);
+        PyroFunctions.SetWanted(_prisoner4, true);
+        PyroFunctions.SetWanted(_prisoner5, true);
         _cVehicle = new Vehicle("PBUS", _prisoner1.GetOffsetPositionFront(4));
         _cVehicle.IsPersistent = true;
         _cVehicle.IsStolen = true;
@@ -117,7 +118,7 @@ internal class PrisonBreak : Callout
 
     public override void End()
     {
-        CFunctions.Code4Message();
+        
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
         if (_prisoner1.Exists()) _prisoner1.Dismiss();
         if (_prisoner2.Exists()) _prisoner2.Dismiss();

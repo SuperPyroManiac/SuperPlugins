@@ -4,6 +4,7 @@ using System;
 using System.Drawing;
 using CalloutInterfaceAPI;
 using LSPD_First_Response.Mod.Callouts;
+using PyroCommon.API;
 using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
@@ -33,7 +34,7 @@ internal class CarAccident3 : Callout
     public override bool OnBeforeCalloutDisplayed()
     {
         //Setup
-        CFunctions.FindSideOfRoad(120, 45, out _spawnPoint, out _spawnPointH);
+        PyroFunctions.FindSideOfRoad(120, 45, out _spawnPoint, out _spawnPointH);
         ShowCalloutAreaBlipBeforeAccepting(_spawnPoint, 10f);
         CalloutMessage = "~b~Dispatch:~s~ Reports of a motor vehicle accident.";
         CalloutAdvisory = "Caller reports the drivers are violently arguing.";
@@ -47,15 +48,15 @@ internal class CarAccident3 : Callout
     public override bool OnCalloutAccepted()
     {
         //Setup
-        Game.Console.Print("SuperCallouts Log: car accident callout accepted...");
+        Log.Info("car accident callout accepted...");
         Game.DisplayNotification("web_lossantospolicedept", "web_lossantospolicedept", "~b~Dispatch", "~r~MVA",
             "Reports of a car accident, respond ~r~CODE-3");
         //Vehicles
-        CFunctions.SpawnNormalCar(out _eVehicle, _spawnPoint, _spawnPointH);
-        CFunctions.Damage(_eVehicle, 200, 200);
-        CFunctions.SpawnNormalCar(out _eVehicle2, _eVehicle.GetOffsetPositionFront(7f));
+        PyroFunctions.SpawnNormalCar(out _eVehicle, _spawnPoint, _spawnPointH);
+        PyroFunctions.DamageVehicle(_eVehicle, 200, 200);
+        PyroFunctions.SpawnNormalCar(out _eVehicle2, _eVehicle.GetOffsetPositionFront(7f));
         _eVehicle2.Rotation = new Rotator(0f, 0f, 90f);
-        CFunctions.Damage(_eVehicle2, 200, 200);
+        PyroFunctions.DamageVehicle(_eVehicle2, 200, 200);
         //Peds
         _ePed = _eVehicle.CreateRandomDriver();
         _ePed.IsPersistent = true;
@@ -71,7 +72,7 @@ internal class CarAccident3 : Callout
         _eBlip.Flash(500, 8000);
         _eBlip.EnableRoute(Color.Red);
         //Randomize
-        Game.Console.Print("PragmaticCallouts: Car Accident Scenorio #" + _choice);
+        Log.Info("Car Accident Scenorio #" + _choice);
         switch (_choice)
         {
             case 0: //Peds fight
@@ -95,7 +96,7 @@ internal class CarAccident3 : Callout
         }
 
         //UI Items
-        CFunctions.BuildUi(out _interaction, out _mainMenu, out _, out _, out _endCall);
+        PyroFunctions.BuildUi(out _interaction, out _mainMenu, out _, out _, out _endCall);
         _mainMenu.OnItemSelect += InteractionProcess;
         return base.OnCalloutAccepted();
     }
@@ -144,7 +145,7 @@ internal class CarAccident3 : Callout
                             break;
                         case 3: //Fire + dead ped.
                             _ePed2.Tasks.Cower(-1);
-                            CFunctions.FireControl(_spawnPoint.Around2D(7f), 24, true);
+                            PyroFunctions.FireControl(_spawnPoint.Around2D(7f), 24, true);
                             CalloutInterfaceAPI.Functions.SendMessage(this, "We have a fire, and someone is injured!");
                             break;
                         default:
@@ -167,12 +168,7 @@ internal class CarAccident3 : Callout
         }
         catch (Exception e)
         {
-            Game.Console.Print("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
-            Game.Console.Print("SuperCallouts Error Report Start");
-            Game.Console.Print("======================================================");
-            Game.Console.Print(e.ToString());
-            Game.Console.Print("======================================================");
-            Game.Console.Print("SuperCallouts Error Report End");
+Log.Error(e.ToString());
             End();
         }
 
@@ -186,7 +182,7 @@ internal class CarAccident3 : Callout
         if (_eVehicle) _eVehicle.Dismiss();
         if (_eVehicle2) _eVehicle2.Dismiss();
         if (_eBlip) _eBlip.Delete();
-        CFunctions.Code4Message();
+        
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
         CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code4");
         base.End();
