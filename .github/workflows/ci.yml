@@ -19,11 +19,11 @@ jobs:
         run: |
           msbuild SuperPlugins.sln /p:Configuration=Release /p:Platform="Any CPU"
 
-      - name: Upload DeadlyWeapons
+      - name: Upload PyroCommon
         uses: actions/upload-artifact@v3
         with:
-          name: DeadlyWeapons
-          path: D:\a\SuperPlugins\SuperPlugins\DeadlyWeapons\bin\Release\DeadlyWeapons.dll
+          name: PyroCommon
+          path: D:\a\SuperPlugins\SuperPlugins\PyroCommon\bin\Release\PyroCommon.dll
           
       - name: Upload SuperCallouts
         uses: actions/upload-artifact@v3
@@ -36,6 +36,12 @@ jobs:
         with:
           name: SuperEvents
           path: D:\a\SuperPlugins\SuperPlugins\SuperEvents\bin\Release\SuperEvents.dll
+          
+      - name: Upload DeadlyWeapons
+        uses: actions/upload-artifact@v3
+        with:
+          name: DeadlyWeapons
+          path: D:\a\SuperPlugins\SuperPlugins\DeadlyWeapons\bin\Release\DeadlyWeapons.dll
           
       - name: Upload TurnOffThatEngine
         uses: actions/upload-artifact@v3
