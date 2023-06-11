@@ -190,7 +190,7 @@ Log.Error(e.ToString());
         if (selItem == _callSecond)
         {
             Game.DisplaySubtitle("~g~You~s~: Dispatch, can I get another unit.");
-            if (Main.UsingUb)
+            if (PyroCommon.Main.UsingUB)
                 Wrapper.CallCode2();
             else
                 Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Code2,

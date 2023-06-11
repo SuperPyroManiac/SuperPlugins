@@ -116,7 +116,7 @@ CalloutInterfaceAPI.Functions.SendMessage(this, "**Dispatch** Code-33 all units 
                 bikerss.Tasks.FightAgainstClosestHatedTarget(50f);
             }
 
-            if (Main.UsingUb)
+            if (PyroCommon.Main.UsingUB)
             {
                 Wrapper.CallCode3();
                 Wrapper.CallCode3();

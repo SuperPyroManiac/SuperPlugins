@@ -132,7 +132,7 @@ internal class Mafia3 : Callout
                         Game.SetRelationshipBetweenRelationshipGroups("MAFIA", "PLAYER", Relationship.Hate);
                         Game.SetRelationshipBetweenRelationshipGroups("COP", "MAFIA", Relationship.Hate);
                         CalloutInterfaceAPI.Functions.SendMessage(this, "NOOSE Units on-route to scene.");
-                        if (Main.UsingUb)
+                        if (PyroCommon.Main.UsingUB)
                         {
                             Wrapper.CallSwat(true);
                             Wrapper.CallSwat(true);

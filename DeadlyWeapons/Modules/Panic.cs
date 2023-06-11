@@ -56,7 +56,7 @@ internal static class Panic
             if (Settings.SwatBackup)
             {
                 if (UsingUb)
-                    Wrapper.CallSwat();
+                    Wrapper.CallSwat(false);
                 else
                     Functions.RequestBackup(Game.LocalPlayer.Character.Position,
                         EBackupResponseType.Code3,
@@ -66,7 +66,7 @@ internal static class Panic
             if (Settings.NooseBackup)
             {
                 if (UsingUb)
-                    Wrapper.CallNoose();
+                    Wrapper.CallSwat(true);
                 else
                     Functions.RequestBackup(Game.LocalPlayer.Character.Position,
                         EBackupResponseType.Code3,

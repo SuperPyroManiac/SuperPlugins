@@ -199,7 +199,7 @@ internal class Lsgtf : Callout
 CalloutInterfaceAPI.Functions.SendMessage(this, "**Dispatch** Code-33 all units respond. Station is 10-6.");
             Functions.PlayScannerAudioUsingPosition(
                 "DISPATCH_SWAT_UNITS_FROM_01 IN_OR_ON_POSITION UNITS_RESPOND_CODE_99_01", _raidpoint);
-            if (Main.UsingUb)
+            if (PyroCommon.Main.UsingUB)
             {
                 Wrapper.CallSwat(true);
                 Wrapper.CallSwat(false);

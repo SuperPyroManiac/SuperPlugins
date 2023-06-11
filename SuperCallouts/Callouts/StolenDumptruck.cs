@@ -90,7 +90,7 @@ internal class StolenDumptruck : Callout
                 case CState.OnScene:
                     Functions.AddPedToPursuit(_pursuit, _bad);
                     Functions.SetPursuitIsActiveForPlayer(_pursuit, true);
-                    if (Main.UsingUb)
+                    if (PyroCommon.Main.UsingUB)
                         Wrapper.CallPursuit();
                     else
                         Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Pursuit,

@@ -96,7 +96,7 @@ internal class StolenCopVehicle : Callout
                     Game.DisplayHelp("Suspect is fleeing!");
                     Functions.AddPedToPursuit(_pursuit, _bad);
                     Functions.SetPursuitIsActiveForPlayer(_pursuit, true);
-                    if (Main.UsingUb)
+                    if (PyroCommon.Main.UsingUB)
                         Wrapper.CallPursuit();
                     else
                         Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Pursuit,

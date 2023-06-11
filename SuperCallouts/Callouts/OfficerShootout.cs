@@ -116,7 +116,7 @@ internal class OfficerShootout : Callout
                 Functions.PlayScannerAudioUsingPosition("REQUEST_BACKUP", _spawnPoint);
                 Game.SetRelationshipBetweenRelationshipGroups("BADGANG", "COP", Relationship.Hate);
                 Game.SetRelationshipBetweenRelationshipGroups("BADGANG", "PLAYER", Relationship.Hate);
-                if (Main.UsingUb)
+                if (PyroCommon.Main.UsingUB)
                 {
                     Wrapper.CallCode3();
                     Wrapper.CallCode3();

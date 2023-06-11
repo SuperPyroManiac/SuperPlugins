@@ -126,7 +126,7 @@ internal class Mafia4 : Callout
                         Game.SetRelationshipBetweenRelationshipGroups("COP", "MAFIA", Relationship.Hate);
                         CalloutInterfaceAPI.Functions.SendMessage(this,
                                 "Gang members in the area have been paid off by the mob and may also be a thread. Be cautious.");
-                        if (Main.UsingUb)
+                        if (PyroCommon.Main.UsingUB)
                         {
                             Wrapper.CallSwat(false);
                             Wrapper.CallCode3();

@@ -115,7 +115,7 @@ internal class Mafia2 : Callout
                     "~r~Dispatch:~s~ Officer on scene, mafia activity spotted. Dispatching specialized units.");
                 Functions.PlayScannerAudioUsingPosition(
                     "DISPATCH_SWAT_UNITS_FROM_01 IN_OR_ON_POSITION UNITS_RESPOND_CODE_99_01", _callPos);
-                if (Main.UsingUb)
+                if (PyroCommon.Main.UsingUB)
                 {
                     Wrapper.CallSwat(true);
                     Wrapper.CallCode3();

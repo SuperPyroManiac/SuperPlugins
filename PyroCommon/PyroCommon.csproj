@@ -57,6 +57,7 @@
         <Compile Include="API\Log.cs" />
         <Compile Include="API\PulloverSpots.cs" />
         <Compile Include="API\PyroFunctions.cs" />
+        <Compile Include="API\Wrapper.cs" />
         <Compile Include="Attributes\AttributeExpectedException.cs" />
         <Compile Include="Attributes\AttributeExtensions.cs" />
         <Compile Include="Attributes\EventInfoAttribute.cs" />

@@ -1,13 +1,6 @@
-﻿#region
+﻿using UltimateBackup.API;
 
-using System;
-using LSPD_First_Response.Mod.Callouts;
-using Rage;
-using UltimateBackup.API;
-
-#endregion
-
-namespace SuperCallouts.SimpleFunctions;
+namespace PyroCommon.API;
 
 internal static class Wrapper
 {

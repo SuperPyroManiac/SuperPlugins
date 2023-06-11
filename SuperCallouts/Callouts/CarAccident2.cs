@@ -167,7 +167,7 @@ Log.Error(e.ToString());
         {
             Game.DisplaySubtitle("~g~You~s~: Dispatch, we have an MVA. One person is seriously injured.");
 CalloutInterfaceAPI.Functions.SendMessage(this, "**Dispatch** EMS has been notified and is on route. 11-78");
-            if (Main.UsingUb)
+            if (PyroCommon.Main.UsingUB)
             {
                 Wrapper.CallEms();
                 Wrapper.CallFd();

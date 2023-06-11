@@ -11,6 +11,7 @@ using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts.SimpleFunctions;
 using Functions = LSPD_First_Response.Mod.API.Functions;
+using Wrapper = PyroCommon.API.Wrapper;
 
 #endregion
 
@@ -127,7 +128,7 @@ internal class AngryAnimal : Callout
             Game.DisplaySubtitle(
                 "~g~You~s~: Dispatch, we have a person that has been attacked by an animal! We need a medical crew here ASAP!");
             CalloutInterfaceAPI.Functions.SendMessage(this, "EMS has been notified and is on route. 11-78");
-            if (Main.UsingUb)
+            if (PyroCommon.Main.UsingUB)
             {
                 Wrapper.CallEms();
                 Wrapper.CallFd();

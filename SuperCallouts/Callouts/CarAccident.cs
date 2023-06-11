@@ -121,7 +121,7 @@ Log.Error(e.ToString());
             Game.DisplaySubtitle(
                 "~g~You~s~: Dispatch, we have a vehicle accident, possible hit and run. Looks like someone is inside and injured! I need EMS out here.");
             CalloutInterfaceAPI.Functions.SendMessage(this, "EMS has been notified and is on route. 11-78");
-            if (Main.UsingUb)
+            if (PyroCommon.Main.UsingUB)
             {
                 Wrapper.CallEms();
                 Wrapper.CallFd();
