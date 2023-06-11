@@ -138,12 +138,7 @@ internal class RecklessDriver : AmbientEvent
         }
         catch (Exception e)
         {
-            Game.Console.Print("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
-            Game.Console.Print("SuperEvents Error Report Start");
-            Game.Console.Print("======================================================");
-            Game.Console.Print(e.ToString());
-            Game.Console.Print("======================================================");
-            Game.Console.Print("SuperEvents Error Report End");
+            Log.Error( e.ToString());
             End(true);
         }
     }

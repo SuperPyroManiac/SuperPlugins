@@ -66,7 +66,7 @@ internal class CarAccident : AmbientEvent
         EntitiesToClear.Add(_ePed);
         EntitiesToClear.Add(_ePed2);
         //Randomize
-        Game.Console.Print("SuperEvents: Car Accident Scenario #" + _choice);
+        Log.Info("Car Accident Scenario #" + _choice);
         switch (_choice)
         {
             case 0: //Peds fight
@@ -156,12 +156,7 @@ internal class CarAccident : AmbientEvent
         }
         catch (Exception e)
         {
-            Game.Console.Print("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
-            Game.Console.Print("SuperEvents Error Report Start");
-            Game.Console.Print("======================================================");
-            Game.Console.Print(e.ToString());
-            Game.Console.Print("======================================================");
-            Game.Console.Print("SuperEvents Error Report End");
+            Log.Error( e.ToString());
             End(true);
         }
 

@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Reflection;
 using LSPD_First_Response.Mod.API;
+using PyroCommon.API;
 using PyroCommon.Events;
 using Rage;
 using SuperEvents.EventFunctions;
@@ -18,9 +19,8 @@ internal class Main : Plugin
     {
         Functions.OnOnDutyStateChanged += OnOnDutyStateChangedHandler;
         Settings.LoadSettings();
-        Game.Console.Print("SuperEvents " + Assembly.GetExecutingAssembly().GetName().Version +
-                           " by SuperPyroManiac has been initialised.");
-        Game.Console.Print("Go on duty with LSPDFR to fully load SuperEvents.");
+        Log.Info( Assembly.GetExecutingAssembly().GetName().Version + " by SuperPyroManiac has been initialised.");
+        Log.Info("Go on duty with LSPDFR to fully load SuperEvents.");
         Game.AddConsoleCommands(new[] { typeof(ConsoleCommands) });
     }
 
@@ -63,6 +63,6 @@ internal class Main : Plugin
                 blip.Delete();
         }
         PluginRunning = false;
-        Game.Console.Print("SuperEvents by SuperPyroManiac has been cleaned up.");
+        Log.Info( "Plugin unloaded!");
     }
 }

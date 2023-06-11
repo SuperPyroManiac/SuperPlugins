@@ -54,6 +54,7 @@
         </Reference>
     </ItemGroup>
     <ItemGroup>
+        <Compile Include="API\Log.cs" />
         <Compile Include="API\PulloverSpots.cs" />
         <Compile Include="API\PyroFunctions.cs" />
         <Compile Include="Attributes\AttributeExpectedException.cs" />

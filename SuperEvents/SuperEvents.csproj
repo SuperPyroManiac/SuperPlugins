@@ -59,7 +59,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EventFunctions\API.cs" />
     <Compile Include="EventFunctions\EventParameterAutoCompleter.cs" />
     <Compile Include="EventFunctions\VersionChecker.cs" />
     <Compile Include="Events\CarAccident.cs" />

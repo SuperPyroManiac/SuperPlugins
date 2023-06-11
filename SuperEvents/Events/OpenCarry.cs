@@ -67,7 +67,7 @@ internal class OpenCarry : AmbientEvent
 
                     break;
                 case Tasks.OnScene:
-                    Game.Console.Print("SuperEvents: OpenCarry event picked scenerio #" + _choice);
+                    Log.Info("OpenCarry event picked scenerio #" + _choice);
                     NativeFunction.Natives.x5AD23D40115353AC(_bad, Player, 2500);
                     GameFiber.Wait(3000);
                     LHandle pursuit;
@@ -136,12 +136,7 @@ internal class OpenCarry : AmbientEvent
         }
         catch (Exception e)
         {
-            Game.Console.Print("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
-            Game.Console.Print("SuperEvents Error Report Start");
-            Game.Console.Print("======================================================");
-            Game.Console.Print(e.ToString());
-            Game.Console.Print("======================================================");
-            Game.Console.Print("SuperEvents Error Report End");
+            Log.Error( e.ToString());
             End(true);
         }
     }

@@ -1,4 +1,5 @@
 using System.Linq;
+using PyroCommon.API;
 using Rage;
 using Rage.Attributes;
 
@@ -23,7 +24,7 @@ public static class ConsoleCommands
     [ConsoleCommand]
     public static void Command_SEListEvents()
     {
-        Game.Console.Print("SuperEvents: Listing all Events========");
+        Game.Console.Print("========Listing all Events========");
         var eventNames = EventManager.AllEvents.Select(s => s.Name).ToList();
         Game.Console.Print(string.Join(", ", eventNames));
         Game.Console.Print("=======================================");

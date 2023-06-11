@@ -101,7 +101,7 @@ public abstract class PyroFunctions
         if (children > 25) return;
         NativeFunction.Natives.x6B83617E04503888(position.X, position.Y, position.Z, children, isGasFire);
     }
-    
+
     public static void FindSideOfRoad(int maxDistance, int minDistance, out Vector3 spawnPoint,
         out float spawnPointH)
     {
@@ -111,7 +111,7 @@ public abstract class PyroFunctions
                 SideOfRoads.Add(tuple);
         if (SideOfRoads.Count == 0)
         {
-            Game.Console.Print("SuperEvents: Failed to find valid spawnpoint. Spawning on road.");
+            Log.Info("Failed to find valid spawnpoint. Spawning on road.");
             spawnPoint = World.GetNextPositionOnStreet(Game.LocalPlayer.Character.Position.Around(45f, 100f));
             spawnPointH = 0;
         }

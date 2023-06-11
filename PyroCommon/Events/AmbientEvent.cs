@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using PyroCommon.API;
 using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
@@ -55,12 +56,7 @@ public abstract class AmbientEvent
         }
         catch (Exception e)
         {
-            Game.Console.Print("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
-            Game.Console.Print("SuperEvents Error Report Start");
-            Game.Console.Print("======================================================");
-            Game.Console.Print(e.ToString());
-            Game.Console.Print("======================================================");
-            Game.Console.Print("SuperEvents Error Report End");
+            Log.Error(e.ToString());
             // ReSharper disable once VirtualMemberCallInConstructor
             HasEnded = true;
             End(true);
@@ -113,7 +109,7 @@ public abstract class AmbientEvent
         if (EventLocation.DistanceTo(Player) > 200f)
         {
             End();
-            Game.Console.Print("SuperEvents: Ending event due to player being too far.");
+            Log.Info("Ending event due to player being too far.");
         }
         if (!onScene && Game.LocalPlayer.Character.DistanceTo(EventLocation) < OnSceneDistance)
         {
@@ -140,7 +136,7 @@ public abstract class AmbientEvent
         {
             foreach (var entity in EntitiesToClear.Where(entity => entity))
                 if (entity.Exists()) entity.Delete();
-            Game.Console.Print("SuperEvents: Event has been forcefully cleaned up.");
+            Log.Info("Event has been forcefully cleaned up.");
         }
         else
         {
@@ -153,7 +149,7 @@ public abstract class AmbientEvent
             if (blip.Exists()) blip.Delete();
 
         Interaction.CloseAllMenus();
-        Game.Console.Print("SuperEvents: Ending Event.");
+        Log.Info("Ending Event.");
         HasEnded = true;
     }
 

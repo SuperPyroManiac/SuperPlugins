@@ -74,7 +74,7 @@ internal class Fight : AmbientEvent
                     break;
                 case Tasks.OnScene:
                     var choice = new Random().Next(1, 4);
-                    Game.Console.Print("SuperEvents: Fight event picked scenerio #" + choice);
+                    Log.Info("Fight event picked scenerio #" + choice);
                     switch (choice)
                     {
                         case 1:
@@ -117,12 +117,7 @@ internal class Fight : AmbientEvent
         }
         catch (Exception e)
         {
-            Game.Console.Print("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
-            Game.Console.Print("SuperEvents Error Report Start");
-            Game.Console.Print("======================================================");
-            Game.Console.Print(e.ToString());
-            Game.Console.Print("======================================================");
-            Game.Console.Print("SuperEvents Error Report End");
+            Log.Error(e.ToString());
             End(true);
         }
     }
