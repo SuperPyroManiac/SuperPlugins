@@ -3,6 +3,7 @@ using DamageTrackerLib;
 using DeadlyWeapons.DFunctions;
 using DeadlyWeapons.Modules;
 using LSPD_First_Response.Mod.API;
+using PyroCommon.API;
 using Rage;
 
 namespace DeadlyWeapons;
@@ -15,9 +16,9 @@ public class Main : Plugin
     {
         Settings.LoadSettings();
         Functions.OnOnDutyStateChanged += OnOnDutyStateChangedHandler;
-        Game.LogTrivial("DeadlyWeapons " + Assembly.GetExecutingAssembly().GetName().Version +
+        Log.Info(Assembly.GetExecutingAssembly().GetName().Version +
                         " by SuperPyroManiac has been initialised.");
-        Game.LogTrivial("Go on duty with LSPDFR to start the plugin.");
+        Log.Info("Go on duty with LSPDFR to start the plugin.");
         Game.AddConsoleCommands(new[] {typeof(ConsoleCommands)});
     }
 
@@ -55,6 +56,6 @@ public class Main : Plugin
         DamageTrackerService.Stop();
         _panicFiber.Abort();
         Events.OnPulloverStarted -= CustomPullover.PulloverModule;
-        Game.LogTrivial("DeadlyWeapons by SuperPyroManiac has been disabled.");
+        Log.Info("DeadlyWeapons by SuperPyroManiac has been disabled.");
     }
 }

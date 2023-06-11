@@ -2,6 +2,7 @@
 
 using System.Reflection;
 using System.Windows.Forms;
+using PyroCommon.API;
 using Rage;
 
 #endregion
@@ -27,7 +28,7 @@ public static class Settings
 
     internal static void LoadSettings()
     {
-        Game.Console.Print("Loading SuperEvents config.");
+        Log.Info("Loading config.");
         var path = "Plugins/LSPDFR/SuperEvents.ini";
         var ini = new InitializationFile(path);
         ini.Create();
@@ -49,6 +50,6 @@ public static class Settings
         PyroCommon.Events.AmbientEvent.ShowHints = ShowHints;
         PyroCommon.Events.AmbientEvent.Interact = Interact;
         PyroCommon.Events.AmbientEvent.EndEvent = EndEvent;
-        Game.Console.Print("SuperCallouts: Config loaded.");
+        Log.Info("Config loaded.");
     }
 }

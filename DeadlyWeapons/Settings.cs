@@ -1,6 +1,7 @@
 #region
 
 using System.Reflection;
+using PyroCommon.API;
 using Rage;
 // ReSharper disable InconsistentNaming
 
@@ -24,7 +25,7 @@ internal static class Settings
 
     internal static void LoadSettings()
     {
-        Game.LogTrivial("Loading DeadlyWeapons config.");
+        Log.Info("Loading config.");
         var path = "Plugins/LSPDFR/DeadlyWeapons.ini";
         var ini = new InitializationFile(path);
         ini.Create();
@@ -38,6 +39,6 @@ internal static class Settings
         SwatBackup = ini.ReadBoolean("Backup", "SwatBackup");
         NooseBackup = ini.ReadBoolean("Backup", "NooseBackup");
         EnableDebug = ini.ReadBoolean("Debug", "EnableDebug", false);
-        Game.LogTrivial("DeadlyWeapons: Config loaded.");
+        Log.Info("Config loaded.");
     }
 }

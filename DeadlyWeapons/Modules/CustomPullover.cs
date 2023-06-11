@@ -28,7 +28,7 @@ internal static class CustomPullover
 
                 if (Game.LocalPlayer.Character.DistanceTo(bad) < 3f)
                 {
-                    Game.LogTrivial("DeadlyWeapons: Pullover detected, using scenario: " + rNd);
+                    Log.Info("Pullover detected, using scenario: " + rNd);
                     checking = false;
                     bad.Inventory.Weapons.Clear();
                     if (PyroFunctions.IsWanted(bad))
@@ -44,11 +44,11 @@ internal static class CustomPullover
                                 bad.Tasks.FireWeaponAt(Game.LocalPlayer.Character, -1,
                                     FiringPattern.BurstFirePistol);
                                 break;
-                            /*case 3:
-                                var pursuit = Functions.CreatePursuit();
-                                Functions.AddPedToPursuit(pursuit, bad);
-                                Functions.SetPursuitIsActiveForPlayer(pursuit, true);
-                                break;*/
+                            // case 3:
+                            //     var pursuit = Functions.CreatePursuit();
+                            //     Functions.AddPedToPursuit(pursuit, bad);
+                            //     Functions.SetPursuitIsActiveForPlayer(pursuit, true);
+                            //     break;
                             default:
                                 if (bad.Inventory.HasLoadedWeapon) hasWeapon = true;
                                 break;
@@ -66,11 +66,11 @@ internal static class CustomPullover
                                 hasWeapon = true;
                                 bad.Metadata.hasGunPermit = true;
                                 break;
-                            /*case 3:
-                                var pursuit = Functions.CreatePursuit();
-                                Functions.AddPedToPursuit(pursuit, bad);
-                                Functions.SetPursuitIsActiveForPlayer(pursuit, true);
-                                break;*/
+                            // case 3:
+                            //     var pursuit = Functions.CreatePursuit();
+                            //     Functions.AddPedToPursuit(pursuit, bad);
+                            //     Functions.SetPursuitIsActiveForPlayer(pursuit, true);
+                            //     break;
                             default:
                                 if (bad.Inventory.HasLoadedWeapon) hasWeapon = true;
                                 break;

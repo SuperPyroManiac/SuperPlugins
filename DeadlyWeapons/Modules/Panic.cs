@@ -5,6 +5,7 @@ using System.Linq;
 using DeadlyWeapons.DFunctions;
 using LSPD_First_Response;
 using LSPD_First_Response.Mod.API;
+using PyroCommon.API;
 using Rage;
 
 #endregion
@@ -22,7 +23,7 @@ internal static class Panic
 
     internal static void StartPanicWatch()
     {
-        Game.LogTrivial("DeadlyWeapons: Starting PanicFiber.");
+        Log.Info("Starting PanicFiber.");
         while (true)
         {
             GameFiber.Yield();
@@ -37,9 +38,9 @@ internal static class Panic
     private static void PanicHit()
     {
         if (_panic) return;
-        if (Settings.EnableDebug) Game.LogTrivial("DeadlyWeapons: [DEBUG]: Panic has been activated! Waiting cooldown to activate again: " + Settings.PanicCooldown * 1000 + " seconds.");
+        if (Settings.EnableDebug) Log.Info("[DEBUG]: Panic has been activated! Waiting cooldown to activate again: " + Settings.PanicCooldown * 1000 + " seconds.");
         _panic = true;
-        if (UsingUb) Game.LogTrivial("DeadlyWeapons: Using Ultimate Backup for panic.");
+        if (UsingUb) Log.Info("Using Ultimate Backup for panic.");
         GameFiber.StartNew(delegate
         {
             if (Settings.Code3Backup)
@@ -76,7 +77,7 @@ internal static class Panic
                 "Your weapon has been discharged. Dispatch has been alerted.");
             GameFiber.Wait(Settings.PanicCooldown * 1000);
             _panic = false;
-            Game.LogTrivial("DeadlyWeapons: [DEBUG]: Panic cooldown complete. Ready to run again!");
+            Log.Info("[DEBUG]: Panic cooldown complete. Ready to run again!");
         });
     }
 }

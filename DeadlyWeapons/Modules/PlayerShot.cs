@@ -25,20 +25,20 @@ internal static class PlayerShot
                 $"\n~r~{attacker?.Model.Name ?? "None"}" +
                 $"\n~y~{damageInfo.WeaponInfo.Hash.ToString()} {damageInfo.WeaponInfo.Type.ToString()} {damageInfo.WeaponInfo.Group.ToString()}" +
                 $"\n~r~{damageInfo.BoneInfo.BoneId.ToString()} {damageInfo.BoneInfo.Limb.ToString()} {damageInfo.BoneInfo.BodyRegion.ToString()}");
-            Game.LogTrivial("DeadlyWeapons: [DEBUG]: Detailed damage info Start");
-            Game.LogTrivial(
+            Log.Info("[DEBUG]: Detailed damage info Start");
+            Log.Info(
                 $"\n{victim.Model.Name} ({damageInfo.Damage} Dmg) ({(victim.IsAlive ? "Alive" : "Dead")})" +
                 $"\n{attacker?.Model.Name ?? "None"}" +
                 $"\n{damageInfo.WeaponInfo.Hash.ToString()} {damageInfo.WeaponInfo.Type.ToString()} {damageInfo.WeaponInfo.Group.ToString()}" +
                 $"\n{damageInfo.BoneInfo.BoneId.ToString()} {damageInfo.BoneInfo.Limb.ToString()} {damageInfo.BoneInfo.BodyRegion.ToString()}");
-            Game.LogTrivial("DeadlyWeapons: [DEBUG]: Detailed damage info Stop");
-            Game.LogTrivial("DeadlyWeapons: [DEBUG]: Player health before shot: " + Player.Health);
-            Game.LogTrivial("DeadlyWeapons: [DEBUG]: Player armor before shot: " + Player.Armor);
+            Log.Info("[DEBUG]: Detailed damage info Stop");
+            Log.Info("[DEBUG]: Player health before shot: " + Player.Health);
+            Log.Info("[DEBUG]: Player armor before shot: " + Player.Armor);
         }
 
         if (damageInfo.BoneInfo.BodyRegion == BodyRegion.Head && Settings.EnablePlayerHeadshotInstakill)
         {
-            Game.LogTrivial("DeadlyWeapons: Player shot in head - killing.");
+            Log.Info("Player shot in head - killing.");
             Player.Kill();
             return;
         }
@@ -47,17 +47,17 @@ internal static class PlayerShot
         {
             var rnd2 = new Random().Next(1, 3);
             Player.Health -= 30;
-            Game.LogTrivial("DeadlyWeapons: Player shot in leg - deducting 30 health.");
+            Log.Info("Player shot in leg - deducting 30 health.");
             if (rnd2 == 2)
             {
                 PyroFunctions.Ragdoll(Player);
-                Game.LogTrivial("DeadlyWeapons: Player tripped due to leg injury. (50/50 chance)");
+                Log.Info("Player tripped due to leg injury. (50/50 chance)");
             }
 
             if (Settings.EnableDebug)
             {
-                Game.LogTrivial("DeadlyWeapons: [DEBUG]: Player health after shot: " + Player.Health);
-                Game.LogTrivial("DeadlyWeapons: [DEBUG]: Player armor after shot: " + Player.Armor);
+                Log.Info("[DEBUG]: Player health after shot: " + Player.Health);
+                Log.Info("[DEBUG]: Player armor after shot: " + Player.Armor);
             }
             return;
         }
@@ -65,18 +65,18 @@ internal static class PlayerShot
         if (damageInfo.BoneInfo.BodyRegion == BodyRegion.Arms)
         {
             Player.Health -= 30;
-            Game.LogTrivial("DeadlyWeapons: Player shot in arm - deducting 30 health.");
+            Log.Info("Player shot in arm - deducting 30 health.");
             if (Settings.EnableDebug)
             {
-                Game.LogTrivial("DeadlyWeapons: [DEBUG]: Player health after shot: " + Player.Health);
-                Game.LogTrivial("DeadlyWeapons: [DEBUG]: Player armor after shot: " + Player.Armor);
+                Log.Info("[DEBUG]: Player health after shot: " + Player.Health);
+                Log.Info("[DEBUG]: Player armor after shot: " + Player.Armor);
             }
             return;
         }
 
         if (Player.Armor > 5)
         {
-            Game.LogTrivial("DeadlyWeapons: Player shot with armor. Rolled " + rnd);
+            Log.Info("Player shot with armor. Rolled " + rnd);
             switch (rnd)
             {
                 case 1:
@@ -96,14 +96,14 @@ internal static class PlayerShot
             }
             if (Settings.EnableDebug)
             {
-                Game.LogTrivial("DeadlyWeapons: [DEBUG]: Player health after shot: " + Player.Health);
-                Game.LogTrivial("DeadlyWeapons: [DEBUG]: Player armor after shot: " + Player.Armor);
+                Log.Info("[DEBUG]: Player health after shot: " + Player.Health);
+                Log.Info("[DEBUG]: Player armor after shot: " + Player.Armor);
             }
         }
 
         if (Player.Armor <= 5)
         {
-            Game.LogTrivial("DeadlyWeapons: Player shot without armor. Rolled " + rnd);
+            Log.Info("Player shot without armor. Rolled " + rnd);
             switch (rnd)
             {
                 case 1:
@@ -122,8 +122,8 @@ internal static class PlayerShot
             }
             if (Settings.EnableDebug)
             {
-                Game.LogTrivial("DeadlyWeapons: [DEBUG]: Player health after shot: " + Player.Health);
-                Game.LogTrivial("DeadlyWeapons: [DEBUG]: Player armor after shot: " + Player.Armor);
+                Log.Info("[DEBUG]: Player health after shot: " + Player.Health);
+                Log.Info("[DEBUG]: Player armor after shot: " + Player.Armor);
             }
         }
     }
