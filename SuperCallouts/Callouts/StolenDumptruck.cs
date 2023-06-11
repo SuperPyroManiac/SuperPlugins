@@ -8,12 +8,12 @@ using PyroCommon.API;
 using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
-using SuperCallouts.SimpleFunctions;
 using Functions = LSPD_First_Response.Mod.API.Functions;
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInterface("Stolen Construction Vehicle", CalloutProbability.Low, "Very large construction vehicle reported stolen", "Code 3")]
+[CalloutInterface("Stolen Construction Vehicle", CalloutProbability.Low,
+    "Very large construction vehicle reported stolen", "Code 3")]
 internal class StolenDumptruck : Callout
 {
     private Ped _bad;
@@ -26,7 +26,7 @@ internal class StolenDumptruck : Callout
     private LHandle _pursuit;
     private Vector3 _spawnPoint;
     private CState _state = CState.CheckDistance;
-    
+
     public override bool OnBeforeCalloutDisplayed()
     {
         _spawnPoint = World.GetNextPositionOnStreet(Game.LocalPlayer.Character.Position.Around(350f));
@@ -38,17 +38,18 @@ internal class StolenDumptruck : Callout
             "WE_HAVE CRIME_BRANDISHING_WEAPON_01 CRIME_ROBBERY_01 IN_OR_ON_POSITION", _spawnPoint);
         return base.OnBeforeCalloutDisplayed();
     }
-    
+
     public override bool OnCalloutAccepted()
     {
         //Setup
         Log.Info("StolenDumptruck callout accepted...");
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Stolen Construction Vehicle",
             "A suspect has stolen a very large construction vehicle. Respond ~r~CODE-3");
-        CalloutInterfaceAPI.Functions.SendMessage(this, "A dump truck has been stolen from a construction site. This vehicle is very large and driving on public streets.");
-            //cVehicle
+        CalloutInterfaceAPI.Functions.SendMessage(this,
+            "A dump truck has been stolen from a construction site. This vehicle is very large and driving on public streets.");
+        //cVehicle
         _cVehicle = new Vehicle("dump", _spawnPoint)
-            { IsPersistent = true, IsStolen = true};
+            { IsPersistent = true, IsStolen = true };
         //Bad
         _bad = new Ped(_spawnPoint.Around(15f));
         _bad.WarpIntoVehicle(_cVehicle, -1);
@@ -69,8 +70,8 @@ internal class StolenDumptruck : Callout
         _mainMenu.OnItemSelect += Interactions;
         return base.OnCalloutAccepted();
     }
-    
-        public override void Process()
+
+    public override void Process()
     {
         try
         {
@@ -111,7 +112,7 @@ internal class StolenDumptruck : Callout
         }
         catch (Exception e)
         {
-Log.Error(e.ToString());
+            Log.Error(e.ToString());
             End();
         }
 
@@ -120,7 +121,6 @@ Log.Error(e.ToString());
 
     public override void End()
     {
-        
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
         if (_cBlip) _cBlip.Delete();
         if (_cVehicle) _cVehicle.Dismiss();
@@ -129,7 +129,7 @@ Log.Error(e.ToString());
         CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code4");
         base.End();
     }
-    
+
     private void Interactions(UIMenu sender, UIMenuItem selItem, int index)
     {
         if (selItem == _endCall)
@@ -138,7 +138,7 @@ Log.Error(e.ToString());
             End();
         }
     }
-    
+
     private enum CState
     {
         CheckDistance,

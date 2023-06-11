@@ -10,7 +10,6 @@ using Rage;
 using Rage.Native;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
-using SuperCallouts.SimpleFunctions;
 using Functions = LSPD_First_Response.Mod.API.Functions;
 
 #endregion
@@ -163,7 +162,7 @@ internal class HitRun : Callout
         }
         catch (Exception e)
         {
-Log.Error(e.ToString());
+            Log.Error(e.ToString());
             End();
         }
 
@@ -181,7 +180,7 @@ Log.Error(e.ToString());
         if (_cBlip2.Exists()) _cBlip2.Delete();
         if (_cBlip3.Exists()) _cBlip3.Delete();
         _mainMenu.Visible = false;
-        
+
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
         CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code4");
         base.End();

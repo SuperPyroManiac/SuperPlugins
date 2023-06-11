@@ -10,14 +10,14 @@ using PyroCommon.API;
 using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
-using SuperCallouts.SimpleFunctions;
 using Functions = LSPD_First_Response.Mod.API.Functions;
 
 #endregion
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInterface("Knife Attack", CalloutProbability.Medium, "Reports of suspect attacking people with large knife", "Code 3")]
+[CalloutInterface("Knife Attack", CalloutProbability.Medium, "Reports of suspect attacking people with large knife",
+    "Code 3")]
 internal class KnifeAttack : Callout
 {
     private readonly int _cScene = new Random().Next(1, 4);
@@ -146,7 +146,7 @@ internal class KnifeAttack : Callout
         if (_cVictim) _cVictim.Dismiss();
         if (_cSuspect) _cSuspect.Dismiss();
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
-        
+
         CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code4");
         base.End();
     }

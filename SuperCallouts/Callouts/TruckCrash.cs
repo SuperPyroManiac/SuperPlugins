@@ -9,14 +9,14 @@ using Rage.Native;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts.CustomScenes;
-using SuperCallouts.SimpleFunctions;
 using Functions = LSPD_First_Response.Mod.API.Functions;
 
 #endregion
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInterface("Truck Crash", CalloutProbability.Low, "A large truck has tipped over blocking entire freeway", "Code 3")]
+[CalloutInterface("Truck Crash", CalloutProbability.Low, "A large truck has tipped over blocking entire freeway",
+    "Code 3")]
 internal class TruckCrash : Callout
 {
     private readonly Vector3 _spawnPoint = new(2455.644f, -186.7955f, 87.83904f);
@@ -130,7 +130,7 @@ internal class TruckCrash : Callout
         if (_cBlip.Exists()) _cBlip.Delete();
         _mainMenu.Visible = false;
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
-        
+
         base.End();
     }
 }

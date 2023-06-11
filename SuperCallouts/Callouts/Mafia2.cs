@@ -10,14 +10,14 @@ using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.API;
 using Rage;
 using SuperCallouts.CustomScenes;
-using SuperCallouts.SimpleFunctions;
 using Functions = LSPD_First_Response.Mod.API.Functions;
 
 #endregion
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInterface("Drug Raid", CalloutProbability.Low, "Drug smuggling in abandoned apartment - Stakeout for SWAT teams", "Code 5", "SWAT")]
+[CalloutInterface("Drug Raid", CalloutProbability.Low,
+    "Drug smuggling in abandoned apartment - Stakeout for SWAT teams", "Code 5", "SWAT")]
 internal class Mafia2 : Callout
 {
     private readonly Vector3 _callPos = new(1543.173f, 3606.55f, 35.19303f);
@@ -162,7 +162,7 @@ internal class Mafia2 : Callout
             if (mafiaDudes.Exists())
                 mafiaDudes.Dismiss();
         if (_cBlip.Exists()) _cBlip.Delete();
-        
+
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
         CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code4");
         base.End();

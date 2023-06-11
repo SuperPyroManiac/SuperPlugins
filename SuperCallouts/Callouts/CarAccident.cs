@@ -9,7 +9,6 @@ using PyroCommon.API;
 using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
-using SuperCallouts.SimpleFunctions;
 using Functions = LSPD_First_Response.Mod.API.Functions;
 
 #endregion
@@ -95,7 +94,7 @@ internal class CarAccident : Callout
         }
         catch (Exception e)
         {
-Log.Error(e.ToString());
+            Log.Error(e.ToString());
             End();
         }
 
@@ -108,7 +107,7 @@ Log.Error(e.ToString());
         if (_cVictim.Exists()) _cVictim.Dismiss();
         if (_cBlip.Exists()) _cBlip.Delete();
         _mainMenu.Visible = false;
-        
+
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
         CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code4");
         base.End();

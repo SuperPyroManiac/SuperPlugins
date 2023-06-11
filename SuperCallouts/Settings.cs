@@ -46,7 +46,7 @@ internal static class Settings
 
     internal static void LoadSettings()
     {
-        Game.Console.Print("Loading SuperCallouts config.");
+        Log.Info("Loading config.");
         var path = "Plugins/LSPDFR/SuperCallouts.ini";
         var ini = new InitializationFile(path);
         ini.Create();

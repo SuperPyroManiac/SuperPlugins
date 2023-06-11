@@ -7,14 +7,14 @@ using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.API;
 using Rage;
 using SuperCallouts.CustomScenes;
-using SuperCallouts.SimpleFunctions;
 using Functions = LSPD_First_Response.Mod.API.Functions;
 
 #endregion
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInterface("Prison Break", CalloutProbability.Low, "Multiple prisoners have escaped - high priority all units", "Code 99")]
+[CalloutInterface("Prison Break", CalloutProbability.Low, "Multiple prisoners have escaped - high priority all units",
+    "Code 99")]
 internal class PrisonBreak : Callout
 {
     private readonly Vector3 _spawnPoint = new(1970.794f, 2624.078f, 46.00704f);
@@ -118,7 +118,6 @@ internal class PrisonBreak : Callout
 
     public override void End()
     {
-        
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
         if (_prisoner1.Exists()) _prisoner1.Dismiss();
         if (_prisoner2.Exists()) _prisoner2.Dismiss();

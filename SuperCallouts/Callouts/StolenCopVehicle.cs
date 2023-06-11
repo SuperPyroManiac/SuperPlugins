@@ -10,7 +10,6 @@ using PyroCommon.API;
 using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
-using SuperCallouts.SimpleFunctions;
 using Functions = LSPD_First_Response.Mod.API.Functions;
 
 #endregion
@@ -117,7 +116,7 @@ internal class StolenCopVehicle : Callout
         }
         catch (Exception e)
         {
-Log.Error(e.ToString());
+            Log.Error(e.ToString());
             End();
         }
 
@@ -126,7 +125,6 @@ Log.Error(e.ToString());
 
     public override void End()
     {
-        
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
         if (_cBlip) _cBlip.Delete();
         if (_cVehicle) _cVehicle.Dismiss();

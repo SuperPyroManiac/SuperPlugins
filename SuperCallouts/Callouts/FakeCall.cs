@@ -8,7 +8,6 @@ using PyroCommon.API;
 using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
-using SuperCallouts.SimpleFunctions;
 using Functions = LSPD_First_Response.Mod.API.Functions;
 
 #endregion
@@ -74,7 +73,8 @@ internal class FakeCall : Callout
                         "REPORT_RESPONSE_COPY_02",
                         _spawnPoint);
                     GameFiber.Wait(3500);
-                    CalloutInterfaceAPI.Functions.SendMessage(this, "Area has been checked, appears to be a fake call.");
+                    CalloutInterfaceAPI.Functions.SendMessage(this,
+                        "Area has been checked, appears to be a fake call.");
                     End();
                 });
             }
@@ -86,7 +86,7 @@ internal class FakeCall : Callout
         }
         catch (Exception e)
         {
-Log.Error(e.ToString());
+            Log.Error(e.ToString());
             End();
         }
 
@@ -97,7 +97,7 @@ Log.Error(e.ToString());
     {
         if (_cBlip.Exists()) _cBlip.Delete();
         _mainMenu.Visible = false;
-        
+
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
         CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code4");
         base.End();

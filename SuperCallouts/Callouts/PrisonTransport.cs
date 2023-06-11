@@ -9,14 +9,14 @@ using PyroCommon.API;
 using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
-using SuperCallouts.SimpleFunctions;
 using Functions = LSPD_First_Response.Mod.API.Functions;
 
 #endregion
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInterface("Transport Escape", CalloutProbability.Medium, "Prisoner escaped transport vehicle - high priority", "Code 3")]
+[CalloutInterface("Transport Escape", CalloutProbability.Medium, "Prisoner escaped transport vehicle - high priority",
+    "Code 3")]
 internal class PrisonTransport : Callout
 {
     private readonly UIMenuItem _endCall = new("~y~End Callout", "Ends the callout early.");
@@ -126,7 +126,7 @@ internal class PrisonTransport : Callout
         }
         catch (Exception e)
         {
-Log.Error(e.ToString());
+            Log.Error(e.ToString());
             End();
         }
 
@@ -141,7 +141,7 @@ Log.Error(e.ToString());
         if (_cBlip1.Exists()) _cBlip1.Delete();
         if (_cBlip2.Exists()) _cBlip2.Delete();
         _mainMenu.Visible = false;
-        
+
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
         CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code4");
         base.End();

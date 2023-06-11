@@ -9,14 +9,14 @@ using Rage;
 using Rage.Native;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
-using SuperCallouts.SimpleFunctions;
 using Functions = LSPD_First_Response.Mod.API.Functions;
 
 #endregion
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInterface("Suspicious Vehicle", CalloutProbability.Medium, "Reports of a suspicious vehicle, limited details", "Code 2")]
+[CalloutInterface("Suspicious Vehicle", CalloutProbability.Medium, "Reports of a suspicious vehicle, limited details",
+    "Code 2")]
 internal class WeirdCar : Callout
 {
     private readonly UIMenu _convoMenu = new("SuperCallouts", "~y~Choose a subject to speak with.");
@@ -138,7 +138,7 @@ internal class WeirdCar : Callout
         }
         catch (Exception e)
         {
-Log.Error(e.ToString());
+            Log.Error(e.ToString());
             End();
         }
 
@@ -151,7 +151,7 @@ Log.Error(e.ToString());
         if (_cVehicle1.Exists()) _cVehicle1.Dismiss();
         if (_cBlip1.Exists()) _cBlip1.Delete();
         _mainMenu.Visible = false;
-        
+
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
         CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code4");
         base.End();

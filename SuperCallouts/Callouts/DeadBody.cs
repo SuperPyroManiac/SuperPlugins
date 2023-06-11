@@ -11,14 +11,14 @@ using Rage;
 using Rage.Native;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
-using SuperCallouts.SimpleFunctions;
 using Functions = LSPD_First_Response.Mod.API.Functions;
 
 #endregion
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInterface("Dead Body", CalloutProbability.Medium, "Reports of a dead body on the road, limited details", "Code 3")]
+[CalloutInterface("Dead Body", CalloutProbability.Medium, "Reports of a dead body on the road, limited details",
+    "Code 3")]
 internal class DeadBody : Callout
 {
     private Blip _cBlip;
@@ -115,7 +115,7 @@ internal class DeadBody : Callout
         }
         catch (Exception e)
         {
-Log.Error(e.ToString());
+            Log.Error(e.ToString());
             End();
         }
 
@@ -129,7 +129,7 @@ Log.Error(e.ToString());
         if (_victim.Exists()) _victim.Dismiss();
         if (_cBlip.Exists()) _cBlip.Delete();
         _mainMenu.Visible = false;
-        
+
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
         CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code4");
         base.End();
@@ -168,12 +168,13 @@ Log.Error(e.ToString());
                         "~g~You~s~: It's alright, thank you for your time and the call. You are free to go home.",
                         4000);
                     if (_witness.Exists()) _witness.Dismiss();
-                    CalloutInterfaceAPI.Functions.SendMessage(this, "Witness has been questioned, no useful information.");
+                    CalloutInterfaceAPI.Functions.SendMessage(this,
+                        "Witness has been questioned, no useful information.");
                 });
         }
         catch (Exception e)
         {
-Log.Error(e.ToString());
+            Log.Error(e.ToString());
             End();
         }
     }

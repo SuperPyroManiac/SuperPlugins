@@ -1,13 +1,11 @@
 #region
 
 using System.Drawing;
-using LSPD_First_Response.Mod.API;
+using CalloutInterfaceAPI;
 using LSPD_First_Response.Mod.Callouts;
+using PyroCommon.API;
 using Rage;
 using Rage.Native;
-using SuperCallouts.SimpleFunctions;
-using CalloutInterfaceAPI;
-using PyroCommon.API;
 using Functions = LSPD_First_Response.Mod.API.Functions;
 
 #endregion
@@ -106,7 +104,7 @@ internal class Aliens : Callout
         if (_alien3.Exists()) _alien3.Delete();
         if (_cVehicle1.Exists()) _cVehicle1.Delete();
         if (_cBlip1.Exists()) _cBlip1.Delete();
-        
+
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
         Game.DisplaySubtitle("~g~Me:~s~ The hell was that? I think I need a nap..");
         CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code4");

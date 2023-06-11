@@ -8,7 +8,6 @@ using PyroCommon.API;
 using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
-using SuperCallouts.SimpleFunctions;
 using Functions = LSPD_First_Response.Mod.API.Functions;
 
 #endregion
@@ -134,7 +133,8 @@ internal class CarAccident3 : Callout
                             var pursuit = Functions.CreatePursuit();
                             Functions.AddPedToPursuit(pursuit, _ePed2);
                             Functions.SetPursuitIsActiveForPlayer(pursuit, true);
-                            CalloutInterfaceAPI.Functions.SendMessage(this, "Subject running on foot, currently in pursuit!");
+                            CalloutInterfaceAPI.Functions.SendMessage(this,
+                                "Subject running on foot, currently in pursuit!");
                             break;
                         case 2: //Hit and run
                             var pursuit2 = Functions.CreatePursuit();
@@ -168,7 +168,7 @@ internal class CarAccident3 : Callout
         }
         catch (Exception e)
         {
-Log.Error(e.ToString());
+            Log.Error(e.ToString());
             End();
         }
 
@@ -182,7 +182,7 @@ Log.Error(e.ToString());
         if (_eVehicle) _eVehicle.Dismiss();
         if (_eVehicle2) _eVehicle2.Dismiss();
         if (_eBlip) _eBlip.Delete();
-        
+
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
         CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code4");
         base.End();

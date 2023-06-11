@@ -10,14 +10,14 @@ using Rage.Native;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts.CustomScenes;
-using SuperCallouts.SimpleFunctions;
 using Functions = LSPD_First_Response.Mod.API.Functions;
 
 #endregion
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInterface("Gang Taskforce", CalloutProbability.Low, "Stakeout has found a wanted cop killer - Speak with FIB", "Code 5", "SWAT")]
+[CalloutInterface("Gang Taskforce", CalloutProbability.Low, "Stakeout has found a wanted cop killer - Speak with FIB",
+    "Code 5", "SWAT")]
 internal class Lsgtf : Callout
 {
     private readonly Vector3 _raidpoint = new(113.1443f, -1926.435f, 20.8231f);
@@ -196,7 +196,7 @@ internal class Lsgtf : Callout
             _cVehicle.IsSirenSilent = true;
             _onScene = true;
             CalloutInterfaceAPI.Functions.SendMessage(this, "Arriving on scene, shots fired!");
-CalloutInterfaceAPI.Functions.SendMessage(this, "**Dispatch** Code-33 all units respond. Station is 10-6.");
+            CalloutInterfaceAPI.Functions.SendMessage(this, "**Dispatch** Code-33 all units respond. Station is 10-6.");
             Functions.PlayScannerAudioUsingPosition(
                 "DISPATCH_SWAT_UNITS_FROM_01 IN_OR_ON_POSITION UNITS_RESPOND_CODE_99_01", _raidpoint);
             if (PyroCommon.Main.UsingUB)
@@ -279,7 +279,7 @@ CalloutInterfaceAPI.Functions.SendMessage(this, "**Dispatch** Code-33 all units 
         if (_cBlip7.Exists()) _cBlip7.Delete();
         if (_cBlip8.Exists()) _cBlip8.Delete();
         if (_meetingB.Exists()) _meetingB.Delete();
-        
+
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
         CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code4");
         base.End();

@@ -76,6 +76,6 @@ internal class Main : Plugin
 
     public override void Finally()
     {
-        Game.Console.Print("SuperCallouts by SuperPyroManiac has been cleaned up.");
+        Log.Info("Plugin has been cleaned up.");
     }
 }

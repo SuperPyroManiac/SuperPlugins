@@ -13,7 +13,6 @@ using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts.CustomScenes;
-using SuperCallouts.SimpleFunctions;
 using Functions = LSPD_First_Response.Mod.API.Functions;
 using Object = Rage.Object;
 
@@ -21,7 +20,8 @@ using Object = Rage.Object;
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInterface("Bomb Report", CalloutProbability.Low, "A bomb has been found downtown - high priority all units", "Code 99", "SWAT")]
+[CalloutInterface("Bomb Report", CalloutProbability.Low, "A bomb has been found downtown - high priority all units",
+    "Code 99", "SWAT")]
 internal class Mafia4 : Callout
 {
     private readonly Vector3 _callPos = new(288.916f, -1588.429f, 29.53253f);
@@ -125,7 +125,7 @@ internal class Mafia4 : Callout
                         Game.SetRelationshipBetweenRelationshipGroups("MAFIA", "PLAYER", Relationship.Hate);
                         Game.SetRelationshipBetweenRelationshipGroups("COP", "MAFIA", Relationship.Hate);
                         CalloutInterfaceAPI.Functions.SendMessage(this,
-                                "Gang members in the area have been paid off by the mob and may also be a thread. Be cautious.");
+                            "Gang members in the area have been paid off by the mob and may also be a thread. Be cautious.");
                         if (PyroCommon.Main.UsingUB)
                         {
                             Wrapper.CallSwat(false);
@@ -170,7 +170,7 @@ internal class Mafia4 : Callout
         }
         catch (Exception e)
         {
-Log.Error(e.ToString());
+            Log.Error(e.ToString());
             End();
         }
 
@@ -192,7 +192,7 @@ Log.Error(e.ToString());
         Game.SetRelationshipBetweenRelationshipGroups("MAFIA", "COP", Relationship.Dislike);
         _interaction.CloseAllMenus();
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
-        
+
         CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code4");
 
         base.End();

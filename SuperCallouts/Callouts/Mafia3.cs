@@ -13,14 +13,14 @@ using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts.CustomScenes;
-using SuperCallouts.SimpleFunctions;
 using Functions = LSPD_First_Response.Mod.API.Functions;
 
 #endregion
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInterface("Mafia Raid", CalloutProbability.Low, "Stakeout has found a meeting point for mob bosses - Raid in progress", "Code 5", "SWAT")]
+[CalloutInterface("Mafia Raid", CalloutProbability.Low,
+    "Stakeout has found a meeting point for mob bosses - Raid in progress", "Code 5", "SWAT")]
 internal class Mafia3 : Callout
 {
     private readonly Vector3 _callPos = new(949.3857f, -3129.14f, 5.900989f);
@@ -173,7 +173,7 @@ internal class Mafia3 : Callout
         }
         catch (Exception e)
         {
-Log.Error(e.ToString());
+            Log.Error(e.ToString());
             End();
         }
 
@@ -194,7 +194,7 @@ Log.Error(e.ToString());
 
         _interaction.CloseAllMenus();
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
-        
+
         CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code4");
 
         base.End();

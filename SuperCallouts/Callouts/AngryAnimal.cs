@@ -9,9 +9,7 @@ using PyroCommon.API;
 using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
-using SuperCallouts.SimpleFunctions;
 using Functions = LSPD_First_Response.Mod.API.Functions;
-using Wrapper = PyroCommon.API.Wrapper;
 
 #endregion
 
@@ -115,7 +113,7 @@ internal class AngryAnimal : Callout
         if (_cBlip.Exists()) _cBlip.Delete();
         if (_cBlip2.Exists()) _cBlip2.Delete();
         _mainMenu.Visible = false;
-        
+
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
         CalloutInterfaceAPI.Functions.SendMessage(this, "Scene is code4.");
         base.End();

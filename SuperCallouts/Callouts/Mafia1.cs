@@ -13,14 +13,14 @@ using Rage.Native;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts.CustomScenes;
-using SuperCallouts.SimpleFunctions;
 using Functions = LSPD_First_Response.Mod.API.Functions;
 
 #endregion
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInterface("Casino Raid", CalloutProbability.Low, "FIB have discovered serious drug smuggling at the casino - meet with FIB", "Code 5", "SWAT")]
+[CalloutInterface("Casino Raid", CalloutProbability.Low,
+    "FIB have discovered serious drug smuggling at the casino - meet with FIB", "Code 5", "SWAT")]
 internal class Mafia1 : Callout
 {
     private readonly List<Ped> _badGuys = new();
@@ -226,7 +226,7 @@ internal class Mafia1 : Callout
         }
         catch (Exception e)
         {
-Log.Error(e.ToString());
+            Log.Error(e.ToString());
             End();
         }
     }
@@ -247,7 +247,7 @@ Log.Error(e.ToString());
         Game.SetRelationshipBetweenRelationshipGroups("COP", "MAFIA", Relationship.Dislike);
         _interaction.CloseAllMenus();
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
-        
+
         CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code4");
         base.End();
     }
