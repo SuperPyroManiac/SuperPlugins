@@ -65,4 +65,11 @@ internal class Main : Plugin
         PluginRunning = false;
         Log.Info( "Plugin unloaded!");
     }
+
+    internal static void PausePlugin()
+    {
+        PluginPaused = !PluginPaused;
+        Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~r~SuperEvents", "~g~Plugin Status:",
+            "SuperEvents paused: " + PluginPaused);
+    }
 }
