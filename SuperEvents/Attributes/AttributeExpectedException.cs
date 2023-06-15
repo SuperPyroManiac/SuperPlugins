@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SuperEvents.EventFunctions;
+namespace SuperEvents.Attributes;
 
 public class AttributeExpectedException : Exception
 {

@@ -58,10 +58,6 @@
         <Compile Include="API\PulloverSpots.cs" />
         <Compile Include="API\PyroFunctions.cs" />
         <Compile Include="API\Wrapper.cs" />
-        <Compile Include="Attributes\AttributeExpectedException.cs" />
-        <Compile Include="Attributes\AttributeExtensions.cs" />
-        <Compile Include="Attributes\EventInfoAttribute.cs" />
-        <Compile Include="Events\AmbientEvent.cs" />
         <Compile Include="Main.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
     </ItemGroup>

@@ -9,11 +9,11 @@ using PyroCommon.API;
 using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
-using SuperEvents.EventFunctions;
+using SuperEvents.Attributes;
 
 #endregion
 
-namespace PyroCommon.Events;
+namespace SuperEvents;
 
 public abstract class AmbientEvent
 {

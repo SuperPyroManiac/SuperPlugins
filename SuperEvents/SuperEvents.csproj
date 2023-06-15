@@ -59,6 +59,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AmbientEvent.cs" />
+    <Compile Include="Attributes\AttributeExpectedException.cs" />
+    <Compile Include="Attributes\AttributeExtensions.cs" />
+    <Compile Include="Attributes\EventInfoAttribute.cs" />
     <Compile Include="EventFunctions\EventInterface.cs" />
     <Compile Include="EventFunctions\EventParameterAutoCompleter.cs" />
     <Compile Include="EventFunctions\VersionChecker.cs" />
