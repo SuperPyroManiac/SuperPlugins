@@ -57,11 +57,18 @@ internal class EventInterface
         EventMenu.RefreshIndex();
         //Add events to the menus!
         MainMenu.OnItemSelect += MainMenuSelected;
-        EventMenu.OnItemSelect += EventMenuSelected;
+        //Create event buttons in EventMenu
+        foreach (var t in EventManager.AllEvents)
+        {
+            var s = new UIMenuItem(t.Name);
+            EventMenu.AddItem(s);
+            s.Activated += (_,_) => EventManager.ForceEvent(t.FullName);
+        }
     }
     
     private void Process()
     {
+        if (Game.IsKeyDown(Settings.EventManagerMod) && Game.IsKeyDown(Settings.EventManager)) MainMenu.Visible = !MainMenu.Visible;
         eventMenuPool.ProcessMenus();
     }
     
@@ -74,10 +81,4 @@ internal class EventInterface
             EventManager.CurrentEvent = null;
         }
     }
-    
-    private void EventMenuSelected(UIMenu sender, UIMenuItem selecteditem, int index)
-    {
-        throw new NotImplementedException();
-    }
-
 }

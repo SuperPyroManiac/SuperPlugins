@@ -18,10 +18,10 @@ namespace SuperEvents;
 public abstract class AmbientEvent
 {
     internal bool HasEnded { get; set; }
-    internal static bool ShowBlips { get; set; }
-    internal static bool ShowHints { get; set; }
-    internal static Keys EndEvent { get; set; }
-    internal static Keys Interact { get; set; }
+    private static bool ShowBlips = Settings.ShowBlips;
+    private static bool ShowHints = Settings.ShowHints;
+    private static Keys EndEvent = Settings.EndEvent;
+    private static Keys Interact = Settings.Interact;
     private readonly string _eventTitle;
     private readonly string _eventDescription;
     protected readonly UIMenu ConvoMenu = new("SuperEvents", "~y~Choose a subject to speak with.");

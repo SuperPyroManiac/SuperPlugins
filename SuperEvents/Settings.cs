@@ -49,11 +49,6 @@ public static class Settings
         EndEvent = ini.ReadEnum("Keys", "EndEvent", Keys.End);
         EventManager = ini.ReadEnum("Keys", "EventManager", Keys.Y);
         EventManagerMod = ini.ReadEnum("Keys", "EventManagerMod", Keys.Control);
-        //Apply SE Settings to PyroCommon
-        AmbientEvent.ShowBlips = ShowBlips;
-        AmbientEvent.ShowHints = ShowHints;
-        AmbientEvent.Interact = Interact;
-        AmbientEvent.EndEvent = EndEvent;
         Log.Info("Config loaded.");
     }
 }
