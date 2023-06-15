@@ -24,6 +24,8 @@ public static class Settings
     public static int TimeBetweenEvents = 300;
     public static Keys Interact = Keys.Y;
     public static Keys EndEvent = Keys.End;
+    public static Keys EventManager = Keys.Y;
+    public static Keys EventManagerMod = Keys.Control;
     public static readonly string SEventsVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
     internal static void LoadSettings()
@@ -45,6 +47,8 @@ public static class Settings
         TimeBetweenEvents = ini.ReadInt32("Settings", "TimeBetweenEvents", 150);
         Interact = ini.ReadEnum("Keys", "Interact", Keys.Y);
         EndEvent = ini.ReadEnum("Keys", "EndEvent", Keys.End);
+        EventManager = ini.ReadEnum("Keys", "EventManager", Keys.Y);
+        EventManagerMod = ini.ReadEnum("Keys", "EventManagerMod", Keys.Control);
         //Apply SE Settings to PyroCommon
         PyroCommon.Events.AmbientEvent.ShowBlips = ShowBlips;
         PyroCommon.Events.AmbientEvent.ShowHints = ShowHints;
