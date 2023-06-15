@@ -17,11 +17,11 @@ internal class EventInterface
     private readonly UIMenuItem PauseEvent = new("~y~Pause Events", "Pause events from spawning. Force Event bypasses this.");
     private readonly UIMenuItem EndEvent = new("~r~End Event", "Ends the current event.");
 
-    internal EventInterface()
+    internal void StartInterface()
     {
         try
         {
-            var processFiber = new GameFiber(delegate
+            new GameFiber(delegate
             {
                 //Wait for 10 seconds before creating the menus in case events are not yet registered.
                 GameFiber.Wait(10000);

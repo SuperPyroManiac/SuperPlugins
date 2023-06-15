@@ -35,6 +35,8 @@ internal class Main : Plugin
                 Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~r~SuperEvents", "~g~Plugin Loaded.",
                     "SuperEvents version: " + Assembly.GetExecutingAssembly().GetName().Version + " loaded.");
                 _initFiber = GameFiber.StartNew(EventManager.InitEvents);
+                var eventUI = new EventInterface();
+                eventUI.StartInterface();
                 GameFiber.Wait(17000);
                 VersionChecker.IsUpdateAvailable();
             });
