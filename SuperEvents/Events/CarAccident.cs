@@ -1,13 +1,12 @@
 using System;
 using System.Collections.Generic;
 using LSPD_First_Response.Mod.API;
-using PyroCommon.Events;
 using Rage;
 using Rage.Native;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using PyroCommon.API;
-using SuperEvents.EventFunctions;
+using SuperEvents.Attributes;
 
 namespace SuperEvents.Events;
 

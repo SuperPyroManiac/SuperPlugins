@@ -1,5 +1,4 @@
 ﻿using System;
-using DeadlyWeapons.DFunctions;
 using LSPD_First_Response.Mod.API;
 using PyroCommon.API;
 using Rage;

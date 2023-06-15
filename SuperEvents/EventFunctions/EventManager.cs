@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using LSPD_First_Response.Mod.API;
 using PyroCommon.API;
-using PyroCommon.Events;
 using Rage;
+using SuperEvents.Attributes;
 
 namespace SuperEvents.EventFunctions;
 

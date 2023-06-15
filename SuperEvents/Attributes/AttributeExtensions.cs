@@ -1,8 +1,7 @@
 using System;
 using System.Linq;
-using PyroCommon.Events;
 
-namespace SuperEvents.EventFunctions;
+namespace SuperEvents.Attributes;
 
 internal static class AttributeExtensions
 {

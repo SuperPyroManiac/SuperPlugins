@@ -1,10 +1,9 @@
 ﻿using System;
 using LSPD_First_Response.Mod.API;
 using PyroCommon.API;
-using PyroCommon.Events;
 using Rage;
 using RAGENativeUI.Elements;
-using SuperEvents.EventFunctions;
+using SuperEvents.Attributes;
 
 namespace SuperEvents.Events;
 

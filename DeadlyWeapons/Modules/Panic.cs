@@ -2,7 +2,6 @@
 
 using System;
 using System.Linq;
-using DeadlyWeapons.DFunctions;
 using LSPD_First_Response;
 using LSPD_First_Response.Mod.API;
 using PyroCommon.API;
