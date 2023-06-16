@@ -82,8 +82,6 @@ internal class WeirdCar : AmbientEvent
                     End(true);
                     break;
             }
-
-            base.OnProcess();
         }
         catch (Exception e)
         {

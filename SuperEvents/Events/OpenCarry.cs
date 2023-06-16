@@ -130,8 +130,6 @@ internal class OpenCarry : AmbientEvent
                     End(true);
                     break;
             }
-
-            base.OnProcess();
         }
         catch (Exception e)
         {

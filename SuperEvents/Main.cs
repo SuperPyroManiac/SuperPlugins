@@ -73,6 +73,6 @@ internal class Main : Plugin
         PluginPaused = !PluginPaused;
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~r~SuperEvents", "~g~Plugin Status:",
             "SuperEvents paused: " + PluginPaused);
-        Log.Warning("Plugin paused: " + PluginPaused);
+        Log.Info("Plugin paused: " + PluginPaused);
     }
 }

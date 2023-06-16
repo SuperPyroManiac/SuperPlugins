@@ -77,8 +77,6 @@ internal class CarFire : AmbientEvent
                     End(true);
                     break;
             }
-
-            base.OnProcess();
         }
         catch (Exception e)
         {

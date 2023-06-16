@@ -132,8 +132,6 @@ internal class RecklessDriver : AmbientEvent
                     End(true);
                     break;
             }
-
-            base.OnProcess();
         }
         catch (Exception e)
         {

@@ -158,8 +158,6 @@ internal class CarAccident : AmbientEvent
             Log.Error( e.ToString());
             End(true);
         }
-
-        base.OnProcess();
     }
 
     protected override void OnCleanup()

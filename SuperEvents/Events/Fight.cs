@@ -21,7 +21,6 @@ internal class Fight : AmbientEvent
     private Ped _suspect;
     private Ped _suspect2;
     private Tasks _tasks = Tasks.CheckDistance;
-
     protected override Vector3 EventLocation { get; set; }
 
     protected override void OnStartEvent()
@@ -111,8 +110,6 @@ internal class Fight : AmbientEvent
                     End(true);
                     break;
             }
-
-            base.OnProcess();
         }
         catch (Exception e)
         {

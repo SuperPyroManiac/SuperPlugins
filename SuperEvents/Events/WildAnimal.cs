@@ -43,8 +43,6 @@ internal class WildAnimal : AmbientEvent
                     End(true);
                     break;
             }
-
-            base.OnProcess();
         }
         catch (Exception e)
         {

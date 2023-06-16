@@ -102,8 +102,6 @@ internal class PulloverShooting : AmbientEvent
                     End(true);
                     break;
             }
-
-            base.OnProcess();
         }
         catch (Exception e)
         {
