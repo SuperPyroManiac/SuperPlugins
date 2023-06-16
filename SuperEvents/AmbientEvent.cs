@@ -49,7 +49,7 @@ public abstract class AmbientEvent
             {
                 while (EventRunning)
                 {
-                    OnProcess();
+                    Process();
                     GameFiber.Yield();
                 }
             });
@@ -65,6 +65,7 @@ public abstract class AmbientEvent
 
     internal void StartEvent()
     {
+        EventRunning = true;
         Interaction.Add(MainMenu);
         Interaction.Add(ConvoMenu);
         MainMenu.MouseControlsEnabled = false;
@@ -78,6 +79,7 @@ public abstract class AmbientEvent
         Questioning.Enabled = false;
         MainMenu.RefreshIndex();
         ConvoMenu.RefreshIndex();
+        OnStartEvent();
         MainMenu.OnItemSelect += Interactions;
         ConvoMenu.OnItemSelect += Conversations;
         if (ShowBlips)
@@ -89,8 +91,6 @@ public abstract class AmbientEvent
             eventBlip.Flash(500, 8000);
             BlipsToClear.Add(eventBlip);
         }
-        EventRunning = true;
-        OnStartEvent();
         ProcessFiber.Start();
     }
     
@@ -120,8 +120,8 @@ public abstract class AmbientEvent
             Game.DisplayHelp("~y~Press ~r~" + Interact + "~y~ to open interaction menu.");
             OnScene();
         }
-        OnProcess();
         Interaction.ProcessMenus();
+        OnProcess();
     }
     
     protected virtual void OnProcess()
@@ -131,7 +131,7 @@ public abstract class AmbientEvent
     protected internal void End(bool forceCleanup = false)
     {
         EventRunning = false;
-        End();
+        OnCleanup();
         if (forceCleanup)
         {
             foreach (var entity in EntitiesToClear.Where(entity => entity))

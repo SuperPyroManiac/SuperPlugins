@@ -30,13 +30,13 @@ internal static class EventTimer
     {
         while (!Finished)
         {
-            if (Paused || Finished) continue;
+            GameFiber.WaitWhile(() => Paused || Finished);
             var prevTime = Game.GameTime;
             GameFiber.Yield();
             _elapsedMilliseconds += Game.GameTime - prevTime;
             if (_elapsedMilliseconds < _timerDuration) continue;
             Finished = true;
-            Log.Info("New events can now generate...");
+            Game.Console.Print("SuperEvents: New events can now generate...");
         }
     }
 }

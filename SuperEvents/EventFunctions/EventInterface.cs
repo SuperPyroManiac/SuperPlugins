@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using System.Windows.Forms;
 using PyroCommon.API;
 using Rage;
 using RAGENativeUI;
@@ -7,20 +9,20 @@ using RAGENativeUI.Elements;
 
 namespace SuperEvents.EventFunctions;
 
-internal class EventInterface
+internal static class EventInterface
 {
-    private readonly MenuPool eventMenuPool = new();
-    private readonly UIMenu MainMenu = new("SuperEvents", "Choose an option.");
-    private readonly UIMenu EventMenu = new("SuperEvents", "Choose an event to spawn.");
-    private readonly UIMenuItem EventList = new("Force Event", "Spawn any selected event.");
-    private readonly UIMenuItem PauseEvent = new("~y~Pause Events", "Pause events from spawning. Force Event bypasses this.");
-    private readonly UIMenuItem EndEvent = new("~r~End Event", "Ends the current event.");
+    private static readonly MenuPool eventMenuPool = new();
+    private static readonly UIMenu MainMenu = new("SuperEvents", "Choose an option.");
+    private static readonly UIMenu EventMenu = new("SuperEvents", "Choose an event to spawn.");
+    private static readonly UIMenuItem EventList = new("Force Event", "Spawn any selected event.");
+    private static readonly UIMenuItem PauseEvent = new("~y~Pause Events", "Pause events from spawning. Force Event bypasses this.");
+    private static readonly UIMenuItem EndEvent = new("~r~End Event", "Ends the current event.");
 
-    internal void StartInterface()
+    internal static void StartInterface()
     {
         try
         {
-            new GameFiber(delegate
+            GameFiber.StartNew(delegate
             {
                 //Wait for 10 seconds before creating the menus in case events are not yet registered.
                 GameFiber.Wait(10000);
@@ -35,7 +37,7 @@ internal class EventInterface
         catch (Exception e) { Log.Error(e.ToString()); }
     }
 
-    private void SetupUI()
+    private static void SetupUI()
     {
         //Add menus to pool
         eventMenuPool.Add(MainMenu);
@@ -47,7 +49,6 @@ internal class EventInterface
         EventMenu.AllowCameraMovement = true;
         //Add buttons to menus - in order!
         MainMenu.AddItem(EventList);
-        EventList.Enabled = false; //TODO: Add all events as buttons to EventMenu later..
         MainMenu.AddItem(PauseEvent);
         MainMenu.AddItem(EndEvent);
         //Bind the menu to a button
@@ -60,25 +61,21 @@ internal class EventInterface
         //Create event buttons in EventMenu
         foreach (var t in EventManager.AllEvents)
         {
-            var s = new UIMenuItem(t.Name);
+            var s = new UIMenuItem($"[{t.Namespace.Split('.').First()}] {t.Name}");
             EventMenu.AddItem(s);
             s.Activated += (_,_) => EventManager.ForceEvent(t.FullName);
         }
     }
     
-    private void Process()
+    private static void Process()
     {
-        if (Game.IsKeyDown(Settings.EventManagerMod) && Game.IsKeyDown(Settings.EventManager)) MainMenu.Visible = !MainMenu.Visible;
+        if (Game.IsKeyDown(Settings.EventManager)) MainMenu.Visible = !MainMenu.Visible;
         eventMenuPool.ProcessMenus();
     }
     
-    private void MainMenuSelected(UIMenu sender, UIMenuItem selecteditem, int index)
+    private static void MainMenuSelected(UIMenu sender, UIMenuItem selecteditem, int index)
     {
         if (selecteditem == PauseEvent) Main.PausePlugin();
-        if (selecteditem == EndEvent)
-        {
-            EventManager.CurrentEvent?.End();
-            EventManager.CurrentEvent = null;
-        }
+        if (selecteditem == EndEvent) EventManager.CurrentEvent?.End();
     }
 }

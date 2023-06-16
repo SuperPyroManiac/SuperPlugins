@@ -5,6 +5,7 @@ using PyroCommon.API;
 using Rage;
 using SuperEvents.EventFunctions;
 using SuperEvents.Events;
+// ReSharper disable ClassNeverInstantiated.Global
 
 namespace SuperEvents;
 
@@ -12,6 +13,7 @@ internal class Main : Plugin
 {
     internal static bool PluginRunning { get; private set; }
     internal static bool PluginPaused { get; set; }
+    // ReSharper disable once NotAccessedField.Local
     private static GameFiber _initFiber;
 
     public override void Initialize()
@@ -34,8 +36,7 @@ internal class Main : Plugin
                 Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~r~SuperEvents", "~g~Plugin Loaded.",
                     "SuperEvents version: " + Assembly.GetExecutingAssembly().GetName().Version + " loaded.");
                 _initFiber = GameFiber.StartNew(EventManager.InitEvents);
-                var eventUI = new EventInterface();
-                eventUI.StartInterface();
+                EventInterface.StartInterface();
                 GameFiber.Wait(17000);
                 VersionChecker.IsUpdateAvailable();
             });
@@ -72,5 +73,6 @@ internal class Main : Plugin
         PluginPaused = !PluginPaused;
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~r~SuperEvents", "~g~Plugin Status:",
             "SuperEvents paused: " + PluginPaused);
+        Log.Warning("Plugin paused: " + PluginPaused);
     }
 }
