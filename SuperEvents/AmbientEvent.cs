@@ -94,13 +94,9 @@ public abstract class AmbientEvent
         ProcessFiber.Start();
     }
     
-    protected virtual void OnStartEvent()
-    {
-    }
+    protected abstract void OnStartEvent();
 
-    protected virtual void OnScene()
-    {
-    }
+    protected virtual void OnScene() { }
 
     private void Process()
     {
@@ -124,9 +120,7 @@ public abstract class AmbientEvent
         OnProcess();
     }
     
-    protected virtual void OnProcess()
-    {
-    }
+    protected abstract void OnProcess();
 
     protected internal void End(bool forceCleanup = false)
     {
