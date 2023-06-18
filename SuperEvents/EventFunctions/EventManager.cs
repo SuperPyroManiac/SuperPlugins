@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using LSPD_First_Response.Mod.API;
 using PyroCommon.API;
 using Rage;
@@ -27,7 +28,7 @@ public static class EventManager
 
     public static void RegisterEvent(Type type, Priority EventPriority = Priority.Normal)
     {
-        Log.Info("Registering event - " + type.Assembly.FullName);
+        Log.Info($"Registering event - [{type.Name}] from {type.Assembly.FullName}");
         try
         {
             type.GetEventInfo();
