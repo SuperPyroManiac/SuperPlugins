@@ -128,18 +128,18 @@ public abstract class AmbientEvent
         OnCleanup();
         if (forceCleanup)
         {
-            foreach (var entity in EntitiesToClear.Where(entity => entity))
+            foreach (var entity in EntitiesToClear)
                 if (entity.Exists()) entity.Delete();
             Log.Info("Event has been forcefully cleaned up.");
         }
         else
         {
-            foreach (var entity in EntitiesToClear.Where(entity => entity))
+            foreach (var entity in EntitiesToClear)
                 if (entity.Exists()) entity.Dismiss();
             Game.DisplayHelp("~y~Event Ended.");
         }
 
-        foreach (var blip in BlipsToClear.Where(blip => blip))
+        foreach (var blip in BlipsToClear)
             if (blip.Exists()) blip.Delete();
 
         Interaction.CloseAllMenus();
