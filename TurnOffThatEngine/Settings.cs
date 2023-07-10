@@ -13,7 +13,7 @@ internal static class Settings
     internal static void LoadSettings()
     {
         Game.LogTrivial("Loading TurnOffThatEngine config.");
-        var path = "Plugins/TurnOffThatEngine/TurnOffThatEngine.ini";
+        var path = "Plugins/TurnOffThatEngine.ini";
         var ini = new InitializationFile(path);
         ini.Create();
         Turnoffenginekey = ini.ReadEnum("Keys", "TurnOffEngine", Keys.C);
