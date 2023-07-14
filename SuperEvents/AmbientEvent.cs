@@ -80,6 +80,11 @@ public abstract class AmbientEvent
         MainMenu.RefreshIndex();
         ConvoMenu.RefreshIndex();
         OnStartEvent();
+        if (EventLocation.DistanceTo(Player) > 199f)
+        {
+            End(true);
+            Log.Info("Ending event due to player being too far.");
+        }
         MainMenu.OnItemSelect += Interactions;
         ConvoMenu.OnItemSelect += Conversations;
         if (ShowBlips)
@@ -100,11 +105,11 @@ public abstract class AmbientEvent
 
     private void Process()
     {
-        if (Game.IsKeyDown(EndEvent)) End(false);
+        if (Game.IsKeyDown(EndEvent)) End();
         if (Game.IsKeyDown(Interact)) MainMenu.Visible = !MainMenu.Visible;
         if (EventLocation.DistanceTo(Player) > 200f)
         {
-            End();
+            End(true);
             Log.Info("Ending event due to player being too far.");
         }
         if (!onScene && Game.LocalPlayer.Character.DistanceTo(EventLocation) < OnSceneDistance)
