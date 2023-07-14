@@ -83,6 +83,7 @@
         <Compile Include="SimpleFunctions\ConsoleCommands.cs" />
         <Compile Include="SimpleFunctions\PulloverSpots.cs" />
         <Compile Include="SimpleFunctions\VersionChecker.cs" />
+        <Compile Include="SuperCallout.cs" />
     </ItemGroup>
     <ItemGroup>
         <Content Include="SuperCallouts.ini" />
