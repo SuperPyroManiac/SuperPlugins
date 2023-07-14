@@ -32,6 +32,7 @@ public abstract class AmbientEvent
     public static bool EventRunning { get; internal set; }
     protected abstract Vector3 EventLocation { get; set; }
     protected float OnSceneDistance { get; set; } = 20;
+    protected float ClearEventDistance { get; set; } = 200;
     public List<Entity> EntitiesToClear { get; } = new();
     public List<Blip> BlipsToClear { get; } = new();
     private GameFiber ProcessFiber { get; }
@@ -80,7 +81,7 @@ public abstract class AmbientEvent
         MainMenu.RefreshIndex();
         ConvoMenu.RefreshIndex();
         OnStartEvent();
-        if (EventLocation.DistanceTo(Player) > 199f)
+        if (EventLocation.DistanceTo(Player) > ClearEventDistance)
         {
             End(true);
             Log.Info("Ending event due to player being too far.");
@@ -107,7 +108,7 @@ public abstract class AmbientEvent
     {
         if (Game.IsKeyDown(EndEvent)) End();
         if (Game.IsKeyDown(Interact)) MainMenu.Visible = !MainMenu.Visible;
-        if (EventLocation.DistanceTo(Player) > 200f)
+        if (EventLocation.DistanceTo(Player) > ClearEventDistance)
         {
             End(true);
             Log.Info("Ending event due to player being too far.");
