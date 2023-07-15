@@ -1,6 +1,4 @@
 #region
-
-using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -8,10 +6,7 @@ using CalloutInterfaceAPI;
 using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.API;
 using Rage;
-using RAGENativeUI;
-using RAGENativeUI.Elements;
 using Functions = LSPD_First_Response.Mod.API.Functions;
-
 #endregion
 
 namespace SuperCallouts.Callouts;

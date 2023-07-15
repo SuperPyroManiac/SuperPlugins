@@ -47,11 +47,11 @@ internal abstract class SuperCallout : Callout
         MainMenu.BindMenuToItem(ConvoMenu, Questioning);
         ConvoMenu.ParentMenu = MainMenu;
         Questioning.Enabled = false;
+        CalloutAccepted();
         MainMenu.RefreshIndex();
         ConvoMenu.RefreshIndex();
         MainMenu.OnItemSelect += Interactions;
         ConvoMenu.OnItemSelect += Conversations;
-        CalloutAccepted();
         return base.OnCalloutAccepted();
     }
 
