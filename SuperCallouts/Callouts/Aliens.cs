@@ -26,7 +26,6 @@ internal class Aliens : SuperCallout
 
     internal override void CalloutPrep()
     {
-        ShowCalloutAreaBlipBeforeAccepting(SpawnPoint, 10f);
         CalloutMessage = "~b~Dispatch:~s~ Reports of strange people.";
         CalloutAdvisory = "Caller says they're not human. Possibly a prank call.";
         Functions.PlayScannerAudioUsingPosition("ATTENTION_ALL_UNITS_05 SUSPECTS_LAST_SEEN_02 IN_OR_ON_POSITION",

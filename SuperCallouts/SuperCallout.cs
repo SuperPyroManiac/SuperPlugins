@@ -17,7 +17,7 @@ internal abstract class SuperCallout : Callout
     internal List<Entity> EntitiesToClear = new();
     internal List<Blip> BlipsToClear = new();
     internal static Ped Player => Game.LocalPlayer.Character;
-    private bool _onScene;
+    internal bool OnScene;
     //UI
     protected readonly MenuPool Interaction = new();
     protected readonly UIMenu MainMenu = new("SuperCallouts", "Choose an option.");
@@ -29,6 +29,7 @@ internal abstract class SuperCallout : Callout
     {
         CalloutPrep();
         CalloutPosition = SpawnPoint;
+        ShowCalloutAreaBlipBeforeAccepting(SpawnPoint, 10f);
         return base.OnBeforeCalloutDisplayed();
     }
 
@@ -59,10 +60,11 @@ internal abstract class SuperCallout : Callout
         try
         {
             CalloutRunning();
-            if (!_onScene && Player.DistanceTo(SpawnPoint) < OnSceneDistance)
+            if (!OnScene && Player.DistanceTo(SpawnPoint) < OnSceneDistance)
             {
-                _onScene = true;
+                OnScene = true;
                 CalloutInterfaceAPI.Functions.SendMessage(this, "Officer on scene.");
+                Game.DisplayHelp($"Press ~{Settings.Interact.GetInstructionalId()}~ to open interaction menu.");
                 var onSceneFiber = GameFiber.StartNew(CalloutOnScene);
             }
             if (Game.IsKeyDown(Settings.EndCall)) CalloutEnd();
