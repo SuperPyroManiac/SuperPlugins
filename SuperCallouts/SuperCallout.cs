@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.API;
@@ -10,11 +11,13 @@ namespace SuperCallouts;
 
 internal abstract class SuperCallout : Callout
 {
-    internal float OnSceneDistance;
+    internal abstract Vector3 SpawnPoint { get; set; }
+    internal abstract float OnSceneDistance { get; set; }
+    internal abstract string CalloutName { get; set; }
     internal List<Entity> EntitiesToClear = new();
     internal List<Blip> BlipsToClear = new();
-    internal Ped Player => Game.LocalPlayer.Character;
-    private bool onScene;
+    internal static Ped Player => Game.LocalPlayer.Character;
+    private bool _onScene;
     //UI
     protected readonly MenuPool Interaction = new();
     protected readonly UIMenu MainMenu = new("SuperCallouts", "Choose an option.");
@@ -25,11 +28,13 @@ internal abstract class SuperCallout : Callout
     public override bool OnBeforeCalloutDisplayed()
     {
         CalloutPrep();
+        CalloutPosition = SpawnPoint;
         return base.OnBeforeCalloutDisplayed();
     }
 
     public override bool OnCalloutAccepted()
     {
+        Log.Info($"{CalloutName} callout accepted!");
         Interaction.Add(MainMenu);
         Interaction.Add(ConvoMenu);
         MainMenu.MouseControlsEnabled = false;
@@ -43,42 +48,69 @@ internal abstract class SuperCallout : Callout
         Questioning.Enabled = false;
         MainMenu.RefreshIndex();
         ConvoMenu.RefreshIndex();
+        MainMenu.OnItemSelect += Interactions;
+        ConvoMenu.OnItemSelect += Conversations;
         CalloutAccepted();
         return base.OnCalloutAccepted();
     }
 
     public override void Process()
     {
-        CalloutRunning();
+        try
+        {
+            CalloutRunning();
+            if (!_onScene && Player.DistanceTo(SpawnPoint) < OnSceneDistance)
+            {
+                _onScene = true;
+                CalloutInterfaceAPI.Functions.SendMessage(this, "Officer on scene.");
+                var onSceneFiber = GameFiber.StartNew(CalloutOnScene);
+            }
+            if (Game.IsKeyDown(Settings.EndCall)) CalloutEnd();
+            if (Game.IsKeyDown(Settings.Interact)) MainMenu.Visible = !MainMenu.Visible;
+            Interaction.ProcessMenus();
+        }
+        catch(Exception e)
+        {
+            Log.Error(e.ToString());
+            CalloutEnd(true);
+        }
         base.Process();
     }
 
     //Overrides
-    internal abstract void CalloutPrep();
-    internal abstract void CalloutAccepted();
-    internal abstract void Callout();
-    internal abstract void CalloutRunning();
-
+    internal virtual void CalloutPrep() {}
+    internal virtual void CalloutAccepted() {}
+    internal virtual void CalloutRunning() {}
+    internal virtual void CalloutOnScene() {}
     internal virtual void CalloutEnd(bool forceCleanup = false)
     {
         if (forceCleanup)
         {
             foreach (var entity in EntitiesToClear.Where(entity => entity))
                 if (entity.Exists()) entity.Delete();
-            Log.Info("Callout has been forcefully cleaned up.");
+            Log.Info($"{CalloutName} callout has been forcefully cleaned up.");
         }
         else
         {
             foreach (var entity in EntitiesToClear.Where(entity => entity))
                 if (entity.Exists()) entity.Dismiss();
-            Game.DisplayHelp("~y~Callout Ended.");
         }
-
+        Game.DisplayHelp("~y~Callout Ended.");
+        CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code-4");
         foreach (var blip in BlipsToClear.Where(blip => blip))
             if (blip.Exists()) blip.Delete();
 
         Interaction.CloseAllMenus();
-        Log.Info("Ending Callout.");
+        Log.Info($"Ending {CalloutName} Callout.");
         End();
+    }
+
+    protected virtual void Interactions(UIMenu sender, UIMenuItem selItem, int index)
+    {
+        if (selItem == EndCall) CalloutEnd();
+    }
+
+    protected virtual void Conversations(UIMenu sender, UIMenuItem selItem, int index)
+    {
     }
 }
