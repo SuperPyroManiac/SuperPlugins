@@ -20,14 +20,9 @@ internal class AngryAnimal : SuperCallout
     internal override float OnSceneDistance { get; set; } = 30;
     internal override string CalloutName { get; set; } = "Animal Attack";
     private readonly UIMenuItem _callEms = new("~r~ Call EMS", "Calls for a medical team.");
-    private readonly UIMenuItem _endCall = new("~y~End Callout", "Ends the callout early.");
-    private readonly MenuPool _interaction = new();
-    private readonly UIMenu _mainMenu = new("SuperCallouts", "~y~Choose an option.");
     private Ped _animal;
     private Blip _cBlip;
     private Blip _cBlip2;
-    private bool _onScene;
-    private Vector3 _spawnPoint;
     private Ped _victim;
 
     internal override void CalloutPrep()
@@ -36,7 +31,7 @@ internal class AngryAnimal : SuperCallout
             " Report:~s~ Person(s) being attacked by a wild animal.";
         CalloutAdvisory = "Caller says a wild animal is attacking people.";
         Functions.PlayScannerAudioUsingPosition("CITIZENS_REPORT_04 CRIME_11_351_02 UNITS_RESPOND_CODE_03_01",
-            _spawnPoint);
+            SpawnPoint);
     }
 
     internal override void CalloutAccepted()
@@ -45,7 +40,7 @@ internal class AngryAnimal : SuperCallout
             "Details are unknown, get to the scene as soon as possible! Respond ~r~CODE-3");
 
         Model[] meanAnimal = { "A_C_MTLION", "A_C_COYOTE" };
-        _animal = new Ped(meanAnimal[new Random().Next(meanAnimal.Length)], _spawnPoint, 50);
+        _animal = new Ped(meanAnimal[new Random().Next(meanAnimal.Length)], SpawnPoint, 50);
         _animal.IsPersistent = true;
         _animal.BlockPermanentEvents = true;
         EntitiesToClear.Add(_animal);

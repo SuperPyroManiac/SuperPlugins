@@ -1,5 +1,4 @@
 #region
-
 using System;
 using System.Drawing;
 using CalloutInterfaceAPI;
@@ -10,110 +9,67 @@ using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using Functions = LSPD_First_Response.Mod.API.Functions;
-
 #endregion
 
 namespace SuperCallouts.Callouts;
 
 [CalloutInterface("Car Accident", CalloutProbability.Medium, "Reports of a vehicle crash, limited details", "Code 3")]
-internal class CarAccident : Callout
+internal class CarAccident : SuperCallout
 {
+    internal override Vector3 SpawnPoint { get; set; }
+    internal override float OnSceneDistance { get; set; } = 25;
+    internal override string CalloutName { get; set; } = "Car Accident (1)";
     private readonly UIMenuItem _callEms = new("~r~ Call EMS", "Calls for an ambulance.");
-    private readonly UIMenuItem _endCall = new("~y~End Callout", "Ends the callout early.");
-    private readonly MenuPool _interaction = new();
-    private readonly UIMenu _mainMenu = new("SuperCallouts", "~y~Choose an option.");
     private Blip _cBlip;
     private Vehicle _cVehicle;
     private Ped _cVictim;
-    private bool _onScene;
-    private Vector3 _spawnPoint;
     private float _spawnPointH;
 
-    public override bool OnBeforeCalloutDisplayed()
+    internal override void CalloutPrep()
     {
-        PyroFunctions.FindSideOfRoad(750, 280, out _spawnPoint, out _spawnPointH);
-        ShowCalloutAreaBlipBeforeAccepting(_spawnPoint, 10f);
+        PyroFunctions.FindSideOfRoad(750, 280, out var tempSpawnPoint, out _spawnPointH);
+        SpawnPoint = tempSpawnPoint;
         CalloutMessage = "~b~Dispatch:~s~ Reports of a motor vehicle accident.";
         CalloutAdvisory = "Caller reports possible hit and run.";
-        CalloutPosition = _spawnPoint;
         Functions.PlayScannerAudioUsingPosition(
             "CITIZENS_REPORT_04 CRIME_HIT_AND_RUN_03 IN_OR_ON_POSITION UNITS_RESPOND_CODE_03_01",
-            _spawnPoint);
-        return base.OnBeforeCalloutDisplayed();
+            SpawnPoint);
     }
 
-    public override bool OnCalloutAccepted()
+    internal override void CalloutAccepted()
     {
-        //Setup
-        Log.Info("car accident callout accepted...");
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~MVA",
             "Reports of a car accident, respond ~r~CODE-3");
-        //cVehicle
-        PyroFunctions.SpawnAnyCar(out _cVehicle, _spawnPoint);
+
+        PyroFunctions.SpawnAnyCar(out _cVehicle, SpawnPoint);
         _cVehicle.Heading = _spawnPointH;
         PyroFunctions.DamageVehicle(_cVehicle, 200, 200);
-        //cVictim
+        EntitiesToClear.Add(_cVehicle);
+
         _cVictim = _cVehicle.CreateRandomDriver();
         _cVictim.IsPersistent = true;
         _cVictim.Kill();
-        //Start UI
-        _mainMenu.MouseControlsEnabled = false;
-        _mainMenu.AllowCameraMovement = true;
-        _interaction.Add(_mainMenu);
-        _mainMenu.AddItem(_callEms);
-        _mainMenu.AddItem(_endCall);
-        _mainMenu.RefreshIndex();
-        _mainMenu.OnItemSelect += Interactions;
+        EntitiesToClear.Add(_cVictim);
+
+        MainMenu.RemoveItemAt(1);
+        MainMenu.AddItem(_callEms);
+        MainMenu.AddItem(EndCall);
         _callEms.LeftBadge = UIMenuItem.BadgeStyle.Alert;
         _callEms.Enabled = false;
-        //cBlip
+
         _cBlip = _cVehicle.AttachBlip();
         _cBlip.Color = Color.Red;
         _cBlip.EnableRoute(Color.Red);
-        return base.OnCalloutAccepted();
+        BlipsToClear.Add(_cBlip);
     }
 
-    public override void Process()
+    internal override void CalloutOnScene()
     {
-        try
-        {
-            //GamePlay
-            if (!_onScene && Game.LocalPlayer.Character.DistanceTo(_cVehicle) < 25f)
-            {
-                _onScene = true;
-                CalloutInterfaceAPI.Functions.SendMessage(this, "Arriving on scene. 10-23");
-                _cBlip.DisableRoute();
-                _callEms.Enabled = true;
-                Game.DisplayHelp($"Press ~{Settings.Interact.GetInstructionalId()}~ to open interaction menu.");
-            }
-
-            //Keybinds
-            if (Game.IsKeyDown(Settings.EndCall)) End();
-            if (Game.IsKeyDown(Settings.Interact)) _mainMenu.Visible = !_mainMenu.Visible;
-            _interaction.ProcessMenus();
-        }
-        catch (Exception e)
-        {
-            Log.Error(e.ToString());
-            End();
-        }
-
-        base.Process();
+        _cBlip.DisableRoute();
+        _callEms.Enabled = true;
     }
 
-    public override void End()
-    {
-        if (_cVehicle.Exists()) _cVehicle.Dismiss();
-        if (_cVictim.Exists()) _cVictim.Dismiss();
-        if (_cBlip.Exists()) _cBlip.Delete();
-        _mainMenu.Visible = false;
-
-        Game.DisplayHelp("Scene ~g~CODE 4", 5000);
-        CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code4");
-        base.End();
-    }
-
-    private void Interactions(UIMenu sender, UIMenuItem selItem, int index)
+    protected override void Interactions(UIMenu sender, UIMenuItem selItem, int index)
     {
         if (selItem == _callEms)
         {
@@ -132,13 +88,8 @@ internal class CarAccident : Callout
                 Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Code3,
                     EBackupUnitType.Firetruck);
             }
-
             _callEms.Enabled = false;
-        }
-        else if (selItem == _endCall)
-        {
-            Game.DisplaySubtitle("~y~Callout Ended.");
-            End();
+            base.Interactions(sender, selItem, index);
         }
     }
 }
