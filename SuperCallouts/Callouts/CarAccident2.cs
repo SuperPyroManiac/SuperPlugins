@@ -17,64 +17,55 @@ using Functions = LSPD_First_Response.Mod.API.Functions;
 namespace SuperCallouts.Callouts;
 
 [CalloutInterface("Car Accident", CalloutProbability.Medium, "Reports of a vehicle crash, limited details", "Code 3")]
-internal class CarAccident2 : Callout
+internal class CarAccident2 : SuperCallout
 {
+    internal override Vector3 SpawnPoint { get; set; } = World.GetNextPositionOnStreet(Player.Position.Around(45f, 320f));
+    internal override float OnSceneDistance { get; set; } = 25;
+    internal override string CalloutName { get; set; } = "Car Accident (2)";
     private readonly UIMenuItem _callFd = new("~r~ Call Fire Department", "Calls for ambulance and firetruck.");
-    private readonly UIMenu _convoMenu = new("SuperCallouts", "~y~Choose a subject to speak with.");
-    private readonly UIMenuItem _endCall = new("~y~End Callout", "Ends the event early.");
-    private readonly MenuPool _interaction = new();
-    private readonly UIMenu _mainMenu = new("SuperCallouts", "~y~Choose an option.");
-    private readonly UIMenuItem _questioning = new("Speak With Subjects");
     private Blip _cBlip1;
     private Blip _cBlip2;
     private Vehicle _cVehicle1;
     private Vehicle _cVehicle2;
     private string _name1;
-    private bool _onScene;
-    private Vector3 _spawnPoint;
-    private Vector3 _spawnPointoffset;
     private UIMenuItem _speakSuspect;
     private Ped _victim1;
     private Ped _victim2;
 
-    public override bool OnBeforeCalloutDisplayed()
+    internal override void CalloutPrep()
     {
-        _spawnPoint = World.GetNextPositionOnStreet(Game.LocalPlayer.Character.Position.Around(45f, 320f));
-        ShowCalloutAreaBlipBeforeAccepting(_spawnPoint, 10f);
         CalloutMessage = "~b~Dispatch:~s~ Reports of a motor vehicle accident.";
         CalloutAdvisory = "Caller reports their is multiple vehicles involved.";
-        CalloutPosition = _spawnPoint;
         Functions.PlayScannerAudioUsingPosition(
             "CITIZENS_REPORT_04 CRIME_HIT_AND_RUN_03 IN_OR_ON_POSITION UNITS_RESPOND_CODE_03_01",
-            _spawnPoint);
-        return base.OnBeforeCalloutDisplayed();
+            SpawnPoint);
     }
 
-    public override bool OnCalloutAccepted()
+    internal override void CalloutAccepted()
     {
-        //Setup
-        Log.Info("car accident callout accepted...");
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~MVA",
             "Reports of a car accident, respond ~r~CODE-3");
-        //cVehicle1
-        PyroFunctions.SpawnNormalCar(out _cVehicle1, _spawnPoint);
+
+        PyroFunctions.SpawnNormalCar(out _cVehicle1, SpawnPoint);
         _cVehicle1.EngineHealth = 0;
-        _spawnPointoffset = _cVehicle1.GetOffsetPosition(new Vector3(0, 7.0f, 0));
         PyroFunctions.DamageVehicle(_cVehicle1, 200, 200);
-        //cVehicle2
-        PyroFunctions.SpawnNormalCar(out _cVehicle2, _spawnPointoffset);
+        EntitiesToClear.Add(_cVehicle1);
+
+        PyroFunctions.SpawnNormalCar(out _cVehicle2, _cVehicle1.GetOffsetPosition(new Vector3(0, 7.0f, 0)));
         _cVehicle2.EngineHealth = 0;
         _cVehicle2.Rotation = new Rotator(0f, 0f, 180f);
         PyroFunctions.DamageVehicle(_cVehicle2, 200, 200);
         _cVehicle2.Metadata.searchDriver =
             "~r~half full hard liqure bottle~s~, ~y~pack of lighters~s~, ~g~coke cans~s~, ~g~cigarettes~s~";
-        //Victim1
+        EntitiesToClear.Add(_cVehicle2);
+
         _victim1 = _cVehicle1.CreateRandomDriver();
         _victim1.IsPersistent = true;
         _victim1.BlockPermanentEvents = true;
         _victim1.Tasks.LeaveVehicle(_cVehicle1, LeaveVehicleFlags.LeaveDoorOpen);
         PyroFunctions.SetAnimation(_victim1, "move_injured_ground");
-        //Victim2
+        EntitiesToClear.Add(_victim1);
+
         _victim2 = _cVehicle2.CreateRandomDriver();
         _victim2.IsPersistent = true;
         _victim2.BlockPermanentEvents = true;
@@ -83,84 +74,47 @@ internal class CarAccident2 : Callout
         _victim2.Metadata.searchPed = "~r~crushed beer can~s~, ~g~wallet~s~";
         _victim2.Metadata.stpAlcoholDetected = true;
         _name1 = Functions.GetPersonaForPed(_victim2).FullName;
-        //Start UI
-        _mainMenu.MouseControlsEnabled = false;
-        _mainMenu.AllowCameraMovement = true;
+        EntitiesToClear.Add(_victim2);
+
+
         _speakSuspect = new UIMenuItem("Speak with ~y~" + _name1);
-        _interaction.Add(_mainMenu);
-        _interaction.Add(_convoMenu);
-        _mainMenu.AddItem(_callFd);
-        _mainMenu.AddItem(_questioning);
-        _mainMenu.AddItem(_endCall);
-        _convoMenu.AddItem(_speakSuspect);
-        _mainMenu.RefreshIndex();
-        _convoMenu.RefreshIndex();
-        _mainMenu.BindMenuToItem(_convoMenu, _questioning);
-        _mainMenu.OnItemSelect += Interactions;
-        _convoMenu.OnItemSelect += Conversations;
+        ConvoMenu.AddItem(_speakSuspect);
+        MainMenu.RemoveItemAt(1);
+        MainMenu.AddItem(_callFd);
+        MainMenu.AddItem(EndCall);
         _callFd.LeftBadge = UIMenuItem.BadgeStyle.Alert;
-        _convoMenu.ParentMenu = _mainMenu;
         _callFd.Enabled = false;
-        _questioning.Enabled = false;
-        //Blips
+
         _cBlip1 = _victim1.AttachBlip();
         _cBlip1.Color = Color.Red;
         _cBlip1.EnableRoute(Color.Red);
+        BlipsToClear.Add(_cBlip1);
         _cBlip2 = _victim2.AttachBlip();
         _cBlip2.Color = Color.Red;
-        return base.OnCalloutAccepted();
+        BlipsToClear.Add(_cBlip2);
     }
 
-    public override void Process()
+    internal override void CalloutRunning()
     {
-        try
+        if (_victim2.IsDead)
         {
-            //GamePlay
-            if (!_onScene && Game.LocalPlayer.Character.DistanceTo(_cVehicle1) < 25f)
-            {
-                _onScene = true;
-                CalloutInterfaceAPI.Functions.SendMessage(this, "Arriving on scene. 10-23");
-                _cBlip1.DisableRoute();
-                _questioning.Enabled = true;
-                _callFd.Enabled = true;
-                NativeFunction.Natives.xCDDC2B77CE54AC6E(_victim1, _victim2, -1, 1000); //TASK_WRITHE
-                NativeFunction.Natives.x5AD23D40115353AC(_victim2, Game.LocalPlayer.Character, -1);
-                _victim1.BlockPermanentEvents = false;
-                _victim2.BlockPermanentEvents = false;
-                Game.DisplayHelp($"Press ~{Settings.Interact.GetInstructionalId()}~ to open interaction menu.");
-            }
-
-            //Keybinds
-            if (Game.IsKeyDown(Settings.EndCall)) End();
-            if (Game.IsKeyDown(Settings.Interact)) _mainMenu.Visible = !_mainMenu.Visible;
-            _interaction.ProcessMenus();
+            _speakSuspect.Enabled = false;
+            _speakSuspect.RightLabel = "~r~Dead";
         }
-        catch (Exception e)
-        {
-            Log.Error(e.ToString());
-            End();
-        }
-
-        base.Process();
     }
 
-    public override void End()
+    internal override void CalloutOnScene()
     {
-        if (_victim1.Exists()) _victim1.Dismiss();
-        if (_cVehicle1.Exists()) _cVehicle1.Dismiss();
-        if (_victim2.Exists()) _victim2.Dismiss();
-        if (_cVehicle2.Exists()) _cVehicle2.Dismiss();
-        if (_cBlip1.Exists()) _cBlip1.Delete();
-        if (_cBlip2.Exists()) _cBlip2.Delete();
-        _mainMenu.Visible = false;
-
-        Game.DisplayHelp("Scene ~g~CODE 4", 5000);
-        CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code4");
-        base.End();
+        _cBlip1.DisableRoute();
+        Questioning.Enabled = true;
+        _callFd.Enabled = true;
+        NativeFunction.Natives.xCDDC2B77CE54AC6E(_victim1, _victim2, -1, 1000); //TASK_WRITHE
+        NativeFunction.Natives.x5AD23D40115353AC(_victim2, Game.LocalPlayer.Character, -1);
+        _victim1.BlockPermanentEvents = false;
+        _victim2.BlockPermanentEvents = false;
     }
 
-    //UI Items
-    private void Interactions(UIMenu sender, UIMenuItem selItem, int index)
+    protected override void Interactions(UIMenu sender, UIMenuItem selItem, int index)
     {
         if (selItem == _callFd)
         {
@@ -179,17 +133,12 @@ internal class CarAccident2 : Callout
                 Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Code3,
                     EBackupUnitType.Firetruck);
             }
-
             _callFd.Enabled = false;
-        }
-        else if (selItem == _endCall)
-        {
-            Game.DisplaySubtitle("~y~Callout Ended.");
-            End();
+            base.Interactions(sender, selItem, index);
         }
     }
 
-    private void Conversations(UIMenu sender, UIMenuItem selItem, int index)
+    protected override void Conversations(UIMenu sender, UIMenuItem selItem, int index)
     {
         if (selItem == _speakSuspect)
             GameFiber.StartNew(delegate
@@ -211,5 +160,6 @@ internal class CarAccident2 : Callout
                 _victim2.Tasks.EnterVehicle(_cVehicle2, -1);
                 _victim2.BlockPermanentEvents = true;
             });
+        base.Conversations(sender, selItem, index);
     }
 }

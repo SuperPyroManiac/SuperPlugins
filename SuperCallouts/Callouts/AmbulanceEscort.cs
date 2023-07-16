@@ -17,7 +17,14 @@ internal class AmbulanceEscort : SuperCallout
     internal override Vector3 SpawnPoint { get; set; }
     internal override float OnSceneDistance { get; set; } = 35;
     internal override string CalloutName { get; set; } = "Ambulance Escort";
-    private readonly List<Vector3> _hospitals = new();
+    private readonly List<Vector3> _hospitals = new()
+    {
+        new Vector3(1825, 3692, 34),
+        new Vector3(-454, -339, 34),
+        new Vector3(293, -1438, 29),
+        new Vector3(-232, 6316, 30),
+        new Vector3(294, -1439, 29)
+    };
     private Blip _cBlip;
     private Blip _cBlip2;
     private Vehicle _cVehicle;
@@ -29,15 +36,7 @@ internal class AmbulanceEscort : SuperCallout
 
     internal override void CalloutPrep()
     {
-        //Hospital Locations
-        _hospitals.Add(new Vector3(1825, 3692, 34));
-        _hospitals.Add(new Vector3(-454, -339, 34));
-        _hospitals.Add(new Vector3(293, -1438, 29));
-        _hospitals.Add(new Vector3(-232, 6316, 30));
-        _hospitals.Add(new Vector3(294, -1439, 29));
         _hospital = _hospitals.OrderBy(x => x.DistanceTo(Game.LocalPlayer.Character.Position)).FirstOrDefault();
-
-        //Startup
         PyroFunctions.FindSideOfRoad(400, 70, out var tempSpawnPoint, out _spawnPointH);
         SpawnPoint = tempSpawnPoint;
         CalloutMessage = "~b~Dispatch:~s~ Ambulance requests police escort.";
