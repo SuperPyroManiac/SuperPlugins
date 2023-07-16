@@ -29,7 +29,7 @@ internal abstract class SuperCallout : Callout
     {
         CalloutPrep();
         CalloutPosition = SpawnPoint;
-        ShowCalloutAreaBlipBeforeAccepting(SpawnPoint, 10f);
+        ShowCalloutAreaBlipBeforeAccepting(SpawnPoint, 15f);
         return base.OnBeforeCalloutDisplayed();
     }
 
