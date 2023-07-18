@@ -118,6 +118,7 @@ internal class CarAccident2 : SuperCallout
     {
         if (selItem == _callFd)
         {
+            _callFd.Enabled = false;
             Game.DisplaySubtitle("~g~You~s~: Dispatch, we have an MVA. One person is seriously injured.");
             CalloutInterfaceAPI.Functions.SendMessage(this,
                 "**Dispatch** EMS has been notified and is on route. 11-78");
@@ -143,6 +144,7 @@ internal class CarAccident2 : SuperCallout
         if (selItem == _speakSuspect)
             GameFiber.StartNew(delegate
             {
+                _speakSuspect.Enabled = false;
                 CalloutInterfaceAPI.Functions.SendMessage(this, "Speaking with subject.");
                 Game.DisplaySubtitle("~g~You~s~: What happened? Are you ok?", 5000);
                 NativeFunction.Natives.x5AD23D40115353AC(_victim2,

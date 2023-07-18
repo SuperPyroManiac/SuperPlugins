@@ -50,8 +50,7 @@ internal class AmbulanceEscort : SuperCallout
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Ambulance Escort",
             "Ambulance has a wounded police officer in critical condition, ensure the ambulance has a clear path to the nearest hospital, get to the scene! High priority, respond ~y~CODE-3");
 
-        _cVehicle = new Vehicle("AMBULANCE", SpawnPoint)
-        { Heading = _spawnPointH, IsPersistent = true, IsSirenOn = true };
+        _cVehicle = new Vehicle("AMBULANCE", SpawnPoint) { Heading = _spawnPointH, IsPersistent = true, IsSirenOn = true };
         EntitiesToClear.Add(_cVehicle);
 
         _doc1 = new Ped("s_m_m_paramedic_01", SpawnPoint, 0f) { IsPersistent = true, BlockPermanentEvents = true };
