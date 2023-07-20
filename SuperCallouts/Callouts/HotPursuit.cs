@@ -1,5 +1,4 @@
 #region
-
 using System;
 using System.Drawing;
 using CalloutInterfaceAPI;
@@ -11,60 +10,48 @@ using Rage.Native;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using Functions = LSPD_First_Response.Mod.API.Functions;
-
 #endregion
 
 namespace SuperCallouts.Callouts;
 
 [CalloutInterface("High Speed Pursuit", CalloutProbability.Medium, "High performance vehicle fleeing from police",
     "Code 3")]
-internal class HotPursuit : Callout
+internal class HotPursuit : SuperCallout
 {
-    private readonly UIMenu _convoMenu = new("SuperCallouts", "~y~Choose a subject to speak with.");
-    private readonly UIMenuItem _endCall = new("~y~End Call", "Ends the callout.");
-    private readonly MenuPool _interaction = new();
-    private readonly UIMenu _mainMenu = new("SuperCallouts", "~y~Choose an option.");
-    private readonly UIMenuItem _questioning = new("Speak With Subjects");
+    internal override Vector3 SpawnPoint { get; set; } = World.GetNextPositionOnStreet(Player.Position.Around(350f));
+    internal override float OnSceneDistance { get; set; } = 25;
+    internal override string CalloutName { get; set; } = "High Speed Pursuit";
     private Ped _bad1;
     private Ped _bad2;
-    private Blip _cBlip1;
-    private Blip _cBlip2;
+    private Blip _cBlip;
     private Vehicle _cVehicle;
     private string _name1;
     private string _name2;
-    private bool _onScene;
     private LHandle _pursuit;
-    private bool _pursuitOver;
-    private Vector3 _spawnPoint;
     private UIMenuItem _speakSuspect;
     private UIMenuItem _speakSuspect2;
 
-    public override bool OnBeforeCalloutDisplayed()
+    internal override void CalloutPrep()
     {
-        _spawnPoint = World.GetNextPositionOnStreet(Game.LocalPlayer.Character.Position.Around(350f));
-        ShowCalloutAreaBlipBeforeAccepting(_spawnPoint, 30f);
         CalloutMessage = "~o~Traffic ANPR Report:~s~ High value stolen vehicle located.";
         CalloutAdvisory = "This is a powerful vehicle known to evade police in the past.";
-        CalloutPosition = _spawnPoint;
         Functions.PlayScannerAudioUsingPosition(
-            "WE_HAVE CRIME_BRANDISHING_WEAPON_01 CRIME_RESIST_ARREST IN_OR_ON_POSITION", _spawnPoint);
-        return base.OnBeforeCalloutDisplayed();
+            "WE_HAVE CRIME_BRANDISHING_WEAPON_01 CRIME_RESIST_ARREST IN_OR_ON_POSITION", SpawnPoint);
     }
 
-    public override bool OnCalloutAccepted()
+    internal override void CalloutAccepted()
     {
-        //Setup
-        Log.Info("HotPursuit callout accepted...");
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Stolen Car",
             "ANPR has spotted a stolen vehicle. This vehicle is high performance and has fled before. Respond ~r~CODE-3");
-        //cVehicle
+
         Model[] vehicleModels =
-            { "ZENTORNO", "TEMPESTA", "AUTARCH", "cheetah", "nero2", "tezeract", "visione", "prototipo", "emerus" };
-        _cVehicle = new Vehicle(vehicleModels[new Random().Next(vehicleModels.Length)], _spawnPoint)
-            { IsPersistent = true, IsStolen = true };
+        { "ZENTORNO", "TEMPESTA", "AUTARCH", "cheetah", "nero2", "tezeract", "visione", "prototipo", "emerus" };
+        _cVehicle = new Vehicle(vehicleModels[new Random().Next(vehicleModels.Length)], SpawnPoint)
+        { IsPersistent = true, IsStolen = true };
         _cVehicle.Metadata.searchDriver = "~r~exposed console wires~s~, ~y~wire cutters~s~";
         _cVehicle.Metadata.searchPassenger = "~r~empty beer cans~s~, ~r~opened box of ammo~s~";
-        //bad1
+        EntitiesToClear.Add(_cVehicle);
+
         _bad1 = _cVehicle.CreateRandomDriver();
         _bad1.IsPersistent = true;
         _bad1.BlockPermanentEvents = true;
@@ -77,7 +64,9 @@ internal class HotPursuit : Callout
         _bad1.Metadata.hasGunPermit = false;
         PyroFunctions.SetWanted(_bad1, true);
         PyroFunctions.SetDrunk(_bad1, true);
-        //bad2
+        _bad1.Tasks.CruiseWithVehicle(_cVehicle, 10f, VehicleDrivingFlags.Normal);
+        EntitiesToClear.Add(_bad1);
+
         _bad2 = new Ped();
         _bad2.WarpIntoVehicle(_cVehicle, 0);
         _bad2.IsPersistent = true;
@@ -85,141 +74,75 @@ internal class HotPursuit : Callout
         _name2 = Functions.GetPersonaForPed(_bad2).FullName;
         _bad2.Metadata.stpAlcoholDetected = true;
         PyroFunctions.SetDrunk(_bad2, true);
-        //Start UI
-        _mainMenu.MouseControlsEnabled = false;
-        _mainMenu.AllowCameraMovement = true;
+        EntitiesToClear.Add(_bad2);
+
         _speakSuspect = new UIMenuItem("Speak with ~y~" + _name1);
         _speakSuspect2 = new UIMenuItem("Speak with ~y~" + _name2);
-        _interaction.Add(_mainMenu);
-        _interaction.Add(_convoMenu);
-        _mainMenu.AddItem(_questioning);
-        _mainMenu.AddItem(_endCall);
-        _convoMenu.AddItem(_speakSuspect);
-        _convoMenu.AddItem(_speakSuspect2);
-        _mainMenu.RefreshIndex();
-        _convoMenu.RefreshIndex();
-        _mainMenu.BindMenuToItem(_convoMenu, _questioning);
-        _mainMenu.OnItemSelect += Interactions;
-        _convoMenu.OnItemSelect += Conversations;
-        _convoMenu.ParentMenu = _mainMenu;
-        _questioning.Enabled = false;
-        //Blips
-        _cBlip1 = _bad1.AttachBlip();
-        _cBlip1.EnableRoute(Color.Red);
-        _cBlip1.Color = Color.Red;
-        _cBlip1.Scale = .5f;
-        _cBlip2 = _bad2.AttachBlip();
-        _cBlip2.Color = Color.Red;
-        _cBlip2.Scale = .5f;
-        //Tasks
-        _bad1.Tasks.CruiseWithVehicle(_cVehicle, 10f, VehicleDrivingFlags.Normal);
+        ConvoMenu.AddItem(_speakSuspect);
+        ConvoMenu.AddItem(_speakSuspect2);
+        _speakSuspect.Enabled = false;
+        _speakSuspect2.Enabled = false;
 
-        return base.OnCalloutAccepted();
+        _cBlip = _cVehicle.AttachBlip();
+        _cBlip.EnableRoute(Color.Red);
+        _cBlip.Color = Color.Red;
+        _cBlip.Scale = .5f;
+        BlipsToClear.Add(_cBlip);
     }
 
-    public override void Process()
+    internal override void CalloutRunning()
     {
-        try
+        if (OnScene && !Functions.IsPursuitStillRunning(_pursuit) && Player.DistanceTo(_bad1) > 75 && Player.DistanceTo(_bad2) > 75) CalloutEnd();
+
+        if (OnScene && !Functions.IsPursuitStillRunning(_pursuit))
         {
-            //GamePlay
-            if (!_onScene && Game.LocalPlayer.Character.DistanceTo(_cVehicle) < 25f)
-            {
-                CalloutInterfaceAPI.Functions.SendMessage(this, "Show me code 100, in pursuit!");
-                _cBlip1.Delete();
-                _cBlip2.Delete();
-                _bad1.BlockPermanentEvents = false;
-                _bad2.BlockPermanentEvents = false;
-                _pursuit = Functions.CreatePursuit();
-                Functions.AddPedToPursuit(_pursuit, _bad1);
-                Functions.AddPedToPursuit(_pursuit, _bad2);
-                Functions.SetPursuitIsActiveForPlayer(_pursuit, true);
-                Game.DisplayHelp("~r~Suspects are evading!");
-                _onScene = true;
-            }
-
-            if (_onScene && !Functions.IsPursuitStillRunning(_pursuit) && !_pursuitOver)
-            {
-                _pursuitOver = true;
-                if (Game.LocalPlayer.Character.DistanceTo(_bad1) > 70f &&
-                    Game.LocalPlayer.Character.DistanceTo(_bad2) > 70f)
-                {
-                    Game.DisplaySubtitle("~r~Suspects escaped!");
-                    End();
-                    return;
-                }
-
-                Game.DisplayHelp($"Press ~{Settings.Interact.GetInstructionalId()}~ to open interaction menu.");
-                _questioning.Enabled = true;
-                if (_bad1.IsDead)
-                {
-                    _speakSuspect.Enabled = false;
-                    _speakSuspect.RightLabel = "~r~Dead";
-                }
-
-                if (_bad2.IsDead)
-                {
-                    _speakSuspect2.Enabled = false;
-                    _speakSuspect2.RightLabel = "~r~Dead";
-                }
-            }
-
-            //Keybinds
-            if (Game.IsKeyDown(Settings.EndCall)) End();
-            if (Game.IsKeyDown(Settings.Interact))
-            {
-                _mainMenu.Visible = !_mainMenu.Visible;
-                _convoMenu.Visible = false;
-            }
-
-            _interaction.ProcessMenus();
-        }
-        catch (Exception e)
-        {
-            Log.Error(e.ToString());
-            End();
+            _speakSuspect.Enabled = true;
+            _speakSuspect2.Enabled = true;
         }
 
-        base.Process();
-    }
-
-    public override void End()
-    {
-        if (_bad1.Exists()) _bad1.Dismiss();
-        if (_bad2.Exists()) _bad2.Dismiss();
-        if (_cVehicle.Exists()) _cVehicle.Dismiss();
-        if (_cBlip1.Exists()) _cBlip1.Delete();
-        if (_cBlip2.Exists()) _cBlip2.Delete();
-        _mainMenu.Visible = false;
-
-        Game.DisplayHelp("Scene ~g~CODE 4", 5000);
-        CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code4");
-        base.End();
-    }
-
-    //UI Items
-    private void Interactions(UIMenu sender, UIMenuItem selItem, int index)
-    {
-        if (selItem == _endCall)
+        if (_bad1.IsDead)
         {
-            Game.DisplaySubtitle("~y~Callout Ended.");
-            End();
+            _speakSuspect.Enabled = false;
+            _speakSuspect.RightLabel = "~r~Dead";
+        }
+
+        if (_bad2.IsDead)
+        {
+            _speakSuspect2.Enabled = false;
+            _speakSuspect2.RightLabel = "~r~Dead";
         }
     }
 
-    private void Conversations(UIMenu sender, UIMenuItem selItem, int index)
+    internal override void CalloutOnScene()
+    {
+        CalloutInterfaceAPI.Functions.SendMessage(this, "Show me in pursuit!");
+        _cBlip.Delete();
+        _bad1.BlockPermanentEvents = false;
+        _bad2.BlockPermanentEvents = false;
+        _pursuit = Functions.CreatePursuit();
+        Functions.AddPedToPursuit(_pursuit, _bad1);
+        Functions.AddPedToPursuit(_pursuit, _bad2);
+        Functions.SetPursuitIsActiveForPlayer(_pursuit, true);
+        Game.DisplayHelp("~r~Suspects are evading!");
+    }
+
+    protected override void Conversations(UIMenu sender, UIMenuItem selItem, int index)
     {
         if (selItem == _speakSuspect)
             GameFiber.StartNew(delegate
             {
+                _speakSuspect.Enabled = false;
                 Game.DisplaySubtitle("~g~You~s~: Why are you running?", 5000);
                 NativeFunction.Natives.x5AD23D40115353AC(_bad1, Game.LocalPlayer.Character, -1);
                 GameFiber.Wait(5000);
                 _bad1.PlayAmbientSpeech("GENERIC_CURSE_MED");
                 Game.DisplaySubtitle("~r~" + _name1 + "~s~: I don't know, why do you think?", 5000);
             });
+
         if (selItem == _speakSuspect2)
             GameFiber.StartNew(delegate
             {
+                _speakSuspect.Enabled = false;
                 Game.DisplaySubtitle("~g~You~s~: You know this is a stolen vehicle right? What are you guys doing?",
                     5000);
                 NativeFunction.Natives.x5AD23D40115353AC(_bad2, Game.LocalPlayer.Character, -1);
@@ -229,5 +152,6 @@ internal class HotPursuit : Callout
                     "~s~: I didn't do anything wrong, I was just hanging out with my buddy and all this happened.",
                     5000);
             });
+        base.Conversations(sender, selItem, index);
     }
 }
