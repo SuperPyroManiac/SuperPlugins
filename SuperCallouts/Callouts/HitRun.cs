@@ -1,6 +1,4 @@
 #region
-
-using System;
 using System.Drawing;
 using CalloutInterfaceAPI;
 using LSPD_First_Response.Mod.API;
@@ -11,7 +9,6 @@ using Rage.Native;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using Functions = LSPD_First_Response.Mod.API.Functions;
-
 #endregion
 
 namespace SuperCallouts.Callouts;
@@ -185,7 +182,7 @@ internal class HitRun : SuperCallout
                 NativeFunction.Natives.x5AD23D40115353AC(_bad1, Game.LocalPlayer.Character, -1);
                 GameFiber.Wait(5000);
                 _bad1.PlayAmbientSpeech("GENERIC_CURSE_MED");
-                Game.DisplaySubtitle("~r~" + _name1 + "~s~: Screw you pig, I aint talkin to you!", 5000);
+                Game.DisplaySubtitle("~r~" + _name2 + "~s~: Screw you pig, I aint talkin to you!", 5000);
             });
         if (selItem == _speakSuspect2)
             GameFiber.StartNew(delegate
@@ -196,7 +193,7 @@ internal class HitRun : SuperCallout
                 NativeFunction.Natives.x5AD23D40115353AC(_bad2, Game.LocalPlayer.Character, -1);
                 _bad1.PlayAmbientSpeech("GENERIC_CURSE_MED");
                 Game.DisplaySubtitle(
-                    "~r~" + _name1 +
+                    "~r~" + _name3 +
                     "~s~: I didnt do nothing at all, I was just chilling and they hit someone and started running, I was like bro, and they were like bruh, so we dipped.",
                     5000);
             });

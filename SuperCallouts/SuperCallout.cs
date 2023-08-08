@@ -112,7 +112,5 @@ internal abstract class SuperCallout : Callout
         if (selItem == EndCall) CalloutEnd();
     }
 
-    protected virtual void Conversations(UIMenu sender, UIMenuItem selItem, int index)
-    {
-    }
+    protected virtual void Conversations(UIMenu sender, UIMenuItem selItem, int index){}
 }
