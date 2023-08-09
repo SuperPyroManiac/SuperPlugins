@@ -14,7 +14,7 @@ using Functions = LSPD_First_Response.Mod.API.Functions;
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInterface("Car Accident", CalloutProbability.Medium, "Reports of a vehicle crash, limited details", "Code 3")]
+[CalloutInterface("[SC] Car Accident", CalloutProbability.Medium, "Reports of a vehicle crash, limited details", "Code 3")]
 internal class CarAccident : SuperCallout
 {
     private readonly UIMenuItem _callEms = new("~r~ Call EMS", "Calls for an ambulance.");

@@ -13,7 +13,7 @@ using Functions = LSPD_First_Response.Mod.API.Functions;
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInterface("Knife Attack", CalloutProbability.Medium, "Reports of suspect attacking people with large knife",
+[CalloutInterface("[SC] Knife Attack", CalloutProbability.Medium, "Reports of suspect attacking people with large knife",
     "Code 3")]
 internal class KnifeAttack : SuperCallout
 {

@@ -15,7 +15,7 @@ using Functions = LSPD_First_Response.Mod.API.Functions;
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInterface("Stolen Cleaning Truck", CalloutProbability.Low, "Reports of a stolen sanitization truck", "Code 3")]
+[CalloutInterface("[SC] Stolen Cleaning Truck", CalloutProbability.Low, "Reports of a stolen sanitization truck", "Code 3")]
 internal class ToiletPaperBandit : SuperCallout
 {
     private Ped _bad;

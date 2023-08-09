@@ -11,7 +11,7 @@ using Functions = LSPD_First_Response.Mod.API.Functions;
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInterface("Blocking Traffic", CalloutProbability.Medium, "Vehicle parked in the road", "Code 3")]
+[CalloutInterface("[SC] Blocking Traffic", CalloutProbability.Medium, "Vehicle parked in the road", "Code 3")]
 internal class BlockingTraffic : SuperCallout
 {
     private Blip _cBlip;

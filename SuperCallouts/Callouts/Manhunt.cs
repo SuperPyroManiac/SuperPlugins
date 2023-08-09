@@ -13,7 +13,7 @@ using Functions = LSPD_First_Response.Mod.API.Functions;
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInterface("Manhunt", CalloutProbability.Low, "Suspect evading police", "Code 3")]
+[CalloutInterface("[SC] Manhunt", CalloutProbability.Low, "Suspect evading police", "Code 3")]
 internal class Manhunt : SuperCallout
 {
     private Ped _bad;

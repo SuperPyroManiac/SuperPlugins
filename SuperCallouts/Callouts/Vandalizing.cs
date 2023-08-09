@@ -8,7 +8,7 @@ using SuperCallouts.SimpleFunctions;
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInterface("Vandalizing", CalloutProbability.Medium, "Reports of a person vandalizing property", "Code 3")]
+[CalloutInterface("[SC] Vandalizing", CalloutProbability.Medium, "Reports of a person vandalizing property", "Code 3")]
 internal class Vandalizing : Callout
 {
     private CState _state = CState.CheckDistance;

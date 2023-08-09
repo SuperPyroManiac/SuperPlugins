@@ -8,7 +8,7 @@ using Functions = LSPD_First_Response.Mod.API.Functions;
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInterface("Stolen Construction Vehicle", CalloutProbability.Low,
+[CalloutInterface("[SC] Stolen Construction Vehicle", CalloutProbability.Low,
     "Very large construction vehicle reported stolen", "Code 3")]
 internal class StolenDumptruck : SuperCallout
 {

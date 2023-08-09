@@ -15,7 +15,7 @@ using Functions = LSPD_First_Response.Mod.API.Functions;
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInterface("Open Carry", CalloutProbability.Low, "Person walking around with an assault rifle", "Code 2")]
+[CalloutInterface("[SC] Open Carry", CalloutProbability.Low, "Person walking around with an assault rifle", "Code 2")]
 internal class OpenCarry : SuperCallout
 {
     private Ped _bad1;

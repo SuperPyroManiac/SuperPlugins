@@ -20,7 +20,7 @@ using Object = Rage.Object;
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInterface("Bomb Report", CalloutProbability.Low, "A bomb has been found downtown - high priority all units",
+[CalloutInterface("[SC] Bomb Report", CalloutProbability.Low, "A bomb has been found downtown - high priority all units",
     "Code 99", "SWAT")]
 internal class Mafia4 : Callout
 {

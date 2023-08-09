@@ -17,7 +17,7 @@ using Functions = LSPD_First_Response.Mod.API.Functions;
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInterface("Dead Body", CalloutProbability.Medium, "Reports of a dead body on the road, limited details",
+[CalloutInterface("[SC] Dead Body", CalloutProbability.Medium, "Reports of a dead body on the road, limited details",
     "Code 3")]
 internal class DeadBody : SuperCallout
 {

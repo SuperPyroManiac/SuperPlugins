@@ -16,7 +16,7 @@ using Functions = LSPD_First_Response.Mod.API.Functions;
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInterface("Trespassing", CalloutProbability.Medium, "Aggressive person damaging property", "Code 3")]
+[CalloutInterface("[SC] Trespassing", CalloutProbability.Medium, "Aggressive person damaging property", "Code 3")]
 internal class Trespassing : SuperCallout
 {
     private readonly int _cScene = new Random().Next(0, 4);

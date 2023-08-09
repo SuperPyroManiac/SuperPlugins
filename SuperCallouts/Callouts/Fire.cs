@@ -11,7 +11,7 @@ using Functions = LSPD_First_Response.Mod.API.Functions;
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInterface("Fire", CalloutProbability.Medium, "Reports of a vehicle fire", "Code 3")]
+[CalloutInterface("[SC] Fire", CalloutProbability.Medium, "Reports of a vehicle fire", "Code 3")]
 internal class Fire : SuperCallout
 {
     private Blip _cBlip;

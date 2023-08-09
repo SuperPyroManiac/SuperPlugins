@@ -13,7 +13,7 @@ using Functions = LSPD_First_Response.Mod.API.Functions;
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInterface("Ambulance Escort", CalloutProbability.Medium, "Ambulance requires escort", "Code 3")]
+[CalloutInterface("[SC] Ambulance Escort", CalloutProbability.Medium, "Ambulance requires escort", "Code 3")]
 internal class AmbulanceEscort : SuperCallout
 {
     private readonly List<Vector3> _hospitals = new()

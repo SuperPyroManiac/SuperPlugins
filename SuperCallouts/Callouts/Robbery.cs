@@ -14,7 +14,7 @@ using Functions = LSPD_First_Response.Mod.API.Functions;
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInterface("Armed Robbery", CalloutProbability.Medium, "Armed robbery on civilian", "Code 3")]
+[CalloutInterface("[SC] Armed Robbery", CalloutProbability.Medium, "Armed robbery on civilian", "Code 3")]
 internal class Robbery : SuperCallout
 {
     private readonly Random _rNd = new();

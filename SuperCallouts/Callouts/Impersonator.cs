@@ -14,7 +14,7 @@ using Functions = LSPD_First_Response.Mod.API.Functions;
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInterface("Police Impersonator", CalloutProbability.Medium, "Active traffic stop with an impersonator",
+[CalloutInterface("[SC] Police Impersonator", CalloutProbability.Medium, "Active traffic stop with an impersonator",
     "Code 3")]
 internal class Impersonator : SuperCallout
 {

@@ -15,7 +15,7 @@ using Functions = LSPD_First_Response.Mod.API.Functions;
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInterface("Suspicious Vehicle", CalloutProbability.Medium, "Reports of a suspicious vehicle, limited details",
+[CalloutInterface("[SC] Suspicious Vehicle", CalloutProbability.Medium, "Reports of a suspicious vehicle, limited details",
     "Code 2")]
 internal class WeirdCar : SuperCallout
 {
@@ -47,10 +47,12 @@ internal class WeirdCar : SuperCallout
         PyroFunctions.SpawnNormalCar(out _cVehicle1, SpawnPoint);
         _cVehicle1.Heading = _spawnPointH;
         _cVehicle1.IsPersistent = true;
+        EntitiesToClear.Add(_cVehicle1);
 
         _cBlip1 = _cVehicle1.AttachBlip();
         _cBlip1.EnableRoute(Color.Yellow);
         _cBlip1.Color = Color.Yellow;
+        BlipsToClear.Add(_cBlip1);
 
         _speakSuspect = new UIMenuItem("Speak with ~y~" + _name);
         ConvoMenu.AddItem(_speakSuspect);

@@ -4,7 +4,7 @@
 //
 // namespace SuperCallouts.Callouts;
 //
-// [CalloutInterface("Template", CalloutProbability.Medium, "Example Description")]
+// [CalloutInterface("[SC] Template", CalloutProbability.Medium, "Example Description")]
 // internal class Template : SuperCallout
 // {
 //     internal override Vector3 SpawnPoint { get; set; }

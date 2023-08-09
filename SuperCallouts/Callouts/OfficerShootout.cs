@@ -12,7 +12,7 @@ using Functions = LSPD_First_Response.Mod.API.Functions;
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInterface("Shots Fired", CalloutProbability.Medium, "Officers under fire - high priority", "Code 99")]
+[CalloutInterface("[SC] Shots Fired", CalloutProbability.Medium, "Officers under fire - high priority", "Code 99")]
 internal class OfficerShootout : SuperCallout
 {
     private Ped _bad1;

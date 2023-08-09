@@ -11,7 +11,7 @@ using Functions = LSPD_First_Response.Mod.API.Functions;
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInterface("Transport Escape", CalloutProbability.Medium, "Prisoner escaped transport vehicle - high priority",
+[CalloutInterface("[SC] Transport Escape", CalloutProbability.Medium, "Prisoner escaped transport vehicle - high priority",
     "Code 3")]
 internal class PrisonTransport : SuperCallout
 {

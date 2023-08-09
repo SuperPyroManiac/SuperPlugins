@@ -15,7 +15,7 @@ using Functions = LSPD_First_Response.Mod.API.Functions;
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInterface("Hit and Run", CalloutProbability.Medium, "Car accident, one subject fleeing scene", "Code 3")]
+[CalloutInterface("[SC] Hit and Run", CalloutProbability.Medium, "Car accident, one subject fleeing scene", "Code 3")]
 internal class HitRun : SuperCallout
 {
     private Ped _bad1;

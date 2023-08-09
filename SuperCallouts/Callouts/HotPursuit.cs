@@ -16,7 +16,7 @@ using Functions = LSPD_First_Response.Mod.API.Functions;
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInterface("High Speed Pursuit", CalloutProbability.Medium, "High performance vehicle fleeing from police",
+[CalloutInterface("[SC] High Speed Pursuit", CalloutProbability.Medium, "High performance vehicle fleeing from police",
     "Code 3")]
 internal class HotPursuit : SuperCallout
 {

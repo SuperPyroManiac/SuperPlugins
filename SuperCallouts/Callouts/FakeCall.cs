@@ -11,7 +11,7 @@ using Functions = LSPD_First_Response.Mod.API.Functions;
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInterface("Call Dropped", CalloutProbability.Medium, "911 call dropped - conduct wellness check", "LOW")]
+[CalloutInterface("[SC] Call Dropped", CalloutProbability.Medium, "911 call dropped - conduct wellness check", "LOW")]
 internal class FakeCall : SuperCallout
 {
     private Blip _cBlip;

@@ -14,7 +14,7 @@ using Functions = LSPD_First_Response.Mod.API.Functions;
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInterface("Officer Ambush", CalloutProbability.Low, "Biker gang has ambushed local PD - Code 99", "Code 99",
+[CalloutInterface("[SC] Officer Ambush", CalloutProbability.Low, "Biker gang has ambushed local PD - Code 99", "Code 99",
     "SWAT")]
 internal class LostGang : Callout
 {

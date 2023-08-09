@@ -15,7 +15,7 @@ using Functions = LSPD_First_Response.Mod.API.Functions;
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInterface("Kidnapping", CalloutProbability.Medium, "Sighting of missing person in a vehicle", "Code 3")]
+[CalloutInterface("[SC] Kidnapping", CalloutProbability.Medium, "Sighting of missing person in a vehicle", "Code 3")]
 internal class Kidnapping : SuperCallout
 {
     private readonly Random _rNd = new();
