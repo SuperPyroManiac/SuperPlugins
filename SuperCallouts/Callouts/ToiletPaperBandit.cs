@@ -76,12 +76,15 @@ internal class ToiletPaperBandit : SuperCallout
 
     internal override void CalloutRunning()
     {
-        if (!Functions.IsPursuitStillRunning(_pursuit) || _bad.IsCuffed)
+        if (OnScene)
         {
-            if (!OnScene) return;
-            Game.DisplaySubtitle("~r~" + _name1 + "~s~: I surrender!", 5000);
-            Game.DisplayHelp($"Press ~{Settings.Interact.GetInstructionalId()}~ to open interaction menu.");
-            Questioning.Enabled = true;
+            if (!Functions.IsPursuitStillRunning(_pursuit) || _bad.IsCuffed)
+            {
+                if (!OnScene) return;
+                Game.DisplaySubtitle("~r~" + _name1 + "~s~: I surrender!", 5000);
+                Game.DisplayHelp($"Press ~{Settings.Interact.GetInstructionalId()}~ to open interaction menu.");
+                Questioning.Enabled = true;
+            }
         }
     }
 
