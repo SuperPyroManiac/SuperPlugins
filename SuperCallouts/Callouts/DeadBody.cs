@@ -17,140 +17,93 @@ using Functions = LSPD_First_Response.Mod.API.Functions;
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInterface("Dead Body", CalloutProbability.Medium, "Reports of a dead body on the road, limited details",
+[CalloutInterface("[SC] Dead Body", CalloutProbability.Medium, "Reports of a dead body on the road, limited details",
     "Code 3")]
-internal class DeadBody : Callout
+internal class DeadBody : SuperCallout
 {
     private Blip _cBlip;
-    private UIMenu _convoMenu;
     private Vehicle _cVehicle;
-    private UIMenuItem _endCall;
     private float _heading;
-    private MenuPool _interaction;
-    private UIMenu _mainMenu;
     private string _name;
-    private bool _onScene;
-    private UIMenuItem _questioning;
-    private Vector3 _spawnPoint;
     private UIMenuItem _speakSuspect;
     private Ped _victim;
     private Ped _witness;
+    internal override Vector3 SpawnPoint { get; set; }
+    internal override float OnSceneDistance { get; set; } = 90;
+    internal override string CalloutName { get; set; } = "Dead Body";
 
-    public override bool OnBeforeCalloutDisplayed()
+    internal override void CalloutPrep()
     {
-        PyroFunctions.FindSideOfRoad(750, 280, out _spawnPoint, out _heading);
-        ShowCalloutAreaBlipBeforeAccepting(_spawnPoint, 10f);
+        PyroFunctions.FindSideOfRoad(750, 280, out var tempSpawnPoint, out _heading);
+        SpawnPoint = tempSpawnPoint;
         CalloutMessage = "~r~" + Settings.EmergencyNumber + " Report:~s~ Reports of an injured person.";
         CalloutAdvisory = "Caller says the person is not breathing.";
-        CalloutPosition = _spawnPoint;
         Functions.PlayScannerAudioUsingPosition(
             "ATTENTION_ALL_UNITS_05 WE_HAVE CRIME_AMBULANCE_REQUESTED_01 IN_OR_ON_POSITION",
-            _spawnPoint);
-        return base.OnBeforeCalloutDisplayed();
+            SpawnPoint);
     }
 
-    public override bool OnCalloutAccepted()
+    internal override void CalloutAccepted()
     {
-        //Setup
-        Log.Info("Dead body callout accepted...");
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~y~Medical Emergency",
             "Caller reports an injured person that is not breathing, respond ~r~CODE-3");
-        //Vehicle
-        PyroFunctions.SpawnNormalCar(out _cVehicle, _spawnPoint, _heading);
-        //Peds
-        _witness = new Ped(_cVehicle.GetOffsetPositionFront(-9f))
-        {
-            IsPersistent = true,
-            BlockPermanentEvents = true
-        };
+
+        PyroFunctions.SpawnNormalCar(out _cVehicle, SpawnPoint, _heading);
+        EntitiesToClear.Add(_cVehicle);
+
+        _witness = new Ped(_cVehicle.GetOffsetPositionFront(-9f));
+        _witness.IsPersistent = true;
+        _witness.BlockPermanentEvents = true;
         _name = Functions.GetPersonaForPed(_witness).FullName;
-        _victim = new Ped(_witness.GetOffsetPositionFront(-2f))
-        {
-            IsPersistent = true,
-            BlockPermanentEvents = true
-        };
+        EntitiesToClear.Add(_witness);
+
+        _victim = new Ped(_witness.GetOffsetPositionFront(-2f));
+        _victim.IsPersistent = true;
+        _victim.BlockPermanentEvents = true;
+        EntitiesToClear.Add(_victim);
+
         Functions.SetPersonaForPed(_victim, new Persona("Lusica", "Stynnix", Gender.Female));
         _victim.Tasks.Cower(-1);
-        //Actions
+
         NativeFunction.Natives.x5AD23D40115353AC(_witness, _victim, -1);
         _witness.Tasks.Cower(-1);
-        //cBlip
+
         _cBlip = _cVehicle.AttachBlip();
         _cBlip.Color = Color.Red;
         _cBlip.EnableRoute(Color.Red);
-        //UI
-        PyroFunctions.BuildUi(out _interaction, out _mainMenu, out _convoMenu, out _questioning, out _endCall);
+        BlipsToClear.Add(_cBlip);
+
         _speakSuspect = new UIMenuItem("Speak with ~y~" + _name);
-        _convoMenu.AddItem(_speakSuspect);
-        _mainMenu.OnItemSelect += InteractionProcess;
-        _convoMenu.OnItemSelect += Conversations;
-        _mainMenu.RefreshIndex();
-        _convoMenu.RefreshIndex();
-        return base.OnCalloutAccepted();
+        ConvoMenu.AddItem(_speakSuspect);
     }
 
-    public override void Process()
+    internal override void CalloutRunning()
     {
-        try
+        if (_witness.IsDead)
         {
-            if (!_onScene && Game.LocalPlayer.Character.Position.DistanceTo(_spawnPoint) < 60)
-            {
-                _onScene = true;
-                _victim.Kill();
-                _cBlip.DisableRoute();
-                _questioning.Enabled = true;
-                Game.DisplayHelp($"Press ~{Settings.Interact.GetInstructionalId()}~ to open interaction menu.");
-
-                if (_witness.IsDead)
-                {
-                    _speakSuspect.Enabled = false;
-                    _speakSuspect.RightLabel = "~r~Dead";
-                }
-            }
-
-            //Keybinds
-            if (Game.IsKeyDown(Settings.EndCall)) End();
-            if (Game.IsKeyDown(Settings.Interact)) _mainMenu.Visible = !_mainMenu.Visible;
-            _interaction.ProcessMenus();
-        }
-        catch (Exception e)
-        {
-            Log.Error(e.ToString());
-            End();
-        }
-
-        base.Process();
-    }
-
-    public override void End()
-    {
-        if (_cVehicle.Exists()) _cVehicle.Dismiss();
-        if (_witness.Exists()) _witness.Dismiss();
-        if (_victim.Exists()) _victim.Dismiss();
-        if (_cBlip.Exists()) _cBlip.Delete();
-        _mainMenu.Visible = false;
-
-        Game.DisplayHelp("Scene ~g~CODE 4", 5000);
-        CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code4");
-        base.End();
-    }
-
-    private void InteractionProcess(UIMenu sender, UIMenuItem selItem, int index)
-    {
-        if (selItem == _endCall)
-        {
-            Game.DisplaySubtitle("~y~Callout Ended.");
-            End();
+            _speakSuspect.Enabled = false;
+            _speakSuspect.RightLabel = "~r~Dead";
         }
     }
 
-    private void Conversations(UIMenu sender, UIMenuItem selItem, int index)
+    internal override void CalloutOnScene()
+    {
+        NativeFunction.Natives.x5AD23D40115353AC(_witness, _victim, -1);
+        _witness.Tasks.Cower(-1);
+        _victim.Kill();
+        _cBlip.DisableRoute();
+        Questioning.Enabled = true;
+        Game.DisplayHelp($"Press ~{Settings.Interact.GetInstructionalId()}~ to open interaction menu.");
+    }
+
+    protected override void Conversations(UIMenu sender, UIMenuItem selItem, int index)
     {
         try
         {
             if (selItem == _speakSuspect)
                 GameFiber.StartNew(delegate
                 {
+                    _speakSuspect.Enabled = false;
                     Game.DisplaySubtitle("~g~You~s~: Do you know what happened to this person?", 4000);
                     NativeFunction.Natives.x5AD23D40115353AC(_witness, Game.LocalPlayer.Character, -1);
                     GameFiber.Wait(4000);
@@ -175,7 +128,9 @@ internal class DeadBody : Callout
         catch (Exception e)
         {
             Log.Error(e.ToString());
-            End();
+            CalloutEnd(true);
         }
+
+        base.Conversations(sender, selItem, index);
     }
 }

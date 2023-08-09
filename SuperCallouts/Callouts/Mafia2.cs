@@ -16,7 +16,7 @@ using Functions = LSPD_First_Response.Mod.API.Functions;
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInterface("Drug Raid", CalloutProbability.Low,
+[CalloutInterface("[SC] Drug Raid", CalloutProbability.Low,
     "Drug smuggling in abandoned apartment - Stakeout for SWAT teams", "Code 5", "SWAT")]
 internal class Mafia2 : Callout
 {

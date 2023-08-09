@@ -19,7 +19,7 @@ using Functions = LSPD_First_Response.Mod.API.Functions;
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInterface("Mafia Raid", CalloutProbability.Low,
+[CalloutInterface("[SC] Mafia Raid", CalloutProbability.Low,
     "Stakeout has found a meeting point for mob bosses - Raid in progress", "Code 5", "SWAT")]
 internal class Mafia3 : Callout
 {

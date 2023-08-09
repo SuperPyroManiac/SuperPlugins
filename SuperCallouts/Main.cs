@@ -4,7 +4,6 @@ using PyroCommon.API;
 using Rage;
 using SuperCallouts.Callouts;
 using SuperCallouts.SimpleFunctions;
-using Fire = SuperCallouts.Callouts.Fire;
 
 namespace SuperCallouts;
 
@@ -50,7 +49,7 @@ internal class Main : Plugin
         if (Settings.AmbulanceEscort) { Functions.RegisterCallout(typeof(AmbulanceEscort)); Log.Info("AmbulanceEscort Enabled"); }
         if (Settings.Aliens) { Functions.RegisterCallout(typeof(Aliens)); Log.Info("Aliens Enabled"); }
         if (Settings.OpenCarry) { Functions.RegisterCallout(typeof(OpenCarry)); Log.Info("Open Carry Enabled"); }
-        if (Settings.Fire) { Functions.RegisterCallout(typeof(Fire)); Log.Info("Fire Enabled"); }
+        if (Settings.Fire) { Functions.RegisterCallout(typeof(Callouts.Fire)); Log.Info("Fire Enabled"); }
         if (Settings.OfficerShootout) { Functions.RegisterCallout(typeof(OfficerShootout)); Log.Info("OfficerShootout Enabled"); }
         if (Settings.WeirdCar) { Functions.RegisterCallout(typeof(WeirdCar)); Log.Info("Suspicious Enabled"); }
         if (Settings.Manhunt) { Functions.RegisterCallout(typeof(Manhunt)); Log.Info("Manhunt Enabled"); }

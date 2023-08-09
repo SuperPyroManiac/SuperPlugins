@@ -6,19 +6,16 @@ using System.Drawing;
 using System.Linq;
 using CalloutInterfaceAPI;
 using LSPD_First_Response.Mod.Callouts;
-using PyroCommon.API;
 using Rage;
-using RAGENativeUI;
-using RAGENativeUI.Elements;
 using Functions = LSPD_First_Response.Mod.API.Functions;
 
 #endregion
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInterface("Knife Attack", CalloutProbability.Medium, "Reports of suspect attacking people with large knife",
+[CalloutInterface("[SC] Knife Attack", CalloutProbability.Medium, "Reports of suspect attacking people with large knife",
     "Code 3")]
-internal class KnifeAttack : Callout
+internal class KnifeAttack : SuperCallout
 {
     private readonly int _cScene = new Random().Next(1, 4);
 
@@ -40,130 +37,73 @@ internal class KnifeAttack : Callout
     private Blip _cBlip;
     private float _cHeading;
     private Tuple<Vector3, float> _chosenLocation;
-    private Vector3 _cSpawnPoint;
     private Ped _cSuspect;
-    private Tasks _cTasks = Tasks.CheckDistance;
     private Ped _cVictim;
-    private UIMenuItem _endCall;
-    private MenuPool _interaction;
-    private UIMenu _mainMenu;
+    internal override Vector3 SpawnPoint { get; set; }
+    internal override float OnSceneDistance { get; set; } = 25f;
+    internal override string CalloutName { get; set; } = "Knife Attack";
 
-    public override bool OnBeforeCalloutDisplayed()
+    internal override void CalloutPrep()
     {
         foreach (var unused in _locations)
-            _chosenLocation = _locations.OrderBy(x =>
-                x.Item1.DistanceTo(Game.LocalPlayer.Character.Position)).FirstOrDefault();
-        _cSpawnPoint = _chosenLocation!.Item1;
+            _chosenLocation = _locations.OrderBy(x => x.Item1.DistanceTo(Game.LocalPlayer.Character.Position))
+                .FirstOrDefault();
+        SpawnPoint = _chosenLocation!.Item1;
         _cHeading = _chosenLocation.Item2;
-        ShowCalloutAreaBlipBeforeAccepting(_cSpawnPoint, 10f);
+        ShowCalloutAreaBlipBeforeAccepting(SpawnPoint, 10f);
         CalloutMessage = "~b~Dispatch:~s~ Reports of a knife attack.";
         CalloutAdvisory = "Caller says attacker has injured others.";
-        CalloutPosition = _cSpawnPoint;
         Functions.PlayScannerAudioUsingPosition(
-            "CITIZENS_REPORT_04 CRIME_ROBBERY_01 IN_OR_ON_POSITION UNITS_RESPOND_CODE_03_01",
-            _cSpawnPoint);
-        return base.OnBeforeCalloutDisplayed();
+            "CITIZENS_REPORT_04 CRIME_ROBBERY_01 IN_OR_ON_POSITION UNITS_RESPOND_CODE_03_01", SpawnPoint);
     }
 
-    public override bool OnCalloutAccepted()
+    internal override void CalloutAccepted()
     {
-        //Setup
-        Log.Info("knife attack callout accepted. Using scenario #:" + _cScene);
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Knife Attack",
             "Reports of a person attacking people with a knife at the train station.");
-        //Suspect
-        _cSuspect = new Ped(_cSpawnPoint);
+
+        _cSuspect = new Ped(SpawnPoint);
         _cSuspect.Heading = _cHeading;
         _cSuspect.IsPersistent = true;
         _cSuspect.BlockPermanentEvents = true;
         _cSuspect.Inventory.Weapons.Add(WeaponHash.Knife);
         _cSuspect.Inventory.EquippedWeapon = WeaponHash.Knife;
-        //Victim
+        EntitiesToClear.Add(_cSuspect);
+
         _cVictim = new Ped(_cSuspect.FrontPosition);
         _cVictim.IsPersistent = true;
         _cVictim.BlockPermanentEvents = true;
-        //Blip
-        _cBlip = new Blip(_cSpawnPoint, 8f);
+        EntitiesToClear.Add(_cVictim);
+
+        _cBlip = new Blip(SpawnPoint, 8f);
         _cBlip.Color = Color.Red;
         _cBlip.Alpha /= 2;
         _cBlip.Name = "Callout";
         _cBlip.Flash(500, 8000);
         _cBlip.EnableRoute(Color.Red);
-        //UI Items
-        PyroFunctions.BuildUi(out _interaction, out _mainMenu, out _, out _, out _endCall);
-        _mainMenu.OnItemSelect += InteractionProcess;
-        return base.OnCalloutAccepted();
+        BlipsToClear.Add(_cBlip);
     }
 
-    public override void Process()
+    internal override void CalloutOnScene()
     {
-        switch (_cTasks)
+        _cVictim.Kill();
+        switch (_cScene)
         {
-            case Tasks.CheckDistance:
-                if (Game.LocalPlayer.Character.DistanceTo(_cSuspect) < 25f)
-                {
-                    CalloutInterfaceAPI.Functions.SendMessage(this, "Arriving on scene. 10-23");
-                    _cVictim.Kill();
-                    _cTasks = Tasks.OnScene;
-                }
-
+            case 1:
+                _cSuspect.Tasks.FightAgainst(Game.LocalPlayer.Character);
                 break;
-            case Tasks.OnScene:
-                Game.DisplayHelp($"Press ~{Settings.Interact.GetInstructionalId()}~ to open interaction menu.");
-                switch (_cScene)
-                {
-                    case 1:
-                        _cSuspect.Tasks.FightAgainst(Game.LocalPlayer.Character);
-                        break;
-                    case 2:
-                        var flee = Functions.CreatePursuit();
-                        Functions.AddPedToPursuit(flee, _cSuspect);
-                        Functions.SetPursuitIsActiveForPlayer(flee, true);
-                        break;
-                    case 3:
-                        _cSuspect.Tasks.Wander();
-                        break;
-                }
-
-                Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Locate Suspect",
-                    "Search for the suspect. Last was seen carrying a knife.");
-                _cBlip.Delete();
-                _cTasks = Tasks.End;
+            case 2:
+                var flee = Functions.CreatePursuit();
+                Functions.AddPedToPursuit(flee, _cSuspect);
+                Functions.SetPursuitIsActiveForPlayer(flee, true);
                 break;
-            case Tasks.End:
+            case 3:
+                _cSuspect.Tasks.Wander();
                 break;
         }
 
-        if (Game.IsKeyDown(Settings.EndCall)) End();
-        if (Game.IsKeyDown(Settings.Interact)) _mainMenu.Visible = !_mainMenu.Visible;
-        _interaction.ProcessMenus();
-        base.Process();
-    }
-
-    public override void End()
-    {
-        if (_cBlip) _cBlip.Delete();
-        if (_cVictim) _cVictim.Dismiss();
-        if (_cSuspect) _cSuspect.Dismiss();
-        Game.DisplayHelp("Scene ~g~CODE 4", 5000);
-
-        CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code4");
-        base.End();
-    }
-
-    private void InteractionProcess(UIMenu sender, UIMenuItem selItem, int index)
-    {
-        if (selItem == _endCall)
-        {
-            Game.DisplaySubtitle("~y~Callout Ended.");
-            End();
-        }
-    }
-
-    private enum Tasks
-    {
-        CheckDistance,
-        OnScene,
-        End
+        Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Locate Suspect",
+            "Search for the suspect. Last was seen carrying a knife.");
+        _cBlip.Delete();
     }
 }

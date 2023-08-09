@@ -34,6 +34,7 @@
         <WarningLevel>4</WarningLevel>
     </PropertyGroup>
     <ItemGroup>
+        <Compile Include="Callouts\1Template.cs" />
         <Compile Include="Callouts\Aliens.cs" />
         <Compile Include="Callouts\AmbulanceEscort.cs" />
         <Compile Include="Callouts\AngryAnimal.cs" />
@@ -81,8 +82,8 @@
         <Compile Include="Properties\AssemblyInfo.cs" />
         <Compile Include="Settings.cs" />
         <Compile Include="SimpleFunctions\ConsoleCommands.cs" />
-        <Compile Include="SimpleFunctions\PulloverSpots.cs" />
         <Compile Include="SimpleFunctions\VersionChecker.cs" />
+        <Compile Include="SuperCallout.cs" />
     </ItemGroup>
     <ItemGroup>
         <Content Include="SuperCallouts.ini" />

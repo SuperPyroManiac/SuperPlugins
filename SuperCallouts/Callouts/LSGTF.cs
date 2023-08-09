@@ -16,7 +16,7 @@ using Functions = LSPD_First_Response.Mod.API.Functions;
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInterface("Gang Taskforce", CalloutProbability.Low, "Stakeout has found a wanted cop killer - Speak with FIB",
+[CalloutInterface("[SC] Gang Taskforce", CalloutProbability.Low, "Stakeout has found a wanted cop killer - Speak with FIB",
     "Code 5", "SWAT")]
 internal class Lsgtf : Callout
 {

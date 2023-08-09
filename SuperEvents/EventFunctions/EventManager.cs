@@ -76,7 +76,11 @@ public static class EventManager
                 if (EventTimer.Finished && CurrentEvent == null) StartRandomEvent(); // TODO: Timer Ended
             }
         }
-        catch (Exception e) {Log.Error(e.ToString());}
+        catch (Exception e)
+        {
+            Log.Info("==== If this error is after an LSPDFR crash, then it is not related to the crash! ====");
+            Log.Error(e.ToString());
+        }
     }
 
     private static void LogBrokenEvents()

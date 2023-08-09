@@ -19,7 +19,7 @@ using Functions = LSPD_First_Response.Mod.API.Functions;
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInterface("Casino Raid", CalloutProbability.Low,
+[CalloutInterface("[SC] Casino Raid", CalloutProbability.Low,
     "FIB have discovered serious drug smuggling at the casino - meet with FIB", "Code 5", "SWAT")]
 internal class Mafia1 : Callout
 {

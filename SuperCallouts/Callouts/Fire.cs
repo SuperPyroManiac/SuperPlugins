@@ -1,111 +1,55 @@
 #region
 
-using System;
 using System.Drawing;
 using CalloutInterfaceAPI;
 using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.API;
 using Rage;
-using RAGENativeUI;
-using RAGENativeUI.Elements;
 using Functions = LSPD_First_Response.Mod.API.Functions;
 
 #endregion
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInterface("Fire", CalloutProbability.Medium, "Reports of a vehicle fire", "Code 3")]
-internal class Fire : Callout
+[CalloutInterface("[SC] Fire", CalloutProbability.Medium, "Reports of a vehicle fire", "Code 3")]
+internal class Fire : SuperCallout
 {
-    private readonly UIMenuItem _endCall = new("~y~End Callout", "Ends the callout early.");
-    private readonly MenuPool _interaction = new();
-    private readonly UIMenu _mainMenu = new("SuperCallouts", "~y~Choose an option.");
     private Blip _cBlip;
     private Vehicle _cVehicle;
-    private bool _onScene;
-    private Vector3 _spawnPoint;
     private float _spawnPointH;
+    internal override Vector3 SpawnPoint { get; set; }
+    internal override float OnSceneDistance { get; set; } = 35;
+    internal override string CalloutName { get; set; } = "Fire";
 
-    public override bool OnBeforeCalloutDisplayed()
+    internal override void CalloutPrep()
     {
-        PyroFunctions.FindSideOfRoad(750, 280, out _spawnPoint, out _spawnPointH);
-        ShowCalloutAreaBlipBeforeAccepting(_spawnPoint, 10f);
+        PyroFunctions.FindSideOfRoad(750, 280, out var tempSpawnPoint, out _spawnPointH);
+        SpawnPoint = tempSpawnPoint;
         CalloutMessage = "~b~Dispatch:~s~ Reports of a car fire";
         CalloutAdvisory = "Caller reports large flames coming from the vehicle.";
-        CalloutPosition = _spawnPoint;
         Functions.PlayScannerAudioUsingPosition("ATTENTION_ALL_UNITS_05 WE_HAVE CRIME_11_351_02 IN_OR_ON_POSITION",
-            _spawnPoint);
-        return base.OnBeforeCalloutDisplayed();
+            SpawnPoint);
     }
 
-    public override bool OnCalloutAccepted()
+    internal override void CalloutAccepted()
     {
-        //Setup
-        Log.Info("fire callout accepted...");
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Fire",
             "Reports of a car fire, respond ~r~CODE-3");
-        //cVehicle
-        PyroFunctions.SpawnAnyCar(out _cVehicle, _spawnPoint);
+
+        PyroFunctions.SpawnAnyCar(out _cVehicle, SpawnPoint);
         _cVehicle.Heading = _spawnPointH;
-        //Start UI
-        _mainMenu.MouseControlsEnabled = false;
-        _mainMenu.AllowCameraMovement = true;
-        _interaction.Add(_mainMenu);
-        _mainMenu.AddItem(_endCall);
-        _mainMenu.RefreshIndex();
-        _mainMenu.OnItemSelect += Interactions;
-        //cBlip
+        EntitiesToClear.Add(_cVehicle);
+
         _cBlip = _cVehicle.AttachBlip();
         _cBlip.Color = Color.Red;
         _cBlip.EnableRoute(Color.Red);
-        return base.OnCalloutAccepted();
+        BlipsToClear.Add(_cBlip);
     }
 
-    public override void Process()
+    internal override void CalloutOnScene()
     {
-        try
-        {
-            //GamePlay
-            if (!_onScene && Game.LocalPlayer.Character.DistanceTo(_cVehicle) < 25f)
-            {
-                _onScene = true;
-                _cBlip.DisableRoute();
-                for (var i = 0; i < 5; i++) PyroFunctions.FireControl(_spawnPoint.Around2D(1f, 5f), 24, true);
-                for (var i = 0; i < 10; i++) PyroFunctions.FireControl(_spawnPoint.Around2D(1f, 5f), 24, false);
-                Game.DisplayHelp($"Press ~{Settings.Interact.GetInstructionalId()}~ to open interaction menu.");
-            }
-
-            //Keybinds
-            if (Game.IsKeyDown(Settings.EndCall)) End();
-            if (Game.IsKeyDown(Settings.Interact)) _mainMenu.Visible = !_mainMenu.Visible;
-            _interaction.ProcessMenus();
-        }
-        catch (Exception e)
-        {
-            Log.Error(e.ToString());
-            End();
-        }
-
-        base.Process();
-    }
-
-    public override void End()
-    {
-        if (_cVehicle.Exists()) _cVehicle.Dismiss();
-        if (_cBlip.Exists()) _cBlip.Delete();
-        _mainMenu.Visible = false;
-
-        Game.DisplayHelp("Scene ~g~CODE 4", 5000);
-        CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code4");
-        base.End();
-    }
-
-    private void Interactions(UIMenu sender, UIMenuItem selItem, int index)
-    {
-        if (selItem == _endCall)
-        {
-            Game.DisplaySubtitle("~y~Callout Ended.");
-            End();
-        }
+        _cBlip.DisableRoute();
+        for (var i = 0; i < 5; i++) PyroFunctions.FireControl(SpawnPoint.Around2D(1f, 5f), 24, true);
+        for (var i = 0; i < 10; i++) PyroFunctions.FireControl(SpawnPoint.Around2D(1f, 5f), 24, false);
     }
 }

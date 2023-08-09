@@ -13,7 +13,7 @@ using Functions = LSPD_First_Response.Mod.API.Functions;
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInterface("Prison Break", CalloutProbability.Low, "Multiple prisoners have escaped - high priority all units",
+[CalloutInterface("[SC] Prison Break", CalloutProbability.Low, "Multiple prisoners have escaped - high priority all units",
     "Code 99")]
 internal class PrisonBreak : Callout
 {
