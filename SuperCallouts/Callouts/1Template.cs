@@ -1,34 +1,34 @@
-//using CalloutInterfaceAPI;
-//using LSPD_First_Response.Mod.Callouts;
-//using Rage;
+// using CalloutInterfaceAPI;
+// using LSPD_First_Response.Mod.Callouts;
+// using Rage;
 //
-//namespace SuperCallouts.Callouts;
+// namespace SuperCallouts.Callouts;
 //
-//[CalloutInterface("Template", CalloutProbability.Medium, "Example Description")]
-//internal class Template : SuperCallout
-//{
-//    internal override Vector3 SpawnPoint { get; set; }
-//    internal override float OnSceneDistance { get; set; }
-//    internal override string CalloutName { get; set; }
-//    
-//    internal override void CalloutPrep()
-//    {
-//    }
+// [CalloutInterface("Template", CalloutProbability.Medium, "Example Description")]
+// internal class Template : SuperCallout
+// {
+//     internal override Vector3 SpawnPoint { get; set; }
+//     internal override float OnSceneDistance { get; set; }
+//     internal override string CalloutName { get; set; }
 //
-//    internal override void CalloutAccepted()
-//    {
-//    }
+//     internal override void CalloutPrep()
+//     {
+//     }
 //
-//    internal override void CalloutRunning()
-//    {
-//    }
+//     internal override void CalloutAccepted()
+//     {
+//     }
 //
-//    internal override void CalloutOnScene()
-//    {
-//    }
+//     internal override void CalloutRunning()
+//     {
+//     }
 //
-//    internal override void CalloutEnd(bool forceCleanup = false)
-//    {
-//        base.CalloutEnd(forceCleanup);
-//    }
-//}
+//     internal override void CalloutOnScene()
+//     {
+//     }
+//
+//     internal override void CalloutEnd(bool forceCleanup = false)
+//     {
+//         base.CalloutEnd(forceCleanup);
+//     }
+// }
