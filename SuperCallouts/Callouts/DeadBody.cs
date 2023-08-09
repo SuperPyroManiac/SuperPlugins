@@ -29,7 +29,7 @@ internal class DeadBody : SuperCallout
     private Ped _victim;
     private Ped _witness;
     internal override Vector3 SpawnPoint { get; set; }
-    internal override float OnSceneDistance { get; set; } = 60;
+    internal override float OnSceneDistance { get; set; } = 90;
     internal override string CalloutName { get; set; } = "Dead Body";
 
     internal override void CalloutPrep()
@@ -88,6 +88,8 @@ internal class DeadBody : SuperCallout
 
     internal override void CalloutOnScene()
     {
+        NativeFunction.Natives.x5AD23D40115353AC(_witness, _victim, -1);
+        _witness.Tasks.Cower(-1);
         _victim.Kill();
         _cBlip.DisableRoute();
         Questioning.Enabled = true;
