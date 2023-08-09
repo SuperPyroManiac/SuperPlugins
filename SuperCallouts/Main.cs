@@ -34,6 +34,7 @@ internal class Main : Plugin
 
     private static void RegisterCallouts()
     {
+        //Reg
         if (Settings.HotPursuit) { Functions.RegisterCallout(typeof(HotPursuit)); Log.Info("HotPursuit Enabled"); }
         if (Settings.Robbery) { Functions.RegisterCallout(typeof(Robbery)); Log.Info("Robbery Enabled"); }
         if (Settings.CarAccident) { Functions.RegisterCallout(typeof(CarAccident)); Log.Info("CarAccident Enabled"); }
@@ -61,6 +62,8 @@ internal class Main : Plugin
         if (Settings.DeadBody) { Functions.RegisterCallout(typeof(DeadBody)); Log.Info("Dead Body Enabled"); }
         if (Settings.FakeCall) { Functions.RegisterCallout(typeof(FakeCall)); Log.Info("FakeCall Enabled"); }
         if (Settings.Trespassing) { Functions.RegisterCallout(typeof(Trespassing)); Log.Info("Trespassing Enabled"); }
+        if (Settings.Vandalizing) {Functions.RegisterCallout(typeof(Vandalizing)); Log.Info("Vandalizing Enabled");}
+        //Swat
         if (Settings.PrisonBreak) { Functions.RegisterCallout(typeof(PrisonBreak)); Log.Info("PrisonBreak Enabled"); }
         if (Settings.Mafia1) { Functions.RegisterCallout(typeof(Mafia1)); Log.Info("Mafia1 Enabled"); }
         if (Settings.Mafia2) { Functions.RegisterCallout(typeof(Mafia2)); Log.Info("Mafia2 Enabled"); }

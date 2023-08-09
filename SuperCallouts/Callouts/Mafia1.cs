@@ -133,6 +133,7 @@ internal class Mafia1 : Callout
                     if (Player.DistanceTo(_callPos) < 120f)
                     {
                         Game.SetRelationshipBetweenRelationshipGroups("MAFIA", "COP", Relationship.Hate);
+                        Game.SetRelationshipBetweenRelationshipGroups("MAFIA", "PLAYER", Relationship.Hate);
                         Game.SetRelationshipBetweenRelationshipGroups("COP", "MAFIA", Relationship.Hate);
                         Game.DisplayHelp($"Press ~{Settings.Interact.GetInstructionalId()}~ to open interaction menu.");
                         switch (_choice)
@@ -206,7 +207,7 @@ internal class Mafia1 : Callout
                     {
                         GameFiber.Wait(5000);
                         foreach (var entity in _badGuys.Where(entity => entity))
-                            entity.Tasks.FightAgainstClosestHatedTarget(100, -1);
+                            entity.Tasks.FightAgainstClosestHatedTarget(150, -1);
                         _aBlip.DisableRoute();
                         _state = SrState.End;
                     });
