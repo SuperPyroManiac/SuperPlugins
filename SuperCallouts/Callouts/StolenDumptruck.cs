@@ -12,13 +12,13 @@ namespace SuperCallouts.Callouts;
     "Very large construction vehicle reported stolen", "Code 3")]
 internal class StolenDumptruck : SuperCallout
 {
-    internal override Vector3 SpawnPoint { get; set; } = World.GetNextPositionOnStreet(Player.Position.Around(350f));
-    internal override float OnSceneDistance { get; set; } = 30;
-    internal override string CalloutName { get; set; } = "Stolen Construction Vehicle";
     private Ped _bad;
     private Blip _cBlip;
     private Vehicle _cVehicle;
-    
+    internal override Vector3 SpawnPoint { get; set; } = World.GetNextPositionOnStreet(Player.Position.Around(350f));
+    internal override float OnSceneDistance { get; set; } = 30;
+    internal override string CalloutName { get; set; } = "Stolen Construction Vehicle";
+
     internal override void CalloutPrep()
     {
         CalloutMessage = "~b~Dispatch:~s~ Stolen construction vehicle.";

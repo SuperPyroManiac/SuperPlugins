@@ -1,4 +1,5 @@
 #region
+
 using System.Drawing;
 using CalloutInterfaceAPI;
 using LSPD_First_Response;
@@ -6,6 +7,7 @@ using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.API;
 using Rage;
 using Functions = LSPD_First_Response.Mod.API.Functions;
+
 #endregion
 
 namespace SuperCallouts.Callouts;
@@ -13,9 +15,6 @@ namespace SuperCallouts.Callouts;
 [CalloutInterface("Shots Fired", CalloutProbability.Medium, "Officers under fire - high priority", "Code 99")]
 internal class OfficerShootout : SuperCallout
 {
-    internal override Vector3 SpawnPoint { get; set; }
-    internal override float OnSceneDistance { get; set; } = 50;
-    internal override string CalloutName { get; set; } = "Officer Shootout";
     private Ped _bad1;
     private Ped _bad2;
     private Blip _cBlip;
@@ -25,6 +24,9 @@ internal class OfficerShootout : SuperCallout
     private Vector3 _cSpawnPoint;
     private Vehicle _cVehicle;
     private float _spawnPointH;
+    internal override Vector3 SpawnPoint { get; set; }
+    internal override float OnSceneDistance { get; set; } = 50;
+    internal override string CalloutName { get; set; } = "Officer Shootout";
 
     internal override void CalloutPrep()
     {
@@ -110,6 +112,7 @@ internal class OfficerShootout : SuperCallout
             Functions.RequestBackup(_copVehicle.Position, EBackupResponseType.Code3,
                 EBackupUnitType.LocalUnit);
         }
+
         _cBlip.DisableRoute();
     }
 }

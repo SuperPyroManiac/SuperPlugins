@@ -1,4 +1,5 @@
 ﻿#region
+
 using System.Drawing;
 using CalloutInterfaceAPI;
 using LSPD_First_Response.Mod.Callouts;
@@ -8,6 +9,7 @@ using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts.CustomScenes;
 using Functions = LSPD_First_Response.Mod.API.Functions;
+
 #endregion
 
 namespace SuperCallouts.Callouts;
@@ -16,9 +18,6 @@ namespace SuperCallouts.Callouts;
     "Code 3")]
 internal class TruckCrash : SuperCallout
 {
-    internal override Vector3 SpawnPoint { get; set; } = new(2455.644f, -186.7955f, 87.83904f);
-    internal override float OnSceneDistance { get; set; } = 30;
-    internal override string CalloutName { get; set; } = "Truck Accident";
     private Vehicle _car1;
     private Vehicle _car2;
     private Blip _cBlip;
@@ -27,7 +26,10 @@ internal class TruckCrash : SuperCallout
     private Ped _victim;
     private Ped _victim2;
     private Ped _victim3;
-    
+    internal override Vector3 SpawnPoint { get; set; } = new(2455.644f, -186.7955f, 87.83904f);
+    internal override float OnSceneDistance { get; set; } = 30;
+    internal override string CalloutName { get; set; } = "Truck Accident";
+
     internal override void CalloutPrep()
     {
         CalloutMessage = "~r~" + Settings.EmergencyNumber + " Report:~s~ Large truck tipped over.";
@@ -40,7 +42,7 @@ internal class TruckCrash : SuperCallout
     {
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Truck Accident",
             "Reports of a truck tipped over on the highway. Respond ~r~CODE-3");
-        
+
         TruckCrashSetup.ConstructTrucksScene(out _victim, out _victim2, out _victim3, out _truck, out _car1,
             out _car2);
         _victim.IsPersistent = true;
@@ -55,12 +57,12 @@ internal class TruckCrash : SuperCallout
         EntitiesToClear.Add(_car1);
         _car2.IsPersistent = true;
         EntitiesToClear.Add(_car2);
-        
+
         _cBlip = _truck.AttachBlip();
         _cBlip.EnableRoute(Color.Yellow);
         _cBlip.Color = Color.Yellow;
         BlipsToClear.Add(_cBlip);
-        
+
         _speakSuspect = new UIMenuItem("Speak with ~y~victims");
         ConvoMenu.AddItem(_speakSuspect);
     }

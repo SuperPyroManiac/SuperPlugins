@@ -1,4 +1,5 @@
 ﻿#region
+
 using System;
 using System.Drawing;
 using CalloutInterfaceAPI;
@@ -11,6 +12,7 @@ using Rage.Native;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using Functions = LSPD_First_Response.Mod.API.Functions;
+
 #endregion
 
 namespace SuperCallouts.Callouts;
@@ -19,9 +21,6 @@ namespace SuperCallouts.Callouts;
     "Code 3")]
 internal class DeadBody : SuperCallout
 {
-    internal override Vector3 SpawnPoint { get; set; }
-    internal override float OnSceneDistance { get; set; } = 60;
-    internal override string CalloutName { get; set; } = "Dead Body";
     private Blip _cBlip;
     private Vehicle _cVehicle;
     private float _heading;
@@ -29,7 +28,10 @@ internal class DeadBody : SuperCallout
     private UIMenuItem _speakSuspect;
     private Ped _victim;
     private Ped _witness;
-    
+    internal override Vector3 SpawnPoint { get; set; }
+    internal override float OnSceneDistance { get; set; } = 60;
+    internal override string CalloutName { get; set; } = "Dead Body";
+
     internal override void CalloutPrep()
     {
         PyroFunctions.FindSideOfRoad(750, 280, out var tempSpawnPoint, out _heading);
@@ -91,7 +93,7 @@ internal class DeadBody : SuperCallout
         Questioning.Enabled = true;
         Game.DisplayHelp($"Press ~{Settings.Interact.GetInstructionalId()}~ to open interaction menu.");
     }
-    
+
     protected override void Conversations(UIMenu sender, UIMenuItem selItem, int index)
     {
         try
@@ -126,6 +128,7 @@ internal class DeadBody : SuperCallout
             Log.Error(e.ToString());
             CalloutEnd(true);
         }
+
         base.Conversations(sender, selItem, index);
     }
 }

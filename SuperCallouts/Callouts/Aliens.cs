@@ -1,10 +1,12 @@
 #region
+
 using System.Drawing;
 using CalloutInterfaceAPI;
 using LSPD_First_Response.Mod.Callouts;
 using Rage;
 using Rage.Native;
 using Functions = LSPD_First_Response.Mod.API.Functions;
+
 #endregion
 
 namespace SuperCallouts.Callouts;
@@ -12,14 +14,14 @@ namespace SuperCallouts.Callouts;
 [CalloutInterface("Aliens", CalloutProbability.VeryLow, "Alien sighting - possible prank", "Code 2")]
 internal class Aliens : SuperCallout
 {
-    internal override Vector3 SpawnPoint { get; set; } = World.GetNextPositionOnStreet(Player.Position.Around(350f));
-    internal override float OnSceneDistance { get; set; } = 30;
-    internal override string CalloutName { get; set; } = "Aliens";
     private Ped _alien1;
     private Ped _alien2;
     private Ped _alien3;
     private Blip _cBlip1;
     private Vehicle _cVehicle1;
+    internal override Vector3 SpawnPoint { get; set; } = World.GetNextPositionOnStreet(Player.Position.Around(350f));
+    internal override float OnSceneDistance { get; set; } = 30;
+    internal override string CalloutName { get; set; } = "Aliens";
 
     internal override void CalloutPrep()
     {

@@ -1,10 +1,12 @@
 #region
+
 using System.Drawing;
 using CalloutInterfaceAPI;
 using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.API;
 using Rage;
 using Functions = LSPD_First_Response.Mod.API.Functions;
+
 #endregion
 
 namespace SuperCallouts.Callouts;
@@ -12,12 +14,12 @@ namespace SuperCallouts.Callouts;
 [CalloutInterface("Illegal Parking", CalloutProbability.Medium, "Reports of a vehicle parked illegally", "LOW")]
 internal class IllegalParking : SuperCallout
 {
-    internal override Vector3 SpawnPoint { get; set; }
-    internal override float OnSceneDistance { get; set; } = 25;
-    internal override string CalloutName { get; set; } = "Illegal Parking";
     private Blip _cBlip;
     private Vehicle _cVehicle;
     private float _heading;
+    internal override Vector3 SpawnPoint { get; set; }
+    internal override float OnSceneDistance { get; set; } = 25;
+    internal override string CalloutName { get; set; } = "Illegal Parking";
 
     internal override void CalloutPrep()
     {
@@ -43,5 +45,8 @@ internal class IllegalParking : SuperCallout
         BlipsToClear.Add(_cBlip);
     }
 
-    internal override void CalloutOnScene() { _cBlip.DisableRoute(); }
+    internal override void CalloutOnScene()
+    {
+        _cBlip.DisableRoute();
+    }
 }

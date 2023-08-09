@@ -1,6 +1,5 @@
 #region
 
-using System;
 using System.Drawing;
 using CalloutInterfaceAPI;
 using LSPD_First_Response;
@@ -19,9 +18,6 @@ namespace SuperCallouts.Callouts;
 [CalloutInterface("Car Accident", CalloutProbability.Medium, "Reports of a vehicle crash, limited details", "Code 3")]
 internal class CarAccident2 : SuperCallout
 {
-    internal override Vector3 SpawnPoint { get; set; } = World.GetNextPositionOnStreet(Player.Position.Around(45f, 320f));
-    internal override float OnSceneDistance { get; set; } = 25;
-    internal override string CalloutName { get; set; } = "Car Accident (2)";
     private readonly UIMenuItem _callFd = new("~r~ Call Fire Department", "Calls for ambulance and firetruck.");
     private Blip _cBlip1;
     private Blip _cBlip2;
@@ -31,6 +27,12 @@ internal class CarAccident2 : SuperCallout
     private UIMenuItem _speakSuspect;
     private Ped _victim1;
     private Ped _victim2;
+
+    internal override Vector3 SpawnPoint { get; set; } =
+        World.GetNextPositionOnStreet(Player.Position.Around(45f, 320f));
+
+    internal override float OnSceneDistance { get; set; } = 25;
+    internal override string CalloutName { get; set; } = "Car Accident (2)";
 
     internal override void CalloutPrep()
     {
@@ -134,6 +136,7 @@ internal class CarAccident2 : SuperCallout
                 Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Code3,
                     EBackupUnitType.Firetruck);
             }
+
             _callFd.Enabled = false;
             base.Interactions(sender, selItem, index);
         }

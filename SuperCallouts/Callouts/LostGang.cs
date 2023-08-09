@@ -1,4 +1,5 @@
 ﻿#region
+
 using System.Collections.Generic;
 using System.Drawing;
 using CalloutInterfaceAPI;
@@ -8,11 +9,13 @@ using PyroCommon.API;
 using Rage;
 using SuperCallouts.CustomScenes;
 using Functions = LSPD_First_Response.Mod.API.Functions;
+
 #endregion
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInterface("Officer Ambush", CalloutProbability.Low, "Biker gang has ambushed local PD - Code 99", "Code 99", "SWAT")]
+[CalloutInterface("Officer Ambush", CalloutProbability.Low, "Biker gang has ambushed local PD - Code 99", "Code 99",
+    "SWAT")]
 internal class LostGang : Callout
 {
     private readonly List<Ped> _bikers = new();

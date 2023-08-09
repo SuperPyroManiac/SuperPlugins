@@ -1,4 +1,5 @@
 #region
+
 using System;
 using System.Drawing;
 using CalloutInterfaceAPI;
@@ -9,6 +10,7 @@ using Rage.Native;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using Functions = LSPD_First_Response.Mod.API.Functions;
+
 #endregion
 
 namespace SuperCallouts.Callouts;
@@ -16,9 +18,6 @@ namespace SuperCallouts.Callouts;
 [CalloutInterface("Kidnapping", CalloutProbability.Medium, "Sighting of missing person in a vehicle", "Code 3")]
 internal class Kidnapping : SuperCallout
 {
-    internal override Vector3 SpawnPoint { get; set; } = World.GetNextPositionOnStreet(Player.Position.Around(350f));
-    internal override float OnSceneDistance { get; set; } = 25f;
-    internal override string CalloutName { get; set; } = "Kidnapping";
     private readonly Random _rNd = new();
     private Ped _bad1;
     private Blip _cBlip1;
@@ -28,6 +27,9 @@ internal class Kidnapping : SuperCallout
     private UIMenuItem _speakSuspect;
     private UIMenuItem _speakSuspect2;
     private Ped _victim1;
+    internal override Vector3 SpawnPoint { get; set; } = World.GetNextPositionOnStreet(Player.Position.Around(350f));
+    internal override float OnSceneDistance { get; set; } = 25f;
+    internal override string CalloutName { get; set; } = "Kidnapping";
 
     internal override void CalloutPrep()
     {
@@ -161,6 +163,7 @@ internal class Kidnapping : SuperCallout
             Log.Error(e.ToString());
             CalloutEnd(true);
         }
+
         base.Conversations(sender, selItem, index);
     }
 }

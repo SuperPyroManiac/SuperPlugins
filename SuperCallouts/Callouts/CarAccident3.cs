@@ -1,4 +1,5 @@
 #region
+
 using System;
 using System.Drawing;
 using CalloutInterfaceAPI;
@@ -6,6 +7,7 @@ using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.API;
 using Rage;
 using Functions = LSPD_First_Response.Mod.API.Functions;
+
 #endregion
 
 namespace SuperCallouts.Callouts;
@@ -13,9 +15,6 @@ namespace SuperCallouts.Callouts;
 [CalloutInterface("Car Accident", CalloutProbability.Medium, "Reports of a vehicle crash, limited details", "Code 3")]
 internal class CarAccident3 : SuperCallout
 {
-    internal override Vector3 SpawnPoint { get; set; }
-    internal override float OnSceneDistance { get; set; } = 25;
-    internal override string CalloutName { get; set; } = "Car Accident (3)";
     private readonly int _choice = new Random().Next(0, 4);
     private Blip _eBlip;
     private Ped _ePed;
@@ -23,7 +22,10 @@ internal class CarAccident3 : SuperCallout
     private Vehicle _eVehicle;
     private Vehicle _eVehicle2;
     private float _spawnPointH;
-    
+    internal override Vector3 SpawnPoint { get; set; }
+    internal override float OnSceneDistance { get; set; } = 25;
+    internal override string CalloutName { get; set; } = "Car Accident (3)";
+
     internal override void CalloutPrep()
     {
         PyroFunctions.FindSideOfRoad(120, 45, out var tempSpawn, out _spawnPointH);
@@ -43,7 +45,7 @@ internal class CarAccident3 : SuperCallout
         PyroFunctions.SpawnNormalCar(out _eVehicle, SpawnPoint, _spawnPointH);
         PyroFunctions.DamageVehicle(_eVehicle, 200, 200);
         EntitiesToClear.Add(_eVehicle);
-        
+
         PyroFunctions.SpawnNormalCar(out _eVehicle2, _eVehicle.GetOffsetPositionFront(7f));
         _eVehicle2.Rotation = new Rotator(0f, 0f, 90f);
         PyroFunctions.DamageVehicle(_eVehicle2, 200, 200);
@@ -53,7 +55,7 @@ internal class CarAccident3 : SuperCallout
         _ePed.IsPersistent = true;
         _ePed.BlockPermanentEvents = true;
         EntitiesToClear.Add(_ePed);
-        
+
         _ePed2 = _eVehicle2.CreateRandomDriver();
         _ePed2.IsPersistent = true;
         _ePed2.BlockPermanentEvents = true;
@@ -66,7 +68,7 @@ internal class CarAccident3 : SuperCallout
         _eBlip.Flash(500, 8000);
         _eBlip.EnableRoute(Color.Red);
         BlipsToClear.Add(_eBlip);
-        
+
         Log.Info("Car Accident Scenario #" + _choice);
         switch (_choice)
         {
@@ -90,7 +92,7 @@ internal class CarAccident3 : SuperCallout
                 break;
         }
     }
-    
+
     internal override void CalloutOnScene()
     {
         Game.DisplayNotification("web_lossantospolicedept", "web_lossantospolicedept",

@@ -1,4 +1,5 @@
 #region
+
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -7,17 +8,17 @@ using CalloutInterfaceAPI;
 using LSPD_First_Response.Mod.Callouts;
 using Rage;
 using Functions = LSPD_First_Response.Mod.API.Functions;
+
 #endregion
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInterface("Knife Attack", CalloutProbability.Medium, "Reports of suspect attacking people with large knife", "Code 3")]
+[CalloutInterface("Knife Attack", CalloutProbability.Medium, "Reports of suspect attacking people with large knife",
+    "Code 3")]
 internal class KnifeAttack : SuperCallout
 {
-    internal override Vector3 SpawnPoint { get; set; }
-    internal override float OnSceneDistance { get; set; } = 25f;
-    internal override string CalloutName { get; set; } = "Knife Attack";
     private readonly int _cScene = new Random().Next(1, 4);
+
     private readonly List<Tuple<Vector3, float>> _locations = new()
     {
         Tuple.Create(new Vector3(98.695f, -1711.661f, 30.11257f), 226f),
@@ -32,15 +33,21 @@ internal class KnifeAttack : SuperCallout
         Tuple.Create(new Vector3(-882.8482f, -2308.612f, -11.7328f), 234f),
         Tuple.Create(new Vector3(-1066.983f, -2700.32f, -7.41007f), 339f)
     };
+
     private Blip _cBlip;
     private float _cHeading;
     private Tuple<Vector3, float> _chosenLocation;
     private Ped _cSuspect;
     private Ped _cVictim;
+    internal override Vector3 SpawnPoint { get; set; }
+    internal override float OnSceneDistance { get; set; } = 25f;
+    internal override string CalloutName { get; set; } = "Knife Attack";
 
     internal override void CalloutPrep()
     {
-        foreach (var unused in _locations) _chosenLocation = _locations.OrderBy(x => x.Item1.DistanceTo(Game.LocalPlayer.Character.Position)).FirstOrDefault();
+        foreach (var unused in _locations)
+            _chosenLocation = _locations.OrderBy(x => x.Item1.DistanceTo(Game.LocalPlayer.Character.Position))
+                .FirstOrDefault();
         SpawnPoint = _chosenLocation!.Item1;
         _cHeading = _chosenLocation.Item2;
         ShowCalloutAreaBlipBeforeAccepting(SpawnPoint, 10f);

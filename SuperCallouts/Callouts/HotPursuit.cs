@@ -1,4 +1,5 @@
 #region
+
 using System;
 using System.Drawing;
 using CalloutInterfaceAPI;
@@ -10,6 +11,7 @@ using Rage.Native;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using Functions = LSPD_First_Response.Mod.API.Functions;
+
 #endregion
 
 namespace SuperCallouts.Callouts;
@@ -18,9 +20,6 @@ namespace SuperCallouts.Callouts;
     "Code 3")]
 internal class HotPursuit : SuperCallout
 {
-    internal override Vector3 SpawnPoint { get; set; } = World.GetNextPositionOnStreet(Player.Position.Around(350f));
-    internal override float OnSceneDistance { get; set; } = 25;
-    internal override string CalloutName { get; set; } = "High Speed Pursuit";
     private Ped _bad1;
     private Ped _bad2;
     private Blip _cBlip;
@@ -30,6 +29,9 @@ internal class HotPursuit : SuperCallout
     private LHandle _pursuit;
     private UIMenuItem _speakSuspect;
     private UIMenuItem _speakSuspect2;
+    internal override Vector3 SpawnPoint { get; set; } = World.GetNextPositionOnStreet(Player.Position.Around(350f));
+    internal override float OnSceneDistance { get; set; } = 25;
+    internal override string CalloutName { get; set; } = "High Speed Pursuit";
 
     internal override void CalloutPrep()
     {
@@ -45,9 +47,9 @@ internal class HotPursuit : SuperCallout
             "ANPR has spotted a stolen vehicle. This vehicle is high performance and has fled before. Respond ~r~CODE-3");
 
         Model[] vehicleModels =
-        { "ZENTORNO", "TEMPESTA", "AUTARCH", "cheetah", "nero2", "tezeract", "visione", "prototipo", "emerus" };
+            { "ZENTORNO", "TEMPESTA", "AUTARCH", "cheetah", "nero2", "tezeract", "visione", "prototipo", "emerus" };
         _cVehicle = new Vehicle(vehicleModels[new Random().Next(vehicleModels.Length)], SpawnPoint)
-        { IsPersistent = true, IsStolen = true };
+            { IsPersistent = true, IsStolen = true };
         _cVehicle.Metadata.searchDriver = "~r~exposed console wires~s~, ~y~wire cutters~s~";
         _cVehicle.Metadata.searchPassenger = "~r~empty beer cans~s~, ~r~opened box of ammo~s~";
         EntitiesToClear.Add(_cVehicle);
@@ -92,7 +94,8 @@ internal class HotPursuit : SuperCallout
 
     internal override void CalloutRunning()
     {
-        if (OnScene && !Functions.IsPursuitStillRunning(_pursuit) && Player.DistanceTo(_bad1) > 75 && Player.DistanceTo(_bad2) > 75) CalloutEnd();
+        if (OnScene && !Functions.IsPursuitStillRunning(_pursuit) && Player.DistanceTo(_bad1) > 75 &&
+            Player.DistanceTo(_bad2) > 75) CalloutEnd();
 
         if (OnScene && !Functions.IsPursuitStillRunning(_pursuit))
         {

@@ -1,6 +1,5 @@
 #region
 
-using System;
 using System.Drawing;
 using CalloutInterfaceAPI;
 using LSPD_First_Response;
@@ -19,17 +18,17 @@ namespace SuperCallouts.Callouts;
 [CalloutInterface("Stolen Cleaning Truck", CalloutProbability.Low, "Reports of a stolen sanitization truck", "Code 3")]
 internal class ToiletPaperBandit : SuperCallout
 {
-    internal override Vector3 SpawnPoint { get; set; }
-    internal override float OnSceneDistance { get; set; } = 30;
-    internal override string CalloutName { get; set; } = "Stolen Cleaning Truck";
-    private LHandle _pursuit;
     private Ped _bad;
     private Blip _cBlip;
     private Vehicle _cVehicle;
     private string _name1;
+    private LHandle _pursuit;
     private float _spawnPointH;
     private UIMenuItem _speakSuspect;
-    
+    internal override Vector3 SpawnPoint { get; set; }
+    internal override float OnSceneDistance { get; set; } = 30;
+    internal override string CalloutName { get; set; } = "Stolen Cleaning Truck";
+
     internal override void CalloutPrep()
     {
         PyroFunctions.FindSideOfRoad(750, 280, out var tempSpawnPoint, out _spawnPointH);
@@ -70,7 +69,7 @@ internal class ToiletPaperBandit : SuperCallout
         _cBlip.Color = Color.Red;
         _cBlip.EnableRoute(Color.Red);
         BlipsToClear.Add(_cBlip);
-        
+
         _speakSuspect = new UIMenuItem("Speak with ~y~" + _name1);
         ConvoMenu.AddItem(_speakSuspect);
     }

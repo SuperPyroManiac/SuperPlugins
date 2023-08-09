@@ -20,7 +20,7 @@ internal class Vandalizing : Callout
     private Vehicle _cVehicle;
     private Ped _bad;
     private Blip _cBlip;
-    
+
         public override bool OnBeforeCalloutDisplayed()
     {
         _spawnPoint = World.GetNextPositionOnStreet(Game.LocalPlayer.Character.Position.Around(350f));
@@ -32,7 +32,7 @@ internal class Vandalizing : Callout
             "WE_HAVE CRIME_SUSPECT_ON_THE_RUN_03 IN_OR_ON_POSITION", _spawnPoint);
         return base.OnBeforeCalloutDisplayed();
     }
-    
+
     public override bool OnCalloutAccepted()
     {
         //Setup
@@ -62,7 +62,7 @@ internal class Vandalizing : Callout
         _mainMenu.OnItemSelect += Interactions;
         return base.OnCalloutAccepted();
     }
-    
+
     private void Interactions(UIMenu sender, UIMenuItem selItem, int index)
     {
         if (selItem == _endCall)
@@ -71,7 +71,7 @@ internal class Vandalizing : Callout
             End();
         }
     }
-    
+
     private enum CState
     {
         CheckDistance,

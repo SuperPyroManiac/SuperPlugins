@@ -1,4 +1,5 @@
 #region
+
 using System.Drawing;
 using CalloutInterfaceAPI;
 using LSPD_First_Response.Mod.Callouts;
@@ -7,6 +8,7 @@ using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using Functions = LSPD_First_Response.Mod.API.Functions;
+
 #endregion
 
 namespace SuperCallouts.Callouts;
@@ -14,14 +16,14 @@ namespace SuperCallouts.Callouts;
 [CalloutInterface("Manhunt", CalloutProbability.Low, "Suspect evading police", "Code 3")]
 internal class Manhunt : SuperCallout
 {
-    internal override Vector3 SpawnPoint { get; set; } = World.GetNextPositionOnStreet(Player.Position.Around(650f));
-    internal override float OnSceneDistance { get; set; } = 50;
-    internal override string CalloutName { get; set; } = "Manhunt";
     private Ped _bad;
     private Blip _cBlip;
     private Blip _cBlip2;
     private string _name1;
     private UIMenuItem _speakSuspect;
+    internal override Vector3 SpawnPoint { get; set; } = World.GetNextPositionOnStreet(Player.Position.Around(650f));
+    internal override float OnSceneDistance { get; set; } = 50;
+    internal override string CalloutName { get; set; } = "Manhunt";
 
     internal override void CalloutPrep()
     {

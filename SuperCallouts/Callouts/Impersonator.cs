@@ -1,4 +1,5 @@
 #region
+
 using System;
 using System.Drawing;
 using CalloutInterfaceAPI;
@@ -8,16 +9,15 @@ using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using Functions = LSPD_First_Response.Mod.API.Functions;
+
 #endregion
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInterface("Police Impersonator", CalloutProbability.Medium, "Active traffic stop with an impersonator", "Code 3")]
+[CalloutInterface("Police Impersonator", CalloutProbability.Medium, "Active traffic stop with an impersonator",
+    "Code 3")]
 internal class Impersonator : SuperCallout
 {
-    internal override Vector3 SpawnPoint { get; set; }
-    internal override float OnSceneDistance { get; set; } = 30;
-    internal override string CalloutName { get; set; } = "Impersonator";
     private Ped _bad;
     private Blip _cBlip;
     private Vehicle _cVehicle1;
@@ -26,6 +26,9 @@ internal class Impersonator : SuperCallout
     private float _spawnPointH;
     private UIMenuItem _speakSuspect;
     private Ped _victim;
+    internal override Vector3 SpawnPoint { get; set; }
+    internal override float OnSceneDistance { get; set; } = 30;
+    internal override string CalloutName { get; set; } = "Impersonator";
 
     internal override void CalloutPrep()
     {
@@ -48,7 +51,8 @@ internal class Impersonator : SuperCallout
         _cVehicle1.Heading = _spawnPointH;
         EntitiesToClear.Add(_cVehicle1);
 
-        _cVehicle2 = new Vehicle("DILETTANTE2", _cVehicle1.GetOffsetPositionFront(-9f)) { Heading = _spawnPointH, IsPersistent = true };
+        _cVehicle2 = new Vehicle("DILETTANTE2", _cVehicle1.GetOffsetPositionFront(-9f))
+            { Heading = _spawnPointH, IsPersistent = true };
         _cVehicle2.Metadata.searchDriver =
             "~y~police radio scanner~s~, ~y~handcuffs~s~, ~g~parking ticket~s~, ~g~cigarettes~s~";
         EntitiesToClear.Add(_cVehicle2);

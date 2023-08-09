@@ -1,4 +1,5 @@
 #region
+
 using System;
 using System.Drawing;
 using CalloutInterfaceAPI;
@@ -9,6 +10,7 @@ using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using Functions = LSPD_First_Response.Mod.API.Functions;
+
 #endregion
 
 namespace SuperCallouts.Callouts;
@@ -16,19 +18,19 @@ namespace SuperCallouts.Callouts;
 [CalloutInterface("Angry Animal", CalloutProbability.Medium, "Report of animal attacking people", "Code 3")]
 internal class AngryAnimal : SuperCallout
 {
-    internal override Vector3 SpawnPoint { get; set; } = World.GetNextPositionOnStreet(Player.Position.Around(450f));
-    internal override float OnSceneDistance { get; set; } = 30;
-    internal override string CalloutName { get; set; } = "Animal Attack";
     private readonly UIMenuItem _callEms = new("~r~ Call EMS", "Calls for a medical team.");
     private Ped _animal;
     private Blip _cBlip;
     private Blip _cBlip2;
     private Ped _victim;
+    internal override Vector3 SpawnPoint { get; set; } = World.GetNextPositionOnStreet(Player.Position.Around(450f));
+    internal override float OnSceneDistance { get; set; } = 30;
+    internal override string CalloutName { get; set; } = "Animal Attack";
 
     internal override void CalloutPrep()
     {
         CalloutMessage = "~r~" + Settings.EmergencyNumber +
-            " Report:~s~ Person(s) being attacked by a wild animal.";
+                         " Report:~s~ Person(s) being attacked by a wild animal.";
         CalloutAdvisory = "Caller says a wild animal is attacking people.";
         Functions.PlayScannerAudioUsingPosition("CITIZENS_REPORT_04 CRIME_11_351_02 UNITS_RESPOND_CODE_03_01",
             SpawnPoint);
@@ -92,6 +94,7 @@ internal class AngryAnimal : SuperCallout
                 Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Code3,
                     EBackupUnitType.Firetruck);
             }
+
             _callEms.Enabled = false;
             base.Interactions(sender, selItem, index);
         }

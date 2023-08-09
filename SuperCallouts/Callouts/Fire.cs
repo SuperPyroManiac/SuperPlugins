@@ -1,10 +1,12 @@
 #region
+
 using System.Drawing;
 using CalloutInterfaceAPI;
 using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.API;
 using Rage;
 using Functions = LSPD_First_Response.Mod.API.Functions;
+
 #endregion
 
 namespace SuperCallouts.Callouts;
@@ -12,13 +14,13 @@ namespace SuperCallouts.Callouts;
 [CalloutInterface("Fire", CalloutProbability.Medium, "Reports of a vehicle fire", "Code 3")]
 internal class Fire : SuperCallout
 {
-    internal override Vector3 SpawnPoint { get; set; }
-    internal override float OnSceneDistance { get; set; } = 35;
-    internal override string CalloutName { get; set; } = "Fire";
     private Blip _cBlip;
     private Vehicle _cVehicle;
     private float _spawnPointH;
-    
+    internal override Vector3 SpawnPoint { get; set; }
+    internal override float OnSceneDistance { get; set; } = 35;
+    internal override string CalloutName { get; set; } = "Fire";
+
     internal override void CalloutPrep()
     {
         PyroFunctions.FindSideOfRoad(750, 280, out var tempSpawnPoint, out _spawnPointH);
@@ -37,7 +39,7 @@ internal class Fire : SuperCallout
         PyroFunctions.SpawnAnyCar(out _cVehicle, SpawnPoint);
         _cVehicle.Heading = _spawnPointH;
         EntitiesToClear.Add(_cVehicle);
-        
+
         _cBlip = _cVehicle.AttachBlip();
         _cBlip.Color = Color.Red;
         _cBlip.EnableRoute(Color.Red);

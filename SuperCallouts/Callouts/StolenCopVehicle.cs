@@ -4,12 +4,9 @@ using System;
 using System.Drawing;
 using CalloutInterfaceAPI;
 using LSPD_First_Response;
-using LSPD_First_Response.Mod.API;
 using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.API;
 using Rage;
-using RAGENativeUI;
-using RAGENativeUI.Elements;
 using Functions = LSPD_First_Response.Mod.API.Functions;
 
 #endregion
@@ -19,12 +16,12 @@ namespace SuperCallouts.Callouts;
 [CalloutInterface("Stolen PD Vehicle", CalloutProbability.Medium, "Suspect has stolen a police vehicle", "Code 3")]
 internal class StolenCopVehicle : SuperCallout
 {
-    internal override Vector3 SpawnPoint { get; set; } = World.GetNextPositionOnStreet(Player.Position.Around(350f));
-    internal override float OnSceneDistance { get; set; } = 30;
-    internal override string CalloutName { get; set; } = "Stolen Police Vehicle";
     private Ped _bad;
     private Blip _cBlip;
     private Vehicle _cVehicle;
+    internal override Vector3 SpawnPoint { get; set; } = World.GetNextPositionOnStreet(Player.Position.Around(350f));
+    internal override float OnSceneDistance { get; set; } = 30;
+    internal override string CalloutName { get; set; } = "Stolen Police Vehicle";
 
     internal override void CalloutPrep()
     {

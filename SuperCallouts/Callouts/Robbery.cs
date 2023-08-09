@@ -1,4 +1,5 @@
 #region
+
 using System;
 using System.Drawing;
 using CalloutInterfaceAPI;
@@ -7,9 +8,8 @@ using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.API;
 using Rage;
 using Rage.Native;
-using RAGENativeUI;
-using RAGENativeUI.Elements;
 using Functions = LSPD_First_Response.Mod.API.Functions;
+
 #endregion
 
 namespace SuperCallouts.Callouts;
@@ -17,9 +17,6 @@ namespace SuperCallouts.Callouts;
 [CalloutInterface("Armed Robbery", CalloutProbability.Medium, "Armed robbery on civilian", "Code 3")]
 internal class Robbery : SuperCallout
 {
-    internal override Vector3 SpawnPoint { get; set; } = World.GetNextPositionOnStreet(Player.Position.Around(450f));
-    internal override float OnSceneDistance { get; set; } = 40;
-    internal override string CalloutName { get; set; } = "Armed Robbery";
     private readonly Random _rNd = new();
     private Blip _blip1;
     private Blip _blip2;
@@ -31,7 +28,10 @@ internal class Robbery : SuperCallout
     private Ped _rude1;
     private Ped _rude2;
     private Ped _victim;
-    
+    internal override Vector3 SpawnPoint { get; set; } = World.GetNextPositionOnStreet(Player.Position.Around(450f));
+    internal override float OnSceneDistance { get; set; } = 40;
+    internal override string CalloutName { get; set; } = "Armed Robbery";
+
     internal override void CalloutPrep()
     {
         CalloutMessage = "~r~" + Settings.EmergencyNumber + " Report:~s~ Person(s) being held at gunpoint.";
@@ -58,7 +58,7 @@ internal class Robbery : SuperCallout
         _cVehicle2.Rotation = new Rotator(0f, 0f, 180f);
         PyroFunctions.DamageVehicle(_cVehicle2, 200, 200);
         EntitiesToClear.Add(_cVehicle2);
-        
+
         _rude1 = _cVehicle.CreateRandomDriver();
         _rude1.IsPersistent = true;
         _rude1.BlockPermanentEvents = true;

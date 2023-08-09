@@ -19,10 +19,8 @@ namespace SuperCallouts.Callouts;
 [CalloutInterface("Trespassing", CalloutProbability.Medium, "Aggressive person damaging property", "Code 3")]
 internal class Trespassing : SuperCallout
 {
-    internal override Vector3 SpawnPoint { get; set; }
-    internal override float OnSceneDistance { get; set; } = 10;
-    internal override string CalloutName { get; set; } = "Trespassing";
     private readonly int _cScene = new Random().Next(0, 4);
+
     private readonly List<Tuple<Vector3, float>> _locations = new()
     {
         Tuple.Create(new Vector3(1323.59f, -1652.35f, 52.27f), 99f),
@@ -36,6 +34,7 @@ internal class Trespassing : SuperCallout
         Tuple.Create(new Vector3(-49.33f, -1756.87f, 29.42f), 255f),
         Tuple.Create(new Vector3(-1224.55f, -906.21f, 12.32f), 229f)
     };
+
     private Blip _cBlip;
     private Tuple<Vector3, float> _chosenLocation;
     private float _heading;
@@ -43,7 +42,10 @@ internal class Trespassing : SuperCallout
     private LHandle _pursuit;
     private UIMenuItem _speakSuspect;
     private Ped _suspect;
-    
+    internal override Vector3 SpawnPoint { get; set; }
+    internal override float OnSceneDistance { get; set; } = 10;
+    internal override string CalloutName { get; set; } = "Trespassing";
+
     internal override void CalloutPrep()
     {
         foreach (var unused in _locations)
@@ -65,7 +67,7 @@ internal class Trespassing : SuperCallout
         CalloutInterfaceAPI.Functions.SendMessage(this, "Dispatch: Caller reports suspect is drunk and may be armed.");
 
         _suspect = new Ped(SpawnPoint, _heading)
-        {IsPersistent = true, BlockPermanentEvents = true};
+            { IsPersistent = true, BlockPermanentEvents = true };
         PyroFunctions.SetDrunk(_suspect, true);
         _suspect.Metadata.stpAlcoholDetected = true;
         Functions.SetPersonaForPed(_suspect, new Persona("Benzo", "Effect", Gender.Male));
@@ -101,7 +103,7 @@ internal class Trespassing : SuperCallout
         NativeFunction.Natives.x5AD23D40115353AC(_suspect, Game.LocalPlayer.Character, -1);
         Game.DisplaySubtitle("~r~" + _name + "~s~: What do you want?", 3000);
     }
-    
+
     protected override void Conversations(UIMenu sender, UIMenuItem selItem, int index)
     {
         try

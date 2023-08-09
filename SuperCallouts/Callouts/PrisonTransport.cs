@@ -1,10 +1,12 @@
 #region
+
 using System;
 using System.Drawing;
 using CalloutInterfaceAPI;
 using LSPD_First_Response.Mod.Callouts;
 using Rage;
 using Functions = LSPD_First_Response.Mod.API.Functions;
+
 #endregion
 
 namespace SuperCallouts.Callouts;
@@ -13,14 +15,14 @@ namespace SuperCallouts.Callouts;
     "Code 3")]
 internal class PrisonTransport : SuperCallout
 {
-    internal override Vector3 SpawnPoint { get; set; } = World.GetNextPositionOnStreet(Player.Position.Around(500f));
-    internal override float OnSceneDistance { get; set; } = 90;
-    internal override string CalloutName { get; set; } = "Transport Escape";
     private readonly Random _rNd = new();
     private Ped _badguy;
     private Blip _cBlip1;
     private Ped _cop;
     private Vehicle _cVehicle;
+    internal override Vector3 SpawnPoint { get; set; } = World.GetNextPositionOnStreet(Player.Position.Around(500f));
+    internal override float OnSceneDistance { get; set; } = 90;
+    internal override string CalloutName { get; set; } = "Transport Escape";
 
     internal override void CalloutPrep()
     {
@@ -74,6 +76,7 @@ internal class PrisonTransport : SuperCallout
                     Functions.SetPursuitIsActiveForPlayer(pursuit, true);
                     if (_cop.IsAlive) _cop.Kill();
                 }
+
                 break;
             case 2:
                 Functions.AddPedToPursuit(pursuit, _badguy);

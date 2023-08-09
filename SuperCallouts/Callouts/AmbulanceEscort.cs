@@ -1,4 +1,5 @@
 #region
+
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -7,6 +8,7 @@ using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.API;
 using Rage;
 using Functions = LSPD_First_Response.Mod.API.Functions;
+
 #endregion
 
 namespace SuperCallouts.Callouts;
@@ -14,9 +16,6 @@ namespace SuperCallouts.Callouts;
 [CalloutInterface("Ambulance Escort", CalloutProbability.Medium, "Ambulance requires escort", "Code 3")]
 internal class AmbulanceEscort : SuperCallout
 {
-    internal override Vector3 SpawnPoint { get; set; }
-    internal override float OnSceneDistance { get; set; } = 35;
-    internal override string CalloutName { get; set; } = "Ambulance Escort";
     private readonly List<Vector3> _hospitals = new()
     {
         new Vector3(1825, 3692, 34),
@@ -25,6 +24,7 @@ internal class AmbulanceEscort : SuperCallout
         new Vector3(-232, 6316, 30),
         new Vector3(294, -1439, 29)
     };
+
     private Blip _cBlip;
     private Blip _cBlip2;
     private Vehicle _cVehicle;
@@ -33,6 +33,9 @@ internal class AmbulanceEscort : SuperCallout
     private Vector3 _hospital;
     private float _spawnPointH;
     private Ped _victim;
+    internal override Vector3 SpawnPoint { get; set; }
+    internal override float OnSceneDistance { get; set; } = 35;
+    internal override string CalloutName { get; set; } = "Ambulance Escort";
 
     internal override void CalloutPrep()
     {
@@ -50,7 +53,8 @@ internal class AmbulanceEscort : SuperCallout
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Ambulance Escort",
             "Ambulance has a wounded police officer in critical condition, ensure the ambulance has a clear path to the nearest hospital, get to the scene! High priority, respond ~y~CODE-3");
 
-        _cVehicle = new Vehicle("AMBULANCE", SpawnPoint) { Heading = _spawnPointH, IsPersistent = true, IsSirenOn = true };
+        _cVehicle = new Vehicle("AMBULANCE", SpawnPoint)
+            { Heading = _spawnPointH, IsPersistent = true, IsSirenOn = true };
         EntitiesToClear.Add(_cVehicle);
 
         _doc1 = new Ped("s_m_m_paramedic_01", SpawnPoint, 0f) { IsPersistent = true, BlockPermanentEvents = true };
@@ -70,7 +74,7 @@ internal class AmbulanceEscort : SuperCallout
         _cBlip.Color = Color.Green;
         BlipsToClear.Add(_cBlip);
     }
-    
+
     internal override void CalloutRunning()
     {
         if (_cVehicle.DistanceTo(_hospital) < 15f && OnScene)

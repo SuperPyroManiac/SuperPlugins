@@ -1,10 +1,12 @@
 ﻿#region
+
 using System.Drawing;
 using CalloutInterfaceAPI;
 using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.API;
 using Rage;
 using Functions = LSPD_First_Response.Mod.API.Functions;
+
 #endregion
 
 namespace SuperCallouts.Callouts;
@@ -12,11 +14,11 @@ namespace SuperCallouts.Callouts;
 [CalloutInterface("Call Dropped", CalloutProbability.Medium, "911 call dropped - conduct wellness check", "LOW")]
 internal class FakeCall : SuperCallout
 {
+    private Blip _cBlip;
     internal override Vector3 SpawnPoint { get; set; }
     internal override float OnSceneDistance { get; set; } = 30;
     internal override string CalloutName { get; set; } = "Prank Call";
-    private Blip _cBlip;
-    
+
     internal override void CalloutPrep()
     {
         PyroFunctions.FindSideOfRoad(750, 280, out var tempSpawnPoint, out _);

@@ -1,4 +1,5 @@
 #region
+
 using System.Drawing;
 using CalloutInterfaceAPI;
 using LSPD_First_Response.Mod.API;
@@ -9,6 +10,7 @@ using Rage.Native;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using Functions = LSPD_First_Response.Mod.API.Functions;
+
 #endregion
 
 namespace SuperCallouts.Callouts;
@@ -16,9 +18,6 @@ namespace SuperCallouts.Callouts;
 [CalloutInterface("Hit and Run", CalloutProbability.Medium, "Car accident, one subject fleeing scene", "Code 3")]
 internal class HitRun : SuperCallout
 {
-    internal override Vector3 SpawnPoint { get; set; }
-    internal override float OnSceneDistance { get; set; } = 20;
-    internal override string CalloutName { get; set; } = "Hit and Run";
     private Ped _bad1;
     private Ped _bad2;
     private Blip _cBlip1;
@@ -39,6 +38,9 @@ internal class HitRun : SuperCallout
     private UIMenuItem _speakVictim;
     private bool _startPursuit;
     private Ped _victim;
+    internal override Vector3 SpawnPoint { get; set; }
+    internal override float OnSceneDistance { get; set; } = 20;
+    internal override string CalloutName { get; set; } = "Hit and Run";
 
     internal override void CalloutPrep()
     {
@@ -107,7 +109,8 @@ internal class HitRun : SuperCallout
             _onScene = true;
             Questioning.Enabled = true;
             _speakVictim.Enabled = true;
-            Game.DisplayNotification($"Speak with the victim to continue! Press: ~{Settings.Interact.GetInstructionalId()}~");
+            Game.DisplayNotification(
+                $"Speak with the victim to continue! Press: ~{Settings.Interact.GetInstructionalId()}~");
         }
 
         if (_startPursuit && !_onScene2 && Game.LocalPlayer.Character.DistanceTo(_cVehicle2) < 50f)
@@ -158,7 +161,8 @@ internal class HitRun : SuperCallout
                     "~y~Dispatch~s~: ANPR has located a vehicle matching the license given to us. Dismiss victim and respond ~r~CODE-3",
                     5000);
                 GameFiber.Wait(3000);
-                Game.DisplaySubtitle("~g~You~s~: You are good to go, we will be in contact once we get more information on the suspect.");
+                Game.DisplaySubtitle(
+                    "~g~You~s~: You are good to go, we will be in contact once we get more information on the suspect.");
                 GameFiber.Wait(1000);
                 if (_victim.Exists()) _victim.Dismiss();
                 if (_cVehicle1.Exists()) _cVehicle1.Dismiss();

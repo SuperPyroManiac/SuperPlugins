@@ -1,4 +1,5 @@
 #region
+
 using System.Drawing;
 using CalloutInterfaceAPI;
 using LSPD_First_Response;
@@ -8,6 +9,7 @@ using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using Functions = LSPD_First_Response.Mod.API.Functions;
+
 #endregion
 
 namespace SuperCallouts.Callouts;
@@ -15,14 +17,14 @@ namespace SuperCallouts.Callouts;
 [CalloutInterface("Car Accident", CalloutProbability.Medium, "Reports of a vehicle crash, limited details", "Code 3")]
 internal class CarAccident : SuperCallout
 {
-    internal override Vector3 SpawnPoint { get; set; }
-    internal override float OnSceneDistance { get; set; } = 25;
-    internal override string CalloutName { get; set; } = "Car Accident (1)";
     private readonly UIMenuItem _callEms = new("~r~ Call EMS", "Calls for an ambulance.");
     private Blip _cBlip;
     private Vehicle _cVehicle;
     private Ped _cVictim;
     private float _spawnPointH;
+    internal override Vector3 SpawnPoint { get; set; }
+    internal override float OnSceneDistance { get; set; } = 25;
+    internal override string CalloutName { get; set; } = "Car Accident (1)";
 
     internal override void CalloutPrep()
     {
@@ -87,6 +89,7 @@ internal class CarAccident : SuperCallout
                 Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Code3,
                     EBackupUnitType.Firetruck);
             }
+
             _callEms.Enabled = false;
             base.Interactions(sender, selItem, index);
         }

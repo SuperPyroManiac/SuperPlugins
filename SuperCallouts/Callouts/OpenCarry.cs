@@ -1,8 +1,8 @@
 #region
+
 using System;
 using System.Drawing;
 using CalloutInterfaceAPI;
-using LSPD_First_Response.Mod.API;
 using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.API;
 using Rage;
@@ -10,6 +10,7 @@ using Rage.Native;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using Functions = LSPD_First_Response.Mod.API.Functions;
+
 #endregion
 
 namespace SuperCallouts.Callouts;
@@ -17,13 +18,13 @@ namespace SuperCallouts.Callouts;
 [CalloutInterface("Open Carry", CalloutProbability.Low, "Person walking around with an assault rifle", "Code 2")]
 internal class OpenCarry : SuperCallout
 {
-    internal override Vector3 SpawnPoint { get; set; } = World.GetNextPositionOnStreet(Player.Position.Around(350f));
-    internal override float OnSceneDistance { get; set; } = 20;
-    internal override string CalloutName { get; set; } = "Open Carry";
     private Ped _bad1;
     private Blip _cBlip;
     private string _name1;
     private UIMenuItem _speakSuspect;
+    internal override Vector3 SpawnPoint { get; set; } = World.GetNextPositionOnStreet(Player.Position.Around(350f));
+    internal override float OnSceneDistance { get; set; } = 20;
+    internal override string CalloutName { get; set; } = "Open Carry";
 
     internal override void CalloutPrep()
     {
