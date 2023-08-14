@@ -17,10 +17,11 @@ internal class InjuredCop : SuperCallout
     internal override float OnSceneDistance { get; set; } = 30;
     internal override string CalloutName { get; set; } = "Injured Cop";
     private Ped _cop;
+    private Ped _bad;
     private Vehicle _vehicle;
     private Blip _blip;
     private float _spawnPointH;
-    private int _rNd = new Random().Next(1);
+    private int _rNd = new Random().Next(2);
 
     internal override void CalloutPrep()
     {
@@ -55,6 +56,13 @@ internal class InjuredCop : SuperCallout
                 _cop.Kill();
                 PyroFunctions.DamageVehicle(_vehicle, 100, 100);
                 break;
+            case 2:
+                _bad = new Ped(_cop.Position.Around(2));
+                _bad.IsPersistent = true;
+                _bad.Kill();
+                PyroFunctions.SetWanted(_bad, true);
+                EntitiesToClear.Add(_bad);
+                break;
         }
         EntitiesToClear.Add(_cop);
 
@@ -67,6 +75,7 @@ internal class InjuredCop : SuperCallout
     internal override void CalloutOnScene()
     {
         Game.DisplayNotification("Investigate the area.");
+        if (_blip.Exists()) _blip.Delete();
         switch (_rNd)
         {
             case 0:
@@ -78,6 +87,8 @@ internal class InjuredCop : SuperCallout
                 break;
             case 1:
                 if (_cop.Exists()) _cop.BlockPermanentEvents = false;
+                break;
+            case 2:
                 break;
         }
     }
