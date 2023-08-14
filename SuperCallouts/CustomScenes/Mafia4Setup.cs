@@ -9,7 +9,7 @@ using Object = Rage.Object;
 
 namespace SuperCallouts.CustomScenes;
 
-public class Mafia4Setup
+internal class Mafia4Setup
 {
 //ConstructMafia4Scene(out fiboffice, out fiboffice2, out fiboffice3, out fiboffice4, out doctor, out doctor2, out fiboffice5, out fiboffice6, out fiboffice7, out benson, out burrito, out burrito2, out burrito3, out propMbCargoa);
 

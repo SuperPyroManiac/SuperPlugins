@@ -8,7 +8,7 @@ using Rage;
 
 namespace SuperCallouts.CustomScenes;
 
-public static class Mafia3Setup
+internal static class Mafia3Setup
 {
 //ConstructMafia3Scene(out limo, out benson, out benson2, out benson3, out mpExarmy, out mpPros, out mpPros2, out mpPros3, out mpPros4, out mpPros5, out mpPros6, out igBankman, out chemwork, out chemwork2, out chemwork3, out korlieut, out insurgent);
 
