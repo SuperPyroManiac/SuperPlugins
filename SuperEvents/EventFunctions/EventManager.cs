@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using LSPD_First_Response.Mod.API;
 using PyroCommon.API;
 using Rage;
@@ -78,7 +79,7 @@ public static class EventManager
         }
         catch (Exception e)
         {
-            Log.Info("==== If this error is after an LSPDFR crash, then it is not related to the crash! ====");
+            if (e is ThreadAbortException) return;
             Log.Error(e.ToString());
         }
     }
