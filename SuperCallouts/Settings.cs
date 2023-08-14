@@ -34,6 +34,8 @@ internal static class Settings
     internal static bool FakeCall = true;
     internal static bool Trespassing = true;
     internal static bool Vandalizing = true;
+    internal static bool InjuredCop = true;
+    internal static bool IndecentExposure = true;
     //Swat
     internal static bool PrisonBreak = true;
     internal static bool Mafia1 = true;
@@ -81,6 +83,8 @@ internal static class Settings
         FakeCall = ini.ReadBoolean("Settings", "FakeCall", true);
         Trespassing = ini.ReadBoolean("Settings", "Trespassing", true);
         Vandalizing = ini.ReadBoolean("Settings", "Vandalizing", true);
+        InjuredCop = ini.ReadBoolean("Settings", "InjuredCop", true);
+        IndecentExposure = ini.ReadBoolean("Settings", "IndecentExposure", true);
         //Swat
         PrisonBreak = ini.ReadBoolean("Settings", "PrisonBreak", true);
         Mafia1 = ini.ReadBoolean("Settings", "Mafia1", true);

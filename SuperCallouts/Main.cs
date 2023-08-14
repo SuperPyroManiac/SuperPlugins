@@ -37,7 +37,7 @@ internal class Main : Plugin
         //Reg
         if (Settings.HotPursuit) { Functions.RegisterCallout(typeof(HotPursuit)); Log.Info("HotPursuit Enabled"); }
         if (Settings.Robbery) { Functions.RegisterCallout(typeof(Robbery)); Log.Info("Robbery Enabled"); }
-        if (Settings.CarAccident) { Functions.RegisterCallout(typeof(CarAccident)); Log.Info("CarAccident Enabled"); }
+        if (Settings.CarAccident) { Functions.RegisterCallout(typeof(CarAccident)); Log.Info("CarAccidents Enabled"); }
         if (Settings.CarAccident) { Functions.RegisterCallout(typeof(CarAccident2)); }
         if (Settings.CarAccident) { Functions.RegisterCallout(typeof(CarAccident3)); }
         if (Settings.Animals) { Functions.RegisterCallout(typeof(AngryAnimal)); Log.Info("AngryAnimals Enabled"); }
@@ -63,6 +63,8 @@ internal class Main : Plugin
         if (Settings.FakeCall) { Functions.RegisterCallout(typeof(FakeCall)); Log.Info("FakeCall Enabled"); }
         if (Settings.Trespassing) { Functions.RegisterCallout(typeof(Trespassing)); Log.Info("Trespassing Enabled"); }
         if (Settings.Vandalizing) {Functions.RegisterCallout(typeof(Vandalizing)); Log.Info("Vandalizing Enabled");}
+        if (Settings.InjuredCop) {Functions.RegisterCallout(typeof(InjuredCop)); Log.Info("InjuredCop Enabled");}
+        if (Settings.IndecentExposure) {Functions.RegisterCallout(typeof(IndecentExposure)); Log.Info("IndecentExposure Enabled");}
         //Swat
         if (Settings.PrisonBreak) { Functions.RegisterCallout(typeof(PrisonBreak)); Log.Info("PrisonBreak Enabled"); }
         if (Settings.Mafia1) { Functions.RegisterCallout(typeof(Mafia1)); Log.Info("Mafia1 Enabled"); }

@@ -27,8 +27,8 @@ internal class WeirdCar : SuperCallout
     private float _spawnPointH;
     private UIMenuItem _speakSuspect;
     internal override Vector3 SpawnPoint { get; set; }
-    internal override float OnSceneDistance { get; set; }
-    internal override string CalloutName { get; set; }
+    internal override float OnSceneDistance { get; set; } = 30;
+    internal override string CalloutName { get; set; } = "Suspicious Vehicle";
 
     internal override void CalloutPrep()
     {

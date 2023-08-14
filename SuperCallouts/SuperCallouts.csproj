@@ -49,6 +49,8 @@
         <Compile Include="Callouts\HotPursuit.cs" />
         <Compile Include="Callouts\IllegalParking.cs" />
         <Compile Include="Callouts\Impersonator.cs" />
+        <Compile Include="Callouts\IndecentExposure.cs" />
+        <Compile Include="Callouts\InjuredCop.cs" />
         <Compile Include="Callouts\Kidnapping.cs" />
         <Compile Include="Callouts\KnifeAttack.cs" />
         <Compile Include="Callouts\LostGang.cs" />
