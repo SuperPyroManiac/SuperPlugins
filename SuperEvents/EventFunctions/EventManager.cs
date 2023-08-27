@@ -77,9 +77,8 @@ public static class EventManager
                 if (EventTimer.Finished && CurrentEvent == null) StartRandomEvent(); // TODO: Timer Ended
             }
         }
-        catch (Exception e)
+        catch (Exception e) when (e is not ThreadAbortException)
         {
-            if (e is ThreadAbortException) return;
             Log.Error(e.ToString());
         }
     }
