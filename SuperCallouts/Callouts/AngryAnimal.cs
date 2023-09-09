@@ -73,6 +73,7 @@ internal class AngryAnimal : SuperCallout
         _cBlip.DisableRoute();
         _animal.Tasks.FightAgainst(_victim, -1);
         _victim.Tasks.ReactAndFlee(_animal);
+        _callEms.Enabled = true;
     }
 
     protected override void Interactions(UIMenu sender, UIMenuItem selItem, int index)

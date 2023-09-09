@@ -15,9 +15,7 @@ internal class VersionChecker
         try
         {
             receivedData = webClient
-                .DownloadString(
-                    "https://www.lcpdfr.com/applications/downloadsng/interface/api.php?do=checkForUpdates&fileId=24437&textOnly=1")
-                .Trim();
+                .DownloadString("https://www.lcpdfr.com/applications/downloadsng/interface/api.php?do=checkForUpdates&fileId=24437&textOnly=1").Trim();
         }
         catch (WebException)
         {

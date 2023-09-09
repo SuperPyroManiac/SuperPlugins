@@ -119,7 +119,7 @@ internal class HotPursuit : SuperCallout
     internal override void CalloutOnScene()
     {
         CalloutInterfaceAPI.Functions.SendMessage(this, "Show me in pursuit!");
-        _cBlip.Delete();
+        if (_cBlip.Exists()) _cBlip.Delete();
         _bad1.BlockPermanentEvents = false;
         _bad2.BlockPermanentEvents = false;
         _pursuit = Functions.CreatePursuit();

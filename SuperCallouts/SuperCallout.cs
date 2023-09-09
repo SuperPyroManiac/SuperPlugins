@@ -59,7 +59,6 @@ internal abstract class SuperCallout : Callout
     {
         try
         {
-            CalloutRunning();
             if (!OnScene && Player.DistanceTo(SpawnPoint) < OnSceneDistance)
             {
                 OnScene = true;
@@ -70,6 +69,7 @@ internal abstract class SuperCallout : Callout
             if (Game.IsKeyDown(Settings.EndCall)) CalloutEnd();
             if (Game.IsKeyDown(Settings.Interact)) MainMenu.Visible = !MainMenu.Visible;
             Interaction.ProcessMenus();
+            CalloutRunning();
         }
         catch(Exception e)
         {
@@ -88,18 +88,18 @@ internal abstract class SuperCallout : Callout
     {
         if (forceCleanup)
         {
-            foreach (var entity in EntitiesToClear.Where(entity => entity))
+            foreach (var entity in EntitiesToClear)
                 if (entity.Exists()) entity.Delete();
             Log.Info($"{CalloutName} callout has been forcefully cleaned up.");
         }
         else
         {
-            foreach (var entity in EntitiesToClear.Where(entity => entity))
+            foreach (var entity in EntitiesToClear)
                 if (entity.Exists()) entity.Dismiss();
         }
         Game.DisplayHelp("~y~Callout Ended.");
         CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code-4");
-        foreach (var blip in BlipsToClear.Where(blip => blip))
+        foreach (var blip in BlipsToClear)
             if (blip.Exists()) blip.Delete();
 
         Interaction.CloseAllMenus();

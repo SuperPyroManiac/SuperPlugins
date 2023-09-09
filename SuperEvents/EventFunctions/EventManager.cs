@@ -41,17 +41,17 @@ public static class EventManager
         }
 
         AllEvents.Add(type);
-        var PRI = EventPriority switch
+        var pri = EventPriority switch
         {
             Priority.Low => 1,
             Priority.Normal => 2,
             Priority.High => 3,
             _ => 0
         };
-        while (PRI > 0)
+        while (pri > 0)
         {
             RegisteredEvents.Add(type);
-            PRI--;
+            pri--;
         }
     }
 
@@ -74,7 +74,7 @@ public static class EventManager
                 }
 
                 EventTimer.Paused = PlayerIsBusy || Main.PluginPaused;
-                if (EventTimer.Finished && CurrentEvent == null) StartRandomEvent(); // TODO: Timer Ended
+                if (EventTimer.Finished && CurrentEvent == null) StartRandomEvent();
             }
         }
         catch (Exception e)

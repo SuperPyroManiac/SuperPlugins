@@ -90,7 +90,7 @@ internal class ToiletPaperBandit : SuperCallout
 
     internal override void CalloutOnScene()
     {
-        _cBlip.DisableRoute();
+        if (_cBlip.Exists()) _cBlip.DisableRoute();
         _pursuit = Functions.CreatePursuit();
         Game.DisplayHelp(
             $"Press ~{Settings.Interact.GetInstructionalId()}~ to open interaction menu.");
