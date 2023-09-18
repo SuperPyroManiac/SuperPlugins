@@ -20,12 +20,13 @@ internal static class PlayerShot
         var rnd = new Random().Next(1, 5);
         if (Settings.EnableDebug)
         {
-            Game.DisplayHelp(
-                $"~w~{victim.Model.Name} (~r~{damageInfo.Damage} Dmg~w~) ({(victim.IsAlive ? "~g~Alive" : "~r~Dead")}~w~)" +
-                $"\n~r~{attacker?.Model.Name ?? "None"}" +
-                $"\n~y~{damageInfo.WeaponInfo.Hash.ToString()} {damageInfo.WeaponInfo.Type.ToString()} {damageInfo.WeaponInfo.Group.ToString()}" +
-                $"\n~r~{damageInfo.BoneInfo.BoneId.ToString()} {damageInfo.BoneInfo.Limb.ToString()} {damageInfo.BoneInfo.BodyRegion.ToString()}");
+            // Game.DisplayHelp(
+            //     $"~w~{victim.Model.Name} (~r~{damageInfo.Damage} Dmg~w~) ({(victim.IsAlive ? "~g~Alive" : "~r~Dead")}~w~)" +
+            //     $"\n~r~{attacker?.Model.Name ?? "None"}" +
+            //     $"\n~y~{damageInfo.WeaponInfo.Hash.ToString()} {damageInfo.WeaponInfo.Type.ToString()} {damageInfo.WeaponInfo.Group.ToString()}" +
+            //     $"\n~r~{damageInfo.BoneInfo.BoneId.ToString()} {damageInfo.BoneInfo.Limb.ToString()} {damageInfo.BoneInfo.BodyRegion.ToString()}");
             Log.Info("[DEBUG]: Detailed damage info Start");
+            Log.Info("[DEBUG]: AlternateDamageSystem: " + Settings.AlternatePlayerDamageSystem);
             Log.Info(
                 $"\n{victim.Model.Name} ({damageInfo.Damage} Dmg) ({(victim.IsAlive ? "Alive" : "Dead")})" +
                 $"\n{attacker?.Model.Name ?? "None"}" +
@@ -34,6 +35,27 @@ internal static class PlayerShot
             Log.Info("[DEBUG]: Detailed damage info Stop");
             Log.Info("[DEBUG]: Player health before shot: " + Player.Health);
             Log.Info("[DEBUG]: Player armor before shot: " + Player.Armor);
+        }
+
+        if (Settings.AlternatePlayerDamageSystem)
+        {
+            var owie = damageInfo.Damage * Settings.AltDamageMultiplier;
+            owie = owie - damageInfo.Damage;
+            Log.Info("[DEBUG]: Alternate damage applied: " + owie);
+            
+            if (Player.Armor >= 1)
+            {
+                Player.Armor -= owie;
+            }
+            
+            if (Player.Armor < 1)
+            {
+                Player.Health -= owie;
+            }
+            
+            Log.Info("[DEBUG]: Player health after shot: " + Player.Health);
+            Log.Info("[DEBUG]: Player armor after shot: " + Player.Armor);
+            return;
         }
 
         if (damageInfo.BoneInfo.BodyRegion == BodyRegion.Head && Settings.EnablePlayerHeadshotInstakill)
