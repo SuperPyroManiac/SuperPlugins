@@ -23,7 +23,6 @@ internal class Robbery : SuperCallout
     private Blip _blip3;
     private Vehicle _cVehicle;
     private Vehicle _cVehicle2;
-    private bool _onScene;
     private LHandle _pursuit;
     private Ped _rude1;
     private Ped _rude2;
@@ -102,7 +101,6 @@ internal class Robbery : SuperCallout
         _blip2.Delete();
         _blip3.Delete();
         _pursuit = Functions.CreatePursuit();
-        _onScene = true;
         var choices = _rNd.Next(1, 5);
         Game.DisplaySubtitle("~r~Suspect: ~w~What are the cops doing here?!", 5000);
         switch (choices)
