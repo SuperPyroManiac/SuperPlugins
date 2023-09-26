@@ -39,7 +39,6 @@ internal class Trespassing : SuperCallout
     private Tuple<Vector3, float> _chosenLocation;
     private float _heading;
     private string _name;
-    private LHandle _pursuit;
     private UIMenuItem _speakSuspect;
     private Ped _suspect;
     internal override Vector3 SpawnPoint { get; set; }
@@ -133,9 +132,10 @@ internal class Trespassing : SuperCallout
                         case 0:
                             _suspect.PlayAmbientSpeech("GENERIC_CURSE_MED");
                             _suspect.BlockPermanentEvents = false;
-                            _pursuit = Functions.CreatePursuit();
-                            Functions.AddPedToPursuit(_pursuit, _suspect);
-                            Functions.SetPursuitIsActiveForPlayer(_pursuit, true);
+                            var pursuit = Functions.CreatePursuit();
+                            pursuit = Functions.CreatePursuit();
+                            Functions.AddPedToPursuit(pursuit, _suspect);
+                            Functions.SetPursuitIsActiveForPlayer(pursuit, true);
                             break;
                         case 1:
                             _suspect.Tasks.FightAgainst(Game.LocalPlayer.Character, -1);

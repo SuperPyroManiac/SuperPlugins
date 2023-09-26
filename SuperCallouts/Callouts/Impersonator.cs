@@ -81,7 +81,6 @@ internal class Impersonator : SuperCallout
     {
         _cBlip.DisableRoute();
         _victim.Tasks.CruiseWithVehicle(10f, VehicleDrivingFlags.Normal);
-        var pursuit = Functions.CreatePursuit();
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Suspicious Pullover",
             "Be advised, caller has been instructed to leave scene by the dispatcher.");
         Game.DisplayHelp($"Press ~{Settings.Interact.GetInstructionalId()}~ to open interaction menu.");
@@ -91,6 +90,7 @@ internal class Impersonator : SuperCallout
         {
             case 1:
                 Game.DisplayHelp("Suspect is fleeing!");
+                var pursuit = Functions.CreatePursuit();
                 Functions.AddPedToPursuit(pursuit, _bad);
                 Functions.SetPursuitIsActiveForPlayer(pursuit, true);
                 CalloutInterfaceAPI.Functions.SendMessage(this, "Suspect is fleeing, show me in pursuit!");

@@ -26,7 +26,7 @@ internal class HotPursuit : SuperCallout
     private Vehicle _cVehicle;
     private string _name1;
     private string _name2;
-    private LHandle _pursuit;
+    private LHandle _pursuit = Functions.CreatePursuit();
     private UIMenuItem _speakSuspect;
     private UIMenuItem _speakSuspect2;
     internal override Vector3 SpawnPoint { get; set; } = World.GetNextPositionOnStreet(Player.Position.Around(350f));
@@ -122,7 +122,6 @@ internal class HotPursuit : SuperCallout
         if (_cBlip.Exists()) _cBlip.Delete();
         _bad1.BlockPermanentEvents = false;
         _bad2.BlockPermanentEvents = false;
-        _pursuit = Functions.CreatePursuit();
         Functions.AddPedToPursuit(_pursuit, _bad1);
         Functions.AddPedToPursuit(_pursuit, _bad2);
         Functions.SetPursuitIsActiveForPlayer(_pursuit, true);

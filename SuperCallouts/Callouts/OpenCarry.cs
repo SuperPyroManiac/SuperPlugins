@@ -76,13 +76,13 @@ internal class OpenCarry : SuperCallout
         _speakSuspect.Enabled = true;
         NativeFunction.Natives.x5AD23D40115353AC(_bad1, Game.LocalPlayer.Character, -1);
         GameFiber.Wait(1000);
-        var pursuit = Functions.CreatePursuit();
         _cBlip.DisableRoute();
         var choices = new Random().Next(1, 6);
         switch (choices)
         {
             case 1:
                 Game.DisplaySubtitle("~r~Suspect: ~s~I know my rights, leave me alone!", 5000);
+                var pursuit = Functions.CreatePursuit();
                 Functions.AddPedToPursuit(pursuit, _bad1);
                 Functions.SetPursuitIsActiveForPlayer(pursuit, true);
                 break;

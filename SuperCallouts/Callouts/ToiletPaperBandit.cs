@@ -22,7 +22,7 @@ internal class ToiletPaperBandit : SuperCallout
     private Blip _cBlip;
     private Vehicle _cVehicle;
     private string _name1;
-    private LHandle _pursuit;
+    private LHandle _pursuit = Functions.CreatePursuit();
     private float _spawnPointH;
     private UIMenuItem _speakSuspect;
     internal override Vector3 SpawnPoint { get; set; }
@@ -91,7 +91,6 @@ internal class ToiletPaperBandit : SuperCallout
     internal override void CalloutOnScene()
     {
         if (_cBlip.Exists()) _cBlip.DisableRoute();
-        _pursuit = Functions.CreatePursuit();
         Game.DisplayHelp(
             $"Press ~{Settings.Interact.GetInstructionalId()}~ to open interaction menu.");
         Game.DisplayHelp("Suspect is fleeing!");

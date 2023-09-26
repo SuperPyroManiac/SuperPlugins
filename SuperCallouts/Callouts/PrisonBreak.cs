@@ -30,7 +30,6 @@ internal class PrisonBreak : Callout
     private Ped _prisoner3;
     private Ped _prisoner4;
     private Ped _prisoner5;
-    private LHandle _pursuit;
 
     public override bool OnBeforeCalloutDisplayed()
     {
@@ -100,19 +99,18 @@ internal class PrisonBreak : Callout
             _onScene = true;
             Game.DisplaySubtitle("Suspects spotted, they appear to have stolen a bus!", 5000);
             _cBlip1.DisableRoute();
-            _pursuit = Functions.CreatePursuit();
-            Functions.AddPedToPursuit(_pursuit, _prisoner1);
-            Functions.AddPedToPursuit(_pursuit, _prisoner2);
-            Functions.AddPedToPursuit(_pursuit, _prisoner3);
-            Functions.AddPedToPursuit(_pursuit, _prisoner4);
-            Functions.AddPedToPursuit(_pursuit, _prisoner5);
-            Functions.SetPursuitIsActiveForPlayer(_pursuit, true);
+            var pursuit = Functions.CreatePursuit();
+            Functions.AddPedToPursuit(pursuit, _prisoner1);
+            Functions.AddPedToPursuit(pursuit, _prisoner2);
+            Functions.AddPedToPursuit(pursuit, _prisoner3);
+            Functions.AddPedToPursuit(pursuit, _prisoner4);
+            Functions.AddPedToPursuit(pursuit, _prisoner5);
+            Functions.SetPursuitIsActiveForPlayer(pursuit, true);
             Functions.PlayScannerAudioUsingPosition(
                 "DISPATCH_SWAT_UNITS_FROM_01 IN_OR_ON_POSITION UNITS_RESPOND_CODE_99_01", _spawnPoint);
             Game.DisplayHelp("You can end the pursuit to stop the callout at any time!", 7000);
         }
 
-        if (_onScene && !Functions.IsPursuitStillRunning(_pursuit)) End();
         base.Process();
     }
 

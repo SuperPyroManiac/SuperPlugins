@@ -23,7 +23,6 @@ internal class Robbery : SuperCallout
     private Blip _blip3;
     private Vehicle _cVehicle;
     private Vehicle _cVehicle2;
-    private LHandle _pursuit;
     private Ped _rude1;
     private Ped _rude2;
     private Ped _victim;
@@ -100,7 +99,7 @@ internal class Robbery : SuperCallout
         _blip1.Delete();
         _blip2.Delete();
         _blip3.Delete();
-        _pursuit = Functions.CreatePursuit();
+        var pursuit = Functions.CreatePursuit();
         var choices = _rNd.Next(1, 5);
         Game.DisplaySubtitle("~r~Suspect: ~w~What are the cops doing here?!", 5000);
         switch (choices)
@@ -119,10 +118,10 @@ internal class Robbery : SuperCallout
                     NativeFunction.Natives.x72C896464915D1B1(_rude1,
                         Game.LocalPlayer.Character);
                     NativeFunction.Natives.xF166E48407BAC484(_rude2, Game.LocalPlayer.Character, 0, 1);
-                    Functions.AddPedToPursuit(_pursuit, _rude1);
+                    Functions.AddPedToPursuit(pursuit, _rude1);
                     GameFiber.Wait(10000);
-                    Functions.AddPedToPursuit(_pursuit, _rude2);
-                    Functions.SetPursuitIsActiveForPlayer(_pursuit, true);
+                    Functions.AddPedToPursuit(pursuit, _rude2);
+                    Functions.SetPursuitIsActiveForPlayer(pursuit, true);
                 });
                 break;
             case 2:
@@ -137,9 +136,9 @@ internal class Robbery : SuperCallout
                     NativeFunction.Natives.x72C896464915D1B1(_rude2,
                         Game.LocalPlayer.Character);
                     _victim.Tasks.Cower(-1);
-                    Functions.AddPedToPursuit(_pursuit, _rude1);
-                    Functions.AddPedToPursuit(_pursuit, _rude2);
-                    Functions.SetPursuitIsActiveForPlayer(_pursuit, true);
+                    Functions.AddPedToPursuit(pursuit, _rude1);
+                    Functions.AddPedToPursuit(pursuit, _rude2);
+                    Functions.SetPursuitIsActiveForPlayer(pursuit, true);
                 });
                 break;
             case 3:
@@ -154,9 +153,9 @@ internal class Robbery : SuperCallout
                     PyroFunctions.SetWanted(_victim, true);
                     NativeFunction.Natives.x72C896464915D1B1(_victim, _rude1);
                     GameFiber.Wait(5000);
-                    Functions.AddPedToPursuit(_pursuit, _rude1);
-                    Functions.AddPedToPursuit(_pursuit, _rude2);
-                    Functions.SetPursuitIsActiveForPlayer(_pursuit, true);
+                    Functions.AddPedToPursuit(pursuit, _rude1);
+                    Functions.AddPedToPursuit(pursuit, _rude2);
+                    Functions.SetPursuitIsActiveForPlayer(pursuit, true);
                 });
                 break;
             case 4:
@@ -175,9 +174,9 @@ internal class Robbery : SuperCallout
                     _rude1.Tasks.PutHandsUp(-1, Game.LocalPlayer.Character);
                     _rude2.Tasks.PutHandsUp(-1, Game.LocalPlayer.Character);
                     GameFiber.Wait(4000);
-                    Functions.AddPedToPursuit(_pursuit, _rude1);
-                    Functions.AddPedToPursuit(_pursuit, _rude2);
-                    Functions.SetPursuitIsActiveForPlayer(_pursuit, true);
+                    Functions.AddPedToPursuit(pursuit, _rude1);
+                    Functions.AddPedToPursuit(pursuit, _rude2);
+                    Functions.SetPursuitIsActiveForPlayer(pursuit, true);
                 });
                 break;
             default:

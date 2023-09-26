@@ -30,7 +30,7 @@ internal class HitRun : SuperCallout
     private string _name3;
     private bool _onScene;
     private bool _onScene2;
-    private LHandle _pursuit;
+    private LHandle _pursuit = Functions.CreatePursuit();
     private float _spawnPointH;
     private Vector3 _spawnPointOffset;
     private UIMenuItem _speakSuspect1;
@@ -117,7 +117,6 @@ internal class HitRun : SuperCallout
         {
             _startPursuit = false;
             _onScene2 = true;
-            _pursuit = Functions.CreatePursuit();
             Functions.AddPedToPursuit(_pursuit, _bad1);
             Functions.AddPedToPursuit(_pursuit, _bad2);
             Functions.SetPursuitIsActiveForPlayer(_pursuit, true);

@@ -18,6 +18,8 @@ internal abstract class SuperCallout : Callout
     internal List<Blip> BlipsToClear = new();
     internal static Ped Player => Game.LocalPlayer.Character;
     internal bool OnScene;
+
+    internal bool CalloutEnded = false;
     //UI
     protected readonly MenuPool Interaction = new();
     protected readonly UIMenu MainMenu = new("SuperCallouts", "Choose an option.");
@@ -59,6 +61,8 @@ internal abstract class SuperCallout : Callout
     {
         try
         {
+            if (CalloutEnded) return;
+            CalloutRunning();
             if (!OnScene && Player.DistanceTo(SpawnPoint) < OnSceneDistance)
             {
                 OnScene = true;
@@ -69,7 +73,6 @@ internal abstract class SuperCallout : Callout
             if (Game.IsKeyDown(Settings.EndCall)) CalloutEnd();
             if (Game.IsKeyDown(Settings.Interact)) MainMenu.Visible = !MainMenu.Visible;
             Interaction.ProcessMenus();
-            CalloutRunning();
         }
         catch(Exception e)
         {
@@ -86,6 +89,7 @@ internal abstract class SuperCallout : Callout
     internal virtual void CalloutOnScene() {}
     internal virtual void CalloutEnd(bool forceCleanup = false)
     {
+        CalloutEnded = true;
         if (forceCleanup)
         {
             foreach (var entity in EntitiesToClear)
