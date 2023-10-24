@@ -14,7 +14,7 @@ internal static class AttributeExtensions
     /// <exception cref="AttributeExpectedException">Thrown if the event does not have an <see cref="EventInfoAttribute"/> assigned.</exception>
     internal static (string Title, string Description) GetEventInfo(this Type type)
     {
-        if (type.BaseType != typeof(AmbientEvent))
+        if (!type.IsSubclassOf(typeof(AmbientEvent)))
             throw new ArgumentException($"SuperEvents: ERROR: {type.Name} Type was not of Type AmbientEvent");
         if (type.GetCustomAttributes(typeof(EventInfoAttribute), true).FirstOrDefault() is not EventInfoAttribute att)
             throw new AttributeExpectedException(
