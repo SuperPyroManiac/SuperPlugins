@@ -113,6 +113,6 @@ internal class OfficerShootout : SuperCallout
                 EBackupUnitType.LocalUnit);
         }
 
-        _cBlip.DisableRoute();
+        if (_cBlip.Exists()) _cBlip.DisableRoute();
     }
 }
