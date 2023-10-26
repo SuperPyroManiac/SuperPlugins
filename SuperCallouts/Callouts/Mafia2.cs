@@ -138,7 +138,7 @@ internal class Mafia2 : Callout
                 _mafiaDude13.Tasks.FightAgainst(Game.LocalPlayer.Character, -1);
                 Game.SetRelationshipBetweenRelationshipGroups("MAFIA", "COP", Relationship.Hate);
                 Game.SetRelationshipBetweenRelationshipGroups("COP", "MAFIA", Relationship.Hate);
-                _cBlip.Delete();
+                if (_cBlip.Exists()) _cBlip.Delete();
             }
             catch (Exception e)
             {

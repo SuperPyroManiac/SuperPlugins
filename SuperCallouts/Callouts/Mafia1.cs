@@ -208,7 +208,7 @@ internal class Mafia1 : Callout
                         GameFiber.Wait(5000);
                         foreach (var entity in _badGuys.Where(entity => entity))
                             entity.Tasks.FightAgainstClosestHatedTarget(150, -1);
-                        _aBlip.DisableRoute();
+                        if (_aBlip.Exists()) _aBlip.DisableRoute();
                         _state = SrState.End;
                     });
                     break;
