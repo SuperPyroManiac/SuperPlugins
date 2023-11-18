@@ -43,10 +43,12 @@ internal class CarAccident3 : SuperCallout
             "Reports of a car accident, respond ~r~CODE-3");
 
         PyroFunctions.SpawnNormalCar(out _eVehicle, SpawnPoint, _spawnPointH);
+        _eVehicle.IsPersistent = true;
         PyroFunctions.DamageVehicle(_eVehicle, 200, 200);
         EntitiesToClear.Add(_eVehicle);
 
         PyroFunctions.SpawnNormalCar(out _eVehicle2, _eVehicle.GetOffsetPositionFront(7f));
+        _eVehicle2.IsPersistent = true;
         _eVehicle2.Rotation = new Rotator(0f, 0f, 90f);
         PyroFunctions.DamageVehicle(_eVehicle2, 200, 200);
         EntitiesToClear.Add(_eVehicle2);
@@ -70,6 +72,8 @@ internal class CarAccident3 : SuperCallout
         BlipsToClear.Add(_eBlip);
 
         Log.Info("Car Accident Scenario #" + _choice);
+        if (!_eVehicle.Exists() || !_eVehicle2.Exists())
+        { CalloutEnd(true); return; }
         switch (_choice)
         {
             case 0: //Peds fight
