@@ -1,4 +1,6 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Linq;
+using System.Reflection;
 using DamageTrackerLib;
 using DeadlyWeapons.DFunctions;
 using DeadlyWeapons.Modules;
@@ -14,6 +16,13 @@ public class Main : Plugin
  
     public override void Initialize()
     {
+        if (!Functions.GetAllUserPlugins().Any(assembly => assembly.GetName().Name.Equals("PyroCommon")))
+        {
+            Log.Error("PyroCommon.dll is not installed in the main GTA directory!\r\nDeadlyWeapons could not load!");
+            Game.DisplayNotification("DeadlyWeapons: PyroCommon.dll is not installed correctly! Plugin is disabled!");
+            return;
+        }
+        
         Settings.LoadSettings();
         Functions.OnOnDutyStateChanged += OnOnDutyStateChangedHandler;
         Log.Info(Assembly.GetExecutingAssembly().GetName().Version +

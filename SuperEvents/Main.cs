@@ -18,6 +18,13 @@ internal class Main : Plugin
 
     public override void Initialize()
     {
+        if (!Functions.GetAllUserPlugins().Any(assembly => assembly.GetName().Name.Equals("PyroCommon")))
+        {
+            Log.Error("PyroCommon.dll is not installed in the main GTA directory!\r\nSuperEvents could not load!");
+            Game.DisplayNotification("SuperEvents: PyroCommon.dll is not installed correctly! Plugin is disabled!");
+            return;
+        }
+        
         Functions.OnOnDutyStateChanged += OnOnDutyStateChangedHandler;
         Settings.LoadSettings();
         Log.Info( Assembly.GetExecutingAssembly().GetName().Version + " by SuperPyroManiac has been initialised.");

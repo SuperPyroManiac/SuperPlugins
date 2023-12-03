@@ -1,3 +1,5 @@
+using System;
+using System.Linq;
 using System.Reflection;
 using LSPD_First_Response.Mod.API;
 using PyroCommon.API;
@@ -11,6 +13,13 @@ internal class Main : Plugin
 {
     public override void Initialize()
     {
+        if (!Functions.GetAllUserPlugins().Any(assembly => assembly.GetName().Name.Equals("PyroCommon")))
+        {
+            Log.Error("PyroCommon.dll is not installed in the main GTA directory!\r\nSuperCallouts could not load!");
+            Game.DisplayNotification("SuperCallouts: PyroCommon.dll is not installed correctly! Plugin is disabled!");
+            return;
+        }
+        
         Functions.OnOnDutyStateChanged += OnOnDutyStateChangedHandler;
         Settings.LoadSettings();
         Log.Info(Assembly.GetExecutingAssembly().GetName().Version +

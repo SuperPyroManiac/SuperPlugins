@@ -16,7 +16,7 @@ internal class IndecentExposure : SuperCallout
     internal override string CalloutName { get; set; } = "Indecent Exposure";
     private Ped _naked;
     private Blip _blip;
-    private int _rNd = new Random().Next(1);
+    private readonly int _rNd = new Random().Next(1);
 
     internal override void CalloutPrep()
     {

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.API;
 using Rage;
@@ -29,7 +28,13 @@ internal abstract class SuperCallout : Callout
 
     public override bool OnBeforeCalloutDisplayed()
     {
-        CalloutPrep();
+
+        try {CalloutPrep();}
+        catch(Exception e)
+        {
+            Log.Error(e.ToString());
+            CalloutEnd(true);
+        }
         CalloutPosition = SpawnPoint;
         ShowCalloutAreaBlipBeforeAccepting(SpawnPoint, 15f);
         return base.OnBeforeCalloutDisplayed();
@@ -49,7 +54,12 @@ internal abstract class SuperCallout : Callout
         MainMenu.BindMenuToItem(ConvoMenu, Questioning);
         ConvoMenu.ParentMenu = MainMenu;
         Questioning.Enabled = false;
-        CalloutAccepted();
+        try {CalloutAccepted();}
+        catch(Exception e)
+        {
+            Log.Error(e.ToString());
+            CalloutEnd(true);
+        }
         MainMenu.RefreshIndex();
         ConvoMenu.RefreshIndex();
         MainMenu.OnItemSelect += Interactions;
@@ -68,7 +78,12 @@ internal abstract class SuperCallout : Callout
                 OnScene = true;
                 CalloutInterfaceAPI.Functions.SendMessage(this, "Officer on scene.");
                 Game.DisplayHelp($"Press ~{Settings.Interact.GetInstructionalId()}~ to open interaction menu.");
-                var onSceneFiber = GameFiber.StartNew(CalloutOnScene);
+                try {GameFiber.StartNew(CalloutOnScene);}
+                catch(Exception e)
+                {
+                    Log.Error(e.ToString());
+                    CalloutEnd(true);
+                }
             }
             if (Game.IsKeyDown(Settings.EndCall)) CalloutEnd();
             if (Game.IsKeyDown(Settings.Interact)) MainMenu.Visible = !MainMenu.Visible;
