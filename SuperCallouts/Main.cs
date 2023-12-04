@@ -20,7 +20,12 @@ internal class Main : Plugin
         if (!File.Exists("RageNativeUI.dll")) missingDepend += "RageNativeUI.dll~n~";
         if (missingDepend.Length > 0)
         {
-            Log.Error($"These dependencies are not installed correctly!\r\n{missingDepend.Replace("~n~", "\r\n")}\r\nSuperCallouts could not load!");
+            Game.Console.Print("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
+            Game.Console.Print($"SuperCallouts: Error Report Start");
+            Game.Console.Print("======================================================");
+            Game.Console.Print($"These dependencies are not installed correctly!\r\n{missingDepend.Replace("~n~", "\r\n")}SuperCallouts could not load!");
+            Game.Console.Print("======================================================");
+            Game.Console.Print($"SuperCallouts: Error Report End");
             Game.DisplayNotification($"SuperCallouts: These dependencies are not installed correctly!~n~{missingDepend}~r~Plugin is disabled!");
             return;
         }
