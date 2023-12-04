@@ -37,31 +37,18 @@ public class Main : Plugin
 
     private void OnOnDutyStateChangedHandler(bool onDuty)
     {
-        if (onDuty)
-        {
-            DamageTrackerService.Start();
-            if (Settings.EnablePlayerDamageSystem)
-                DamageTrackerService.OnPlayerTookDamage += PlayerShot.OnPlayerDamaged;
-            if (Settings.EnableAIDamageSystem)
-                DamageTrackerService.OnPedTookDamage += PedShot.OnPedDamaged;
-            if (Settings.EnablePanic) _panicFiber = GameFiber.StartNew(Panic.StartPanicWatch);
-            if (Settings.EnablePulloverAi) 
-                Events.OnPulloverStarted += CustomPullover.PulloverModule;
-            GameFiber.StartNew(delegate
-            {
-                GameFiber.Wait(10000);
-                Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~r~DeadlyWeapons",
-                    "~g~Plugin Loaded.",
-                    "DeadlyWeapons version: " +
-                    Assembly.GetExecutingAssembly().GetName().Version + " loaded.");
-                VersionChecker.IsUpdateAvailable();
-            });
-        }
-        else
-        {
-            DamageTrackerService.OnPlayerTookDamage -= PlayerShot.OnPlayerDamaged;
-            DamageTrackerService.OnPedTookDamage -= PedShot.OnPedDamaged;
-        }
+        if (!onDuty) return;
+        if (PyroCommon.Main.UsingUb) Log.Info("Using UltimateBackup API.");
+        DamageTrackerService.Start();
+        if (Settings.EnablePlayerDamageSystem)
+            DamageTrackerService.OnPlayerTookDamage += PlayerShot.OnPlayerDamaged;
+        if (Settings.EnableAIDamageSystem)
+            DamageTrackerService.OnPedTookDamage += PedShot.OnPedDamaged;
+        if (Settings.EnablePanic) _panicFiber = GameFiber.StartNew(Panic.StartPanicWatch);
+        if (Settings.EnablePulloverAi) 
+            Events.OnPulloverStarted += CustomPullover.PulloverModule;
+        Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~r~DeadlyWeapons", "~g~Plugin Loaded.", "DeadlyWeapons version: " + Assembly.GetExecutingAssembly().GetName().Version + " loaded.");
+        GameFiber.StartNew(VersionChecker.IsUpdateAvailable);
     }
         
     public override void Finally()

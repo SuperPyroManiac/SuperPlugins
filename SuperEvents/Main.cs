@@ -39,19 +39,15 @@ internal class Main : Plugin
 
     private static void OnOnDutyStateChangedHandler(bool onDuty)
     {
-        if (onDuty)
-            GameFiber.StartNew(delegate
-            {
-                PluginRunning = true;
-                RegisterAllEvents();
-                GameFiber.Wait(5000);
-                Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~r~SuperEvents", "~g~Plugin Loaded.",
-                    "SuperEvents version: " + Assembly.GetExecutingAssembly().GetName().Version + " loaded.");
-                _initFiber = GameFiber.StartNew(EventManager.InitEvents);
-                EventInterface.StartInterface();
-                GameFiber.Wait(17000);
-                VersionChecker.IsUpdateAvailable();
-            });
+        if (!onDuty) return;
+        if (PyroCommon.Main.UsingUb) Log.Info("Using UltimateBackup API.");
+        PluginRunning = true;
+        RegisterAllEvents();
+        Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~r~SuperEvents", "~g~Plugin Loaded.",
+            "SuperEvents version: " + Assembly.GetExecutingAssembly().GetName().Version + " loaded.");
+        _initFiber = GameFiber.StartNew(EventManager.InitEvents);
+        EventInterface.StartInterface();
+        GameFiber.StartNew(VersionChecker.IsUpdateAvailable);
     }
 
     private static void RegisterAllEvents()

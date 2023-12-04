@@ -18,7 +18,10 @@ internal static class VersionChecker
     internal static void IsUpdateAvailable()
     {
         UpdateThread.Start();
-        UpdateThread.Join();
+        GameFiber.Sleep(20000);
+        
+        while (UpdateThread.IsAlive) GameFiber.Wait(1000);
+        
         switch (_state)
         {
             case State.Failed:

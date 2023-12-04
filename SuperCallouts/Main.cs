@@ -35,15 +35,10 @@ internal class Main : Plugin
 
     private void OnOnDutyStateChangedHandler(bool onDuty)
     {
-        if (onDuty)
-            GameFiber.StartNew(delegate
-            {
-                GameFiber.Wait(5000);
-                if (PyroCommon.Main.UsingUb) Log.Info("Using UltimateBackup API.");
-                RegisterCallouts();
-                GameFiber.Wait(17000);
-                VersionChecker.IsUpdateAvailable();
-            });
+        if (!onDuty) return;
+        if (PyroCommon.Main.UsingUb) Log.Info("Using UltimateBackup API.");
+        RegisterCallouts();
+        GameFiber.StartNew(VersionChecker.IsUpdateAvailable);
     }
 
     private static void RegisterCallouts()
