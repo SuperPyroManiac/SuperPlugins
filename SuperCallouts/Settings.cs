@@ -48,7 +48,7 @@ internal static class Settings
     internal static Keys Interact = Keys.Y;
     internal static Keys EndCall = Keys.End;
     internal static string EmergencyNumber = "911";
-    internal static readonly string CalloutVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+    internal static readonly string SCVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
     internal static void LoadSettings()
     {

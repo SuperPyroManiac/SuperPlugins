@@ -23,7 +23,7 @@ internal static class Settings
     internal static bool SwatBackup;
     internal static bool NooseBackup;
     internal static bool EnableDebug;
-    internal static readonly string CalloutVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+    internal static readonly string DWVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
     internal static void LoadSettings()
     {

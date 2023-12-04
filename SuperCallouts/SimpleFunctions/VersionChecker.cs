@@ -1,69 +1,43 @@
 #region
 
 using System.Net;
+using System.Threading;
+using PyroCommon.API;
 using Rage;
 
 #endregion
 
 namespace SuperCallouts.SimpleFunctions;
 
-internal class VersionChecker
+internal static class VersionChecker
 {
-    internal static bool IsUpdateAvailable()
+    private static readonly Thread UpdateThread = new Thread(CheckVersion);
+    internal static void IsUpdateAvailable()
     {
-        var curVersion = Settings.CalloutVersion;
-        var webClient = new WebClient();
+        UpdateThread.Start();
+    }
+
+    private static void CheckVersion()
+    {
+        var curVersion = Settings.SCVersion;
         var receivedData = string.Empty;
 
         try
         {
-            receivedData = webClient
-                .DownloadString(
-                    "https://www.lcpdfr.com/applications/downloadsng/interface/api.php?do=checkForUpdates&fileId=23995&textOnly=1")
-                .Trim();
+            receivedData = new WebClient().DownloadString("https://www.lcpdfr.com/applications/downloadsng/interface/api.php?do=checkForUpdates&fileId=23995&textOnly=1").Trim();
         }
         catch (WebException)
         {
-            Game.DisplayNotification("commonmenu", "mp_alerttriangle", "~y~SuperCallouts Warning",
-                "~y~Failed to check for an update",
-                "Please check if you are ~o~online~w~, or try to reload the plugin.");
-
-            Game.Console.Print();
-            Game.Console.Print(
-                "================================================ SuperCallouts WARNING =====================================================");
-            Game.Console.Print();
-            Game.Console.Print("Failed to check for a update.");
-            Game.Console.Print("Please check if you are online, or try to reload the plugin.");
-            Game.Console.Print();
-            Game.Console.Print(
-                "================================================ SuperCallouts WARNING =====================================================");
-            Game.Console.Print();
-            // server or connection is having issues
+            Log.Warning("Unable to check for updates! No internet or LSPDFR is down?");
         }
-
-        if (receivedData != Settings.CalloutVersion)
-        {
-            Game.DisplayNotification("commonmenu", "mp_alerttriangle", "~r~SuperCallouts Warning",
-                "~y~A new Update is available!",
-                "Current Version: ~r~" + curVersion + "~w~<br>New Version: ~g~" + receivedData);
-
-            Game.Console.Print();
-            Game.Console.Print(
-                "================================================ SuperCallouts WARNING =====================================================");
-            Game.Console.Print();
-            Game.Console.Print(
-                "A new version of SuperCallouts is available! Please update, support will not be provided to outdated versions.");
-            Game.Console.Print("Current Version:  " + curVersion);
-            Game.Console.Print("New Version:  " + receivedData);
-            Game.Console.Print(
-                "It's recommended you update to prevent any issues that may have been fixed in the new version!");
-            Game.Console.Print();
-            Game.Console.Print(
-                "================================================ SuperCallouts WARNING =====================================================");
-            Game.Console.Print();
-            return true;
-        }
-
-        return false;
+        if (receivedData == Settings.SCVersion) return;
+        
+        Game.DisplayNotification(
+            "commonmenu", 
+            "mp_alerttriangle", 
+            "~r~SuperEvents Warning",
+            "~y~A new update is available!",
+            $"Current Version: ~r~{curVersion}~w~<br>New Version: ~g~{receivedData}");
+        Log.Warning($"A new version is available!\r\nCurrent Version: {curVersion}\r\nNew Version: {receivedData}");
     }
 }

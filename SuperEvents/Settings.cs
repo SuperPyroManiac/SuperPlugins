@@ -26,7 +26,7 @@ public static class Settings
     public static Keys EndEvent = Keys.End;
     public static Keys EventManager = Keys.K;
     //public static Keys EventManagerMod = Keys.Control;
-    public static readonly string SEventsVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+    public static readonly string SEVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
     internal static void LoadSettings()
     {
