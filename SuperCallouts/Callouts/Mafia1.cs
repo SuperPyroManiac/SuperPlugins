@@ -139,7 +139,7 @@ internal class Mafia1 : Callout
                         switch (_choice)
                         {
                             case SrChoice.Noose:
-                                if (PyroCommon.Main.UsingUB)
+                                if (PyroCommon.Main.UsingUb)
                                 {
                                     Wrapper.CallSwat(true);
                                     Wrapper.CallSwat(true);
@@ -157,7 +157,7 @@ internal class Mafia1 : Callout
                                 _state = SrState.RaidScene;
                                 break;
                             case SrChoice.Swat:
-                                if (PyroCommon.Main.UsingUB)
+                                if (PyroCommon.Main.UsingUb)
                                 {
                                     Wrapper.CallSwat(false);
                                     Wrapper.CallSwat(false);
@@ -175,7 +175,7 @@ internal class Mafia1 : Callout
                                 _state = SrState.RaidScene;
                                 break;
                             case SrChoice.You:
-                                if (PyroCommon.Main.UsingUB)
+                                if (PyroCommon.Main.UsingUb)
                                 {
                                     Wrapper.CallCode3();
                                     Wrapper.CallCode3();

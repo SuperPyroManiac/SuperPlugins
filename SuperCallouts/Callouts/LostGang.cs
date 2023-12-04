@@ -116,7 +116,7 @@ internal class LostGang : Callout
                 bikerss.Tasks.FightAgainstClosestHatedTarget(50f);
             }
 
-            if (PyroCommon.Main.UsingUB)
+            if (PyroCommon.Main.UsingUb)
             {
                 Wrapper.CallCode3();
                 Wrapper.CallCode3();

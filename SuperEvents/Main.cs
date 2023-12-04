@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Reflection;
 using LSPD_First_Response.Mod.API;
 using PyroCommon.API;
@@ -11,6 +12,8 @@ namespace SuperEvents;
 
 internal class Main : Plugin
 {
+    private static readonly Func<string, bool> IsLoaded = plugName =>
+        Functions.GetAllUserPlugins().Any(assembly => assembly.GetName().Name.Equals(plugName));
     internal static bool PluginRunning { get; private set; }
     internal static bool PluginPaused { get; set; }
     // ReSharper disable once NotAccessedField.Local
@@ -18,7 +21,7 @@ internal class Main : Plugin
 
     public override void Initialize()
     {
-        if (!Functions.GetAllUserPlugins().Any(assembly => assembly.GetName().Name.Equals("PyroCommon")))
+        if (!IsLoaded("PyroCommon"))
         {
             Log.Error("PyroCommon.dll is not installed in the main GTA directory!\r\nSuperEvents could not load!");
             Game.DisplayNotification("SuperEvents: PyroCommon.dll is not installed correctly! Plugin is disabled!");

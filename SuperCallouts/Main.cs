@@ -11,9 +11,11 @@ namespace SuperCallouts;
 
 internal class Main : Plugin
 {
+    private static readonly Func<string, bool> IsLoaded = plugName =>
+        Functions.GetAllUserPlugins().Any(assembly => assembly.GetName().Name.Equals(plugName));
     public override void Initialize()
     {
-        if (!Functions.GetAllUserPlugins().Any(assembly => assembly.GetName().Name.Equals("PyroCommon")))
+        if (!IsLoaded("PyroCommon"))
         {
             Log.Error("PyroCommon.dll is not installed in the main GTA directory!\r\nSuperCallouts could not load!");
             Game.DisplayNotification("SuperCallouts: PyroCommon.dll is not installed correctly! Plugin is disabled!");
@@ -34,7 +36,7 @@ internal class Main : Plugin
             GameFiber.StartNew(delegate
             {
                 GameFiber.Wait(5000);
-                if (PyroCommon.Main.UsingUB) Log.Info("Using UltimateBackup API.");
+                if (PyroCommon.Main.UsingUb) Log.Info("Using UltimateBackup API.");
                 RegisterCallouts();
                 GameFiber.Wait(17000);
                 VersionChecker.IsUpdateAvailable();

@@ -8,5 +8,5 @@ public class Main
 {
     private static readonly Func<string, bool> IsLoaded = plugName =>
         Functions.GetAllUserPlugins().Any(assembly => assembly.GetName().Name.Equals(plugName));
-    internal static bool UsingUB { get; } = IsLoaded("UltimateBackup");
+    internal static bool UsingUb { get; } = IsLoaded("UltimateBackup");
 }

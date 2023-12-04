@@ -77,7 +77,7 @@ internal class CarAccident : SuperCallout
             Game.DisplaySubtitle(
                 "~g~You~s~: Dispatch, we have a vehicle accident, possible hit and run. Looks like someone is inside and injured! I need EMS out here.");
             CalloutInterfaceAPI.Functions.SendMessage(this, "EMS has been notified and is on route. 11-78");
-            if (PyroCommon.Main.UsingUB)
+            if (PyroCommon.Main.UsingUb)
             {
                 Wrapper.CallEms();
                 Wrapper.CallFd();

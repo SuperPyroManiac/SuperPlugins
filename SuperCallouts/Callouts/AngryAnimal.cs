@@ -83,7 +83,7 @@ internal class AngryAnimal : SuperCallout
             Game.DisplaySubtitle(
                 "~g~You~s~: Dispatch, we have a person that has been attacked by an animal! We need medical here ASAP!");
             CalloutInterfaceAPI.Functions.SendMessage(this, "Rescue has been notified and is on route. 11-78");
-            if (PyroCommon.Main.UsingUB)
+            if (PyroCommon.Main.UsingUb)
             {
                 Wrapper.CallEms();
                 Wrapper.CallFd();

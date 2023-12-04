@@ -66,7 +66,7 @@ internal class StolenCopVehicle : SuperCallout
         var pursuit = Functions.CreatePursuit();
         Functions.AddPedToPursuit(pursuit, _bad);
         Functions.SetPursuitIsActiveForPlayer(pursuit, true);
-        if (PyroCommon.Main.UsingUB)
+        if (PyroCommon.Main.UsingUb)
             Wrapper.CallPursuit();
         else
             Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Pursuit,

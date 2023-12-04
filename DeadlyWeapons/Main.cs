@@ -12,11 +12,13 @@ namespace DeadlyWeapons;
 
 public class Main : Plugin
 {
+    private static readonly Func<string, bool> IsLoaded = plugName =>
+        Functions.GetAllUserPlugins().Any(assembly => assembly.GetName().Name.Equals(plugName));
     private GameFiber _panicFiber;
  
     public override void Initialize()
     {
-        if (!Functions.GetAllUserPlugins().Any(assembly => assembly.GetName().Name.Equals("PyroCommon")))
+        if (!IsLoaded("PyroCommon"))
         {
             Log.Error("PyroCommon.dll is not installed in the main GTA directory!\r\nDeadlyWeapons could not load!");
             Game.DisplayNotification("DeadlyWeapons: PyroCommon.dll is not installed correctly! Plugin is disabled!");
