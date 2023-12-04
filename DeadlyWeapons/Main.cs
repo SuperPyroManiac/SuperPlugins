@@ -18,6 +18,7 @@ public class Main : Plugin
         var missingDepend = string.Empty;
         if (!File.Exists("PyroCommon.dll")) missingDepend += "PyroCommon.dll~n~";
         if (!File.Exists("RageNativeUI.dll")) missingDepend += "RageNativeUI.dll~n~";
+        if (!File.Exists("DamageTrackerLib.dll")) missingDepend += "DamageTrackerLib.dll~n~";
         if (missingDepend.Length > 0)
         {
             Game.Console.Print("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
