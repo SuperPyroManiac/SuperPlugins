@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using LSPD_First_Response.Mod.API;
@@ -12,8 +13,6 @@ namespace SuperEvents;
 
 internal class Main : Plugin
 {
-    private static readonly Func<string, bool> IsLoaded = plugName =>
-        Functions.GetAllUserPlugins().Any(assembly => assembly.GetName().Name.Equals(plugName));
     internal static bool PluginRunning { get; private set; }
     internal static bool PluginPaused { get; set; }
     // ReSharper disable once NotAccessedField.Local
@@ -21,10 +20,13 @@ internal class Main : Plugin
 
     public override void Initialize()
     {
-        if (!IsLoaded("PyroCommon"))
+        var missingDepend = string.Empty;
+        if (!File.Exists("PyroCommon.dll")) missingDepend += "PyroCommon.dll~n~";
+        if (!File.Exists("RageNativeUI.dll")) missingDepend += "RageNativeUI.dll~n~";
+        if (missingDepend.Length > 0)
         {
-            Log.Error("PyroCommon.dll is not installed in the main GTA directory!\r\nSuperEvents could not load!");
-            Game.DisplayNotification("SuperEvents: PyroCommon.dll is not installed correctly! Plugin is disabled!");
+            Log.Error($"These dependencies are not installed correctly!\r\n{missingDepend.Replace("~n~", "\r\n")}\r\nSuperEvents could not load!");
+            Game.DisplayNotification($"SuperEvents: These dependencies are not installed correctly!~n~{missingDepend}~r~Plugin is disabled!");
             return;
         }
         
