@@ -72,7 +72,25 @@ internal abstract class SuperCallout : Callout
     {
         try
         {
-            if (!CalloutEnded) CalloutRunning();
+            if (!CalloutEnded)
+            {
+                CalloutRunning();
+                if (!OnScene && Player.DistanceTo(SpawnPoint) < OnSceneDistance)
+                {
+                    OnScene = true;
+                    CalloutInterfaceAPI.Functions.SendMessage(this, "Officer on scene.");
+                    Game.DisplayHelp($"Press ~{Settings.Interact.GetInstructionalId()}~ to open interaction menu.");
+                    try {GameFiber.StartNew(CalloutOnScene);}
+                    catch(Exception e)
+                    {
+                        Log.Error(e.ToString());
+                        CalloutEnd(true);
+                    }
+                }
+                if (Game.IsKeyDown(Settings.EndCall)) CalloutEnd();
+                if (Game.IsKeyDown(Settings.Interact)) MainMenu.Visible = !MainMenu.Visible;
+                Interaction.ProcessMenus();
+            }
         }
         catch(Exception e)
         {
@@ -85,25 +103,7 @@ internal abstract class SuperCallout : Callout
     //Overrides
     internal virtual void CalloutPrep() {}
     internal virtual void CalloutAccepted() {}
-
-    internal virtual void CalloutRunning()
-    {
-        if (!OnScene && Player.DistanceTo(SpawnPoint) < OnSceneDistance)
-        {
-            OnScene = true;
-            CalloutInterfaceAPI.Functions.SendMessage(this, "Officer on scene.");
-            Game.DisplayHelp($"Press ~{Settings.Interact.GetInstructionalId()}~ to open interaction menu.");
-            try {GameFiber.StartNew(CalloutOnScene);}
-            catch(Exception e)
-            {
-                Log.Error(e.ToString());
-                CalloutEnd(true);
-            }
-        }
-        if (Game.IsKeyDown(Settings.EndCall)) CalloutEnd();
-        if (Game.IsKeyDown(Settings.Interact)) MainMenu.Visible = !MainMenu.Visible;
-        Interaction.ProcessMenus();
-    }
+    internal virtual void CalloutRunning() {}
     internal virtual void CalloutOnScene() {}
     internal virtual void CalloutEnd(bool forceCleanup = false)
     {
