@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.API;
 using Rage;
@@ -69,6 +70,7 @@ internal abstract class SuperCallout : Callout
 
     public override void Process()
     {
+        base.Process();
         try
         {
             if (CalloutEnded) return;
@@ -94,7 +96,6 @@ internal abstract class SuperCallout : Callout
             Log.Error(e.ToString());
             CalloutEnd(true);
         }
-        base.Process();
     }
 
     //Overrides
@@ -107,23 +108,24 @@ internal abstract class SuperCallout : Callout
         CalloutEnded = true;
         if (forceCleanup)
         {
-            foreach (var entity in EntitiesToClear)
-                if (entity.Exists()) entity.Delete();
+            foreach (var entity in EntitiesToClear.Where(entity => entity.Exists())) entity.Delete();
             Log.Info($"{CalloutName} callout has been forcefully cleaned up.");
         }
         else
         {
-            foreach (var entity in EntitiesToClear)
-                if (entity.Exists()) entity.Dismiss();
+            foreach (var entity in EntitiesToClear.Where(entity => entity.Exists())) entity.Dismiss();
         }
+        End();
+    }
+    public override void End()
+    {
         Game.DisplayHelp("~y~Callout Ended.");
         CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code-4");
-        foreach (var blip in BlipsToClear)
-            if (blip.Exists()) blip.Delete();
+        foreach (var blip in BlipsToClear.Where(blip => blip.Exists())) blip.Delete();
 
         Interaction.CloseAllMenus();
         Log.Info($"Ending {CalloutName} Callout.");
-        End();
+        base.End();
     }
 
     protected virtual void Interactions(UIMenu sender, UIMenuItem selItem, int index)
