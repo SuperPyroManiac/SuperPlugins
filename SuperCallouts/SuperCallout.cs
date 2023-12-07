@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.API;
 using Rage;
@@ -71,23 +72,25 @@ internal abstract class SuperCallout : Callout
     {
         try
         {
-            if (CalloutEnded) return;
-            CalloutRunning();
-            if (!OnScene && Player.DistanceTo(SpawnPoint) < OnSceneDistance)
+            if (!CalloutEnded)
             {
-                OnScene = true;
-                CalloutInterfaceAPI.Functions.SendMessage(this, "Officer on scene.");
-                Game.DisplayHelp($"Press ~{Settings.Interact.GetInstructionalId()}~ to open interaction menu.");
-                try {GameFiber.StartNew(CalloutOnScene);}
-                catch(Exception e)
+                CalloutRunning();
+                if (!OnScene && Player.DistanceTo(SpawnPoint) < OnSceneDistance)
                 {
-                    Log.Error(e.ToString());
-                    CalloutEnd(true);
+                    OnScene = true;
+                    CalloutInterfaceAPI.Functions.SendMessage(this, "Officer on scene.");
+                    Game.DisplayHelp($"Press ~{Settings.Interact.GetInstructionalId()}~ to open interaction menu.");
+                    try {GameFiber.StartNew(CalloutOnScene);}
+                    catch(Exception e)
+                    {
+                        Log.Error(e.ToString());
+                        CalloutEnd(true);
+                    }
                 }
+                if (Game.IsKeyDown(Settings.EndCall)) CalloutEnd();
+                if (Game.IsKeyDown(Settings.Interact)) MainMenu.Visible = !MainMenu.Visible;
+                Interaction.ProcessMenus();
             }
-            if (Game.IsKeyDown(Settings.EndCall)) CalloutEnd();
-            if (Game.IsKeyDown(Settings.Interact)) MainMenu.Visible = !MainMenu.Visible;
-            Interaction.ProcessMenus();
         }
         catch(Exception e)
         {
@@ -107,20 +110,16 @@ internal abstract class SuperCallout : Callout
         CalloutEnded = true;
         if (forceCleanup)
         {
-            foreach (var entity in EntitiesToClear)
-                if (entity.Exists()) entity.Delete();
+            foreach (var entity in EntitiesToClear.Where(entity => entity.Exists())) entity.Delete();
             Log.Info($"{CalloutName} callout has been forcefully cleaned up.");
         }
         else
         {
-            foreach (var entity in EntitiesToClear)
-                if (entity.Exists()) entity.Dismiss();
+            foreach (var entity in EntitiesToClear.Where(entity => entity.Exists())) entity.Dismiss();
         }
         Game.DisplayHelp("~y~Callout Ended.");
         CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code-4");
-        foreach (var blip in BlipsToClear)
-            if (blip.Exists()) blip.Delete();
-
+        foreach (var blip in BlipsToClear.Where(blip => blip.Exists())) blip.Delete();
         Interaction.CloseAllMenus();
         Log.Info($"Ending {CalloutName} Callout.");
         End();
