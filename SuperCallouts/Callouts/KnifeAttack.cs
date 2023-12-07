@@ -50,7 +50,6 @@ internal class KnifeAttack : SuperCallout
                 .FirstOrDefault();
         SpawnPoint = _chosenLocation!.Item1;
         _cHeading = _chosenLocation.Item2;
-        ShowCalloutAreaBlipBeforeAccepting(SpawnPoint, 10f);
         CalloutMessage = "~b~Dispatch:~s~ Reports of a knife attack.";
         CalloutAdvisory = "Caller says attacker has injured others.";
         Functions.PlayScannerAudioUsingPosition(

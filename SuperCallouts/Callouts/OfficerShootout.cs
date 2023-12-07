@@ -32,7 +32,6 @@ internal class OfficerShootout : SuperCallout
     {
         PyroFunctions.FindSideOfRoad(400, 100, out var tempSpawnPoint, out _spawnPointH);
         SpawnPoint = tempSpawnPoint;
-        ShowCalloutAreaBlipBeforeAccepting(SpawnPoint, 10f);
         CalloutMessage = "~b~Dispatch:~s~ Felony stop. Shots fired.";
         CalloutAdvisory = "Panic alert issues, shots fired.";
         Functions.PlayScannerAudioUsingPosition(
