@@ -87,6 +87,7 @@ internal abstract class SuperCallout : Callout
             }
             if (Game.IsKeyDown(Settings.EndCall)) CalloutEnd();
             if (Game.IsKeyDown(Settings.Interact)) MainMenu.Visible = !MainMenu.Visible;
+            if (Player.IsDead) CalloutEnd();
             Interaction.ProcessMenus();
         }
         catch(Exception e)
