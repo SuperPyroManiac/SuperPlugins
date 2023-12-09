@@ -124,6 +124,13 @@ internal class HotPursuit : SuperCallout
         _bad2.BlockPermanentEvents = false;
         Functions.AddPedToPursuit(_pursuit, _bad1);
         Functions.AddPedToPursuit(_pursuit, _bad2);
+        var pa = Functions.GetPedPursuitAttributes(_bad1);
+        pa.MaxDrivingSpeed = 500;
+        pa.SurrenderChancePitted = 0;
+        pa.SurrenderChanceTireBurst = 0;
+        pa.SurrenderChanceCarBadlyDamaged = 0;//TODO: Test
+        pa.SurrenderChancePittedAndCrashed = 0;
+        pa.SurrenderChanceTireBurstAndCrashed = 0;
         Functions.SetPursuitIsActiveForPlayer(_pursuit, true);
         Game.DisplayHelp("~r~Suspects are evading!");
     }
