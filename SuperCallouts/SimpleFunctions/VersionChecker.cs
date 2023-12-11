@@ -1,5 +1,6 @@
 #region
 
+using System;
 using System.Net;
 using System.Threading;
 using PyroCommon.API;
@@ -18,28 +19,36 @@ internal static class VersionChecker
     
     internal static void IsUpdateAvailable()
     {
-        UpdateThread.Start();
-        GameFiber.Sleep(20000);
-        
-        while (UpdateThread.IsAlive) GameFiber.Wait(1000);
-        
-        switch (_state)
+        try
         {
-            case State.Failed:
-                Log.Warning("Unable to check for updates! No internet or LSPDFR is down?");
-                break;
-            case State.Update:
-                Game.DisplayNotification(
-                    "commonmenu", 
-                    "mp_alerttriangle", 
-                    "~r~SuperCallouts Warning",
-                    "~y~A new update is available!",
-                    $"Current Version: ~r~{Settings.SCVersion}~w~<br>New Version: ~g~{_receivedData}");
-                Log.Warning($"A new version is available!\r\nCurrent Version: {Settings.SCVersion}\r\nNew Version: {_receivedData}");
-                break;
-            case State.Current:
-                Log.Info("Version is up to date!");
-                break;
+            UpdateThread.Start();
+            GameFiber.Sleep(21000);
+        
+            while (UpdateThread.IsAlive) GameFiber.Wait(1000);
+        
+            switch (_state)
+            {
+                case State.Failed:
+                    Log.Warning("Unable to check for updates! No internet or LSPDFR is down?");
+                    break;
+                case State.Update:
+                    Game.DisplayNotification(
+                        "commonmenu", 
+                        "mp_alerttriangle", 
+                        "~r~SuperCallouts Warning",
+                        "~y~A new update is available!",
+                        $"Current Version: ~r~{Settings.SCVersion}~w~<br>New Version: ~g~{_receivedData}");
+                    Log.Warning($"A new version is available!\r\nCurrent Version: {Settings.SCVersion}\r\nNew Version: {_receivedData}");
+                    break;
+                case State.Current:
+                    Log.Info("Version is up to date!");
+                    break;
+            }
+        }
+        catch (Exception e)
+        {
+            _state = State.Failed;
+            Log.Error(e.ToString());
         }
     }
 
@@ -49,9 +58,10 @@ internal static class VersionChecker
         {
             _receivedData = new WebClient().DownloadString("https://www.lcpdfr.com/applications/downloadsng/interface/api.php?do=checkForUpdates&fileId=23995&textOnly=1").Trim();
         }
-        catch (WebException)
+        catch (WebException e)
         {
             _state = State.Failed;
+            Log.Error(e.ToString());
         }
         if (_receivedData == Settings.SCVersion) return;
         _state = State.Update;

@@ -86,7 +86,7 @@ public abstract class PyroFunctions
     }
     
     internal static void BuildUi(out MenuPool interaction, out UIMenu mainMenu, out UIMenu convoMenu,
-        out UIMenuItem questioning, out UIMenuItem endCall) //TODO: Replace with custom base class for callouts!
+        out UIMenuItem questioning, out UIMenuItem endCall) //TODO: Redo swat calls
     {
         interaction = new MenuPool();
         mainMenu = new UIMenu("SuperCallouts", "Choose an option.");
