@@ -59,7 +59,6 @@ internal class Main : Plugin
         Log.Info("Dependencies Found:");
         Log.Info($"PyroCommon, Version: {pc}");
         Log.Info($"RageNativeUI, Version: {rn}");
-        Log.Info($"Using UltimateBackup: {PyroCommon.Main.UsingUb.ToString()}");
         Log.Info("======================================================");
         Game.AddConsoleCommands(new[] { typeof(ConsoleCommands) });
     }
@@ -68,6 +67,7 @@ internal class Main : Plugin
     {
         if (onDuty)
         {
+            if (PyroCommon.Main.UsingUb) Log.Info("Using UltimateBackup API.");
             PluginRunning = true;
             RegisterAllEvents();
             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~r~SuperEvents", "~g~Plugin Loaded.",

@@ -38,7 +38,7 @@ public class Main : Plugin
         var rn = new Version(FileVersionInfo.GetVersionInfo("RageNativeUI.dll").FileVersion);
         if (rn < new Version("1.9.2.0")) outdatedDepend += "RageNativeUI.dll~n~";
         var dtf = new Version(FileVersionInfo.GetVersionInfo("DamageTrackerLib.dll").FileVersion);
-        //if (dtf < new Version("1.0.1.0")) outdatedDepend += "DamageTrackerLib.dll~n~";
+        if (dtf < new Version("1.0.1")) outdatedDepend += "DamageTrackerLib.dll~n~";
         if (outdatedDepend.Length > 0)
         {
             Game.Console.Print("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
@@ -59,7 +59,6 @@ public class Main : Plugin
         Log.Info($"PyroCommon, Version: {pc}");
         Log.Info($"RageNativeUI, Version: {rn}");
         Log.Info($"DamageTrackerLib, Version: {dtf}");
-        Log.Info($"Using UltimateBackup: {PyroCommon.Main.UsingUb.ToString()}");
         Log.Info("======================================================");
         Game.AddConsoleCommands(new[] {typeof(ConsoleCommands)});
     }
@@ -68,6 +67,7 @@ public class Main : Plugin
     {
         if (onDuty)
         {
+            if (PyroCommon.Main.UsingUb) Log.Info("Using UltimateBackup API.");
             DamageTrackerService.Start();
             if (Settings.EnablePlayerDamageSystem)
                 DamageTrackerService.OnPlayerTookDamage += PlayerShot.OnPlayerDamaged;

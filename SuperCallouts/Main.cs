@@ -56,7 +56,6 @@ internal class Main : Plugin
         Log.Info($"PyroCommon, Version: {pc}");
         Log.Info($"RageNativeUI, Version: {rn}");
         Log.Info($"CalloutInterfaceAPI, Version: {ci}");
-        Log.Info($"Using UltimateBackup: {PyroCommon.Main.UsingUb.ToString()}");
         Log.Info("======================================================");
         Game.AddConsoleCommands();
     }
@@ -65,6 +64,7 @@ internal class Main : Plugin
     {
         if (onDuty)
         {
+            if (PyroCommon.Main.UsingUb) Log.Info("Using UltimateBackup API.");
             RegisterCallouts();
             GameFiber.StartNew(VersionChecker.IsUpdateAvailable);
         }
