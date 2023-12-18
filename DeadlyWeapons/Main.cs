@@ -57,9 +57,14 @@ public class Main : Plugin
         
     public override void Finally()
     {
+        if (VersionChecker.UpdateThread.IsAlive)
+        {
+            Log.Warning("Version thread still running during shutdown! Aborting thread...");
+            VersionChecker.UpdateThread.Abort();
+        }
         DamageTrackerService.Stop();
         _panicFiber.Abort();
         Events.OnPulloverStarted -= CustomPullover.PulloverModule;
-        Log.Info("DeadlyWeapons by SuperPyroManiac has been disabled.");
+        Log.Info("Plugin unloaded!");
     }
 }

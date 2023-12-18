@@ -69,6 +69,11 @@ internal class Main : Plugin
 
     public override void Finally()
     {
+        if (VersionChecker.UpdateThread.IsAlive)
+        {
+            Log.Warning("Version thread still running during shutdown! Aborting thread...");
+            VersionChecker.UpdateThread.Abort();
+        }
         if (EventManager.CurrentEvent != null)
         {
             foreach (var entity in EventManager.CurrentEvent.EntitiesToClear.Where(entity => entity))

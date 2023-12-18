@@ -92,6 +92,11 @@ internal class Main : Plugin
 
     public override void Finally()
     {
-        Log.Info("Plugin has been cleaned up.");
+        if (VersionChecker.UpdateThread.IsAlive)
+        {
+            Log.Warning("Version thread still running during shutdown! Aborting thread...");
+            VersionChecker.UpdateThread.Abort();
+        }
+        Log.Info("Plugin unloaded!");
     }
 }
