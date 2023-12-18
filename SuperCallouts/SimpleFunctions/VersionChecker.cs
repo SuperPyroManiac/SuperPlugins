@@ -51,7 +51,7 @@ internal static class VersionChecker
 		catch (Exception e)
 		{
 			_state = State.Failed;
-			Log.Error(e.ToString());
+			Log.Info("VersionChecker failed due to rapid reloads!");
 		}
 	}
 
@@ -67,7 +67,6 @@ internal static class VersionChecker
 		catch (WebException e)
 		{
 			_state = State.Failed;
-			Log.Error(e.ToString());
 		}
 
 		if (_receivedData == Settings.SCVersion) return;

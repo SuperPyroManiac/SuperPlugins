@@ -24,7 +24,7 @@ internal static class VersionChecker
 		try
 		{
 			UpdateThread.Start();
-			GameFiber.Sleep(20000);
+			GameFiber.Sleep(5000);
 
 			while (UpdateThread.IsAlive) GameFiber.Wait(1000);
 
@@ -51,7 +51,7 @@ internal static class VersionChecker
 		catch (Exception e)
 		{
 			_state = State.Failed;
-			Log.Error(e.ToString());
+			Log.Info("VersionChecker failed due to rapid reloads!");
 		}
 	}
 
