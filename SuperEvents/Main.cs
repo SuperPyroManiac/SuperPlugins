@@ -66,14 +66,25 @@ internal class Main : Plugin
 
     private static void OnOnDutyStateChangedHandler(bool onDuty)
     {
-        if (!onDuty) return;
-        PluginRunning = true;
-        RegisterAllEvents();
-        Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~r~SuperEvents", "~g~Plugin Loaded.",
-            "SuperEvents version: " + Assembly.GetExecutingAssembly().GetName().Version + " loaded.");
-        _initFiber = GameFiber.StartNew(EventManager.InitEvents);
-        EventInterface.StartInterface();
-        GameFiber.StartNew(VersionChecker.IsUpdateAvailable);
+        if (onDuty)
+        {
+            PluginRunning = true;
+            RegisterAllEvents();
+            Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~r~SuperEvents", "~g~Plugin Loaded.",
+                "SuperEvents version: " + Assembly.GetExecutingAssembly().GetName().Version + " loaded.");
+            _initFiber = GameFiber.StartNew(EventManager.InitEvents);
+            EventInterface.StartInterface();
+            GameFiber.StartNew(VersionChecker.IsUpdateAvailable);
+        }
+        else
+        {
+            if (VersionChecker.UpdateThread.IsAlive)
+            {
+                Log.Warning("Version thread still running during shutdown! Aborting thread...");
+                VersionChecker.UpdateThread.Abort();
+            }
+            Log.Info("Plugin unloaded!");
+        }
     }
 
     private static void RegisterAllEvents()

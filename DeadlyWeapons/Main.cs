@@ -66,17 +66,28 @@ public class Main : Plugin
 
     private void OnOnDutyStateChangedHandler(bool onDuty)
     {
-        if (!onDuty) return;
-        DamageTrackerService.Start();
-        if (Settings.EnablePlayerDamageSystem)
-            DamageTrackerService.OnPlayerTookDamage += PlayerShot.OnPlayerDamaged;
-        if (Settings.EnableAIDamageSystem)
-            DamageTrackerService.OnPedTookDamage += PedShot.OnPedDamaged;
-        if (Settings.EnablePanic) _panicFiber = GameFiber.StartNew(Panic.StartPanicWatch);
-        if (Settings.EnablePulloverAi) 
-            Events.OnPulloverStarted += CustomPullover.PulloverModule;
-        Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~r~DeadlyWeapons", "~g~Plugin Loaded.", "DeadlyWeapons version: " + Assembly.GetExecutingAssembly().GetName().Version + " loaded.");
-        GameFiber.StartNew(VersionChecker.IsUpdateAvailable);
+        if (onDuty)
+        {
+            DamageTrackerService.Start();
+            if (Settings.EnablePlayerDamageSystem)
+                DamageTrackerService.OnPlayerTookDamage += PlayerShot.OnPlayerDamaged;
+            if (Settings.EnableAIDamageSystem)
+                DamageTrackerService.OnPedTookDamage += PedShot.OnPedDamaged;
+            if (Settings.EnablePanic) _panicFiber = GameFiber.StartNew(Panic.StartPanicWatch);
+            if (Settings.EnablePulloverAi)
+                Events.OnPulloverStarted += CustomPullover.PulloverModule;
+            Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~r~DeadlyWeapons", "~g~Plugin Loaded.", "DeadlyWeapons version: " + Assembly.GetExecutingAssembly().GetName().Version + " loaded.");
+            GameFiber.StartNew(VersionChecker.IsUpdateAvailable);
+        }
+        else
+        {
+            if (VersionChecker.UpdateThread.IsAlive)
+            {
+                Log.Warning("Version thread still running during shutdown! Aborting thread...");
+                VersionChecker.UpdateThread.Abort();
+            }
+            Log.Info("Plugin unloaded!");
+        }
     }
         
     public override void Finally()

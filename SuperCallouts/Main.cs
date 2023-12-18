@@ -63,9 +63,20 @@ internal class Main : Plugin
 
     private void OnOnDutyStateChangedHandler(bool onDuty)
     {
-        if (!onDuty) return;
-        RegisterCallouts();
-        GameFiber.StartNew(VersionChecker.IsUpdateAvailable);
+        if (onDuty)
+        {
+            RegisterCallouts();
+            GameFiber.StartNew(VersionChecker.IsUpdateAvailable);
+        }
+        else
+        {
+            if (VersionChecker.UpdateThread.IsAlive)
+            {
+                Log.Warning("Version thread still running during shutdown! Aborting thread...");
+                VersionChecker.UpdateThread.Abort();
+            }
+            Log.Info("Plugin unloaded!");
+        }
     }
 
     private static void RegisterCallouts()
