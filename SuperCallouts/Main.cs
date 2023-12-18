@@ -27,7 +27,7 @@ internal class Main : Plugin
             Game.Console.Print($"These dependencies are not installed correctly!\r\n{missingDepend.Replace("~n~", "\r\n")}SuperCallouts could not load!");
             Game.Console.Print("======================================================");
             Game.Console.Print("SuperCallouts: Error Report End");
-            Game.DisplayNotification($"SuperCallouts: These dependencies are not installed correctly!~n~{missingDepend}~r~Plugin is disabled!");
+            Game.DisplayNotification($"~o~SuperCallouts: These dependencies are not installed correctly!~n~~r~{missingDepend}~o~Plugin is disabled!");
             return;
         }
         var pc = new Version(FileVersionInfo.GetVersionInfo("PyroCommon.dll").FileVersion);
@@ -41,25 +41,29 @@ internal class Main : Plugin
             Game.Console.Print("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
             Game.Console.Print("SuperCallouts: Error Report Start");
             Game.Console.Print("======================================================");
-            Game.Console.Print($"These dependencies are outdated!\r\n{missingDepend.Replace("~n~", "\r\n")}SuperCallouts could not load!");
+            Game.Console.Print($"These dependencies are outdated!\r\n{outdatedDepend.Replace("~n~", "\r\n")}SuperCallouts could not load!");
             Game.Console.Print("======================================================");
             Game.Console.Print("SuperCallouts: Error Report End");
-            Game.DisplayNotification($"SuperCallouts: These dependencies are outdated!~n~{missingDepend}~r~Plugin is disabled!");
+            Game.DisplayNotification($"~o~SuperCallouts: These dependencies are outdated!~n~~r~{missingDepend}~o~Plugin is disabled!");
             return;
         }
         
         Functions.OnOnDutyStateChanged += OnOnDutyStateChangedHandler;
         Settings.LoadSettings();
-        Log.Info(Assembly.GetExecutingAssembly().GetName().Version +
-                        " by SuperPyroManiac has been initialised.");
-        Log.Info("Go on duty with LSPDFR to fully load SuperCallouts.");
+        Log.Info("SuperCallouts by SuperPyroManiac loaded! Go on duty to enable it!");
+        Log.Info("======================================================");
+        Log.Info("Dependencies Found:");
+        Log.Info($"PyroCommon, Version: {pc}");
+        Log.Info($"RageNativeUI, Version: {rn}");
+        Log.Info($"CalloutInterfaceAPI, Version: {ci}");
+        Log.Info($"Using UltimateBackup: {PyroCommon.Main.UsingUb}");
+        Log.Info("======================================================");
         Game.AddConsoleCommands();
     }
 
     private void OnOnDutyStateChangedHandler(bool onDuty)
     {
         if (!onDuty) return;
-        if (PyroCommon.Main.UsingUb) Log.Info("Using UltimateBackup API.");
         RegisterCallouts();
         GameFiber.StartNew(VersionChecker.IsUpdateAvailable);
     }

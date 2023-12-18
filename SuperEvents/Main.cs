@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using LSPD_First_Response.Mod.API;
@@ -20,6 +22,7 @@ internal class Main : Plugin
     public override void Initialize()
     {
         var missingDepend = string.Empty;
+        var outdatedDepend = string.Empty;
         if (!File.Exists("PyroCommon.dll")) missingDepend += "PyroCommon.dll~n~";
         if (!File.Exists("RageNativeUI.dll")) missingDepend += "RageNativeUI.dll~n~";
         if (missingDepend.Length > 0)
@@ -33,18 +36,37 @@ internal class Main : Plugin
             Game.DisplayNotification($"SuperEvents: These dependencies are not installed correctly!~n~{missingDepend}~r~Plugin is disabled!");
             return;
         }
+        var pc = new Version(FileVersionInfo.GetVersionInfo("PyroCommon.dll").FileVersion);
+        if (pc < new Version("1.1.0.0")) outdatedDepend += "PyroCommon.dll~n~";
+        var rn = new Version(FileVersionInfo.GetVersionInfo("RageNativeUI.dll").FileVersion);
+        if (rn < new Version("1.9.2.0")) outdatedDepend += "RageNativeUI.dll~n~";
+        if (outdatedDepend.Length > 0)
+        {
+            Game.Console.Print("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
+            Game.Console.Print("SuperEvents: Error Report Start");
+            Game.Console.Print("======================================================");
+            Game.Console.Print($"These dependencies are outdated!\r\n{outdatedDepend.Replace("~n~", "\r\n")}SuperEvents could not load!");
+            Game.Console.Print("======================================================");
+            Game.Console.Print("SuperEvents: Error Report End");
+            Game.DisplayNotification($"~o~SuperEvents: These dependencies are outdated!~n~~r~{missingDepend}~o~Plugin is disabled!");
+            return;
+        }
         
         Functions.OnOnDutyStateChanged += OnOnDutyStateChangedHandler;
         Settings.LoadSettings();
-        Log.Info( Assembly.GetExecutingAssembly().GetName().Version + " by SuperPyroManiac has been initialised.");
-        Log.Info("Go on duty with LSPDFR to fully load SuperEvents.");
+        Log.Info("SuperEvents by SuperPyroManiac loaded! Go on duty to enable it!");
+        Log.Info("======================================================");
+        Log.Info("Dependencies Found:");
+        Log.Info($"PyroCommon, Version: {pc}");
+        Log.Info($"RageNativeUI, Version: {rn}");
+        Log.Info($"Using UltimateBackup: {PyroCommon.Main.UsingUb}");
+        Log.Info("======================================================");
         Game.AddConsoleCommands(new[] { typeof(ConsoleCommands) });
     }
 
     private static void OnOnDutyStateChangedHandler(bool onDuty)
     {
         if (!onDuty) return;
-        if (PyroCommon.Main.UsingUb) Log.Info("Using UltimateBackup API.");
         PluginRunning = true;
         RegisterAllEvents();
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~r~SuperEvents", "~g~Plugin Loaded.",
