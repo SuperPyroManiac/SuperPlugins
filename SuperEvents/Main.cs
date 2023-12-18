@@ -33,7 +33,7 @@ internal class Main : Plugin
             Game.Console.Print($"These dependencies are not installed correctly!\r\n{missingDepend.Replace("~n~", "\r\n")}SuperEvents could not load!");
             Game.Console.Print("======================================================");
             Game.Console.Print($"SuperEvents: Error Report End");
-            Game.DisplayNotification($"SuperEvents: These dependencies are not installed correctly!~n~{missingDepend}~r~Plugin is disabled!");
+            Game.DisplayNotification($"~o~SuperEvents: These dependencies are not installed correctly!~n~ ~r~{missingDepend}~o~Plugin is disabled!");
             return;
         }
         var pc = new Version(FileVersionInfo.GetVersionInfo("PyroCommon.dll").FileVersion);
@@ -48,7 +48,7 @@ internal class Main : Plugin
             Game.Console.Print($"These dependencies are outdated!\r\n{outdatedDepend.Replace("~n~", "\r\n")}SuperEvents could not load!");
             Game.Console.Print("======================================================");
             Game.Console.Print("SuperEvents: Error Report End");
-            Game.DisplayNotification($"~o~SuperEvents: These dependencies are outdated!~n~~r~{missingDepend}~o~Plugin is disabled!");
+            Game.DisplayNotification($"~o~SuperEvents: These dependencies are outdated!~n~ ~r~{missingDepend}~o~Plugin is disabled!");
             return;
         }
         
@@ -59,7 +59,7 @@ internal class Main : Plugin
         Log.Info("Dependencies Found:");
         Log.Info($"PyroCommon, Version: {pc}");
         Log.Info($"RageNativeUI, Version: {rn}");
-        Log.Info($"Using UltimateBackup: {PyroCommon.Main.UsingUb}");
+        Log.Info($"Using UltimateBackup: {PyroCommon.Main.UsingUb.ToString()}");
         Log.Info("======================================================");
         Game.AddConsoleCommands(new[] { typeof(ConsoleCommands) });
     }

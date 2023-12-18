@@ -30,7 +30,7 @@ public class Main : Plugin
             Game.Console.Print($"These dependencies are not installed correctly!\r\n{missingDepend.Replace("~n~", "\r\n")}DeadlyWeapons could not load!");
             Game.Console.Print("======================================================");
             Game.Console.Print($"DeadlyWeapons: Error Report End");
-            Game.DisplayNotification($"DeadlyWeapons: These dependencies are not installed correctly!~n~{missingDepend}~r~Plugin is disabled!");
+            Game.DisplayNotification($"~o~DeadlyWeapons: These dependencies are not installed correctly!~n~ ~r~{missingDepend}~o~Plugin is disabled!");
             return;
         }
         var pc = new Version(FileVersionInfo.GetVersionInfo("PyroCommon.dll").FileVersion);
@@ -38,7 +38,7 @@ public class Main : Plugin
         var rn = new Version(FileVersionInfo.GetVersionInfo("RageNativeUI.dll").FileVersion);
         if (rn < new Version("1.9.2.0")) outdatedDepend += "RageNativeUI.dll~n~";
         var dtf = new Version(FileVersionInfo.GetVersionInfo("DamageTrackerLib.dll").FileVersion);
-        if (dtf < new Version("1.0.1.0")) outdatedDepend += "DamageTrackerLib.dll~n~";
+        //if (dtf < new Version("1.0.1.0")) outdatedDepend += "DamageTrackerLib.dll~n~";
         if (outdatedDepend.Length > 0)
         {
             Game.Console.Print("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
@@ -47,7 +47,7 @@ public class Main : Plugin
             Game.Console.Print($"These dependencies are outdated!\r\n{outdatedDepend.Replace("~n~", "\r\n")}DeadlyWeapons could not load!");
             Game.Console.Print("======================================================");
             Game.Console.Print("DeadlyWeapons: Error Report End");
-            Game.DisplayNotification($"~o~DeadlyWeapons: These dependencies are outdated!~n~~r~{missingDepend}~o~Plugin is disabled!");
+            Game.DisplayNotification($"~o~DeadlyWeapons: These dependencies are outdated!~n~ ~r~{missingDepend}~o~Plugin is disabled!");
             return;
         }
         
@@ -59,7 +59,7 @@ public class Main : Plugin
         Log.Info($"PyroCommon, Version: {pc}");
         Log.Info($"RageNativeUI, Version: {rn}");
         Log.Info($"DamageTrackerLib, Version: {dtf}");
-        Log.Info($"Using UltimateBackup: {PyroCommon.Main.UsingUb}");
+        Log.Info($"Using UltimateBackup: {PyroCommon.Main.UsingUb.ToString()}");
         Log.Info("======================================================");
         Game.AddConsoleCommands(new[] {typeof(ConsoleCommands)});
     }
