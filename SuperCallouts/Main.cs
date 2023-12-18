@@ -1,3 +1,5 @@
+using System;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using LSPD_First_Response.Mod.API;
@@ -13,18 +15,36 @@ internal class Main : Plugin
     public override void Initialize()
     {
         var missingDepend = string.Empty;
+        var outdatedDepend = string.Empty;
         if (!File.Exists("PyroCommon.dll")) missingDepend += "PyroCommon.dll~n~";
         if (!File.Exists("RageNativeUI.dll")) missingDepend += "RageNativeUI.dll~n~";
         if (!File.Exists("CalloutInterfaceAPI.dll")) missingDepend += "CalloutInterfaceAPI.dll~n~";
         if (missingDepend.Length > 0)
         {
             Game.Console.Print("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
-            Game.Console.Print($"SuperCallouts: Error Report Start");
+            Game.Console.Print("SuperCallouts: Error Report Start");
             Game.Console.Print("======================================================");
             Game.Console.Print($"These dependencies are not installed correctly!\r\n{missingDepend.Replace("~n~", "\r\n")}SuperCallouts could not load!");
             Game.Console.Print("======================================================");
-            Game.Console.Print($"SuperCallouts: Error Report End");
+            Game.Console.Print("SuperCallouts: Error Report End");
             Game.DisplayNotification($"SuperCallouts: These dependencies are not installed correctly!~n~{missingDepend}~r~Plugin is disabled!");
+            return;
+        }
+        var pc = new Version(FileVersionInfo.GetVersionInfo("PyroCommon.dll").FileVersion);
+        if (pc < new Version("1.1.0.0")) outdatedDepend += "PyroCommon.dll~n~";
+        var rn = new Version(FileVersionInfo.GetVersionInfo("RageNativeUI.dll").FileVersion);
+        if (rn < new Version("1.9.2.0")) outdatedDepend += "RageNativeUI.dll~n~";
+        var ci = new Version(FileVersionInfo.GetVersionInfo("CalloutInterfaceAPI.dll").FileVersion);
+        if (ci < new Version("1.0.3.0")) outdatedDepend += "CalloutInterfaceAPI.dll~n~";
+        if (outdatedDepend.Length > 0)
+        {
+            Game.Console.Print("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
+            Game.Console.Print("SuperCallouts: Error Report Start");
+            Game.Console.Print("======================================================");
+            Game.Console.Print($"These dependencies are outdated!\r\n{missingDepend.Replace("~n~", "\r\n")}SuperCallouts could not load!");
+            Game.Console.Print("======================================================");
+            Game.Console.Print("SuperCallouts: Error Report End");
+            Game.DisplayNotification($"SuperCallouts: These dependencies are outdated!~n~{missingDepend}~r~Plugin is disabled!");
             return;
         }
         
