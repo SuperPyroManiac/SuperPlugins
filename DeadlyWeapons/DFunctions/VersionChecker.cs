@@ -17,7 +17,7 @@ internal static class VersionChecker
 
 	private static State _state = State.Current;
 	private static string _receivedData = string.Empty;
-	private static readonly Thread UpdateThread = new Thread(CheckVersion);
+	internal static readonly Thread UpdateThread = new Thread(CheckVersion);
 
 	internal static void IsUpdateAvailable()
 	{
