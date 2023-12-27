@@ -123,8 +123,7 @@ internal class CarAccident3 : SuperCallout
                 var pursuit2 = Functions.CreatePursuit();
                 Functions.AddPedToPursuit(pursuit2, _ePed);
                 Functions.SetPursuitIsActiveForPlayer(pursuit2, true);
-                _ePed2.Tasks.LeaveVehicle(LeaveVehicleFlags.LeaveDoorOpen);
-                CalloutInterfaceAPI.Functions.SendMessage(this, "Appears to be a 480, hit and run.");
+                CalloutInterfaceAPI.Functions.SendMessage(this, "Appears to be a hit and run.");
                 break;
             case 3: //Fire + dead ped.
                 _ePed2.Tasks.Cower(-1);
