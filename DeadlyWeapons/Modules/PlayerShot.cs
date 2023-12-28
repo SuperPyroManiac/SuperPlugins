@@ -41,16 +41,17 @@ internal static class PlayerShot
         {
             var owie = damageInfo.Damage * Settings.AltDamageMultiplier;
             owie = owie - damageInfo.Damage;
+            var owieInt = (int)Math.Round(owie);
             Log.Info("[DEBUG]: Alternate damage applied: " + owie);
             
             if (Player.Armor >= 1)
             {
-                Player.Armor -= owie;
+                Player.Armor -= owieInt;
             }
             
             if (Player.Armor < 1)
             {
-                Player.Health -= owie;
+                Player.Health -= owieInt;
             }
             
             Log.Info("[DEBUG]: Player health after shot: " + Player.Health);

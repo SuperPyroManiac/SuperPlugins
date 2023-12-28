@@ -1,5 +1,6 @@
 #region
 
+using System.Globalization;
 using System.Reflection;
 using PyroCommon.API;
 using Rage;
@@ -17,7 +18,7 @@ internal static class Settings
     internal static bool EnablePlayerHeadshotInstakill;
     internal static bool EnablePanic = true;
     internal static int PanicCooldown = 120;
-    internal static int AltDamageMultiplier = 2;
+    internal static float AltDamageMultiplier = 2;
     internal static bool EnablePulloverAi = true;
     internal static bool Code3Backup = true;
     internal static bool SwatBackup;
@@ -37,7 +38,7 @@ internal static class Settings
         EnablePlayerHeadshotInstakill = ini.ReadBoolean("Features", "EnablePlayerHeadshotInstakill", false);
         EnablePanic = ini.ReadBoolean("Features", "EnablePanic", true);
         PanicCooldown = ini.ReadInt32("Features", "PanicCooldown", 120);
-        AltDamageMultiplier = ini.ReadInt32("Features", "AltDamageMultiplier", 2);
+        AltDamageMultiplier = float.Parse(ini.ReadString("Features", "AltDamageMultiplier", "2"));
         EnablePulloverAi = ini.ReadBoolean("Features", "EnablePulloverAi", true);
         Code3Backup = ini.ReadBoolean("Backup", "Code3Backup", true);
         SwatBackup = ini.ReadBoolean("Backup", "SwatBackup");
