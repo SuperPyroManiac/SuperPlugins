@@ -33,11 +33,11 @@ internal class Main : Plugin
             Game.Console.Print($"These dependencies are not installed correctly!\r\n{missingDepend.Replace("~n~", "\r\n")}SuperEvents could not load!");
             Game.Console.Print("======================================================");
             Game.Console.Print($"SuperEvents: Error Report End");
-            Game.DisplayNotification($"~o~SuperEvents: These dependencies are not installed correctly!~n~ ~r~{missingDepend}~o~Plugin is disabled!");
+            Game.DisplayNotification("new_editor", "warningtriangle", "~r~SuperEvents", "~y~Not Loaded!", "Plugin is installed incorrectly! Please see the RagePluginHook.log!"); 
             return;
         }
         var pc = new Version(FileVersionInfo.GetVersionInfo("PyroCommon.dll").FileVersion);
-        if (pc < new Version("1.1.0.0")) outdatedDepend += "PyroCommon.dll~n~";
+        if (pc < new Version("1.3.0.0")) outdatedDepend += "PyroCommon.dll~n~";
         var rn = new Version(FileVersionInfo.GetVersionInfo("RageNativeUI.dll").FileVersion);
         if (rn < new Version("1.9.2.0")) outdatedDepend += "RageNativeUI.dll~n~";
         if (outdatedDepend.Length > 0)
@@ -48,7 +48,7 @@ internal class Main : Plugin
             Game.Console.Print($"These dependencies are outdated!\r\n{outdatedDepend.Replace("~n~", "\r\n")}SuperEvents could not load!");
             Game.Console.Print("======================================================");
             Game.Console.Print("SuperEvents: Error Report End");
-            Game.DisplayNotification($"~o~SuperEvents: These dependencies are outdated!~n~ ~r~{missingDepend}~o~Plugin is disabled!");
+            Game.DisplayNotification("new_editor", "warningtriangle", "~r~SuperEvents", "~y~Not Loaded!", "Plugin is installed incorrectly! Please see the RagePluginHook.log!");            
             return;
         }
         
