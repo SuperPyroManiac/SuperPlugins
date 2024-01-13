@@ -110,19 +110,16 @@ internal abstract class SuperCallout : Callout
         CalloutEnded = true;
         if (forceCleanup)
         {
-            foreach (var entity in EntitiesToClear)
-                if (entity.Exists()) entity.Delete();
+            foreach (var entity in EntitiesToClear.Where(entity => entity.Exists())) entity.Delete();
             Log.Info($"{CalloutName} callout has been forcefully cleaned up.");
         }
         else
         {
-            foreach (var entity in EntitiesToClear)
-                if (entity.Exists()) entity.Dismiss();
+            foreach (var entity in EntitiesToClear.Where(entity => entity.Exists())) entity.Dismiss();
         }
         Game.DisplayHelp("~y~Callout Ended.");
         CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code-4");
-        foreach (var blip in BlipsToClear)
-            if (blip.Exists()) blip.Delete();
+        foreach (var blip in BlipsToClear.Where(blip => blip.Exists())) blip.Delete();
 
         Interaction.CloseAllMenus();
         Log.Info($"Ending {CalloutName} Callout.");

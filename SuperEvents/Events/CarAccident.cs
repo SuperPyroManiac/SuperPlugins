@@ -36,7 +36,7 @@ internal class CarAccident : AmbientEvent
         //Setup
         PyroFunctions.FindSideOfRoad(120, 45, out _spawnPoint, out _spawnPointH);
         EventLocation = _spawnPoint;
-        if (_spawnPoint.DistanceTo(Player) < 35f)
+        if (_spawnPoint.DistanceTo(Player) < 35f)//TODO: Add abort distance
         {
             End(true);
             return;

@@ -85,7 +85,7 @@ internal class WeirdCar : AmbientEvent
         }
         catch (Exception e)
         {
-            Log.Error( e.ToString());
+            Log.Error(e.ToString());
             End(true);
         }
     }

@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -20,7 +21,7 @@ public abstract class AmbientEvent
     internal bool HasEnded { get; set; }
     private static bool ShowBlips = Settings.ShowBlips;
     private static bool ShowHints = Settings.ShowHints;
-    private static Keys EndEvent = Settings.EndEvent;
+    private static Keys EndKey = Settings.EndEvent;
     private static Keys Interact = Settings.Interact;
     private readonly string _eventTitle;
     private readonly string _eventDescription;
@@ -60,7 +61,7 @@ public abstract class AmbientEvent
             Log.Error(e.ToString());
             // ReSharper disable once VirtualMemberCallInConstructor
             HasEnded = true;
-            End(true);
+            EndEvent(true);
         }
     }
 
@@ -83,7 +84,7 @@ public abstract class AmbientEvent
         OnStartEvent();
         if (EventLocation.DistanceTo(Player) > ClearEventDistance)
         {
-            End(true);
+            EndEvent(true);
             Log.Info("Ending event due to player being too far.");
         }
         MainMenu.OnItemSelect += Interactions;
@@ -106,11 +107,12 @@ public abstract class AmbientEvent
 
     private void Process()
     {
-        if (Game.IsKeyDown(EndEvent)) End();
+        foreach (var entity in EntitiesToClear.Where(entity => !entity.Exists())) EndEvent(true);
+        if (Game.IsKeyDown(EndKey)) EndEvent();
         if (Game.IsKeyDown(Interact)) MainMenu.Visible = !MainMenu.Visible;
         if (EventLocation.DistanceTo(Player) > ClearEventDistance)
         {
-            End(true);
+            EndEvent(true);
             Log.Info("Ending event due to player being too far.");
         }
         if (!onScene && Game.LocalPlayer.Character.DistanceTo(EventLocation) < OnSceneDistance)
@@ -122,31 +124,29 @@ public abstract class AmbientEvent
             Game.DisplayHelp("~y~Press ~r~" + Interact + "~y~ to open interaction menu.");
             OnScene();
         }
+        if (Player.IsDead) EndEvent();
         Interaction.ProcessMenus();
         OnProcess();
     }
     
     protected abstract void OnProcess();
 
-    protected internal void End(bool forceCleanup = false)
+    protected internal void EndEvent(bool forceCleanup = false)
     {
         EventRunning = false;
         OnCleanup();
         if (forceCleanup)
         {
-            foreach (var entity in EntitiesToClear)
-                if (entity.Exists()) entity.Delete();
+            foreach (var entity in EntitiesToClear.Where(entity => entity.Exists())) entity.Delete();
             Log.Info("Event has been forcefully cleaned up.");
         }
         else
         {
-            foreach (var entity in EntitiesToClear)
-                if (entity.Exists()) entity.Dismiss();
+            foreach (var entity in EntitiesToClear.Where(entity => entity.Exists())) entity.Dismiss();
             Game.DisplayHelp("~y~Event Ended.");
         }
 
-        foreach (var blip in BlipsToClear)
-            if (blip.Exists()) blip.Delete();
+        foreach (var blip in BlipsToClear.Where(blip => blip.Exists())) blip.Delete();
 
         Interaction.CloseAllMenus();
         Log.Info("Ending Event.");
@@ -157,7 +157,7 @@ public abstract class AmbientEvent
 
     protected virtual void Interactions(UIMenu sender, UIMenuItem selItem, int index)
     {
-        if (selItem == EndCall) End();
+        if (selItem == EndCall) EndEvent();
     }
 
     protected virtual void Conversations(UIMenu sender, UIMenuItem selItem, int index)
