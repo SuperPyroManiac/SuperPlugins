@@ -61,7 +61,7 @@ public static class EventManager
         try
         {
             if (BrokenEvents.Count > 0) LogBrokenEvents();
-            CurrentEvent?.End(true);
+            CurrentEvent?.EndEvent(true);
             CurrentEvent = null;
             EventTimer.Start();
             while (Main.PluginRunning)

@@ -30,7 +30,7 @@ internal class OpenCarry : AmbientEvent
         EventLocation = _spawnPoint;
         if (_spawnPoint.DistanceTo(Player) < 35f)
         {
-            End(true);
+            EndEvent(true);
             return;
         }
 
@@ -104,7 +104,7 @@ internal class OpenCarry : AmbientEvent
                 GameFiber.Wait(3000);
                 break;
             default:
-                End(true);
+                EndEvent(true);
                 break;
         }
     }

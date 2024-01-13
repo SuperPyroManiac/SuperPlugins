@@ -22,7 +22,7 @@ internal class WeirdCar : AmbientEvent
         EventLocation = _spawnPoint;
         if (_spawnPoint.DistanceTo(Player) < 35f)
         {
-            End(true);
+            EndEvent(true);
             return;
         }
 
@@ -70,7 +70,7 @@ internal class WeirdCar : AmbientEvent
                             _eVehicle.AlarmTimeLeft = TimeSpan.MaxValue;
                             break;
                         default:
-                            End(true);
+                            EndEvent(true);
                             break;
                     }
 
@@ -79,20 +79,18 @@ internal class WeirdCar : AmbientEvent
                 case Tasks.End:
                     break;
                 default:
-                    End(true);
+                    EndEvent(true);
                     break;
             }
         }
         catch (Exception e)
         {
             Log.Error(e.ToString());
-            End(true);
+            EndEvent(true);
         }
     }
 
-    protected override void OnCleanup()
-    {
-    }
+    protected override void OnCleanup() { }
 
     private enum Tasks
     {

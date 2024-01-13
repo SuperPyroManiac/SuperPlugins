@@ -27,7 +27,7 @@ internal class PulloverShooting : AmbientEvent
         EventLocation = _spawnPoint;
         if (_spawnPoint.DistanceTo(Player) < 35f)
         {
-            End(true);
+            EndEvent(true);
             return;
         }
 
@@ -90,7 +90,7 @@ internal class PulloverShooting : AmbientEvent
                             _cPed.Kill();
                             break;
                         default:
-                            End(true);
+                            EndEvent(true);
                             break;
                     }
 
@@ -99,14 +99,14 @@ internal class PulloverShooting : AmbientEvent
                 case Tasks.End:
                     break;
                 default:
-                    End(true);
+                    EndEvent(true);
                     break;
             }
         }
         catch (Exception e)
         {
             Log.Error( e.ToString());
-            End(true);
+            EndEvent(true);
         }
     }
 

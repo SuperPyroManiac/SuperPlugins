@@ -40,14 +40,14 @@ internal class WildAnimal : AmbientEvent
                 case Tasks.OnScene:
                     break;
                 default:
-                    End(true);
+                    EndEvent(true);
                     break;
             }
         }
         catch (Exception e)
         {
             Log.Error( e.ToString());
-            End(true);
+            EndEvent(true);
         }
     }
 

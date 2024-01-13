@@ -25,7 +25,7 @@ internal class RecklessDriver : AmbientEvent
         var randomVehicles = Player.GetNearbyVehicles(15);
         if (randomVehicles == null || randomVehicles.Length == 0)
         {
-            End(true);
+            EndEvent(true);
             return;
         }
 
@@ -37,7 +37,7 @@ internal class RecklessDriver : AmbientEvent
 
         if (_eVehicle == null || !_eVehicle.Exists() || !_eVehicle.HasDriver)
         {
-            End(true);
+            EndEvent(true);
             return;
         }
 
@@ -53,7 +53,7 @@ internal class RecklessDriver : AmbientEvent
             _ePed.RelationshipGroup == RelationshipGroup.Fireman ||
             _ePed.RelationshipGroup == RelationshipGroup.Medic || _ePed.RelationshipGroup == RelationshipGroup.Cop)
         {
-            End(false);
+            EndEvent(false);
             return;
         }
     }
@@ -80,7 +80,7 @@ internal class RecklessDriver : AmbientEvent
                                 _ePed.Tasks.CruiseWithVehicle(_eVehicle, 20f, VehicleDrivingFlags.Emergency);
                                 break;
                             default:
-                                End(false);
+                                EndEvent(false);
                                 break;
                         }
 
@@ -120,7 +120,7 @@ internal class RecklessDriver : AmbientEvent
                             PyroFunctions.SetWanted(_ePed, false);
                             break;
                         default:
-                            End(false);
+                            EndEvent(false);
                             break;
                     }
 
@@ -129,14 +129,14 @@ internal class RecklessDriver : AmbientEvent
                 case Tasks.End:
                     break;
                 default:
-                    End(true);
+                    EndEvent(true);
                     break;
             }
         }
         catch (Exception e)
         {
             Log.Error( e.ToString());
-            End(true);
+            EndEvent(true);
         }
     }
 

@@ -33,7 +33,7 @@ internal class InjuredPed : AmbientEvent
         EventLocation = _spawnPoint;
         if (_spawnPoint.DistanceTo(Player) < 35f)
         {
-            End(true);
+            EndEvent(true);
             return;
         }
 
@@ -60,7 +60,7 @@ internal class InjuredPed : AmbientEvent
                 _speakInjured = new UIMenuItem("Speak with ~y~" + _name1);
                 break;
             default:
-                End(true);
+                EndEvent(true);
                 break;
         }
     }
@@ -84,7 +84,7 @@ internal class InjuredPed : AmbientEvent
                             if (!_bad.IsAnySpeechPlaying) _bad.PlayAmbientSpeech("GENERIC_FRIGHTENED_MED");
                             break;
                         default:
-                            End(true);
+                            EndEvent(true);
                             break;
                     }
 
@@ -92,14 +92,14 @@ internal class InjuredPed : AmbientEvent
                 case Tasks.End:
                     break;
                 default:
-                    End(true);
+                    EndEvent(true);
                     break;
             }
         }
         catch (Exception e)
         {
             Log.Error( e.ToString());
-            End(true);
+            EndEvent(true);
         }
     }
 

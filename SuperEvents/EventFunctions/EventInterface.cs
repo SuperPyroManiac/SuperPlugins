@@ -76,6 +76,6 @@ internal static class EventInterface
     private static void MainMenuSelected(UIMenu sender, UIMenuItem selecteditem, int index)
     {
         if (selecteditem == PauseEvent) Main.PausePlugin();
-        if (selecteditem == EndEvent) EventManager.CurrentEvent?.End();
+        if (selecteditem == EndEvent) EventManager.CurrentEvent?.EndEvent();
     }
 }

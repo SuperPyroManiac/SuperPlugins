@@ -30,7 +30,7 @@ internal class Fight : AmbientEvent
         EventLocation = _spawnPoint;
         if (_spawnPoint.DistanceTo(Player) < 35f)
         {
-            End(true);
+            EndEvent(true);
             return;
         }
 
@@ -98,7 +98,7 @@ internal class Fight : AmbientEvent
                             _suspect2.BlockPermanentEvents = false;
                             break;
                         default:
-                            End(true);
+                            EndEvent(true);
                             break;
                     }
 
@@ -107,14 +107,14 @@ internal class Fight : AmbientEvent
                 case Tasks.End:
                     break;
                 default:
-                    End(true);
+                    EndEvent(true);
                     break;
             }
         }
         catch (Exception e)
         {
             Log.Error(e.ToString());
-            End(true);
+            EndEvent(true);
         }
     }
 

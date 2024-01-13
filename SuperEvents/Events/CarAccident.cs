@@ -38,7 +38,7 @@ internal class CarAccident : AmbientEvent
         EventLocation = _spawnPoint;
         if (_spawnPoint.DistanceTo(Player) < 35f)//TODO: Add abort distance
         {
-            End(true);
+            EndEvent(true);
             return;
         }
 
@@ -84,7 +84,7 @@ internal class CarAccident : AmbientEvent
                 _ePed2.Tasks.LeaveVehicle(LeaveVehicleFlags.LeaveDoorOpen);
                 break;
             default:
-                End(true);
+                EndEvent(true);
                 break;
         }
 
@@ -137,7 +137,7 @@ internal class CarAccident : AmbientEvent
                             PyroFunctions.FireControl(_spawnPoint.Around2D(7f), 24, true);
                             break;
                         default:
-                            End(true);
+                            EndEvent(true);
                             break;
                     }
 
@@ -149,14 +149,14 @@ internal class CarAccident : AmbientEvent
                 case Tasks.End:
                     break;
                 default:
-                    End(true);
+                    EndEvent(true);
                     break;
             }
         }
         catch (Exception e)
         {
             Log.Error( e.ToString());
-            End(true);
+            EndEvent(true);
         }
     }
 

@@ -22,7 +22,7 @@ internal class CarFire : AmbientEvent
         EventLocation = _spawnPoint;
         if (_spawnPoint.DistanceTo(Player) < 35f)
         {
-            End(true);
+            EndEvent(true);
             return;
         }
 
@@ -65,7 +65,7 @@ internal class CarFire : AmbientEvent
                             PyroFunctions.FireControl(_spawnPoint.Around2D(4f), 24, false);
                             break;
                         default:
-                            End(true);
+                            EndEvent(true);
                             break;
                     }
 
@@ -74,14 +74,14 @@ internal class CarFire : AmbientEvent
                 case Tasks.End:
                     break;
                 default:
-                    End(true);
+                    EndEvent(true);
                     break;
             }
         }
         catch (Exception e)
         {
             Log.Error( e.ToString());
-            End(true);
+            EndEvent(true);
         }
     }
 
