@@ -25,14 +25,6 @@ internal class Main : Plugin
             Game.DisplayNotification("new_editor", "warningtriangle", "~r~SuperCallouts", "~y~Not Loaded!", "Plugin is installed incorrectly! Please see the RagePluginHook.log! Visit https://dsc.gg/ulss for help!"); 
             return;
         }
-        //TODO: Next version remove this as everyone should have updated PyroCommon 1.4
-        var dependVersion = new Version(FileVersionInfo.GetVersionInfo("PyroCommon.dll").FileVersion);
-        if (dependVersion < new Version("1.4.0.0"))
-        {
-            Log.Error("PyroCommon.dll is outdated! Please reinstall the plugin correctly!");
-            Game.DisplayNotification("new_editor", "warningtriangle", "~r~SuperCallouts", "~y~Not Loaded!", "Plugin is installed incorrectly! Please see the RagePluginHook.log! Visit https://dsc.gg/ulss for help!");
-            return;
-        }
         DependManager.AddDepend("PyroCommon.dll", "1.4.0.0");
         DependManager.AddDepend("RageNativeUI.dll", "1.9.2.0");
         DependManager.AddDepend("CalloutInterfaceAPI.dll", "1.0.3.0");
