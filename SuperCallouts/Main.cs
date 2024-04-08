@@ -14,22 +14,7 @@ internal class Main : Plugin
 {
     public override void Initialize()
     {
-        if (!File.Exists("PyroCommon.dll"))
-        {
-            Game.Console.Print("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
-            Game.Console.Print("SuperCallouts: Error Report Start");
-            Game.Console.Print("======================================================");
-            Game.Console.Print($"PyroCommon.dll is missing! Please reinstall plugin correctly!");
-            Game.Console.Print("======================================================");
-            Game.Console.Print("SuperCallouts: Error Report End");
-            Game.DisplayNotification("new_editor", "warningtriangle", "~r~SuperCallouts", "~y~Not Loaded!", "Plugin is installed incorrectly! Please see the RagePluginHook.log! Visit https://dsc.gg/ulss for help!"); 
-            return;
-        }
-        DependManager.AddDepend("PyroCommon.dll", "1.4.0.0");
-        DependManager.AddDepend("RageNativeUI.dll", "1.9.2.0");
-        DependManager.AddDepend("CalloutInterfaceAPI.dll", "1.0.3.0");
-        if (!DependManager.CheckDepends()) return;
-        
+        if (!DependChecker.Start()) return;
         Functions.OnOnDutyStateChanged += OnOnDutyStateChangedHandler;
         Settings.LoadSettings();
         Game.AddConsoleCommands();
