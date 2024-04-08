@@ -17,40 +17,7 @@ public class Main : Plugin
  
     public override void Initialize()
     {
-        var missingDepend = string.Empty;
-        var outdatedDepend = string.Empty;
-        if (!File.Exists("PyroCommon.dll")) missingDepend += "PyroCommon.dll~n~";
-        if (!File.Exists("RageNativeUI.dll")) missingDepend += "RageNativeUI.dll~n~";
-        if (!File.Exists("DamageTrackerLib.dll")) missingDepend += "DamageTrackerLib.dll~n~";
-        if (missingDepend.Length > 0)
-        {
-            Game.Console.Print("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
-            Game.Console.Print($"DeadlyWeapons: Error Report Start");
-            Game.Console.Print("======================================================");
-            Game.Console.Print($"These dependencies are not installed correctly!\r\n{missingDepend.Replace("~n~", "\r\n")}DeadlyWeapons could not load!");
-            Game.Console.Print("======================================================");
-            Game.Console.Print($"DeadlyWeapons: Error Report End");
-            Game.DisplayNotification("new_editor", "warningtriangle", "~r~DeadlyWeapons", "~y~Not Loaded!", "Plugin is installed incorrectly! Please see the RagePluginHook.log!"); 
-            return;
-        }
-        var pc = new Version(FileVersionInfo.GetVersionInfo("PyroCommon.dll").FileVersion);
-        if (pc < new Version("1.3.0.0")) outdatedDepend += "PyroCommon.dll~n~";
-        var rn = new Version(FileVersionInfo.GetVersionInfo("RageNativeUI.dll").FileVersion);
-        if (rn < new Version("1.9.2.0")) outdatedDepend += "RageNativeUI.dll~n~";
-        var dtf = new Version(FileVersionInfo.GetVersionInfo("DamageTrackerLib.dll").FileVersion);
-        if (dtf < new Version("1.0.1")) outdatedDepend += "DamageTrackerLib.dll~n~";
-        if (outdatedDepend.Length > 0)
-        {
-            Game.Console.Print("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
-            Game.Console.Print("DeadlyWeapons: Error Report Start");
-            Game.Console.Print("======================================================");
-            Game.Console.Print($"These dependencies are outdated!\r\n{outdatedDepend.Replace("~n~", "\r\n")}DeadlyWeapons could not load!");
-            Game.Console.Print("======================================================");
-            Game.Console.Print("DeadlyWeapons: Error Report End");
-            Game.DisplayNotification("new_editor", "warningtriangle", "~r~DeadlyWeapons", "~y~Not Loaded!", "Plugin is installed incorrectly! Please see the RagePluginHook.log!"); 
-            return;
-        }
-        
+        if (!DependChecker.Start()) return;
         Settings.LoadSettings();
         Functions.OnOnDutyStateChanged += OnOnDutyStateChangedHandler;
         Log.Info("DeadlyWeapons by SuperPyroManiac loaded! Go on duty to enable it!");
@@ -67,7 +34,14 @@ public class Main : Plugin
     {
         if (onDuty)
         {
-            if (PyroCommon.Main.UsingUb) Log.Info("Using UltimateBackup API.");
+            Log.Info("SuperEvents by SuperPyroManiac loaded successfully!");
+            Log.Info("======================================================");
+            Log.Info("Dependencies Found:");
+            Log.Info($"PyroCommon, Version: {new Version(FileVersionInfo.GetVersionInfo("PyroCommon.dll").FileVersion)}");
+            Log.Info($"RageNativeUI, Version: {new Version(FileVersionInfo.GetVersionInfo("RageNativeUI.dll").FileVersion)}");
+            Log.Info($"DamageTrackerLib, Version: {new Version(FileVersionInfo.GetVersionInfo("DamageTrackerLib.dll").FileVersion)}");
+            Log.Info($"Using Ultimate Backup: {PyroCommon.Main.UsingUb}");
+            Log.Info("======================================================");
             DamageTrackerService.Start();
             if (Settings.EnablePlayerDamageSystem)
                 DamageTrackerService.OnPlayerTookDamage += PlayerShot.OnPlayerDamaged;

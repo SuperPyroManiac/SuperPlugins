@@ -12,12 +12,9 @@ namespace SuperCallouts;
 
 internal class Main : Plugin
 {
-    internal static bool DependsGood { get; set; }
-    
     public override void Initialize()
     {
-        DependChecker.Start();
-        if (!DependsGood) return;
+        if (!DependChecker.Start()) return;
         Functions.OnOnDutyStateChanged += OnOnDutyStateChangedHandler;
         Settings.LoadSettings();
         Game.AddConsoleCommands();
@@ -99,7 +96,6 @@ internal class Main : Plugin
 
     public override void Finally()
     {
-        if (!DependsGood) return;
         if (VersionChecker.UpdateThread.IsAlive)
         {
             Log.Warning("Version thread still running during shutdown! Aborting thread...");
