@@ -69,7 +69,6 @@ internal class Trespassing : SuperCallout
             { IsPersistent = true, BlockPermanentEvents = true };
         PyroFunctions.SetDrunk(_suspect, true);
         _suspect.Metadata.stpAlcoholDetected = true;
-        Functions.SetPersonaForPed(_suspect, new Persona("Benzo", "Effect", Gender.Male));
         _name = Functions.GetPersonaForPed(_suspect).FullName;
         _suspect.Tasks.Cower(-1);
         EntitiesToClear.Add(_suspect);
