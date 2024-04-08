@@ -39,9 +39,9 @@ internal static class VersionChecker
 						"mp_alerttriangle",
 						"~r~SuperCallouts Warning",
 						"~y~A new update is available!",
-						$"Current Version: ~r~{Settings.SCVersion}~w~<br>New Version: ~g~{_receivedData}");
+						$"Current Version: ~r~{Settings.ScVersion}~w~<br>New Version: ~g~{_receivedData}");
 					Log.Warning(
-						$"A new version is available!\r\nCurrent Version: {Settings.SCVersion}\r\nNew Version: {_receivedData}");
+						$"A new version is available!\r\nCurrent Version: {Settings.ScVersion}\r\nNew Version: {_receivedData}");
 					break;
 				case State.Current:
 					Log.Info("Version is up to date!");
@@ -69,7 +69,7 @@ internal static class VersionChecker
 			_state = State.Failed;
 		}
 
-		if (_receivedData == Settings.SCVersion) return;
+		if (_receivedData == Settings.ScVersion) return;
 		_state = State.Update;
 	}
 }

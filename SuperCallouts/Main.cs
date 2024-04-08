@@ -14,49 +14,32 @@ internal class Main : Plugin
 {
     public override void Initialize()
     {
-        var missingDepend = string.Empty;
-        var outdatedDepend = string.Empty;
-        if (!File.Exists("PyroCommon.dll")) missingDepend += "PyroCommon.dll~n~";
-        if (!File.Exists("RageNativeUI.dll")) missingDepend += "RageNativeUI.dll~n~";
-        if (!File.Exists("CalloutInterfaceAPI.dll")) missingDepend += "CalloutInterfaceAPI.dll~n~";
-        if (missingDepend.Length > 0)
+        if (!File.Exists("PyroCommon.dll"))
         {
             Game.Console.Print("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
             Game.Console.Print("SuperCallouts: Error Report Start");
             Game.Console.Print("======================================================");
-            Game.Console.Print($"These dependencies are not installed correctly!\r\n{missingDepend.Replace("~n~", "\r\n")}SuperCallouts could not load!");
+            Game.Console.Print($"PyroCommon.dll is missing! Please reinstall plugin correctly!");
             Game.Console.Print("======================================================");
             Game.Console.Print("SuperCallouts: Error Report End");
-            Game.DisplayNotification("new_editor", "warningtriangle", "~r~SuperCallouts", "~y~Not Loaded!", "Plugin is installed incorrectly! Please see the RagePluginHook.log!"); 
+            Game.DisplayNotification("new_editor", "warningtriangle", "~r~SuperCallouts", "~y~Not Loaded!", "Plugin is installed incorrectly! Please see the RagePluginHook.log! Visit https://dsc.gg/ulss for help!"); 
             return;
         }
-        var pc = new Version(FileVersionInfo.GetVersionInfo("PyroCommon.dll").FileVersion);
-        if (pc < new Version("1.3.0.0")) outdatedDepend += "PyroCommon.dll~n~";
-        var rn = new Version(FileVersionInfo.GetVersionInfo("RageNativeUI.dll").FileVersion);
-        if (rn < new Version("1.9.2.0")) outdatedDepend += "RageNativeUI.dll~n~";
-        var ci = new Version(FileVersionInfo.GetVersionInfo("CalloutInterfaceAPI.dll").FileVersion);
-        if (ci < new Version("1.0.3.0")) outdatedDepend += "CalloutInterfaceAPI.dll~n~";
-        if (outdatedDepend.Length > 0)
+        //TODO: Next version remove this as everyone should have updated PyroCommon 1.4
+        var dependVersion = new Version(FileVersionInfo.GetVersionInfo("PyroCommon.dll").FileVersion);
+        if (dependVersion < new Version("1.4.0.0"))
         {
-            Game.Console.Print("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
-            Game.Console.Print("SuperCallouts: Error Report Start");
-            Game.Console.Print("======================================================");
-            Game.Console.Print($"These dependencies are outdated!\r\n{outdatedDepend.Replace("~n~", "\r\n")}SuperCallouts could not load!");
-            Game.Console.Print("======================================================");
-            Game.Console.Print("SuperCallouts: Error Report End");
-            Game.DisplayNotification("new_editor", "warningtriangle", "~r~SuperCallouts", "~y~Not Loaded!", "Plugin is installed incorrectly! Please see the RagePluginHook.log!"); 
+            Log.Error("PyroCommon.dll is outdated! Please reinstall the plugin correctly!");
+            Game.DisplayNotification("new_editor", "warningtriangle", "~r~SuperCallouts", "~y~Not Loaded!", "Plugin is installed incorrectly! Please see the RagePluginHook.log! Visit https://dsc.gg/ulss for help!");
             return;
         }
+        DependManager.AddDepend("PyroCommon.dll", "1.4.0.0");
+        DependManager.AddDepend("RageNativeUI.dll", "1.9.2.0");
+        DependManager.AddDepend("CalloutInterfaceAPI.dll", "1.0.3.0");
+        if (!DependManager.CheckDepends()) return;
         
         Functions.OnOnDutyStateChanged += OnOnDutyStateChangedHandler;
         Settings.LoadSettings();
-        Log.Info("SuperCallouts by SuperPyroManiac loaded! Go on duty to enable it!");
-        Log.Info("======================================================");
-        Log.Info("Dependencies Found:");
-        Log.Info($"PyroCommon, Version: {pc}");
-        Log.Info($"RageNativeUI, Version: {rn}");
-        Log.Info($"CalloutInterfaceAPI, Version: {ci}");
-        Log.Info("======================================================");
         Game.AddConsoleCommands();
     }
 
@@ -64,7 +47,14 @@ internal class Main : Plugin
     {
         if (onDuty)
         {
-            if (PyroCommon.Main.UsingUb) Log.Info("Using UltimateBackup API.");
+            Log.Info("SuperCallouts by SuperPyroManiac loaded successfully!");
+            Log.Info("======================================================");
+            Log.Info("Dependencies Found:");
+            Log.Info($"PyroCommon, Version: {new Version(FileVersionInfo.GetVersionInfo("PyroCommon.dll").FileVersion)}");
+            Log.Info($"RageNativeUI, Version: {new Version(FileVersionInfo.GetVersionInfo("RageNativeUI.dll").FileVersion)}");
+            Log.Info($"CalloutInterfaceAPI, Version: {new Version(FileVersionInfo.GetVersionInfo("CalloutInterfaceAPI.dll").FileVersion)}");
+            Log.Info($"Using Ultimate Backup: {PyroCommon.Main.UsingUb}");
+            Log.Info("======================================================");
             RegisterCallouts();
             GameFiber.StartNew(VersionChecker.IsUpdateAvailable);
         }
