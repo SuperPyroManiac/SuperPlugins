@@ -20,13 +20,6 @@ public class Main : Plugin
         if (!DependChecker.Start()) return;
         Settings.LoadSettings();
         Functions.OnOnDutyStateChanged += OnOnDutyStateChangedHandler;
-        Log.Info("DeadlyWeapons by SuperPyroManiac loaded! Go on duty to enable it!");
-        Log.Info("======================================================");
-        Log.Info("Dependencies Found:");
-        Log.Info($"PyroCommon, Version: {pc}");
-        Log.Info($"RageNativeUI, Version: {rn}");
-        Log.Info($"DamageTrackerLib, Version: {dtf}");
-        Log.Info("======================================================");
         Game.AddConsoleCommands(new[] {typeof(ConsoleCommands)});
     }
 
