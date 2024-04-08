@@ -27,7 +27,7 @@ public class Main : Plugin
     {
         if (onDuty)
         {
-            Log.Info("SuperEvents by SuperPyroManiac loaded successfully!");
+            Log.Info("DeadlyWeapons by SuperPyroManiac loaded successfully!");
             Log.Info("======================================================");
             Log.Info("Dependencies Found:");
             Log.Info($"PyroCommon, Version: {new Version(FileVersionInfo.GetVersionInfo("PyroCommon.dll").FileVersion)}");
