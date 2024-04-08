@@ -107,7 +107,6 @@ public abstract class AmbientEvent
 
     private void Process()
     {
-        foreach (var entity in EntitiesToClear.Where(entity => !entity.Exists())) EndEvent(true);
         if (Game.IsKeyDown(EndKey)) EndEvent();
         if (Game.IsKeyDown(Interact)) MainMenu.Visible = !MainMenu.Visible;
         if (EventLocation.DistanceTo(Player) > ClearEventDistance)
