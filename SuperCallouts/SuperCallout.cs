@@ -29,9 +29,11 @@ internal abstract class SuperCallout : Callout
 
     public override bool OnBeforeCalloutDisplayed()
     {
-
-        try {CalloutPrep();}
-        catch(Exception e)
+        try
+        {
+            CalloutPrep();
+        }
+        catch (Exception e)
         {
             Log.Error(e.ToString());
             CalloutEnd(true);
@@ -55,8 +57,11 @@ internal abstract class SuperCallout : Callout
         MainMenu.BindMenuToItem(ConvoMenu, Questioning);
         ConvoMenu.ParentMenu = MainMenu;
         Questioning.Enabled = false;
-        try {CalloutAccepted();}
-        catch(Exception e)
+        try 
+        {
+            CalloutAccepted();
+        }
+        catch (Exception e)
         {
             Log.Error(e.ToString());
             CalloutEnd(true);
@@ -73,7 +78,6 @@ internal abstract class SuperCallout : Callout
         try
         {
             if (CalloutEnded) return;
-            foreach (var entity in EntitiesToClear.Where(entity => !entity.Exists())) CalloutEnd(true);
             CalloutRunning();
             if (!OnScene && Player.DistanceTo(SpawnPoint) < OnSceneDistance)
             {
