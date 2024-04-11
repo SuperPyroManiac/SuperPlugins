@@ -43,7 +43,7 @@ internal static class DependManager
         foreach (var depend in pluginDepends)
         {
             var dependVersion = new Version(FileVersionInfo.GetVersionInfo(depend.DependName).FileVersion);
-            if (dependVersion < new Version(depend.DependVersion)) outdatedDepend += $"{depend.DependVersion}~n~";
+            if (dependVersion < new Version(depend.DependVersion)) outdatedDepend += $"{depend.DependName}~n~";
         }
 
         if (outdatedDepend.Length > 0)
