@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Windows.Forms;
 using LSPD_First_Response.Mod.API;
 using Rage;
 using Rage.Native;
@@ -10,6 +12,43 @@ namespace PyroCommon.API;
 
 public abstract class PyroFunctions
 {
+    public static Vehicle SpawnCar(Location location)
+    {
+        Model[] vehicleModels =
+        {
+            "PRAIRIE", "EXEMPLAR", "ORACLE", "PREVION", "BUFFALO4", "DOMINATOR", "DOMINATOR3", "GAUNTLET",
+            "GAUNTLET4", "ASTEROPE", "CINQUEMILA", "PREMIER", "SCHAFTER2", "TAILGATER", "WASHINGTON", "BUFFALO",
+            "BUFFALO2", "CALICO", "SULTAN", "SULTAN2", "BALLER2", "GRANGER2", "BURRITO3", "SPEEDO", "BLISTA",
+            "KANJO", "F620", "FELON", "JACKAL", "ORACLE2", "SENTINEL", "SENTINEL2", "ZION", "KANJOSJ", "RUINER",
+            "ELLIE", "VIGERO2", "KOMODA", "VECTRE", "CAVALCADE", "CAVALCADE2", "REBLA", "SEMINOLE2", "ASTRON",
+            "ASTRON2"
+        };
+        var cVehicle = new Vehicle(vehicleModels[new Random().Next(vehicleModels.Length)], location.Position, location.Heading);
+        cVehicle.IsPersistent = true;
+        return cVehicle;
+    }
+    
+    public static Ped SpawnPed(Location location)
+    {
+        var cPed = new Ped(location.Position, location.Heading);
+        cPed.IsPersistent = true;
+        cPed.BlockPermanentEvents = true;
+        return cPed;
+    }
+
+    public static Blip CreateSearchBlip(Location location, Color color, bool route = false, float size = 80f)
+    {
+        var cBlip = new Blip(location.Position.Around2D(size / 2, size - 5), size);
+        cBlip.Alpha = 0.5f;
+        cBlip.Color = color;
+        if (route) cBlip.EnableRoute(color);
+        return cBlip;
+    }
+
+    
+    
+    
+    //TODO: Redo all these shitty old functions. I swear I was retarded when I made these.
     internal static void Ragdoll(Ped ped)
     {
         try
@@ -28,8 +67,7 @@ public abstract class PyroFunctions
             Log.Warning("Unable to remove ragdoll. Most likely the subject died first.");
         }
     }
-
-
+    
     public static void SpawnNormalCar(out Vehicle cVehicle, Vector3 spawnPoint, float heading = 0) //Spawn normal random car..
     {
         Model[] vehicleModels =
