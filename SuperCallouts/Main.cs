@@ -6,6 +6,7 @@ using LSPD_First_Response.Mod.API;
 using PyroCommon.API;
 using Rage;
 using SuperCallouts.Callouts;
+using SuperCallouts.RemasteredCallouts;
 using SuperCallouts.SimpleFunctions;
 
 namespace SuperCallouts;
@@ -79,6 +80,7 @@ internal class Main : Plugin
         if (Settings.Vandalizing) Functions.RegisterCallout(typeof(Vandalizing));
         if (Settings.InjuredCop) Functions.RegisterCallout(typeof(InjuredCop));
         if (Settings.IndecentExposure) Functions.RegisterCallout(typeof(IndecentExposure));
+        if (Settings.Fight) Functions.RegisterCallout(typeof(Fight));
         //Swat
         if (Settings.PrisonBreak) Functions.RegisterCallout(typeof(PrisonBreak));
         if (Settings.Mafia1) Functions.RegisterCallout(typeof(Mafia1));
