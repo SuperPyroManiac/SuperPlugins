@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using LSPD_First_Response.Mod.API;
 using Rage;
 using Rage.Native;
@@ -9,10 +10,6 @@ namespace PyroCommon.API;
 
 public abstract class PyroFunctions
 {
-    private static readonly TupleList<Vector3, float> SideOfRoads = new();
-    private static Tuple<Vector3, float> _chosenSpawnData;
-    private static readonly Random RNd = new();
-
     internal static void Ragdoll(Ped ped)
     {
         try
@@ -152,15 +149,37 @@ public abstract class PyroFunctions
         if (children > 25) return;
         NativeFunction.Natives.x6B83617E04503888(position.X, position.Y, position.Z, children, isGasFire);
     }
-
-    public static void FindSideOfRoad(int maxDistance, int minDistance, out Vector3 spawnPoint,
-        out float spawnPointH)
+    
+    public static Vector4 GetSideOfRoad(int maxDistance, int minDistance)
     {
-        foreach (var tuple in PulloverSpots.SideOfRoad)
-            if (Vector3.Distance(tuple.Item1, Game.LocalPlayer.Character.Position) < maxDistance &&
-                Vector3.Distance(tuple.Item1, Game.LocalPlayer.Character.Position) > minDistance)
-                SideOfRoads.Add(tuple);
-        if (SideOfRoads.Count == 0)
+        var matches = new List<Vector4>();
+        foreach (var location in PulloverSpots.SideOfRoad)
+        {
+            if (Vector3.Distance(location.ToVector3(), Game.LocalPlayer.Character.Position) < maxDistance &&
+                Vector3.Distance(location.ToVector3(), Game.LocalPlayer.Character.Position) > minDistance)
+                matches.Add(location);
+        }
+
+        if (matches.Count == 0)
+        {
+            Log.Info("Failed to find valid spawnpoint. Spawning on road.");
+            return new Vector4(World.GetNextPositionOnStreet(Game.LocalPlayer.Character.Position.Around(minDistance, maxDistance)), 0);
+        }
+        return matches[new Random().Next(matches.Count)];
+    }
+
+    [Obsolete("Method is deprecated, please use GetSideOfRoad instead.")] //TODO: Delete this
+    public static void FindSideOfRoad(int maxDistance, int minDistance, out Vector3 spawnPoint, out float spawnPointH)
+    {
+        var matches = new List<Vector4>();
+        foreach (var location in PulloverSpots.SideOfRoad)
+        {
+            if (Vector3.Distance(location.ToVector3(), Game.LocalPlayer.Character.Position) < maxDistance &&
+                Vector3.Distance(location.ToVector3(), Game.LocalPlayer.Character.Position) > minDistance) 
+                matches.Add(location);
+        }
+
+        if (matches.Count == 0)
         {
             Log.Info("Failed to find valid spawnpoint. Spawning on road.");
             spawnPoint = World.GetNextPositionOnStreet(Game.LocalPlayer.Character.Position.Around(45f, 100f));
@@ -168,10 +187,9 @@ public abstract class PyroFunctions
         }
         else
         {
-            _chosenSpawnData = SideOfRoads[RNd.Next(SideOfRoads.Count)];
-            //_sideOfRoads.OrderBy(x => x.Item1.DistanceTo(Game.LocalPlayer.Character.Position)).FirstOrDefault();
-            spawnPoint = _chosenSpawnData.Item1;
-            spawnPointH = _chosenSpawnData.Item2;
+            var match = matches[new Random().Next(matches.Count)];
+            spawnPoint = match.ToVector3();
+            spawnPointH = match.W;
         }
     }
 }
