@@ -1,13 +1,13 @@
 using CalloutInterfaceAPI;
 using LSPD_First_Response.Mod.Callouts;
-using Rage;
+using PyroCommon.API;
 
 namespace SuperCallouts.Callouts;
 
 [CalloutInterface("[SC] Template", CalloutProbability.Medium, "Example Description")]
 internal class Template : SuperCallout
 {
-    internal override Vector3 SpawnPoint { get; set; }
+    internal override Location SpawnPoint { get; set; }
     internal override float OnSceneDistance { get; set; }
     internal override string CalloutName { get; set; }
 

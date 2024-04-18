@@ -13,23 +13,20 @@ namespace SuperCallouts.Callouts;
 [CalloutInterface("[SC] Injured Cop", CalloutProbability.Medium, "Officer not responding to radio.")]
 internal class InjuredCop : SuperCallout
 {
-    internal override Vector3 SpawnPoint { get; set; }
+    internal override Location SpawnPoint { get; set; } = PyroFunctions.GetSideOfRoad(750, 180);
     internal override float OnSceneDistance { get; set; } = 30;
     internal override string CalloutName { get; set; } = "Injured Cop";
     private Ped _cop;
     private Ped _bad;
     private Vehicle _vehicle;
     private Blip _blip;
-    private float _spawnPointH;
     private int _rNd = new Random().Next(2);
 
     internal override void CalloutPrep()
     {
-        PyroFunctions.FindSideOfRoad(750, 280, out var tempSpawnPoint, out _spawnPointH);
-        SpawnPoint = tempSpawnPoint;
         CalloutMessage = "~b~Dispatch:~s~ Officer not responding.";
         CalloutAdvisory = "Officer not responding to radio, proceed to their vehicles location.";
-        Functions.PlayScannerAudioUsingPosition("WE_HAVE CRIME_11_351_02 IN_OR_ON_POSITION", SpawnPoint);
+        Functions.PlayScannerAudioUsingPosition("WE_HAVE CRIME_11_351_02 IN_OR_ON_POSITION", SpawnPoint.Position);
     }
 
     internal override void CalloutAccepted()
@@ -37,14 +34,14 @@ internal class InjuredCop : SuperCallout
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Officer Not Responding",
             "Officer not reporting back over radio. Investigate their location. Respond ~r~CODE-3");
 
-        _vehicle = new Vehicle("POLICE", SpawnPoint);
+        _vehicle = new Vehicle("POLICE", SpawnPoint.Position);
         _vehicle.IsPersistent = true;
-        _vehicle.Heading = _spawnPointH;
+        _vehicle.Heading = SpawnPoint.Heading;
         _vehicle.IsSirenOn = true;
         _vehicle.IsSirenSilent = true;
         EntitiesToClear.Add(_vehicle);
 
-        _cop = new Ped("s_m_y_cop_01", SpawnPoint.Around2D(5), 0);
+        _cop = new Ped("s_m_y_cop_01", SpawnPoint.Position.Around2D(5), 0);
         _cop.IsPersistent = true;
         _cop.BlockPermanentEvents = true;
         switch (_rNd)

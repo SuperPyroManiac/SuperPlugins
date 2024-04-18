@@ -11,7 +11,7 @@ namespace SuperCallouts.Callouts;
 [CalloutInterface("[SC] Indecent Exposure", CalloutProbability.Medium, "Example Description")]
 internal class IndecentExposure : SuperCallout
 {
-    internal override Vector3 SpawnPoint { get; set; } = World.GetNextPositionOnStreet(Player.Position.Around(60f, 320f));
+    internal override Location SpawnPoint { get; set; } = new(World.GetNextPositionOnStreet(Player.Position.Around(60f, 320f)), 0);
     internal override float OnSceneDistance { get; set; } = 15;
     internal override string CalloutName { get; set; } = "Indecent Exposure";
     private Ped _naked;
@@ -22,7 +22,7 @@ internal class IndecentExposure : SuperCallout
     {
         CalloutMessage = "~r~" + Settings.EmergencyNumber + " Report:~s~ Naked person running around.";
         CalloutAdvisory = "Reports of a person running around naked.";
-        Functions.PlayScannerAudioUsingPosition("WE_HAVE CRIME_11_351_02 IN_OR_ON_POSITION", SpawnPoint);
+        Functions.PlayScannerAudioUsingPosition("WE_HAVE CRIME_11_351_02 IN_OR_ON_POSITION", SpawnPoint.Position);
     }
 
     internal override void CalloutAccepted()
@@ -31,7 +31,7 @@ internal class IndecentExposure : SuperCallout
             "Reports of a person running around outside naked. Respond ~y~CODE-2");
 
         var models = new[] { "a_m_m_acult_01", "a_f_m_fatcult_01" };
-        _naked = new Ped(models[new Random().Next(models.Length)], SpawnPoint, 0);
+        _naked = new Ped(models[new Random().Next(models.Length)], SpawnPoint.Position, 0);
         _naked.IsPersistent = true;
         _naked.BlockPermanentEvents = true;
         _naked.Tasks.Wander();

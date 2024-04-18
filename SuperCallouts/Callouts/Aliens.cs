@@ -3,6 +3,7 @@
 using System.Drawing;
 using CalloutInterfaceAPI;
 using LSPD_First_Response.Mod.Callouts;
+using PyroCommon.API;
 using Rage;
 using Rage.Native;
 using Functions = LSPD_First_Response.Mod.API.Functions;
@@ -19,7 +20,7 @@ internal class Aliens : SuperCallout
     private Ped _alien3;
     private Blip _cBlip1;
     private Vehicle _cVehicle1;
-    internal override Vector3 SpawnPoint { get; set; } = World.GetNextPositionOnStreet(Player.Position.Around(350f));
+    internal override Location SpawnPoint { get; set; } = new(World.GetNextPositionOnStreet(Player.Position.Around(350f)), 0);
     internal override float OnSceneDistance { get; set; } = 30;
     internal override string CalloutName { get; set; } = "Aliens";
 
@@ -28,7 +29,7 @@ internal class Aliens : SuperCallout
         CalloutMessage = "~b~Dispatch:~s~ Reports of strange people.";
         CalloutAdvisory = "Caller says they're not human. Possibly a prank call.";
         Functions.PlayScannerAudioUsingPosition("ATTENTION_ALL_UNITS_05 SUSPECTS_LAST_SEEN_02 IN_OR_ON_POSITION",
-            SpawnPoint);
+            SpawnPoint.Position);
     }
 
     internal override void CalloutAccepted()
@@ -36,7 +37,7 @@ internal class Aliens : SuperCallout
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Alien Sighting",
             "Caller claims that the subjects are aliens. Low priority, respond ~y~CODE-2");
 
-        _cVehicle1 = new Vehicle("DUNE2", SpawnPoint);
+        _cVehicle1 = new Vehicle("DUNE2", SpawnPoint.Position);
         _cVehicle1.IsPersistent = true;
         _cVehicle1.IsEngineOn = true;
         EntitiesToClear.Add(_cVehicle1);
@@ -65,7 +66,7 @@ internal class Aliens : SuperCallout
         _alien3.IsPersistent = true;
         EntitiesToClear.Add(_alien3);
 
-        var searcharea = SpawnPoint.Around2D(40f, 75f);
+        var searcharea = SpawnPoint.Position.Around2D(40f, 75f);
         _cBlip1 = new Blip(searcharea, 80f) { Color = Color.Yellow, Alpha = .5f };
         _cBlip1.EnableRoute(Color.Yellow);
         BlipsToClear.Add(_cBlip1);

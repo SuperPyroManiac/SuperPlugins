@@ -11,7 +11,7 @@ namespace SuperCallouts;
 
 internal abstract class SuperCallout : Callout
 {
-    internal abstract Vector3 SpawnPoint { get; set; }
+    internal abstract Location SpawnPoint { get; set; }
     internal abstract float OnSceneDistance { get; set; }
     internal abstract string CalloutName { get; set; }
     internal List<Entity> EntitiesToClear = new();
@@ -38,8 +38,8 @@ internal abstract class SuperCallout : Callout
             Log.Error(e.ToString());
             CalloutEnd(true);
         }
-        CalloutPosition = SpawnPoint;
-        ShowCalloutAreaBlipBeforeAccepting(SpawnPoint, 15f);
+        CalloutPosition = SpawnPoint.Position;
+        ShowCalloutAreaBlipBeforeAccepting(SpawnPoint.Position, 15f);
         return base.OnBeforeCalloutDisplayed();
     }
 
@@ -79,7 +79,7 @@ internal abstract class SuperCallout : Callout
         {
             if (CalloutEnded) return;
             CalloutRunning();
-            if (!OnScene && Player.DistanceTo(SpawnPoint) < OnSceneDistance)
+            if (!OnScene && Player.DistanceTo(SpawnPoint.Position) < OnSceneDistance)
             {
                 OnScene = true;
                 CalloutInterfaceAPI.Functions.SendMessage(this, "Officer on scene.");

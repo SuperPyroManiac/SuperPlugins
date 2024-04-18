@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using CalloutInterfaceAPI;
 using LSPD_First_Response.Mod.Callouts;
+using PyroCommon.API;
 using Rage;
 using Functions = LSPD_First_Response.Mod.API.Functions;
 
@@ -35,11 +36,10 @@ internal class KnifeAttack : SuperCallout
     };
 
     private Blip _cBlip;
-    private float _cHeading;
     private Tuple<Vector3, float> _chosenLocation;
     private Ped _cSuspect;
     private Ped _cVictim;
-    internal override Vector3 SpawnPoint { get; set; }
+    internal override Location SpawnPoint { get; set; }
     internal override float OnSceneDistance { get; set; } = 25f;
     internal override string CalloutName { get; set; } = "Knife Attack";
 
@@ -48,12 +48,11 @@ internal class KnifeAttack : SuperCallout
         foreach (var unused in _locations)
             _chosenLocation = _locations.OrderBy(x => x.Item1.DistanceTo(Game.LocalPlayer.Character.Position))
                 .FirstOrDefault();
-        SpawnPoint = _chosenLocation!.Item1;
-        _cHeading = _chosenLocation.Item2;
+        SpawnPoint = new(_chosenLocation!.Item1, _chosenLocation.Item2);
         CalloutMessage = "~b~Dispatch:~s~ Reports of a knife attack.";
         CalloutAdvisory = "Caller says attacker has injured others.";
         Functions.PlayScannerAudioUsingPosition(
-            "CITIZENS_REPORT_04 CRIME_ROBBERY_01 IN_OR_ON_POSITION UNITS_RESPOND_CODE_03_01", SpawnPoint);
+            "CITIZENS_REPORT_04 CRIME_ROBBERY_01 IN_OR_ON_POSITION UNITS_RESPOND_CODE_03_01", SpawnPoint.Position);
     }
 
     internal override void CalloutAccepted()
@@ -61,8 +60,8 @@ internal class KnifeAttack : SuperCallout
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Knife Attack",
             "Reports of a person attacking people with a knife at the train station.");
 
-        _cSuspect = new Ped(SpawnPoint);
-        _cSuspect.Heading = _cHeading;
+        _cSuspect = new Ped(SpawnPoint.Position);
+        _cSuspect.Heading = SpawnPoint.Heading;
         _cSuspect.IsPersistent = true;
         _cSuspect.BlockPermanentEvents = true;
         _cSuspect.Inventory.Weapons.Add(WeaponHash.Knife);
@@ -74,7 +73,7 @@ internal class KnifeAttack : SuperCallout
         _cVictim.BlockPermanentEvents = true;
         EntitiesToClear.Add(_cVictim);
 
-        _cBlip = new Blip(SpawnPoint, 8f);
+        _cBlip = new Blip(SpawnPoint.Position, 8f);
         _cBlip.Color = Color.Red;
         _cBlip.Alpha /= 2;
         _cBlip.Name = "Callout";

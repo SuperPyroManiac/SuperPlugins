@@ -27,7 +27,7 @@ internal class Kidnapping : SuperCallout
     private UIMenuItem _speakSuspect;
     private UIMenuItem _speakSuspect2;
     private Ped _victim1;
-    internal override Vector3 SpawnPoint { get; set; } = World.GetNextPositionOnStreet(Player.Position.Around(350f));
+    internal override Location SpawnPoint { get; set; } = new(World.GetNextPositionOnStreet(Player.Position.Around(350f)), 0);
     internal override float OnSceneDistance { get; set; } = 25f;
     internal override string CalloutName { get; set; } = "Kidnapping";
 
@@ -37,7 +37,7 @@ internal class Kidnapping : SuperCallout
         CalloutAdvisory =
             "Caller says people in the back of a vehicle match the description of a missing person(s) report.";
         Functions.PlayScannerAudioUsingPosition(
-            "WE_HAVE CRIME_BRANDISHING_WEAPON_01 CRIME_RESIST_ARREST IN_OR_ON_POSITION", SpawnPoint);
+            "WE_HAVE CRIME_BRANDISHING_WEAPON_01 CRIME_RESIST_ARREST IN_OR_ON_POSITION", SpawnPoint.Position);
     }
 
     internal override void CalloutAccepted()
@@ -46,7 +46,7 @@ internal class Kidnapping : SuperCallout
             "~r~Possible Missing Person Found",
             "A person reported missing last week has been recognized. Possible kidnapping. Respond ~r~CODE-3");
 
-        PyroFunctions.SpawnNormalCar(out _cVehicle, SpawnPoint);
+        PyroFunctions.SpawnNormalCar(out _cVehicle, SpawnPoint.Position);
         EntitiesToClear.Add(_cVehicle);
 
         _bad1 = _cVehicle.CreateRandomDriver();

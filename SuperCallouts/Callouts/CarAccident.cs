@@ -21,20 +21,17 @@ internal class CarAccident : SuperCallout
     private Blip _cBlip;
     private Vehicle _cVehicle;
     private Ped _cVictim;
-    private float _spawnPointH;
-    internal override Vector3 SpawnPoint { get; set; }
+    internal override Location SpawnPoint { get; set; } = PyroFunctions.GetSideOfRoad(750, 180);
     internal override float OnSceneDistance { get; set; } = 25;
     internal override string CalloutName { get; set; } = "Car Accident (1)";
 
     internal override void CalloutPrep()
     {
-        PyroFunctions.FindSideOfRoad(750, 280, out var tempSpawnPoint, out _spawnPointH);
-        SpawnPoint = tempSpawnPoint;
         CalloutMessage = "~b~Dispatch:~s~ Reports of a motor vehicle accident.";
         CalloutAdvisory = "Caller reports possible hit and run.";
         Functions.PlayScannerAudioUsingPosition(
             "CITIZENS_REPORT_04 CRIME_HIT_AND_RUN_03 IN_OR_ON_POSITION UNITS_RESPOND_CODE_03_01",
-            SpawnPoint);
+            SpawnPoint.Position);
     }
 
     internal override void CalloutAccepted()
@@ -42,8 +39,8 @@ internal class CarAccident : SuperCallout
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~MVA",
             "Reports of a car accident, respond ~r~CODE-3");
 
-        PyroFunctions.SpawnAnyCar(out _cVehicle, SpawnPoint);
-        _cVehicle.Heading = _spawnPointH;
+        PyroFunctions.SpawnAnyCar(out _cVehicle, SpawnPoint.Position);
+        _cVehicle.Heading = SpawnPoint.Heading;
         PyroFunctions.DamageVehicle(_cVehicle, 200, 200);
         EntitiesToClear.Add(_cVehicle);
 

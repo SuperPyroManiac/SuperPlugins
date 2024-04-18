@@ -37,11 +37,10 @@ internal class Trespassing : SuperCallout
 
     private Blip _cBlip;
     private Tuple<Vector3, float> _chosenLocation;
-    private float _heading;
     private string _name;
     private UIMenuItem _speakSuspect;
     private Ped _suspect;
-    internal override Vector3 SpawnPoint { get; set; }
+    internal override Location SpawnPoint { get; set; }
     internal override float OnSceneDistance { get; set; } = 10;
     internal override string CalloutName { get; set; } = "Trespassing";
 
@@ -50,13 +49,12 @@ internal class Trespassing : SuperCallout
         foreach (var unused in _locations)
             _chosenLocation = _locations.OrderBy(x =>
                 x.Item1.DistanceTo(Game.LocalPlayer.Character.Position)).FirstOrDefault();
-        SpawnPoint = _chosenLocation!.Item1;
-        _heading = _chosenLocation.Item2;
+        SpawnPoint = new(_chosenLocation!.Item1, _chosenLocation.Item2);
         CalloutMessage = "~r~" + Settings.EmergencyNumber + " Report:~s~ Reports of a person trespassing.";
         CalloutAdvisory = "Caller says the person is being aggressive and damaging property.";
         Functions.PlayScannerAudioUsingPosition(
             "ATTENTION_ALL_UNITS_05 WE_HAVE CRIME_DISTURBING_THE_PEACE_01 IN_OR_ON_POSITION",
-            SpawnPoint);
+            SpawnPoint.Position);
     }
 
     internal override void CalloutAccepted()
@@ -65,7 +63,7 @@ internal class Trespassing : SuperCallout
             "Caller reports an individual trespassing and causing a disturbance. ~r~CODE-2");
         CalloutInterfaceAPI.Functions.SendMessage(this, "Dispatch: Caller reports suspect is drunk and may be armed.");
 
-        _suspect = new Ped(SpawnPoint, _heading)
+        _suspect = new Ped(SpawnPoint.Position, SpawnPoint.Heading)
             { IsPersistent = true, BlockPermanentEvents = true };
         PyroFunctions.SetDrunk(_suspect, true);
         _suspect.Metadata.stpAlcoholDetected = true;

@@ -29,7 +29,7 @@ internal class HotPursuit : SuperCallout
     private LHandle _pursuit = Functions.CreatePursuit();
     private UIMenuItem _speakSuspect;
     private UIMenuItem _speakSuspect2;
-    internal override Vector3 SpawnPoint { get; set; } = World.GetNextPositionOnStreet(Player.Position.Around(350f));
+    internal override Location SpawnPoint { get; set; } = new(World.GetNextPositionOnStreet(Player.Position.Around(350f)), 0);
     internal override float OnSceneDistance { get; set; } = 25;
     internal override string CalloutName { get; set; } = "High Speed Pursuit";
 
@@ -38,7 +38,7 @@ internal class HotPursuit : SuperCallout
         CalloutMessage = "~o~Traffic ANPR Report:~s~ High value stolen vehicle located.";
         CalloutAdvisory = "This is a powerful vehicle known to evade police in the past.";
         Functions.PlayScannerAudioUsingPosition(
-            "WE_HAVE CRIME_BRANDISHING_WEAPON_01 CRIME_RESIST_ARREST IN_OR_ON_POSITION", SpawnPoint);
+            "WE_HAVE CRIME_BRANDISHING_WEAPON_01 CRIME_RESIST_ARREST IN_OR_ON_POSITION", SpawnPoint.Position);
     }
 
     internal override void CalloutAccepted()
@@ -48,7 +48,7 @@ internal class HotPursuit : SuperCallout
 
         Model[] vehicleModels =
             { "THRAX", "TORERO2", "CHAMPION", "ENTITY3", "THRAX", "FMJ", "ZORRUSSO", "TIGON", "FURIA" };
-        _cVehicle = new Vehicle(vehicleModels[new Random().Next(vehicleModels.Length)], SpawnPoint)
+        _cVehicle = new Vehicle(vehicleModels[new Random().Next(vehicleModels.Length)], SpawnPoint.Position)
             { IsPersistent = true, IsStolen = true };
         _cVehicle.Metadata.searchDriver = "~r~exposed console wires~s~, ~y~wire cutters~s~";
         _cVehicle.Metadata.searchPassenger = "~r~empty beer cans~s~, ~r~opened box of ammo~s~";
@@ -115,7 +115,7 @@ internal class HotPursuit : SuperCallout
             _speakSuspect2.RightLabel = "~r~Dead";
         }
 
-        SpawnPoint = _cVehicle.Position;
+        SpawnPoint = new Location(_cVehicle.Position, 0);
     }
 
     internal override void CalloutOnScene()

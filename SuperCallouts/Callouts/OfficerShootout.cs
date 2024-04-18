@@ -23,20 +23,17 @@ internal class OfficerShootout : SuperCallout
     private Vehicle _copVehicle;
     private Vector3 _cSpawnPoint;
     private Vehicle _cVehicle;
-    private float _spawnPointH;
-    internal override Vector3 SpawnPoint { get; set; }
+    internal override Location SpawnPoint { get; set; } = PyroFunctions.GetSideOfRoad(750, 180);
     internal override float OnSceneDistance { get; set; } = 50;
     internal override string CalloutName { get; set; } = "Officer Shootout";
 
     internal override void CalloutPrep()
     {
-        PyroFunctions.FindSideOfRoad(400, 100, out var tempSpawnPoint, out _spawnPointH);
-        SpawnPoint = tempSpawnPoint;
         CalloutMessage = "~b~Dispatch:~s~ Felony stop. Shots fired.";
         CalloutAdvisory = "Panic alert issues, shots fired.";
         Functions.PlayScannerAudioUsingPosition(
             "ATTENTION_ALL_UNITS_05 WE_HAVE CRIME_SHOTS_FIRED_AT_AN_OFFICER_01 IN_OR_ON_POSITION UNITS_RESPOND_CODE_99_02",
-            SpawnPoint);
+            SpawnPoint.Position);
     }
 
     internal override void CalloutAccepted()
@@ -44,15 +41,15 @@ internal class OfficerShootout : SuperCallout
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Officer Shot",
             "Officer reports shots fired during felony stop, panic button hit. Respond ~r~CODE-3");
 
-        PyroFunctions.SpawnNormalCar(out _cVehicle, SpawnPoint);
-        _cVehicle.Heading = _spawnPointH;
+        PyroFunctions.SpawnNormalCar(out _cVehicle, SpawnPoint.Position);
+        _cVehicle.Heading = SpawnPoint.Heading;
         _cSpawnPoint = _cVehicle.GetOffsetPositionFront(-9f);
         _cVehicle.IsStolen = true;
         EntitiesToClear.Add(_cVehicle);
 
         _copVehicle = new Vehicle("POLICE", _cSpawnPoint)
         {
-            IsPersistent = true, Heading = _spawnPointH, IsSirenOn = true, IsSirenSilent = true
+            IsPersistent = true, Heading = SpawnPoint.Heading, IsSirenOn = true, IsSirenSilent = true
         };
         EntitiesToClear.Add(_copVehicle);
 
@@ -72,13 +69,13 @@ internal class OfficerShootout : SuperCallout
         _bad2.Tasks.LeaveVehicle(_cVehicle, LeaveVehicleFlags.LeaveDoorOpen);
         EntitiesToClear.Add(_bad2);
 
-        _cop1 = new Ped("s_m_y_cop_01", SpawnPoint, 0f) { IsPersistent = true };
+        _cop1 = new Ped("s_m_y_cop_01", SpawnPoint.Position, 0f) { IsPersistent = true };
         _cop1.WarpIntoVehicle(_copVehicle, -1);
         _cop1.Inventory.Weapons.Add(WeaponHash.CombatPistol).Ammo = -1;
         _cop1.Tasks.LeaveVehicle(_copVehicle, LeaveVehicleFlags.LeaveDoorOpen);
         EntitiesToClear.Add(_cop1);
 
-        _cop2 = new Ped("s_f_y_cop_01", SpawnPoint, 0f) { IsPersistent = true };
+        _cop2 = new Ped("s_f_y_cop_01", SpawnPoint.Position, 0f) { IsPersistent = true };
         _cop2.WarpIntoVehicle(_copVehicle, 0);
         _cop2.Inventory.Weapons.Add(WeaponHash.CombatPistol).Ammo = -1;
         _cop2.Tasks.LeaveVehicle(_copVehicle, LeaveVehicleFlags.LeaveDoorOpen);
@@ -96,7 +93,7 @@ internal class OfficerShootout : SuperCallout
         _bad1.Tasks.FightAgainst(_cop1, 60000);
         _cop2.Tasks.FightAgainst(_bad2, 60000);
         _bad2.Tasks.FightAgainst(_cop2, 60000);
-        Functions.PlayScannerAudioUsingPosition("REQUEST_BACKUP", SpawnPoint);
+        Functions.PlayScannerAudioUsingPosition("REQUEST_BACKUP", SpawnPoint.Position);
         Game.SetRelationshipBetweenRelationshipGroups("BADGANG", "COP", Relationship.Hate);
         Game.SetRelationshipBetweenRelationshipGroups("BADGANG", "PLAYER", Relationship.Hate);
         if (PyroCommon.Main.UsingUb)

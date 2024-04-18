@@ -17,30 +17,26 @@ using Functions = LSPD_First_Response.Mod.API.Functions;
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInterface("[SC] Dead Body", CalloutProbability.Medium, "Reports of a dead body on the road, limited details",
-    "Code 3")]
+[CalloutInterface("[SC] Dead Body", CalloutProbability.Medium, "Reports of a dead body on the road, limited details", "Code 3")]
 internal class DeadBody : SuperCallout
 {
     private Blip _cBlip;
     private Vehicle _cVehicle;
-    private float _heading;
     private string _name;
     private UIMenuItem _speakSuspect;
     private Ped _victim;
     private Ped _witness;
-    internal override Vector3 SpawnPoint { get; set; }
+    internal override Location SpawnPoint { get; set; } = PyroFunctions.GetSideOfRoad(750, 180);
     internal override float OnSceneDistance { get; set; } = 90;
     internal override string CalloutName { get; set; } = "Dead Body";
 
     internal override void CalloutPrep()
     {
-        PyroFunctions.FindSideOfRoad(750, 280, out var tempSpawnPoint, out _heading);
-        SpawnPoint = tempSpawnPoint;
         CalloutMessage = "~r~" + Settings.EmergencyNumber + " Report:~s~ Reports of an injured person.";
         CalloutAdvisory = "Caller says the person is not breathing.";
         Functions.PlayScannerAudioUsingPosition(
             "ATTENTION_ALL_UNITS_05 WE_HAVE CRIME_AMBULANCE_REQUESTED_01 IN_OR_ON_POSITION",
-            SpawnPoint);
+            SpawnPoint.Position);
     }
 
     internal override void CalloutAccepted()
@@ -48,7 +44,7 @@ internal class DeadBody : SuperCallout
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~y~Medical Emergency",
             "Caller reports an injured person that is not breathing, respond ~r~CODE-3");
 
-        PyroFunctions.SpawnNormalCar(out _cVehicle, SpawnPoint, _heading);
+        PyroFunctions.SpawnNormalCar(out _cVehicle, SpawnPoint.Position, SpawnPoint.Heading);
         EntitiesToClear.Add(_cVehicle);
 
         _witness = new Ped(_cVehicle.GetOffsetPositionFront(-9f));
@@ -62,7 +58,6 @@ internal class DeadBody : SuperCallout
         _victim.BlockPermanentEvents = true;
         EntitiesToClear.Add(_victim);
 
-        Functions.SetPersonaForPed(_victim, new Persona("Lusica", "Stynnix", Gender.Female));
         _victim.Tasks.Cower(-1);
 
         NativeFunction.Natives.x5AD23D40115353AC(_witness, _victim, -1);

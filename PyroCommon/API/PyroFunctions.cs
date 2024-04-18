@@ -150,20 +150,20 @@ public abstract class PyroFunctions
         NativeFunction.Natives.x6B83617E04503888(position.X, position.Y, position.Z, children, isGasFire);
     }
     
-    public static Vector4 GetSideOfRoad(int maxDistance, int minDistance)
+    public static Location GetSideOfRoad(int maxDistance, int minDistance)
     {
-        var matches = new List<Vector4>();
-        foreach (var location in PulloverSpots.SideOfRoad)
+        var matches = new List<Location>();
+        foreach (var location in Locations.SideOfRoad)
         {
-            if (Vector3.Distance(location.ToVector3(), Game.LocalPlayer.Character.Position) < maxDistance &&
-                Vector3.Distance(location.ToVector3(), Game.LocalPlayer.Character.Position) > minDistance)
+            if (Vector3.Distance(location.Position, Game.LocalPlayer.Character.Position) < maxDistance &&
+                Vector3.Distance(location.Position, Game.LocalPlayer.Character.Position) > minDistance)
                 matches.Add(location);
         }
 
         if (matches.Count == 0)
         {
             Log.Info("Failed to find valid spawnpoint. Spawning on road.");
-            return new Vector4(World.GetNextPositionOnStreet(Game.LocalPlayer.Character.Position.Around(minDistance, maxDistance)), 0);
+            return new Location(World.GetNextPositionOnStreet(Game.LocalPlayer.Character.Position.Around(minDistance, maxDistance)), 0);
         }
         return matches[new Random().Next(matches.Count)];
     }
@@ -171,11 +171,11 @@ public abstract class PyroFunctions
     [Obsolete("Method is deprecated, please use GetSideOfRoad instead.")] //TODO: Delete this
     public static void FindSideOfRoad(int maxDistance, int minDistance, out Vector3 spawnPoint, out float spawnPointH)
     {
-        var matches = new List<Vector4>();
-        foreach (var location in PulloverSpots.SideOfRoad)
+        var matches = new List<Location>();
+        foreach (var location in Locations.SideOfRoad)
         {
-            if (Vector3.Distance(location.ToVector3(), Game.LocalPlayer.Character.Position) < maxDistance &&
-                Vector3.Distance(location.ToVector3(), Game.LocalPlayer.Character.Position) > minDistance) 
+            if (Vector3.Distance(location.Position, Game.LocalPlayer.Character.Position) < maxDistance &&
+                Vector3.Distance(location.Position, Game.LocalPlayer.Character.Position) > minDistance) 
                 matches.Add(location);
         }
 
@@ -188,8 +188,8 @@ public abstract class PyroFunctions
         else
         {
             var match = matches[new Random().Next(matches.Count)];
-            spawnPoint = match.ToVector3();
-            spawnPointH = match.W;
+            spawnPoint = match.Position;
+            spawnPointH = match.Heading;
         }
     }
 }

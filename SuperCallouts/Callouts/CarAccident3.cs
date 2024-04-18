@@ -21,20 +21,17 @@ internal class CarAccident3 : SuperCallout
     private Ped _ePed2;
     private Vehicle _eVehicle;
     private Vehicle _eVehicle2;
-    private float _spawnPointH;
-    internal override Vector3 SpawnPoint { get; set; }
+    internal override Location SpawnPoint { get; set; } = PyroFunctions.GetSideOfRoad(750, 180);
     internal override float OnSceneDistance { get; set; } = 25;
     internal override string CalloutName { get; set; } = "Car Accident (3)";
 
     internal override void CalloutPrep()
     {
-        PyroFunctions.FindSideOfRoad(120, 45, out var tempSpawn, out _spawnPointH);
-        SpawnPoint = tempSpawn;
         CalloutMessage = "~b~Dispatch:~s~ Reports of a motor vehicle accident.";
         CalloutAdvisory = "Caller reports the drivers are violently arguing.";
         Functions.PlayScannerAudioUsingPosition(
             "CITIZENS_REPORT_04 CRIME_HIT_AND_RUN_03 IN_OR_ON_POSITION UNITS_RESPOND_CODE_03_01",
-            SpawnPoint);
+            SpawnPoint.Position);
     }
 
     internal override void CalloutAccepted()
@@ -42,7 +39,7 @@ internal class CarAccident3 : SuperCallout
         Game.DisplayNotification("web_lossantospolicedept", "web_lossantospolicedept", "~b~Dispatch", "~r~MVA",
             "Reports of a car accident, respond ~r~CODE-3");
 
-        PyroFunctions.SpawnNormalCar(out _eVehicle, SpawnPoint, _spawnPointH);
+        PyroFunctions.SpawnNormalCar(out _eVehicle, SpawnPoint.Position, SpawnPoint.Heading);
         _eVehicle.IsPersistent = true;
         PyroFunctions.DamageVehicle(_eVehicle, 200, 200);
         EntitiesToClear.Add(_eVehicle);
@@ -63,7 +60,7 @@ internal class CarAccident3 : SuperCallout
         _ePed2.BlockPermanentEvents = true;
         EntitiesToClear.Add(_ePed2);
 
-        _eBlip = new Blip(SpawnPoint, 15f);
+        _eBlip = new Blip(SpawnPoint.Position, 15f);
         _eBlip.Color = Color.Red;
         _eBlip.Alpha /= 2;
         _eBlip.Name = "Callout";
@@ -127,7 +124,7 @@ internal class CarAccident3 : SuperCallout
                 break;
             case 3: //Fire + dead ped.
                 _ePed2.Tasks.Cower(-1);
-                PyroFunctions.FireControl(SpawnPoint.Around2D(7f), 24, true);
+                PyroFunctions.FireControl(SpawnPoint.Position.Around2D(7f), 24, true);
                 CalloutInterfaceAPI.Functions.SendMessage(this, "We have a fire, and someone is injured!");
                 break;
             default:

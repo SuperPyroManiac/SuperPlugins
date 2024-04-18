@@ -15,19 +15,17 @@ namespace SuperCallouts.Callouts;
 internal class FakeCall : SuperCallout
 {
     private Blip _cBlip;
-    internal override Vector3 SpawnPoint { get; set; }
+    internal override Location SpawnPoint { get; set; } = PyroFunctions.GetSideOfRoad(750, 180);
     internal override float OnSceneDistance { get; set; } = 30;
     internal override string CalloutName { get; set; } = "Prank Call";
 
     internal override void CalloutPrep()
     {
-        PyroFunctions.FindSideOfRoad(750, 280, out var tempSpawnPoint, out _);
-        SpawnPoint = tempSpawnPoint;
         CalloutMessage = "~r~" + Settings.EmergencyNumber + " Report:~s~ Emergency call dropped.";
         CalloutAdvisory = "Call dropped and dispatch is unable to reach caller back.";
         Functions.PlayScannerAudioUsingPosition(
             "ATTENTION_ALL_UNITS_05 WE_HAVE CRIME_11_351_02 IN_OR_ON_POSITION",
-            SpawnPoint);
+            SpawnPoint.Position);
     }
 
     internal override void CalloutAccepted()
@@ -35,7 +33,7 @@ internal class FakeCall : SuperCallout
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~y~Call Dropped",
             "Caller disconnected from call quickly. Unable to reach them back. Last location recorded, respond to the last known location. ~r~CODE-2");
 
-        _cBlip = new Blip(SpawnPoint, 30f);
+        _cBlip = new Blip(SpawnPoint.Position, 30f);
         _cBlip.Color = Color.Red;
         _cBlip.Alpha /= 2;
         _cBlip.Name = "Scene";
@@ -49,7 +47,7 @@ internal class FakeCall : SuperCallout
         GameFiber.Wait(10000);
         Game.DisplaySubtitle("~g~You~s~: Dispatch, not seeing anyone out here.", 4000);
         GameFiber.Wait(4000);
-        Functions.PlayScannerAudioUsingPosition("REPORT_RESPONSE_COPY_02", SpawnPoint);
+        Functions.PlayScannerAudioUsingPosition("REPORT_RESPONSE_COPY_02", SpawnPoint.Position);
         GameFiber.Wait(3500);
         CalloutInterfaceAPI.Functions.SendMessage(this, "Area has been checked, appears to be a fake call.");
         CalloutEnd();

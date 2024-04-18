@@ -4,6 +4,7 @@ using System;
 using System.Drawing;
 using CalloutInterfaceAPI;
 using LSPD_First_Response.Mod.Callouts;
+using PyroCommon.API;
 using Rage;
 using Functions = LSPD_First_Response.Mod.API.Functions;
 
@@ -20,7 +21,7 @@ internal class PrisonTransport : SuperCallout
     private Blip _cBlip1;
     private Ped _cop;
     private Vehicle _cVehicle;
-    internal override Vector3 SpawnPoint { get; set; } = World.GetNextPositionOnStreet(Player.Position.Around(500f));
+    internal override Location SpawnPoint { get; set; } = new(World.GetNextPositionOnStreet(Player.Position.Around(500f)), 0);
     internal override float OnSceneDistance { get; set; } = 90;
     internal override string CalloutName { get; set; } = "Transport Escape";
 
@@ -29,7 +30,7 @@ internal class PrisonTransport : SuperCallout
         CalloutMessage = "~b~Dispatch:~s~ Prisoner escaped transport.";
         CalloutAdvisory = "Officers report a suspect has jumped out of a moving transport vehicle.";
         Functions.PlayScannerAudioUsingPosition("OFFICERS_REPORT_01 CRIME_SUSPECT_ON_THE_RUN_01 IN_OR_ON_POSITION",
-            SpawnPoint);
+            SpawnPoint.Position);
     }
 
     internal override void CalloutAccepted()
@@ -37,16 +38,16 @@ internal class PrisonTransport : SuperCallout
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Escaped Prisoner",
             "DOC reports a prisoner has unlocked the transport vehicle and is on the run. ~r~CODE-3");
 
-        _cVehicle = new Vehicle("POLICET", SpawnPoint) { IsPersistent = true };
+        _cVehicle = new Vehicle("POLICET", SpawnPoint.Position) { IsPersistent = true };
         EntitiesToClear.Add(_cVehicle);
 
-        _cop = new Ped("csb_cop", SpawnPoint, 0f);
+        _cop = new Ped("csb_cop", SpawnPoint.Position, 0f);
         _cop.IsPersistent = true;
         _cop.WarpIntoVehicle(_cVehicle, -1);
         _cop.Tasks.LeaveVehicle(LeaveVehicleFlags.LeaveDoorOpen);
         EntitiesToClear.Add(_cop);
 
-        _badguy = new Ped("s_m_y_prisoner_01", SpawnPoint, 0f);
+        _badguy = new Ped("s_m_y_prisoner_01", SpawnPoint.Position, 0f);
         _badguy.IsPersistent = true;
         _badguy.WarpIntoVehicle(_cVehicle, 1);
         _badguy.Tasks.LeaveVehicle(LeaveVehicleFlags.LeaveDoorOpen);

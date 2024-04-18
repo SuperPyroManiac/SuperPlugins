@@ -21,7 +21,7 @@ internal class Manhunt : SuperCallout
     private Blip _cBlip2;
     private string _name1;
     private UIMenuItem _speakSuspect;
-    internal override Vector3 SpawnPoint { get; set; } = World.GetNextPositionOnStreet(Player.Position.Around(650f));
+    internal override Location SpawnPoint { get; set; } = new(World.GetNextPositionOnStreet(Player.Position.Around(650f)), 0);
     internal override float OnSceneDistance { get; set; } = 50;
     internal override string CalloutName { get; set; } = "Manhunt";
 
@@ -30,7 +30,7 @@ internal class Manhunt : SuperCallout
         CalloutMessage = "~b~Dispatch:~s~ Wanted suspect on the run.";
         CalloutAdvisory = "Officers report a suspect evaded them in the area.";
         Functions.PlayScannerAudioUsingPosition("ATTENTION_ALL_UNITS_05 SUSPECTS_LAST_SEEN_02 IN_OR_ON_POSITION",
-            SpawnPoint);
+            SpawnPoint.Position);
     }
 
     internal override void CalloutAccepted()
@@ -38,7 +38,7 @@ internal class Manhunt : SuperCallout
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Manhunt",
             "Search for the suspect. High priority, respond ~r~CODE-3");
 
-        _bad = new Ped(SpawnPoint) { IsPersistent = true };
+        _bad = new Ped(SpawnPoint.Position) { IsPersistent = true };
         PyroFunctions.SetWanted(_bad, true);
         _name1 = Functions.GetPersonaForPed(_bad).FullName;
         _bad.Tasks.Wander();

@@ -55,10 +55,10 @@
     </ItemGroup>
     <ItemGroup>
         <Compile Include="API\DependManager.cs" />
+        <Compile Include="API\Location.cs" />
         <Compile Include="API\Log.cs" />
-        <Compile Include="API\PulloverSpots.cs" />
+        <Compile Include="API\Locations.cs" />
         <Compile Include="API\PyroFunctions.cs" />
-        <Compile Include="API\Vector4Extensions.cs" />
         <Compile Include="API\Wrapper.cs" />
         <Compile Include="Dependency.cs" />
         <Compile Include="Main.cs" />

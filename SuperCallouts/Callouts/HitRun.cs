@@ -31,25 +31,22 @@ internal class HitRun : SuperCallout
     private bool _onScene;
     private bool _onScene2;
     private LHandle _pursuit = Functions.CreatePursuit();
-    private float _spawnPointH;
     private Vector3 _spawnPointOffset;
     private UIMenuItem _speakSuspect1;
     private UIMenuItem _speakSuspect2;
     private UIMenuItem _speakVictim;
     private bool _startPursuit;
     private Ped _victim;
-    internal override Vector3 SpawnPoint { get; set; }
+    internal override Location SpawnPoint { get; set; } = PyroFunctions.GetSideOfRoad(750, 180);
     internal override float OnSceneDistance { get; set; } = 20;
     internal override string CalloutName { get; set; } = "Hit and Run";
 
     internal override void CalloutPrep()
     {
-        PyroFunctions.FindSideOfRoad(500, 100, out var tempSpawnPoint, out _spawnPointH);
-        SpawnPoint = tempSpawnPoint;
         CalloutMessage = "~r~" + Settings.EmergencyNumber + " Report:~s~ Vehicle hit and run.";
         CalloutAdvisory = "Caller reports other driver has left the scene.";
         Functions.PlayScannerAudioUsingPosition(
-            "ATTENTION_ALL_UNITS_05 WE_HAVE CRIME_HIT_AND_RUN_01 IN_OR_ON_POSITION", SpawnPoint);
+            "ATTENTION_ALL_UNITS_05 WE_HAVE CRIME_HIT_AND_RUN_01 IN_OR_ON_POSITION", SpawnPoint.Position);
     }
 
     internal override void CalloutAccepted()
@@ -57,8 +54,8 @@ internal class HitRun : SuperCallout
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Car Accident",
             "Victim reports the other driver has left the scene. Get to the victim as soon as possible.");
 
-        PyroFunctions.SpawnNormalCar(out _cVehicle1, SpawnPoint);
-        _cVehicle1.Heading = _spawnPointH;
+        PyroFunctions.SpawnNormalCar(out _cVehicle1, SpawnPoint.Position);
+        _cVehicle1.Heading = SpawnPoint.Heading;
         PyroFunctions.DamageVehicle(_cVehicle1, 50, 50);
         _spawnPointOffset = World.GetNextPositionOnStreet(_cVehicle1.Position.Around(100f));
         EntitiesToClear.Add(_cVehicle1);
@@ -80,7 +77,7 @@ internal class HitRun : SuperCallout
         _name2 = Functions.GetPersonaForPed(_bad1).FullName;
         EntitiesToClear.Add(_bad1);
 
-        _bad2 = new Ped(SpawnPoint);
+        _bad2 = new Ped(SpawnPoint.Position);
         _bad2.WarpIntoVehicle(_cVehicle2, 0);
         _bad2.IsPersistent = true;
         _name3 = Functions.GetPersonaForPed(_bad2).FullName;

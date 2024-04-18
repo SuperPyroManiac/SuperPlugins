@@ -3,6 +3,7 @@
 using System.Drawing;
 using CalloutInterfaceAPI;
 using LSPD_First_Response.Mod.Callouts;
+using PyroCommon.API;
 using Rage;
 using Rage.Native;
 using RAGENativeUI;
@@ -26,7 +27,7 @@ internal class TruckCrash : SuperCallout
     private Ped _victim;
     private Ped _victim2;
     private Ped _victim3;
-    internal override Vector3 SpawnPoint { get; set; } = new(2455.644f, -186.7955f, 87.83904f);
+    internal override Location SpawnPoint { get; set; } = new(2455.644f, -186.7955f, 87.83904f, 0);
     internal override float OnSceneDistance { get; set; } = 30;
     internal override string CalloutName { get; set; } = "Truck Accident";
 
@@ -35,7 +36,7 @@ internal class TruckCrash : SuperCallout
         CalloutMessage = "~r~" + Settings.EmergencyNumber + " Report:~s~ Large truck tipped over.";
         Functions.PlayScannerAudioUsingPosition(
             "ATTENTION_ALL_UNITS_05 WE_HAVE CRIME_AMBULANCE_REQUESTED_02 IN_OR_ON_POSITION UNITS_RESPOND_CODE_03_01",
-            SpawnPoint);
+            SpawnPoint.Position);
     }
 
     internal override void CalloutAccepted()

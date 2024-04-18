@@ -26,7 +26,7 @@ internal class Robbery : SuperCallout
     private Ped _rude1;
     private Ped _rude2;
     private Ped _victim;
-    internal override Vector3 SpawnPoint { get; set; } = World.GetNextPositionOnStreet(Player.Position.Around(450f));
+    internal override Location SpawnPoint { get; set; } = new(World.GetNextPositionOnStreet(Player.Position.Around(450f)), 0);
     internal override float OnSceneDistance { get; set; } = 40;
     internal override string CalloutName { get; set; } = "Armed Robbery";
 
@@ -35,7 +35,7 @@ internal class Robbery : SuperCallout
         CalloutMessage = "~r~" + Settings.EmergencyNumber + " Report:~s~ Person(s) being held at gunpoint.";
         CalloutAdvisory = "Caller reports people holding someone at gunpoint.";
         Functions.PlayScannerAudioUsingPosition("CITIZENS_REPORT_03 CRIME_ROBBERY_01 IN_OR_ON_POSITION",
-            SpawnPoint);
+            SpawnPoint.Position);
     }
 
     internal override void CalloutAccepted()
@@ -44,7 +44,7 @@ internal class Robbery : SuperCallout
             "A " + Settings.EmergencyNumber +
             " report claims 2 armed people are holding 1 person at gunpoint. Respond ~r~CODE-3");
 
-        PyroFunctions.SpawnNormalCar(out _cVehicle, SpawnPoint);
+        PyroFunctions.SpawnNormalCar(out _cVehicle, SpawnPoint.Position);
         _cVehicle.IsPersistent = true;
         _cVehicle.EngineHealth = 0;
         PyroFunctions.DamageVehicle(_cVehicle, 200, 200);

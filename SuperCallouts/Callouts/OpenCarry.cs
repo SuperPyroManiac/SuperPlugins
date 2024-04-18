@@ -22,7 +22,7 @@ internal class OpenCarry : SuperCallout
     private Blip _cBlip;
     private string _name1;
     private UIMenuItem _speakSuspect;
-    internal override Vector3 SpawnPoint { get; set; } = World.GetNextPositionOnStreet(Player.Position.Around(350f));
+    internal override Location SpawnPoint { get; set; } = new(World.GetNextPositionOnStreet(Player.Position.Around(350f)), 0);
     internal override float OnSceneDistance { get; set; } = 20;
     internal override string CalloutName { get; set; } = "Open Carry";
 
@@ -32,7 +32,7 @@ internal class OpenCarry : SuperCallout
         CalloutAdvisory =
             "Caller reports the person is walking around with a firearm out but has not caused any trouble.";
         Functions.PlayScannerAudioUsingPosition(
-            "ATTENTION_ALL_UNITS_05 WE_HAVE CRIME_DISTURBING_THE_PEACE_01 IN_OR_ON_POSITION", SpawnPoint);
+            "ATTENTION_ALL_UNITS_05 WE_HAVE CRIME_DISTURBING_THE_PEACE_01 IN_OR_ON_POSITION", SpawnPoint.Position);
     }
 
     internal override void CalloutAccepted()
@@ -40,7 +40,7 @@ internal class OpenCarry : SuperCallout
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Person With Gun",
             "Reports of a person walking around with an assault rifle. Respond ~y~CODE-2");
 
-        _bad1 = new Ped(SpawnPoint) { IsPersistent = true };
+        _bad1 = new Ped(SpawnPoint.Position) { IsPersistent = true };
         _bad1.Inventory.GiveNewWeapon(WeaponHash.AdvancedRifle, -1, true);
         _bad1.Tasks.Wander();
         _name1 = Functions.GetPersonaForPed(_bad1).FullName;

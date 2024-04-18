@@ -15,7 +15,7 @@ internal class StolenDumptruck : SuperCallout
     private Ped _bad;
     private Blip _cBlip;
     private Vehicle _cVehicle;
-    internal override Vector3 SpawnPoint { get; set; } = World.GetNextPositionOnStreet(Player.Position.Around(350f));
+    internal override Location SpawnPoint { get; set; } = new(World.GetNextPositionOnStreet(Player.Position.Around(350f)), 0);
     internal override float OnSceneDistance { get; set; } = 30;
     internal override string CalloutName { get; set; } = "Stolen Construction Vehicle";
 
@@ -24,7 +24,7 @@ internal class StolenDumptruck : SuperCallout
         CalloutMessage = "~b~Dispatch:~s~ Stolen construction vehicle.";
         CalloutAdvisory = "A very large vehicle was stolen from a construction site.";
         Functions.PlayScannerAudioUsingPosition(
-            "WE_HAVE CRIME_BRANDISHING_WEAPON_01 CRIME_ROBBERY_01 IN_OR_ON_POSITION", SpawnPoint);
+            "WE_HAVE CRIME_BRANDISHING_WEAPON_01 CRIME_ROBBERY_01 IN_OR_ON_POSITION", SpawnPoint.Position);
     }
 
     internal override void CalloutAccepted()
@@ -34,11 +34,11 @@ internal class StolenDumptruck : SuperCallout
         CalloutInterfaceAPI.Functions.SendMessage(this,
             "A dump truck has been stolen from a construction site. This vehicle is very large and driving on public streets.");
 
-        _cVehicle = new Vehicle("dump", SpawnPoint)
+        _cVehicle = new Vehicle("dump", SpawnPoint.Position)
             { IsPersistent = true, IsStolen = true };
         EntitiesToClear.Add(_cVehicle);
 
-        _bad = new Ped(SpawnPoint.Around(15f));
+        _bad = new Ped(SpawnPoint.Position.Around(15f));
         _bad.WarpIntoVehicle(_cVehicle, -1);
         _bad.IsPersistent = true;
         _bad.BlockPermanentEvents = true;

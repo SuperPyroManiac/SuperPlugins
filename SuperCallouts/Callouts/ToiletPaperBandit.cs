@@ -23,21 +23,18 @@ internal class ToiletPaperBandit : SuperCallout
     private Vehicle _cVehicle;
     private string _name1;
     private LHandle _pursuit = Functions.CreatePursuit();
-    private float _spawnPointH;
     private UIMenuItem _speakSuspect;
-    internal override Vector3 SpawnPoint { get; set; }
+    internal override Location SpawnPoint { get; set; } = PyroFunctions.GetSideOfRoad(750, 180);
     internal override float OnSceneDistance { get; set; } = 30;
     internal override string CalloutName { get; set; } = "Stolen Cleaning Truck";
 
     internal override void CalloutPrep()
     {
-        PyroFunctions.FindSideOfRoad(750, 280, out var tempSpawnPoint, out _spawnPointH);
-        SpawnPoint = tempSpawnPoint;
         CalloutMessage = "~b~Dispatch:~s~ Reports of a sanitization transport robbery.";
         CalloutAdvisory = "Caller reports the vehicle of full of cleaning supplies. Possible fire hazard.";
         Functions.PlayScannerAudioUsingPosition(
             "ATTENTION_ALL_UNITS_05 WE_HAVE CRIME_GRAND_THEFT_AUTO_03 IN_OR_ON_POSITION",
-            SpawnPoint);
+            SpawnPoint.Position);
     }
 
     internal override void CalloutAccepted()
@@ -45,8 +42,8 @@ internal class ToiletPaperBandit : SuperCallout
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Robbery",
             "Reports of someone robbing a truck full of cleaning supplies, respond ~r~CODE-3");
 
-        _cVehicle = new Vehicle("pounder", SpawnPoint)
-            { IsPersistent = true, IsStolen = true, Heading = _spawnPointH };
+        _cVehicle = new Vehicle("pounder", SpawnPoint.Position)
+            { IsPersistent = true, IsStolen = true, Heading = SpawnPoint.Heading };
         _cVehicle.Metadata.searchDriver =
             "~y~50 travel hand sanitizers~s~, ~y~48 toilet paper rolls~s~, ~g~lighters~s~, ~g~cigarettes~s~";
         _cVehicle.Metadata.searchPassenger =
@@ -55,7 +52,7 @@ internal class ToiletPaperBandit : SuperCallout
             "~r~multiple pallets of toilet paper~s~, ~r~hazmat suits~s~, ~r~12 molotov explosives~s~, ~y~22 packs of cigarettes~s~";
         EntitiesToClear.Add(_cVehicle);
 
-        _bad = new Ped("s_m_m_movspace_01", SpawnPoint.Around2D(20f), 0f)
+        _bad = new Ped("s_m_m_movspace_01", SpawnPoint.Position.Around2D(20f), 0f)
             { BlockPermanentEvents = true, IsPersistent = true };
         _bad.WarpIntoVehicle(_cVehicle, -1);
         _bad.Inventory.Weapons.Add(WeaponHash.Molotov);

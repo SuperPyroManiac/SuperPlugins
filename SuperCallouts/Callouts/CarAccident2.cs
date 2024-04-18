@@ -28,8 +28,7 @@ internal class CarAccident2 : SuperCallout
     private Ped _victim1;
     private Ped _victim2;
 
-    internal override Vector3 SpawnPoint { get; set; } =
-        World.GetNextPositionOnStreet(Player.Position.Around(45f, 320f));
+    internal override Location SpawnPoint { get; set; } = new(World.GetNextPositionOnStreet(Player.Position.Around(45f, 320f)), 0);
 
     internal override float OnSceneDistance { get; set; } = 25;
     internal override string CalloutName { get; set; } = "Car Accident (2)";
@@ -40,7 +39,7 @@ internal class CarAccident2 : SuperCallout
         CalloutAdvisory = "Caller reports their is multiple vehicles involved.";
         Functions.PlayScannerAudioUsingPosition(
             "CITIZENS_REPORT_04 CRIME_HIT_AND_RUN_03 IN_OR_ON_POSITION UNITS_RESPOND_CODE_03_01",
-            SpawnPoint);
+            SpawnPoint.Position);
     }
 
     internal override void CalloutAccepted()
@@ -48,7 +47,7 @@ internal class CarAccident2 : SuperCallout
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~MVA",
             "Reports of a car accident, respond ~r~CODE-3");
 
-        PyroFunctions.SpawnNormalCar(out _cVehicle1, SpawnPoint);
+        PyroFunctions.SpawnNormalCar(out _cVehicle1, SpawnPoint.Position);
         _cVehicle1.EngineHealth = 0;
         PyroFunctions.DamageVehicle(_cVehicle1, 200, 200);
         EntitiesToClear.Add(_cVehicle1);
@@ -58,7 +57,7 @@ internal class CarAccident2 : SuperCallout
         _cVehicle2.Rotation = new Rotator(0f, 0f, 180f);
         PyroFunctions.DamageVehicle(_cVehicle2, 200, 200);
         _cVehicle2.Metadata.searchDriver =
-            "~r~half full hard liqure bottle~s~, ~y~pack of lighters~s~, ~g~coke cans~s~, ~g~cigarettes~s~";
+            "~r~half full hard liqueur bottle~s~, ~y~pack of lighters~s~, ~g~coke cans~s~, ~g~cigarettes~s~";
         EntitiesToClear.Add(_cVehicle2);
 
         _victim1 = _cVehicle1.CreateRandomDriver();

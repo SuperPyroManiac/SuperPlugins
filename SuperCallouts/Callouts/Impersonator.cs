@@ -23,20 +23,17 @@ internal class Impersonator : SuperCallout
     private Vehicle _cVehicle1;
     private Vehicle _cVehicle2;
     private string _name1;
-    private float _spawnPointH;
     private UIMenuItem _speakSuspect;
     private Ped _victim;
-    internal override Vector3 SpawnPoint { get; set; }
+    internal override Location SpawnPoint { get; set; } = PyroFunctions.GetSideOfRoad(750, 180);
     internal override float OnSceneDistance { get; set; } = 30;
     internal override string CalloutName { get; set; } = "Impersonator";
 
     internal override void CalloutPrep()
     {
-        PyroFunctions.FindSideOfRoad(400, 100, out var tempSpawnPoint, out _spawnPointH);
-        SpawnPoint = tempSpawnPoint;
         CalloutMessage = "~b~Dispatch:~s~ Officer impersonator.";
         CalloutAdvisory = "Caller says they have been stopped by someone that does not look like an officer.";
-        Functions.PlayScannerAudioUsingPosition("WE_HAVE CRIME_11_351_02 IN_OR_ON_POSITION", SpawnPoint);
+        Functions.PlayScannerAudioUsingPosition("WE_HAVE CRIME_11_351_02 IN_OR_ON_POSITION", SpawnPoint.Position);
     }
 
     internal override void CalloutAccepted()
@@ -47,12 +44,12 @@ internal class Impersonator : SuperCallout
         CalloutInterfaceAPI.Functions.SendMessage(this,
             "Caller feels that they are in danger, this is a high priority call.");
 
-        PyroFunctions.SpawnNormalCar(out _cVehicle1, SpawnPoint);
-        _cVehicle1.Heading = _spawnPointH;
+        PyroFunctions.SpawnNormalCar(out _cVehicle1, SpawnPoint.Position);
+        _cVehicle1.Heading = SpawnPoint.Heading;
         EntitiesToClear.Add(_cVehicle1);
 
         _cVehicle2 = new Vehicle("DILETTANTE2", _cVehicle1.GetOffsetPositionFront(-9f))
-            { Heading = _spawnPointH, IsPersistent = true };
+            { Heading = SpawnPoint.Heading, IsPersistent = true };
         _cVehicle2.Metadata.searchDriver =
             "~y~police radio scanner~s~, ~y~handcuffs~s~, ~g~parking ticket~s~, ~g~cigarettes~s~";
         EntitiesToClear.Add(_cVehicle2);

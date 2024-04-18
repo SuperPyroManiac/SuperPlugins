@@ -19,7 +19,7 @@ internal class StolenCopVehicle : SuperCallout
     private Ped _bad;
     private Blip _cBlip;
     private Vehicle _cVehicle;
-    internal override Vector3 SpawnPoint { get; set; } = World.GetNextPositionOnStreet(Player.Position.Around(350f));
+    internal override Location SpawnPoint { get; set; } = new(World.GetNextPositionOnStreet(Player.Position.Around(350f)), 0);
     internal override float OnSceneDistance { get; set; } = 30;
     internal override string CalloutName { get; set; } = "Stolen Police Vehicle";
 
@@ -28,7 +28,7 @@ internal class StolenCopVehicle : SuperCallout
         CalloutMessage = "~b~Dispatch:~s~ Stolen police vehicle.";
         CalloutAdvisory = "A suspect stole an officers vehicle during arrest.";
         Functions.PlayScannerAudioUsingPosition(
-            "WE_HAVE CRIME_BRANDISHING_WEAPON_01 CRIME_RESIST_ARREST IN_OR_ON_POSITION", SpawnPoint);
+            "WE_HAVE CRIME_BRANDISHING_WEAPON_01 CRIME_RESIST_ARREST IN_OR_ON_POSITION", SpawnPoint.Position);
     }
 
     internal override void CalloutAccepted()
@@ -37,11 +37,11 @@ internal class StolenCopVehicle : SuperCallout
             "A suspect has stolen a police vehicle during his arrest. Respond ~r~CODE-3");
 
         Model[] vehicleModels = { "POLICE", "POLICE2", "POLICE3", "SHERIFF", "SHERIFF2" };
-        _cVehicle = new Vehicle(vehicleModels[new Random().Next(vehicleModels.Length)], SpawnPoint)
+        _cVehicle = new Vehicle(vehicleModels[new Random().Next(vehicleModels.Length)], SpawnPoint.Position)
             { IsPersistent = true, IsStolen = true, IsSirenOn = true, IsSirenSilent = true };
         EntitiesToClear.Add(_cVehicle);
 
-        _bad = new Ped(SpawnPoint.Around(15f));
+        _bad = new Ped(SpawnPoint.Position.Around(15f));
         _bad.WarpIntoVehicle(_cVehicle, -1);
         _bad.IsPersistent = true;
         _bad.BlockPermanentEvents = true;

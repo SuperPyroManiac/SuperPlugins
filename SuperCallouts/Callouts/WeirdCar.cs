@@ -24,19 +24,16 @@ internal class WeirdCar : SuperCallout
     private Blip _cBlip1;
     private Vehicle _cVehicle1;
     private string _name;
-    private float _spawnPointH;
     private UIMenuItem _speakSuspect;
-    internal override Vector3 SpawnPoint { get; set; }
+    internal override Location SpawnPoint { get; set; } = PyroFunctions.GetSideOfRoad(750, 180);
     internal override float OnSceneDistance { get; set; } = 30;
     internal override string CalloutName { get; set; } = "Suspicious Vehicle";
 
     internal override void CalloutPrep()
     {
-        PyroFunctions.FindSideOfRoad(750, 280, out var tempSpawnPoint, out _spawnPointH);
-        SpawnPoint = tempSpawnPoint;
         CalloutMessage = "~b~Dispatch:~s~ Suspicious vehicle.";
         CalloutAdvisory = "Suspicious vehicle was found on the side of the road. Approach with caution.";
-        Functions.PlayScannerAudioUsingPosition("WE_HAVE CRIME_11_351_02 IN_OR_ON_POSITION", SpawnPoint);
+        Functions.PlayScannerAudioUsingPosition("WE_HAVE CRIME_11_351_02 IN_OR_ON_POSITION", SpawnPoint.Position);
     }
 
     internal override void CalloutAccepted()
@@ -44,8 +41,8 @@ internal class WeirdCar : SuperCallout
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Suspicious Vehicle",
             "Report of a suspicious vehicle on the side of the road. Respond ~y~CODE-2");
 
-        PyroFunctions.SpawnNormalCar(out _cVehicle1, SpawnPoint);
-        _cVehicle1.Heading = _spawnPointH;
+        PyroFunctions.SpawnNormalCar(out _cVehicle1, SpawnPoint.Position);
+        _cVehicle1.Heading = SpawnPoint.Heading;
         _cVehicle1.IsPersistent = true;
         EntitiesToClear.Add(_cVehicle1);
 
