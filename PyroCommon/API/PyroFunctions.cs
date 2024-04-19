@@ -36,9 +36,10 @@ public abstract class PyroFunctions
         return cPed;
     }
 
-    public static Blip CreateSearchBlip(Location location, Color color, bool route = false, float size = 80f)
+    public static Blip CreateSearchBlip(Location location, Color color, bool route = false, bool randomize = false, float size = 80f)
     {
-        var cBlip = new Blip(location.Position.Around2D(size / 2, size - 5), size);
+        if (randomize) location.Position = location.Position.Around2D(size / 2, size - 5);
+        var cBlip = new Blip(location.Position, size);
         cBlip.Alpha = 0.5f;
         cBlip.Color = color;
         if (route) cBlip.EnableRoute(color);

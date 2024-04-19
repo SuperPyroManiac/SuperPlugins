@@ -1,5 +1,3 @@
-#region
-
 using System.Drawing;
 using CalloutInterfaceAPI;
 using LSPD_First_Response.Mod.Callouts;
@@ -8,9 +6,7 @@ using Rage;
 using Rage.Native;
 using Functions = LSPD_First_Response.Mod.API.Functions;
 
-#endregion
-
-namespace SuperCallouts.Callouts;
+namespace SuperCallouts.RemasteredCallouts;
 
 [CalloutInterface("[SC] Aliens", CalloutProbability.VeryLow, "Alien sighting - possible prank", "Code 2")]
 internal class Aliens : SuperCallout
@@ -20,8 +16,8 @@ internal class Aliens : SuperCallout
     private Ped _alien3;
     private Blip _cBlip1;
     private Vehicle _cVehicle1;
-    internal override Location SpawnPoint { get; set; } = new(World.GetNextPositionOnStreet(Player.Position.Around(350f)), 0);
-    internal override float OnSceneDistance { get; set; } = 30;
+    internal override Location SpawnPoint { get; set; } = new(World.GetNextPositionOnStreet(Player.Position.Around(350f)));
+    internal override float OnSceneDistance { get; set; } = 40;
     internal override string CalloutName { get; set; } = "Aliens";
 
     internal override void CalloutPrep()
@@ -65,22 +61,17 @@ internal class Aliens : SuperCallout
         _alien3.SetVariation(5, 0, 0);
         _alien3.IsPersistent = true;
         EntitiesToClear.Add(_alien3);
-
-        var searcharea = SpawnPoint.Position.Around2D(40f, 75f);
-        _cBlip1 = new Blip(searcharea, 80f) { Color = Color.Yellow, Alpha = .5f };
-        _cBlip1.EnableRoute(Color.Yellow);
+        
+        _cBlip1 = PyroFunctions.CreateSearchBlip(SpawnPoint, Color.Yellow, true, true);
         BlipsToClear.Add(_cBlip1);
     }
 
     internal override void CalloutOnScene()
     {
-        //RUN TOWARDS PED NATIVE x6A071245EB0D1882
-        NativeFunction.Natives.x6A071245EB0D1882(_alien1, Game.LocalPlayer.Character, -1, 2f, 2f,
-            0, 0);
-        NativeFunction.Natives.x6A071245EB0D1882(_alien2, Game.LocalPlayer.Character, -1, 2f, 2f,
-            0, 0);
-        NativeFunction.Natives.x6A071245EB0D1882(_alien3, Game.LocalPlayer.Character, -1, 2f, 2f,
-            0, 0);
+        //TASK::TASK_GO_TO_ENTITY x6A071245EB0D1882
+        NativeFunction.Natives.x6A071245EB0D1882(_alien1, Game.LocalPlayer.Character, -1, 2f, 2f, 0, 0);
+        NativeFunction.Natives.x6A071245EB0D1882(_alien2, Game.LocalPlayer.Character, -1, 2f, 2f, 0, 0);
+        NativeFunction.Natives.x6A071245EB0D1882(_alien3, Game.LocalPlayer.Character, -1, 2f, 2f, 0, 0);
 
         _cBlip1.DisableRoute();
         GameFiber.Wait(4000);

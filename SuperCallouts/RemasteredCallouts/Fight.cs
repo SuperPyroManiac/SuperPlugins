@@ -37,7 +37,7 @@ internal class Fight : SuperCallout
         EntitiesToClear.Add(_victim);
         EntitiesToClear.Add(_suspect);
 
-        _blip = PyroFunctions.CreateSearchBlip(SpawnPoint, Color.Red, true);
+        _blip = PyroFunctions.CreateSearchBlip(SpawnPoint, Color.Red, true, true);
         BlipsToClear.Add(_blip);
         
         //TASK_TURN_PED_TO_FACE_ENTITY(Ped ped, Entity entity, int duration) // 0x5AD23D40115353AC 0x3C37C767 b323
