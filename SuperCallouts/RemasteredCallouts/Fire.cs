@@ -4,6 +4,7 @@ using System.Drawing;
 using CalloutInterfaceAPI;
 using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.API;
+using PyroCommon.API.Wrappers;
 using Rage;
 using Rage.Native;
 using Functions = LSPD_First_Response.Mod.API.Functions;
@@ -17,9 +18,10 @@ internal class Fire : SuperCallout
 {
     private Blip _cBlip;
     private Vehicle _cVehicle;
-    private int CarSmokePTFX;
+    private int _partHandleBigFire;
+    private int _partHandleMistySmoke;
     internal override Location SpawnPoint { get; set; } = PyroFunctions.GetSideOfRoad(750, 180);
-    internal override float OnSceneDistance { get; set; } = 85;
+    internal override float OnSceneDistance { get; set; } = 35f;
     internal override string CalloutName { get; set; } = "Fire";
 
     internal override void CalloutPrep()
@@ -37,6 +39,12 @@ internal class Fire : SuperCallout
 
         _cVehicle = PyroFunctions.SpawnCar(SpawnPoint);
         EntitiesToClear.Add(_cVehicle);
+        
+        _partHandleBigFire = Particles.StartLoopedParticlesOnEntity("scr_trevor3", "scr_trev3_trailer_plume", _cVehicle,
+            new Vector3(0, 1f, 0), Vector3.Zero, 0.7f);
+        
+        _partHandleMistySmoke = Particles.StartLoopedParticlesOnEntity("scr_agencyheistb", "scr_env_agency3b_smoke", _cVehicle,
+            new Vector3(0, 1f, 0), Vector3.Zero, .7f);
 
         _cBlip = PyroFunctions.CreateSearchBlip(SpawnPoint, Color.Red, true, true, 40f);
         BlipsToClear.Add(_cBlip);
@@ -49,12 +57,15 @@ internal class Fire : SuperCallout
         _cBlip.DisableRoute();
         
         _cVehicle.StartFire(true);
-        // for (var i = 0; i < 5; i++) PyroFunctions.FireControl(SpawnPoint.Position.Around2D(1f, 5f), 24, true);
-        // for (var i = 0; i < 10; i++) PyroFunctions.FireControl(SpawnPoint.Position.Around2D(1f, 5f), 24, false);
+        
+        GameFiber.Wait(12000);
+        Particles.StopLoopedParticles(_partHandleBigFire);
     }
 
     internal override void CalloutEnd(bool forceCleanup = false)
     {
+        Particles.StopLoopedParticles(_partHandleBigFire);
+        Particles.StopLoopedParticles(_partHandleMistySmoke);
         base.CalloutEnd(forceCleanup);
     }
 }

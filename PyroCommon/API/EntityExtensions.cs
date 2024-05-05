@@ -103,12 +103,8 @@ public static class EntityExtensions
     public static void StartFire(this Vehicle vehicle, bool possibleExplode)
     {
         NativeFunction.Natives.x45F6D8EEF34ABEF1(vehicle, -1f);
-
-        // if (possibleExplode)
-        // {
-        //     switch (new Random(DateTime.Now.Millisecond).Next(1, 4))
-        //     {
-        //     }
-        // }
+        
+        if (!possibleExplode) return;
+        if (new Random(DateTime.Now.Millisecond).Next(1, 4) == 2) NativeFunction.Natives.x70DB57649FA8D0D8(vehicle, -1f);
     }
 }
