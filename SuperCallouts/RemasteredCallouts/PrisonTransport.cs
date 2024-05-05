@@ -10,15 +10,13 @@ using Functions = LSPD_First_Response.Mod.API.Functions;
 
 #endregion
 
-namespace SuperCallouts.Callouts;
+namespace SuperCallouts.RemasteredCallouts;
 
-[CalloutInterface("[SC] Transport Escape", CalloutProbability.Medium, "Prisoner escaped transport vehicle - high priority",
-    "Code 3")]
+[CalloutInterface("[SC] Transport Escape", CalloutProbability.Medium, "Prisoner escaped transport vehicle - high priority", "Code 3")]
 internal class PrisonTransport : SuperCallout
 {
-    private readonly Random _rNd = new();
-    private Ped _badguy;
-    private Blip _cBlip1;
+    private Ped _suspect;
+    private Blip _cBlip;
     private Ped _cop;
     private Vehicle _cVehicle;
     internal override Location SpawnPoint { get; set; } = new(World.GetNextPositionOnStreet(Player.Position.Around(500f)), 0);
@@ -47,45 +45,36 @@ internal class PrisonTransport : SuperCallout
         _cop.Tasks.LeaveVehicle(LeaveVehicleFlags.LeaveDoorOpen);
         EntitiesToClear.Add(_cop);
 
-        _badguy = new Ped("s_m_y_prisoner_01", SpawnPoint.Position, 0f);
-        _badguy.IsPersistent = true;
-        _badguy.WarpIntoVehicle(_cVehicle, 1);
-        _badguy.Tasks.LeaveVehicle(LeaveVehicleFlags.LeaveDoorOpen);
-        EntitiesToClear.Add(_badguy);
+        _suspect = new Ped("s_m_y_prisoner_01", SpawnPoint.Position, 0f);
+        _suspect.IsPersistent = true;
+        _suspect.SetWanted(false);
+        _suspect.WarpIntoVehicle(_cVehicle, 1);
+        _suspect.Tasks.LeaveVehicle(LeaveVehicleFlags.LeaveDoorOpen);
+        EntitiesToClear.Add(_suspect);
 
-        _cBlip1 = _cVehicle.AttachBlip();
-        _cBlip1.EnableRoute(Color.Red);
-        _cBlip1.Color = Color.Red;
-        BlipsToClear.Add(_cBlip1);
+        _cBlip = PyroFunctions.CreateSearchBlip(SpawnPoint, Color.Red, true, false, 20f);
+        BlipsToClear.Add(_cBlip);
     }
 
     internal override void CalloutOnScene()
     {
-        _cBlip1.DisableRoute();
-        var pursuit = Functions.CreatePursuit();
-        var choices = _rNd.Next(1, 3);
-        switch (choices)
+        _cBlip.DisableRoute();
+        switch (new Random(DateTime.Now.Millisecond).Next(1, 3))
         {
             case 1:
-                _badguy.Inventory.Weapons.Add(WeaponHash.MicroSMG).Ammo = -1;
-                _badguy.Tasks.FightAgainst(_cop);
-                _badguy.Health = 250;
+                _suspect.Inventory.Weapons.Add(WeaponHash.MicroSMG).Ammo = -1;
+                _suspect.Tasks.FightAgainst(_cop);
+                _suspect.Health = 250;
                 GameFiber.Wait(6000);
-                if (_badguy.IsAlive)
+                if (_suspect.IsAlive)
                 {
-                    Functions.AddPedToPursuit(pursuit, _badguy);
-                    Functions.SetPursuitIsActiveForPlayer(pursuit, true);
+                    PyroFunctions.StartPursuit(_suspect);
                     if (_cop.IsAlive) _cop.Kill();
                 }
-
                 break;
             case 2:
-                Functions.AddPedToPursuit(pursuit, _badguy);
+                var pursuit = PyroFunctions.StartPursuit(_suspect);
                 Functions.AddCopToPursuit(pursuit, _cop);
-                Functions.SetPursuitIsActiveForPlayer(pursuit, true);
-                break;
-            default:
-                CalloutEnd(true);
                 break;
         }
     }
