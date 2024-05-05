@@ -4,6 +4,8 @@ namespace PyroCommon.API;
 
 internal static class Wrapper
 {
+    
+    //TODO: Replace with enum and single method and merge to Wrappers/Backup.cs when PR is complete
     //ULTIMATE BACKUP
     internal static void CallCode3()
     {

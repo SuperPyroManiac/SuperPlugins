@@ -16,7 +16,7 @@ internal static class PedShot
     {
         if (!victim.Exists()) return;
         if (damageInfo.WeaponInfo.Group != DamageGroup.Bullet) return;
-        var rnd = new Random().Next(1, 5);
+        var rnd = new Random(DateTime.Now.Millisecond).Next(1, 5);
         if (Settings.EnableDebug)
         {
             // Game.DisplayHelp(
@@ -45,7 +45,7 @@ internal static class PedShot
 
         if (damageInfo.BoneInfo.BodyRegion == BodyRegion.Legs)
         {
-            var rnd2 = new Random().Next(1, 3);
+            var rnd2 = new Random(DateTime.Now.Millisecond).Next(1, 3);
             victim.Health -= 30;
             Log.Info(Functions.GetPersonaForPed(victim).FullName + " shot in leg - deducting 30 health.");
             if (rnd2 == 2) PyroFunctions.Ragdoll(victim);
@@ -60,7 +60,7 @@ internal static class PedShot
 
         if (damageInfo.BoneInfo.BodyRegion == BodyRegion.Arms)
         {
-            var rnd2 = new Random().Next(1, 3);
+            var rnd2 = new Random(DateTime.Now.Millisecond).Next(1, 3);
             victim.Health -= 30;
             Log.Info("" + Functions.GetPersonaForPed(victim).FullName +
                             " shot in arm - deducting 30 health.");

@@ -11,7 +11,7 @@
         <AssemblyName>PyroCommon</AssemblyName>
         <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
         <FileAlignment>512</FileAlignment>
-        <LangVersion>default</LangVersion>
+        <LangVersion>10.0</LangVersion>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
         <PlatformTarget>AnyCPU</PlatformTarget>
@@ -22,6 +22,7 @@
         <DefineConstants>DEBUG;TRACE</DefineConstants>
         <ErrorReport>prompt</ErrorReport>
         <WarningLevel>4</WarningLevel>
+        <LangVersion>10.0</LangVersion>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
         <PlatformTarget>AnyCPU</PlatformTarget>
@@ -31,12 +32,16 @@
         <DefineConstants>TRACE</DefineConstants>
         <ErrorReport>prompt</ErrorReport>
         <WarningLevel>4</WarningLevel>
+        <LangVersion>default</LangVersion>
     </PropertyGroup>
     <ItemGroup>
         <Reference Include="LSPD First Response, Version=0.4.8433.20359, Culture=neutral, processorArchitecture=MSIL">
           <HintPath>..\packages\PyroSpecial.1.0.1\lib\LSPD First Response.dll</HintPath>
         </Reference>
         <Reference Include="Microsoft.CSharp" />
+        <Reference Include="PolicingRedefined">
+          <HintPath>..\..\..\..\Games\Steam\steamapps\common\Grand Theft Auto V\plugins\LSPDFR\PolicingRedefined.dll</HintPath>
+        </Reference>
         <Reference Include="RAGENativeUI, Version=1.9.2.0, Culture=neutral, processorArchitecture=Amd64">
           <HintPath>..\packages\RAGENativeUI.1.9.2\lib\net472\RAGENativeUI.dll</HintPath>
         </Reference>
@@ -58,8 +63,12 @@
         <Compile Include="API\Location.cs" />
         <Compile Include="API\Log.cs" />
         <Compile Include="API\Locations.cs" />
+        <Compile Include="API\EntityExtensions.cs" />
+        <Compile Include="API\Particles.cs" />
         <Compile Include="API\PyroFunctions.cs" />
         <Compile Include="API\Wrapper.cs" />
+        <Compile Include="API\Wrappers\Backup.cs" />
+        <Compile Include="API\Wrappers\PedInfo.cs" />
         <Compile Include="Dependency.cs" />
         <Compile Include="Main.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />

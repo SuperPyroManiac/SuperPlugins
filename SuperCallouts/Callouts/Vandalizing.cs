@@ -17,7 +17,7 @@ internal class Vandalizing : SuperCallout
     private Vehicle _cVehicle;
     private Ped _bad;
     private Blip _cBlip;
-    private int _rNd = new Random().Next(2);
+    private int _rNd = new Random(DateTime.Now.Millisecond).Next(2);
     
     internal override void CalloutPrep()
     {
@@ -43,7 +43,7 @@ internal class Vandalizing : SuperCallout
         _bad.BlockPermanentEvents = true;
         _bad.Metadata.stpDrugsDetected = true;
         _bad.Metadata.stpAlcoholDetected = true;
-        PyroFunctions.SetDrunk(_bad, true);
+        PyroFunctions.SetDrunkOld(_bad, true);
         EntitiesToClear.Add(_bad);
 
         _cBlip = _bad.AttachBlip();

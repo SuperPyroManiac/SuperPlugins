@@ -44,7 +44,7 @@ internal class StolenDumptruck : SuperCallout
         _bad.BlockPermanentEvents = true;
         _bad.Metadata.stpDrugsDetected = true;
         _bad.Metadata.stpAlcoholDetected = true;
-        PyroFunctions.SetDrunk(_bad, true);
+        PyroFunctions.SetDrunkOld(_bad, true);
         EntitiesToClear.Add(_bad);
 
         _cBlip = _bad.AttachBlip();

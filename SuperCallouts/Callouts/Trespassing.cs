@@ -19,7 +19,7 @@ namespace SuperCallouts.Callouts;
 [CalloutInterface("[SC] Trespassing", CalloutProbability.Medium, "Aggressive person damaging property", "Code 3")]
 internal class Trespassing : SuperCallout
 {
-    private readonly int _cScene = new Random().Next(0, 4);
+    private readonly int _cScene = new Random(DateTime.Now.Millisecond).Next(0, 4);
 
     private readonly List<Tuple<Vector3, float>> _locations = new()
     {
@@ -65,7 +65,7 @@ internal class Trespassing : SuperCallout
 
         _suspect = new Ped(SpawnPoint.Position, SpawnPoint.Heading)
             { IsPersistent = true, BlockPermanentEvents = true };
-        PyroFunctions.SetDrunk(_suspect, true);
+        PyroFunctions.SetDrunkOld(_suspect, true);
         _suspect.Metadata.stpAlcoholDetected = true;
         _name = Functions.GetPersonaForPed(_suspect).FullName;
         _suspect.Tasks.Cower(-1);

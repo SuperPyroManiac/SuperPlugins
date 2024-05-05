@@ -48,7 +48,7 @@ internal class HotPursuit : SuperCallout
 
         Model[] vehicleModels =
             { "THRAX", "TORERO2", "CHAMPION", "ENTITY3", "THRAX", "FMJ", "ZORRUSSO", "TIGON", "FURIA" };
-        _cVehicle = new Vehicle(vehicleModels[new Random().Next(vehicleModels.Length)], SpawnPoint.Position)
+        _cVehicle = new Vehicle(vehicleModels[new Random(DateTime.Now.Millisecond).Next(vehicleModels.Length)], SpawnPoint.Position)
             { IsPersistent = true, IsStolen = true };
         _cVehicle.Metadata.searchDriver = "~r~exposed console wires~s~, ~y~wire cutters~s~";
         _cVehicle.Metadata.searchPassenger = "~r~empty beer cans~s~, ~r~opened box of ammo~s~";
@@ -65,7 +65,7 @@ internal class HotPursuit : SuperCallout
             "~r~pistol~s~, ~r~used meth pipe~s~, ~y~hotwire tools~s~, ~g~suspicious taco~s~, ~g~wallet~s~";
         _bad1.Metadata.hasGunPermit = false;
         PyroFunctions.SetWanted(_bad1, true);
-        PyroFunctions.SetDrunk(_bad1, true);
+        PyroFunctions.SetDrunkOld(_bad1, true);
         _bad1.Tasks.CruiseWithVehicle(_cVehicle, 10f, VehicleDrivingFlags.Normal);
         EntitiesToClear.Add(_bad1);
 
@@ -75,7 +75,7 @@ internal class HotPursuit : SuperCallout
         _bad2.BlockPermanentEvents = true;
         _name2 = Functions.GetPersonaForPed(_bad2).FullName;
         _bad2.Metadata.stpAlcoholDetected = true;
-        PyroFunctions.SetDrunk(_bad2, true);
+        PyroFunctions.SetDrunkOld(_bad2, true);
         EntitiesToClear.Add(_bad2);
 
         _speakSuspect = new UIMenuItem("Speak with ~y~" + _name1);

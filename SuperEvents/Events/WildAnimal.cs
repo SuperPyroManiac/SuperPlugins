@@ -20,7 +20,7 @@ internal class WildAnimal : AmbientEvent
         _spawnPoint = World.GetNextPositionOnStreet(Player.Position.Around(150f));
         EventLocation = _spawnPoint;
         Model[] meanAnimal = { "A_C_MTLION", "A_C_COYOTE" };
-        _animal = new Ped(meanAnimal[new Random().Next(meanAnimal.Length)], _spawnPoint, 50) { IsPersistent = true };
+        _animal = new Ped(meanAnimal[new Random(DateTime.Now.Millisecond).Next(meanAnimal.Length)], _spawnPoint, 50) { IsPersistent = true };
     }
 
     protected override void OnProcess()

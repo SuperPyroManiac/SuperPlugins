@@ -67,7 +67,7 @@ internal class PulloverShooting : AmbientEvent
 
                     break;
                 case Tasks.OnScene:
-                    var choice = new Random().Next(1, 4);
+                    var choice = new Random(DateTime.Now.Millisecond).Next(1, 4);
                     Log.Info("PulloverShooting event picked scenerio #" + choice);
                     switch (choice)
                     {

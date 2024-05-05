@@ -5,6 +5,7 @@ using CalloutInterfaceAPI;
 using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.API;
 using Rage;
+using Rage.Native;
 using Functions = LSPD_First_Response.Mod.API.Functions;
 
 #endregion
@@ -16,9 +17,9 @@ internal class Fire : SuperCallout
 {
     private Blip _cBlip;
     private Vehicle _cVehicle;
-    private float _spawnPointH;
+    private int CarSmokePTFX;
     internal override Location SpawnPoint { get; set; } = PyroFunctions.GetSideOfRoad(750, 180);
-    internal override float OnSceneDistance { get; set; } = 35;
+    internal override float OnSceneDistance { get; set; } = 85;
     internal override string CalloutName { get; set; } = "Fire";
 
     internal override void CalloutPrep()
@@ -34,20 +35,26 @@ internal class Fire : SuperCallout
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Fire",
             "Reports of a car fire, respond ~r~CODE-3");
 
-        PyroFunctions.SpawnAnyCar(out _cVehicle, SpawnPoint.Position);
-        _cVehicle.Heading = _spawnPointH;
+        _cVehicle = PyroFunctions.SpawnCar(SpawnPoint);
         EntitiesToClear.Add(_cVehicle);
 
-        _cBlip = _cVehicle.AttachBlip();
-        _cBlip.Color = Color.Red;
-        _cBlip.EnableRoute(Color.Red);
+        _cBlip = PyroFunctions.CreateSearchBlip(SpawnPoint, Color.Red, true, true, 40f);
         BlipsToClear.Add(_cBlip);
     }
 
     internal override void CalloutOnScene()
     {
+        _cBlip.Position = SpawnPoint.Position;
+        _cBlip.Scale = 20;
         _cBlip.DisableRoute();
-        for (var i = 0; i < 5; i++) PyroFunctions.FireControl(SpawnPoint.Position.Around2D(1f, 5f), 24, true);
-        for (var i = 0; i < 10; i++) PyroFunctions.FireControl(SpawnPoint.Position.Around2D(1f, 5f), 24, false);
+        
+        _cVehicle.StartFire(true);
+        // for (var i = 0; i < 5; i++) PyroFunctions.FireControl(SpawnPoint.Position.Around2D(1f, 5f), 24, true);
+        // for (var i = 0; i < 10; i++) PyroFunctions.FireControl(SpawnPoint.Position.Around2D(1f, 5f), 24, false);
+    }
+
+    internal override void CalloutEnd(bool forceCleanup = false)
+    {
+        base.CalloutEnd(forceCleanup);
     }
 }

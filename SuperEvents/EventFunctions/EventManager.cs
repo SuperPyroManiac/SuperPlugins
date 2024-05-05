@@ -94,7 +94,7 @@ public static class EventManager
     private static void StartRandomEvent()
     {
         Log.Info("Generating random event.");
-        var rnD = new Random().Next(RegisteredEvents.Count);
+        var rnD = new Random(DateTime.Now.Millisecond).Next(RegisteredEvents.Count);
         var eventType = RegisteredEvents[rnD];
         StartEvent(eventType);
     }

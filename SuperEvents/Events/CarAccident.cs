@@ -13,7 +13,7 @@ namespace SuperEvents.Events;
 [EventInfo("Car Accident", "Investigate the scene.")]
 internal class CarAccident : AmbientEvent
 {
-    private readonly int _choice = new Random().Next(0, 5);
+    private readonly int _choice = new Random(DateTime.Now.Millisecond).Next(0, 5);
     private Ped _ePed;
     private Ped _ePed2;
     private Vehicle _eVehicle;
@@ -198,7 +198,7 @@ internal class CarAccident : AmbientEvent
             };
             var dialogIndex1 = 0;
             var dialogIndex2 = 0;
-            var dialogOutcome = new Random().Next(0, 101);
+            var dialogOutcome = new Random(DateTime.Now.Millisecond).Next(0, 101);
             var stillTalking = true;
 
             if (Player.DistanceTo(_ePed) > 5f)
@@ -258,7 +258,7 @@ internal class CarAccident : AmbientEvent
             };
             var dialogIndex1 = 0;
             var dialogIndex2 = 0;
-            var dialogOutcome = new Random().Next(0, 101);
+            var dialogOutcome = new Random(DateTime.Now.Millisecond).Next(0, 101);
             var stillTalking = true;
 
             if (Player.DistanceTo(_ePed2) > 5f)

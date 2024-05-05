@@ -15,7 +15,7 @@ namespace SuperCallouts.Callouts;
 [CalloutInterface("[SC] Car Accident3", CalloutProbability.Medium, "Reports of a vehicle crash, limited details", "Code 3")]
 internal class CarAccident3 : SuperCallout
 {
-    private readonly int _choice = new Random().Next(0, 4);
+    private readonly int _choice = new Random(DateTime.Now.Millisecond).Next(0, 4);
     private Blip _eBlip;
     private Ped _ePed;
     private Ped _ePed2;

@@ -17,7 +17,7 @@ internal static class PlayerShot
     {
         if (Player.IsDead) return;
         if (damageInfo.WeaponInfo.Group != DamageGroup.Bullet) return;
-        var rnd = new Random().Next(1, 5);
+        var rnd = new Random(DateTime.Now.Millisecond).Next(1, 5);
         if (Settings.EnableDebug)
         {
             // Game.DisplayHelp(
@@ -68,7 +68,7 @@ internal static class PlayerShot
 
         if (damageInfo.BoneInfo.BodyRegion == BodyRegion.Legs)
         {
-            var rnd2 = new Random().Next(1, 3);
+            var rnd2 = new Random(DateTime.Now.Millisecond).Next(1, 3);
             Player.Health -= 30;
             Log.Info("Player shot in leg - deducting 30 health.");
             if (rnd2 == 2)

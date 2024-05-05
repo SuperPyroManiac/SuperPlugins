@@ -36,6 +36,7 @@ internal class Main : Plugin
             Log.Info($"PyroCommon, Version: {new Version(FileVersionInfo.GetVersionInfo("PyroCommon.dll").FileVersion)}");
             Log.Info($"RageNativeUI, Version: {new Version(FileVersionInfo.GetVersionInfo("RageNativeUI.dll").FileVersion)}");
             Log.Info($"Using Ultimate Backup: {PyroCommon.Main.UsingUb}");
+            Log.Info($"Using Policing Redefined: {PyroCommon.Main.UsingPr}");
             Log.Info("======================================================");
             PluginRunning = true;
             RegisterAllEvents();
@@ -46,6 +47,8 @@ internal class Main : Plugin
                 "SuperEvents version: " + Assembly.GetExecutingAssembly().GetName().Version + " loaded.");
             _initFiber = GameFiber.StartNew(EventManager.InitEvents);
             EventInterface.StartInterface();
+            
+            PyroCommon.Main.InitCommon();
             GameFiber.StartNew(VersionChecker.IsUpdateAvailable);
         }
         else

@@ -16,7 +16,7 @@ internal class InjuredPed : AmbientEvent
     private float _spawnPointH;
     private string _name1;
     private string _name2;
-    private readonly int _choice = new Random().Next(1, 4);
+    private readonly int _choice = new Random(DateTime.Now.Millisecond).Next(1, 4);
 
     private Tasks _tasks = Tasks.CheckDistance;
 

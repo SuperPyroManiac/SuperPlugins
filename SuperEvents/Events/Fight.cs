@@ -36,12 +36,12 @@ internal class Fight : AmbientEvent
 
         //Peds
         _suspect = new Ped(_spawnPoint) { IsPersistent = true, BlockPermanentEvents = true };
-        PyroFunctions.SetDrunk(_suspect, true);
+        PyroFunctions.SetDrunkOld(_suspect, true);
         _name1 = Functions.GetPersonaForPed(_suspect).FullName;
         _suspect.Metadata.stpAlcoholDetected = true;
         EntitiesToClear.Add(_suspect);
         _suspect2 = new Ped(_suspect.FrontPosition) { IsPersistent = true, BlockPermanentEvents = true };
-        PyroFunctions.SetDrunk(_suspect2, true);
+        PyroFunctions.SetDrunkOld(_suspect2, true);
         _name2 = Functions.GetPersonaForPed(_suspect2).FullName;
         _suspect2.Metadata.stpAlcoholDetected = true;
         NativeFunction.Natives.x5AD23D40115353AC(_suspect2, _suspect, -1);
@@ -71,7 +71,7 @@ internal class Fight : AmbientEvent
 
                     break;
                 case Tasks.OnScene:
-                    var choice = new Random().Next(1, 4);
+                    var choice = new Random(DateTime.Now.Millisecond).Next(1, 4);
                     Log.Info("Fight event picked scenerio #" + choice);
                     switch (choice)
                     {
@@ -150,7 +150,7 @@ internal class Fight : AmbientEvent
             };
             var dialogIndex1 = 0;
             var dialogIndex2 = 0;
-            var dialogOutcome = new Random().Next(0, 101);
+            var dialogOutcome = new Random(DateTime.Now.Millisecond).Next(0, 101);
             var stillTalking = true;
 
             if (Player.DistanceTo(_suspect) > 5f)
@@ -207,7 +207,7 @@ internal class Fight : AmbientEvent
             };
             var dialogIndex1 = 0;
             var dialogIndex2 = 0;
-            var dialogOutcome = new Random().Next(0, 101);
+            var dialogOutcome = new Random(DateTime.Now.Millisecond).Next(0, 101);
             var stillTalking = true;
 
             if (Player.DistanceTo(_suspect2) > 5f)

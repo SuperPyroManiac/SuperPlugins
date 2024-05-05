@@ -37,7 +37,7 @@ internal class StolenCopVehicle : SuperCallout
             "A suspect has stolen a police vehicle during his arrest. Respond ~r~CODE-3");
 
         Model[] vehicleModels = { "POLICE", "POLICE2", "POLICE3", "SHERIFF", "SHERIFF2" };
-        _cVehicle = new Vehicle(vehicleModels[new Random().Next(vehicleModels.Length)], SpawnPoint.Position)
+        _cVehicle = new Vehicle(vehicleModels[new Random(DateTime.Now.Millisecond).Next(vehicleModels.Length)], SpawnPoint.Position)
             { IsPersistent = true, IsStolen = true, IsSirenOn = true, IsSirenSilent = true };
         EntitiesToClear.Add(_cVehicle);
 
@@ -48,7 +48,7 @@ internal class StolenCopVehicle : SuperCallout
         _bad.Metadata.stpDrugsDetected = true;
         _bad.Metadata.stpAlcoholDetected = true;
         PyroFunctions.SetWanted(_bad, true);
-        PyroFunctions.SetDrunk(_bad, true);
+        PyroFunctions.SetDrunkOld(_bad, true);
         EntitiesToClear.Add(_bad);
 
         _cBlip = _bad.AttachBlip();

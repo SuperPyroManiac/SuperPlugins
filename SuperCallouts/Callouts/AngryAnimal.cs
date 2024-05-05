@@ -42,7 +42,7 @@ internal class AngryAnimal : SuperCallout
             "Details are unknown, get to the scene as soon as possible! Respond ~r~CODE-3");
 
         Model[] meanAnimal = { "A_C_MTLION", "A_C_COYOTE" };
-        _animal = new Ped(meanAnimal[new Random().Next(meanAnimal.Length)], SpawnPoint.Position, 50);
+        _animal = new Ped(meanAnimal[new Random(DateTime.Now.Millisecond).Next(meanAnimal.Length)], SpawnPoint.Position, 50);
         _animal.IsPersistent = true;
         _animal.BlockPermanentEvents = true;
         EntitiesToClear.Add(_animal);

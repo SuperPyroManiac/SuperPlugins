@@ -5,6 +5,7 @@ using System.Reflection;
 using LSPD_First_Response.Mod.API;
 using PyroCommon.API;
 using Rage;
+using Rage.Native;
 using SuperCallouts.Callouts;
 using SuperCallouts.RemasteredCallouts;
 using SuperCallouts.SimpleFunctions;
@@ -18,7 +19,7 @@ internal class Main : Plugin
         if (!DependChecker.Start()) return;
         Functions.OnOnDutyStateChanged += OnOnDutyStateChangedHandler;
         Settings.LoadSettings();
-        Game.AddConsoleCommands();
+        Game.AddConsoleCommands(new[] { typeof(ConsoleCommands) });
     }
 
     private void OnOnDutyStateChangedHandler(bool onDuty)
@@ -32,8 +33,11 @@ internal class Main : Plugin
             Log.Info($"RageNativeUI, Version: {new Version(FileVersionInfo.GetVersionInfo("RageNativeUI.dll").FileVersion)}");
             Log.Info($"CalloutInterfaceAPI, Version: {new Version(FileVersionInfo.GetVersionInfo("CalloutInterfaceAPI.dll").FileVersion)}");
             Log.Info($"Using Ultimate Backup: {PyroCommon.Main.UsingUb}");
+            Log.Info($"Using Policing Redefined: {PyroCommon.Main.UsingPr}");
             Log.Info("======================================================");
             RegisterCallouts();
+            
+            PyroCommon.Main.InitCommon();
             GameFiber.StartNew(VersionChecker.IsUpdateAvailable);
         }
         else

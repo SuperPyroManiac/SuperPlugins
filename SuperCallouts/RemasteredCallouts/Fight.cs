@@ -63,7 +63,7 @@ internal class Fight : SuperCallout
         _victim.BlockPermanentEvents = false;
         _suspect.BlockPermanentEvents = false;
 
-        switch (new Random().Next(1, 4))
+        switch (new Random(DateTime.Now.Millisecond).Next(1, 4))
         {
             case 1:
                 //TASK_AGITATED_ACTION_CONFRONT_RESPONSE(Ped ped, Ped ped2) // 0x19D1B791CB3670FE b877
@@ -79,7 +79,7 @@ internal class Fight : SuperCallout
                 _suspect.Tasks.FightAgainst(Player, 5);
                 break;
             case 3:
-                PyroFunctions.SetDrunk(_suspect, true);
+                PyroFunctions.SetDrunkOld(_suspect, true);
                 _victim.Tasks.Cower(-1);
                 var pursuit = Functions.CreatePursuit();
                 Functions.AddPedToPursuit(pursuit, _suspect);

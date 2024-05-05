@@ -44,7 +44,7 @@ internal class OpenCarry : SuperCallout
         _bad1.Inventory.GiveNewWeapon(WeaponHash.AdvancedRifle, -1, true);
         _bad1.Tasks.Wander();
         _name1 = Functions.GetPersonaForPed(_bad1).FullName;
-        PyroFunctions.SetDrunk(_bad1, true);
+        PyroFunctions.SetDrunkOld(_bad1, true);
         _bad1.Metadata.stpAlcoholDetected = true;
         _bad1.Metadata.hasGunPermit = false;
         _bad1.Metadata.searchPed = "~r~assaultrifle~s~, ~y~pocket knife~s~, ~g~wallet~s~";
@@ -77,7 +77,7 @@ internal class OpenCarry : SuperCallout
         NativeFunction.Natives.x5AD23D40115353AC(_bad1, Game.LocalPlayer.Character, -1);
         GameFiber.Wait(1000);
         _cBlip.DisableRoute();
-        var choices = new Random().Next(1, 6);
+        var choices = new Random(DateTime.Now.Millisecond).Next(1, 6);
         switch (choices)
         {
             case 1:

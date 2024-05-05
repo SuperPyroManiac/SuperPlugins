@@ -67,7 +67,7 @@ internal class RecklessDriver : AmbientEvent
                 case Tasks.CheckDistance:
                     if (Game.LocalPlayer.Character.DistanceTo(_spawnPoint) < 15f)
                     {
-                        var rrNd = new Random().Next(1, 3);
+                        var rrNd = new Random(DateTime.Now.Millisecond).Next(1, 3);
                         switch (rrNd)
                         {
                             case 1:
@@ -101,7 +101,7 @@ internal class RecklessDriver : AmbientEvent
 
                     break;
                 case Tasks.CheckPullover:
-                    var rNd = new Random().Next(1, 5);
+                    var rNd = new Random(DateTime.Now.Millisecond).Next(1, 5);
                     switch (rNd)
                     {
                         case 1:
@@ -114,7 +114,7 @@ internal class RecklessDriver : AmbientEvent
                             PyroFunctions.SetWanted(_ePed, true);
                             break;
                         case 3:
-                            PyroFunctions.SetDrunk(_ePed, true);
+                            PyroFunctions.SetDrunkOld(_ePed, true);
                             break;
                         case 4:
                             PyroFunctions.SetWanted(_ePed, false);

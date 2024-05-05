@@ -44,6 +44,8 @@ public class Main : Plugin
             if (Settings.EnablePulloverAi)
                 Events.OnPulloverStarted += CustomPullover.PulloverModule;
             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~r~DeadlyWeapons", "~g~Plugin Loaded.", "DeadlyWeapons version: " + Assembly.GetExecutingAssembly().GetName().Version + " loaded.");
+            
+            PyroCommon.Main.InitCommon();
             GameFiber.StartNew(VersionChecker.IsUpdateAvailable);
         }
         else

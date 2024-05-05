@@ -71,7 +71,7 @@ internal class CarAccident2 : SuperCallout
         _victim2.IsPersistent = true;
         _victim2.BlockPermanentEvents = true;
         _victim2.Tasks.LeaveVehicle(_cVehicle2, LeaveVehicleFlags.LeaveDoorOpen);
-        PyroFunctions.SetDrunk(_victim2, true);
+        PyroFunctions.SetDrunkOld(_victim2, true);
         _victim2.Metadata.searchPed = "~r~crushed beer can~s~, ~g~wallet~s~";
         _victim2.Metadata.stpAlcoholDetected = true;
         _name1 = Functions.GetPersonaForPed(_victim2).FullName;

@@ -20,7 +20,7 @@ internal class InjuredCop : SuperCallout
     private Ped _bad;
     private Vehicle _vehicle;
     private Blip _blip;
-    private int _rNd = new Random().Next(2);
+    private int _rNd = new Random(DateTime.Now.Millisecond).Next(2);
 
     internal override void CalloutPrep()
     {

@@ -13,10 +13,9 @@ using Functions = LSPD_First_Response.Mod.API.Functions;
 
 #endregion
 
-namespace SuperCallouts.Callouts;
+namespace SuperCallouts.RemasteredCallouts;
 
-[CalloutInterface("[SC] Suspicious Vehicle", CalloutProbability.Medium, "Reports of a suspicious vehicle, limited details",
-    "Code 2")]
+[CalloutInterface("[SC] Suspicious Vehicle", CalloutProbability.Medium, "Reports of a suspicious vehicle, limited details", "Code 2")]
 internal class WeirdCar : SuperCallout
 {
     private readonly Random _rNd = new();
@@ -26,7 +25,7 @@ internal class WeirdCar : SuperCallout
     private string _name;
     private UIMenuItem _speakSuspect;
     internal override Location SpawnPoint { get; set; } = PyroFunctions.GetSideOfRoad(750, 180);
-    internal override float OnSceneDistance { get; set; } = 30;
+    internal override float OnSceneDistance { get; set; } = 40;
     internal override string CalloutName { get; set; } = "Suspicious Vehicle";
 
     internal override void CalloutPrep()
@@ -41,9 +40,7 @@ internal class WeirdCar : SuperCallout
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Suspicious Vehicle",
             "Report of a suspicious vehicle on the side of the road. Respond ~y~CODE-2");
 
-        PyroFunctions.SpawnNormalCar(out _cVehicle1, SpawnPoint.Position);
-        _cVehicle1.Heading = SpawnPoint.Heading;
-        _cVehicle1.IsPersistent = true;
+        _cVehicle1 = PyroFunctions.SpawnCar(SpawnPoint);
         EntitiesToClear.Add(_cVehicle1);
 
         _cBlip1 = _cVehicle1.AttachBlip();
@@ -60,12 +57,13 @@ internal class WeirdCar : SuperCallout
         _cBlip1.DisableRoute();
         Game.DisplayNotification("Investigate the vehicle.");
         var choices = _rNd.Next(1, 4);
+        Log.Info("Suspicious vehicle scene: " + choices);
         switch (choices)
         {
             case 1:
                 PyroFunctions.DamageVehicle(_cVehicle1, 500, 500);
                 _cVehicle1.IsStolen = true;
-                CalloutInterfaceAPI.Functions.SendMessage(this, "Officer on scene.");
+                CalloutInterfaceAPI.Functions.SendMessage(this, "Officer on scene. Vehicle appears to be abandoned.");
                 break;
             case 2:
                 GameFiber.StartNew(delegate
@@ -78,8 +76,7 @@ internal class WeirdCar : SuperCallout
                     Game.DisplaySubtitle("~r~Driver:~s~ The world will end with fire!");
                     GameFiber.Wait(3000);
                     _cVehicle1.Explode();
-                    CalloutInterfaceAPI.Functions.SendMessage(this, "Officer on scene.");
-                    CalloutInterfaceAPI.Functions.SendMessage(this, "Vehicle explosion.");
+                    CalloutInterfaceAPI.Functions.SendMessage(this, "Officer on scene, we have a vehicle explosion!");
                 });
                 break;
             case 3:
@@ -87,10 +84,10 @@ internal class WeirdCar : SuperCallout
                 _bad1.IsPersistent = true;
                 _bad1.BlockPermanentEvents = true;
                 _name = Functions.GetPersonaForPed(_bad1).FullName;
+                _speakSuspect.Enabled = true;
                 PyroFunctions.SetWanted(_bad1, true);
                 _cVehicle1.IsStolen = true;
-                CalloutInterfaceAPI.Functions.SendMessage(this, "Officer on scene.");
-                _speakSuspect.Enabled = true;
+                CalloutInterfaceAPI.Functions.SendMessage(this, "Officer on scene. Vehicle appears to be occupied.");
                 break;
             default:
                 Game.DisplayNotification(
@@ -106,14 +103,13 @@ internal class WeirdCar : SuperCallout
             GameFiber.StartNew(delegate
             {
                 _speakSuspect.Enabled = false;
-                Game.DisplaySubtitle("~g~You~s~: We have reports of suspicious activity here, what's going on?",
-                    5000);
+                Game.DisplaySubtitle("~g~You~s~: Hey there! We have reports of suspicious activity here, what's going on?", 5000);
                 _bad1.Tasks.LeaveVehicle(_cVehicle1, LeaveVehicleFlags.LeaveDoorOpen);
                 GameFiber.Wait(5000);
+                //TASK_TURN_PED_TO_FACE_ENTITY(Ped ped, Entity entity, int duration) // 0x5AD23D40115353AC 0x3C37C767 b323
                 NativeFunction.Natives.x5AD23D40115353AC(_bad1, Game.LocalPlayer.Character, -1);
                 _bad1.PlayAmbientSpeech("GENERIC_CURSE_MED");
-                Game.DisplaySubtitle(
-                    "~r~" + _name + "~s~: Nothing is wrong sir, I don't know why you got that idea.", 5000);
+                Game.DisplaySubtitle("~r~" + _name + "~s~: Nothing is wrong sir, I don't know why you got that idea.", 5000);
             });
         base.Conversations(sender, selItem, index);
     }

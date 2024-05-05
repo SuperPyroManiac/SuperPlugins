@@ -83,7 +83,6 @@ internal class Aliens : SuperCallout
         GameFiber.Wait(500);
         _cVehicle1.Velocity = new Vector3(0, 0, 70);
         GameFiber.Wait(500);
-        Game.DisplaySubtitle("~g~Me:~s~ The hell was that? I think I need a nap..");
         CalloutEnd(true);
     }
 }

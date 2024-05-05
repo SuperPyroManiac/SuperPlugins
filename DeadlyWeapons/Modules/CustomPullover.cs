@@ -12,7 +12,7 @@ internal static class CustomPullover
         var bad = Functions.GetPulloverSuspect(handler);
         var checking = true;
         var hasWeapon = false;
-        var rNd = new Random().Next(1, 8);
+        var rNd = new Random(DateTime.Now.Millisecond).Next(1, 8);
         var checkFiber = new GameFiber(delegate
         {
             while (checking)

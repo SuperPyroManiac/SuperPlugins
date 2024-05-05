@@ -18,7 +18,7 @@ namespace SuperCallouts.Callouts;
     "Code 3")]
 internal class KnifeAttack : SuperCallout
 {
-    private readonly int _cScene = new Random().Next(1, 4);
+    private readonly int _cScene = new Random(DateTime.Now.Millisecond).Next(1, 4);
 
     private readonly List<Tuple<Vector3, float>> _locations = new()
     {

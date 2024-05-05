@@ -81,7 +81,7 @@ internal class Impersonator : SuperCallout
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Suspicious Pullover",
             "Be advised, caller has been instructed to leave scene by the dispatcher.");
         Game.DisplayHelp($"Press ~{Settings.Interact.GetInstructionalId()}~ to open interaction menu.");
-        var rNd = new Random();
+        var rNd = new Random(DateTime.Now.Millisecond);
         var choices = rNd.Next(1, 4);
         switch (choices)
         {

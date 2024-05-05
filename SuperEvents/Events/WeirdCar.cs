@@ -45,7 +45,7 @@ internal class WeirdCar : AmbientEvent
 
                     break;
                 case Tasks.OnScene:
-                    var choice = new Random().Next(1, 7);
+                    var choice = new Random(DateTime.Now.Millisecond).Next(1, 7);
                     Log.Info("Abandoned Vehicle event picked scenario #" + choice);
                     switch (choice)
                     {

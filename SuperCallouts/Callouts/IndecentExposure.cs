@@ -16,7 +16,7 @@ internal class IndecentExposure : SuperCallout
     internal override string CalloutName { get; set; } = "Indecent Exposure";
     private Ped _naked;
     private Blip _blip;
-    private readonly int _rNd = new Random().Next(1);
+    private readonly int _rNd = new Random(DateTime.Now.Millisecond).Next(1);
 
     internal override void CalloutPrep()
     {
@@ -31,7 +31,7 @@ internal class IndecentExposure : SuperCallout
             "Reports of a person running around outside naked. Respond ~y~CODE-2");
 
         var models = new[] { "a_m_m_acult_01", "a_f_m_fatcult_01" };
-        _naked = new Ped(models[new Random().Next(models.Length)], SpawnPoint.Position, 0);
+        _naked = new Ped(models[new Random(DateTime.Now.Millisecond).Next(models.Length)], SpawnPoint.Position, 0);
         _naked.IsPersistent = true;
         _naked.BlockPermanentEvents = true;
         _naked.Tasks.Wander();
@@ -55,7 +55,7 @@ internal class IndecentExposure : SuperCallout
                 Functions.SetPursuitIsActiveForPlayer(pursuit, true);
                 break;
             case 1:
-                PyroFunctions.SetDrunk(_naked, true);
+                PyroFunctions.SetDrunkOld(_naked, true);
                 _naked.Tasks.FightAgainst(Player, -1);
                 break;
         }
