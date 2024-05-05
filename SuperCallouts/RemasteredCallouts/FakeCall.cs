@@ -9,7 +9,7 @@ using Functions = LSPD_First_Response.Mod.API.Functions;
 
 #endregion
 
-namespace SuperCallouts.Callouts;
+namespace SuperCallouts.RemasteredCallouts;
 
 [CalloutInterface("[SC] Call Dropped", CalloutProbability.Medium, "911 call dropped - conduct wellness check", "LOW")]
 internal class FakeCall : SuperCallout
@@ -33,10 +33,7 @@ internal class FakeCall : SuperCallout
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~y~Call Dropped",
             "Caller disconnected from call quickly. Unable to reach them back. Last location recorded, respond to the last known location. ~r~CODE-2");
 
-        _cBlip = new Blip(SpawnPoint.Position, 30f);
-        _cBlip.Color = Color.Red;
-        _cBlip.Alpha /= 2;
-        _cBlip.Name = "Scene";
+        _cBlip = PyroFunctions.CreateSearchBlip(SpawnPoint, Color.Yellow, true, false, 40f);
         BlipsToClear.Add(_cBlip);
     }
 

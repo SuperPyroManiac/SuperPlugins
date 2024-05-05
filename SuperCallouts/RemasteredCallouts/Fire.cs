@@ -4,14 +4,12 @@ using System.Drawing;
 using CalloutInterfaceAPI;
 using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.API;
-using PyroCommon.API.Wrappers;
 using Rage;
-using Rage.Native;
 using Functions = LSPD_First_Response.Mod.API.Functions;
 
 #endregion
 
-namespace SuperCallouts.Callouts;
+namespace SuperCallouts.RemasteredCallouts;
 
 [CalloutInterface("[SC] Fire", CalloutProbability.Medium, "Reports of a vehicle fire", "Code 3")]
 internal class Fire : SuperCallout

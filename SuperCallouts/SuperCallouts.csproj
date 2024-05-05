@@ -42,10 +42,8 @@
         <Compile Include="Callouts\CarAccident2.cs" />
         <Compile Include="Callouts\CarAccident3.cs" />
         <Compile Include="Callouts\DeadBody.cs" />
-        <Compile Include="Callouts\FakeCall.cs" />
         <Compile Include="Callouts\HitRun.cs" />
         <Compile Include="Callouts\HotPursuit.cs" />
-        <Compile Include="Callouts\IllegalParking.cs" />
         <Compile Include="Callouts\Impersonator.cs" />
         <Compile Include="Callouts\IndecentExposure.cs" />
         <Compile Include="Callouts\InjuredCop.cs" />
@@ -80,8 +78,10 @@
         <Compile Include="Main.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
         <Compile Include="RemasteredCallouts\Aliens.cs" />
+        <Compile Include="RemasteredCallouts\FakeCall.cs" />
         <Compile Include="RemasteredCallouts\Fight.cs" />
         <Compile Include="RemasteredCallouts\Fire.cs" />
+        <Compile Include="RemasteredCallouts\IllegalParking.cs" />
         <Compile Include="RemasteredCallouts\WeirdCar.cs" />
         <Compile Include="Settings.cs" />
         <Compile Include="SimpleFunctions\ConsoleCommands.cs" />

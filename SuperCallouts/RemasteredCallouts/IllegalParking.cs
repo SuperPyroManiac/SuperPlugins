@@ -9,7 +9,7 @@ using Functions = LSPD_First_Response.Mod.API.Functions;
 
 #endregion
 
-namespace SuperCallouts.Callouts;
+namespace SuperCallouts.RemasteredCallouts;
 
 [CalloutInterface("[SC] Illegal Parking", CalloutProbability.Medium, "Reports of a vehicle parked illegally", "LOW")]
 internal class IllegalParking : SuperCallout
@@ -33,17 +33,17 @@ internal class IllegalParking : SuperCallout
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~y~Traffic",
             "Reports of an empty vehicle on private property, respond ~g~CODE-1");
 
-        PyroFunctions.SpawnNormalCar(out _cVehicle, SpawnPoint.Position, SpawnPoint.Heading);
+        _cVehicle = PyroFunctions.SpawnCar(SpawnPoint);
         EntitiesToClear.Add(_cVehicle);
 
-        _cBlip = _cVehicle.AttachBlip();
-        _cBlip.Color = Color.DodgerBlue;
-        _cBlip.EnableRoute(Color.DodgerBlue);
+        _cBlip = PyroFunctions.CreateSearchBlip(SpawnPoint, Color.Yellow, true, true, 40f);
         BlipsToClear.Add(_cBlip);
     }
 
     internal override void CalloutOnScene()
     {
+        _cBlip.Position = SpawnPoint.Position;
+        _cBlip.Scale = 20;
         _cBlip.DisableRoute();
     }
 }
