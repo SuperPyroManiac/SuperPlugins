@@ -3,6 +3,7 @@ using System.Drawing;
 using CalloutInterfaceAPI;
 using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.API;
+using PyroCommon.API.Wrappers;
 using Rage;
 using Rage.Native;
 using Functions = LSPD_First_Response.Mod.API.Functions;
@@ -33,7 +34,9 @@ internal class Fight : SuperCallout
             "Caller reports two people fighting in the street, respond ~r~CODE-3");
 
         _victim = PyroFunctions.SpawnPed(SpawnPoint);
+        _victim.RelationshipGroup = new RelationshipGroup("VICTIM");
         _suspect = PyroFunctions.SpawnPed(new Location(SpawnPoint.Position.Around2D(1.5f)));
+        _suspect.RelationshipGroup = new RelationshipGroup("SUSPECT");
         EntitiesToClear.Add(_victim);
         EntitiesToClear.Add(_suspect);
 
@@ -66,6 +69,8 @@ internal class Fight : SuperCallout
         switch (new Random(DateTime.Now.Millisecond).Next(1, 4))
         {
             case 1:
+                Game.SetRelationshipBetweenRelationshipGroups("SUSPECT", "VICTIM", Relationship.Dislike);
+                Game.SetRelationshipBetweenRelationshipGroups("VICTIM", "SUSPECT", Relationship.Dislike);
                 //TASK_AGITATED_ACTION_CONFRONT_RESPONSE(Ped ped, Ped ped2) // 0x19D1B791CB3670FE b877
                 NativeFunction.Natives.x19D1B791CB3670FE(_suspect, _victim);
                 GameFiber.Wait(2000);
@@ -73,13 +78,14 @@ internal class Fight : SuperCallout
                 break;
             case 2:
                 _victim.Tasks.Cower(-1);
+                Game.SetRelationshipBetweenRelationshipGroups("SUSPECT", "COP", Relationship.Dislike);
                 //TASK_AGITATED_ACTION_CONFRONT_RESPONSE(Ped ped, Ped ped2) // 0x19D1B791CB3670FE b877
                 NativeFunction.Natives.x19D1B791CB3670FE(_suspect, Player);
                 GameFiber.Wait(2000);
                 _suspect.Tasks.FightAgainst(Player, 5);
                 break;
             case 3:
-                PyroFunctions.SetDrunkOld(_suspect, true);
+                _suspect.SetDrunk(PedInfo.DrunkState.ExtremelyDrunk);
                 _victim.Tasks.Cower(-1);
                 var pursuit = Functions.CreatePursuit();
                 Functions.AddPedToPursuit(pursuit, _suspect);
