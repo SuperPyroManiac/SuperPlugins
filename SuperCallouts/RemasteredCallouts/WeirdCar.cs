@@ -5,8 +5,8 @@ using System.Drawing;
 using CalloutInterfaceAPI;
 using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.API;
+using PyroCommon.API.Wrappers;
 using Rage;
-using Rage.Native;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using Functions = LSPD_First_Response.Mod.API.Functions;
@@ -61,7 +61,7 @@ internal class WeirdCar : SuperCallout
         switch (choices)
         {
             case 1:
-                PyroFunctions.DamageVehicle(_cVehicle1, 500, 500);
+                _cVehicle1.ApplyDamage(500, 500);
                 _cVehicle1.IsStolen = true;
                 CalloutInterfaceAPI.Functions.SendMessage(this, "Officer on scene. Vehicle appears to be abandoned.");
                 break;
@@ -72,7 +72,9 @@ internal class WeirdCar : SuperCallout
                     _bad1 = _cVehicle1.CreateRandomDriver();
                     _bad1.IsPersistent = true;
                     _bad1.BlockPermanentEvents = true;
-                    _bad1.Tasks.LeaveVehicle(LeaveVehicleFlags.LeaveDoorOpen);
+                    _bad1.SetDrunk(PedInfo.DrunkState.Sloshed);
+                    _bad1.Tasks.LeaveVehicle(LeaveVehicleFlags.LeaveDoorOpen).WaitForCompletion();
+                    _bad1.Tasks.FaceEntity(Player, -1);
                     Game.DisplaySubtitle("~r~Driver:~s~ The world will end with fire!");
                     GameFiber.Wait(3000);
                     _cVehicle1.Explode();
@@ -83,9 +85,9 @@ internal class WeirdCar : SuperCallout
                 _bad1 = _cVehicle1.CreateRandomDriver();
                 _bad1.IsPersistent = true;
                 _bad1.BlockPermanentEvents = true;
+                _bad1.SetWanted(true);
                 _name = Functions.GetPersonaForPed(_bad1).FullName;
                 _speakSuspect.Enabled = true;
-                PyroFunctions.SetWanted(_bad1, true);
                 _cVehicle1.IsStolen = true;
                 CalloutInterfaceAPI.Functions.SendMessage(this, "Officer on scene. Vehicle appears to be occupied.");
                 break;
@@ -106,8 +108,7 @@ internal class WeirdCar : SuperCallout
                 Game.DisplaySubtitle("~g~You~s~: Hey there! We have reports of suspicious activity here, what's going on?", 5000);
                 _bad1.Tasks.LeaveVehicle(_cVehicle1, LeaveVehicleFlags.LeaveDoorOpen);
                 GameFiber.Wait(5000);
-                //TASK_TURN_PED_TO_FACE_ENTITY(Ped ped, Entity entity, int duration) // 0x5AD23D40115353AC 0x3C37C767 b323
-                NativeFunction.Natives.x5AD23D40115353AC(_bad1, Game.LocalPlayer.Character, -1);
+                _bad1.Tasks.FaceEntity(Player, -1);
                 _bad1.PlayAmbientSpeech("GENERIC_CURSE_MED");
                 Game.DisplaySubtitle("~r~" + _name + "~s~: Nothing is wrong sir, I don't know why you got that idea.", 5000);
             });
