@@ -1,6 +1,5 @@
 #region
 
-using System.Globalization;
 using System.Reflection;
 using PyroCommon.API;
 using Rage;

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Drawing;
-using System.Runtime.InteropServices;
 using CalloutInterfaceAPI;
-using LSPD_First_Response.Mod.API;
 using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.API;
 using Rage;

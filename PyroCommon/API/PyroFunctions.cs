@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using LSPD_First_Response.Mod.API;
+using PyroCommon.API.Wrappers;
 using Rage;
 using Rage.Native;
 using RAGENativeUI;
@@ -11,6 +12,23 @@ namespace PyroCommon.API;
 
 public abstract class PyroFunctions
 {
+    public static void AddDrugItem(string item, Enums.DrugType drugType, Enums.ItemLocation itemLocation = Enums.ItemLocation.Anywhere, Ped ped = null, Vehicle vehicle = null)
+    {
+        if (Main.UsingPr) SearchItems.AddDrugItem(item, drugType, itemLocation, ped, vehicle);
+    }
+    public static void AddWeaponItem(string item, string weaponId, Enums.ItemLocation itemLocation = Enums.ItemLocation.Anywhere, Ped ped = null, Vehicle vehicle = null)
+    {
+        if (Main.UsingPr) SearchItems.AddWeaponItem(item, weaponId, itemLocation, ped, vehicle);
+    }
+    public static void AddFirearmItem(string item, string weaponId, bool visible, bool stolen, Enums.ItemLocation itemLocation = Enums.ItemLocation.Anywhere, Ped ped = null, Vehicle vehicle = null)
+    {
+        if (Main.UsingPr) SearchItems.AddFirearmItem(item, weaponId, visible, stolen, itemLocation, ped, vehicle);
+    }
+    public static void AddSearchItem(string item, Enums.ItemLocation itemLocation = Enums.ItemLocation.Anywhere, Ped ped = null, Vehicle vehicle = null)
+    {
+        if (Main.UsingPr) SearchItems.AddSearchItem(item, itemLocation, ped, vehicle);
+    }
+    
     public static Vehicle SpawnCar(Location location)
     {
         Model[] vehicleModels =
@@ -189,7 +207,7 @@ public abstract class PyroFunctions
     }
     
     [Obsolete("Method is deprecated, please use Ped.SetDrunk instead.")]
-    public static void SetDrunk(Ped ped, Wrappers.PedInfo.DrunkState drunkState)
+    public static void SetDrunk(Ped ped, Enums.DrunkState drunkState)
     {
         GameFiber.StartNew(delegate
         {

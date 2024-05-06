@@ -40,13 +40,11 @@ internal class OpenCarry : SuperCallout
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Person With Gun",
             "Reports of a person walking around with an assault rifle. Respond ~y~CODE-2");
 
-        _bad1 = new Ped(SpawnPoint.Position) { IsPersistent = true };
+        _bad1 = PyroFunctions.SpawnPed(SpawnPoint);
         _bad1.Inventory.GiveNewWeapon(WeaponHash.AdvancedRifle, -1, true);
-        _bad1.Tasks.Wander();
         _name1 = Functions.GetPersonaForPed(_bad1).FullName;
-        PyroFunctions.SetDrunkOld(_bad1, true);
-        _bad1.Metadata.stpAlcoholDetected = true;
-        _bad1.Metadata.hasGunPermit = false;
+        _bad1.SetDrunk(Enums.DrunkState.ModeratelyDrunk);
+        _bad1.SetLicenseStatus(Enums.Permits.Guns, Enums.PermitStatus.None);
         _bad1.Metadata.searchPed = "~r~assaultrifle~s~, ~y~pocket knife~s~, ~g~wallet~s~";
         EntitiesToClear.Add(_bad1);
 

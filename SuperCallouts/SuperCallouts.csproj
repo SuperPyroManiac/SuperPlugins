@@ -57,7 +57,6 @@
         <Compile Include="Callouts\Mafia4.cs" />
         <Compile Include="Callouts\Manhunt.cs" />
         <Compile Include="Callouts\OfficerShootout.cs" />
-        <Compile Include="Callouts\OpenCarry.cs" />
         <Compile Include="Callouts\PrisonBreak.cs" />
         <Compile Include="Callouts\Robbery.cs" />
         <Compile Include="Callouts\StolenCopVehicle.cs" />
@@ -81,6 +80,7 @@
         <Compile Include="RemasteredCallouts\Fight.cs" />
         <Compile Include="RemasteredCallouts\Fire.cs" />
         <Compile Include="RemasteredCallouts\IllegalParking.cs" />
+        <Compile Include="RemasteredCallouts\OpenCarry.cs" />
         <Compile Include="RemasteredCallouts\PrisonTransport.cs" />
         <Compile Include="RemasteredCallouts\WeirdCar.cs" />
         <Compile Include="Settings.cs" />

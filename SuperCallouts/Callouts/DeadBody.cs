@@ -3,8 +3,6 @@
 using System;
 using System.Drawing;
 using CalloutInterfaceAPI;
-using LSPD_First_Response;
-using LSPD_First_Response.Engine.Scripting.Entities;
 using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.API;
 using Rage;

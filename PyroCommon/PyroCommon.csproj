@@ -40,7 +40,7 @@
         </Reference>
         <Reference Include="Microsoft.CSharp" />
         <Reference Include="PolicingRedefined">
-          <HintPath>..\..\..\..\Games\Steam\steamapps\common\Grand Theft Auto V\plugins\LSPDFR\PolicingRedefined.dll</HintPath>
+          <HintPath>..\..\..\Depend\LSPDFR\PolicingRedefined.dll</HintPath>
         </Reference>
         <Reference Include="RAGENativeUI, Version=1.9.2.0, Culture=neutral, processorArchitecture=Amd64">
           <HintPath>..\packages\RAGENativeUI.1.9.2\lib\net472\RAGENativeUI.dll</HintPath>
@@ -60,6 +60,7 @@
     </ItemGroup>
     <ItemGroup>
         <Compile Include="API\DependManager.cs" />
+        <Compile Include="API\Enums.cs" />
         <Compile Include="API\Location.cs" />
         <Compile Include="API\Log.cs" />
         <Compile Include="API\Locations.cs" />
@@ -69,6 +70,7 @@
         <Compile Include="API\Wrapper.cs" />
         <Compile Include="API\Wrappers\Backup.cs" />
         <Compile Include="API\Wrappers\PedInfo.cs" />
+        <Compile Include="API\Wrappers\SearchItems.cs" />
         <Compile Include="Dependency.cs" />
         <Compile Include="Main.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />

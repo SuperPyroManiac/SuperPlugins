@@ -3,7 +3,6 @@ using System.Drawing;
 using CalloutInterfaceAPI;
 using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.API;
-using PyroCommon.API.Wrappers;
 using Rage;
 using Rage.Native;
 using Functions = LSPD_First_Response.Mod.API.Functions;
@@ -85,7 +84,7 @@ internal class Fight : SuperCallout
                 _suspect.Tasks.FightAgainst(Player, 5);
                 break;
             case 3:
-                _suspect.SetDrunk(PedInfo.DrunkState.ExtremelyDrunk);
+                _suspect.SetDrunk(Enums.DrunkState.ExtremelyDrunk);
                 _victim.Tasks.Cower(-1);
                 var pursuit = Functions.CreatePursuit();
                 Functions.AddPedToPursuit(pursuit, _suspect);

@@ -5,7 +5,6 @@ using System.Drawing;
 using CalloutInterfaceAPI;
 using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.API;
-using PyroCommon.API.Wrappers;
 using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
@@ -72,7 +71,7 @@ internal class WeirdCar : SuperCallout
                     _bad1 = _cVehicle1.CreateRandomDriver();
                     _bad1.IsPersistent = true;
                     _bad1.BlockPermanentEvents = true;
-                    _bad1.SetDrunk(PedInfo.DrunkState.Sloshed);
+                    _bad1.SetDrunk(Enums.DrunkState.Sloshed);
                     _bad1.Tasks.LeaveVehicle(LeaveVehicleFlags.LeaveDoorOpen).WaitForCompletion();
                     _bad1.Tasks.FaceEntity(Player, -1);
                     Game.DisplaySubtitle("~r~Driver:~s~ The world will end with fire!");
