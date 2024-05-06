@@ -12,20 +12,28 @@ namespace PyroCommon.API;
 
 public abstract class PyroFunctions
 {
-    public static void AddDrugItem(string item, Enums.DrugType drugType, Enums.ItemLocation itemLocation = Enums.ItemLocation.Anywhere, Ped ped = null, Vehicle vehicle = null)
+    public static void AddDrugItem(string item, Enums.DrugType drugType, Ped ped = null, Vehicle vehicle = null, Enums.ItemLocation itemLocation = Enums.ItemLocation.Anywhere)
     {
+        if (ped != null) ped.Metadata.searchPed = $"{item}, {ped.Metadata.searchPed}";
+        if (vehicle != null) vehicle.Metadata.searchDriver = $"{item}, {vehicle.Metadata.searchDriver}";
         if (Main.UsingPr) SearchItems.AddDrugItem(item, drugType, itemLocation, ped, vehicle);
     }
-    public static void AddWeaponItem(string item, string weaponId, Enums.ItemLocation itemLocation = Enums.ItemLocation.Anywhere, Ped ped = null, Vehicle vehicle = null)
+    public static void AddWeaponItem(string item, string weaponId, Ped ped = null, Vehicle vehicle = null, Enums.ItemLocation itemLocation = Enums.ItemLocation.Anywhere)
     {
+        if (ped != null) ped.Metadata.searchPed = item + ped.Metadata.searchPed;
+        if (vehicle != null) vehicle.Metadata.searchDriver = item + vehicle.Metadata.searchDriver;
         if (Main.UsingPr) SearchItems.AddWeaponItem(item, weaponId, itemLocation, ped, vehicle);
     }
-    public static void AddFirearmItem(string item, string weaponId, bool visible, bool stolen, Enums.ItemLocation itemLocation = Enums.ItemLocation.Anywhere, Ped ped = null, Vehicle vehicle = null)
+    public static void AddFirearmItem(string item, string weaponId, bool visible, bool stolen, Ped ped = null, Vehicle vehicle = null, Enums.ItemLocation itemLocation = Enums.ItemLocation.Anywhere)
     {
+        if (ped != null) ped.Metadata.searchPed = item + ped.Metadata.searchPed;
+        if (vehicle != null) vehicle.Metadata.searchDriver = item + vehicle.Metadata.searchDriver;
         if (Main.UsingPr) SearchItems.AddFirearmItem(item, weaponId, visible, stolen, itemLocation, ped, vehicle);
     }
-    public static void AddSearchItem(string item, Enums.ItemLocation itemLocation = Enums.ItemLocation.Anywhere, Ped ped = null, Vehicle vehicle = null)
+    public static void AddSearchItem(string item, Ped ped = null, Vehicle vehicle = null, Enums.ItemLocation itemLocation = Enums.ItemLocation.Anywhere)
     {
+        if (ped != null) ped.Metadata.searchPed = item + ped.Metadata.searchPed;
+        if (vehicle != null) vehicle.Metadata.searchDriver = item + vehicle.Metadata.searchDriver;
         if (Main.UsingPr) SearchItems.AddSearchItem(item, itemLocation, ped, vehicle);
     }
     

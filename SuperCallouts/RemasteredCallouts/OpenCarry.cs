@@ -18,7 +18,7 @@ namespace SuperCallouts.Callouts;
 [CalloutInterface("[SC] Open Carry", CalloutProbability.Low, "Person walking around with an assault rifle", "Code 2")]
 internal class OpenCarry : SuperCallout
 {
-    private Ped _bad1;
+    private Ped _suspect;
     private Blip _cBlip;
     private string _name1;
     private UIMenuItem _speakSuspect;
@@ -40,15 +40,18 @@ internal class OpenCarry : SuperCallout
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Person With Gun",
             "Reports of a person walking around with an assault rifle. Respond ~y~CODE-2");
 
-        _bad1 = PyroFunctions.SpawnPed(SpawnPoint);
-        _bad1.Inventory.GiveNewWeapon(WeaponHash.AdvancedRifle, -1, true);
-        _name1 = Functions.GetPersonaForPed(_bad1).FullName;
-        _bad1.SetDrunk(Enums.DrunkState.ModeratelyDrunk);
-        _bad1.SetLicenseStatus(Enums.Permits.Guns, Enums.PermitStatus.None);
-        _bad1.Metadata.searchPed = "~r~assaultrifle~s~, ~y~pocket knife~s~, ~g~wallet~s~";
-        EntitiesToClear.Add(_bad1);
+        _suspect = PyroFunctions.SpawnPed(SpawnPoint);
+        _suspect.Inventory.GiveNewWeapon(WeaponHash.AssaultRifle, -1, true);
+        _name1 = Functions.GetPersonaForPed(_suspect).FullName;
+        _suspect.SetDrunk(Enums.DrunkState.ModeratelyDrunk);
+        _suspect.SetLicenseStatus(Enums.Permits.Guns, Enums.PermitStatus.None);
+        PyroFunctions.AddFirearmItem("Assault Rifle", "weapon_assaultrifle", true, false, _suspect);
+        PyroFunctions.AddWeaponItem("Knife", "weapon_knife", _suspect);
+        PyroFunctions.AddDrugItem("Smelly White Powder", Enums.DrugType.Hydrocodone, _suspect);//TODO: Remove, this is for testing!
+        PyroFunctions.AddSearchItem("Giant Horse Dildo -testing-", _suspect);//TODO: Remove, this is for testing!
+        EntitiesToClear.Add(_suspect);
 
-        _cBlip = _bad1.AttachBlip();
+        _cBlip = _suspect.AttachBlip();
         _cBlip.EnableRoute(Color.Red);
         _cBlip.Color = Color.Red;
         BlipsToClear.Add(_cBlip);
@@ -60,7 +63,7 @@ internal class OpenCarry : SuperCallout
 
     internal override void CalloutRunning()
     {
-        if (_bad1.IsDead)
+        if (_suspect.IsDead)
         {
             _speakSuspect.Enabled = false;
             _speakSuspect.RightLabel = "~r~Dead";
@@ -70,39 +73,34 @@ internal class OpenCarry : SuperCallout
     internal override void CalloutOnScene()
     {
         Game.DisplaySubtitle("~g~You~s~: Hey, stop for a second.");
-        _bad1.Tasks.ClearImmediately();
+        _suspect.Tasks.ClearImmediately();
         _speakSuspect.Enabled = true;
-        NativeFunction.Natives.x5AD23D40115353AC(_bad1, Game.LocalPlayer.Character, -1);
-        GameFiber.Wait(1000);
+        _suspect.Tasks.FaceEntity(Player, -1);
         _cBlip.DisableRoute();
+        GameFiber.Wait(1000);
         var choices = new Random(DateTime.Now.Millisecond).Next(1, 6);
         switch (choices)
         {
             case 1:
                 Game.DisplaySubtitle("~r~Suspect: ~s~I know my rights, leave me alone!", 5000);
-                var pursuit = Functions.CreatePursuit();
-                Functions.AddPedToPursuit(pursuit, _bad1);
-                Functions.SetPursuitIsActiveForPlayer(pursuit, true);
+                var pursuit = PyroFunctions.StartPursuit(_suspect);
                 break;
             case 2:
                 Game.DisplayNotification("Investigate the person.");
-                _bad1.Tasks.ClearImmediately();
-                _bad1.Inventory.Weapons.Clear();
-                NativeFunction.Natives.x5AD23D40115353AC(_bad1, Game.LocalPlayer.Character, -1);
+                _suspect.Inventory.Weapons.Clear();
                 break;
             case 3:
                 Game.DisplaySubtitle("~r~Suspect: ~s~REEEEEE", 5000);
-                _bad1.Tasks.AimWeaponAt(Game.LocalPlayer.Character, -1);
+                _suspect.Tasks.AimWeaponAt(Player, -1);
                 break;
             case 4:
                 Game.DisplayNotification("Investigate the person.");
-                _bad1.Tasks.ClearImmediately();
-                _bad1.Inventory.Weapons.Clear();
-                NativeFunction.Natives.x5AD23D40115353AC(_bad1, Game.LocalPlayer.Character, -1);
-                _bad1.Metadata.hasGunPermit = true;
+                _suspect.Tasks.ClearImmediately();
+                _suspect.Inventory.Weapons.Clear();
+                _suspect.SetLicenseStatus(Enums.Permits.Guns, Enums.PermitStatus.Valid);
                 break;
             case 5:
-                _bad1.Tasks.FireWeaponAt(Game.LocalPlayer.Character, -1, FiringPattern.FullAutomatic);
+                _suspect.Tasks.FireWeaponAt(Player, -1, FiringPattern.FullAutomatic);
                 break;
             default:
                 Game.DisplayNotification(
@@ -120,9 +118,9 @@ internal class OpenCarry : SuperCallout
                 _speakSuspect.Enabled = false;
                 Game.DisplaySubtitle(
                     "~g~You~s~: I'm with the police. What is the reason for carrying your weapon out?", 5000);
-                NativeFunction.Natives.x5AD23D40115353AC(_bad1, Game.LocalPlayer.Character, -1);
+                _suspect.Tasks.FaceEntity(Player, -1);
                 GameFiber.Wait(5000);
-                _bad1.PlayAmbientSpeech("GENERIC_CURSE_MED");
+                _suspect.PlayAmbientSpeech("GENERIC_CURSE_MED");
                 Game.DisplaySubtitle(
                     "~r~" + _name1 + "~s~: It's my right officer. Nobody can tell me I can't have my gun.''", 5000);
                 GameFiber.Wait(5000);
