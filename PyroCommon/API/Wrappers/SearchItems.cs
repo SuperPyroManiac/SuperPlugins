@@ -25,8 +25,8 @@ public static class SearchItems
     {
         if (ped == null && vehicle == null) return;
         if (ped != null && vehicle != null) return;
-        if (ped != null) PolicingRedefined.API.SearchItemsAPI.AddCustomPedSearchItem(new FirearmItem(item, EItemChance.Normal, ped, stolen, weaponId, visible));
-        if (vehicle != null) PolicingRedefined.API.SearchItemsAPI.AddCustomVehicleSearchItem(new FirearmItem(item, EItemChance.Normal, (EItemLocation)itemLocation, vehicle, stolen, weaponId, visible));
+        if (ped != null) PolicingRedefined.API.SearchItemsAPI.AddCustomPedSearchItem(new FirearmItem(item, EItemChance.Normal, ped, stolen, weaponId, visible, EFirearmState.Normal));
+        if (vehicle != null) PolicingRedefined.API.SearchItemsAPI.AddCustomVehicleSearchItem(new FirearmItem(item, EItemChance.Normal, (EItemLocation)itemLocation, vehicle, stolen, weaponId, visible, EFirearmState.Normal));
     }
 
     internal static void AddSearchItem(string item, Enums.ItemLocation itemLocation = Enums.ItemLocation.Anywhere, Ped ped = null, Vehicle vehicle = null)

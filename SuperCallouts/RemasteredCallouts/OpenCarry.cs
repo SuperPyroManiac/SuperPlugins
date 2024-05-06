@@ -45,10 +45,8 @@ internal class OpenCarry : SuperCallout
         _name1 = Functions.GetPersonaForPed(_suspect).FullName;
         _suspect.SetDrunk(Enums.DrunkState.ModeratelyDrunk);
         _suspect.SetLicenseStatus(Enums.Permits.Guns, Enums.PermitStatus.None);
-        PyroFunctions.AddFirearmItem("Assault Rifle", "weapon_assaultrifle", true, false, _suspect);
-        PyroFunctions.AddWeaponItem("Knife", "weapon_knife", _suspect);
-        PyroFunctions.AddDrugItem("Smelly White Powder", Enums.DrugType.Hydrocodone, _suspect);//TODO: Remove, this is for testing!
-        PyroFunctions.AddSearchItem("Giant Horse Dildo -testing-", _suspect);//TODO: Remove, this is for testing!
+        PyroFunctions.AddFirearmItem("~r~Assault Rifle", "weapon_assaultrifle", true, false, _suspect);
+        PyroFunctions.AddWeaponItem("~r~Knife", "weapon_knife", _suspect);
         EntitiesToClear.Add(_suspect);
 
         _cBlip = _suspect.AttachBlip();
