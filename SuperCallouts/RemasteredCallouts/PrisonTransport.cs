@@ -50,6 +50,7 @@ internal class PrisonTransport : SuperCallout
         _suspect.SetWanted(false);
         _suspect.WarpIntoVehicle(_cVehicle, 1);
         _suspect.Tasks.LeaveVehicle(LeaveVehicleFlags.LeaveDoorOpen);
+        PyroFunctions.ClearSearchItems(_suspect);
         EntitiesToClear.Add(_suspect);
 
         _cBlip = PyroFunctions.CreateSearchBlip(SpawnPoint, Color.Red, true, false, 20f);
@@ -62,14 +63,15 @@ internal class PrisonTransport : SuperCallout
         switch (new Random(DateTime.Now.Millisecond).Next(1, 3))
         {
             case 1:
-                _suspect.Inventory.Weapons.Add(WeaponHash.MicroSMG).Ammo = -1;
+                PyroFunctions.AddFirearmItem("Pistol", "weapon_pistol_mk2", true, true, _suspect);
+                _suspect.Inventory.EquippedWeapon = "weapon_pistol_mk2";
                 _suspect.Tasks.FightAgainst(_cop);
                 _suspect.Health = 250;
                 GameFiber.Wait(6000);
                 if (_suspect.IsAlive)
                 {
-                    PyroFunctions.StartPursuit(_suspect);
                     if (_cop.IsAlive) _cop.Kill();
+                    PyroFunctions.StartPursuit(_suspect);
                 }
                 break;
             case 2:

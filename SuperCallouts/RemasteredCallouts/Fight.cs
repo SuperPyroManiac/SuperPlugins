@@ -68,28 +68,36 @@ internal class Fight : SuperCallout
         switch (new Random(DateTime.Now.Millisecond).Next(1, 4))
         {
             case 1:
+                Log.Info("Scene 1");
                 Game.SetRelationshipBetweenRelationshipGroups("SUSPECT", "VICTIM", Relationship.Dislike);
                 Game.SetRelationshipBetweenRelationshipGroups("VICTIM", "SUSPECT", Relationship.Dislike);
+                _suspect.SetResistance(Enums.ResistanceAction.Uncooperative, false, 100);
                 //TASK_AGITATED_ACTION_CONFRONT_RESPONSE(Ped ped, Ped ped2) // 0x19D1B791CB3670FE b877
                 NativeFunction.Natives.x19D1B791CB3670FE(_suspect, _victim);
                 GameFiber.Wait(2000);
                 _suspect.Tasks.FightAgainst(_victim, 5);
                 break;
             case 2:
+                Log.Info("Scene 2");
                 _victim.Tasks.Cower(-1);
-                Game.SetRelationshipBetweenRelationshipGroups("SUSPECT", "COP", Relationship.Dislike);
-                //TASK_AGITATED_ACTION_CONFRONT_RESPONSE(Ped ped, Ped ped2) // 0x19D1B791CB3670FE b877
-                NativeFunction.Natives.x19D1B791CB3670FE(_suspect, Player);
-                GameFiber.Wait(2000);
-                _suspect.Tasks.FightAgainst(Player, 5);
+                _suspect.Tasks.FaceEntity(Player);
+                _suspect.SetResistance(Enums.ResistanceAction.Attack, false, 100);
                 break;
             case 3:
-                _suspect.SetDrunk(Enums.DrunkState.ExtremelyDrunk);
+                Log.Info("Scene 3");
                 _victim.Tasks.Cower(-1);
-                var pursuit = Functions.CreatePursuit();
-                Functions.AddPedToPursuit(pursuit, _suspect);
-                Functions.SetPursuitIsActiveForPlayer(pursuit, true);
+                _suspect.Tasks.FaceEntity(Player);
+                _suspect.SetDrunk(Enums.DrunkState.ExtremelyDrunk);
+                _suspect.SetResistance(Enums.ResistanceAction.Flee, true, 100);
                 break;
         }
+    }
+
+    internal override void CalloutEnd(bool forceCleanup = false)
+    {
+        Game.SetRelationshipBetweenRelationshipGroups("SUSPECT", "VICTIM", Relationship.Neutral);
+        Game.SetRelationshipBetweenRelationshipGroups("SUSPECT", "COP", Relationship.Neutral);
+        Game.SetRelationshipBetweenRelationshipGroups("VICTIM", "SUSPECT", Relationship.Neutral);
+        base.CalloutEnd(forceCleanup);
     }
 }

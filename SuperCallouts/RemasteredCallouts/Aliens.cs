@@ -68,10 +68,9 @@ internal class Aliens : SuperCallout
 
     internal override void CalloutOnScene()
     {
-        //TASK::TASK_GO_TO_ENTITY x6A071245EB0D1882
-        NativeFunction.Natives.x6A071245EB0D1882(_alien1, Game.LocalPlayer.Character, -1, 2f, 2f, 0, 0);
-        NativeFunction.Natives.x6A071245EB0D1882(_alien2, Game.LocalPlayer.Character, -1, 2f, 2f, 0, 0);
-        NativeFunction.Natives.x6A071245EB0D1882(_alien3, Game.LocalPlayer.Character, -1, 2f, 2f, 0, 0);
+        _alien1.Tasks.GoToEntity(Player);
+        _alien2.Tasks.GoToEntity(Player);
+        _alien3.Tasks.GoToEntity(Player);
 
         _cBlip1.DisableRoute();
         GameFiber.Wait(4000);

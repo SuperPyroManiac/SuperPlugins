@@ -11,7 +11,7 @@ using Functions = LSPD_First_Response.Mod.API.Functions;
 
 #endregion
 
-namespace SuperCallouts.Callouts;
+namespace SuperCallouts.RemasteredCallouts;
 
 [CalloutInterface("[SC] Stolen PD Vehicle", CalloutProbability.Medium, "Suspect has stolen a police vehicle", "Code 3")]
 internal class StolenCopVehicle : SuperCallout
@@ -19,7 +19,7 @@ internal class StolenCopVehicle : SuperCallout
     private Ped _bad;
     private Blip _cBlip;
     private Vehicle _cVehicle;
-    internal override Location SpawnPoint { get; set; } = new(World.GetNextPositionOnStreet(Player.Position.Around(350f)), 0);
+    internal override Location SpawnPoint { get; set; } = new(World.GetNextPositionOnStreet(Player.Position.Around(350f)), 0);//TODO: MAKE THIS LIVE UPDATE
     internal override float OnSceneDistance { get; set; } = 30;
     internal override string CalloutName { get; set; } = "Stolen Police Vehicle";
 
@@ -45,10 +45,8 @@ internal class StolenCopVehicle : SuperCallout
         _bad.WarpIntoVehicle(_cVehicle, -1);
         _bad.IsPersistent = true;
         _bad.BlockPermanentEvents = true;
-        _bad.Metadata.stpDrugsDetected = true;
-        _bad.Metadata.stpAlcoholDetected = true;
-        PyroFunctions.SetWanted(_bad, true);
-        PyroFunctions.SetDrunkOld(_bad, true);
+        _bad.SetWanted(true);
+        _bad.SetDrunk(Enums.DrunkState.VeryDrunk);
         EntitiesToClear.Add(_bad);
 
         _cBlip = _bad.AttachBlip();
@@ -63,13 +61,12 @@ internal class StolenCopVehicle : SuperCallout
     internal override void CalloutOnScene()
     {
         if (_cBlip.Exists()) _cBlip.Delete();
-        var pursuit = Functions.CreatePursuit();
-        Functions.AddPedToPursuit(pursuit, _bad);
-        Functions.SetPursuitIsActiveForPlayer(pursuit, true);
+        PyroFunctions.StartPursuit(_bad);
+        
         if (PyroCommon.Main.UsingUb)
             Wrapper.CallPursuit();
         else
             Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Pursuit,
-                EBackupUnitType.LocalUnit);
+                EBackupUnitType.LocalUnit);//TODO: REDO backup
     }
 }

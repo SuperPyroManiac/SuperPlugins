@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using LSPD_First_Response.Mod.API;
+using PolicingRedefined.Interaction.Modules.Resistance;
 using PyroCommon.API.Wrappers;
 using Rage;
 using Rage.Native;
@@ -35,6 +36,20 @@ public abstract class PyroFunctions
         if (ped != null) ped.Metadata.searchPed = item + ped.Metadata.searchPed;
         if (vehicle != null) vehicle.Metadata.searchDriver = item + vehicle.Metadata.searchDriver;
         if (Main.UsingPr) SearchItems.AddSearchItem(item, itemLocation, ped, vehicle);
+        PolicingRedefined.API.PedAPI.SetPedResistanceAction(ped, EResistanceAction.Attack);
+        PolicingRedefined.API.PedAPI.SetShouldWalkAwayBeforeResisting(ped, true);
+    }
+    
+    public static void ClearSearchItems(Ped ped = null, Vehicle vehicle = null)
+    {
+        if (ped != null)
+        {
+            ped.Metadata.searchPed = string.Empty;
+            ped.Inventory.Weapons.Clear();
+        }
+        if (vehicle != null) vehicle.Metadata.searchDriver = string.Empty;
+        if (vehicle != null) vehicle.Metadata.searchTrunk = string.Empty;
+        if (Main.UsingPr) SearchItems.ClearAllItems(ped, vehicle);
     }
     
     public static Vehicle SpawnCar(Location location)
@@ -99,21 +114,18 @@ public abstract class PyroFunctions
     internal static LHandle StartPursuit(bool areSuspectsPulledOver = false, bool randomizePursuitAttributes = true, params Ped[] suspects)
     {
         if (areSuspectsPulledOver)
-        {
             Functions.ForceEndCurrentPullover();
-        }
     
         var pursuitLHandle = Functions.CreatePursuit();
         Functions.SetPursuitIsActiveForPlayer(pursuitLHandle, true);
 
-        foreach (Ped suspect in suspects)
+        foreach (var suspect in suspects)
         {
             GameFiber.Yield();
             if (randomizePursuitAttributes)
             {
                 RandomizePursuitAttributes(suspect);
             }
-        
             Functions.AddPedToPursuit(pursuitLHandle, suspect);
         }
         return pursuitLHandle;
@@ -122,7 +134,7 @@ public abstract class PyroFunctions
     private static void RandomizePursuitAttributes(Ped ped)
     {
         var rnd = new Random(DateTime.Now.Millisecond);
-        PedPursuitAttributes pursuitAttributes = Functions.GetPedPursuitAttributes(ped);
+        var pursuitAttributes = Functions.GetPedPursuitAttributes(ped);
 
         // Max driving speed must be above min driving speed at all times or else it throws an error and/or crashes the game
         pursuitAttributes.MaxDrivingSpeed = MathHelper.ConvertMilesPerHourToMetersPerSecond(rnd.Next(61, 100));

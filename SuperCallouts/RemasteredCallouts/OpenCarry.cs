@@ -6,14 +6,13 @@ using CalloutInterfaceAPI;
 using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.API;
 using Rage;
-using Rage.Native;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using Functions = LSPD_First_Response.Mod.API.Functions;
 
 #endregion
 
-namespace SuperCallouts.Callouts;
+namespace SuperCallouts.RemasteredCallouts;
 
 [CalloutInterface("[SC] Open Carry", CalloutProbability.Low, "Person walking around with an assault rifle", "Code 2")]
 internal class OpenCarry : SuperCallout
@@ -41,12 +40,13 @@ internal class OpenCarry : SuperCallout
             "Reports of a person walking around with an assault rifle. Respond ~y~CODE-2");
 
         _suspect = PyroFunctions.SpawnPed(SpawnPoint);
-        _suspect.Inventory.GiveNewWeapon(WeaponHash.AssaultRifle, -1, true);
         _name1 = Functions.GetPersonaForPed(_suspect).FullName;
         _suspect.SetDrunk(Enums.DrunkState.ModeratelyDrunk);
         _suspect.SetLicenseStatus(Enums.Permits.Guns, Enums.PermitStatus.None);
         PyroFunctions.AddFirearmItem("~r~Assault Rifle", "weapon_assaultrifle", true, false, _suspect);
         PyroFunctions.AddWeaponItem("~r~Knife", "weapon_knife", _suspect);
+        _suspect.Inventory.EquippedWeapon = "weapon_assaultrifle";
+        _suspect.Tasks.Wander();
         EntitiesToClear.Add(_suspect);
 
         _cBlip = _suspect.AttachBlip();
@@ -81,23 +81,28 @@ internal class OpenCarry : SuperCallout
         {
             case 1:
                 Game.DisplaySubtitle("~r~Suspect: ~s~I know my rights, leave me alone!", 5000);
+                _suspect.SetResistance(Enums.ResistanceAction.Flee);
                 var pursuit = PyroFunctions.StartPursuit(_suspect);
                 break;
             case 2:
                 Game.DisplayNotification("Investigate the person.");
+                _suspect.SetResistance(Enums.ResistanceAction.Uncooperative, true);
                 _suspect.Inventory.Weapons.Clear();
                 break;
             case 3:
                 Game.DisplaySubtitle("~r~Suspect: ~s~REEEEEE", 5000);
+                _suspect.SetResistance(Enums.ResistanceAction.Attack);
                 _suspect.Tasks.AimWeaponAt(Player, -1);
                 break;
             case 4:
                 Game.DisplayNotification("Investigate the person.");
                 _suspect.Tasks.ClearImmediately();
                 _suspect.Inventory.Weapons.Clear();
+                _suspect.SetResistance(Enums.ResistanceAction.None);
                 _suspect.SetLicenseStatus(Enums.Permits.Guns, Enums.PermitStatus.Valid);
                 break;
             case 5:
+                _suspect.SetResistance(Enums.ResistanceAction.Attack, false, 100);
                 _suspect.Tasks.FireWeaponAt(Player, -1, FiringPattern.FullAutomatic);
                 break;
             default:

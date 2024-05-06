@@ -34,6 +34,18 @@ public static class Enums
         Valid
     }
     
+    public enum ResistanceAction
+    {
+        /// <summary>The ped will not resist.</summary>
+        None,
+        /// <summary>The ped will flee.</summary>
+        Flee,
+        /// <summary>The ped will attack.</summary>
+        Attack,
+        /// <summary>The ped will refuse to follow orders.</summary>
+        Uncooperative,
+    }
+    
     
     //SEARCH ITEM ENUMS
     

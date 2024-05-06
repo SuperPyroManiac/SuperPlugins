@@ -37,6 +37,32 @@ public static class EntityExtensions
             ped.MovementAnimationSet = anim;
         });
     }
+
+    public static void SetResistance(this Ped ped, Enums.ResistanceAction resistanceAction, bool walkAway = false, int resistanceChance = 50)
+    {
+        if (Main.UsingPr)
+        {
+            PedInfo.SetResistance(ped, resistanceAction, walkAway, resistanceChance);
+            return;
+        }
+        switch (resistanceAction)
+        {
+            case Enums.ResistanceAction.Flee:
+                PyroFunctions.StartPursuit(ped);
+                break;
+            case Enums.ResistanceAction.Attack:
+                ped.RelationshipGroup = new RelationshipGroup("ANGRY");
+                Game.SetRelationshipBetweenRelationshipGroups("ANGRY", "COP", Relationship.Hate);
+                break;
+            case Enums.ResistanceAction.Uncooperative:
+                ped.RelationshipGroup = new RelationshipGroup("ANGRY");
+                Game.SetRelationshipBetweenRelationshipGroups("ANGRY", "COP", Relationship.Dislike);
+                break;
+            case Enums.ResistanceAction.None:
+            default:
+                throw new ArgumentOutOfRangeException(nameof(resistanceAction), resistanceAction, null);
+        }
+    }
     
     public static void SetWanted(this Ped ped, bool isWanted)
     {
@@ -114,9 +140,15 @@ public static class EntityExtensions
     }
     
     // TASK EXTENSIONS
-    public static void FaceEntity(this TaskInvoker taskInvoker, Entity target, int duration)
+    public static void FaceEntity(this TaskInvoker taskInvoker, Entity target, int duration = -1)
     {
         NativeFunction.Natives.x5AD23D40115353AC(taskInvoker.GetPedFromTaskInvoker(), target, duration);
+    }
+
+    public static void GoToEntity(this TaskInvoker taskInvoker, Entity target)
+    {
+        var ped = taskInvoker.GetPedFromTaskInvoker();
+        NativeFunction.Natives.x6A071245EB0D1882(ped, target, -1, 2f, 2f, 0, 0);
     }
 
     public static void Ragdoll(this TaskInvoker taskInvoker)
