@@ -122,6 +122,7 @@
       <ProjectReference Include="..\PyroCommon\PyroCommon.csproj">
         <Project>{6e27f96f-aa33-477f-80f4-4245324be25c}</Project>
         <Name>PyroCommon</Name>
+        <Private>False</Private>
       </ProjectReference>
     </ItemGroup>
     <ItemGroup>
