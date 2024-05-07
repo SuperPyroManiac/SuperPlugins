@@ -16,6 +16,7 @@ internal class OpenCarry : SuperCallout
     private Ped _suspect;
     private Blip _cBlip;
     private string _name1;
+    private bool _blipHelper;
     private UIMenuItem _speakSuspect;
     internal override Location SpawnPoint { get; set; } = new(World.GetNextPositionOnStreet(Player.Position.Around(350f)));
     internal override float OnSceneDistance { get; set; } = 20;
@@ -45,9 +46,7 @@ internal class OpenCarry : SuperCallout
         _suspect.Tasks.Wander();
         EntitiesToClear.Add(_suspect);
 
-        _cBlip = _suspect.AttachBlip();
-        _cBlip.EnableRoute(Color.Red);
-        _cBlip.Color = Color.Red;
+        _cBlip = PyroFunctions.CreateSearchBlip(SpawnPoint, Color.AliceBlue, true, true, 50f);
         BlipsToClear.Add(_cBlip);
 
         _speakSuspect = new UIMenuItem("Speak with ~y~" + _name1);
@@ -62,6 +61,18 @@ internal class OpenCarry : SuperCallout
             _speakSuspect.Enabled = false;
             _speakSuspect.RightLabel = "~r~Dead";
         }
+
+        if (!OnScene && !_blipHelper)
+        {
+          GameFiber.StartNew(delegate
+          {
+            _blipHelper = true;
+            GameFiber.Sleep(5000);
+            SpawnPoint = new Location(_suspect.Position);
+            _cBlip.Position = SpawnPoint.Position.Around2D(25, 45);
+            _blipHelper = false;
+          });
+        }
     }
 
     internal override void CalloutOnScene()
@@ -72,25 +83,28 @@ internal class OpenCarry : SuperCallout
         _suspect.Tasks.FaceEntity(Player);
         _cBlip.DisableRoute();
         GameFiber.Wait(1000);
-        var choices = new Random(DateTime.Now.Millisecond).Next(1, 6);
-        switch (choices)
+        switch (new Random(DateTime.Now.Millisecond).Next(1, 6))
         {
             case 1:
+              Log.Info("Callout Scene 1");
                 Game.DisplaySubtitle("~r~Suspect: ~s~I know my rights, leave me alone!", 5000);
                 _suspect.SetResistance(Enums.ResistanceAction.Flee);
                 PyroFunctions.StartPursuit(_suspect);
                 break;
             case 2:
+              Log.Info("Callout Scene 2");
                 Game.DisplayNotification("Investigate the person.");
                 _suspect.SetResistance(Enums.ResistanceAction.Uncooperative, true);
                 _suspect.Inventory.Weapons.Clear();
                 break;
             case 3:
+              Log.Info("Callout Scene 3");
                 Game.DisplaySubtitle("~r~Suspect: ~s~REEEEEE", 5000);
                 _suspect.SetResistance(Enums.ResistanceAction.Attack);
                 _suspect.Tasks.AimWeaponAt(Player, -1);
                 break;
             case 4:
+              Log.Info("Callout Scene 4");
                 Game.DisplayNotification("Investigate the person.");
                 _suspect.Tasks.ClearImmediately();
                 _suspect.Inventory.Weapons.Clear();
@@ -98,13 +112,9 @@ internal class OpenCarry : SuperCallout
                 _suspect.SetLicenseStatus(Enums.Permits.Guns, Enums.PermitStatus.Valid);
                 break;
             case 5:
+              Log.Info("Callout Scene 5");
                 _suspect.SetResistance(Enums.ResistanceAction.Attack, false, 100);
                 _suspect.Tasks.FireWeaponAt(Player, -1, FiringPattern.FullAutomatic);
-                break;
-            default:
-                Game.DisplayNotification(
-                    "An error has been detected! Ending callout early to prevent LSPDFR crash!");
-                CalloutEnd(true);
                 break;
         }
     }
@@ -124,13 +134,12 @@ internal class OpenCarry : SuperCallout
                     "~r~" + _name1 + "~s~: It's my right officer. Nobody can tell me I can't have my gun.''", 5000);
                 GameFiber.Wait(5000);
                 Game.DisplaySubtitle(
-                    "~g~You~s~: Alright, I understand your rights and with the proper license you can open carry, but you cannot carry your weapon in your hands like that.",
-                    5000);
+                    "~g~You~s~: Alright, I understand your rights to open carry, but carrying a rifle in this way does cause concern to people. It's also illegal to be loaded while you carry.", 5000);
                 GameFiber.Wait(5000);
                 Game.DisplaySubtitle("~r~" + _name1 + "~s~: I don't see why not!", 5000);
                 GameFiber.Wait(5000);
                 Game.DisplaySubtitle(
-                    "~g~You~s~: It's the law, as well as it scares people to see someone walking around with a rifle in their hands. There's no reason to. Do you have a  for it?",
+                    "~g~You~s~: It's the law, as well as it scares people to see someone walking around with a rifle in their hands. There's no reason to. Do you have a license for it?",
                     5000);
                 GameFiber.Wait(5000);
                 Game.DisplaySubtitle("~r~" + _name1 + "~s~: Check for yourself.", 5000);
