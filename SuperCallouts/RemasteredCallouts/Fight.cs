@@ -36,15 +36,15 @@ internal class Fight : SuperCallout
         _victim.RelationshipGroup = new RelationshipGroup("VICTIM");
         _suspect = PyroFunctions.SpawnPed(new Location(SpawnPoint.Position.Around2D(1.5f)));
         _suspect.RelationshipGroup = new RelationshipGroup("SUSPECT");
+
+        _victim.Tasks.FaceEntity(_suspect);
+        _suspect.Tasks.FaceEntity(_victim);
+
         EntitiesToClear.Add(_victim);
         EntitiesToClear.Add(_suspect);
 
         _blip = PyroFunctions.CreateSearchBlip(SpawnPoint, Color.Red, true, true);
         BlipsToClear.Add(_blip);
-        
-        //TASK_TURN_PED_TO_FACE_ENTITY(Ped ped, Entity entity, int duration) // 0x5AD23D40115353AC 0x3C37C767 b323
-        NativeFunction.Natives.x5AD23D40115353AC(_victim, _suspect, -1);
-        NativeFunction.Natives.x5AD23D40115353AC(_suspect, _victim, -1);
     }
 
     internal override void CalloutRunning()
@@ -68,7 +68,7 @@ internal class Fight : SuperCallout
         switch (new Random(DateTime.Now.Millisecond).Next(1, 4))
         {
             case 1:
-                Log.Info("Scene 1");
+                Log.Info("Callout Scene 1");
                 Game.SetRelationshipBetweenRelationshipGroups("SUSPECT", "VICTIM", Relationship.Dislike);
                 Game.SetRelationshipBetweenRelationshipGroups("VICTIM", "SUSPECT", Relationship.Dislike);
                 _suspect.SetResistance(Enums.ResistanceAction.Uncooperative, false, 100);
@@ -78,13 +78,13 @@ internal class Fight : SuperCallout
                 _suspect.Tasks.FightAgainst(_victim, 5);
                 break;
             case 2:
-                Log.Info("Scene 2");
+                Log.Info("Callout Scene 2");
                 _victim.Tasks.Cower(-1);
                 _suspect.Tasks.FaceEntity(Player);
                 _suspect.SetResistance(Enums.ResistanceAction.Attack, false, 100);
                 break;
             case 3:
-                Log.Info("Scene 3");
+                Log.Info("Callout Scene 3");
                 _victim.Tasks.Cower(-1);
                 _suspect.Tasks.FaceEntity(Player);
                 _suspect.SetDrunk(Enums.DrunkState.ExtremelyDrunk);
