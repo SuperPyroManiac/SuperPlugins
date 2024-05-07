@@ -29,7 +29,7 @@ internal class HotPursuit : SuperCallout
     private LHandle _pursuit = Functions.CreatePursuit();
     private UIMenuItem _speakSuspect;
     private UIMenuItem _speakSuspect2;
-    internal override Location SpawnPoint { get; set; } = new(World.GetNextPositionOnStreet(Player.Position.Around(350f)), 0);
+    internal override Location SpawnPoint { get; set; } = new(World.GetNextPositionOnStreet(Player.Position.Around(350f)));
     internal override float OnSceneDistance { get; set; } = 25;
     internal override string CalloutName { get; set; } = "High Speed Pursuit";
 
@@ -115,7 +115,7 @@ internal class HotPursuit : SuperCallout
             _speakSuspect2.RightLabel = "~r~Dead";
         }
 
-        SpawnPoint = new Location(_cVehicle.Position, 0);
+        SpawnPoint = new Location(_cVehicle.Position);
     }
 
     internal override void CalloutOnScene()

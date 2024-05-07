@@ -21,7 +21,7 @@ internal class Manhunt : SuperCallout
     private Blip _cBlip2;
     private string _name1;
     private UIMenuItem _speakSuspect;
-    internal override Location SpawnPoint { get; set; } = new(World.GetNextPositionOnStreet(Player.Position.Around(650f)), 0);
+    internal override Location SpawnPoint { get; set; } = new(World.GetNextPositionOnStreet(Player.Position.Around(650f)));
     internal override float OnSceneDistance { get; set; } = 50;
     internal override string CalloutName { get; set; } = "Manhunt";
 

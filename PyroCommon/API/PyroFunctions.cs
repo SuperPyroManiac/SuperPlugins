@@ -106,7 +106,7 @@ public abstract class PyroFunctions
         if (matches.Count == 0)
         {
             Log.Info("Failed to find valid spawnpoint. Spawning on road.");
-            return new Location(World.GetNextPositionOnStreet(Game.LocalPlayer.Character.Position.Around(minDistance, maxDistance)), 0);
+            return new Location(World.GetNextPositionOnStreet(Game.LocalPlayer.Character.Position.Around(minDistance, maxDistance)));
         }
         return matches[new Random(DateTime.Now.Millisecond).Next(matches.Count)];
     }

@@ -27,7 +27,7 @@ internal class Kidnapping : SuperCallout
     private UIMenuItem _speakSuspect;
     private UIMenuItem _speakSuspect2;
     private Ped _victim1;
-    internal override Location SpawnPoint { get; set; } = new(World.GetNextPositionOnStreet(Player.Position.Around(350f)), 0);
+    internal override Location SpawnPoint { get; set; } = new(World.GetNextPositionOnStreet(Player.Position.Around(350f)));
     internal override float OnSceneDistance { get; set; } = 25f;
     internal override string CalloutName { get; set; } = "Kidnapping";
 

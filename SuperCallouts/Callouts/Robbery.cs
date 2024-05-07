@@ -25,7 +25,7 @@ internal class Robbery : SuperCallout
     private Ped _rude1;
     private Ped _rude2;
     private Ped _victim;
-    internal override Location SpawnPoint { get; set; } = new(World.GetNextPositionOnStreet(Player.Position.Around(450f)), 0);
+    internal override Location SpawnPoint { get; set; } = new(World.GetNextPositionOnStreet(Player.Position.Around(450f)));
     internal override float OnSceneDistance { get; set; } = 40;
     internal override string CalloutName { get; set; } = "Armed Robbery";
 

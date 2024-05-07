@@ -53,7 +53,7 @@ internal class RecklessDriver : AmbientEvent
             _ePed.RelationshipGroup == RelationshipGroup.Fireman ||
             _ePed.RelationshipGroup == RelationshipGroup.Medic || _ePed.RelationshipGroup == RelationshipGroup.Cop)
         {
-            EndEvent(false);
+            EndEvent();
             return;
         }
     }
@@ -80,7 +80,7 @@ internal class RecklessDriver : AmbientEvent
                                 _ePed.Tasks.CruiseWithVehicle(_eVehicle, 20f, VehicleDrivingFlags.Emergency);
                                 break;
                             default:
-                                EndEvent(false);
+                                EndEvent();
                                 break;
                         }
 
@@ -120,7 +120,7 @@ internal class RecklessDriver : AmbientEvent
                             PyroFunctions.SetWanted(_ePed, false);
                             break;
                         default:
-                            EndEvent(false);
+                            EndEvent();
                             break;
                     }
 

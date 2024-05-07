@@ -32,9 +32,9 @@ internal static class Settings
         var ini = new InitializationFile(path);
         ini.Create();
         EnablePlayerDamageSystem = ini.ReadBoolean("Features", "EnablePlayerDamageSystem", true);
-        AlternatePlayerDamageSystem = ini.ReadBoolean("Features", "AlternatePlayerDamageSystem", false);
+        AlternatePlayerDamageSystem = ini.ReadBoolean("Features", "AlternatePlayerDamageSystem");
         EnableAIDamageSystem = ini.ReadBoolean("Features", "EnableAIDamageSystem", true);
-        EnablePlayerHeadshotInstakill = ini.ReadBoolean("Features", "EnablePlayerHeadshotInstakill", false);
+        EnablePlayerHeadshotInstakill = ini.ReadBoolean("Features", "EnablePlayerHeadshotInstakill");
         EnablePanic = ini.ReadBoolean("Features", "EnablePanic", true);
         PanicCooldown = ini.ReadInt32("Features", "PanicCooldown", 120);
         AltDamageMultiplier = float.Parse(ini.ReadString("Features", "AltDamageMultiplier", "2"));
@@ -42,7 +42,7 @@ internal static class Settings
         Code3Backup = ini.ReadBoolean("Backup", "Code3Backup", true);
         SwatBackup = ini.ReadBoolean("Backup", "SwatBackup");
         NooseBackup = ini.ReadBoolean("Backup", "NooseBackup");
-        EnableDebug = ini.ReadBoolean("Debug", "EnableDebug", false);
+        EnableDebug = ini.ReadBoolean("Debug", "EnableDebug");
         Log.Info("Config loaded.");
     }
 }

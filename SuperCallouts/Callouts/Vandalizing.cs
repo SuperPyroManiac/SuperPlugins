@@ -11,7 +11,7 @@ namespace SuperCallouts.Callouts;
 [CalloutInterface("[SC] Vandalizing", CalloutProbability.Medium, "Reports of a person vandalizing property", "Code 3")]
 internal class Vandalizing : SuperCallout
 {
-    internal override Location SpawnPoint { get; set; } = new(World.GetNextPositionOnStreet(Player.Position.Around(350f)), 0);
+    internal override Location SpawnPoint { get; set; } = new(World.GetNextPositionOnStreet(Player.Position.Around(350f)));
     internal override float OnSceneDistance { get; set; } = 50;
     internal override string CalloutName { get; set; } = "Vandalizing";
     private Vehicle _cVehicle;

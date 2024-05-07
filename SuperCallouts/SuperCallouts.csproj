@@ -28,7 +28,7 @@
         <PlatformTarget>x64</PlatformTarget>
         <DebugType>pdbonly</DebugType>
         <Optimize>true</Optimize>
-        <OutputPath>bin\Release\</OutputPath>
+        <OutputPath>C:\Users\Rande\Desktop\SuperPlugins</OutputPath>
         <DefineConstants>TRACE</DefineConstants>
         <ErrorReport>prompt</ErrorReport>
         <WarningLevel>4</WarningLevel>
@@ -90,27 +90,29 @@
         <Compile Include="SuperCallout.cs" />
     </ItemGroup>
     <ItemGroup>
-        <Content Include="SuperCallouts.ini" />
-    </ItemGroup>
-    <ItemGroup>
         <Reference Include="CalloutInterfaceAPI, Version=1.0.1.0, Culture=neutral, processorArchitecture=Amd64">
           <HintPath>..\packages\CalloutInterfaceAPI.1.0.1\lib\net48\CalloutInterfaceAPI.dll</HintPath>
+          <Private>False</Private>
         </Reference>
         <Reference Include="LSPD First Response, Version=0.4.8433.20359, Culture=neutral, processorArchitecture=MSIL">
           <HintPath>..\packages\PyroSpecial.1.0.1\lib\LSPD First Response.dll</HintPath>
+          <Private>False</Private>
         </Reference>
         <Reference Include="Microsoft.CSharp" />
         <Reference Include="RAGENativeUI, Version=1.9.2.0, Culture=neutral, processorArchitecture=Amd64">
           <HintPath>..\packages\RAGENativeUI.1.9.2\lib\net472\RAGENativeUI.dll</HintPath>
+          <Private>False</Private>
         </Reference>
         <Reference Include="RagePluginHook, Version=0.0.0.0, Culture=neutral, processorArchitecture=Amd64">
           <HintPath>..\packages\RagePluginHook.1.98.0\lib\net472\RagePluginHook.dll</HintPath>
+          <Private>False</Private>
         </Reference>
         <Reference Include="System" />
         <Reference Include="System.Drawing" />
         <Reference Include="System.Windows.Forms" />
         <Reference Include="UltimateBackup, Version=1.8.7.0, Culture=neutral, processorArchitecture=MSIL">
           <HintPath>..\packages\PyroSpecial.1.0.1\lib\UltimateBackup.dll</HintPath>
+          <Private>False</Private>
         </Reference>
     </ItemGroup>
     <ItemGroup>
@@ -122,6 +124,11 @@
         <Project>{6e27f96f-aa33-477f-80f4-4245324be25c}</Project>
         <Name>PyroCommon</Name>
       </ProjectReference>
+    </ItemGroup>
+    <ItemGroup>
+      <Content Include="SuperCallouts.ini">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
     <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

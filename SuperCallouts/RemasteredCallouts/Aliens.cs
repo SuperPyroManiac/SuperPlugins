@@ -3,7 +3,6 @@ using CalloutInterfaceAPI;
 using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.API;
 using Rage;
-using Rage.Native;
 using Functions = LSPD_First_Response.Mod.API.Functions;
 
 namespace SuperCallouts.RemasteredCallouts;

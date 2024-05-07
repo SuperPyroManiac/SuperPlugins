@@ -28,7 +28,7 @@ internal class CarAccident2 : SuperCallout
     private Ped _victim1;
     private Ped _victim2;
 
-    internal override Location SpawnPoint { get; set; } = new(World.GetNextPositionOnStreet(Player.Position.Around(45f, 320f)), 0);
+    internal override Location SpawnPoint { get; set; } = new(World.GetNextPositionOnStreet(Player.Position.Around(45f, 320f)));
 
     internal override float OnSceneDistance { get; set; } = 25;
     internal override string CalloutName { get; set; } = "Car Accident (2)";

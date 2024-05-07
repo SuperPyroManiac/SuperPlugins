@@ -28,7 +28,7 @@
         <PlatformTarget>AnyCPU</PlatformTarget>
         <DebugType>pdbonly</DebugType>
         <Optimize>true</Optimize>
-        <OutputPath>bin\Release\</OutputPath>
+        <OutputPath>C:\Users\Rande\Desktop\SuperPlugins</OutputPath>
         <DefineConstants>TRACE</DefineConstants>
         <ErrorReport>prompt</ErrorReport>
         <WarningLevel>4</WarningLevel>
@@ -37,16 +37,20 @@
     <ItemGroup>
         <Reference Include="LSPD First Response, Version=0.4.8433.20359, Culture=neutral, processorArchitecture=MSIL">
           <HintPath>..\packages\PyroSpecial.1.0.1\lib\LSPD First Response.dll</HintPath>
+          <Private>False</Private>
         </Reference>
         <Reference Include="Microsoft.CSharp" />
         <Reference Include="PolicingRedefined">
           <HintPath>..\..\..\Depend\LSPDFR\PolicingRedefined.dll</HintPath>
+          <Private>False</Private>
         </Reference>
         <Reference Include="RAGENativeUI, Version=1.9.2.0, Culture=neutral, processorArchitecture=Amd64">
           <HintPath>..\packages\RAGENativeUI.1.9.2\lib\net472\RAGENativeUI.dll</HintPath>
+          <Private>False</Private>
         </Reference>
         <Reference Include="RagePluginHook, Version=0.0.0.0, Culture=neutral, processorArchitecture=Amd64">
           <HintPath>..\packages\RagePluginHook.1.98.0\lib\net472\RagePluginHook.dll</HintPath>
+          <Private>False</Private>
         </Reference>
         <Reference Include="System" />
         <Reference Include="System.Core" />
@@ -56,6 +60,7 @@
         <Reference Include="System.Xml" />
         <Reference Include="UltimateBackup, Version=1.8.7.0, Culture=neutral, processorArchitecture=MSIL">
           <HintPath>..\packages\PyroSpecial.1.0.1\lib\UltimateBackup.dll</HintPath>
+          <Private>False</Private>
         </Reference>
     </ItemGroup>
     <ItemGroup>

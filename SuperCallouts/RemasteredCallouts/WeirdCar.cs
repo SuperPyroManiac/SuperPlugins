@@ -1,5 +1,3 @@
-#region
-
 using System;
 using System.Drawing;
 using CalloutInterfaceAPI;
@@ -9,8 +7,6 @@ using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using Functions = LSPD_First_Response.Mod.API.Functions;
-
-#endregion
 
 namespace SuperCallouts.RemasteredCallouts;
 
@@ -73,7 +69,7 @@ internal class WeirdCar : SuperCallout
                     _bad1.BlockPermanentEvents = true;
                     _bad1.SetDrunk(Enums.DrunkState.Sloshed);
                     _bad1.Tasks.LeaveVehicle(LeaveVehicleFlags.LeaveDoorOpen).WaitForCompletion();
-                    _bad1.Tasks.FaceEntity(Player, -1);
+                    _bad1.Tasks.FaceEntity(Player);
                     Game.DisplaySubtitle("~r~Driver:~s~ The world will end with fire!");
                     GameFiber.Wait(3000);
                     _cVehicle1.Explode();
@@ -107,7 +103,7 @@ internal class WeirdCar : SuperCallout
                 Game.DisplaySubtitle("~g~You~s~: Hey there! We have reports of suspicious activity here, what's going on?", 5000);
                 _bad1.Tasks.LeaveVehicle(_cVehicle1, LeaveVehicleFlags.LeaveDoorOpen);
                 GameFiber.Wait(5000);
-                _bad1.Tasks.FaceEntity(Player, -1);
+                _bad1.Tasks.FaceEntity(Player);
                 _bad1.PlayAmbientSpeech("GENERIC_CURSE_MED");
                 Game.DisplaySubtitle("~r~" + _name + "~s~: Nothing is wrong sir, I don't know why you got that idea.", 5000);
             });

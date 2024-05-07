@@ -1,5 +1,3 @@
-#region
-
 using System;
 using System.Drawing;
 using CalloutInterfaceAPI;
@@ -10,8 +8,6 @@ using RAGENativeUI;
 using RAGENativeUI.Elements;
 using Functions = LSPD_First_Response.Mod.API.Functions;
 
-#endregion
-
 namespace SuperCallouts.RemasteredCallouts;
 
 [CalloutInterface("[SC] Open Carry", CalloutProbability.Low, "Person walking around with an assault rifle", "Code 2")]
@@ -21,7 +17,7 @@ internal class OpenCarry : SuperCallout
     private Blip _cBlip;
     private string _name1;
     private UIMenuItem _speakSuspect;
-    internal override Location SpawnPoint { get; set; } = new(World.GetNextPositionOnStreet(Player.Position.Around(350f)), 0);
+    internal override Location SpawnPoint { get; set; } = new(World.GetNextPositionOnStreet(Player.Position.Around(350f)));
     internal override float OnSceneDistance { get; set; } = 20;
     internal override string CalloutName { get; set; } = "Open Carry";
 
@@ -73,7 +69,7 @@ internal class OpenCarry : SuperCallout
         Game.DisplaySubtitle("~g~You~s~: Hey, stop for a second.");
         _suspect.Tasks.ClearImmediately();
         _speakSuspect.Enabled = true;
-        _suspect.Tasks.FaceEntity(Player, -1);
+        _suspect.Tasks.FaceEntity(Player);
         _cBlip.DisableRoute();
         GameFiber.Wait(1000);
         var choices = new Random(DateTime.Now.Millisecond).Next(1, 6);
@@ -82,7 +78,7 @@ internal class OpenCarry : SuperCallout
             case 1:
                 Game.DisplaySubtitle("~r~Suspect: ~s~I know my rights, leave me alone!", 5000);
                 _suspect.SetResistance(Enums.ResistanceAction.Flee);
-                var pursuit = PyroFunctions.StartPursuit(_suspect);
+                PyroFunctions.StartPursuit(_suspect);
                 break;
             case 2:
                 Game.DisplayNotification("Investigate the person.");
@@ -121,7 +117,7 @@ internal class OpenCarry : SuperCallout
                 _speakSuspect.Enabled = false;
                 Game.DisplaySubtitle(
                     "~g~You~s~: I'm with the police. What is the reason for carrying your weapon out?", 5000);
-                _suspect.Tasks.FaceEntity(Player, -1);
+                _suspect.Tasks.FaceEntity(Player);
                 GameFiber.Wait(5000);
                 _suspect.PlayAmbientSpeech("GENERIC_CURSE_MED");
                 Game.DisplaySubtitle(

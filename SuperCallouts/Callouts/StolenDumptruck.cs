@@ -15,7 +15,7 @@ internal class StolenDumptruck : SuperCallout
     private Ped _bad;
     private Blip _cBlip;
     private Vehicle _cVehicle;
-    internal override Location SpawnPoint { get; set; } = new(World.GetNextPositionOnStreet(Player.Position.Around(350f)), 0);
+    internal override Location SpawnPoint { get; set; } = new(World.GetNextPositionOnStreet(Player.Position.Around(350f)));
     internal override float OnSceneDistance { get; set; } = 30;
     internal override string CalloutName { get; set; } = "Stolen Construction Vehicle";
 

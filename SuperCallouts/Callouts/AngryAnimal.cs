@@ -23,7 +23,7 @@ internal class AngryAnimal : SuperCallout
     private Blip _cBlip;
     private Blip _cBlip2;
     private Ped _victim;
-    internal override Location SpawnPoint { get; set; } = new(World.GetNextPositionOnStreet(Player.Position.Around(450f)), 0);
+    internal override Location SpawnPoint { get; set; } = new(World.GetNextPositionOnStreet(Player.Position.Around(450f)));
     internal override float OnSceneDistance { get; set; } = 30;
     internal override string CalloutName { get; set; } = "Animal Attack";
 

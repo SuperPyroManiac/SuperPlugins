@@ -11,7 +11,7 @@ namespace SuperCallouts.Callouts;
 [CalloutInterface("[SC] Indecent Exposure", CalloutProbability.Medium, "Example Description")]
 internal class IndecentExposure : SuperCallout
 {
-    internal override Location SpawnPoint { get; set; } = new(World.GetNextPositionOnStreet(Player.Position.Around(60f, 320f)), 0);
+    internal override Location SpawnPoint { get; set; } = new(World.GetNextPositionOnStreet(Player.Position.Around(60f, 320f)));
     internal override float OnSceneDistance { get; set; } = 15;
     internal override string CalloutName { get; set; } = "Indecent Exposure";
     private Ped _naked;

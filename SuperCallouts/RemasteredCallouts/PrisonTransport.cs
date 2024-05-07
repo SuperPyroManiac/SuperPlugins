@@ -1,5 +1,3 @@
-#region
-
 using System;
 using System.Drawing;
 using CalloutInterfaceAPI;
@@ -7,8 +5,6 @@ using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.API;
 using Rage;
 using Functions = LSPD_First_Response.Mod.API.Functions;
-
-#endregion
 
 namespace SuperCallouts.RemasteredCallouts;
 
@@ -19,7 +15,7 @@ internal class PrisonTransport : SuperCallout
     private Blip _cBlip;
     private Ped _cop;
     private Vehicle _cVehicle;
-    internal override Location SpawnPoint { get; set; } = new(World.GetNextPositionOnStreet(Player.Position.Around(500f)), 0);
+    internal override Location SpawnPoint { get; set; } = new(World.GetNextPositionOnStreet(Player.Position.Around(500f)));
     internal override float OnSceneDistance { get; set; } = 90;
     internal override string CalloutName { get; set; } = "Transport Escape";
 

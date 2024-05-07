@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Drawing;
 using CalloutInterfaceAPI;
 using LSPD_First_Response;
@@ -8,8 +6,6 @@ using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.API;
 using Rage;
 using Functions = LSPD_First_Response.Mod.API.Functions;
-
-#endregion
 
 namespace SuperCallouts.RemasteredCallouts;
 
@@ -19,7 +15,7 @@ internal class StolenCopVehicle : SuperCallout
     private Ped _bad;
     private Blip _cBlip;
     private Vehicle _cVehicle;
-    internal override Location SpawnPoint { get; set; } = new(World.GetNextPositionOnStreet(Player.Position.Around(350f)), 0);//TODO: MAKE THIS LIVE UPDATE
+    internal override Location SpawnPoint { get; set; } = new(World.GetNextPositionOnStreet(Player.Position.Around(350f)));//TODO: MAKE THIS LIVE UPDATE
     internal override float OnSceneDistance { get; set; } = 30;
     internal override string CalloutName { get; set; } = "Stolen Police Vehicle";
 

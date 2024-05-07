@@ -27,7 +27,7 @@ internal class TruckCrash : SuperCallout
     private Ped _victim;
     private Ped _victim2;
     private Ped _victim3;
-    internal override Location SpawnPoint { get; set; } = new(2455.644f, -186.7955f, 87.83904f, 0);
+    internal override Location SpawnPoint { get; set; } = new(2455.644f, -186.7955f, 87.83904f);
     internal override float OnSceneDistance { get; set; } = 30;
     internal override string CalloutName { get; set; } = "Truck Accident";
 

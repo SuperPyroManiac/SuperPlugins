@@ -16,7 +16,7 @@ internal class BlockingTraffic : SuperCallout
 {
     private Blip _cBlip;
     private Vehicle _cVehicle;
-    internal override Location SpawnPoint { get; set; } = new(World.GetNextPositionOnStreet(Player.Position.Around(450f)), 0);
+    internal override Location SpawnPoint { get; set; } = new(World.GetNextPositionOnStreet(Player.Position.Around(450f)));
     internal override float OnSceneDistance { get; set; } = 25;
     internal override string CalloutName { get; set; } = "Blocking Traffic";
 

@@ -1,13 +1,9 @@
-#region
-
 using System.Drawing;
 using CalloutInterfaceAPI;
 using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.API;
 using Rage;
 using Functions = LSPD_First_Response.Mod.API.Functions;
-
-#endregion
 
 namespace SuperCallouts.RemasteredCallouts;
 
