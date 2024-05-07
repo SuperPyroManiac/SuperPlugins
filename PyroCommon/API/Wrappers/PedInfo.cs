@@ -26,8 +26,7 @@ public static class PedInfo
                 PolicingRedefined.API.PedDocumentationAPI.SetFishingPermitStatus(ped, (EDocumentStatus)status);
                 break;
             case Enums.Permits.Drivers:
-            default:
-                throw new ArgumentOutOfRangeException(nameof(permit), permit, null);
+                break;
         }
     }
 

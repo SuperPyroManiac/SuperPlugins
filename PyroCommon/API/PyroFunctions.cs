@@ -15,14 +15,14 @@ public abstract class PyroFunctions
 {
     public static void AddDrugItem(string item, Enums.DrugType drugType, Ped ped = null, Vehicle vehicle = null, Enums.ItemLocation itemLocation = Enums.ItemLocation.Anywhere)
     {
-        if (ped != null) ped.Metadata.searchPed = $"{item}, {ped.Metadata.searchPed}";
-        if (vehicle != null) vehicle.Metadata.searchDriver = $"{item}, {vehicle.Metadata.searchDriver}";
+        if (ped != null) ped.Metadata.searchPed = $"{ped.Metadata.searchPed}, {item}";
+        if (vehicle != null) vehicle.Metadata.searchDriver = $"{vehicle.Metadata.searchDriver}, {item}";
         if (Main.UsingPr) SearchItems.AddDrugItem(item, drugType, itemLocation, ped, vehicle);
     }
     public static void AddWeaponItem(string item, string weaponId, Ped ped = null, Vehicle vehicle = null, Enums.ItemLocation itemLocation = Enums.ItemLocation.Anywhere)
     {
-        if (ped != null) ped.Metadata.searchPed = item + ped.Metadata.searchPed;
-        if (vehicle != null) vehicle.Metadata.searchDriver = item + vehicle.Metadata.searchDriver;
+        if (ped != null) ped.Metadata.searchPed = $"{ped.Metadata.searchPed}, {item}";
+        if (vehicle != null) vehicle.Metadata.searchDriver = $"{vehicle.Metadata.searchDriver}, {item}";
         if (Main.UsingPr) SearchItems.AddWeaponItem(item, weaponId, itemLocation, ped, vehicle);
     }
     public static void AddFirearmItem(string item, string weaponId, bool visible, bool stolen, bool equiped = false, Ped ped = null, Vehicle vehicle = null, Enums.ItemLocation itemLocation = Enums.ItemLocation.Anywhere)
@@ -30,15 +30,15 @@ public abstract class PyroFunctions
         if (ped != null)
         {
             ped.Inventory.GiveNewWeapon(weaponId, -1, equiped);
-            ped.Metadata.searchPed = item + ped.Metadata.searchPed;
+            ped.Metadata.searchPed = $"{ped.Metadata.searchPed}, {item}";
         }
-        if (vehicle != null) vehicle.Metadata.searchDriver = item + vehicle.Metadata.searchDriver;
+        if (vehicle != null) vehicle.Metadata.searchDriver = $"{vehicle.Metadata.searchDriver}, {item}";
         if (Main.UsingPr) SearchItems.AddFirearmItem(item, weaponId, visible, stolen, itemLocation, ped, vehicle);
     }
     public static void AddSearchItem(string item, Ped ped = null, Vehicle vehicle = null, Enums.ItemLocation itemLocation = Enums.ItemLocation.Anywhere)
     {
-        if (ped != null) ped.Metadata.searchPed = item + ped.Metadata.searchPed;
-        if (vehicle != null) vehicle.Metadata.searchDriver = item + vehicle.Metadata.searchDriver;
+        if (ped != null) ped.Metadata.searchPed = $"{ped.Metadata.searchPed}, {item}";
+        if (vehicle != null) vehicle.Metadata.searchDriver = $"{vehicle.Metadata.searchDriver}, {item}";
         if (Main.UsingPr) SearchItems.AddSearchItem(item, itemLocation, ped, vehicle);
         PolicingRedefined.API.PedAPI.SetPedResistanceAction(ped, EResistanceAction.Attack);
         PolicingRedefined.API.PedAPI.SetShouldWalkAwayBeforeResisting(ped, true);

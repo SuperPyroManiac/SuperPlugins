@@ -69,11 +69,12 @@ internal class Fight : SuperCallout
         {
             case 1:
                 Log.Info("Callout Scene 1");
-                Game.SetRelationshipBetweenRelationshipGroups("SUSPECT", "VICTIM", Relationship.Dislike);
-                Game.SetRelationshipBetweenRelationshipGroups("VICTIM", "SUSPECT", Relationship.Dislike);
+                Game.SetRelationshipBetweenRelationshipGroups("SUSPECT", "VICTIM", Relationship.Hate);
+                Game.SetRelationshipBetweenRelationshipGroups("VICTIM", "SUSPECT", Relationship.Hate);
                 _suspect.SetResistance(Enums.ResistanceAction.Uncooperative, false, 100);
                 //TASK_AGITATED_ACTION_CONFRONT_RESPONSE(Ped ped, Ped ped2) // 0x19D1B791CB3670FE b877
                 NativeFunction.Natives.x19D1B791CB3670FE(_suspect, _victim);
+                NativeFunction.Natives.x19D1B791CB3670FE(_victim, _suspect);
                 GameFiber.Wait(2000);
                 _suspect.Tasks.FightAgainst(_victim, 5);
                 break;

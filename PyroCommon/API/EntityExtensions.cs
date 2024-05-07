@@ -53,14 +53,14 @@ public static class EntityExtensions
             case Enums.ResistanceAction.Attack:
                 ped.RelationshipGroup = new RelationshipGroup("ANGRY");
                 Game.SetRelationshipBetweenRelationshipGroups("ANGRY", "COP", Relationship.Hate);
+                ped.Tasks.FightAgainstClosestHatedTarget(50f);
                 break;
             case Enums.ResistanceAction.Uncooperative:
                 ped.RelationshipGroup = new RelationshipGroup("ANGRY");
                 Game.SetRelationshipBetweenRelationshipGroups("ANGRY", "COP", Relationship.Dislike);
                 break;
             case Enums.ResistanceAction.None:
-            default:
-                throw new ArgumentOutOfRangeException(nameof(resistanceAction), resistanceAction, null);
+                break;
         }
     }
     
@@ -94,7 +94,7 @@ public static class EntityExtensions
     
     public static void SetLicenseStatus(this Ped ped, Enums.Permits permits, Enums.PermitStatus status)
     {
-        if (PyroCommon.Main.UsingPr) PedInfo.SetPermit(ped, permits, status);
+        if (Main.UsingPr) PedInfo.SetPermit(ped, permits, status);
         switch (permits)
         {
             case Enums.Permits.Drivers:
@@ -112,30 +112,24 @@ public static class EntityExtensions
                     case Enums.PermitStatus.Valid:
                         Functions.GetPersonaForPed(ped).ELicenseState = ELicenseState.Valid;
                         break;
-                    default:
-                        throw new ArgumentOutOfRangeException(nameof(status), status, null);
                 }
                 break;
             case Enums.Permits.Guns:
                 switch (status)
                 {
-                    case Enums.PermitStatus.None:
-                    case Enums.PermitStatus.Revoked:
-                    case Enums.PermitStatus.Expired:
+                    case Enums.PermitStatus.None or Enums.PermitStatus.Revoked or Enums.PermitStatus.Expired:
                         ped.Metadata.hasGunPermit = false;
                         break;
                     case Enums.PermitStatus.Valid:
                         ped.Metadata.hasGunPermit = true;
                         break;
-                    default:
-                        throw new ArgumentOutOfRangeException(nameof(status), status, null);
                 }
                 ped.Metadata.hasGunPermit = false;
                 break;
             case Enums.Permits.Hunting:
+                break;
             case Enums.Permits.Fishing:
-            default:
-                throw new ArgumentOutOfRangeException(nameof(permits), permits, null);
+                break;
         }
     }
     
