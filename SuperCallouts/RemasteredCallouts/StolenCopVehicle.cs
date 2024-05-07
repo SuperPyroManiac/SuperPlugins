@@ -17,8 +17,7 @@ internal class StolenCopVehicle : SuperCallout
     private Blip _cBlip;
     private Vehicle _cVehicle;
     private bool _blipHelper;
-    internal override Location SpawnPoint { get; set; } =
-        new(World.GetNextPositionOnStreet(Player.Position.Around(350f))); //TODO: MAKE THIS LIVE UPDATE
+    internal override Location SpawnPoint { get; set; } = new(World.GetNextPositionOnStreet(Player.Position.Around(350f)));
     internal override float OnSceneDistance { get; set; } = 50f;
     internal override string CalloutName { get; set; } = "Stolen Police Vehicle";
 
@@ -35,10 +34,7 @@ internal class StolenCopVehicle : SuperCallout
             "A suspect has stolen a police vehicle during his arrest. Respond ~r~CODE-3");
 
         Model[] vehicleModels = { "POLICE", "POLICE2", "POLICE3", "SHERIFF", "SHERIFF2" };
-        _cVehicle =
-            new Vehicle(
-                    vehicleModels[new Random(DateTime.Now.Millisecond).Next(vehicleModels.Length)],
-                    SpawnPoint.Position)
+        _cVehicle = new Vehicle(vehicleModels[new Random(DateTime.Now.Millisecond).Next(vehicleModels.Length)], SpawnPoint.Position)
                 { IsPersistent = true, IsStolen = true, IsSirenOn = true, IsSirenSilent = true };
         EntitiesToClear.Add(_cVehicle);
 
@@ -63,9 +59,9 @@ internal class StolenCopVehicle : SuperCallout
             GameFiber.StartNew(delegate
             {
                 _blipHelper = true;
-                GameFiber.Sleep(5000);
                 SpawnPoint = new Location(_suspect.Position);
                 _cBlip.Position = SpawnPoint.Position;
+                GameFiber.Sleep(5000);
                 _blipHelper = false;
             });
         }
