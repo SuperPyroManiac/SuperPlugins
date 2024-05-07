@@ -25,9 +25,13 @@ public abstract class PyroFunctions
         if (vehicle != null) vehicle.Metadata.searchDriver = item + vehicle.Metadata.searchDriver;
         if (Main.UsingPr) SearchItems.AddWeaponItem(item, weaponId, itemLocation, ped, vehicle);
     }
-    public static void AddFirearmItem(string item, string weaponId, bool visible, bool stolen, Ped ped = null, Vehicle vehicle = null, Enums.ItemLocation itemLocation = Enums.ItemLocation.Anywhere)
+    public static void AddFirearmItem(string item, string weaponId, bool visible, bool stolen, bool equiped = false, Ped ped = null, Vehicle vehicle = null, Enums.ItemLocation itemLocation = Enums.ItemLocation.Anywhere)
     {
-        if (ped != null) ped.Metadata.searchPed = item + ped.Metadata.searchPed;
+        if (ped != null)
+        {
+            ped.Inventory.GiveNewWeapon(weaponId, -1, equiped);
+            ped.Metadata.searchPed = item + ped.Metadata.searchPed;
+        }
         if (vehicle != null) vehicle.Metadata.searchDriver = item + vehicle.Metadata.searchDriver;
         if (Main.UsingPr) SearchItems.AddFirearmItem(item, weaponId, visible, stolen, itemLocation, ped, vehicle);
     }
