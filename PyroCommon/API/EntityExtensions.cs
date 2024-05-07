@@ -48,7 +48,7 @@ public static class EntityExtensions
         switch (resistanceAction)
         {
             case Enums.ResistanceAction.Flee:
-                PyroFunctions.StartPursuit(ped);
+                PyroFunctions.StartPursuit(false, false, ped);
                 break;
             case Enums.ResistanceAction.Attack:
                 ped.RelationshipGroup = new RelationshipGroup("ANGRY");

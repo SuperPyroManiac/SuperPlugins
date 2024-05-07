@@ -74,7 +74,7 @@ internal class StolenCopVehicle : SuperCallout
     internal override void CalloutOnScene()
     {
         if ( _cBlip.Exists() ) _cBlip.Delete();
-        PyroFunctions.StartPursuit(_suspect);
+        PyroFunctions.StartPursuit(false, false, _suspect);
 
         if ( PyroCommon.Main.UsingUb )
             Wrapper.CallPursuit();

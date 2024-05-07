@@ -67,12 +67,12 @@ internal class PrisonTransport : SuperCallout
                 if (_suspect.IsAlive)
                 {
                     if (_cop.IsAlive) _cop.Kill();
-                    PyroFunctions.StartPursuit(_suspect);
+                    PyroFunctions.StartPursuit(false, false, _suspect);
                 }
                 break;
             case 2:
               Log.Info("Callout Scene 2");
-                var pursuit = PyroFunctions.StartPursuit(_suspect);
+                var pursuit = PyroFunctions.StartPursuit(false, false, _suspect);
                 Functions.AddCopToPursuit(pursuit, _cop);
                 break;
         }

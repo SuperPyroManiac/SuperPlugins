@@ -88,7 +88,7 @@ internal class OpenCarry : SuperCallout
                 _speakSuspect.Enabled = true;
                 Game.DisplaySubtitle("~r~Suspect: ~s~I know my rights, leave me alone!", 5000);
                 _suspect.SetResistance(Enums.ResistanceAction.Flee);
-                PyroFunctions.StartPursuit(_suspect);
+                PyroFunctions.StartPursuit(false, false, _suspect);
                 break;
             case 2:
                 Log.Info("Callout Scene 2");
