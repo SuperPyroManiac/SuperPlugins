@@ -77,11 +77,13 @@ internal class OpenCarry : SuperCallout
 
     internal override void CalloutOnScene()
     {
+        _cBlip.Position = SpawnPoint.Position;
+        _cBlip.Scale = 20;
+        _cBlip.DisableRoute();
         Game.DisplaySubtitle("~g~You~s~: Hey, stop for a second.");
         _suspect.Tasks.ClearImmediately();
         _speakSuspect.Enabled = true;
         _suspect.Tasks.FaceEntity(Player);
-        _cBlip.DisableRoute();
         GameFiber.Wait(1000);
         switch (new Random(DateTime.Now.Millisecond).Next(1, 6))
         {
