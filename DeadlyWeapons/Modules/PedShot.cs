@@ -48,7 +48,7 @@ internal static class PedShot
             var rnd2 = new Random(DateTime.Now.Millisecond).Next(1, 3);
             victim.Health -= 30;
             Log.Info(Functions.GetPersonaForPed(victim).FullName + " shot in leg - deducting 30 health.");
-            if (rnd2 == 2) PyroFunctions.Ragdoll(victim);
+            if (rnd2 == 2) victim.Tasks.Ragdoll();
             Log.Info(Functions.GetPersonaForPed(victim).FullName + " tripped due to leg injury. (50/50 chance)");
             if (Settings.EnableDebug)
             {
@@ -84,7 +84,7 @@ internal static class PedShot
                 case 2:
                     victim.Health -= 45;
                     victim.Armor = 0;
-                    PyroFunctions.Ragdoll(victim);
+                    victim.Tasks.Ragdoll();
                     break;
                 case 3:
                     victim.Armor -= 35;
@@ -117,7 +117,7 @@ internal static class PedShot
                     break;
                 case 4:
                     victim.Health -= 50;
-                    PyroFunctions.Ragdoll(victim);
+                    victim.Tasks.Ragdoll();
                     break;
             }
             if (Settings.EnableDebug)

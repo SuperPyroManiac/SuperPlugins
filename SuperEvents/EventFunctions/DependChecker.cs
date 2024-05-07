@@ -23,7 +23,7 @@ public class DependChecker
         }
         //TODO: Next version remove this as everyone should have updated PyroCommon 1.4
         var dependVersion = new Version(FileVersionInfo.GetVersionInfo("PyroCommon.dll").FileVersion);
-        if (dependVersion < new Version("1.4.0.0"))
+        if (dependVersion < new Version("1.5.0.0"))
         {
             Game.Console.Print("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
             Game.Console.Print("SuperEvents: Error Report Start");

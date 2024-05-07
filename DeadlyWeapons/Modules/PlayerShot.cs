@@ -73,7 +73,7 @@ internal static class PlayerShot
             Log.Info("Player shot in leg - deducting 30 health.");
             if (rnd2 == 2)
             {
-                PyroFunctions.Ragdoll(Player);
+                Player.Tasks.Ragdoll();
                 Log.Info("Player tripped due to leg injury. (50/50 chance)");
             }
 
@@ -108,7 +108,7 @@ internal static class PlayerShot
                 case 2:
                     Player.Health -= 45;
                     Player.Armor = 0;
-                    PyroFunctions.Ragdoll(Player);
+                    Player.Tasks.Ragdoll();
                     break;
                 case 3:
                     Player.Armor -= 35;
@@ -140,7 +140,7 @@ internal static class PlayerShot
                     break;
                 case 4:
                     Player.Health -= 50;
-                    PyroFunctions.Ragdoll(Player);
+                    Player.Tasks.Ragdoll();
                     break;
             }
             if (Settings.EnableDebug)

@@ -30,7 +30,7 @@ internal static class CustomPullover
                     Log.Info("Pullover detected, using scenario: " + rNd);
                     checking = false;
                     bad.Inventory.Weapons.Clear();
-                    if (PyroFunctions.IsWanted(bad))
+                    if (bad.GetWanted())
                         switch (rNd)
                         {
                             case 1:
@@ -79,8 +79,7 @@ internal static class CustomPullover
                     {
                         bad.Metadata.searchPed = "~r~A Firearm~s~, " + bad.Metadata.searchPed;
                         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~y~Traffic Stop",
-                            "~r~Weapon Spotted",
-                            "You noticed the suspect has a weapon in the vehicle!");
+                            "~r~Weapon Spotted", "You noticed the suspect has a weapon in the vehicle!");
                     }
                 }
             }

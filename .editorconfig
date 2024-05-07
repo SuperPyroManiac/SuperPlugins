@@ -22,3 +22,4 @@ resharper_replace_with_string_is_null_or_empty_highlighting=none
 
 # My custom error settings
 resharper_use_object_or_collection_initializer_highlighting=none
+resharper_unused_member_global_highlighting=none

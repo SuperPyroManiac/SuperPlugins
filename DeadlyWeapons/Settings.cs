@@ -12,7 +12,7 @@ namespace DeadlyWeapons;
 internal static class Settings
 {
     internal static bool EnablePlayerDamageSystem = true;
-    internal static bool AlternatePlayerDamageSystem = false;
+    internal static bool AlternatePlayerDamageSystem;
     internal static bool EnableAIDamageSystem = true;
     internal static bool EnablePlayerHeadshotInstakill;
     internal static bool EnablePanic = true;

@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("PyroCommon")]
-[assembly: AssemblyDescription("Library for Pyro's mods by SuperPyroManiac")]
+[assembly: AssemblyDescription("Library for my mods by SuperPyroManiac")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("PyroCommon")]

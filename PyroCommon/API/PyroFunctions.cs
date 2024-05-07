@@ -199,20 +199,6 @@ public abstract class PyroFunctions
         }
     }
     
-    [Obsolete("Method is deprecated, please use Ped.Tasks.Ragdoll instead.")]
-    public static void Ragdoll(Ped ped)
-    {
-        try
-        {
-            NativeFunction.Natives.xD76632D99E4966C8(ped, 1000, 3500, 0, ped.Direction, World.GetGroundZ(ped.Position, false, false), 0, 0);
-        }
-        catch (Exception e)
-        {
-            Log.Info("Ragdoll issue.");
-            Log.Error(e.ToString());
-        }
-    }
-    
     [Obsolete("Method is deprecated, please use Ped.SetWanted instead.")]
     public static Ped SetWanted(Ped ped, bool isWanted)
     {
@@ -220,14 +206,6 @@ public abstract class PyroFunctions
         var thePersona = Functions.GetPersonaForPed(ped);
         thePersona.Wanted = true;
         return ped;
-    }
-
-    [Obsolete("Method is deprecated, please use Ped.GetWanted instead.")]
-    public static bool IsWanted(Ped ped)
-    {
-        var persona = Functions.GetPersonaForPed(ped);
-        Log.Info("Ped is Wanted? = " + persona.Wanted);
-        return persona.Wanted;
     }
     
     [Obsolete("Method is deprecated, please use Ped.SetDrunk instead.")]

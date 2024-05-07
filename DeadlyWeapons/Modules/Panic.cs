@@ -1,13 +1,7 @@
-﻿#region
-
-using System;
-using System.Linq;
-using LSPD_First_Response;
+﻿using LSPD_First_Response;
 using LSPD_First_Response.Mod.API;
 using PyroCommon.API;
 using Rage;
-
-#endregion
 
 namespace DeadlyWeapons.Modules;
 
@@ -15,9 +9,6 @@ internal static class Panic
 {
     private static bool _panic;
 
-    private static readonly Func<string, bool> IsLoaded = plugName =>
-        Functions.GetAllUserPlugins().Any(assembly => assembly.GetName().Name.Equals(plugName));
-    private static readonly bool UsingUb = IsLoaded("UltimateBackup");
     private static Ped Player => Game.LocalPlayer.Character;
 
     internal static void StartPanicWatch()
@@ -39,12 +30,12 @@ internal static class Panic
         if (_panic) return;
         if (Settings.EnableDebug) Log.Info("[DEBUG]: Panic has been activated! Waiting cooldown to activate again: " + Settings.PanicCooldown * 1000 + " seconds.");
         _panic = true;
-        if (UsingUb) Log.Info("Using Ultimate Backup for panic.");
+        if (PyroCommon.Main.UsingUb) Log.Info("Using Ultimate Backup for panic.");
         GameFiber.StartNew(delegate
         {
             if (Settings.Code3Backup)
             {
-                if (UsingUb)
+                if (PyroCommon.Main.UsingUb)
                     Wrapper.CallCode3();
                 else
                     Functions.RequestBackup(Game.LocalPlayer.Character.Position,
@@ -54,7 +45,7 @@ internal static class Panic
 
             if (Settings.SwatBackup)
             {
-                if (UsingUb)
+                if (PyroCommon.Main.UsingUb)
                     Wrapper.CallSwat(false);
                 else
                     Functions.RequestBackup(Game.LocalPlayer.Character.Position,
@@ -64,7 +55,7 @@ internal static class Panic
 
             if (Settings.NooseBackup)
             {
-                if (UsingUb)
+                if (PyroCommon.Main.UsingUb)
                     Wrapper.CallSwat(true);
                 else
                     Functions.RequestBackup(Game.LocalPlayer.Character.Position,

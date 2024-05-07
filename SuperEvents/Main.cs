@@ -15,8 +15,6 @@ internal class Main : Plugin
 {
     internal static bool PluginRunning { get; private set; }
     internal static bool PluginPaused { get; set; }
-    // ReSharper disable once NotAccessedField.Local
-    private static GameFiber _initFiber;
 
     public override void Initialize()
     {
@@ -45,7 +43,7 @@ internal class Main : Plugin
                 "~r~SuperEvents",
                 "~g~Plugin Loaded.",
                 "SuperEvents version: " + Assembly.GetExecutingAssembly().GetName().Version + " loaded.");
-            _initFiber = GameFiber.StartNew(EventManager.InitEvents);
+            GameFiber.StartNew(EventManager.InitEvents);
             EventInterface.StartInterface();
             
             PyroCommon.Main.InitCommon();
