@@ -23,8 +23,7 @@ internal class PrisonTransport : SuperCallout
     {
         CalloutMessage = "~b~Dispatch:~s~ Prisoner escaped transport.";
         CalloutAdvisory = "Officers report a suspect has jumped out of a moving transport vehicle.";
-        Functions.PlayScannerAudioUsingPosition("OFFICERS_REPORT_01 CRIME_SUSPECT_ON_THE_RUN_01 IN_OR_ON_POSITION",
-            SpawnPoint.Position);
+        Functions.PlayScannerAudioUsingPosition("OFFICERS_REPORT_01 CRIME_SUSPECT_ON_THE_RUN_01 IN_OR_ON_POSITION", SpawnPoint.Position);
     }
 
     internal override void CalloutAccepted()
@@ -59,7 +58,8 @@ internal class PrisonTransport : SuperCallout
         switch (new Random(DateTime.Now.Millisecond).Next(1, 3))
         {
             case 1:
-                PyroFunctions.AddFirearmItem("Pistol", "weapon_pistol_mk2", true, true, _suspect);
+              Log.Info("Callout Scene 1");
+                PyroFunctions.AddFirearmItem("Pistol", "weapon_pistol_mk2", true, true, true, _suspect);
                 _suspect.Inventory.EquippedWeapon = "weapon_pistol_mk2";
                 _suspect.Tasks.FightAgainst(_cop);
                 _suspect.Health = 250;
@@ -71,6 +71,7 @@ internal class PrisonTransport : SuperCallout
                 }
                 break;
             case 2:
+              Log.Info("Callout Scene 2");
                 var pursuit = PyroFunctions.StartPursuit(_suspect);
                 Functions.AddCopToPursuit(pursuit, _cop);
                 break;
