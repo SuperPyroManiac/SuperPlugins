@@ -84,6 +84,7 @@ internal abstract class SuperCallout : Callout
                 OnScene = true;
                 CalloutInterfaceAPI.Functions.SendMessage(this, "Officer on scene.");
                 Game.DisplayHelp($"Press ~{Settings.Interact.GetInstructionalId()}~ to open interaction menu.");
+                if (ConvoMenu.Children.Count > 0) Questioning.Enabled = true;
                 try {GameFiber.StartNew(CalloutOnScene);}
                 catch(Exception e)
                 {

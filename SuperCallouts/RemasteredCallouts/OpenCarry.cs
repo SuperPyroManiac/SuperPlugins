@@ -47,7 +47,6 @@ internal class OpenCarry : SuperCallout
 
         _speakSuspect = new UIMenuItem("Speak with ~y~" + _name1);
         ConvoMenu.AddItem(_speakSuspect);
-        Questioning.Enabled = true;
         _speakSuspect.Enabled = false;
     }
 
