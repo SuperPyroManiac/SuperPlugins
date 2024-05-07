@@ -1,7 +1,7 @@
 root = true
 [*]
 # Most of the standard properties are supported
-indent_size=2
+indent_size=4
 max_line_length=100
 
 # Most frequently used .NET-coding-convention properties are supported
@@ -13,7 +13,7 @@ dotnet_diagnostic.CS1058.severity = hint
 
 # JetBrains Rider custom properties for code formatting styles
 resharper_csharp_brace_style=next_line
-resharper_csharp_blank_lines_around_invocable=2
+resharper_csharp_blank_lines_around_invocable=1
 
 # JetBrains Rider custom properties for code syntax styles
 csharp_default_private_modifier=explicit
