@@ -15,7 +15,7 @@ internal class WeirdCar : SuperCallout
 {
     private readonly Random _rNd = new();
     private Ped _bad1;
-    private Blip _cBlip1;
+    private Blip _cBlip;
     private Vehicle _cVehicle1;
     private string _name;
     private UIMenuItem _speakSuspect;
@@ -38,10 +38,8 @@ internal class WeirdCar : SuperCallout
         _cVehicle1 = PyroFunctions.SpawnCar(SpawnPoint);
         EntitiesToClear.Add(_cVehicle1);
 
-        _cBlip1 = _cVehicle1.AttachBlip();
-        _cBlip1.EnableRoute(Color.Yellow);
-        _cBlip1.Color = Color.Yellow;
-        BlipsToClear.Add(_cBlip1);
+        _cBlip = PyroFunctions.CreateSearchBlip(SpawnPoint, Color.Yellow, true, true, 40f);
+        BlipsToClear.Add(_cBlip);
 
         _speakSuspect = new UIMenuItem("Speak with ~y~" + _name);
         ConvoMenu.AddItem(_speakSuspect);
@@ -49,18 +47,22 @@ internal class WeirdCar : SuperCallout
 
     internal override void CalloutOnScene()
     {
-        _cBlip1.DisableRoute();
+        _cBlip.Position = SpawnPoint.Position;
+        _cBlip.Scale = 20;
+        _cBlip.DisableRoute();
         Game.DisplayNotification("Investigate the vehicle.");
         var choices = _rNd.Next(1, 4);
         Log.Info("Suspicious vehicle scene: " + choices);
         switch (choices)
         {
             case 1:
+                Log.Info("Callout Scene 1");
                 _cVehicle1.ApplyDamage(500, 500);
                 _cVehicle1.IsStolen = true;
                 CalloutInterfaceAPI.Functions.SendMessage(this, "Officer on scene. Vehicle appears to be abandoned.");
                 break;
             case 2:
+                Log.Info("Callout Scene 2");
                 GameFiber.StartNew(delegate
                 {
                     _cVehicle1.IsStolen = true;
@@ -77,6 +79,7 @@ internal class WeirdCar : SuperCallout
                 });
                 break;
             case 3:
+                Log.Info("Callout Scene 3");
                 _bad1 = _cVehicle1.CreateRandomDriver();
                 _bad1.IsPersistent = true;
                 _bad1.BlockPermanentEvents = true;
