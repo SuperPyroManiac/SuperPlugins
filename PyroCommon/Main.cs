@@ -9,7 +9,7 @@ namespace PyroCommon;
 
 public class Main
 {
-    private static bool init;
+    private static bool _init;
     private static readonly Func<string, bool> IsLoaded = plugName =>
         Functions.GetAllUserPlugins().Any(assembly => assembly.GetName().Name.Equals(plugName));
     internal static bool UsingUb { get; } = IsLoaded("UltimateBackup");
@@ -17,8 +17,8 @@ public class Main
 
     internal static void InitCommon()
     {
-        if (init) return;
-        init = true;
+        if (_init) return;
+        _init = true;
         
         InitParticles();
     }
