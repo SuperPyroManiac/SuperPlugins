@@ -43,31 +43,16 @@ public class Main : Plugin
             if (Settings.EnablePulloverAi)
                 Events.OnPulloverStarted += CustomPullover.PulloverModule;
             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~r~DeadlyWeapons", "~g~Plugin Loaded.", "DeadlyWeapons version: " + Assembly.GetExecutingAssembly().GetName().Version + " loaded.");
-            
-            PyroCommon.Main.InitCommon();
-            GameFiber.StartNew(VersionChecker.IsUpdateAvailable);
-        }
-        else
-        {
-            if (VersionChecker.UpdateThread.IsAlive)
-            {
-                Log.Warning("Version thread still running during shutdown! Aborting thread...");
-                VersionChecker.UpdateThread.Abort();
-            }
-            Log.Info("Plugin unloaded!");
+            PyroCommon.Main.InitCommon("DeadlyWeapons", Assembly.GetExecutingAssembly().GetName().Version.ToString());
         }
     }
         
     public override void Finally()
     {
-        if (VersionChecker.UpdateThread.IsAlive)
-        {
-            Log.Warning("Version thread still running during shutdown! Aborting thread...");
-            VersionChecker.UpdateThread.Abort();
-        }
         DamageTrackerService.Stop();
         _panicFiber.Abort();
         Events.OnPulloverStarted -= CustomPullover.PulloverModule;
+        PyroCommon.Main.StopCommon();
         Log.Info("Plugin unloaded!");
     }
 }

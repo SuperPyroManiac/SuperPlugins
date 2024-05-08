@@ -45,18 +45,7 @@ internal class Main : Plugin
                 "SuperEvents version: " + Assembly.GetExecutingAssembly().GetName().Version + " loaded.");
             GameFiber.StartNew(EventManager.InitEvents);
             EventInterface.StartInterface();
-            
-            PyroCommon.Main.InitCommon();
-            GameFiber.StartNew(VersionChecker.IsUpdateAvailable);
-        }
-        else
-        {
-            if (VersionChecker.UpdateThread.IsAlive)
-            {
-                Log.Warning("Version thread still running during shutdown! Aborting thread...");
-                VersionChecker.UpdateThread.Abort();
-            }
-            Log.Info("Plugin unloaded!");
+            PyroCommon.Main.InitCommon("SuperEvents", Assembly.GetExecutingAssembly().GetName().Version.ToString());
         }
     }
 
@@ -75,11 +64,6 @@ internal class Main : Plugin
 
     public override void Finally()
     {
-        if (VersionChecker.UpdateThread.IsAlive)
-        {
-            Log.Warning("Version thread still running during shutdown! Aborting thread...");
-            VersionChecker.UpdateThread.Abort();
-        }
         if (EventManager.CurrentEvent != null)
         {
             foreach (var entity in EventManager.CurrentEvent.EntitiesToClear.Where(entity => entity))
@@ -88,6 +72,7 @@ internal class Main : Plugin
                 blip.Delete();
         }
         PluginRunning = false;
+        PyroCommon.Main.StopCommon();
         Log.Info( "Plugin unloaded!");
     }
 

@@ -86,7 +86,6 @@
         <Compile Include="Settings.cs" />
         <Compile Include="SimpleFunctions\ConsoleCommands.cs" />
         <Compile Include="SimpleFunctions\DependChecker.cs" />
-        <Compile Include="SimpleFunctions\VersionChecker.cs" />
         <Compile Include="SuperCallout.cs" />
     </ItemGroup>
     <ItemGroup>

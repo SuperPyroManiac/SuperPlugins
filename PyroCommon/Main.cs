@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using LSPD_First_Response.Mod.API;
 using PyroCommon.API;
 using Rage;
@@ -12,15 +14,31 @@ public class Main
     private static bool _init;
     private static readonly Func<string, bool> IsLoaded = plugName =>
         Functions.GetAllUserPlugins().Any(assembly => assembly.GetName().Name.Equals(plugName));
+    private static readonly Dictionary<string, string> InstalledPyroPlugins = new();
+
     internal static bool UsingUb { get; } = IsLoaded("UltimateBackup");
     internal static bool UsingPr { get; } = IsLoaded("PolicingRedefined");
 
-    internal static void InitCommon()
+    internal static void InitCommon(string plugName, string plugVersion)
     {
+        InstalledPyroPlugins.Add(plugName, plugVersion);
+
         if (_init) return;
         _init = true;
         
         InitParticles();
+        GameFiber.StartNew(CheckPluginVersions);
+    }
+
+    internal static void StopCommon()
+    {
+        InstalledPyroPlugins.Clear();
+    }
+
+    private static void CheckPluginVersions()
+    {
+        GameFiber.Sleep(5000);
+        VersionChecker.IsUpdateAvailable(InstalledPyroPlugins);
     }
 
     private static void InitParticles()

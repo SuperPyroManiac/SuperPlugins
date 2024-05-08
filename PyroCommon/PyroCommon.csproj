@@ -72,6 +72,7 @@
         <Compile Include="API\EntityExtensions.cs" />
         <Compile Include="API\Particles.cs" />
         <Compile Include="API\PyroFunctions.cs" />
+        <Compile Include="API\VersionChecker.cs" />
         <Compile Include="API\Wrapper.cs" />
         <Compile Include="API\Wrappers\Backup.cs" />
         <Compile Include="API\Wrappers\PedInfo.cs" />

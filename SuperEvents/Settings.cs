@@ -1,6 +1,5 @@
 #region
 
-using System.Reflection;
 using System.Windows.Forms;
 using PyroCommon.API;
 using Rage;
@@ -26,7 +25,6 @@ public static class Settings
     public static Keys EndEvent = Keys.End;
     public static Keys EventManager = Keys.K;
     //public static Keys EventManagerMod = Keys.Control;
-    public static readonly string SEVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
     internal static void LoadSettings()
     {

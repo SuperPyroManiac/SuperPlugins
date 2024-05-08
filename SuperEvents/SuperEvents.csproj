@@ -70,7 +70,6 @@
     <Compile Include="EventFunctions\DependChecker.cs" />
     <Compile Include="EventFunctions\EventInterface.cs" />
     <Compile Include="EventFunctions\EventParameterAutoCompleter.cs" />
-    <Compile Include="EventFunctions\VersionChecker.cs" />
     <Compile Include="Events\CarAccident.cs" />
     <Compile Include="Events\CarFire.cs" />
     <Compile Include="Events\Fight.cs" />

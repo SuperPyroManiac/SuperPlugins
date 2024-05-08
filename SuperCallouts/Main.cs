@@ -35,18 +35,7 @@ internal class Main : Plugin
             Log.Info($"Using Policing Redefined: {PyroCommon.Main.UsingPr}");
             Log.Info("======================================================");
             RegisterCallouts();
-            
-            PyroCommon.Main.InitCommon();
-            GameFiber.StartNew(VersionChecker.IsUpdateAvailable);
-        }
-        else
-        {
-            if (VersionChecker.UpdateThread.IsAlive)
-            {
-                Log.Warning("Version thread still running during shutdown! Aborting thread...");
-                VersionChecker.UpdateThread.Abort();
-            }
-            Log.Info("Plugin unloaded!");
+            PyroCommon.Main.InitCommon("SuperCallouts", Assembly.GetExecutingAssembly().GetName().Version.ToString());
         }
     }
 
@@ -101,11 +90,7 @@ internal class Main : Plugin
 
     public override void Finally()
     {
-        if (VersionChecker.UpdateThread.IsAlive)
-        {
-            Log.Warning("Version thread still running during shutdown! Aborting thread...");
-            VersionChecker.UpdateThread.Abort();
-        }
+        PyroCommon.Main.StopCommon();
         Log.Info("Plugin unloaded!");
     }
 }
