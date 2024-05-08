@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.IO;
 using PyroCommon.API;
@@ -21,7 +21,7 @@ public class DependChecker
             Game.DisplayNotification("new_editor", "warningtriangle", "~r~SuperCallouts", "~y~Not Loaded!", "Plugin is installed incorrectly! Please see the RagePluginHook.log! Visit https://dsc.gg/ulss for help!"); 
             return false;
         }
-        //TODO: Next version remove this as everyone should have updated PyroCommon 1.4
+        //TODO: Next version remove this as everyone should have updated PyroCommon 1.5
         var dependVersion = new Version(FileVersionInfo.GetVersionInfo("PyroCommon.dll").FileVersion);
         if (dependVersion < new Version("1.5.0.1"))
         {
