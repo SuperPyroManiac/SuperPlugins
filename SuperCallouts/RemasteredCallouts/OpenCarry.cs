@@ -47,12 +47,11 @@ internal class OpenCarry : SuperCallout
 
         _speakSuspect = new UIMenuItem("Speak with ~y~" + _name1);
         ConvoMenu.AddItem(_speakSuspect);
-        _speakSuspect.Enabled = false;
     }
 
     internal override void CalloutRunning()
     {
-        if ( _suspect.IsDead )
+        if ( _suspect.Exists() && _suspect.IsDead )
         {
             _speakSuspect.Enabled = false;
             _speakSuspect.RightLabel = "~r~Dead";
@@ -64,7 +63,9 @@ internal class OpenCarry : SuperCallout
             {
                 _blipHelper = true;
                 SpawnPoint = new Location(_suspect.Position);
+                _cBlip.DisableRoute();
                 _cBlip.Position = SpawnPoint.Position.Around2D(25, 45);
+                _cBlip.EnableRoute(Color.Red);
                 GameFiber.Sleep(5000);
                 _blipHelper = false;
             });
@@ -84,14 +85,14 @@ internal class OpenCarry : SuperCallout
         {
             case 1:
                 Log.Info("Callout Scene 1");
-                _speakSuspect.Enabled = true;
+                Questioning.Enabled = true;
                 Game.DisplaySubtitle("~r~Suspect: ~s~I know my rights, leave me alone!", 5000);
                 _suspect.SetResistance(Enums.ResistanceAction.Flee);
                 PyroFunctions.StartPursuit(false, false, _suspect);
                 break;
             case 2:
                 Log.Info("Callout Scene 2");
-                _speakSuspect.Enabled = true;
+                Questioning.Enabled = true;
                 Game.DisplayNotification("Investigate the person.");
                 _suspect.SetResistance(Enums.ResistanceAction.Uncooperative, true);
                 _suspect.Inventory.Weapons.Clear();
@@ -104,7 +105,7 @@ internal class OpenCarry : SuperCallout
                 break;
             case 4:
                 Log.Info("Callout Scene 4");
-                _speakSuspect.Enabled = true;
+                Questioning.Enabled = true;
                 Game.DisplayNotification("Investigate the person.");
                 _suspect.Tasks.ClearImmediately();
                 _suspect.Inventory.Weapons.Clear();

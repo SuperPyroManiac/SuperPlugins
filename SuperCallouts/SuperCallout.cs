@@ -18,8 +18,7 @@ internal abstract class SuperCallout : Callout
     internal List<Blip> BlipsToClear = new();
     internal static Ped Player => Game.LocalPlayer.Character;
     internal bool OnScene;
-
-    internal bool CalloutEnded = false;
+    internal bool CalloutEnded;
     //UI
     protected readonly MenuPool Interaction = new();
     protected readonly UIMenu MainMenu = new("SuperCallouts", "Choose an option.");
@@ -84,7 +83,6 @@ internal abstract class SuperCallout : Callout
                 OnScene = true;
                 CalloutInterfaceAPI.Functions.SendMessage(this, "Officer on scene.");
                 Game.DisplayHelp($"Press ~{Settings.Interact.GetInstructionalId()}~ to open interaction menu.");
-                if (ConvoMenu.Children.Count > 0) Questioning.Enabled = true;
                 try {GameFiber.StartNew(CalloutOnScene);}
                 catch(Exception e)
                 {
@@ -125,7 +123,7 @@ internal abstract class SuperCallout : Callout
         Game.DisplayHelp("~y~Callout Ended.");
         CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code-4");
         foreach (var blip in BlipsToClear.Where(blip => blip.Exists())) blip.Delete();
-
+        
         Interaction.CloseAllMenus();
         Log.Info($"Ending {CalloutName} Callout.");
         End();

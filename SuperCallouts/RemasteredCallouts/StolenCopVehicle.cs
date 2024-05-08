@@ -59,7 +59,9 @@ internal class StolenCopVehicle : SuperCallout
             {
                 _blipHelper = true;
                 SpawnPoint = new Location(_suspect.Position);
+                _cBlip.DisableRoute();
                 _cBlip.Position = SpawnPoint.Position;
+                _cBlip.EnableRoute(Color.Red);
                 GameFiber.Sleep(2500);
                 _blipHelper = false;
             });

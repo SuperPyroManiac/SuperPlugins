@@ -85,7 +85,7 @@ internal class WeirdCar : SuperCallout
                 _bad1.BlockPermanentEvents = true;
                 _bad1.SetWanted(true);
                 _name = Functions.GetPersonaForPed(_bad1).FullName;
-                _speakSuspect.Enabled = true;
+                Questioning.Enabled = true;
                 _cVehicle1.IsStolen = true;
                 CalloutInterfaceAPI.Functions.SendMessage(this, "Officer on scene. Vehicle appears to be occupied.");
                 break;
