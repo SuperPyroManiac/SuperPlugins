@@ -67,7 +67,7 @@ public static class EntityExtensions
     public static void SetWanted(this Ped ped, bool isWanted)
     {
         if (!ped.Exists()) return;
-        var pedP = Functions.GetPersonaForPed(ped).Wanted = isWanted;
+        Functions.GetPersonaForPed(ped).Wanted = isWanted;
     }
     
     public static bool GetWanted(this Ped ped)

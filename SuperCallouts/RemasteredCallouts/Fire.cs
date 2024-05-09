@@ -15,7 +15,7 @@ internal class Fire : SuperCallout
     private int _partHandleBigFire;
     private int _partHandleMistySmoke;
     internal override Location SpawnPoint { get; set; } = PyroFunctions.GetSideOfRoad(750, 180);
-    internal override float OnSceneDistance { get; set; } = 35f;
+    internal override float OnSceneDistance { get; set; } = 15f;
     internal override string CalloutName { get; set; } = "Fire";
 
     internal override void CalloutPrep()
@@ -50,6 +50,7 @@ internal class Fire : SuperCallout
         _cBlip.Scale = 20;
         _cBlip.DisableRoute();
         
+        GameFiber.Wait(5000);
         _cVehicle.StartFire(true);
         
         GameFiber.Wait(12000);
