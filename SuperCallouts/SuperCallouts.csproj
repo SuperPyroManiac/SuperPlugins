@@ -43,7 +43,6 @@
         <Compile Include="Callouts\CarAccident3.cs" />
         <Compile Include="Callouts\DeadBody.cs" />
         <Compile Include="Callouts\HitRun.cs" />
-        <Compile Include="Callouts\HotPursuit.cs" />
         <Compile Include="Callouts\Impersonator.cs" />
         <Compile Include="Callouts\IndecentExposure.cs" />
         <Compile Include="Callouts\InjuredCop.cs" />
@@ -78,6 +77,7 @@
         <Compile Include="RemasteredCallouts\FakeCall.cs" />
         <Compile Include="RemasteredCallouts\Fight.cs" />
         <Compile Include="RemasteredCallouts\Fire.cs" />
+        <Compile Include="RemasteredCallouts\HotPursuit.cs" />
         <Compile Include="RemasteredCallouts\IllegalParking.cs" />
         <Compile Include="RemasteredCallouts\OpenCarry.cs" />
         <Compile Include="RemasteredCallouts\PrisonTransport.cs" />

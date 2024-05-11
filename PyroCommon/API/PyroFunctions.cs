@@ -119,7 +119,7 @@ public abstract class PyroFunctions
         return matches[new Random(DateTime.Now.Millisecond).Next(matches.Count)];
     }
     
-    internal static LHandle StartPursuit(bool areSuspectsPulledOver, bool randomizePursuitAttributes, params Ped[] suspects)
+    internal static LHandle StartPursuit(bool areSuspectsPulledOver, bool randomizePursuitAttributes = true, params Ped[] suspects)
     {
         if (areSuspectsPulledOver)
             Functions.ForceEndCurrentPullover();
