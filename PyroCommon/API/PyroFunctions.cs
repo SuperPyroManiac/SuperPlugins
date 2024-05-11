@@ -40,8 +40,6 @@ public abstract class PyroFunctions
         if (ped != null && Main.UsingStp) SearchItems.AddStpPedSearchItems(ped, item);
         if (vehicle != null && Main.UsingStp) SearchItems.AddStpVehicleDriverSearchItems(vehicle, item);
         if (Main.UsingPr) SearchItems.AddSearchItem(item, itemLocation, ped, vehicle);
-        PolicingRedefined.API.PedAPI.SetPedResistanceAction(ped, EResistanceAction.Attack);
-        PolicingRedefined.API.PedAPI.SetShouldWalkAwayBeforeResisting(ped, true);
     }
     
     public static void ClearSearchItems(Ped ped = null, Vehicle vehicle = null)
@@ -60,6 +58,12 @@ public abstract class PyroFunctions
         if (Main.UsingPr) SearchItems.ClearAllItems(ped, vehicle);
     }
     
+    public static void DrawMarker(Enums.MarkerType type, Vector3 position, float scale, Color color, bool bounce)
+    {
+        NativeFunction.Natives.x28477EC23D892089((int)type, position.X, position.Y, position.Z, 0, 0, 0, 0, 180, 0, scale, scale, scale, color.R, color.G, color.B, color.A, bounce, true, 1, false, 0, 0, false);
+        //PyroFunctions.DrawMarker(Enums.MarkerType.Arrow, _cVehicle.Position, 0.3f, Color.Red, true);
+    }
+
     public static Vehicle SpawnCar(Location location)
     {
         Model[] vehicleModels =
@@ -98,7 +102,6 @@ public abstract class PyroFunctions
     {
         if (children > 25) return;
         NativeFunction.Natives.x6B83617E04503888(position.X, position.Y, position.Z, children, isGasFire);
-        //TODO Mess with entity fire xa4dff3132a6b8cbe
     }
     
     public static Location GetSideOfRoad(int maxDistance, int minDistance)
@@ -119,23 +122,21 @@ public abstract class PyroFunctions
         return matches[new Random(DateTime.Now.Millisecond).Next(matches.Count)];
     }
     
-    internal static LHandle StartPursuit(bool areSuspectsPulledOver, bool randomizePursuitAttributes = true, params Ped[] suspects)
+    internal static LHandle StartPursuit(bool areSuspectsPulledOver, bool randomizePursuitAttributes, params Ped[] suspects)
     {
-        if (areSuspectsPulledOver)
-            Functions.ForceEndCurrentPullover();
-    
+        if (areSuspectsPulledOver) Functions.ForceEndCurrentPullover();
         var pursuitLHandle = Functions.CreatePursuit();
-        Functions.SetPursuitIsActiveForPlayer(pursuitLHandle, true);
 
         foreach (var suspect in suspects)
         {
-            GameFiber.Yield();
             if (randomizePursuitAttributes)
             {
                 RandomizePursuitAttributes(suspect);
             }
             Functions.AddPedToPursuit(pursuitLHandle, suspect);
         }
+        Functions.SetPursuitIsActiveForPlayer(pursuitLHandle, true);
+        
         return pursuitLHandle;
     }
     

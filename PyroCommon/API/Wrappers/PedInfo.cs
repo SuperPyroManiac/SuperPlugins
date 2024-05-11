@@ -1,5 +1,4 @@
-﻿using System;
-using PolicingRedefined.Interaction.Assets.PedAttributes;
+﻿using PolicingRedefined.Interaction.Assets.PedAttributes;
 using PolicingRedefined.Interaction.Modules.Resistance;
 using Rage;
 

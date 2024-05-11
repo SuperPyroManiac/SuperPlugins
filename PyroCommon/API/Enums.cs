@@ -34,6 +34,55 @@ public static class Enums
         Valid
     }
     
+    public enum MarkerType
+    {
+        Cone = 0,
+        Cylinder = 1,
+        Arrow = 2,
+        ArrowFlat = 3,
+        Flag = 4,
+        RingFlag = 5,
+        Ring = 6,
+        Plane = 7,
+        BikeLogo1 = 8,
+        BikeLogo2 = 9,
+        Num0 = 10,
+        Num1 = 11,
+        Num2 = 12,
+        Num3 = 13,
+        Num4 = 14,
+        Num5 = 15,
+        Num6 = 16,
+        Num7 = 17,
+        Num8 = 18,
+        Num9 = 19,
+        Chevron1 = 20,
+        Chevron2 = 21,
+        Chevron3 = 22,
+        RingFlat = 23,
+        Lap = 24,
+        Halo = 25,
+        HaloPoint = 26,
+        HaloRotate = 27,
+        Sphere = 28,
+        Money = 29,
+        Lines = 30,
+        Beast = 31,
+        QuestionMark = 32,
+        TransformPlane= 33,
+        TransformHelicopter = 34,
+        TransformBoat = 35,
+        TransformCar = 36,
+        TransformBike = 37,
+        TransformPushBike = 38,
+        TransformTruck = 39,
+        TransformParachute = 40,
+        TransformThruster = 41,
+        Warp = 42,
+        Boxes = 43,
+        PitLane = 44
+    }
+
     public enum ResistanceAction
     {
         /// <summary>The ped will not resist.</summary>
