@@ -4,7 +4,7 @@ using PyroCommon.API;
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInterface("[SC] Template", CalloutProbability.Medium, "Example Description")]
+//[CalloutInterface("[SC] Template", CalloutProbability.Medium, "Example Description")]
 internal class Template : SuperCallout
 {
     internal override Location SpawnPoint { get; set; }
