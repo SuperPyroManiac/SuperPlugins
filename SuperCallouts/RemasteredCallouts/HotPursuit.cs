@@ -7,7 +7,6 @@ using LSPD_First_Response.Mod.API;
 using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.API;
 using Rage;
-using Rage.Native;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using Functions = LSPD_First_Response.Mod.API.Functions;
@@ -16,8 +15,7 @@ using Functions = LSPD_First_Response.Mod.API.Functions;
 
 namespace SuperCallouts.RemasteredCallouts;
 
-[CalloutInterface("[SC] High Speed Pursuit", CalloutProbability.Medium, "High performance vehicle fleeing from police",
-    "Code 3")]
+[CalloutInterface("[SC] High Speed Pursuit", CalloutProbability.Medium, "High performance vehicle fleeing from police", "Code 3")]
 internal class HotPursuit : SuperCallout
 {
     private Ped _bad1;
@@ -91,7 +89,7 @@ internal class HotPursuit : SuperCallout
     {
         if ( !OnScene && !_blipHelper )
         {
-            GameFiber.StartNew(delegate
+            GameFiber.StartNew(() =>
             {
                 _blipHelper = true;
                 SpawnPoint = new Location(_cVehicle.Position);
@@ -103,10 +101,9 @@ internal class HotPursuit : SuperCallout
             });
         }
         
-        if (OnScene && !Functions.IsPursuitStillRunning(_pursuit) && Player.DistanceTo(_bad1) > 75 &&
-            Player.DistanceTo(_bad2) > 75) CalloutEnd();
+        if (OnScene && Functions.GetActivePursuit() != null && !Functions.IsPursuitStillRunning(_pursuit) && Player.DistanceTo(_bad1) > 75 && Player.DistanceTo(_bad2) > 75) CalloutEnd();
 
-        if (OnScene && !Functions.IsPursuitStillRunning(_pursuit))
+        if (OnScene && Functions.GetActivePursuit() != null && !Functions.IsPursuitStillRunning(_pursuit))
         {
             Questioning.Enabled = true;
             _speakSuspect.Enabled = true;
@@ -131,11 +128,12 @@ internal class HotPursuit : SuperCallout
     internal override void CalloutOnScene()
     {
         CalloutInterfaceAPI.Functions.SendMessage(this, "Show me in pursuit!");
-        if (_cBlip.Exists()) _cBlip.Delete();
+        if ( _cBlip.Exists() ) _cBlip.Delete();
         _bad1.BlockPermanentEvents = false;
         _bad2.BlockPermanentEvents = false;
-        _pursuit = PyroFunctions.StartPursuit(_bad1, _bad2);
-        Game.DisplayHelp("~r~Suspects are evading!");
+        _pursuit = PyroFunctions.StartPursuit(false, true, _bad1, _bad2);
+
+    Game.DisplayHelp("~r~Suspects are evading!");
     }
 
     protected override void Conversations(UIMenu sender, UIMenuItem selItem, int index)
