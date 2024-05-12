@@ -1,5 +1,3 @@
-#region
-
 using System;
 using System.Drawing;
 using CalloutInterfaceAPI;
@@ -10,8 +8,6 @@ using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using Functions = LSPD_First_Response.Mod.API.Functions;
-
-#endregion
 
 namespace SuperCallouts.RemasteredCallouts;
 
@@ -101,7 +97,8 @@ internal class HotPursuit : SuperCallout
             });
         }
         
-        if (OnScene && Functions.GetActivePursuit() != null && !Functions.IsPursuitStillRunning(_pursuit) && Player.DistanceTo(_bad1) > 75 && Player.DistanceTo(_bad2) > 75) CalloutEnd();
+        if (OnScene && Functions.GetActivePursuit() != null && !Functions.IsPursuitStillRunning(_pursuit) 
+            && Player.DistanceTo(_bad1) > 75 && Player.DistanceTo(_bad2) > 75) CalloutEnd();
 
         if (OnScene && Functions.GetActivePursuit() != null && !Functions.IsPursuitStillRunning(_pursuit))
         {
