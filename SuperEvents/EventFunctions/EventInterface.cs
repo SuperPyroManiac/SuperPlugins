@@ -10,7 +10,7 @@ namespace SuperEvents.EventFunctions;
 
 internal static class EventInterface
 {
-    private static readonly MenuPool eventMenuPool = new();
+    private static readonly MenuPool EventMenuPool = new();
     private static readonly UIMenu MainMenu = new("SuperEvents", "Choose an option.");
     private static readonly UIMenu EventMenu = new("SuperEvents", "Choose an event to spawn.");
     private static readonly UIMenuItem EventList = new("Force Event", "Spawn any selected event.");
@@ -25,7 +25,7 @@ internal static class EventInterface
             {
                 //Wait for 10 seconds before creating the menus in case events are not yet registered.
                 GameFiber.Wait(10000);
-                SetupUI();
+                SetupUi();
                 while (Main.PluginRunning)
                 {
                     Process();
@@ -36,11 +36,11 @@ internal static class EventInterface
         catch (Exception e) { Log.Error(e.ToString()); }
     }
 
-    private static void SetupUI()
+    private static void SetupUi()
     {
         //Add menus to pool
-        eventMenuPool.Add(MainMenu);
-        eventMenuPool.Add(EventMenu);
+        EventMenuPool.Add(MainMenu);
+        EventMenuPool.Add(EventMenu);
         //Fix controls being weird in game
         MainMenu.MouseControlsEnabled = false;
         MainMenu.AllowCameraMovement = true;
@@ -60,7 +60,7 @@ internal static class EventInterface
         //Create event buttons in EventMenu
         foreach (var t in EventManager.AllEvents)
         {
-            var s = new UIMenuItem($"[{t.Namespace.Split('.').First()}] {t.Name}");
+            var s = new UIMenuItem($"[{t.Namespace!.Split('.').First()}] {t.Name}");
             EventMenu.AddItem(s);
             s.Activated += (_,_) => EventManager.ForceEvent(t.FullName);
         }
@@ -69,7 +69,7 @@ internal static class EventInterface
     private static void Process()
     {
         if (Game.IsKeyDown(Settings.EventManager)) MainMenu.Visible = !MainMenu.Visible;
-        eventMenuPool.ProcessMenus();
+        EventMenuPool.ProcessMenus();
     }
     
     private static void MainMenuSelected(UIMenu sender, UIMenuItem selecteditem, int index)

@@ -39,7 +39,7 @@ public class Main : Plugin
             DamageTrackerService.Start();
             if (Settings.EnablePlayerDamageSystem)
                 DamageTrackerService.OnPlayerTookDamage += PlayerShot.OnPlayerDamaged;
-            if (Settings.EnableAIDamageSystem)
+            if (Settings.EnableAiDamageSystem)
                 DamageTrackerService.OnPedTookDamage += PedShot.OnPedDamaged;
             if (Settings.EnablePanic) _panicFiber = GameFiber.StartNew(Panic.StartPanicWatch);
             if (Settings.EnablePulloverAi)

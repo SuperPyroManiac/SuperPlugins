@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using CalloutInterfaceAPI;
+using LSPD_First_Response.Mod.API;
 using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.API;
 using Rage;
@@ -126,7 +127,7 @@ internal class Trespassing : SuperCallout
                         case 0:
                             _suspect.PlayAmbientSpeech("GENERIC_CURSE_MED");
                             _suspect.BlockPermanentEvents = false;
-                            var pursuit = Functions.CreatePursuit();
+                            LHandle pursuit;
                             pursuit = Functions.CreatePursuit();
                             Functions.AddPedToPursuit(pursuit, _suspect);
                             Functions.SetPursuitIsActiveForPlayer(pursuit, true);

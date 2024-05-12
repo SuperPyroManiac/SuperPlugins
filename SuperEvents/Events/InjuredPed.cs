@@ -21,8 +21,10 @@ internal class InjuredPed : AmbientEvent
     private Tasks _tasks = Tasks.CheckDistance;
 
     //UI
+    // ReSharper disable NotAccessedField.Local
     private UIMenuItem _speakInjured;
     private UIMenuItem _speakInjured2;
+    //TODO: Remove the disable field above
 
     protected override Vector3 EventLocation { get; set; }
 

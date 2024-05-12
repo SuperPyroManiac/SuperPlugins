@@ -26,7 +26,7 @@ public static class EventManager
         High
     }
 
-    public static void RegisterEvent(Type type, Priority EventPriority = Priority.Normal)
+    public static void RegisterEvent(Type type, Priority eventPriority = Priority.Normal)
     {
         Log.Info($"Registering event - [{type.Name}] from {type.Assembly.FullName}");
         try
@@ -40,7 +40,7 @@ public static class EventManager
         }
 
         AllEvents.Add(type);
-        var pri = EventPriority switch
+        var pri = eventPriority switch
         {
             Priority.Low => 1,
             Priority.Normal => 2,

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Drawing;
 using LSPD_First_Response.Mod.API;
-using PolicingRedefined.Interaction.Modules.Resistance;
 using PyroCommon.API.Wrappers;
 using Rage;
 using Rage.Native;
@@ -173,9 +172,7 @@ public abstract class PyroFunctions
         pursuitAttributes.AverageSurrenderTime = rnd.Next(750, 10000);
     }
     
-    
-    
-    //TODO: Redo all these shitty old functions. I swear I was retarded when I made these.
+    //TODO: These will be removed when the remaster is complete!
     
     [Obsolete("Method is deprecated, please use Ped.SetWalkAnimation instead.")]
     public static void SetAnimation(Ped person, string theAnimation)
@@ -274,7 +271,7 @@ public abstract class PyroFunctions
 
     [Obsolete("Method is deprecated, please use built in methods instead.")]
     internal static void BuildUi(out MenuPool interaction, out UIMenu mainMenu, out UIMenu convoMenu,
-        out UIMenuItem questioning, out UIMenuItem endCall) //TODO: Redo swat calls
+        out UIMenuItem questioning, out UIMenuItem endCall)
     {
         interaction = new MenuPool();
         mainMenu = new UIMenu("SuperCallouts", "Choose an option.");
@@ -311,7 +308,7 @@ public abstract class PyroFunctions
         });
     }
 
-    [Obsolete("Method is deprecated, please use GetSideOfRoad instead.")] //TODO: Delete this
+    [Obsolete("Method is deprecated, please use GetSideOfRoad instead.")]
     public static void FindSideOfRoad(int maxDistance, int minDistance, out Vector3 spawnPoint, out float spawnPointH)
     {
         var matches = new List<Location>();

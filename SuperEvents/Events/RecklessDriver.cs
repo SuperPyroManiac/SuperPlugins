@@ -13,7 +13,6 @@ internal class RecklessDriver : AmbientEvent
     private Ped _ePed;
     private Vehicle _eVehicle;
     private Vector3 _spawnPoint;
-    private float _spawnPointH;
 
     private Tasks _tasks = Tasks.CheckDistance;
 
@@ -44,7 +43,6 @@ internal class RecklessDriver : AmbientEvent
         _ePed = _eVehicle.Driver;
         _spawnPoint = _eVehicle.Position;
         EventLocation = _spawnPoint;
-        _spawnPointH = _eVehicle.Heading;
         //eVehicle
         _eVehicle.IsPersistent = true;
         //ePed
@@ -54,7 +52,6 @@ internal class RecklessDriver : AmbientEvent
             _ePed.RelationshipGroup == RelationshipGroup.Medic || _ePed.RelationshipGroup == RelationshipGroup.Cop)
         {
             EndEvent();
-            return;
         }
     }
 

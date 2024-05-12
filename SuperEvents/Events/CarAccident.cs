@@ -106,7 +106,6 @@ internal class CarAccident : AmbientEvent
                 case Tasks.CheckDistance:
                     if (Game.LocalPlayer.Character.DistanceTo(_spawnPoint) < 25f)
                     {
-                        ;
                         Questioning.Enabled = true;
                         _tasks = Tasks.OnScene;
                     }

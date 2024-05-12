@@ -1,11 +1,5 @@
-#region
-
-using System.Reflection;
 using PyroCommon.API;
 using Rage;
-// ReSharper disable InconsistentNaming
-
-#endregion
 
 namespace DeadlyWeapons;
 
@@ -13,7 +7,7 @@ internal static class Settings
 {
     internal static bool EnablePlayerDamageSystem = true;
     internal static bool AlternatePlayerDamageSystem;
-    internal static bool EnableAIDamageSystem = true;
+    internal static bool EnableAiDamageSystem = true;
     internal static bool EnablePlayerHeadshotInstakill;
     internal static bool EnablePanic = true;
     internal static int PanicCooldown = 120;
@@ -32,7 +26,7 @@ internal static class Settings
         ini.Create();
         EnablePlayerDamageSystem = ini.ReadBoolean("Features", "EnablePlayerDamageSystem", true);
         AlternatePlayerDamageSystem = ini.ReadBoolean("Features", "AlternatePlayerDamageSystem");
-        EnableAIDamageSystem = ini.ReadBoolean("Features", "EnableAIDamageSystem", true);
+        EnableAiDamageSystem = ini.ReadBoolean("Features", "EnableAIDamageSystem", true);
         EnablePlayerHeadshotInstakill = ini.ReadBoolean("Features", "EnablePlayerHeadshotInstakill");
         EnablePanic = ini.ReadBoolean("Features", "EnablePanic", true);
         PanicCooldown = ini.ReadInt32("Features", "PanicCooldown", 120);

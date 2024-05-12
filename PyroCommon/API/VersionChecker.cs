@@ -24,11 +24,11 @@ internal static class VersionChecker
 	{
 		try
 		{
-			var UpdateThread = new Thread(() => CheckVersion(pluginDict));
-			UpdateThread.Start();
+			var updateThread = new Thread(() => CheckVersion(pluginDict));
+			updateThread.Start();
 			GameFiber.Sleep(1000);
 
-			while (UpdateThread.IsAlive) GameFiber.Wait(1000);
+			while (updateThread.IsAlive) GameFiber.Wait(1000);
 
 			switch (_state)
 			{

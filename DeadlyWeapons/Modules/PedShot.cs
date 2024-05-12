@@ -60,7 +60,7 @@ internal static class PedShot
 
         if (damageInfo.BoneInfo.BodyRegion == BodyRegion.Arms)
         {
-            var rnd2 = new Random(DateTime.Now.Millisecond).Next(1, 3);
+            new Random(DateTime.Now.Millisecond).Next(1, 3);
             victim.Health -= 30;
             Log.Info("" + Functions.GetPersonaForPed(victim).FullName +
                             " shot in arm - deducting 30 health.");
