@@ -51,7 +51,8 @@ public static class SearchItems
     //STP WORKAROUND
     internal static void AddStpVehicleDriverSearchItems(Vehicle vehicle, params string[] items)
     {
-        string existingItems = vehicle.Metadata.searchDriver; // Gets existing metadata
+        var existingItems = string.Empty;
+        if (vehicle.Metadata.Contains("searchDriver")) existingItems = vehicle.Metadata.searchDriver;
         var splitItems = existingItems.Split(',').ToList(); //splits metdata by comma
         var lastItems = splitItems[splitItems.Count - 1].Split(new[] { " and " }, StringSplitOptions.RemoveEmptyEntries).ToList();
         // the above line gets the last item of the metadata and splits it by and which removes the add and allows for it to see the item/items
@@ -65,7 +66,8 @@ public static class SearchItems
 
     internal static void AddStpPedSearchItems(Ped ped, params string[] items)
     {
-        string existingItems = ped.Metadata.searchPed; // Gets existing metadata
+        var existingItems = string.Empty;
+        if (ped.Metadata.Contains("searchPed")) existingItems = ped.Metadata.searchPed;
         var splitItems = existingItems.Split(',').ToList(); //splits metdata by comma
         var lastItems = splitItems[splitItems.Count - 1].Split(new[] { " and " }, StringSplitOptions.RemoveEmptyEntries).ToList();
         // the above line gets the last item of the metadata and splits it by and which removes the add and allows for it to see the item/items
