@@ -20,7 +20,7 @@ internal class HotPursuit : SuperCallout
     private Vehicle _cVehicle;
     private string _name1;
     private string _name2;
-    private LHandle _pursuit;
+    private LHandle _pursuit = Functions.CreatePursuit();
     private UIMenuItem _speakSuspect;
     private UIMenuItem _speakSuspect2;
     private bool _blipHelper;
@@ -97,10 +97,10 @@ internal class HotPursuit : SuperCallout
             });
         }
         
-        if (OnScene && Functions.GetActivePursuit() != null && !Functions.IsPursuitStillRunning(_pursuit) 
+        if (OnScene && !Functions.IsPursuitStillRunning(_pursuit) 
             && Player.DistanceTo(_bad1) > 75 && Player.DistanceTo(_bad2) > 75) CalloutEnd();
 
-        if (OnScene && Functions.GetActivePursuit() != null && !Functions.IsPursuitStillRunning(_pursuit))
+        if (OnScene && !Functions.IsPursuitStillRunning(_pursuit))
         {
             Questioning.Enabled = true;
             _speakSuspect.Enabled = true;

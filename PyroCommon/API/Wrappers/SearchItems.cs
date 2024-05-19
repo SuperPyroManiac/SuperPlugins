@@ -51,32 +51,30 @@ public static class SearchItems
     //STP WORKAROUND
     internal static void AddStpVehicleDriverSearchItems(Vehicle vehicle, params string[] items)
     {
-        var existingItems = string.Empty;
-        if (vehicle.Metadata.Contains("searchDriver")) existingItems = vehicle.Metadata.searchDriver;
-        var splitItems = existingItems.Split(',').ToList(); //splits metdata by comma
+        var existingItems = (string)vehicle.Metadata.searchDriver;
+        if (existingItems == null) existingItems = string.Empty;
+        var splitItems = existingItems.Split(',').ToList();
         var lastItems = splitItems[splitItems.Count - 1].Split(new[] { " and " }, StringSplitOptions.RemoveEmptyEntries).ToList();
-        // the above line gets the last item of the metadata and splits it by and which removes the add and allows for it to see the item/items
-        splitItems.RemoveAt(splitItems.Count - 1); //removes last item from splitItems in order to prevent duplicates
-        splitItems = MergeTwoLists(splitItems, lastItems); // merges the existing metadata and the lastitem without the and
-        splitItems = MergeTwoLists(splitItems, items.ToList()); //merges the new items to existing metadata
-        splitItems[splitItems.Count - 1] = "and " + splitItems[splitItems.Count - 1]; //adds back the and
-        var newItems = string.Join(", ", splitItems); //joins into one string
-        vehicle.Metadata.searchDriver = newItems; //overwrites the metadata
+        splitItems.RemoveAt(splitItems.Count - 1);
+        splitItems = MergeTwoLists(splitItems, lastItems);
+        splitItems = MergeTwoLists(splitItems, items.ToList());
+        splitItems[splitItems.Count - 1] = "and " + splitItems[splitItems.Count - 1];
+        var newItems = string.Join(", ", splitItems);
+        vehicle.Metadata.searchDriver = newItems;
     }
 
     internal static void AddStpPedSearchItems(Ped ped, params string[] items)
     {
-        var existingItems = string.Empty;
-        if (ped.Metadata.Contains("searchPed")) existingItems = ped.Metadata.searchPed;
-        var splitItems = existingItems.Split(',').ToList(); //splits metdata by comma
+        var existingItems = (string)ped.Metadata.searchPed;
+        if (existingItems == null) existingItems = string.Empty;
+        var splitItems = existingItems.Split(',').ToList();
         var lastItems = splitItems[splitItems.Count - 1].Split(new[] { " and " }, StringSplitOptions.RemoveEmptyEntries).ToList();
-        // the above line gets the last item of the metadata and splits it by and which removes the add and allows for it to see the item/items
-        splitItems.RemoveAt(splitItems.Count - 1); //removes last item from splitItems in order to prevent duplicates
-        splitItems = MergeTwoLists(splitItems, lastItems); // merges the existing metadata and the lastitem without the and
-        splitItems = MergeTwoLists(splitItems, items.ToList()); //merges the new items to existing metadata
-        splitItems[splitItems.Count - 1] = "and " + splitItems[splitItems.Count - 1]; //adds back the and
-        var newItems = string.Join(", ", splitItems); //joins into one string
-        ped.Metadata.searchPed = newItems; //overwrites the metadata
+        splitItems.RemoveAt(splitItems.Count - 1);
+        splitItems = MergeTwoLists(splitItems, lastItems);
+        splitItems = MergeTwoLists(splitItems, items.ToList());
+        splitItems[splitItems.Count - 1] = "and " + splitItems[splitItems.Count - 1];
+        var newItems = string.Join(", ", splitItems);
+        ped.Metadata.searchPed = newItems;
     }
 
     private static List<T> MergeTwoLists<T>(List<T> list1, List<T> list2)
