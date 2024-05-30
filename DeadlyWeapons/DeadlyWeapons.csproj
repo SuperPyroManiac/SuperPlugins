@@ -61,6 +61,7 @@
         <Compile Include="DFunctions\ConsoleCommands.cs" />
         <Compile Include="DFunctions\DependChecker.cs" />
         <Compile Include="Main.cs" />
+        <Compile Include="Modules\Accuracy.cs" />
         <Compile Include="Modules\CustomPullover.cs" />
         <Compile Include="Modules\Panic.cs" />
         <Compile Include="Modules\PedShot.cs" />

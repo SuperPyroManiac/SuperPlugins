@@ -11,7 +11,7 @@ internal static class Panic
 
     private static Ped Player => Game.LocalPlayer.Character;
 
-    internal static void StartPanicWatch()
+    internal static void StartPanicFiber()
     {
         Log.Info("Starting PanicFiber.");
         while (true)

@@ -15,7 +15,7 @@ public class DependChecker
             Game.Console.Print("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
             Game.Console.Print("DeadlyWeapons: Error Report Start");
             Game.Console.Print("======================================================");
-            Game.Console.Print($"PyroCommon.dll is missing! Please reinstall plugin correctly!");
+            Game.Console.Print("PyroCommon.dll is missing! Please reinstall plugin correctly!");
             Game.Console.Print("======================================================");
             Game.Console.Print("DeadlyWeapons: Error Report End");
             Game.DisplayNotification("new_editor", "warningtriangle", "~r~DeadlyWeapons", "~y~Not Loaded!", "Plugin is installed incorrectly! Please see the RagePluginHook.log! Visit https://dsc.gg/ulss for help!"); 
@@ -28,7 +28,7 @@ public class DependChecker
             Game.Console.Print("Oops there was an error here. Please send this log to https://dsc.gg/ulss");
             Game.Console.Print("DeadlyWeapons: Error Report Start");
             Game.Console.Print("======================================================");
-            Game.Console.Print($"PyroCommon.dll is outdated! Please reinstall plugin correctly!");
+            Game.Console.Print("PyroCommon.dll is outdated! Please reinstall plugin correctly!");
             Game.Console.Print("======================================================");
             Game.Console.Print("DeadlyWeapons: Error Report End");
             Game.DisplayNotification("new_editor", "warningtriangle", "~r~DeadlyWeapons", "~y~Not Loaded!", "Plugin is installed incorrectly! Please see the RagePluginHook.log! Visit https://dsc.gg/ulss for help!");

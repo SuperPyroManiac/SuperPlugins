@@ -5,6 +5,7 @@ using DamageTrackerLib.DamageInfo;
 using LSPD_First_Response.Mod.API;
 using PyroCommon.API;
 using Rage;
+using Rage.Native;
 
 #endregion
 
@@ -15,15 +16,11 @@ internal static class PedShot
     internal static void OnPedDamaged(Ped victim, Ped attacker, PedDamageInfo damageInfo)
     {
         if (!victim.Exists()) return;
+        if ( victim == Game.LocalPlayer.Character ) return;
         if (damageInfo.WeaponInfo.Group != DamageGroup.Bullet) return;
         var rnd = new Random(DateTime.Now.Millisecond).Next(1, 5);
         if (Settings.EnableDebug)
         {
-            // Game.DisplayHelp(
-            //     $"~w~{victim.Model.Name} (~r~{damageInfo.Damage} Dmg~w~) ({(victim.IsAlive ? "~g~Alive" : "~r~Dead")}~w~)" +
-            //     $"\n~r~{attacker?.Model.Name ?? "None"}" +
-            //     $"\n~y~{damageInfo.WeaponInfo.Hash.ToString()} {damageInfo.WeaponInfo.Type.ToString()} {damageInfo.WeaponInfo.Group.ToString()}" +
-            //     $"\n~r~{damageInfo.BoneInfo.BoneId.ToString()} {damageInfo.BoneInfo.Limb.ToString()} {damageInfo.BoneInfo.BodyRegion.ToString()}");
             Log.Info("[DEBUG]: Detailed damage info Start");
             Log.Info(
                 $"\n{victim.Model.Name} ({damageInfo.Damage} Dmg) ({(victim.IsAlive ? "Alive" : "Dead")})" +
@@ -34,7 +31,7 @@ internal static class PedShot
             Log.Info("[DEBUG]: " + Functions.GetPersonaForPed(victim).FullName + "'s health before shot: " + victim.Health);
             Log.Info("[DEBUG]: " + Functions.GetPersonaForPed(victim).FullName + "'s armor before shot: " + victim.Armor);
         }
-
+        
         if (damageInfo.BoneInfo.BodyRegion == BodyRegion.Head)
         {
             Log.Info("" + Functions.GetPersonaForPed(victim).FullName +

@@ -7,7 +7,6 @@ using Rage;
 using SuperCallouts.Callouts;
 using SuperCallouts.RemasteredCallouts;
 using SuperCallouts.SimpleFunctions;
-using Fire = SuperCallouts.RemasteredCallouts.Fire;
 
 namespace SuperCallouts;
 
@@ -58,7 +57,7 @@ internal class Main : Plugin
         if (Settings.AmbulanceEscort) Functions.RegisterCallout(typeof(AmbulanceEscort));
         if (Settings.Aliens) Functions.RegisterCallout(typeof(Aliens));
         if (Settings.OpenCarry) Functions.RegisterCallout(typeof(OpenCarry));
-        if (Settings.Fire) Functions.RegisterCallout(typeof(Fire));
+        if (Settings.Fire) Functions.RegisterCallout(typeof(RemasteredCallouts.Fire));
         if (Settings.OfficerShootout) Functions.RegisterCallout(typeof(OfficerShootout));
         if (Settings.WeirdCar) Functions.RegisterCallout(typeof(WeirdCar));
         if (Settings.Manhunt) Functions.RegisterCallout(typeof(Manhunt));

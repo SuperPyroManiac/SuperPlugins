@@ -4,6 +4,7 @@ using System;
 using DamageTrackerLib.DamageInfo;
 using PyroCommon.API;
 using Rage;
+using Rage.Native;
 
 #endregion
 
@@ -16,15 +17,11 @@ internal static class PlayerShot
     internal static void OnPlayerDamaged(Ped victim, Ped attacker, PedDamageInfo damageInfo)
     {
         if (Player.IsDead) return;
+        if ( victim != Player ) return;
         if (damageInfo.WeaponInfo.Group != DamageGroup.Bullet) return;
         var rnd = new Random(DateTime.Now.Millisecond).Next(1, 5);
         if (Settings.EnableDebug)
         {
-            // Game.DisplayHelp(
-            //     $"~w~{victim.Model.Name} (~r~{damageInfo.Damage} Dmg~w~) ({(victim.IsAlive ? "~g~Alive" : "~r~Dead")}~w~)" +
-            //     $"\n~r~{attacker?.Model.Name ?? "None"}" +
-            //     $"\n~y~{damageInfo.WeaponInfo.Hash.ToString()} {damageInfo.WeaponInfo.Type.ToString()} {damageInfo.WeaponInfo.Group.ToString()}" +
-            //     $"\n~r~{damageInfo.BoneInfo.BoneId.ToString()} {damageInfo.BoneInfo.Limb.ToString()} {damageInfo.BoneInfo.BodyRegion.ToString()}");
             Log.Info("[DEBUG]: Detailed damage info Start");
             Log.Info("[DEBUG]: AlternateDamageSystem: " + Settings.AlternatePlayerDamageSystem);
             Log.Info(
@@ -36,7 +33,7 @@ internal static class PlayerShot
             Log.Info("[DEBUG]: Player health before shot: " + Player.Health);
             Log.Info("[DEBUG]: Player armor before shot: " + Player.Armor);
         }
-
+        
         if (Settings.AlternatePlayerDamageSystem)
         {
             var owie = damageInfo.Damage * Settings.AltDamageMultiplier;

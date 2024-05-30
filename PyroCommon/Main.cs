@@ -4,6 +4,7 @@ using System.Linq;
 using LSPD_First_Response.Mod.API;
 using PyroCommon.API;
 using Rage;
+using Task = System.Threading.Tasks.Task;
 
 namespace PyroCommon;
 
@@ -36,7 +37,7 @@ public class Main
 
     private static void CheckPluginVersions()
     {
-        GameFiber.Sleep(5000);
+        GameFiber.Sleep(3000);
         VersionChecker.IsUpdateAvailable(InstalledPyroPlugins);
     }
 
