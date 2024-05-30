@@ -5,7 +5,7 @@ using LSPD_First_Response.Mod.API;
 using PyroCommon.API;
 using Rage;
 //using SuperCallouts.Callouts;
-using SuperCallouts.RemasteredCallouts;
+//using SuperCallouts.RemasteredCallouts;
 using SuperCallouts.SimpleFunctions;
 
 namespace SuperCallouts;
@@ -67,7 +67,7 @@ internal class Main : Plugin
         // if (Settings.IllegalParking) Functions.RegisterCallout(typeof(IllegalParking));
         // if (Settings.KnifeAttack) Functions.RegisterCallout(typeof(KnifeAttack));
         // if (Settings.DeadBody) Functions.RegisterCallout(typeof(DeadBody));
-        if (Settings.FakeCall) Functions.RegisterCallout(typeof(FakeCall));
+        //if (Settings.FakeCall) Functions.RegisterCallout(typeof(FakeCall));
         // if (Settings.Trespassing) Functions.RegisterCallout(typeof(Trespassing));
         // if (Settings.Vandalizing) Functions.RegisterCallout(typeof(Vandalizing));
         // if (Settings.InjuredCop) Functions.RegisterCallout(typeof(InjuredCop));

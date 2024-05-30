@@ -10,7 +10,7 @@ namespace SuperCallouts.RemasteredCallouts;
 internal class FakeCall : SuperCallout
 {
     private Blip _cBlip;
-    internal override Location SpawnPoint { get; set; } = PyroFunctions.GetSideOfRoad(750, 180);
+    internal override Location SpawnPoint { get; set; } = new(Vector3.Zero);
     internal override float OnSceneDistance { get; set; } = 30;
     internal override string CalloutName { get; set; } = "Prank Call";
 
