@@ -1,19 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using LSPD_First_Response.Mod.API;
 using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.API;
 using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
+using SuperCallouts.RemasteredCallouts;
 
 namespace SuperCallouts;
 
-internal abstract class SuperCallout : Callout
+internal abstract class SuperCallout : ISuperCallout
 {
-    internal abstract Location SpawnPoint { get; set; }
-    internal abstract float OnSceneDistance { get; set; }
-    internal abstract string CalloutName { get; set; }
+    public abstract Location SpawnPoint { get; set; }
+    public abstract float OnSceneDistance { get; set; }
+    public abstract string CalloutName { get; set; }
+    public abstract string CalloutMessage { get; set; }
+    public abstract string CalloutAdvisory { get; set; }
+    public Vector3 CalloutPosition { get; set; }
     internal List<Entity> EntitiesToClear = new();
     internal List<Blip> BlipsToClear = new();
     internal static Ped Player => Game.LocalPlayer.Character;
@@ -26,7 +31,7 @@ internal abstract class SuperCallout : Callout
     protected readonly UIMenuItem Questioning = new("Speak With Subjects");
     protected readonly UIMenuItem EndCall = new("~y~End Callout", "Ends the callout.");
 
-    public override bool OnBeforeCalloutDisplayed()
+    public void OnBeforeCalloutDisplayed()
     {
         try
         {
@@ -38,11 +43,9 @@ internal abstract class SuperCallout : Callout
             CalloutEnd(true);
         }
         CalloutPosition = SpawnPoint.Position;
-        ShowCalloutAreaBlipBeforeAccepting(SpawnPoint.Position, 15f);
-        return base.OnBeforeCalloutDisplayed();
     }
 
-    public override bool OnCalloutAccepted()
+    public void OnCalloutAccepted()
     {
         Log.Info($"{CalloutName} callout accepted!");
         Interaction.Add(MainMenu);
@@ -69,10 +72,9 @@ internal abstract class SuperCallout : Callout
         ConvoMenu.RefreshIndex();
         MainMenu.OnItemSelect += Interactions;
         ConvoMenu.OnItemSelect += Conversations;
-        return base.OnCalloutAccepted();
     }
 
-    public override void Process()
+    public void Process()
     {
         try
         {
@@ -99,15 +101,14 @@ internal abstract class SuperCallout : Callout
             Log.Error(e.ToString());
             CalloutEnd(true);
         }
-        base.Process();
     }
 
     //Overrides
-    internal virtual void CalloutPrep() {}
-    internal virtual void CalloutAccepted() {}
-    internal virtual void CalloutRunning() {}
-    internal virtual void CalloutOnScene() {}
-    internal virtual void CalloutEnd(bool forceCleanup = false)
+    public virtual void CalloutPrep() {}
+    public virtual void CalloutAccepted() {}
+    public virtual void CalloutRunning() {}
+    public virtual void CalloutOnScene() {}
+    public virtual void CalloutEnd(bool forceCleanup = false)
     {
         CalloutEnded = true;
         if (forceCleanup)
@@ -124,7 +125,6 @@ internal abstract class SuperCallout : Callout
         
         Interaction.CloseAllMenus();
         Log.Info($"Ending {CalloutName} Callout.");
-        End();
     }
 
     protected virtual void Interactions(UIMenu sender, UIMenuItem selItem, int index)
@@ -133,4 +133,72 @@ internal abstract class SuperCallout : Callout
     }
 
     protected virtual void Conversations(UIMenu sender, UIMenuItem selItem, int index){}
+}
+
+internal interface ISuperCallout
+{
+    Location SpawnPoint { get; set; }
+    float OnSceneDistance { get; set; }
+    string CalloutName { get; set; }
+    string CalloutMessage { get; set; }
+    string CalloutAdvisory { get; set; }
+    Vector3 CalloutPosition { get; set; }
+    void CalloutPrep();
+    void CalloutAccepted();
+    void CalloutRunning();
+    void CalloutOnScene();
+    void CalloutEnd(bool forceCleanup = false);
+    void Process();
+}
+
+internal class SuperCalloutWrapper : Callout
+{
+    private readonly ISuperCallout _superCallout;
+
+    public SuperCalloutWrapper(ISuperCallout superCallout)
+    {
+        _superCallout = superCallout;
+        CalloutPosition = _superCallout.SpawnPoint.Position;
+        CalloutMessage = _superCallout.CalloutMessage;
+        CalloutAdvisory = _superCallout.CalloutAdvisory;
+        ShowCalloutAreaBlipBeforeAccepting(_superCallout.SpawnPoint.Position, 15f);
+    }
+
+    public override bool OnBeforeCalloutDisplayed()
+    {
+        _superCallout.CalloutPrep();
+        return base.OnBeforeCalloutDisplayed();
+    }
+
+    public override bool OnCalloutAccepted()
+    {
+        _superCallout.CalloutAccepted();
+        return base.OnCalloutAccepted();
+    }
+
+    public override void Process()
+    {
+        _superCallout.Process();
+        base.Process();
+    }
+
+    public override void End()
+    {
+        _superCallout.CalloutEnd(true);
+        base.End();
+    }
+}
+
+public static class SuperCalloutFactory
+{
+    public static Callout CreateCallout(string type)
+    {
+        ISuperCallout superCallout = type.ToLower() switch
+        {
+            "FakeCall" => new FakeCall(),
+            _ => throw new ArgumentException("Invalid callout type"),
+        };
+
+        return new SuperCalloutWrapper(superCallout);
+    }
 }

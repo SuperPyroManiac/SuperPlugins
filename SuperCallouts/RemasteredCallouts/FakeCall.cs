@@ -10,11 +10,13 @@ namespace SuperCallouts.RemasteredCallouts;
 internal class FakeCall : SuperCallout
 {
     private Blip _cBlip;
-    internal override Location SpawnPoint { get; set; } = new(Vector3.Zero);
-    internal override float OnSceneDistance { get; set; } = 30;
-    internal override string CalloutName { get; set; } = "Prank Call";
+    public override Location SpawnPoint { get; set; } = new(Vector3.Zero);
+    public override float OnSceneDistance { get; set; } = 30;
+    public override string CalloutName { get; set; } = "Prank Call";
+    public override string CalloutMessage { get; set; }
+    public override string CalloutAdvisory { get; set; }
 
-    internal override void CalloutPrep()
+    public override void CalloutPrep()
     {
         CalloutMessage = "~r~" + Settings.EmergencyNumber + " Report:~s~ Emergency call dropped.";
         CalloutAdvisory = "Call dropped and dispatch is unable to reach caller back.";
@@ -23,7 +25,7 @@ internal class FakeCall : SuperCallout
             SpawnPoint.Position);
     }
 
-    internal override void CalloutAccepted()
+    public override void CalloutAccepted()
     {
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~y~Call Dropped",
             "Caller disconnected from call quickly. Unable to reach them back. Last location recorded, respond to the last known location. ~r~CODE-2");
@@ -32,7 +34,7 @@ internal class FakeCall : SuperCallout
         BlipsToClear.Add(_cBlip);
     }
 
-    internal override void CalloutOnScene()
+    public override void CalloutOnScene()
     {
         _cBlip.DisableRoute();
         Game.DisplayHelp("Investigate the area.", 5000);

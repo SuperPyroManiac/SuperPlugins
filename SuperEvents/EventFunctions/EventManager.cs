@@ -121,7 +121,7 @@ public static class EventManager
     {
         Log.Info("Loading " + eventType.Name + " from " + eventType.Assembly.FullName);
         CurrentEvent = Activator.CreateInstance(eventType) as AmbientEvent;
-        CurrentEvent.StartEvent();
+        if ( CurrentEvent != null ) CurrentEvent.StartEvent();
         EventTimer.Stop();
     }
 }
