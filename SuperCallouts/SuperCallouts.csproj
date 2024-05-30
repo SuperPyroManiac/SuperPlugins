@@ -36,35 +36,6 @@
         <WarningLevel>1</WarningLevel>
     </PropertyGroup>
     <ItemGroup>
-        <Compile Include="Callouts\1Template.cs" />
-        <Compile Include="Callouts\AmbulanceEscort.cs" />
-        <Compile Include="Callouts\AngryAnimal.cs" />
-        <Compile Include="Callouts\BlockingTraffic.cs" />
-        <Compile Include="Callouts\CarAccident.cs" />
-        <Compile Include="Callouts\CarAccident2.cs" />
-        <Compile Include="Callouts\CarAccident3.cs" />
-        <Compile Include="Callouts\DeadBody.cs" />
-        <Compile Include="Callouts\HitRun.cs" />
-        <Compile Include="Callouts\Impersonator.cs" />
-        <Compile Include="Callouts\IndecentExposure.cs" />
-        <Compile Include="Callouts\InjuredCop.cs" />
-        <Compile Include="Callouts\Kidnapping.cs" />
-        <Compile Include="Callouts\KnifeAttack.cs" />
-        <Compile Include="Callouts\LostGang.cs" />
-        <Compile Include="Callouts\LSGTF.cs" />
-        <Compile Include="Callouts\Mafia1.cs" />
-        <Compile Include="Callouts\Mafia2.cs" />
-        <Compile Include="Callouts\Mafia3.cs" />
-        <Compile Include="Callouts\Mafia4.cs" />
-        <Compile Include="Callouts\Manhunt.cs" />
-        <Compile Include="Callouts\OfficerShootout.cs" />
-        <Compile Include="Callouts\PrisonBreak.cs" />
-        <Compile Include="Callouts\Robbery.cs" />
-        <Compile Include="Callouts\StolenDumptruck.cs" />
-        <Compile Include="Callouts\ToiletPaperBandit.cs" />
-        <Compile Include="Callouts\Trespassing.cs" />
-        <Compile Include="Callouts\TruckCrash.cs" />
-        <Compile Include="Callouts\Vandalizing.cs" />
         <Compile Include="CustomScenes\LostMCSetup.cs" />
         <Compile Include="CustomScenes\LSGTFSetup.cs" />
         <Compile Include="CustomScenes\Mafia1Setup.cs" />
@@ -75,26 +46,13 @@
         <Compile Include="CustomScenes\TruckCrashSetup.cs" />
         <Compile Include="Main.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
-        <Compile Include="RemasteredCallouts\Aliens.cs" />
         <Compile Include="RemasteredCallouts\FakeCall.cs" />
-        <Compile Include="RemasteredCallouts\Fight.cs" />
-        <Compile Include="RemasteredCallouts\Fire.cs" />
-        <Compile Include="RemasteredCallouts\HotPursuit.cs" />
-        <Compile Include="RemasteredCallouts\IllegalParking.cs" />
-        <Compile Include="RemasteredCallouts\OpenCarry.cs" />
-        <Compile Include="RemasteredCallouts\PrisonTransport.cs" />
-        <Compile Include="RemasteredCallouts\StolenCopVehicle.cs" />
-        <Compile Include="RemasteredCallouts\WeirdCar.cs" />
         <Compile Include="Settings.cs" />
         <Compile Include="SimpleFunctions\ConsoleCommands.cs" />
         <Compile Include="SimpleFunctions\DependChecker.cs" />
         <Compile Include="SuperCallout.cs" />
     </ItemGroup>
     <ItemGroup>
-        <Reference Include="CalloutInterfaceAPI, Version=1.0.1.0, Culture=neutral, processorArchitecture=Amd64">
-          <HintPath>..\packages\CalloutInterfaceAPI.1.0.1\lib\net48\CalloutInterfaceAPI.dll</HintPath>
-          <Private>False</Private>
-        </Reference>
         <Reference Include="LSPD First Response, Version=0.4.8433.20359, Culture=neutral, processorArchitecture=MSIL">
           <HintPath>..\packages\PyroSpecial.1.0.1\lib\LSPD First Response.dll</HintPath>
           <Private>False</Private>
@@ -130,6 +88,9 @@
       <Content Include="SuperCallouts.ini">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
+    </ItemGroup>
+    <ItemGroup>
+      <Folder Include="Callouts\" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
     <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

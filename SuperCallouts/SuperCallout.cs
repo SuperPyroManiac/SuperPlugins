@@ -81,7 +81,6 @@ internal abstract class SuperCallout : Callout
             if (!OnScene && Player.DistanceTo(SpawnPoint.Position) < OnSceneDistance)
             {
                 OnScene = true;
-                CalloutInterfaceAPI.Functions.SendMessage(this, "Officer on scene.");
                 Game.DisplayHelp($"Press ~{Settings.Interact.GetInstructionalId()}~ to open interaction menu.");
                 try {GameFiber.StartNew(CalloutOnScene);}
                 catch(Exception e)
@@ -121,7 +120,6 @@ internal abstract class SuperCallout : Callout
             foreach (var entity in EntitiesToClear.Where(entity => entity.Exists())) entity.Dismiss();
         }
         Game.DisplayHelp("~y~Callout Ended.");
-        CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code-4");
         foreach (var blip in BlipsToClear.Where(blip => blip.Exists())) blip.Delete();
         
         Interaction.CloseAllMenus();
