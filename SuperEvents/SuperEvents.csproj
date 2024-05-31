@@ -65,7 +65,6 @@
     <Compile Include="Attributes\AttributeExpectedException.cs" />
     <Compile Include="Attributes\AttributeExtensions.cs" />
     <Compile Include="Attributes\EventInfoAttribute.cs" />
-    <Compile Include="EventFunctions\DependChecker.cs" />
     <Compile Include="EventFunctions\EventInterface.cs" />
     <Compile Include="EventFunctions\EventParameterAutoCompleter.cs" />
     <Compile Include="Events\CarAccident.cs" />

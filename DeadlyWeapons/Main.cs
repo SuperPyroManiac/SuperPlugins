@@ -17,7 +17,11 @@ public class Main : Plugin
  
     public override void Initialize()
     {
-        if (!DependChecker.Start()) return;
+        DependManager.AddDepend("PyroCommon.dll", "1.5.0.1");
+        DependManager.AddDepend("RageNativeUI.dll", "1.9.2.0");
+        DependManager.AddDepend("DamageTrackerLib.dll", "1.0.2");
+        if ( !DependManager.CheckDepends() ) return;
+        
         Settings.LoadSettings();
         Functions.OnOnDutyStateChanged += OnOnDutyStateChangedHandler;
         Game.AddConsoleCommands(new[] {typeof(ConsoleCommands)});
