@@ -102,6 +102,12 @@ internal abstract class SuperCallout : Callout
         base.Process();
     }
 
+    public override void End()
+    {
+        if (!CalloutEnded) CalloutEnd();
+        base.End();
+    }
+
     //Overrides
     internal virtual void CalloutPrep() {}
     internal virtual void CalloutAccepted() {}
