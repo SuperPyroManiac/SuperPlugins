@@ -30,7 +30,7 @@
         <ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>None</ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>
         <DebugType>pdbonly</DebugType>
         <Optimize>true</Optimize>
-        <OutputPath>X:\Coding\SPBuild</OutputPath>
+        <OutputPath>C:\Coding\SPBuild</OutputPath>
         <DefineConstants>TRACE</DefineConstants>
         <ErrorReport>prompt</ErrorReport>
         <WarningLevel>1</WarningLevel>

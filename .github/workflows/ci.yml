@@ -23,5 +23,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: SuperPlugins
-          path: X:\Coding\SPBuild
+          path: C:\Coding\SPBuild\
         

@@ -30,7 +30,7 @@
         <ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>None</ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>
         <DebugType>pdbonly</DebugType>
         <Optimize>true</Optimize>
-        <OutputPath>X:\Coding\SPBuild\Plugins\LSPDFR</OutputPath>
+        <OutputPath>C:\Coding\SPBuild\Plugins\LSPDFR</OutputPath>
         <DefineConstants>TRACE</DefineConstants>
         <ErrorReport>prompt</ErrorReport>
         <WarningLevel>1</WarningLevel>
