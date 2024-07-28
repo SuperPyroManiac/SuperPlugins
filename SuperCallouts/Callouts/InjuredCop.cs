@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Drawing;
-using CalloutInterfaceAPI;
 using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.API;
 using Rage;
@@ -8,7 +7,7 @@ using Functions = LSPD_First_Response.Mod.API.Functions;
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInterface("[SC] Injured Cop", CalloutProbability.Medium, "Officer not responding to radio.")]
+[CalloutInfo("[SC] Injured Cop", CalloutProbability.Medium)]
 internal class InjuredCop : SuperCallout
 {
     internal override Location SpawnPoint { get; set; } = PyroFunctions.GetSideOfRoad(750, 180);

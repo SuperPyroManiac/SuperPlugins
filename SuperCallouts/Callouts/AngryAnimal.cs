@@ -1,8 +1,5 @@
-#region
-
 using System;
 using System.Drawing;
-using CalloutInterfaceAPI;
 using LSPD_First_Response;
 using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.API;
@@ -11,11 +8,9 @@ using RAGENativeUI;
 using RAGENativeUI.Elements;
 using Functions = LSPD_First_Response.Mod.API.Functions;
 
-#endregion
-
 namespace SuperCallouts.Callouts;
 
-[CalloutInterface("[SC] Angry Animal", CalloutProbability.Medium, "Report of animal attacking people", "Code 3")]
+[CalloutInfo("[SC] Angry Animal", CalloutProbability.Medium)]
 internal class AngryAnimal : SuperCallout
 {
     private readonly UIMenuItem _callEms = new("~r~ Call EMS", "Calls for a medical team.");
@@ -41,7 +36,7 @@ internal class AngryAnimal : SuperCallout
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Help Civilian",
             "Details are unknown, get to the scene as soon as possible! Respond ~r~CODE-3");
 
-        Model[] meanAnimal = { "A_C_MTLION", "A_C_COYOTE" };
+        Model[] meanAnimal = ["A_C_MTLION", "A_C_COYOTE"];
         _animal = new Ped(meanAnimal[new Random(DateTime.Now.Millisecond).Next(meanAnimal.Length)], SpawnPoint.Position, 50);
         _animal.IsPersistent = true;
         _animal.BlockPermanentEvents = true;
@@ -82,7 +77,6 @@ internal class AngryAnimal : SuperCallout
         {
             Game.DisplaySubtitle(
                 "~g~You~s~: Dispatch, we have a person that has been attacked by an animal! We need medical here ASAP!");
-            CalloutInterfaceAPI.Functions.SendMessage(this, "Rescue has been notified and is on route. 11-78");
             if (PyroCommon.Main.UsingUb)
             {
                 Wrapper.CallEms();

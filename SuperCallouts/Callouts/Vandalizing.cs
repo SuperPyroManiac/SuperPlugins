@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Drawing;
-using CalloutInterfaceAPI;
 using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.API;
 using Rage;
@@ -8,7 +7,7 @@ using Functions = LSPD_First_Response.Mod.API.Functions;
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInterface("[SC] Vandalizing", CalloutProbability.Medium, "Reports of a person vandalizing property", "Code 3")]
+[CalloutInfo("[SC] Vandalizing", CalloutProbability.Medium)]
 internal class Vandalizing : SuperCallout
 {
     internal override Location SpawnPoint { get; set; } = new(World.GetNextPositionOnStreet(Player.Position.Around(350f)));
@@ -31,7 +30,6 @@ internal class Vandalizing : SuperCallout
     {
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Vandalizing",
             "A suspect has been reported damaging a vehicle. Respond ~r~CODE-3");
-        CalloutInterfaceAPI.Functions.SendMessage(this, "A call came in about a person attacking a vehicle causing serious damage to it. Further details are unknown.");
 
         PyroFunctions.SpawnNormalCar(out _cVehicle, SpawnPoint.Position);
         PyroFunctions.DamageVehicle(_cVehicle, 200, 200);

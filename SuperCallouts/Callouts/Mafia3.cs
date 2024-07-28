@@ -1,10 +1,7 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using CalloutInterfaceAPI;
 using LSPD_First_Response;
 using LSPD_First_Response.Engine.Scripting.Entities;
 using LSPD_First_Response.Mod.Callouts;
@@ -15,12 +12,9 @@ using RAGENativeUI.Elements;
 using SuperCallouts.CustomScenes;
 using Functions = LSPD_First_Response.Mod.API.Functions;
 
-#endregion
-
 namespace SuperCallouts.Callouts;
 
-[CalloutInterface("[SC] Mafia Raid", CalloutProbability.Low,
-    "Stakeout has found a meeting point for mob bosses - Raid in progress", "Code 5", "SWAT")]
+[CalloutInfo("[SC] Mafia Raid", CalloutProbability.Low)]
 internal class Mafia3 : Callout
 {
     private readonly Vector3 _callPos = new(949.3857f, -3129.14f, 5.900989f);
@@ -131,7 +125,6 @@ internal class Mafia3 : Callout
                         Game.SetRelationshipBetweenRelationshipGroups("MAFIA", "COP", Relationship.Hate);
                         Game.SetRelationshipBetweenRelationshipGroups("MAFIA", "PLAYER", Relationship.Hate);
                         Game.SetRelationshipBetweenRelationshipGroups("COP", "MAFIA", Relationship.Hate);
-                        CalloutInterfaceAPI.Functions.SendMessage(this, "NOOSE Units on-route to scene.");
                         if (PyroCommon.Main.UsingUb)
                         {
                             Wrapper.CallSwat(true);
@@ -194,9 +187,7 @@ internal class Mafia3 : Callout
 
         _interaction.CloseAllMenus();
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
-
-        CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code4");
-
+        
         base.End();
     }
 

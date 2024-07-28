@@ -1,8 +1,5 @@
-#region
-
 using System;
 using System.Drawing;
-using CalloutInterfaceAPI;
 using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.API;
 using Rage;
@@ -11,11 +8,9 @@ using RAGENativeUI;
 using RAGENativeUI.Elements;
 using Functions = LSPD_First_Response.Mod.API.Functions;
 
-#endregion
-
 namespace SuperCallouts.Callouts;
 
-[CalloutInterface("[SC] Kidnapping", CalloutProbability.Medium, "Sighting of missing person in a vehicle", "Code 3")]
+[CalloutInfo("[SC] Kidnapping", CalloutProbability.Medium)]
 internal class Kidnapping : SuperCallout
 {
     private readonly Random _rNd = new();
@@ -133,7 +128,6 @@ internal class Kidnapping : SuperCallout
                     GameFiber.Wait(5000);
                     _bad1.PlayAmbientSpeech("GENERIC_CURSE_MED");
                     Game.DisplaySubtitle("~r~" + _name1 + "~s~: I don't know, why do you think?'", 5000);
-                    CalloutInterfaceAPI.Functions.SendMessage(this, "Suspect in custody.");
                 });
             if (selItem == _speakSuspect2)
                 GameFiber.StartNew(delegate
@@ -155,7 +149,6 @@ internal class Kidnapping : SuperCallout
                     _victim1.Tasks.Cower(-1);
                     Game.DisplaySubtitle(
                         "~b~Bailey Smith~s~: They gave me this fake id.. They were going to give me away I think! Please I want to go home!");
-                    CalloutInterfaceAPI.Functions.SendMessage(this, "Victim is safely in custody.");
                 });
         }
         catch (Exception e)

@@ -9,7 +9,7 @@ internal static class Log
     public static void Error(string message)
     {
         var asmName = Assembly.GetCallingAssembly().FullName.Split(',').First();
-        Game.Console.Print($"{asmName}: There was a serious issue here! See https://dsc.gg/ulss for help.");
+        Game.Console.Print($"{asmName}: There was a serious issue here! See https://dsc.PyrosFun.com for help.");
         Game.Console.Print("======================ERROR======================");
         Game.Console.Print(message);
         Game.Console.Print("======================ERROR======================");
@@ -18,7 +18,7 @@ internal static class Log
     public static void Warning(string message)
     {
         var asmName = Assembly.GetCallingAssembly().FullName.Split(',').First();
-        Game.Console.Print($"{asmName}: There was a minor issue here! See https://dsc.gg/ulss for help.");
+        Game.Console.Print($"{asmName}: There was a minor issue here! See https://dsc.PyrosFun.com for help.");
         Game.Console.Print("======================WARNING======================");
         Game.Console.Print(message);
         Game.Console.Print("======================WARNING======================");

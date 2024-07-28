@@ -1,8 +1,5 @@
-﻿#region
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
-using CalloutInterfaceAPI;
 using LSPD_First_Response;
 using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.API;
@@ -10,12 +7,10 @@ using Rage;
 using SuperCallouts.CustomScenes;
 using Functions = LSPD_First_Response.Mod.API.Functions;
 
-#endregion
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInterface("[SC] Officer Ambush", CalloutProbability.Low, "Biker gang has ambushed local PD - Code 99", "Code 99",
-    "SWAT")]
+[CalloutInfo("[SC] Officer Ambush", CalloutProbability.Low)]
 internal class LostGang : Callout
 {
     private readonly List<Ped> _bikers = new();
@@ -108,8 +103,6 @@ internal class LostGang : Callout
                 "DISPATCH_SWAT_UNITS_FROM_01 IN_OR_ON_POSITION UNITS_RESPOND_CODE_99_01", _spawnPoint);
             Game.SetRelationshipBetweenRelationshipGroups("LOSTERS", "COP", Relationship.Hate);
             Game.SetRelationshipBetweenRelationshipGroups("LOSTERS", "PLAYER", Relationship.Hate);
-            CalloutInterfaceAPI.Functions.SendMessage(this, "Arriving on scene, shots fired!");
-            CalloutInterfaceAPI.Functions.SendMessage(this, "**Dispatch** Code-33 all units respond. Station is 10-6.");
             foreach (var bikerss in _bikers)
             {
                 PyroFunctions.SetWanted(bikerss, true);
@@ -151,7 +144,6 @@ internal class LostGang : Callout
         if (_cBlip.Exists()) _cBlip.Delete();
 
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
-        CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code4");
         base.End();
     }
 }

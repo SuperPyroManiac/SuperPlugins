@@ -1,5 +1,4 @@
 ﻿using System.Drawing;
-using CalloutInterfaceAPI;
 using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.API;
 using Rage;
@@ -7,7 +6,7 @@ using Functions = LSPD_First_Response.Mod.API.Functions;
 
 namespace SuperCallouts.RemasteredCallouts;
 
-[CalloutInterface("[SC] Call Dropped", CalloutProbability.Medium, "911 call dropped - conduct wellness check", "LOW")]
+[CalloutInfo("[SC] Call Dropped", CalloutProbability.Medium)]
 internal class FakeCall : SuperCallout
 {
     private Blip _cBlip;
@@ -42,7 +41,6 @@ internal class FakeCall : SuperCallout
         GameFiber.Wait(4000);
         Functions.PlayScannerAudioUsingPosition("REPORT_RESPONSE_COPY_02", SpawnPoint.Position);
         GameFiber.Wait(3500);
-        CalloutInterfaceAPI.Functions.SendMessage(this, "Area has been checked, appears to be a fake call.");
         CalloutEnd();
     }
 }

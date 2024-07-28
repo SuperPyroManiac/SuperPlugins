@@ -1,8 +1,5 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Drawing;
-using CalloutInterfaceAPI;
 using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.API;
 using Rage;
@@ -11,11 +8,9 @@ using RAGENativeUI;
 using RAGENativeUI.Elements;
 using Functions = LSPD_First_Response.Mod.API.Functions;
 
-#endregion
-
 namespace SuperCallouts.Callouts;
 
-[CalloutInterface("[SC] Dead Body", CalloutProbability.Medium, "Reports of a dead body on the road, limited details", "Code 3")]
+[CalloutInfo("[SC] Dead Body", CalloutProbability.Medium)]
 internal class DeadBody : SuperCallout
 {
     private Blip _cBlip;
@@ -114,8 +109,6 @@ internal class DeadBody : SuperCallout
                         "~g~You~s~: It's alright, thank you for your time and the call. You are free to go home.",
                         4000);
                     if (_witness.Exists()) _witness.Dismiss();
-                    CalloutInterfaceAPI.Functions.SendMessage(this,
-                        "Witness has been questioned, no useful information.");
                 });
         }
         catch (Exception e)

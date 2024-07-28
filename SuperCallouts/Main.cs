@@ -14,14 +14,14 @@ internal class Main : Plugin
 {
     public override void Initialize()
     {
-        DependManager.AddDepend("PyroCommon.dll", "1.5.0.1");
+        DependManager.AddDepend("PyroCommon.dll", "1.5.0.2");
         DependManager.AddDepend("RageNativeUI.dll", "1.9.2.0");
         DependManager.AddDepend("CalloutInterfaceAPI.dll", "1.0.3.0");
         if ( !DependManager.CheckDepends() ) return;
         
         Functions.OnOnDutyStateChanged += OnOnDutyStateChangedHandler;
         Settings.LoadSettings();
-        Game.AddConsoleCommands(new[] { typeof(ConsoleCommands) });
+        Game.AddConsoleCommands([typeof(ConsoleCommands)]);
     }
 
     private void OnOnDutyStateChangedHandler(bool onDuty)
@@ -40,7 +40,9 @@ internal class Main : Plugin
             Log.Info("======================================================");
             RegisterCallouts();
             PyroCommon.Main.InitCommon("SuperCallouts", Assembly.GetExecutingAssembly().GetName().Version.ToString());
+            return;
         }
+        PyroCommon.Main.StopCommon();
     }
 
     private static void RegisterCallouts()

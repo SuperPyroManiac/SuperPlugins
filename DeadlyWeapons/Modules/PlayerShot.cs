@@ -4,7 +4,6 @@ using System;
 using DamageTrackerLib.DamageInfo;
 using PyroCommon.API;
 using Rage;
-using Rage.Native;
 
 #endregion
 

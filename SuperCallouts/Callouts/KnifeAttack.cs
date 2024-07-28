@@ -1,27 +1,21 @@
-#region
-
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using CalloutInterfaceAPI;
 using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.API;
 using Rage;
 using Functions = LSPD_First_Response.Mod.API.Functions;
 
-#endregion
-
 namespace SuperCallouts.Callouts;
 
-[CalloutInterface("[SC] Knife Attack", CalloutProbability.Medium, "Reports of suspect attacking people with large knife",
-    "Code 3")]
+[CalloutInfo("[SC] Knife Attack", CalloutProbability.Medium)]
 internal class KnifeAttack : SuperCallout
 {
     private readonly int _cScene = new Random(DateTime.Now.Millisecond).Next(1, 4);
 
-    private readonly List<Tuple<Vector3, float>> _locations = new()
-    {
+    private readonly List<Tuple<Vector3, float>> _locations =
+    [
         Tuple.Create(new Vector3(98.695f, -1711.661f, 30.11257f), 226f),
         Tuple.Create(new Vector3(128.4992f, -1737.29f, 30.11015f), 240f),
         Tuple.Create(new Vector3(-219.8601f, -1049.929f, 30.13966f), 168f),
@@ -33,7 +27,7 @@ internal class KnifeAttack : SuperCallout
         Tuple.Create(new Vector3(-549.0919f, -1298.383f, 26.90161f), 187f),
         Tuple.Create(new Vector3(-882.8482f, -2308.612f, -11.7328f), 234f),
         Tuple.Create(new Vector3(-1066.983f, -2700.32f, -7.41007f), 339f)
-    };
+    ];
 
     private Blip _cBlip;
     private Tuple<Vector3, float> _chosenLocation;

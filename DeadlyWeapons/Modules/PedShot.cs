@@ -5,7 +5,6 @@ using DamageTrackerLib.DamageInfo;
 using LSPD_First_Response.Mod.API;
 using PyroCommon.API;
 using Rage;
-using Rage.Native;
 
 #endregion
 

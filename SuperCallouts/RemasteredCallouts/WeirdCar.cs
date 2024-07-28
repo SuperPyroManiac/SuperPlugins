@@ -1,6 +1,5 @@
 using System;
 using System.Drawing;
-using CalloutInterfaceAPI;
 using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.API;
 using Rage;
@@ -10,7 +9,7 @@ using Functions = LSPD_First_Response.Mod.API.Functions;
 
 namespace SuperCallouts.RemasteredCallouts;
 
-[CalloutInterface("[SC] Suspicious Vehicle", CalloutProbability.Medium, "Reports of a suspicious vehicle, limited details", "Code 2")]
+[CalloutInfo("[SC] Suspicious Vehicle", CalloutProbability.Medium)]
 internal class WeirdCar : SuperCallout
 {
     private readonly Random _rNd = new();
@@ -59,7 +58,6 @@ internal class WeirdCar : SuperCallout
                 Log.Info("Callout Scene 1");
                 _cVehicle1.ApplyDamage(500, 500);
                 _cVehicle1.IsStolen = true;
-                CalloutInterfaceAPI.Functions.SendMessage(this, "Officer on scene. Vehicle appears to be abandoned.");
                 break;
             case 2:
                 Log.Info("Callout Scene 2");
@@ -75,7 +73,6 @@ internal class WeirdCar : SuperCallout
                     Game.DisplaySubtitle("~r~Driver:~s~ The world will end with fire!");
                     GameFiber.Wait(3000);
                     _cVehicle1.Explode();
-                    CalloutInterfaceAPI.Functions.SendMessage(this, "Officer on scene, we have a vehicle explosion!");
                 });
                 break;
             case 3:
@@ -87,7 +84,6 @@ internal class WeirdCar : SuperCallout
                 _name = Functions.GetPersonaForPed(_bad1).FullName;
                 Questioning.Enabled = true;
                 _cVehicle1.IsStolen = true;
-                CalloutInterfaceAPI.Functions.SendMessage(this, "Officer on scene. Vehicle appears to be occupied.");
                 break;
             default:
                 Game.DisplayNotification(

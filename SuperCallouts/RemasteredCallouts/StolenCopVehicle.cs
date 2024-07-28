@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Drawing;
-using CalloutInterfaceAPI;
 using LSPD_First_Response;
 using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.API;
@@ -9,7 +8,7 @@ using Functions = LSPD_First_Response.Mod.API.Functions;
 
 namespace SuperCallouts.RemasteredCallouts;
 
-[CalloutInterface("[SC] Stolen PD Vehicle", CalloutProbability.Medium, "Suspect has stolen a police vehicle", "Code 3")]
+[CalloutInfo("[SC] Stolen PD Vehicle", CalloutProbability.Medium)]
 internal class StolenCopVehicle : SuperCallout
 {
     private Ped _suspect;
@@ -32,7 +31,7 @@ internal class StolenCopVehicle : SuperCallout
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch","~r~Stolen Police Vehicle",
             "A suspect has stolen a police vehicle during his arrest. Respond ~r~CODE-3");
 
-        Model[] vehicleModels = { "POLICE", "POLICE2", "POLICE3", "SHERIFF", "SHERIFF2" };
+        Model[] vehicleModels = ["POLICE", "POLICE2", "POLICE3", "SHERIFF", "SHERIFF2"];
         _cVehicle = new Vehicle(vehicleModels[new Random(DateTime.Now.Millisecond).Next(vehicleModels.Length)], SpawnPoint.Position)
                 { IsPersistent = true, IsStolen = true, IsSirenOn = true, IsSirenSilent = true };
         EntitiesToClear.Add(_cVehicle);

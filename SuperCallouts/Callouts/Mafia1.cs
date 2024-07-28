@@ -1,10 +1,7 @@
-#region
-
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using CalloutInterfaceAPI;
 using LSPD_First_Response;
 using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.API;
@@ -15,12 +12,9 @@ using RAGENativeUI.Elements;
 using SuperCallouts.CustomScenes;
 using Functions = LSPD_First_Response.Mod.API.Functions;
 
-#endregion
-
 namespace SuperCallouts.Callouts;
 
-[CalloutInterface("[SC] Casino Raid", CalloutProbability.Low,
-    "FIB have discovered serious drug smuggling at the casino - meet with FIB", "Code 5", "SWAT")]
+[CalloutInfo("[SC] Casino Raid", CalloutProbability.Low)]
 internal class Mafia1 : Callout
 {
     private readonly List<Ped> _badGuys = new();
@@ -249,7 +243,6 @@ internal class Mafia1 : Callout
         _interaction.CloseAllMenus();
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
 
-        CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code4");
         base.End();
     }
 

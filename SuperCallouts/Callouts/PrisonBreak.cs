@@ -1,19 +1,13 @@
-﻿#region
-
-using System.Drawing;
-using CalloutInterfaceAPI;
+﻿using System.Drawing;
 using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.API;
 using Rage;
 using SuperCallouts.CustomScenes;
 using Functions = LSPD_First_Response.Mod.API.Functions;
 
-#endregion
-
 namespace SuperCallouts.Callouts;
 
-[CalloutInterface("[SC] Prison Break", CalloutProbability.Low, "Multiple prisoners have escaped - high priority all units",
-    "Code 99")]
+[CalloutInfo("[SC] Prison Break", CalloutProbability.Low)]
 internal class PrisonBreak : Callout
 {
     private readonly Vector3 _spawnPoint = new(1970.794f, 2624.078f, 46.00704f);
@@ -33,8 +27,6 @@ internal class PrisonBreak : Callout
     public override bool OnBeforeCalloutDisplayed()
     {
         ShowCalloutAreaBlipBeforeAccepting(_spawnPoint, 80f);
-        //AddMinimumDistanceCheck(20f, SpawnPoint);
-        //AddMaximumDistanceCheck(1500f, SpawnPoint);
         CalloutMessage = "~r~EMERGENCY~b~ SADOC Report:~s~ Prisoner(s) have escaped.";
         CalloutPosition = _spawnPoint;
         Functions.PlayScannerAudioUsingPosition(
@@ -127,7 +119,6 @@ internal class PrisonBreak : Callout
         if (_cBlip3.Exists()) _cBlip3.Delete();
         if (_cBlip4.Exists()) _cBlip4.Delete();
         if (_cBlip5.Exists()) _cBlip5.Delete();
-        CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code4");
         base.End();
     }
 }

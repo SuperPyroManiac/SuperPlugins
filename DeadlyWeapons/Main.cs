@@ -17,14 +17,14 @@ public class Main : Plugin
  
     public override void Initialize()
     {
-        DependManager.AddDepend("PyroCommon.dll", "1.5.0.1");
+        DependManager.AddDepend("PyroCommon.dll", "1.5.0.2");
         DependManager.AddDepend("RageNativeUI.dll", "1.9.2.0");
         DependManager.AddDepend("DamageTrackerLib.dll", "1.0.2");
         if ( !DependManager.CheckDepends() ) return;
         
         Settings.LoadSettings();
         Functions.OnOnDutyStateChanged += OnOnDutyStateChangedHandler;
-        Game.AddConsoleCommands(new[] {typeof(ConsoleCommands)});
+        Game.AddConsoleCommands([typeof(ConsoleCommands)]);
     }
 
     private void OnOnDutyStateChangedHandler(bool onDuty)
@@ -52,7 +52,9 @@ public class Main : Plugin
                 Events.OnPulloverStarted += CustomPullover.PulloverModule;
             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~r~DeadlyWeapons", "~g~Plugin Loaded.", "DeadlyWeapons version: " + Assembly.GetExecutingAssembly().GetName().Version + " loaded.");
             PyroCommon.Main.InitCommon("DeadlyWeapons", Assembly.GetExecutingAssembly().GetName().Version.ToString());
+            return;
         }
+        PyroCommon.Main.StopCommon();
     }
         
     public override void Finally()

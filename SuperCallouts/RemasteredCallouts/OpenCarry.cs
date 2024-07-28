@@ -1,6 +1,5 @@
 using System;
 using System.Drawing;
-using CalloutInterfaceAPI;
 using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.API;
 using Rage;
@@ -10,8 +9,7 @@ using Functions = LSPD_First_Response.Mod.API.Functions;
 
 namespace SuperCallouts.RemasteredCallouts;
 
-[CalloutInterface("[SC] Open Carry", CalloutProbability.Low,
-    "Person walking around with an assault rifle", "Code 2")]
+[CalloutInfo("[SC] Open Carry", CalloutProbability.Low)]
 internal class OpenCarry : SuperCallout
 {
     private Ped _suspect;

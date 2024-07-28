@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Drawing;
-using CalloutInterfaceAPI;
 using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.API;
 using Rage;
@@ -8,7 +7,7 @@ using Functions = LSPD_First_Response.Mod.API.Functions;
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInterface("[SC] Indecent Exposure", CalloutProbability.Medium, "Example Description")]
+[CalloutInfo("[SC] Indecent Exposure", CalloutProbability.Medium)]
 internal class IndecentExposure : SuperCallout
 {
     internal override Location SpawnPoint { get; set; } = new(World.GetNextPositionOnStreet(Player.Position.Around(60f, 320f)));

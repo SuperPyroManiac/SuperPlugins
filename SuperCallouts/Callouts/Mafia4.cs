@@ -1,10 +1,7 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using CalloutInterfaceAPI;
 using LSPD_First_Response;
 using LSPD_First_Response.Engine.Scripting.Entities;
 using LSPD_First_Response.Mod.Callouts;
@@ -16,12 +13,9 @@ using SuperCallouts.CustomScenes;
 using Functions = LSPD_First_Response.Mod.API.Functions;
 using Object = Rage.Object;
 
-#endregion
-
 namespace SuperCallouts.Callouts;
 
-[CalloutInterface("[SC] Bomb Report", CalloutProbability.Low, "A bomb has been found downtown - high priority all units",
-    "Code 99", "SWAT")]
+[CalloutInfo("[SC] Bomb Report", CalloutProbability.Low)]
 internal class Mafia4 : Callout
 {
     private readonly Vector3 _callPos = new(288.916f, -1588.429f, 29.53253f);
@@ -104,7 +98,6 @@ internal class Mafia4 : Callout
         }
 
         _bomb.IsPersistent = true;
-        CalloutInterfaceAPI.Functions.SendMessage(this, "Multiple unites en-route to the scene.");
 
         //UI Items
         PyroFunctions.BuildUi(out _interaction, out _mainMenu, out _, out _, out _endCall);
@@ -124,8 +117,6 @@ internal class Mafia4 : Callout
                         Game.SetRelationshipBetweenRelationshipGroups("MAFIA", "COP", Relationship.Hate);
                         Game.SetRelationshipBetweenRelationshipGroups("MAFIA", "PLAYER", Relationship.Hate);
                         Game.SetRelationshipBetweenRelationshipGroups("COP", "MAFIA", Relationship.Hate);
-                        CalloutInterfaceAPI.Functions.SendMessage(this,
-                            "Gang members in the area have been paid off by the mob and may also be a thread. Be cautious.");
                         if (PyroCommon.Main.UsingUb)
                         {
                             Wrapper.CallSwat(false);
@@ -192,9 +183,7 @@ internal class Mafia4 : Callout
         Game.SetRelationshipBetweenRelationshipGroups("MAFIA", "COP", Relationship.Dislike);
         _interaction.CloseAllMenus();
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
-
-        CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code4");
-
+        
         base.End();
     }
 
@@ -224,7 +213,6 @@ internal class Mafia4 : Callout
                 {
                     _running = false;
                     _cTimerBar.Label = "Disarmed";
-                    CalloutInterfaceAPI.Functions.SendMessage(this, "All suspects are down. Bomb has been disarmed.");
                     Game.DisplayHelp("Bomb Disarmed", 4000);
                 }
             }

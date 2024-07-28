@@ -1,6 +1,5 @@
 using System;
 using System.Drawing;
-using CalloutInterfaceAPI;
 using LSPD_First_Response.Mod.API;
 using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.API;
@@ -11,7 +10,7 @@ using Functions = LSPD_First_Response.Mod.API.Functions;
 
 namespace SuperCallouts.RemasteredCallouts;
 
-[CalloutInterface("[SC] High Speed Pursuit", CalloutProbability.Medium, "High performance vehicle fleeing from police", "Code 3")]
+[CalloutInfo("[SC] High Speed Pursuit", CalloutProbability.Medium)]
 internal class HotPursuit : SuperCallout
 {
     private Ped _bad1;
@@ -40,7 +39,7 @@ internal class HotPursuit : SuperCallout
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Stolen Car",
             "ANPR has spotted a stolen vehicle. Suspect is known to flee. Respond ~r~CODE-3");
 
-        Model[] vehicleModels = { "THRAX", "TORERO2", "CHAMPION", "ENTITY3", "THRAX", "FMJ", "ZORRUSSO", "TIGON", "FURIA" };
+        Model[] vehicleModels = ["THRAX", "TORERO2", "CHAMPION", "ENTITY3", "THRAX", "FMJ", "ZORRUSSO", "TIGON", "FURIA"];
         _cVehicle = new Vehicle(vehicleModels[new Random(DateTime.Now.Millisecond).Next(vehicleModels.Length)], SpawnPoint.Position);
         _cVehicle.IsPersistent = true;
         _cVehicle.IsStolen = true;
@@ -124,7 +123,6 @@ internal class HotPursuit : SuperCallout
 
     internal override void CalloutOnScene()
     {
-        CalloutInterfaceAPI.Functions.SendMessage(this, "Show me in pursuit!");
         if ( _cBlip.Exists() ) _cBlip.Delete();
         _bad1.BlockPermanentEvents = false;
         _bad2.BlockPermanentEvents = false;

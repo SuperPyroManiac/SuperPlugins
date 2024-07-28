@@ -1,17 +1,12 @@
-#region
-
 using System.Drawing;
-using CalloutInterfaceAPI;
 using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.API;
 using Rage;
 using Functions = LSPD_First_Response.Mod.API.Functions;
 
-#endregion
-
 namespace SuperCallouts.Callouts;
 
-[CalloutInterface("[SC] Blocking Traffic", CalloutProbability.Medium, "Vehicle parked in the road", "Code 3")]
+[CalloutInfo("[SC] Blocking Traffic", CalloutProbability.Medium)]
 internal class BlockingTraffic : SuperCallout
 {
     private Blip _cBlip;

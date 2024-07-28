@@ -1,7 +1,4 @@
-﻿#region
-
-using System.Drawing;
-using CalloutInterfaceAPI;
+﻿using System.Drawing;
 using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.API;
 using Rage;
@@ -11,12 +8,9 @@ using RAGENativeUI.Elements;
 using SuperCallouts.CustomScenes;
 using Functions = LSPD_First_Response.Mod.API.Functions;
 
-#endregion
-
 namespace SuperCallouts.Callouts;
 
-[CalloutInterface("[SC] Truck Crash", CalloutProbability.Low, "A large truck has tipped over blocking entire freeway",
-    "Code 3")]
+[CalloutInfo("[SC] Truck Crash", CalloutProbability.Low)]
 internal class TruckCrash : SuperCallout
 {
     private Vehicle _car1;

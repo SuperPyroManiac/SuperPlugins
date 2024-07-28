@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Net;
 using System.Threading;
 using Rage;
-using Task = System.Threading.Tasks.Task;
 
 namespace PyroCommon.API;
 

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using CalloutInterfaceAPI;
 using LSPD_First_Response.Mod.API;
 using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.API;
@@ -14,13 +13,13 @@ using Functions = LSPD_First_Response.Mod.API.Functions;
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInterface("[SC] Trespassing", CalloutProbability.Medium, "Aggressive person damaging property", "Code 3")]
+[CalloutInfo("[SC] Trespassing", CalloutProbability.Medium)]
 internal class Trespassing : SuperCallout
 {
     private readonly int _cScene = new Random(DateTime.Now.Millisecond).Next(0, 4);
 
-    private readonly List<Tuple<Vector3, float>> _locations = new()
-    {
+    private readonly List<Tuple<Vector3, float>> _locations =
+    [
         Tuple.Create(new Vector3(1323.59f, -1652.35f, 52.27f), 99f),
         Tuple.Create(new Vector3(77.46f, -1390.56f, 29.3761f), 86f),
         Tuple.Create(new Vector3(423.18f, -808.52f, 29.49f), 268f),
@@ -31,7 +30,7 @@ internal class Trespassing : SuperCallout
         Tuple.Create(new Vector3(2679.04f, 3281.72f, 55.24f), 128f),
         Tuple.Create(new Vector3(-49.33f, -1756.87f, 29.42f), 255f),
         Tuple.Create(new Vector3(-1224.55f, -906.21f, 12.32f), 229f)
-    };
+    ];
 
     private Blip _cBlip;
     private Tuple<Vector3, float> _chosenLocation;
@@ -59,7 +58,6 @@ internal class Trespassing : SuperCallout
     {
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~y~Trespassing",
             "Caller reports an individual trespassing and causing a disturbance. ~r~CODE-2");
-        CalloutInterfaceAPI.Functions.SendMessage(this, "Dispatch: Caller reports suspect is drunk and may be armed.");
 
         _suspect = new Ped(SpawnPoint.Position, SpawnPoint.Heading)
             { IsPersistent = true, BlockPermanentEvents = true };
@@ -92,8 +90,6 @@ internal class Trespassing : SuperCallout
     {
         _cBlip.DisableRoute();
         Questioning.Enabled = true;
-        CalloutInterfaceAPI.Functions.SendMessage(this,
-            "Dispatch: We ran the name given to us by the caller and can confirm this individual has been trespassed in the past from this location.");
         NativeFunction.Natives.x5AD23D40115353AC(_suspect, Game.LocalPlayer.Character, -1);
         Game.DisplaySubtitle("~r~" + _name + "~s~: What do you want?", 3000);
     }

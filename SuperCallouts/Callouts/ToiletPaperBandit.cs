@@ -1,7 +1,4 @@
-#region
-
 using System.Drawing;
-using CalloutInterfaceAPI;
 using LSPD_First_Response;
 using LSPD_First_Response.Mod.API;
 using LSPD_First_Response.Mod.Callouts;
@@ -11,11 +8,9 @@ using RAGENativeUI;
 using RAGENativeUI.Elements;
 using Functions = LSPD_First_Response.Mod.API.Functions;
 
-#endregion
-
 namespace SuperCallouts.Callouts;
 
-[CalloutInterface("[SC] Stolen Cleaning Truck", CalloutProbability.Low, "Reports of a stolen sanitization truck", "Code 3")]
+[CalloutInfo("[SC] Stolen Cleaning Truck", CalloutProbability.Low)]
 internal class ToiletPaperBandit : SuperCallout
 {
     private Ped _bad;

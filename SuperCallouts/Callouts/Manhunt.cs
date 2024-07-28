@@ -1,7 +1,4 @@
-#region
-
 using System.Drawing;
-using CalloutInterfaceAPI;
 using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.API;
 using Rage;
@@ -9,11 +6,9 @@ using RAGENativeUI;
 using RAGENativeUI.Elements;
 using Functions = LSPD_First_Response.Mod.API.Functions;
 
-#endregion
-
 namespace SuperCallouts.Callouts;
 
-[CalloutInterface("[SC] Manhunt", CalloutProbability.Low, "Suspect evading police", "Code 3")]
+[CalloutInfo("[SC] Manhunt", CalloutProbability.Low)]
 internal class Manhunt : SuperCallout
 {
     private Ped _bad;

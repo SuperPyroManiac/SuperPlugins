@@ -1,18 +1,13 @@
-#region
-
 using System;
 using System.Drawing;
-using CalloutInterfaceAPI;
 using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.API;
 using Rage;
 using Functions = LSPD_First_Response.Mod.API.Functions;
 
-#endregion
-
 namespace SuperCallouts.Callouts;
 
-[CalloutInterface("[SC] Car Accident3", CalloutProbability.Medium, "Reports of a vehicle crash, limited details", "Code 3")]
+[CalloutInfo("[SC] Car Accident3", CalloutProbability.Medium)]
 internal class CarAccident3 : SuperCallout
 {
     private readonly int _choice = new Random(DateTime.Now.Millisecond).Next(0, 4);
@@ -107,25 +102,20 @@ internal class CarAccident3 : SuperCallout
             case 0: //Peds fight
                 _ePed.Tasks.FightAgainst(_ePed2);
                 _ePed2.Tasks.FightAgainst(_ePed);
-                CalloutInterfaceAPI.Functions.SendMessage(this, "Subjects are fighting!");
                 break;
             case 1: //Ped Dies, other flees
                 var pursuit = Functions.CreatePursuit();
                 Functions.AddPedToPursuit(pursuit, _ePed2);
                 Functions.SetPursuitIsActiveForPlayer(pursuit, true);
-                CalloutInterfaceAPI.Functions.SendMessage(this,
-                    "Subject running on foot, currently in pursuit!");
                 break;
             case 2: //Hit and run
                 var pursuit2 = Functions.CreatePursuit();
                 Functions.AddPedToPursuit(pursuit2, _ePed);
                 Functions.SetPursuitIsActiveForPlayer(pursuit2, true);
-                CalloutInterfaceAPI.Functions.SendMessage(this, "Appears to be a hit and run.");
                 break;
             case 3: //Fire + dead ped.
                 _ePed2.Tasks.Cower(-1);
                 PyroFunctions.FireControl(SpawnPoint.Position.Around2D(7f), 24, true);
-                CalloutInterfaceAPI.Functions.SendMessage(this, "We have a fire, and someone is injured!");
                 break;
             default:
                 End();

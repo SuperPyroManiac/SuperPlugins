@@ -1,8 +1,5 @@
-#region
-
 using System;
 using System.Drawing;
-using CalloutInterfaceAPI;
 using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.API;
 using Rage;
@@ -10,12 +7,9 @@ using RAGENativeUI;
 using RAGENativeUI.Elements;
 using Functions = LSPD_First_Response.Mod.API.Functions;
 
-#endregion
-
 namespace SuperCallouts.Callouts;
 
-[CalloutInterface("[SC] Police Impersonator", CalloutProbability.Medium, "Active traffic stop with an impersonator",
-    "Code 3")]
+[CalloutInfo("[SC] Police Impersonator", CalloutProbability.Medium)]
 internal class Impersonator : SuperCallout
 {
     private Ped _bad;
@@ -41,8 +35,6 @@ internal class Impersonator : SuperCallout
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Suspicious Pullover",
             Settings.EmergencyNumber +
             " call of someone being pulled over by a non uniformed officer. Description does not match our department for undercover cops. Respond ~r~CODE-3");
-        CalloutInterfaceAPI.Functions.SendMessage(this,
-            "Caller feels that they are in danger, this is a high priority call.");
 
         PyroFunctions.SpawnNormalCar(out _cVehicle1, SpawnPoint.Position);
         _cVehicle1.Heading = SpawnPoint.Heading;
@@ -90,16 +82,12 @@ internal class Impersonator : SuperCallout
                 var pursuit = Functions.CreatePursuit();
                 Functions.AddPedToPursuit(pursuit, _bad);
                 Functions.SetPursuitIsActiveForPlayer(pursuit, true);
-                CalloutInterfaceAPI.Functions.SendMessage(this, "Suspect is fleeing, show me in pursuit!");
                 break;
             case 2:
                 _bad.Tasks.LeaveVehicle(LeaveVehicleFlags.LeaveDoorOpen).WaitForCompletion(1500);
                 _bad.Inventory.Weapons.Add(WeaponHash.CombatPistol).Ammo = -1;
                 GameFiber.Wait(3000);
                 _bad.Tasks.FightAgainst(Game.LocalPlayer.Character, -1);
-                CalloutInterfaceAPI.Functions.SendMessage(this, "Shots fired!");
-                CalloutInterfaceAPI.Functions.SendMessage(this,
-                    "**Dispatch** Code-33 all units respond. Station is 10-6.");
                 break;
             case 3:
                 GameFiber.Wait(2000);
@@ -136,7 +124,6 @@ internal class Impersonator : SuperCallout
                 Game.DisplaySubtitle(
                     "~r~" + _name1 +
                     "~s~: I'll have you fired for this officer. I'm not going to talk to you anymore.", 5000);
-                CalloutInterfaceAPI.Functions.SendMessage(this, "Report taken from suspect.");
             });
         base.Conversations(sender, selItem, index);
     }

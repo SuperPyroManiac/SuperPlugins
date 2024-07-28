@@ -1,5 +1,4 @@
 ﻿using System.Drawing;
-using CalloutInterfaceAPI;
 using LSPD_First_Response;
 using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.API;
@@ -8,8 +7,7 @@ using Functions = LSPD_First_Response.Mod.API.Functions;
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInterface("[SC] Stolen Construction Vehicle", CalloutProbability.Low,
-    "Very large construction vehicle reported stolen", "Code 3")]
+[CalloutInfo("[SC] Stolen Construction Vehicle", CalloutProbability.Low)]
 internal class StolenDumptruck : SuperCallout
 {
     private Ped _bad;
@@ -31,8 +29,6 @@ internal class StolenDumptruck : SuperCallout
     {
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Stolen Construction Vehicle",
             "A suspect has stolen a very large construction vehicle. Respond ~r~CODE-3");
-        CalloutInterfaceAPI.Functions.SendMessage(this,
-            "A dump truck has been stolen from a construction site. This vehicle is very large and driving on public streets.");
 
         _cVehicle = new Vehicle("dump", SpawnPoint.Position)
             { IsPersistent = true, IsStolen = true };

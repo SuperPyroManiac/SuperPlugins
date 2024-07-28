@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Drawing;
-using CalloutInterfaceAPI;
 using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.API;
 using Rage;
@@ -9,7 +8,7 @@ using Functions = LSPD_First_Response.Mod.API.Functions;
 
 namespace SuperCallouts.RemasteredCallouts;
 
-[CalloutInterface("[SC] Fight", CalloutProbability.Medium, "Reports of a fight on the street, limited details", "Code 3")]
+[CalloutInfo("[SC] Fight", CalloutProbability.Medium)]
 internal class Fight : SuperCallout
 {
     private Ped _victim;

@@ -1,7 +1,4 @@
-#region
-
 using System.Drawing;
-using CalloutInterfaceAPI;
 using LSPD_First_Response;
 using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.API;
@@ -11,11 +8,9 @@ using RAGENativeUI;
 using RAGENativeUI.Elements;
 using Functions = LSPD_First_Response.Mod.API.Functions;
 
-#endregion
-
 namespace SuperCallouts.Callouts;
 
-[CalloutInterface("[SC] Car Accident2", CalloutProbability.Medium, "Reports of a vehicle crash, limited details", "Code 3")]
+[CalloutInfo("[SC] Car Accident2", CalloutProbability.Medium)]
 internal class CarAccident2 : SuperCallout
 {
     private readonly UIMenuItem _callFd = new("~r~ Call Fire Department", "Calls for ambulance and firetruck.");
@@ -121,8 +116,6 @@ internal class CarAccident2 : SuperCallout
         {
             _callFd.Enabled = false;
             Game.DisplaySubtitle("~g~You~s~: Dispatch, we have an MVA. One person is seriously injured.");
-            CalloutInterfaceAPI.Functions.SendMessage(this,
-                "**Dispatch** EMS has been notified and is on route. 11-78");
             if (PyroCommon.Main.UsingUb)
             {
                 Wrapper.CallEms();
@@ -147,7 +140,6 @@ internal class CarAccident2 : SuperCallout
             GameFiber.StartNew(delegate
             {
                 _speakSuspect.Enabled = false;
-                CalloutInterfaceAPI.Functions.SendMessage(this, "Speaking with subject.");
                 Game.DisplaySubtitle("~g~You~s~: What happened? Are you ok?", 5000);
                 NativeFunction.Natives.x5AD23D40115353AC(_victim2,
                     Game.LocalPlayer.Character, -1);
@@ -160,7 +152,6 @@ internal class CarAccident2 : SuperCallout
                     5000);
                 GameFiber.Wait(5000);
                 Game.DisplaySubtitle("~r~" + _name1 + "~s~: No!", 5000);
-                CalloutInterfaceAPI.Functions.SendMessage(this, "Subject refuses to speak.");
                 _victim2.Tasks.EnterVehicle(_cVehicle2, -1);
                 _victim2.BlockPermanentEvents = true;
             });

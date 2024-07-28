@@ -1,7 +1,4 @@
-#region
-
 using System.Drawing;
-using CalloutInterfaceAPI;
 using LSPD_First_Response;
 using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.API;
@@ -10,11 +7,9 @@ using RAGENativeUI;
 using RAGENativeUI.Elements;
 using Functions = LSPD_First_Response.Mod.API.Functions;
 
-#endregion
-
 namespace SuperCallouts.Callouts;
 
-[CalloutInterface("[SC] Car Accident", CalloutProbability.Medium, "Reports of a vehicle crash, limited details", "Code 3")]
+[CalloutInfo("[SC] Car Accident", CalloutProbability.Medium)]
 internal class CarAccident : SuperCallout
 {
     private readonly UIMenuItem _callEms = new("~r~ Call EMS", "Calls for an ambulance.");
@@ -73,7 +68,6 @@ internal class CarAccident : SuperCallout
         {
             Game.DisplaySubtitle(
                 "~g~You~s~: Dispatch, we have a vehicle accident, possible hit and run. Looks like someone is inside and injured! I need EMS out here.");
-            CalloutInterfaceAPI.Functions.SendMessage(this, "EMS has been notified and is on route. 11-78");
             if (PyroCommon.Main.UsingUb)
             {
                 Wrapper.CallEms();

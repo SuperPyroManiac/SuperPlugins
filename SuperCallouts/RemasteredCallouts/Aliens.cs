@@ -1,5 +1,4 @@
 using System.Drawing;
-using CalloutInterfaceAPI;
 using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.API;
 using Rage;
@@ -7,7 +6,7 @@ using Functions = LSPD_First_Response.Mod.API.Functions;
 
 namespace SuperCallouts.RemasteredCallouts;
 
-[CalloutInterface("[SC] Aliens", CalloutProbability.VeryLow, "Alien sighting - possible prank", "Code 2")]
+[CalloutInfo("[SC] Aliens", CalloutProbability.VeryLow)]
 internal class Aliens : SuperCallout
 {
     private Ped _alien1;

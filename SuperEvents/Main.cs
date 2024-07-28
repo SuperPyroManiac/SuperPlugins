@@ -18,13 +18,13 @@ internal class Main : Plugin
 
     public override void Initialize()
     {
-        DependManager.AddDepend("PyroCommon.dll", "1.5.0.1");
+        DependManager.AddDepend("PyroCommon.dll", "1.5.0.2");
         DependManager.AddDepend("RageNativeUI.dll", "1.9.2.0");
         if ( !DependManager.CheckDepends() ) return;
         
         Functions.OnOnDutyStateChanged += OnOnDutyStateChangedHandler;
         Settings.LoadSettings();
-        Game.AddConsoleCommands(new[] { typeof(ConsoleCommands) });
+        Game.AddConsoleCommands([typeof(ConsoleCommands)]);
     }
 
     private static void OnOnDutyStateChangedHandler(bool onDuty)
@@ -50,7 +50,9 @@ internal class Main : Plugin
             GameFiber.StartNew(EventManager.InitEvents);
             EventInterface.StartInterface();
             PyroCommon.Main.InitCommon("SuperEvents", Assembly.GetExecutingAssembly().GetName().Version.ToString());
+            return;
         }
+        PyroCommon.Main.StopCommon();
     }
 
     private static void RegisterAllEvents()

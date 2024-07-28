@@ -1,6 +1,5 @@
 using System;
 using System.Drawing;
-using CalloutInterfaceAPI;
 using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.API;
 using Rage;
@@ -8,7 +7,7 @@ using Functions = LSPD_First_Response.Mod.API.Functions;
 
 namespace SuperCallouts.RemasteredCallouts;
 
-[CalloutInterface("[SC] Illegal Parking", CalloutProbability.Medium, "Reports of a vehicle parked illegally", "LOW")]
+[CalloutInfo("[SC] Illegal Parking", CalloutProbability.Medium)]
 internal class IllegalParking : SuperCallout
 {
     private Blip _cBlip;

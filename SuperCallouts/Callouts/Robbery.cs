@@ -1,19 +1,14 @@
-#region
-
 using System;
 using System.Drawing;
-using CalloutInterfaceAPI;
 using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.API;
 using Rage;
 using Rage.Native;
 using Functions = LSPD_First_Response.Mod.API.Functions;
 
-#endregion
-
 namespace SuperCallouts.Callouts;
 
-[CalloutInterface("[SC] Armed Robbery", CalloutProbability.Medium, "Armed robbery on civilian", "Code 3")]
+[CalloutInfo("[SC] Armed Robbery", CalloutProbability.Medium)]
 internal class Robbery : SuperCallout
 {
     private readonly Random _rNd = new();

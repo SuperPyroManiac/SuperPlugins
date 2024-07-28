@@ -1,9 +1,6 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using CalloutInterfaceAPI;
 using LSPD_First_Response;
 using LSPD_First_Response.Engine.Scripting.Entities;
 using LSPD_First_Response.Mod.Callouts;
@@ -12,12 +9,9 @@ using Rage;
 using SuperCallouts.CustomScenes;
 using Functions = LSPD_First_Response.Mod.API.Functions;
 
-#endregion
-
 namespace SuperCallouts.Callouts;
 
-[CalloutInterface("[SC] Drug Raid", CalloutProbability.Low,
-    "Drug smuggling in abandoned apartment - Stakeout for SWAT teams", "Code 5", "SWAT")]
+[CalloutInfo("[SC] Drug Raid", CalloutProbability.Low)]
 internal class Mafia2 : Callout
 {
     private readonly Vector3 _callPos = new(1543.173f, 3606.55f, 35.19303f);
@@ -164,7 +158,6 @@ internal class Mafia2 : Callout
         if (_cBlip.Exists()) _cBlip.Delete();
 
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
-        CalloutInterfaceAPI.Functions.SendMessage(this, "Scene clear, Code4");
         base.End();
     }
 }
