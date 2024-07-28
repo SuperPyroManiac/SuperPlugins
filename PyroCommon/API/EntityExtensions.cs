@@ -40,11 +40,11 @@ public static class EntityExtensions
 
     public static void SetResistance(this Ped ped, Enums.ResistanceAction resistanceAction, bool walkAway = false, int resistanceChance = 50)
     {
-        if (Main.UsingPr)
-        {
-            PedInfo.SetResistance(ped, resistanceAction, walkAway, resistanceChance);
-            return;
-        }
+        // if (Main.UsingPr)
+        // {
+        //     PedInfo.SetResistance(ped, resistanceAction, walkAway, resistanceChance);
+        //     return;
+        // }
         switch (resistanceAction)
         {
             case Enums.ResistanceAction.Flee:
@@ -81,11 +81,11 @@ public static class EntityExtensions
         {
             GameFiber.Yield();
             if (!ped.Exists()) return;
-            if (Main.UsingPr)
-            {
-                PedInfo.SetDrunk(ped, drunkState);
-                return;
-            }
+            // if (Main.UsingPr)
+            // {
+            //     PedInfo.SetDrunk(ped, drunkState);
+            //     return;
+            // }
             ped.Metadata.stpAlcoholDetected = true;
             ped.SetWalkAnimation(Enums.ScAnimationsSet.Drunk);
             NativeFunction.Natives.x95D2D383D5396B8A(ped, true);
@@ -94,7 +94,7 @@ public static class EntityExtensions
     
     public static void SetLicenseStatus(this Ped ped, Enums.Permits permits, Enums.PermitStatus status)
     {
-        if (Main.UsingPr) PedInfo.SetPermit(ped, permits, status);
+        //if (Main.UsingPr) PedInfo.SetPermit(ped, permits, status);
         switch (permits)
         {
             case Enums.Permits.Drivers:

@@ -17,7 +17,7 @@ public class Main : Plugin
  
     public override void Initialize()
     {
-        DependManager.AddDepend("PyroCommon.dll", "1.5.0.2");
+        DependManager.AddDepend("PyroCommon.dll", "1.6.0.0");
         DependManager.AddDepend("RageNativeUI.dll", "1.9.2.0");
         DependManager.AddDepend("DamageTrackerLib.dll", "1.0.2");
         if ( !DependManager.CheckDepends() ) return;
@@ -39,7 +39,6 @@ public class Main : Plugin
             Log.Info($"DamageTrackerLib, Version: {new Version(FileVersionInfo.GetVersionInfo("DamageTrackerLib.dll").FileVersion)}");
             Log.Info($"Using Ultimate Backup: {PyroCommon.Main.UsingUb}");
             Log.Info($"Using StopThePed: {PyroCommon.Main.UsingStp}");
-            Log.Info($"Using Policing Redefined: {PyroCommon.Main.UsingPr}");
             Log.Info("======================================================");
             DamageTrackerService.Start();
             if (Settings.EnablePlayerDamageSystem)

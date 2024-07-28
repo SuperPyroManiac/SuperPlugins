@@ -16,13 +16,13 @@ public abstract class PyroFunctions
     {
         if (ped != null && Main.UsingStp) SearchItems.AddStpPedSearchItems(ped, item);
         if (vehicle != null && Main.UsingStp) SearchItems.AddStpVehicleDriverSearchItems(vehicle, item);
-        if (Main.UsingPr) SearchItems.AddDrugItem(item, drugType, itemLocation, ped, vehicle);
+        //if (Main.UsingPr) SearchItems.AddDrugItem(item, drugType, itemLocation, ped, vehicle);
     }
     public static void AddWeaponItem(string item, string weaponId, Ped ped = null, Vehicle vehicle = null, Enums.ItemLocation itemLocation = Enums.ItemLocation.Anywhere)
     {
         if (ped != null && Main.UsingStp) SearchItems.AddStpPedSearchItems(ped, item);
         if (vehicle != null && Main.UsingStp) SearchItems.AddStpVehicleDriverSearchItems(vehicle, item);
-        if (Main.UsingPr) SearchItems.AddWeaponItem(item, weaponId, itemLocation, ped, vehicle);
+        //if (Main.UsingPr) SearchItems.AddWeaponItem(item, weaponId, itemLocation, ped, vehicle);
     }
     public static void AddFirearmItem(string item, string weaponId, bool visible, bool stolen, bool equiped = false, Ped ped = null, Vehicle vehicle = null, Enums.ItemLocation itemLocation = Enums.ItemLocation.Anywhere)
     {
@@ -32,13 +32,13 @@ public abstract class PyroFunctions
             if (Main.UsingStp) SearchItems.AddStpPedSearchItems(ped, item);
         }
         if (vehicle != null && Main.UsingStp) SearchItems.AddStpVehicleDriverSearchItems(vehicle, item);
-        if (Main.UsingPr) SearchItems.AddFirearmItem(item, weaponId, visible, stolen, itemLocation, ped, vehicle);
+        //if (Main.UsingPr) SearchItems.AddFirearmItem(item, weaponId, visible, stolen, itemLocation, ped, vehicle);
     }
     public static void AddSearchItem(string item, Ped ped = null, Vehicle vehicle = null, Enums.ItemLocation itemLocation = Enums.ItemLocation.Anywhere)
     {
         if (ped != null && Main.UsingStp) SearchItems.AddStpPedSearchItems(ped, item);
         if (vehicle != null && Main.UsingStp) SearchItems.AddStpVehicleDriverSearchItems(vehicle, item);
-        if (Main.UsingPr) SearchItems.AddSearchItem(item, itemLocation, ped, vehicle);
+        //if (Main.UsingPr) SearchItems.AddSearchItem(item, itemLocation, ped, vehicle);
     }
     
     public static void ClearSearchItems(Ped ped = null, Vehicle vehicle = null)
@@ -54,7 +54,7 @@ public abstract class PyroFunctions
             vehicle.Metadata.searchPassenger = string.Empty;
             vehicle.Metadata.searchTrunk = string.Empty;
         }
-        if (Main.UsingPr) SearchItems.ClearAllItems(ped, vehicle);
+        //if (Main.UsingPr) SearchItems.ClearAllItems(ped, vehicle);
     }
     
     public static void DrawMarker(Enums.MarkerType type, Vector3 position, float scale, Color color, bool bounce)
@@ -217,11 +217,11 @@ public abstract class PyroFunctions
         {
             GameFiber.Yield();
             if (!ped.Exists()) return;
-            if (Main.UsingPr)
-            {
-                PedInfo.SetDrunk(ped, drunkState);
-                return;
-            }
+            // if (Main.UsingPr)
+            // {
+            //     PedInfo.SetDrunk(ped, drunkState);
+            //     return;
+            // }
             ped.Metadata.stpAlcoholDetected = true;
             var drunkAnimset = new AnimationSet("move_m@drunk@verydrunk");
             drunkAnimset.LoadAndWait();

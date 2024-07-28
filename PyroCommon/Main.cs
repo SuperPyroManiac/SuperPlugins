@@ -16,7 +16,7 @@ public class Main
 
     internal static bool UsingUb { get; } = IsLoaded("UltimateBackup");
     internal static bool UsingStp { get; } = IsLoaded("StopThePed");
-    internal static bool UsingPr { get; } = IsLoaded("PolicingRedefined");
+    //internal static bool UsingPr { get; } = IsLoaded("PolicingRedefined");
 
     internal static void InitCommon(string plugName, string plugVersion)
     {
