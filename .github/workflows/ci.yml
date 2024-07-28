@@ -23,7 +23,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: PyroCommon
-          path: C:\Users\Rande\Desktop\SuperPlugins\PyroCommon.dll
+          path: X:\Coding\SPBuild\PyroCommon.dll
           
       - name: Upload SuperCallouts
         uses: actions/upload-artifact@v4
