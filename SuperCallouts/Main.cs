@@ -32,7 +32,6 @@ internal class Main : Plugin
             Log.Info("Dependencies Found:");
             Log.Info($"PyroCommon, Version: {new Version(FileVersionInfo.GetVersionInfo("PyroCommon.dll").FileVersion)}");
             Log.Info($"RageNativeUI, Version: {new Version(FileVersionInfo.GetVersionInfo("RageNativeUI.dll").FileVersion)}");
-            Log.Info($"CalloutInterfaceAPI, Version: {new Version(FileVersionInfo.GetVersionInfo("CalloutInterfaceAPI.dll").FileVersion)}");
             Log.Info($"Using Ultimate Backup: {PyroCommon.Main.UsingUb}");
             Log.Info($"Using StopThePed: {PyroCommon.Main.UsingStp}");
             Log.Info("======================================================");
