@@ -18,9 +18,9 @@ internal abstract class SuperCallout : Callout
     internal List<Blip> BlipsToClear = new();
     internal static Ped Player => Game.LocalPlayer.Character;
     internal bool OnScene;
-    internal bool CalloutEnded;
+    private bool CalloutEnded;
     //UI
-    protected readonly MenuPool Interaction = new();
+    private readonly MenuPool Interaction = new();
     protected readonly UIMenu MainMenu = new("SuperCallouts", "Choose an option.");
     protected readonly UIMenu ConvoMenu = new("SuperCallouts", "~y~Choose a subject to speak with.");
     protected readonly UIMenuItem Questioning = new("Speak With Subjects");

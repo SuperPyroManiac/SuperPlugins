@@ -11,7 +11,7 @@
         <AssemblyName>PyroCommon</AssemblyName>
         <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
         <FileAlignment>512</FileAlignment>
-        <LangVersion>10.0</LangVersion>
+        <LangVersion>13</LangVersion>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
         <PlatformTarget>AnyCPU</PlatformTarget>
@@ -34,7 +34,7 @@
         <DefineConstants>TRACE</DefineConstants>
         <ErrorReport>prompt</ErrorReport>
         <WarningLevel>1</WarningLevel>
-        <LangVersion>default</LangVersion>
+        <LangVersion>13</LangVersion>
     </PropertyGroup>
     <ItemGroup>
         <Reference Include="LSPD First Response, Version=0.4.8433.20359, Culture=neutral, processorArchitecture=MSIL">
