@@ -24,11 +24,13 @@ internal static class PlayerShot
                 $"\n{damageInfo.WeaponInfo.Hash.ToString()} {damageInfo.WeaponInfo.Type.ToString()} {damageInfo.WeaponInfo.Group.ToString()}" +
                 $"\n{damageInfo.BoneInfo.BoneId.ToString()} {damageInfo.BoneInfo.Limb.ToString()} {damageInfo.BoneInfo.BodyRegion.ToString()}");
             Log.Info("[DEBUG]: Detailed damage info Stop");
+            Log.Info("[DEBUG]: Vanilla damage amount: " + damageInfo.Damage);
             Log.Info("[DEBUG]: Player health before shot: " + Player.Health);
             Log.Info("[DEBUG]: Player armor before shot: " + Player.Armor);
         }
 
         var weapon = Utils.GetWeaponByHash(( Rage.WeaponHash )damageInfo.WeaponInfo.Hash);
+        Player.Health += damageInfo.Damage;
         switch ( damageInfo.BoneInfo.BodyRegion )
         {
             case BodyRegion.Head:

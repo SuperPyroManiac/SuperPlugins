@@ -58,6 +58,7 @@
         </Reference>
         <Reference Include="YamlDotNet, Version=16.0.0.0, Culture=neutral, PublicKeyToken=ec19458f3c15af5e, processorArchitecture=MSIL">
           <HintPath>..\packages\YamlDotNet.16.1.2\lib\net47\YamlDotNet.dll</HintPath>
+          <Private>False</Private>
         </Reference>
     </ItemGroup>
     <ItemGroup>
@@ -73,14 +74,27 @@
         <Compile Include="PyroFunctions\Utils.cs" />
         <Compile Include="Settings.cs" />
     </ItemGroup>
+    
     <ItemGroup>
-      <Content Include="Configs\Damage.yml" />
-      <Content Include="Configs\Weapons.yml" />
-      <Content Include="Configs\WeaponTypes.yml" />
-      <Content Include="DeadlyWeapons.ini">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </Content>
+        <!-- Include the YAML files and set their target output directory -->
+        <Content Include="Configs\Damage.yml">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <TargetPath>DeadlyWeapons\Damage.yml</TargetPath>
+        </Content>
+        <Content Include="Configs\Weapons.yml">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <TargetPath>DeadlyWeapons\Weapons.yml</TargetPath>
+        </Content>
+        <Content Include="Configs\WeaponTypes.yml">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <TargetPath>DeadlyWeapons\WeaponTypes.yml</TargetPath>
+        </Content>
+        <!-- Copy the DeadlyWeapons.ini directly to the output directory -->
+        <Content Include="DeadlyWeapons.ini">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
     </ItemGroup>
+
     <ItemGroup>
       <None Include="packages.config" />
     </ItemGroup>

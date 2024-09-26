@@ -2,7 +2,6 @@
 using System.Reflection;
 using LSPD_First_Response.Engine.Scripting.Entities;
 using LSPD_First_Response.Mod.API;
-using PyroCommon.API.Wrappers;
 using Rage;
 using Rage.Native;
 
