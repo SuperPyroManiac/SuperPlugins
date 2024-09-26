@@ -6,5 +6,4 @@ public class Weapon
     public long WeaponHash { get; set; }
     public string WeaponType {get; set;}
     public bool PanicIgnore { get; set; }
-    public float DamageMultiplier { get; set; }
 }

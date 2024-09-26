@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.IO;
 using System.Reflection;
 using DamageTrackerLib;
 using DeadlyWeapons.Modules;
@@ -13,8 +12,9 @@ namespace DeadlyWeapons;
 
 public class Main : Plugin
 {
+    internal static bool Running;
     private GameFiber _panicFiber;
- 
+    
     static Main()
     {
         AppDomain.CurrentDomain.AssemblyResolve += (sender, args) =>
@@ -49,6 +49,7 @@ public class Main : Plugin
     {
         if (onDuty)
         {
+            Running = true;
             Log.Info("DeadlyWeapons by SuperPyroManiac loaded successfully!");
             Log.Info("======================================================");
             Log.Info("Dependencies Found:");
@@ -71,6 +72,7 @@ public class Main : Plugin
         
     public override void Finally()
     {
+        Running = false;
         DamageTrackerService.Stop();
         _panicFiber.Abort();
         PyroCommon.Main.StopCommon();

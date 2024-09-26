@@ -70,7 +70,7 @@ internal static class Settings
         }
         catch ( Exception e )
         {
-            Log.Error($"Error deserializing YAML at {path}: {e.Message}");
+            Log.Error($"Error deserializing YAML at {path}: {e.Message}\r\nFailed to start plugin!");
             throw;
         }
     }

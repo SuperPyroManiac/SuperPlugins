@@ -1,4 +1,5 @@
-﻿using DeadlyWeapons.PyroFunctions;
+﻿using System;
+using DeadlyWeapons.PyroFunctions;
 using LSPD_First_Response;
 using LSPD_First_Response.Mod.API;
 using PyroCommon.API;
@@ -15,12 +16,19 @@ internal static class Panic
     internal static void StartPanicFiber()
     {
         Log.Info("Starting PanicFiber.");
-        while (true)
+        while (Main.Running)
         {
-            GameFiber.Yield();
-            if (Player.IsInAnyVehicle(true)) continue;
-            if (Utils.GetWeaponByHash(Player.Inventory.EquippedWeapon.Hash).PanicIgnore) continue;
-            if ( Player.IsShooting && Settings.Panic ) PanicHit();
+            try
+            {
+                GameFiber.Yield();
+                if (Player.IsInAnyVehicle(true)) continue;
+                if ( Player.IsShooting && Settings.Panic && !Utils.GetWeaponByHash(Player.Inventory.EquippedWeapon.Hash).PanicIgnore) PanicHit();
+                if ( Settings.Debug && Player.IsShooting && Settings.Panic ) Log.Info($"[DEBUG] Weapon fired: ({Player.Inventory.EquippedWeapon.Hash.ToString()}) Best DW Match: ({Utils.GetWeaponByHash(Player.Inventory.EquippedWeapon.Hash).Name}: {Utils.GetWeaponByHash(Player.Inventory.EquippedWeapon.Hash).WeaponHash})");
+            }
+            catch ( Exception e )
+            {
+                Log.Error(e.Message);
+            }
         }
     }
     private static void PanicHit()

@@ -1,25 +1,26 @@
 # Formatting is critical! If you have issues, you can check your config at https://codebeautify.org/yaml-parser-online
-# Players and peds both have 200 health. The player dies when it reached 100, but peds do not die until they hit 0!
-DamageConfigurations:
-  PlayerDamage:
+# Players and peds both have 200 health. The player dies when it reaches 100, but peds do not die until they hit 0!
+
+PlayerDamage:
     WithArmor:
-      Head: 200
-      Torso: 10
-      Arms: 25
-      Legs: 25
+        Head: 200
+        Torso: 10
+        Arms: 25
+        Legs: 25
     WithoutArmor:
-      Head: 200
-      Torso: 40
-      Arms: 25
-      Legs: 25
-  NpcDamage:
+        Head: 200
+        Torso: 40
+        Arms: 25
+        Legs: 25
+
+NpcDamage:
     WithArmor:
-      Head: 200
-      Torso: 25
-      Arms: 50
-      Legs: 50
+        Head: 200
+        Torso: 25
+        Arms: 50
+        Legs: 50
     WithoutArmor:
-      Head: 200
-      Torso: 67
-      Arms: 50
-      Legs: 50
+        Head: 200
+        Torso: 67
+        Arms: 50
+        Legs: 50

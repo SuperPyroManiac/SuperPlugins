@@ -32,7 +32,6 @@ public class Utils
                 WeaponHash = 6969,
                 WeaponType = "Other",
                 PanicIgnore = false,
-                DamageMultiplier = 1.0f
             };
         }
         return matchingWeapon;
