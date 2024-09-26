@@ -1,16 +1,16 @@
 ﻿# Formatting is critical! If you have issues, you can check your config at https://codebeautify.org/yaml-parser-online
-WeaponTypes:
-    Pistol:
-        damage_multiplier: 1
-    Rifle:
-        damage_multiplier: 1.5
-    Shotgun:
-        damage_multiplier: 2
-    SubmachineGun:
-        damage_multiplier: 1
-    MachineGun:
-        damage_multiplier: 1.5
-    Sniper:
-        damage_multiplier: 2
-    Other:
-        damage_multiplier: 1
+WeaponType:
+    - Name: Pistol
+      DamageMultiplier: 1
+    - Name: Rifle
+      DamageMultiplier: 1.5
+    - Name: Shotgun
+      DamageMultiplier: 2
+    - Name: SubmachineGun
+      DamageMultiplier: 1
+    - Name: MachineGun
+      DamageMultiplier: 1.5
+    - Name: Sniper
+      DamageMultiplier: 2
+    - Name: Other
+      DamageMultiplier: 1

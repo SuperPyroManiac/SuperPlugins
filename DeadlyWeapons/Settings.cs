@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using DeadlyWeapons.Configs;
@@ -28,9 +29,10 @@ internal static class Settings
 
     internal static void LoadSettings()
     {
-        Log.Info("Loading configs.");
+        Log.Info("Loading configs...");
         
         //INI Config
+        Log.Info("DeadlyWeapons.ini");
         var ini = new InitializationFile("Plugins/LSPDFR/DeadlyWeapons.ini");
         ini.Create();
         PlayerDamage = ini.ReadBoolean("Features", "PlayerDamage", true);
@@ -44,9 +46,11 @@ internal static class Settings
         Debug = ini.ReadBoolean("Debug", "Debug");
         
         // YAML Configs
+        Log.Info("Weapons.yml");
         Weapons = DeserializeYaml<List<Weapon>>("Plugins/LSPDFR/DeadlyWeapons/Weapons.yml");
+        Log.Info("WeaponTypes.yml");
         WeaponTypes = DeserializeYaml<List<WeaponType>>("Plugins/LSPDFR/DeadlyWeapons/WeaponTypes.yml");
-
+        Log.Info("Damage.yml");
         var damageConfig = DeserializeYaml<DamageConfigurations>("Plugins/LSPDFR/DeadlyWeapons/Damage.yml");
         PlayerArmorValues = damageConfig.PlayerDamage.WithArmor;
         NpcArmorValues = damageConfig.NpcDamage.WithArmor;
@@ -58,8 +62,16 @@ internal static class Settings
 
     private static T DeserializeYaml<T>(string path)
     {
-        using var reader = new StreamReader(path);
-        var deserializer = new DeserializerBuilder().Build();
-        return deserializer.Deserialize<T>(reader);
+        try
+        {
+            using var reader = new StreamReader(path);
+            var deserializer = new DeserializerBuilder().Build();
+            return deserializer.Deserialize<T>(reader);
+        }
+        catch ( Exception e )
+        {
+            Log.Error($"Error deserializing YAML at {path}: {e.Message}");
+            throw;
+        }
     }
 }
