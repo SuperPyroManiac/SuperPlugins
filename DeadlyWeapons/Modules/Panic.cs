@@ -20,15 +20,13 @@ internal static class Panic
             if (Player.IsInAnyVehicle(true)) continue;
             if (Player.IsShooting && (DamageTrackerLib.DamageInfo.WeaponHash)Player.Inventory.EquippedWeapon.Hash != DamageTrackerLib.DamageInfo.WeaponHash.Stun_Gun &&
                 Player.Inventory.EquippedWeapon.Hash != WeaponHash.FireExtinguisher &&
-                Player.Inventory.EquippedWeapon.Hash != WeaponHash.Flare && Settings.EnablePanic)
+                Player.Inventory.EquippedWeapon.Hash != WeaponHash.Flare && Settings.Panic)
                 PanicHit();
         }
-        // ReSharper disable once FunctionNeverReturns
     }
     private static void PanicHit()
     {
         if (_panic) return;
-        if (Settings.EnableDebug) Log.Info("[DEBUG]: Panic has been activated! Waiting cooldown to activate again: " + Settings.PanicCooldown * 1000 + " seconds.");
         _panic = true;
         if (PyroCommon.Main.UsingUb) Log.Info("Using Ultimate Backup for panic.");
         GameFiber.StartNew(delegate
@@ -67,7 +65,6 @@ internal static class Panic
                 "Your weapon has been discharged. Dispatch has been alerted.");
             GameFiber.Wait(Settings.PanicCooldown * 1000);
             _panic = false;
-            Log.Info("[DEBUG]: Panic cooldown complete. Ready to run again!");
         });
     }
 }

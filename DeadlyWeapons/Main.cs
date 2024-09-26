@@ -13,7 +13,6 @@ namespace DeadlyWeapons;
 public class Main : Plugin
 {
     private GameFiber _panicFiber;
-    private GameFiber _accuracyFiber;
  
     public override void Initialize()
     {
@@ -41,14 +40,9 @@ public class Main : Plugin
             Log.Info($"Using StopThePed: {PyroCommon.Main.UsingStp}");
             Log.Info("======================================================");
             DamageTrackerService.Start();
-            if (Settings.EnablePlayerDamageSystem)
-                DamageTrackerService.OnPlayerTookDamage += PlayerShot.OnPlayerDamaged;
-            if (Settings.EnableAiDamageSystem)
-                DamageTrackerService.OnPedTookDamage += PedShot.OnPedDamaged;
-            if (Settings.EnablePanic) _panicFiber = GameFiber.StartNew(Panic.StartPanicFiber);
-            if (Settings.AiAccuracy <= 100) _accuracyFiber = GameFiber.StartNew(Accuracy.StartAccuracyFiber);
-            if (Settings.EnablePulloverAi)
-                Events.OnPulloverStarted += CustomPullover.PulloverModule;
+            if (Settings.PlayerDamage) DamageTrackerService.OnPlayerTookDamage += PlayerShot.OnPlayerDamaged;
+            if (Settings.NpcDamage) DamageTrackerService.OnPedTookDamage += PedShot.OnPedDamaged;
+            if (Settings.Panic) _panicFiber = GameFiber.StartNew(Panic.StartPanicFiber);
             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~r~DeadlyWeapons", "~g~Plugin Loaded.", "DeadlyWeapons version: " + Assembly.GetExecutingAssembly().GetName().Version + " loaded.");
             PyroCommon.Main.InitCommon("DeadlyWeapons", Assembly.GetExecutingAssembly().GetName().Version.ToString());
             return;
@@ -60,8 +54,6 @@ public class Main : Plugin
     {
         DamageTrackerService.Stop();
         _panicFiber.Abort();
-        _accuracyFiber.Abort();
-        Events.OnPulloverStarted -= CustomPullover.PulloverModule;
         PyroCommon.Main.StopCommon();
         Log.Info("Plugin unloaded!");
     }

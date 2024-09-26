@@ -1,11 +1,7 @@
-﻿#region
-
-using System;
+﻿using System;
 using DamageTrackerLib.DamageInfo;
 using PyroCommon.API;
 using Rage;
-
-#endregion
 
 namespace DeadlyWeapons.Modules;
 
@@ -19,10 +15,9 @@ internal static class PlayerShot
         if ( victim != Player ) return;
         if (damageInfo.WeaponInfo.Group != DamageGroup.Bullet) return;
         var rnd = new Random(DateTime.Now.Millisecond).Next(1, 5);
-        if (Settings.EnableDebug)
+        if (Settings.Debug)
         {
             Log.Info("[DEBUG]: Detailed damage info Start");
-            Log.Info("[DEBUG]: AlternateDamageSystem: " + Settings.AlternatePlayerDamageSystem);
             Log.Info(
                 $"\n{victim.Model.Name} ({damageInfo.Damage} Dmg) ({(victim.IsAlive ? "Alive" : "Dead")})" +
                 $"\n{attacker?.Model.Name ?? "None"}" +
@@ -31,35 +26,6 @@ internal static class PlayerShot
             Log.Info("[DEBUG]: Detailed damage info Stop");
             Log.Info("[DEBUG]: Player health before shot: " + Player.Health);
             Log.Info("[DEBUG]: Player armor before shot: " + Player.Armor);
-        }
-        
-        if (Settings.AlternatePlayerDamageSystem)
-        {
-            var owie = damageInfo.Damage * Settings.AltDamageMultiplier;
-            owie = owie - damageInfo.Damage;
-            var owieInt = (int)Math.Round(owie);
-            Log.Info("[DEBUG]: Alternate damage applied: " + owie);
-            
-            if (Player.Armor >= 1)
-            {
-                Player.Armor -= owieInt;
-            }
-            
-            if (Player.Armor < 1)
-            {
-                Player.Health -= owieInt;
-            }
-            
-            Log.Info("[DEBUG]: Player health after shot: " + Player.Health);
-            Log.Info("[DEBUG]: Player armor after shot: " + Player.Armor);
-            return;
-        }
-
-        if (damageInfo.BoneInfo.BodyRegion == BodyRegion.Head && Settings.EnablePlayerHeadshotInstakill)
-        {
-            Log.Info("Player shot in head - killing.");
-            Player.Kill();
-            return;
         }
 
         if (damageInfo.BoneInfo.BodyRegion == BodyRegion.Legs)
@@ -73,7 +39,7 @@ internal static class PlayerShot
                 Log.Info("Player tripped due to leg injury. (50/50 chance)");
             }
 
-            if (Settings.EnableDebug)
+            if (Settings.Debug)
             {
                 Log.Info("[DEBUG]: Player health after shot: " + Player.Health);
                 Log.Info("[DEBUG]: Player armor after shot: " + Player.Armor);
@@ -85,7 +51,7 @@ internal static class PlayerShot
         {
             Player.Health -= 30;
             Log.Info("Player shot in arm - deducting 30 health.");
-            if (Settings.EnableDebug)
+            if (Settings.Debug)
             {
                 Log.Info("[DEBUG]: Player health after shot: " + Player.Health);
                 Log.Info("[DEBUG]: Player armor after shot: " + Player.Armor);
@@ -113,7 +79,7 @@ internal static class PlayerShot
                     Player.Armor -= 65;
                     break;
             }
-            if (Settings.EnableDebug)
+            if (Settings.Debug)
             {
                 Log.Info("[DEBUG]: Player health after shot: " + Player.Health);
                 Log.Info("[DEBUG]: Player armor after shot: " + Player.Armor);
@@ -139,7 +105,7 @@ internal static class PlayerShot
                     Player.Tasks.Ragdoll();
                     break;
             }
-            if (Settings.EnableDebug)
+            if (Settings.Debug)
             {
                 Log.Info("[DEBUG]: Player health after shot: " + Player.Health);
                 Log.Info("[DEBUG]: Player armor after shot: " + Player.Armor);

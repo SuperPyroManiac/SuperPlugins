@@ -1,12 +1,8 @@
-﻿#region
-
-using System;
+﻿using System;
 using DamageTrackerLib.DamageInfo;
 using LSPD_First_Response.Mod.API;
 using PyroCommon.API;
 using Rage;
-
-#endregion
 
 namespace DeadlyWeapons.Modules;
 
@@ -18,7 +14,7 @@ internal static class PedShot
         if ( victim == Game.LocalPlayer.Character ) return;
         if (damageInfo.WeaponInfo.Group != DamageGroup.Bullet) return;
         var rnd = new Random(DateTime.Now.Millisecond).Next(1, 5);
-        if (Settings.EnableDebug)
+        if (Settings.Debug)
         {
             Log.Info("[DEBUG]: Detailed damage info Start");
             Log.Info(
@@ -46,7 +42,7 @@ internal static class PedShot
             Log.Info(Functions.GetPersonaForPed(victim).FullName + " shot in leg - deducting 30 health.");
             if (rnd2 == 2) victim.Tasks.Ragdoll();
             Log.Info(Functions.GetPersonaForPed(victim).FullName + " tripped due to leg injury. (50/50 chance)");
-            if (Settings.EnableDebug)
+            if (Settings.Debug)
             {
                 Log.Info("[DEBUG]: " + Functions.GetPersonaForPed(victim).FullName + "'s health after shot: " + victim.Health);
                 Log.Info("[DEBUG]: " + Functions.GetPersonaForPed(victim).FullName + "'s armor after shot: " + victim.Armor);
@@ -60,7 +56,7 @@ internal static class PedShot
             victim.Health -= 30;
             Log.Info("" + Functions.GetPersonaForPed(victim).FullName +
                             " shot in arm - deducting 30 health.");
-            if (Settings.EnableDebug)
+            if (Settings.Debug)
             {
                 Log.Info("[DEBUG]: " + Functions.GetPersonaForPed(victim).FullName + "'s health after shot: " + victim.Health);
                 Log.Info("[DEBUG]: " + Functions.GetPersonaForPed(victim).FullName + "'s armor after shot: " + victim.Armor);
@@ -89,7 +85,7 @@ internal static class PedShot
                     victim.Armor -= 45;
                     break;
             }
-            if (Settings.EnableDebug)
+            if (Settings.Debug)
             {
                 Log.Info("[DEBUG]: " + Functions.GetPersonaForPed(victim).FullName + "'s health after shot: " + victim.Health);
                 Log.Info("[DEBUG]: " + Functions.GetPersonaForPed(victim).FullName + "'s armor after shot: " + victim.Armor);
@@ -116,7 +112,7 @@ internal static class PedShot
                     victim.Tasks.Ragdoll();
                     break;
             }
-            if (Settings.EnableDebug)
+            if (Settings.Debug)
             {
                 Log.Info("[DEBUG]: " + Functions.GetPersonaForPed(victim).FullName + "'s health after shot: " + victim.Health);
                 Log.Info("[DEBUG]: " + Functions.GetPersonaForPed(victim).FullName + "'s armor after shot: " + victim.Armor);

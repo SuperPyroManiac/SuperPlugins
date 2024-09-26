@@ -56,13 +56,16 @@
           <HintPath>..\packages\PyroSpecial.1.0.1\lib\UltimateBackup.dll</HintPath>
           <Private>False</Private>
         </Reference>
+        <Reference Include="YamlDotNet, Version=16.0.0.0, Culture=neutral, PublicKeyToken=ec19458f3c15af5e, processorArchitecture=MSIL">
+          <HintPath>..\packages\YamlDotNet.16.1.2\lib\net47\YamlDotNet.dll</HintPath>
+        </Reference>
     </ItemGroup>
     <ItemGroup>
-        <Compile Include="DFunctions\ConsoleCommands.cs" />
-        <Compile Include="DFunctions\DependChecker.cs" />
+        <Compile Include="Configs\DamageValues.cs" />
+        <Compile Include="Configs\Weapon.cs" />
+        <Compile Include="Configs\WeaponType.cs" />
+        <Compile Include="PyroFunctions\ConsoleCommands.cs" />
         <Compile Include="Main.cs" />
-        <Compile Include="Modules\Accuracy.cs" />
-        <Compile Include="Modules\CustomPullover.cs" />
         <Compile Include="Modules\Panic.cs" />
         <Compile Include="Modules\PedShot.cs" />
         <Compile Include="Modules\PlayerShot.cs" />
@@ -70,6 +73,9 @@
         <Compile Include="Settings.cs" />
     </ItemGroup>
     <ItemGroup>
+      <Content Include="Configs\Damage.yml" />
+      <Content Include="Configs\Weapons.yml" />
+      <Content Include="Configs\WeaponTypes.yml" />
       <Content Include="DeadlyWeapons.ini">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>

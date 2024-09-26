@@ -1,0 +1,15 @@
+﻿WeaponTypes:
+    Pistol:
+        damage_multiplier: 1
+    Rifle:
+        damage_multiplier: 1.5
+    Shotgun:
+        damage_multiplier: 2
+    SubmachineGun:
+        damage_multiplier: 1
+    MachineGun:
+        damage_multiplier: 1.5
+    Sniper:
+        damage_multiplier: 2
+    Other:
+        damage_multiplier: 1
