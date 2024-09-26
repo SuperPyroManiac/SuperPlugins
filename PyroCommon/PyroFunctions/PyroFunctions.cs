@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Drawing;
 using LSPD_First_Response.Mod.API;
-using PyroCommon.API.Wrappers;
+using PyroCommon.Objects;
+using PyroCommon.Wrappers;
 using Rage;
 using Rage.Native;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 
-namespace PyroCommon.API;
+namespace PyroCommon.PyroFunctions;
 
 public abstract class PyroFunctions
 {
@@ -66,14 +67,14 @@ public abstract class PyroFunctions
     public static Vehicle SpawnCar(Location location)
     {
         Model[] vehicleModels =
-        {
+        [
             "PRAIRIE", "EXEMPLAR", "ORACLE", "PREVION", "BUFFALO4", "DOMINATOR", "DOMINATOR3", "GAUNTLET",
             "GAUNTLET4", "ASTEROPE", "CINQUEMILA", "PREMIER", "SCHAFTER2", "TAILGATER", "WASHINGTON", "BUFFALO",
             "BUFFALO2", "CALICO", "SULTAN", "SULTAN2", "BALLER2", "GRANGER2", "BURRITO3", "SPEEDO", "BLISTA",
             "KANJO", "F620", "FELON", "JACKAL", "ORACLE2", "SENTINEL", "SENTINEL2", "ZION", "KANJOSJ", "RUINER",
             "ELLIE", "VIGERO2", "KOMODA", "VECTRE", "CAVALCADE", "CAVALCADE2", "REBLA", "SEMINOLE2", "ASTRON",
             "ASTRON2"
-        };
+        ];
         var cVehicle = new Vehicle(vehicleModels[new Random(DateTime.Now.Millisecond).Next(vehicleModels.Length)], location.Position, location.Heading);
         cVehicle.IsPersistent = true;
         return cVehicle;
@@ -234,14 +235,14 @@ public abstract class PyroFunctions
     public static void SpawnNormalCar(out Vehicle cVehicle, Vector3 spawnPoint, float heading = 0) //Spawn normal random car..
     {
         Model[] vehicleModels =
-        {
+        [
             "PRAIRIE", "EXEMPLAR", "ORACLE", "PREVION", "BUFFALO4", "DOMINATOR", "DOMINATOR3", "GAUNTLET",
             "GAUNTLET4", "ASTEROPE", "CINQUEMILA", "PREMIER", "SCHAFTER2", "TAILGATER", "WASHINGTON", "BUFFALO",
             "BUFFALO2", "CALICO", "SULTAN", "SULTAN2", "BALLER2", "GRANGER2", "BURRITO3", "SPEEDO", "BLISTA",
             "KANJO", "F620", "FELON", "JACKAL", "ORACLE2", "SENTINEL", "SENTINEL2", "ZION", "KANJOSJ", "RUINER",
             "ELLIE", "VIGERO2", "KOMODA", "VECTRE", "CAVALCADE", "CAVALCADE2", "REBLA", "SEMINOLE2", "ASTRON",
             "ASTRON2"
-        };
+        ];
         cVehicle = new Vehicle(vehicleModels[new Random(DateTime.Now.Millisecond).Next(vehicleModels.Length)], spawnPoint);
         cVehicle.IsPersistent = true;
     }
@@ -250,7 +251,7 @@ public abstract class PyroFunctions
     public static void SpawnAnyCar(out Vehicle cVehicle, Vector3 spawnPoint, float heading = 0) //Spawn ANY random car..
     {
         Model[] vehicleModels =
-        {
+        [
             "NINFEF2", "BUS", "COACH", "AIRBUS", "AMBULANCE", "BARRACKS", "BARRACKS2", "BALLER", "BALLER2",
             "BANSHEE", "BJXL", "BENSON", "BOBCATXL", "BUCCANEER", "BUFFALO", "BUFFALO2", "BULLDOZER", "BULLET",
             "BURRITO", "BURRITO2", "BURRITO3", "BURRITO4", "BURRITO5", "CAVALCADE", "CAVALCADE2", "POLICET",
@@ -264,7 +265,7 @@ public abstract class PyroFunctions
             "RANCHERXL", "RANCHERXL2", "RAPIDGT", "RAPIDGT2", "RENTALBUS", "RUINER", "RIOT", "RIPLEY", "SABREGT",
             "SADLER", "SADLER2", "SANDKING", "SANDKING2", "SHERIFF", "SHERIFF2", "SPEEDO", "SPEEDO2", "STINGER",
             "STOCKADE", "STINGERGT", "SUPERD", "STRATUM", "SULTAN", "AKUMA", "PCJ", "FAGGIO2", "DAEMON", "BATI2"
-        };
+        ];
         cVehicle = new Vehicle(vehicleModels[new Random(DateTime.Now.Millisecond).Next(vehicleModels.Length)], spawnPoint);
         cVehicle.IsPersistent = true;
     }

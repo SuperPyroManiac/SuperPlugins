@@ -2,8 +2,10 @@
 using System.Drawing;
 using LSPD_First_Response;
 using LSPD_First_Response.Mod.Callouts;
-using PyroCommon.API;
+using PyroCommon.Objects;
+using PyroCommon.PyroFunctions;
 using Rage;
+using Backup = PyroCommon.Wrappers.Backup;
 using Functions = LSPD_First_Response.Mod.API.Functions;
 
 namespace SuperCallouts.RemasteredCallouts;
@@ -71,12 +73,6 @@ internal class StolenCopVehicle : SuperCallout
     {
         if ( _cBlip.Exists() ) _cBlip.Delete();
         PyroFunctions.StartPursuit(false, true, _suspect);
-
-        if ( PyroCommon.Main.UsingUb )
-            Wrapper.CallPursuit();
-        else
-            Functions.RequestBackup(Game.LocalPlayer.Character.Position,
-                EBackupResponseType.Pursuit,
-                EBackupUnitType.LocalUnit); //TODO: REDO backup
+        PyroCommon.PyroFunctions.Backup.Request(Enums.BackupType.Pursuit);
     }
 }

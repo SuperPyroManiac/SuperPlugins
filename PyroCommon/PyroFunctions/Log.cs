@@ -2,7 +2,7 @@
 using System.Reflection;
 using Rage;
 
-namespace PyroCommon.API;
+namespace PyroCommon.PyroFunctions;
 
 internal static class Log
 {

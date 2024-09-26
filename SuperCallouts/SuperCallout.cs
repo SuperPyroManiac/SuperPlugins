@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using LSPD_First_Response.Mod.Callouts;
-using PyroCommon.API;
+using PyroCommon.Objects;
+using PyroCommon.PyroFunctions;
 using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
@@ -14,8 +15,8 @@ internal abstract class SuperCallout : Callout
     internal abstract Location SpawnPoint { get; set; }
     internal abstract float OnSceneDistance { get; set; }
     internal abstract string CalloutName { get; set; }
-    internal List<Entity> EntitiesToClear = new();
-    internal List<Blip> BlipsToClear = new();
+    internal List<Entity> EntitiesToClear = [];
+    internal List<Blip> BlipsToClear = [];
     internal static Ped Player => Game.LocalPlayer.Character;
     internal bool OnScene;
     private bool CalloutEnded;

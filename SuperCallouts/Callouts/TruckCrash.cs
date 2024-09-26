@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 using LSPD_First_Response.Mod.Callouts;
-using PyroCommon.API;
+using PyroCommon.Objects;
 using Rage;
 using Rage.Native;
 using RAGENativeUI;

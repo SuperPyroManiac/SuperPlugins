@@ -4,7 +4,8 @@ using System.Drawing;
 using LSPD_First_Response;
 using LSPD_First_Response.Engine.Scripting.Entities;
 using LSPD_First_Response.Mod.Callouts;
-using PyroCommon.API;
+using PyroCommon.Objects;
+using PyroCommon.PyroFunctions;
 using Rage;
 using SuperCallouts.CustomScenes;
 using Functions = LSPD_First_Response.Mod.API.Functions;
@@ -15,8 +16,8 @@ namespace SuperCallouts.Callouts;
 internal class Mafia2 : Callout
 {
     private readonly Vector3 _callPos = new(1543.173f, 3606.55f, 35.19303f);
-    private readonly List<Vehicle> _mafiaCars = new();
-    private readonly List<Ped> _mafiaDudes = new();
+    private readonly List<Vehicle> _mafiaCars = [];
+    private readonly List<Ped> _mafiaDudes = [];
     private Blip _cBlip;
     private Vehicle _cVehicle1;
     private Vehicle _cVehicle2;
@@ -109,24 +110,10 @@ internal class Mafia2 : Callout
                     "~r~Dispatch:~s~ Officer on scene, mafia activity spotted. Dispatching specialized units.");
                 Functions.PlayScannerAudioUsingPosition(
                     "DISPATCH_SWAT_UNITS_FROM_01 IN_OR_ON_POSITION UNITS_RESPOND_CODE_99_01", _callPos);
-                if (PyroCommon.Main.UsingUb)
-                {
-                    Wrapper.CallSwat(true);
-                    Wrapper.CallCode3();
-                    Wrapper.CallCode3();
-                    Wrapper.CallCode3();
-                }
-                else
-                {
-                    Functions.RequestBackup(_callPos, EBackupResponseType.Code3,
-                        EBackupUnitType.NooseTeam);
-                    Functions.RequestBackup(_callPos, EBackupResponseType.Code3,
-                        EBackupUnitType.LocalUnit);
-                    Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Code3,
-                        EBackupUnitType.LocalUnit);
-                    Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Code3,
-                        EBackupUnitType.LocalUnit);
-                }
+                Backup.Request(Enums.BackupType.Noose);
+                Backup.Request(Enums.BackupType.Code3);
+                Backup.Request(Enums.BackupType.Code3);
+                Backup.Request(Enums.BackupType.Code3);
 
                 Game.LocalPlayer.Character.RelationshipGroup = "COP";
                 _mafiaDude13.Tasks.FightAgainst(Game.LocalPlayer.Character, -1);

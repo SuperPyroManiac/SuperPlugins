@@ -2,7 +2,8 @@
 using DeadlyWeapons.PyroFunctions;
 using LSPD_First_Response;
 using LSPD_First_Response.Mod.API;
-using PyroCommon.API;
+using PyroCommon.Objects;
+using PyroCommon.PyroFunctions;
 using Rage;
 
 namespace DeadlyWeapons.Modules;
@@ -38,35 +39,9 @@ internal static class Panic
         if (PyroCommon.Main.UsingUb) Log.Info("Using Ultimate Backup for panic.");
         GameFiber.StartNew(delegate
         {
-            if (Settings.Code3Backup)
-            {
-                if (PyroCommon.Main.UsingUb)
-                    Wrapper.CallCode3();
-                else
-                    Functions.RequestBackup(Game.LocalPlayer.Character.Position,
-                        EBackupResponseType.Code3,
-                        EBackupUnitType.LocalUnit);
-            }
-
-            if (Settings.SwatBackup)
-            {
-                if (PyroCommon.Main.UsingUb)
-                    Wrapper.CallSwat(false);
-                else
-                    Functions.RequestBackup(Game.LocalPlayer.Character.Position,
-                        EBackupResponseType.Code3,
-                        EBackupUnitType.SwatTeam);
-            }
-
-            if (Settings.NooseBackup)
-            {
-                if (PyroCommon.Main.UsingUb)
-                    Wrapper.CallSwat(true);
-                else
-                    Functions.RequestBackup(Game.LocalPlayer.Character.Position,
-                        EBackupResponseType.Code3,
-                        EBackupUnitType.NooseTeam);
-            }
+            if (Settings.Code3Backup) Backup.Request(Enums.BackupType.Code3);
+            if (Settings.SwatBackup) Backup.Request(Enums.BackupType.Swat);
+            if (Settings.NooseBackup) Backup.Request(Enums.BackupType.Noose);
 
             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~r~Shots Fired", "~y~Panic Activated", "Your weapon has been discharged. Dispatch has been alerted.");
             GameFiber.Wait(Settings.PanicCooldown * 1000);

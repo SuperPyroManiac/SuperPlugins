@@ -1,5 +1,5 @@
 using System;
-using PyroCommon.API;
+using PyroCommon.PyroFunctions;
 using Rage;
 using SuperEvents.Attributes;
 

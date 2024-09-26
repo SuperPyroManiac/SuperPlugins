@@ -1,7 +1,8 @@
 using System.Drawing;
 using LSPD_First_Response;
 using LSPD_First_Response.Mod.Callouts;
-using PyroCommon.API;
+using PyroCommon.Objects;
+using PyroCommon.PyroFunctions;
 using Rage;
 using Rage.Native;
 using RAGENativeUI;
@@ -116,18 +117,8 @@ internal class CarAccident2 : SuperCallout
         {
             _callFd.Enabled = false;
             Game.DisplaySubtitle("~g~You~s~: Dispatch, we have an MVA. One person is seriously injured.");
-            if (PyroCommon.Main.UsingUb)
-            {
-                Wrapper.CallEms();
-                Wrapper.CallFd();
-            }
-            else
-            {
-                Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Code3,
-                    EBackupUnitType.Ambulance);
-                Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Code3,
-                    EBackupUnitType.Firetruck);
-            }
+            Backup.Request(Enums.BackupType.Fire);
+            Backup.Request(Enums.BackupType.Medical);
 
             _callFd.Enabled = false;
             base.Interactions(sender, selItem, index);

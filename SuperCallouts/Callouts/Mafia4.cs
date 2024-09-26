@@ -5,7 +5,8 @@ using System.Linq;
 using LSPD_First_Response;
 using LSPD_First_Response.Engine.Scripting.Entities;
 using LSPD_First_Response.Mod.Callouts;
-using PyroCommon.API;
+using PyroCommon.Objects;
+using PyroCommon.PyroFunctions;
 using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
@@ -20,8 +21,8 @@ internal class Mafia4 : Callout
 {
     private readonly Vector3 _callPos = new(288.916f, -1588.429f, 29.53253f);
     private readonly TimerBarPool _cTimer = new();
-    private readonly List<Ped> _peds = new();
-    private readonly List<Vehicle> _vehicles = new();
+    private readonly List<Ped> _peds = [];
+    private readonly List<Vehicle> _vehicles = [];
     private Ped _bad1;
     private Ped _bad2;
     private Ped _bad3;
@@ -117,22 +118,10 @@ internal class Mafia4 : Callout
                         Game.SetRelationshipBetweenRelationshipGroups("MAFIA", "COP", Relationship.Hate);
                         Game.SetRelationshipBetweenRelationshipGroups("MAFIA", "PLAYER", Relationship.Hate);
                         Game.SetRelationshipBetweenRelationshipGroups("COP", "MAFIA", Relationship.Hate);
-                        if (PyroCommon.Main.UsingUb)
-                        {
-                            Wrapper.CallSwat(false);
-                            Wrapper.CallCode3();
-                            Wrapper.CallCode3();
-                            Wrapper.CallCode3();
-                        }
-                        else
-                        {
-                            Functions.RequestBackup(_callPos, EBackupResponseType.Code3,
-                                EBackupUnitType.SwatTeam);
-                            Functions.RequestBackup(_callPos, EBackupResponseType.Code3, EBackupUnitType.LocalUnit);
-                            Functions.RequestBackup(_callPos, EBackupResponseType.Code3, EBackupUnitType.LocalUnit);
-                            Functions.RequestBackup(_callPos, EBackupResponseType.Code3, EBackupUnitType.LocalUnit);
-                        }
-
+                        Backup.Request(Enums.BackupType.Swat);
+                        Backup.Request(Enums.BackupType.Code3);
+                        Backup.Request(Enums.BackupType.Code3);
+                        Backup.Request(Enums.BackupType.Code3);
                         _state = RunState.RaidScene;
                     }
 

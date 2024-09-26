@@ -1,7 +1,8 @@
 ﻿using System.Drawing;
 using LSPD_First_Response;
 using LSPD_First_Response.Mod.Callouts;
-using PyroCommon.API;
+using PyroCommon.Objects;
+using PyroCommon.PyroFunctions;
 using Rage;
 using Rage.Native;
 using RAGENativeUI;
@@ -189,18 +190,8 @@ internal class Lsgtf : Callout
             _onScene = true;
             Functions.PlayScannerAudioUsingPosition(
                 "DISPATCH_SWAT_UNITS_FROM_01 IN_OR_ON_POSITION UNITS_RESPOND_CODE_99_01", _raidpoint);
-            if (PyroCommon.Main.UsingUb)
-            {
-                Wrapper.CallSwat(true);
-                Wrapper.CallSwat(false);
-            }
-            else
-            {
-                Functions.RequestBackup(Game.LocalPlayer.Character.Position,
-                    EBackupResponseType.Code3, EBackupUnitType.NooseTeam);
-                Functions.RequestBackup(Game.LocalPlayer.Character.Position,
-                    EBackupResponseType.Code3, EBackupUnitType.SwatTeam);
-            }
+            Backup.Request(Enums.BackupType.Noose);
+            Backup.Request(Enums.BackupType.Swat);
 
             _cBlip1.DisableRoute();
             _cBlip2 = _bad2.AttachBlip();

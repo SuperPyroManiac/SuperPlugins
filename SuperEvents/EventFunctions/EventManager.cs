@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using LSPD_First_Response.Mod.API;
-using PyroCommon.API;
+using PyroCommon.PyroFunctions;
 using Rage;
 using SuperEvents.Attributes;
 
@@ -10,9 +10,9 @@ namespace SuperEvents.EventFunctions;
 
 public static class EventManager
 {
-    internal static readonly List<Type> RegisteredEvents = new();
-    internal static readonly List<Type> AllEvents = new();
-    private static readonly List<Type> BrokenEvents = new();
+    internal static readonly List<Type> RegisteredEvents = [];
+    internal static readonly List<Type> AllEvents = [];
+    private static readonly List<Type> BrokenEvents = [];
     internal static AmbientEvent CurrentEvent;
 
     internal static bool PlayerIsBusy =>

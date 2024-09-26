@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using DeadlyWeapons.Configs;
-using PyroCommon.API;
+using PyroCommon.PyroFunctions;
 using Rage;
 using YamlDotNet.Serialization;
 using Weapon = DeadlyWeapons.Configs.Weapon;

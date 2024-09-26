@@ -2,7 +2,8 @@
 using System.Drawing;
 using LSPD_First_Response;
 using LSPD_First_Response.Mod.Callouts;
-using PyroCommon.API;
+using PyroCommon.Objects;
+using PyroCommon.PyroFunctions;
 using Rage;
 using SuperCallouts.CustomScenes;
 using Functions = LSPD_First_Response.Mod.API.Functions;
@@ -13,8 +14,8 @@ namespace SuperCallouts.Callouts;
 [CalloutInfo("[SC] Officer Ambush", CalloutProbability.Low)]
 internal class LostGang : Callout
 {
-    private readonly List<Ped> _bikers = new();
-    private readonly List<Vehicle> _cVehicles = new();
+    private readonly List<Ped> _bikers = [];
+    private readonly List<Vehicle> _cVehicles = [];
     private Vehicle _bike1;
     private Vehicle _bike2;
     private Vehicle _bike3;
@@ -108,22 +109,9 @@ internal class LostGang : Callout
                 PyroFunctions.SetWanted(bikerss, true);
                 bikerss.Tasks.FightAgainstClosestHatedTarget(50f);
             }
-
-            if (PyroCommon.Main.UsingUb)
-            {
-                Wrapper.CallCode3();
-                Wrapper.CallCode3();
-                Wrapper.CallCode3();
-            }
-            else
-            {
-                Functions.RequestBackup(_spawnPoint, EBackupResponseType.Code3,
-                    EBackupUnitType.NooseTeam);
-                Functions.RequestBackup(_spawnPoint, EBackupResponseType.Code3,
-                    EBackupUnitType.SwatTeam);
-                Functions.RequestBackup(_spawnPoint, EBackupResponseType.Code3,
-                    EBackupUnitType.LocalUnit);
-            }
+            Backup.Request(Enums.BackupType.Code3);
+            Backup.Request(Enums.BackupType.Code3);
+            Backup.Request(Enums.BackupType.Code3);
         }
 
         if (_onScene && Game.LocalPlayer.Character.DistanceTo(_spawnPoint) > 90f) End();

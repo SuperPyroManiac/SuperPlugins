@@ -1,7 +1,8 @@
 ﻿using System.Drawing;
 using LSPD_First_Response;
 using LSPD_First_Response.Mod.Callouts;
-using PyroCommon.API;
+using PyroCommon.Objects;
+using PyroCommon.PyroFunctions;
 using Rage;
 using Functions = LSPD_First_Response.Mod.API.Functions;
 
@@ -58,10 +59,6 @@ internal class StolenDumptruck : SuperCallout
         var pursuit = Functions.CreatePursuit();
         Functions.AddPedToPursuit(pursuit, _bad);
         Functions.SetPursuitIsActiveForPlayer(pursuit, true);
-        if (PyroCommon.Main.UsingUb)
-            Wrapper.CallPursuit();
-        else
-            Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Pursuit,
-                EBackupUnitType.LocalUnit);
+        Backup.Request(Enums.BackupType.Pursuit);
     }
 }

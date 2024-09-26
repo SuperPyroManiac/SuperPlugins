@@ -4,13 +4,15 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using PyroCommon.Objects;
+using PyroCommon.PyroFunctions;
 using Rage;
 
-namespace PyroCommon.API;
+namespace PyroCommon;
 
 internal static class DependManager
 {
-    private static List<Dependency> _depends = new List<Dependency>();
+    private static List<Dependency> _depends = [];
     
     internal static void AddDepend(string name, string version)
     {

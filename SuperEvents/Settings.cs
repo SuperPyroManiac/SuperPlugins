@@ -1,7 +1,7 @@
 #region
 
 using System.Windows.Forms;
-using PyroCommon.API;
+using PyroCommon.PyroFunctions;
 using Rage;
 
 #endregion

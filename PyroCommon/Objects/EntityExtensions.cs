@@ -2,10 +2,11 @@
 using System.Reflection;
 using LSPD_First_Response.Engine.Scripting.Entities;
 using LSPD_First_Response.Mod.API;
+using PyroCommon.PyroFunctions;
 using Rage;
 using Rage.Native;
 
-namespace PyroCommon.API;
+namespace PyroCommon.Objects;
 
 public static class EntityExtensions
 {
@@ -47,7 +48,7 @@ public static class EntityExtensions
         switch (resistanceAction)
         {
             case Enums.ResistanceAction.Flee:
-                PyroFunctions.StartPursuit(false, false, ped);
+                PyroFunctions.PyroFunctions.StartPursuit(false, false, ped);
                 break;
             case Enums.ResistanceAction.Attack:
                 ped.RelationshipGroup = new RelationshipGroup("ANGRY");

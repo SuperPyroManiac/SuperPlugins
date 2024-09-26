@@ -1,4 +1,4 @@
-﻿namespace PyroCommon;
+﻿namespace PyroCommon.Objects;
 
 internal class Dependency
 {

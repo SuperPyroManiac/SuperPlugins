@@ -5,7 +5,8 @@ using DamageTrackerLib;
 using DeadlyWeapons.Modules;
 using DeadlyWeapons.PyroFunctions;
 using LSPD_First_Response.Mod.API;
-using PyroCommon.API;
+using PyroCommon;
+using PyroCommon.PyroFunctions;
 using Rage;
 
 namespace DeadlyWeapons;

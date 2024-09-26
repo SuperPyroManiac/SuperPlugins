@@ -1,7 +1,7 @@
 ﻿using Rage;
 using Rage.Native;
 
-namespace PyroCommon.API;
+namespace PyroCommon.PyroFunctions;
 
 internal class Particles
 {

@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
 using LSPD_First_Response.Mod.API;
-using PyroCommon.API;
+using PyroCommon.PyroFunctions;
 using Rage;
 using SuperEvents.Attributes;
 

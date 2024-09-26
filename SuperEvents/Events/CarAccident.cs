@@ -5,7 +5,7 @@ using Rage;
 using Rage.Native;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
-using PyroCommon.API;
+using PyroCommon.PyroFunctions;
 using SuperEvents.Attributes;
 
 namespace SuperEvents.Events;

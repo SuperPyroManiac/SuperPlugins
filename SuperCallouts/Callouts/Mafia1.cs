@@ -4,7 +4,8 @@ using System.Drawing;
 using System.Linq;
 using LSPD_First_Response;
 using LSPD_First_Response.Mod.Callouts;
-using PyroCommon.API;
+using PyroCommon.Objects;
+using PyroCommon.PyroFunctions;
 using Rage;
 using Rage.Native;
 using RAGENativeUI;
@@ -17,13 +18,13 @@ namespace SuperCallouts.Callouts;
 [CalloutInfo("[SC] Casino Raid", CalloutProbability.Low)]
 internal class Mafia1 : Callout
 {
-    private readonly List<Ped> _badGuys = new();
+    private readonly List<Ped> _badGuys = [];
     private readonly UIMenuItem _choiceNoose = new("- NOOSE Team");
     private readonly UIMenuItem _choiceSwat = new("- Local SWAT Team");
     private readonly UIMenuItem _choiceYou = new("- Handle It Yourself");
-    private readonly List<Ped> _goodguys = new();
+    private readonly List<Ped> _goodguys = [];
     private readonly UIMenuItem _speakFib = new("- Speak With FIB Agent");
-    private readonly List<Vehicle> _vehicles = new();
+    private readonly List<Vehicle> _vehicles = [];
     private Blip _aBlip;
     private Ped _bad1;
     private Ped _bad2;
@@ -133,55 +134,18 @@ internal class Mafia1 : Callout
                         switch (_choice)
                         {
                             case SrChoice.Noose:
-                                if (PyroCommon.Main.UsingUb)
-                                {
-                                    Wrapper.CallSwat(true);
-                                    Wrapper.CallSwat(true);
-                                }
-                                else
-                                {
-                                    Functions.RequestBackup(_callPos, EBackupResponseType.Code3,
-                                        EBackupUnitType.NooseTeam);
-                                    Functions.RequestBackup(_callPos, EBackupResponseType.Code3,
-                                        EBackupUnitType.NooseTeam);
-                                    Functions.RequestBackup(_callPos, EBackupResponseType.Code3,
-                                        EBackupUnitType.NooseAirUnit);
-                                }
-
+                                Backup.Request(Enums.BackupType.Noose);
+                                Backup.Request(Enums.BackupType.Noose);
                                 _state = SrState.RaidScene;
                                 break;
                             case SrChoice.Swat:
-                                if (PyroCommon.Main.UsingUb)
-                                {
-                                    Wrapper.CallSwat(false);
-                                    Wrapper.CallSwat(false);
-                                }
-                                else
-                                {
-                                    Functions.RequestBackup(_callPos, EBackupResponseType.Code3,
-                                        EBackupUnitType.SwatTeam);
-                                    Functions.RequestBackup(_callPos, EBackupResponseType.Code3,
-                                        EBackupUnitType.SwatTeam);
-                                    Functions.RequestBackup(_callPos, EBackupResponseType.Code3,
-                                        EBackupUnitType.AirUnit);
-                                }
-
+                                Backup.Request(Enums.BackupType.Swat);
+                                Backup.Request(Enums.BackupType.Swat);
                                 _state = SrState.RaidScene;
                                 break;
                             case SrChoice.You:
-                                if (PyroCommon.Main.UsingUb)
-                                {
-                                    Wrapper.CallCode3();
-                                    Wrapper.CallCode3();
-                                }
-                                else
-                                {
-                                    Functions.RequestBackup(_callPos, EBackupResponseType.Code3,
-                                        EBackupUnitType.LocalUnit);
-                                    Functions.RequestBackup(_callPos, EBackupResponseType.Code3,
-                                        EBackupUnitType.LocalUnit);
-                                }
-
+                                Backup.Request(Enums.BackupType.Code3);
+                                Backup.Request(Enums.BackupType.Code3);
                                 _state = SrState.RaidScene;
                                 break;
                             default:

@@ -2,9 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading;
+using PyroCommon.PyroFunctions;
 using Rage;
 
-namespace PyroCommon.API;
+namespace PyroCommon;
 
 internal static class VersionChecker
 {

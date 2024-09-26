@@ -1,7 +1,8 @@
 using System.Drawing;
 using LSPD_First_Response;
 using LSPD_First_Response.Mod.Callouts;
-using PyroCommon.API;
+using PyroCommon.Objects;
+using PyroCommon.PyroFunctions;
 using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
@@ -68,18 +69,8 @@ internal class CarAccident : SuperCallout
         {
             Game.DisplaySubtitle(
                 "~g~You~s~: Dispatch, we have a vehicle accident, possible hit and run. Looks like someone is inside and injured! I need EMS out here.");
-            if (PyroCommon.Main.UsingUb)
-            {
-                Wrapper.CallEms();
-                Wrapper.CallFd();
-            }
-            else
-            {
-                Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Code3,
-                    EBackupUnitType.Ambulance);
-                Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Code3,
-                    EBackupUnitType.Firetruck);
-            }
+            Backup.Request(Enums.BackupType.Fire);
+            Backup.Request(Enums.BackupType.Medical);
 
             _callEms.Enabled = false;
             base.Interactions(sender, selItem, index);

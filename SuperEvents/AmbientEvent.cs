@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using PyroCommon.API;
+using PyroCommon.PyroFunctions;
 using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
@@ -31,8 +31,8 @@ public abstract class AmbientEvent
     protected abstract Vector3 EventLocation { get; set; }
     protected float OnSceneDistance { get; set; } = 20;
     protected float ClearEventDistance { get; set; } = 200;
-    public List<Entity> EntitiesToClear { get; } = new();
-    public List<Blip> BlipsToClear { get; } = new();
+    public List<Entity> EntitiesToClear { get; } = [];
+    public List<Blip> BlipsToClear { get; } = [];
     private GameFiber ProcessFiber { get; }
     protected static Ped Player => Game.LocalPlayer.Character;
     private bool onScene;

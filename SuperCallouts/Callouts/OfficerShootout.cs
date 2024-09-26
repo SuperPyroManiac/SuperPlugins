@@ -1,7 +1,8 @@
 using System.Drawing;
 using LSPD_First_Response;
 using LSPD_First_Response.Mod.Callouts;
-using PyroCommon.API;
+using PyroCommon.Objects;
+using PyroCommon.PyroFunctions;
 using Rage;
 using Functions = LSPD_First_Response.Mod.API.Functions;
 
@@ -91,19 +92,8 @@ internal class OfficerShootout : SuperCallout
         Functions.PlayScannerAudioUsingPosition("REQUEST_BACKUP", SpawnPoint.Position);
         Game.SetRelationshipBetweenRelationshipGroups("BADGANG", "COP", Relationship.Hate);
         Game.SetRelationshipBetweenRelationshipGroups("BADGANG", "PLAYER", Relationship.Hate);
-        if (PyroCommon.Main.UsingUb)
-        {
-            Wrapper.CallCode3();
-            Wrapper.CallCode3();
-        }
-        else
-        {
-            Functions.RequestBackup(_copVehicle.Position, EBackupResponseType.Code3,
-                EBackupUnitType.LocalUnit);
-            Functions.RequestBackup(_copVehicle.Position, EBackupResponseType.Code3,
-                EBackupUnitType.LocalUnit);
-        }
-
+        Backup.Request(Enums.BackupType.Code3);
+        Backup.Request(Enums.BackupType.Code3);
         if (_cBlip.Exists()) _cBlip.DisableRoute();
     }
 }
