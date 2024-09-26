@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
 using System.Reflection;
 using DamageTrackerLib;
 using DeadlyWeapons.Modules;
@@ -14,6 +15,24 @@ public class Main : Plugin
 {
     private GameFiber _panicFiber;
  
+    static Main()
+    {
+        AppDomain.CurrentDomain.AssemblyResolve += (sender, args) =>
+        {
+            var assemblyName = new AssemblyName(args.Name).Name + ".dll";
+            var resourceName = $"DeadlyWeapons.Libs.{assemblyName}";
+
+            using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName))
+            {
+                if (stream == null) return null;
+
+                var assemblyData = new byte[stream.Length];
+                stream.Read(assemblyData, 0, assemblyData.Length);
+                return Assembly.Load(assemblyData);
+            }
+        };
+    }
+    
     public override void Initialize()
     {
         DependManager.AddDepend("PyroCommon.dll", "1.6.0.0");
