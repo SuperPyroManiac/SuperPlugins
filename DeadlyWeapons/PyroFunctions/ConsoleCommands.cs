@@ -4,7 +4,7 @@ using Rage.Attributes;
 
 #endregion
 
-namespace DeadlyWeapons.DFunctions;
+namespace DeadlyWeapons.PyroFunctions;
 
 public class ConsoleCommands
 {

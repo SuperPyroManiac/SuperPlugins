@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.IO;
-using System.Xml.Serialization;
 using DeadlyWeapons.Configs;
 using PyroCommon.API;
 using Rage;
@@ -19,6 +18,7 @@ internal static class Settings
     internal static DamageValues NpcArmorValues = new ();
     internal static bool PlayerDamage = true;
     internal static bool NpcDamage = true;
+    internal static float DamageRandomizer = 15;
     internal static bool Panic = true;
     internal static int PanicCooldown = 120;
     internal static bool Code3Backup = true;
@@ -35,6 +35,7 @@ internal static class Settings
         ini.Create();
         PlayerDamage = ini.ReadBoolean("Features", "PlayerDamage", true);
         NpcDamage = ini.ReadBoolean("Features", "NPCDamage", true);
+        DamageRandomizer = ini.ReadSingle("Features", "DamageRandomizer", 15);
         Panic = ini.ReadBoolean("Features", "Panic", true);
         PanicCooldown = ini.ReadInt32("Features", "PanicCooldown", 120);
         Code3Backup = ini.ReadBoolean("Backup", "Code3Backup", true);
@@ -57,10 +58,8 @@ internal static class Settings
 
     private static T DeserializeYaml<T>(string path)
     {
-        using (var reader = new StreamReader(path))
-        {
-            var deserializer = new DeserializerBuilder().Build();
-            return deserializer.Deserialize<T>(reader);
-        }
+        using var reader = new StreamReader(path);
+        var deserializer = new DeserializerBuilder().Build();
+        return deserializer.Deserialize<T>(reader);
     }
 }

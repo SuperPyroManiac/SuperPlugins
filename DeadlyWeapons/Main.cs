@@ -2,8 +2,8 @@
 using System.Diagnostics;
 using System.Reflection;
 using DamageTrackerLib;
-using DeadlyWeapons.DFunctions;
 using DeadlyWeapons.Modules;
+using DeadlyWeapons.PyroFunctions;
 using LSPD_First_Response.Mod.API;
 using PyroCommon.API;
 using Rage;

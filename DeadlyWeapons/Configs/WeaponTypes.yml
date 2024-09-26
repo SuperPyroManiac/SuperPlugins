@@ -1,4 +1,5 @@
-﻿WeaponTypes:
+﻿# Formatting is critical! If you have issues, you can check your config at https://codebeautify.org/yaml-parser-online
+WeaponTypes:
     Pistol:
         damage_multiplier: 1
     Rifle:

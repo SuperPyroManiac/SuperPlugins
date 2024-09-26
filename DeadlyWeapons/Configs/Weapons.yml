@@ -1,186 +1,203 @@
+# Formatting is critical! If you have issues, you can check your config at https://codebeautify.org/yaml-parser-online
+# Any weapons not in this list will use a default value of 1 for the damage and weapon type multipliers.
 Weapons:
-  APPistol:
-    hash: 584646201
-    weapon_type: Pistol
-    damage_multiplier: 1
-    panicignore: false
-  Combat_Pistol:
-    hash: 1593441988
-    weapon_type: Pistol
-    damage_multiplier: 1
-    panicignore: false
-  Ceramic_Pistol:
-    hash: 727643628
-    weapon_type: Pistol
-    damage_multiplier: 1
-    panicignore: false
-  Heavy_Pistol:
-    hash: 3523564046
-    weapon_type: Pistol
-    damage_multiplier: 1
-    panicignore: false
-  Heavy_Revolver:
-    hash: 3249783761
-    weapon_type: Pistol
-    damage_multiplier: 1
-    panicignore: false
-  Heavy_Revolver_MK2:
-    hash: 3415619887
-    weapon_type: Pistol
-    damage_multiplier: 1
-    panicignore: false
-  Pistol:
-    hash: 453432689
-    weapon_type: Pistol
-    damage_multiplier: 1
-    panicignore: false
-  Pistol_MK2:
-    hash: 3219281620
-    weapon_type: Pistol
-    damage_multiplier: 1
-    panicignore: false
-  SNSPistol:
-    hash: 3218215474
-    weapon_type: Pistol
-    damage_multiplier: 1
-    panicignore: false
-  Stun_gun:
-    hash: 2634545991
-    weapon_type: Pistol
-    damage_multiplier: 1
-    panicignore: true
-  Assault_Rifle:
-    hash: 3220176749
-    weapon_type: Rifle
-    damage_multiplier: 1
-    panicignore: false
-  Assault_Rifle_MK2:
-    hash: 961495388
-    weapon_type: Rifle
-    damage_multiplier: 1
-    panicignore: false
-  Service_Carbine:
-    hash: 3520460075
-    weapon_type: Rifle
-    damage_multiplier: 1
-    panicignore: false
-  Special_Carbine:
-    hash: 3231910285
-    weapon_type: Rifle
-    damage_multiplier: 1
-    panicignore: false
-  Combat_Shotgun:
-    hash: 94989220
-    weapon_type: Shotgun
-    damage_multiplier: 1
-    panicignore: false
-  Heavy_Shotgun:
-    hash: 984333226
-    weapon_type: Shotgun
-    damage_multiplier: 1
-    panicignore: false
-  Sweeper_Shotgun:
-    hash: 317205821
-    weapon_type: Shotgun
-    damage_multiplier: 1
-    panicignore: false
-  Combat_PDW:
-    hash: 171789620
-    weapon_type: SubmachineGun
-    damage_multiplier: 1
-    panicignore: false
-  Gusenberg_Sweeper:
-    hash: 1627465347
-    weapon_type: SubmachineGun
-    damage_multiplier: 1
-    panicignore: false
-  Machine_Pistol:
-    hash: 3675956304
-    weapon_type: SubmachineGun
-    damage_multiplier: 1
-    panicignore: false
-  Mini_SMG:
-    hash: 3173288789
-    weapon_type: SubmachineGun
-    damage_multiplier: 1
-    panicignore: false
-  Micro_SMG:
-    hash: 324215364
-    weapon_type: SubmachineGun
-    damage_multiplier: 1
-    panicignore: false
-  SMG:
-    hash: 736523883
-    weapon_type: SubmachineGun
-    damage_multiplier: 1
-    panicignore: false
-  Heavy_Sniper:
-    hash: 205991906
-    weapon_type: Sniper
-    damage_multiplier: 1
-    panicignore: false
-  Heavy_Sniper_MK2:
-    hash: 177293209
-    weapon_type: Sniper
-    damage_multiplier: 1
-    panicignore: false
-  Marksman_Rifle:
-    hash: 3342088282
-    weapon_type: Sniper
-    damage_multiplier: 1
-    panicignore: false
-  Marksman_Rifle_MK2:
-    hash: 1785463520
-    weapon_type: Sniper
-    damage_multiplier: 1
-    panicignore: false
-  Sniper_Rifle:
-    hash: 100416529
-    weapon_type: Sniper
-    damage_multiplier: 1
-    panicignore: false
-  Minigun:
-    hash: 1119849093
-    weapon_type: MachineGun
-    damage_multiplier: 1
-    panicignore: false
-  Flare_Gun:
-    hash: 1198879012
-    weapon_type: Other
-    damage_multiplier: 1
-    panicignore: false
-  Grenade_Launcher:
-    hash: 2726580491
-    weapon_type: Other
-    damage_multiplier: 1
-    panicignore: false
-  Homing_Launcher:
-    hash: 1672152130
-    weapon_type: Other
-    damage_multiplier: 1
-    panicignore: false
-  Molotov:
-    hash: 615608432
-    weapon_type: Other
-    damage_multiplier: 1
-    panicignore: false
-  Pipe_Bomb:
-    hash: 3125143736
-    weapon_type: Other
-    damage_multiplier: 1
-    panicignore: false
-  RPG:
-    hash: 2982836145
-    weapon_type: Other
-    damage_multiplier: 1
-    panicignore: false
-  Railgun:
-    hash: 1834241177
-    weapon_type: Other
-    damage_multiplier: 1
-    panicignore: false
-  Vintage_Pistol:
-    hash: 137902532
-    weapon_type: Pistol
-    damage_multiplier: 1
-    panicignore: false
+    APPistol:
+        hash: 584646201
+        weapon_type: Pistol
+        damage_multiplier: 1
+        panicignore: false
+    Assault_Rifle:
+        hash: 3220176749
+        weapon_type: Rifle
+        damage_multiplier: 1
+        panicignore: false
+    Assault_Rifle_MK2:
+        hash: 961495388
+        weapon_type: Rifle
+        damage_multiplier: 1
+        panicignore: false
+    Combat_PDW:
+        hash: 171789620
+        weapon_type: SubmachineGun
+        damage_multiplier: 1
+        panicignore: false
+    Combat_Pistol:
+        hash: 1593441988
+        weapon_type: Pistol
+        damage_multiplier: 1
+        panicignore: false
+    Combat_Shotgun:
+        hash: 94989220
+        weapon_type: Shotgun
+        damage_multiplier: 1
+        panicignore: false
+    Ceramic_Pistol:
+        hash: 727643628
+        weapon_type: Pistol
+        damage_multiplier: 1
+        panicignore: false
+    Flare_Gun:
+        hash: 1198879012
+        weapon_type: Other
+        damage_multiplier: 1
+        panicignore: false
+    Gusenberg_Sweeper:
+        hash: 1627465347
+        weapon_type: SubmachineGun
+        damage_multiplier: 1
+        panicignore: false
+    Grenade_Launcher:
+        hash: 2726580491
+        weapon_type: Other
+        damage_multiplier: 1
+        panicignore: false
+    Heavy_Pistol:
+        hash: 3523564046
+        weapon_type: Pistol
+        damage_multiplier: 1
+        panicignore: false
+    Heavy_Revolver:
+        hash: 3249783761
+        weapon_type: Pistol
+        damage_multiplier: 1
+        panicignore: false
+    Heavy_Revolver_MK2:
+        hash: 3415619887
+        weapon_type: Pistol
+        damage_multiplier: 1
+        panicignore: false
+    Heavy_Shotgun:
+        hash: 984333226
+        weapon_type: Shotgun
+        damage_multiplier: 1
+        panicignore: false
+    Heavy_Sniper:
+        hash: 205991906
+        weapon_type: Sniper
+        damage_multiplier: 1
+        panicignore: false
+    Heavy_Sniper_MK2:
+        hash: 177293209
+        weapon_type: Sniper
+        damage_multiplier: 1
+        panicignore: false
+    Homing_Launcher:
+        hash: 1672152130
+        weapon_type: Other
+        damage_multiplier: 1
+        panicignore: false
+    Machine_Pistol:
+        hash: 3675956304
+        weapon_type: SubmachineGun
+        damage_multiplier: 1
+        panicignore: false
+    Marksman_Rifle:
+        hash: 3342088282
+        weapon_type: Sniper
+        damage_multiplier: 1
+        panicignore: false
+    Marksman_Rifle_MK2:
+        hash: 1785463520
+        weapon_type: Sniper
+        damage_multiplier: 1
+        panicignore: false
+    Mini_SMG:
+        hash: 3173288789
+        weapon_type: SubmachineGun
+        damage_multiplier: 1
+        panicignore: false
+    Micro_SMG:
+        hash: 324215364
+        weapon_type: SubmachineGun
+        damage_multiplier: 1
+        panicignore: false
+    Minigun:
+        hash: 1119849093
+        weapon_type: MachineGun
+        damage_multiplier: 1
+        panicignore: false
+    Molotov:
+        hash: 615608432
+        weapon_type: Other
+        damage_multiplier: 1
+        panicignore: false
+    Pipe_Bomb:
+        hash: 3125143736
+        weapon_type: Other
+        damage_multiplier: 1
+        panicignore: false
+    Pistol:
+        hash: 453432689
+        weapon_type: Pistol
+        damage_multiplier: 1
+        panicignore: false
+    Pistol_MK2:
+        hash: 3219281620
+        weapon_type: Pistol
+        damage_multiplier: 1
+        panicignore: false
+    RPG:
+        hash: 2982836145
+        weapon_type: Other
+        damage_multiplier: 1
+        panicignore: false
+    Railgun:
+        hash: 1834241177
+        weapon_type: Other
+        damage_multiplier: 1
+        panicignore: false
+    Service_Carbine:
+        hash: 3520460075
+        weapon_type: Rifle
+        damage_multiplier: 1
+        panicignore: false
+    SMG:
+        hash: 736523883
+        weapon_type: SubmachineGun
+        damage_multiplier: 1
+        panicignore: false
+    Sniper_Rifle:
+        hash: 100416529
+        weapon_type: Sniper
+        damage_multiplier: 1
+        panicignore: false
+    SNSPistol:
+        hash: 3218215474
+        weapon_type: Pistol
+        damage_multiplier: 1
+        panicignore: false
+    Special_Carbine:
+        hash: 3231910285
+        weapon_type: Rifle
+        damage_multiplier: 1
+        panicignore: false
+    Sticky_Bomb:
+        hash: 741814745
+        weapon_type: Other
+        damage_multiplier: 1
+        panicignore: false
+    Sweeper_Shotgun:
+        hash: 317205821
+        weapon_type: Shotgun
+        damage_multiplier: 1
+        panicignore: false
+    Vintage_Pistol:
+        hash: 137902532
+        weapon_type: Pistol
+        damage_multiplier: 1
+        panicignore: false
+    FireExtinguisher:
+        hash: 3012838707
+        weapon_type: Other
+        damage_multiplier: 1
+        panicignore: true
+    Flare:
+        hash: 1198879012
+        weapon_type: Other
+        damage_multiplier: 1
+        panicignore: true
+    Stun_gun:
+        hash: 2634545991
+        weapon_type: Other
+        damage_multiplier: 1
+        panicignore: true

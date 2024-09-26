@@ -1,5 +1,6 @@
 ﻿using System;
 using DamageTrackerLib.DamageInfo;
+using DeadlyWeapons.PyroFunctions;
 using PyroCommon.API;
 using Rage;
 
@@ -11,10 +12,9 @@ internal static class PlayerShot
 
     internal static void OnPlayerDamaged(Ped victim, Ped attacker, PedDamageInfo damageInfo)
     {
-        if (Player.IsDead) return;
+        if ( Player.IsDead ) return;
         if ( victim != Player ) return;
-        if (damageInfo.WeaponInfo.Group != DamageGroup.Bullet) return;
-        var rnd = new Random(DateTime.Now.Millisecond).Next(1, 5);
+        if ( damageInfo.WeaponInfo.Group != DamageGroup.Bullet ) return;
         if (Settings.Debug)
         {
             Log.Info("[DEBUG]: Detailed damage info Start");
@@ -28,88 +28,58 @@ internal static class PlayerShot
             Log.Info("[DEBUG]: Player armor before shot: " + Player.Armor);
         }
 
-        if (damageInfo.BoneInfo.BodyRegion == BodyRegion.Legs)
+        var weapon = Utils.GetWeaponByHash(( Rage.WeaponHash )damageInfo.WeaponInfo.Hash);
+        switch ( damageInfo.BoneInfo.BodyRegion )
         {
-            var rnd2 = new Random(DateTime.Now.Millisecond).Next(1, 3);
-            Player.Health -= 30;
-            Log.Info("Player shot in leg - deducting 30 health.");
-            if (rnd2 == 2)
-            {
-                Player.Tasks.Ragdoll();
-                Log.Info("Player tripped due to leg injury. (50/50 chance)");
-            }
-
-            if (Settings.Debug)
-            {
-                Log.Info("[DEBUG]: Player health after shot: " + Player.Health);
-                Log.Info("[DEBUG]: Player armor after shot: " + Player.Armor);
-            }
-            return;
+            case BodyRegion.Head:
+                if (Player.Armor > 5)
+                {
+                    Player.Health -= (int)Utils.RandomizeValue(Settings.PlayerArmorValues.Head * (weapon.DamageMultiplier + Utils.GetWeaponType(weapon).DamageMultiplier));
+                }
+                else
+                {
+                    Player.Health -= (int)Utils.RandomizeValue(Settings.PlayerValues.Head * (weapon.DamageMultiplier + Utils.GetWeaponType(weapon).DamageMultiplier));
+                }
+                break;
+            case BodyRegion.Torso:
+                if (Player.Armor > 5)
+                {
+                    Player.Health -= (int)Utils.RandomizeValue(Settings.PlayerArmorValues.Torso * (weapon.DamageMultiplier + Utils.GetWeaponType(weapon).DamageMultiplier));
+                }
+                else
+                {
+                    Player.Health -= (int)Utils.RandomizeValue(Settings.PlayerValues.Torso * (weapon.DamageMultiplier + Utils.GetWeaponType(weapon).DamageMultiplier));
+                }
+                break;
+            case BodyRegion.Arms:
+                if (Player.Armor > 5)
+                {
+                    Player.Health -= (int)Utils.RandomizeValue(Settings.PlayerArmorValues.Arms * (weapon.DamageMultiplier + Utils.GetWeaponType(weapon).DamageMultiplier));
+                }
+                else
+                {
+                    Player.Health -= (int)Utils.RandomizeValue(Settings.PlayerValues.Arms * (weapon.DamageMultiplier + Utils.GetWeaponType(weapon).DamageMultiplier));
+                }
+                break;
+            case BodyRegion.Legs:
+                if (new Random(DateTime.Now.Millisecond).Next(0, 3) == 0) Player.Tasks.Ragdoll();
+                if (Player.Armor > 5)
+                {
+                    Player.Health -= (int)Utils.RandomizeValue(Settings.PlayerArmorValues.Legs * (weapon.DamageMultiplier + Utils.GetWeaponType(weapon).DamageMultiplier));
+                }
+                else
+                {
+                    Player.Health -= (int)Utils.RandomizeValue(Settings.PlayerValues.Legs * (weapon.DamageMultiplier + Utils.GetWeaponType(weapon).DamageMultiplier));
+                }
+                break;
+            case BodyRegion.None:
+            default:
+                Log.Warning("Unknown body region " + damageInfo.BoneInfo.BodyRegion);
+                break;
         }
 
-        if (damageInfo.BoneInfo.BodyRegion == BodyRegion.Arms)
-        {
-            Player.Health -= 30;
-            Log.Info("Player shot in arm - deducting 30 health.");
-            if (Settings.Debug)
-            {
-                Log.Info("[DEBUG]: Player health after shot: " + Player.Health);
-                Log.Info("[DEBUG]: Player armor after shot: " + Player.Armor);
-            }
-            return;
-        }
-
-        if (Player.Armor > 5)
-        {
-            Log.Info("Player shot with armor. Rolled " + rnd);
-            switch (rnd)
-            {
-                case 1:
-                    Player.Armor = 0;
-                    break;
-                case 2:
-                    Player.Health -= 45;
-                    Player.Armor = 0;
-                    Player.Tasks.Ragdoll();
-                    break;
-                case 3:
-                    Player.Armor -= 35;
-                    break;
-                case 4:
-                    Player.Armor -= 65;
-                    break;
-            }
-            if (Settings.Debug)
-            {
-                Log.Info("[DEBUG]: Player health after shot: " + Player.Health);
-                Log.Info("[DEBUG]: Player armor after shot: " + Player.Armor);
-            }
-        }
-
-        if (Player.Armor <= 5)
-        {
-            Log.Info("Player shot without armor. Rolled " + rnd);
-            switch (rnd)
-            {
-                case 1:
-                    Player.Health = 105;
-                    break;
-                case 2:
-                    Player.Kill();
-                    break;
-                case 3:
-                    Player.Health -= 40;
-                    break;
-                case 4:
-                    Player.Health -= 50;
-                    Player.Tasks.Ragdoll();
-                    break;
-            }
-            if (Settings.Debug)
-            {
-                Log.Info("[DEBUG]: Player health after shot: " + Player.Health);
-                Log.Info("[DEBUG]: Player armor after shot: " + Player.Armor);
-            }
-        }
+        if ( !Settings.Debug ) return;
+        Log.Info("[DEBUG]: Player health after shot: " + Player.Health);
+        Log.Info("[DEBUG]: Player armor after shot: " + Player.Armor);
     }
 }

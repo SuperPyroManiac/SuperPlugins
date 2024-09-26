@@ -1,4 +1,5 @@
-﻿using LSPD_First_Response;
+﻿using DeadlyWeapons.PyroFunctions;
+using LSPD_First_Response;
 using LSPD_First_Response.Mod.API;
 using PyroCommon.API;
 using Rage;
@@ -18,10 +19,8 @@ internal static class Panic
         {
             GameFiber.Yield();
             if (Player.IsInAnyVehicle(true)) continue;
-            if (Player.IsShooting && (DamageTrackerLib.DamageInfo.WeaponHash)Player.Inventory.EquippedWeapon.Hash != DamageTrackerLib.DamageInfo.WeaponHash.Stun_Gun &&
-                Player.Inventory.EquippedWeapon.Hash != WeaponHash.FireExtinguisher &&
-                Player.Inventory.EquippedWeapon.Hash != WeaponHash.Flare && Settings.Panic)
-                PanicHit();
+            if (Utils.GetWeaponByHash(Player.Inventory.EquippedWeapon.Hash).PanicIgnore) continue;
+            if ( Player.IsShooting && Settings.Panic ) PanicHit();
         }
     }
     private static void PanicHit()
@@ -61,8 +60,7 @@ internal static class Panic
                         EBackupUnitType.NooseTeam);
             }
 
-            Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~r~Shots Fired", "~y~Panic Activated",
-                "Your weapon has been discharged. Dispatch has been alerted.");
+            Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~r~Shots Fired", "~y~Panic Activated", "Your weapon has been discharged. Dispatch has been alerted.");
             GameFiber.Wait(Settings.PanicCooldown * 1000);
             _panic = false;
         });
