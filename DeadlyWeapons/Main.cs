@@ -5,7 +5,6 @@ using DamageTrackerLib;
 using DeadlyWeapons.Modules;
 using DeadlyWeapons.PyroFunctions;
 using LSPD_First_Response.Mod.API;
-using PyroCommon;
 using PyroCommon.PyroFunctions;
 using Rage;
 
@@ -15,24 +14,6 @@ public class Main : Plugin
 {
     internal static bool Running;
     private GameFiber _panicFiber;
-    
-    static Main()
-    {
-        AppDomain.CurrentDomain.AssemblyResolve += (sender, args) =>
-        {
-            var assemblyName = new AssemblyName(args.Name).Name + ".dll";
-            var resourceName = $"DeadlyWeapons.Libs.{assemblyName}";
-
-            using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName))
-            {
-                if (stream == null) return null;
-
-                var assemblyData = new byte[stream.Length];
-                stream.Read(assemblyData, 0, assemblyData.Length);
-                return Assembly.Load(assemblyData);
-            }
-        };
-    }
     
     public override void Initialize()
     {

@@ -60,6 +60,10 @@
           <HintPath>..\packages\PyroSpecial.1.0.1\lib\UltimateBackup.dll</HintPath>
           <Private>False</Private>
         </Reference>
+        <Reference Include="YamlDotNet, Version=16.0.0.0, Culture=neutral, PublicKeyToken=ec19458f3c15af5e, processorArchitecture=MSIL">
+          <HintPath>..\packages\YamlDotNet.16.1.2\lib\net47\YamlDotNet.dll</HintPath>
+          <Private>False</Private>
+        </Reference>
     </ItemGroup>
     <ItemGroup>
         <Compile Include="Main.cs" />
@@ -69,6 +73,7 @@
         <Compile Include="Objects\Location.cs" />
         <Compile Include="Objects\Locations.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
+        <Compile Include="PyroFunctions\AssemblyLoader.cs" />
         <Compile Include="PyroFunctions\Backup.cs" />
         <Compile Include="PyroFunctions\DependManager.cs" />
         <Compile Include="PyroFunctions\Log.cs" />
@@ -82,6 +87,20 @@
     <ItemGroup>
       <None Include="packages.config" />
     </ItemGroup>
+    <ItemGroup>
+      <Content Include="Libs\RAGENativeUI.dll" />
+      <Content Include="Libs\RAGENativeUI.xml" />
+      <Content Include="Libs\YamlDotNet.dll" />
+      <Content Include="Libs\YamlDotNet.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <None Update="Libs\YamlDotNet.dll">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+        </None>
+        <EmbeddedResource Include="Libs\YamlDotNet.dll" />
+    </ItemGroup>
+
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
     <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
          Other similar extension points exist, see Microsoft.Common.targets.

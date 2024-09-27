@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using LSPD_First_Response.Mod.API;
-using PyroCommon;
 using PyroCommon.PyroFunctions;
 using Rage;
 using SuperEvents.EventFunctions;

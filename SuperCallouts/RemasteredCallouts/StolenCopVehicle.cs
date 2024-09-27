@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Drawing;
-using LSPD_First_Response;
 using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.Objects;
 using PyroCommon.PyroFunctions;
 using Rage;
-using Backup = PyroCommon.Wrappers.Backup;
 using Functions = LSPD_First_Response.Mod.API.Functions;
 
 namespace SuperCallouts.RemasteredCallouts;

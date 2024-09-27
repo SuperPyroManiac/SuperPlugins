@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using LSPD_First_Response.Mod.API;
 using PyroCommon.Objects;
 using PyroCommon.Wrappers;
@@ -8,11 +9,27 @@ using Rage;
 using Rage.Native;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
+using YamlDotNet.Serialization;
 
 namespace PyroCommon.PyroFunctions;
 
 public abstract class PyroFunctions
 {
+    public static T DeserializeYaml<T>(string path)
+    {
+        try
+        {
+            using var reader = new StreamReader(path);
+            var deserializer = new DeserializerBuilder().Build();
+            return deserializer.Deserialize<T>(reader);
+        }
+        catch ( Exception e )
+        {
+            Log.Error($"Error deserializing YAML at {path}: {e.Message}");
+            throw;
+        }
+    }
+    
     public static void AddDrugItem(string item, Enums.DrugType drugType, Ped ped = null, Vehicle vehicle = null, Enums.ItemLocation itemLocation = Enums.ItemLocation.Anywhere)
     {
         if (ped != null && Main.UsingStp) SearchItems.AddStpPedSearchItems(ped, item);

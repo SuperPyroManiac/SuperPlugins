@@ -1,10 +1,7 @@
-using System;
 using System.Collections.Generic;
-using System.IO;
 using DeadlyWeapons.Configs;
 using PyroCommon.PyroFunctions;
 using Rage;
-using YamlDotNet.Serialization;
 using Weapon = DeadlyWeapons.Configs.Weapon;
 
 namespace DeadlyWeapons;
@@ -47,31 +44,16 @@ internal static class Settings
         
         // YAML Configs
         Log.Info("Weapons.yml");
-        Weapons = DeserializeYaml<List<Weapon>>("Plugins/LSPDFR/DeadlyWeapons/Weapons.yml");
+        Weapons = PyroCommon.PyroFunctions.PyroFunctions.DeserializeYaml<List<Weapon>>("Plugins/LSPDFR/DeadlyWeapons/Weapons.yml");
         Log.Info("WeaponTypes.yml");
-        WeaponTypes = DeserializeYaml<List<WeaponType>>("Plugins/LSPDFR/DeadlyWeapons/WeaponTypes.yml");
+        WeaponTypes = PyroCommon.PyroFunctions.PyroFunctions.DeserializeYaml<List<WeaponType>>("Plugins/LSPDFR/DeadlyWeapons/WeaponTypes.yml");
         Log.Info("Damage.yml");
-        var damageConfig = DeserializeYaml<DamageConfigurations>("Plugins/LSPDFR/DeadlyWeapons/Damage.yml");
+        var damageConfig = PyroCommon.PyroFunctions.PyroFunctions.DeserializeYaml<DamageConfigurations>("Plugins/LSPDFR/DeadlyWeapons/Damage.yml");
         PlayerArmorValues = damageConfig.PlayerDamage.WithArmor;
         NpcArmorValues = damageConfig.NpcDamage.WithArmor;
         PlayerValues = damageConfig.PlayerDamage.WithoutArmor;
         NpcValues = damageConfig.NpcDamage.WithoutArmor;
 
         Log.Info("Configs loaded.");
-    }
-
-    private static T DeserializeYaml<T>(string path)
-    {
-        try
-        {
-            using var reader = new StreamReader(path);
-            var deserializer = new DeserializerBuilder().Build();
-            return deserializer.Deserialize<T>(reader);
-        }
-        catch ( Exception e )
-        {
-            Log.Error($"Error deserializing YAML at {path}: {e.Message}\r\nFailed to start plugin!");
-            throw;
-        }
     }
 }

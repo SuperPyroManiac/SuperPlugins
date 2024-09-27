@@ -1,9 +1,7 @@
 using System;
 using System.Drawing;
-using LSPD_First_Response;
 using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.Objects;
-using PyroCommon.Wrappers;
 using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;

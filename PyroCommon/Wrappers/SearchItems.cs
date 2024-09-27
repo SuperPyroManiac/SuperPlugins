@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using PyroCommon.Objects;
 using Rage;
 
 namespace PyroCommon.Wrappers;

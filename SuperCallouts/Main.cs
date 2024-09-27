@@ -2,7 +2,6 @@ using System;
 using System.Diagnostics;
 using System.Reflection;
 using LSPD_First_Response.Mod.API;
-using PyroCommon;
 using PyroCommon.PyroFunctions;
 using Rage;
 using SuperCallouts.Callouts;

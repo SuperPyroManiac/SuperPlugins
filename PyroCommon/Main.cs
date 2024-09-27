@@ -25,6 +25,7 @@ public static class Main
 
         if (_init) return;
         _init = true;
+        AssemblyLoader.Load();
         InitParticles();
         GameFiber.StartNew(CheckPluginVersions);
     }

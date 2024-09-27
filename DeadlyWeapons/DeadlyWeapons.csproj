@@ -56,10 +56,6 @@
           <HintPath>..\packages\PyroSpecial.1.0.1\lib\UltimateBackup.dll</HintPath>
           <Private>False</Private>
         </Reference>
-        <Reference Include="YamlDotNet, Version=16.0.0.0, Culture=neutral, PublicKeyToken=ec19458f3c15af5e, processorArchitecture=MSIL">
-          <HintPath>..\packages\YamlDotNet.16.1.2\lib\net47\YamlDotNet.dll</HintPath>
-          <Private>False</Private>
-        </Reference>
     </ItemGroup>
     <ItemGroup>
         <Compile Include="Configs\DamageValues.cs" />
@@ -93,11 +89,6 @@
         <Content Include="DeadlyWeapons.ini">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
-    </ItemGroup>
-
-    <ItemGroup>
-        <!-- Embed Depends -->
-        <EmbeddedResource Include="Libs\YamlDotNet.dll" />
     </ItemGroup>
 
     <ItemGroup>
