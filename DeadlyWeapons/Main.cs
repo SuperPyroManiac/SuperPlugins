@@ -17,7 +17,7 @@ public class Main : Plugin
     
     public override void Initialize()
     {
-        DependManager.AddDepend("PyroCommon.dll", "1.6.0.0");
+        DependManager.AddDepend("PyroCommon.dll", "1.7.0.0");
         DependManager.AddDepend("RageNativeUI.dll", "1.9.2.0");
         DependManager.AddDepend("DamageTrackerLib.dll", "1.0.2");
         if ( !DependManager.CheckDepends() ) return;
