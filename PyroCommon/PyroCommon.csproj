@@ -62,7 +62,6 @@
         </Reference>
     </ItemGroup>
     <ItemGroup>
-        <Compile Include="DependManager.cs" />
         <Compile Include="Main.cs" />
         <Compile Include="Objects\Dependency.cs" />
         <Compile Include="Objects\EntityExtensions.cs" />
@@ -71,19 +70,17 @@
         <Compile Include="Objects\Locations.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
         <Compile Include="PyroFunctions\Backup.cs" />
+        <Compile Include="PyroFunctions\DependManager.cs" />
         <Compile Include="PyroFunctions\Log.cs" />
         <Compile Include="PyroFunctions\Particles.cs" />
         <Compile Include="PyroFunctions\PyroFunctions.cs" />
-        <Compile Include="VersionChecker.cs" />
+        <Compile Include="PyroFunctions\VersionChecker.cs" />
         <Compile Include="Wrappers\PedInfo.cs" />
         <Compile Include="Wrappers\SearchItems.cs" />
         <Compile Include="Wrappers\Backup.cs" />
     </ItemGroup>
     <ItemGroup>
       <None Include="packages.config" />
-    </ItemGroup>
-    <ItemGroup>
-      <Folder Include="API\" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
     <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

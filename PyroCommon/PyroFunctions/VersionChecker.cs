@@ -2,10 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading;
-using PyroCommon.PyroFunctions;
 using Rage;
 
-namespace PyroCommon;
+namespace PyroCommon.PyroFunctions;
 
 internal static class VersionChecker
 {
@@ -38,7 +37,7 @@ internal static class VersionChecker
 					break;
 					
 					case State.Update:
-						var ingameNotice = String.Empty;
+						var ingameNotice = string.Empty;
 						var logNotice = "Plugin updates available!";
 						
 						foreach ( var plug in OutdatedPyroPlugins )

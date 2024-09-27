@@ -7,7 +7,7 @@ using Rage;
 
 namespace PyroCommon;
 
-public class Main
+public static class Main
 {
     private static bool _init;
     private static readonly Func<string, bool> IsLoaded = plugName =>
@@ -20,11 +20,11 @@ public class Main
 
     internal static void InitCommon(string plugName, string plugVersion)
     {
+        if (InstalledPyroPlugins.ContainsKey(plugName)) InstalledPyroPlugins.Remove(plugName);
         InstalledPyroPlugins.Add(plugName, plugVersion);
 
         if (_init) return;
         _init = true;
-        
         InitParticles();
         GameFiber.StartNew(CheckPluginVersions);
     }
