@@ -10,13 +10,14 @@ namespace PyroCommon;
 public static class Main
 {
     private static bool _init;
-    private static readonly Func<string, bool> IsLoaded = plugName =>
-        Functions.GetAllUserPlugins().Any(assembly => assembly.GetName().Name.Equals(plugName));
+    private static readonly Func<string, bool> IsLoaded = plugName => Functions.GetAllUserPlugins().Any(assembly => assembly.GetName().Name.Equals(plugName));
     private static readonly Dictionary<string, string> InstalledPyroPlugins = new();
 
     internal static bool UsingUb { get; } = IsLoaded("UltimateBackup");
     internal static bool UsingStp { get; } = IsLoaded("StopThePed");
     internal static bool UsingPr { get; } = IsLoaded("PolicingRedefined");
+    internal static bool UsingSc { get; } = IsLoaded("SuperCallouts");
+    internal static bool UsingSe { get; } = IsLoaded("SuperEvents");
 
     internal static void InitCommon(string plugName, string plugVersion)
     {
@@ -28,6 +29,7 @@ public static class Main
         AssemblyLoader.Load();
         InitParticles();
         GameFiber.StartNew(CheckPluginVersions);
+        GameFiber.StartNew(Runner);
     }
 
     internal static void StopCommon()
@@ -51,5 +53,13 @@ public static class Main
         };
         foreach (var part in particleDict)
             GameFiber.StartNew(() => Particles.LoadParticles(part));
+    }
+
+    private static void Runner()
+    {
+        while ( _init )
+        {
+            GameFiber.Yield();
+        }
     }
 }

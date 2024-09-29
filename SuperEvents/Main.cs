@@ -47,7 +47,6 @@ internal class Main : Plugin
                 "~g~Plugin Loaded.",
                 "SuperEvents version: " + Assembly.GetExecutingAssembly().GetName().Version + " loaded.");
             GameFiber.StartNew(EventManager.InitEvents);
-            EventInterface.StartInterface();
             PyroCommon.Main.InitCommon("SuperEvents", Assembly.GetExecutingAssembly().GetName().Version.ToString());
             return;
         }
@@ -79,13 +78,5 @@ internal class Main : Plugin
         PluginRunning = false;
         PyroCommon.Main.StopCommon();
         Log.Info( "Plugin unloaded!");
-    }
-
-    internal static void PausePlugin()
-    {
-        PluginPaused = !PluginPaused;
-        Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~r~SuperEvents", "~g~Plugin Status:",
-            "SuperEvents paused: " + PluginPaused);
-        Log.Info("Plugin paused: " + PluginPaused);
     }
 }

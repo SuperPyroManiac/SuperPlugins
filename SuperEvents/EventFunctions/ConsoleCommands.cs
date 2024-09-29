@@ -15,7 +15,7 @@ public static class ConsoleCommands
     [ConsoleCommand]
     public static void Command_SEPauseEvents()
     {
-        Main.PausePlugin();
+        EventManager.PauseEvents();
     }
 
     [ConsoleCommand]

@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Linq;
+using System.Reflection;
 using LSPD_First_Response.Mod.API;
+using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.Objects;
 using PyroCommon.Wrappers;
 using Rage;
@@ -13,8 +16,10 @@ using YamlDotNet.Serialization;
 
 namespace PyroCommon.PyroFunctions;
 
-public abstract class PyroFunctions
+public static class PyroFunctions
 {
+    internal static CalloutInfoAttribute[] RegisteredCallouts { get; } = GenerateCalloutNames().ToArray();
+    
     public static T DeserializeYaml<T>(string path)
     {
         try
@@ -348,6 +353,17 @@ public abstract class PyroFunctions
             var match = matches[new Random(DateTime.Now.Millisecond).Next(matches.Count)];
             spawnPoint = match.Position;
             spawnPointH = match.Heading;
+        }
+    }
+    
+    private static IEnumerable<CalloutInfoAttribute> GenerateCalloutNames()
+    {
+        foreach (Type type in Assembly.GetExecutingAssembly().GetTypes())
+        {
+            foreach (CalloutInfoAttribute calloutInfo in type.GetCustomAttributes<CalloutInfoAttribute>())
+            {
+                yield return calloutInfo;
+            }
         }
     }
 }

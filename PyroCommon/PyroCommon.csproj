@@ -68,21 +68,24 @@
     <ItemGroup>
         <Compile Include="Main.cs" />
         <Compile Include="Objects\Dependency.cs" />
-        <Compile Include="Objects\EntityExtensions.cs" />
         <Compile Include="Objects\Enums.cs" />
         <Compile Include="Objects\Location.cs" />
-        <Compile Include="Objects\Locations.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
         <Compile Include="PyroFunctions\AssemblyLoader.cs" />
         <Compile Include="PyroFunctions\Backup.cs" />
         <Compile Include="PyroFunctions\DependManager.cs" />
+        <Compile Include="PyroFunctions\EntityExtensions.cs" />
+        <Compile Include="PyroFunctions\Locations.cs" />
         <Compile Include="PyroFunctions\Log.cs" />
         <Compile Include="PyroFunctions\Particles.cs" />
         <Compile Include="PyroFunctions\PyroFunctions.cs" />
+        <Compile Include="PyroFunctions\UIManager\Manager.cs" />
+        <Compile Include="PyroFunctions\UIManager\SuperEvents.cs" />
         <Compile Include="PyroFunctions\VersionChecker.cs" />
         <Compile Include="Wrappers\PedInfo.cs" />
         <Compile Include="Wrappers\SearchItems.cs" />
         <Compile Include="Wrappers\Backup.cs" />
+        <Compile Include="Wrappers\SuperEvents.cs" />
     </ItemGroup>
     <ItemGroup>
       <None Include="packages.config" />
@@ -99,6 +102,7 @@
             <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
         </None>
         <EmbeddedResource Include="Libs\YamlDotNet.dll" />
+        <EmbeddedResource Include="Libs\RageNativeUI.dll" />
     </ItemGroup>
 
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

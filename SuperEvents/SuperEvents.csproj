@@ -43,7 +43,6 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="RAGENativeUI, Version=1.9.2.0, Culture=neutral, processorArchitecture=Amd64">
       <HintPath>..\packages\RAGENativeUI.1.9.2\lib\net472\RAGENativeUI.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="RagePluginHook, Version=0.0.0.0, Culture=neutral, processorArchitecture=Amd64">
       <HintPath>..\packages\RagePluginHook.1.98.0\lib\net472\RagePluginHook.dll</HintPath>
@@ -65,7 +64,6 @@
     <Compile Include="Attributes\AttributeExpectedException.cs" />
     <Compile Include="Attributes\AttributeExtensions.cs" />
     <Compile Include="Attributes\EventInfoAttribute.cs" />
-    <Compile Include="EventFunctions\EventInterface.cs" />
     <Compile Include="EventFunctions\EventParameterAutoCompleter.cs" />
     <Compile Include="Events\CarAccident.cs" />
     <Compile Include="Events\CarFire.cs" />
