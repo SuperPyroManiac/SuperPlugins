@@ -35,9 +35,8 @@
         <WarningLevel>1</WarningLevel>
     </PropertyGroup>
     <ItemGroup>
-        <Reference Include="DamageTrackerLib, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-          <HintPath>..\packages\DamageTrackerLib.1.0.1\lib\DamageTrackerLib.dll</HintPath>
-          <Private>False</Private>
+        <Reference Include="DamageTrackerLib, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+          <HintPath>..\packages\DamageTrackerLib.1.0.2\lib\DamageTrackerLib.dll</HintPath>
         </Reference>
         <Reference Include="LSPD First Response, Version=0.4.8433.20359, Culture=neutral, processorArchitecture=MSIL">
           <HintPath>..\packages\PyroSpecial.1.0.1\lib\LSPD First Response.dll</HintPath>
@@ -45,8 +44,7 @@
         </Reference>
         <Reference Include="Microsoft.CSharp" />
         <Reference Include="RagePluginHook, Version=0.0.0.0, Culture=neutral, processorArchitecture=Amd64">
-          <HintPath>..\packages\RagePluginHook.1.98.0\lib\net472\RagePluginHook.dll</HintPath>
-          <Private>False</Private>
+          <HintPath>..\packages\RagePluginHook.1.109.1\lib\net472\RagePluginHook.dll</HintPath>
         </Reference>
         <Reference Include="System" />
         <Reference Include="System.Core" />

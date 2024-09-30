@@ -47,8 +47,7 @@
           <Private>False</Private>
         </Reference>
         <Reference Include="RagePluginHook, Version=0.0.0.0, Culture=neutral, processorArchitecture=Amd64">
-          <HintPath>..\packages\RagePluginHook.1.98.0\lib\net472\RagePluginHook.dll</HintPath>
-          <Private>False</Private>
+          <HintPath>..\packages\RagePluginHook.1.109.1\lib\net472\RagePluginHook.dll</HintPath>
         </Reference>
         <Reference Include="System" />
         <Reference Include="System.Core" />
@@ -61,8 +60,7 @@
           <Private>False</Private>
         </Reference>
         <Reference Include="YamlDotNet, Version=16.0.0.0, Culture=neutral, PublicKeyToken=ec19458f3c15af5e, processorArchitecture=MSIL">
-          <HintPath>..\packages\YamlDotNet.16.1.2\lib\net47\YamlDotNet.dll</HintPath>
-          <Private>False</Private>
+          <HintPath>..\packages\YamlDotNet.16.1.3\lib\net47\YamlDotNet.dll</HintPath>
         </Reference>
     </ItemGroup>
     <ItemGroup>
