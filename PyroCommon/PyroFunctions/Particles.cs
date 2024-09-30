@@ -3,7 +3,7 @@ using Rage.Native;
 
 namespace PyroCommon.PyroFunctions;
 
-internal class Particles
+internal static class Particles
 {
     internal static void LoadParticles(string dictName)
     {
