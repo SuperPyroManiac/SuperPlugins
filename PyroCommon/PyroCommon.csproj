@@ -79,6 +79,7 @@
         <Compile Include="PyroFunctions\Log.cs" />
         <Compile Include="PyroFunctions\Particles.cs" />
         <Compile Include="PyroFunctions\PyroFunctions.cs" />
+        <Compile Include="PyroFunctions\UIManager\Extras.cs" />
         <Compile Include="PyroFunctions\UIManager\Manager.cs" />
         <Compile Include="PyroFunctions\UIManager\SuperEvents.cs" />
         <Compile Include="PyroFunctions\VersionChecker.cs" />
@@ -92,9 +93,7 @@
     </ItemGroup>
     <ItemGroup>
       <Content Include="Libs\RAGENativeUI.dll" />
-      <Content Include="Libs\RAGENativeUI.xml" />
       <Content Include="Libs\YamlDotNet.dll" />
-      <Content Include="Libs\YamlDotNet.xml" />
     </ItemGroup>
     <ItemGroup>
         <None Update="Libs\YamlDotNet.dll">

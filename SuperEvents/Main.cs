@@ -14,7 +14,6 @@ namespace SuperEvents;
 internal class Main : Plugin
 {
     internal static bool PluginRunning { get; private set; }
-    internal static bool PluginPaused { get; set; }
 
     public override void Initialize()
     {
@@ -31,6 +30,7 @@ internal class Main : Plugin
     {
         if (onDuty)
         {
+            PyroCommon.Main.InitCommon("SuperEvents", Assembly.GetExecutingAssembly().GetName().Version.ToString());
             Log.Info("SuperEvents by SuperPyroManiac loaded successfully!");
             Log.Info("======================================================");
             Log.Info("Dependencies Found:");
@@ -47,7 +47,6 @@ internal class Main : Plugin
                 "~g~Plugin Loaded.",
                 "SuperEvents version: " + Assembly.GetExecutingAssembly().GetName().Version + " loaded.");
             GameFiber.StartNew(EventManager.InitEvents);
-            PyroCommon.Main.InitCommon("SuperEvents", Assembly.GetExecutingAssembly().GetName().Version.ToString());
             return;
         }
         PyroCommon.Main.StopCommon();

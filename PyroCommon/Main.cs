@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using LSPD_First_Response.Mod.API;
 using PyroCommon.PyroFunctions;
+using PyroCommon.PyroFunctions.UIManager;
 using Rage;
 
 namespace PyroCommon;
@@ -10,14 +11,16 @@ namespace PyroCommon;
 public static class Main
 {
     private static bool _init;
+    internal static bool EventsPaused { get; set; }
     private static readonly Func<string, bool> IsLoaded = plugName => Functions.GetAllUserPlugins().Any(assembly => assembly.GetName().Name.Equals(plugName));
-    private static readonly Dictionary<string, string> InstalledPyroPlugins = new();
+    internal static Dictionary<string, string> InstalledPyroPlugins = new();
 
     internal static bool UsingUb { get; } = IsLoaded("UltimateBackup");
     internal static bool UsingStp { get; } = IsLoaded("StopThePed");
     internal static bool UsingPr { get; } = IsLoaded("PolicingRedefined");
     internal static bool UsingSc { get; } = IsLoaded("SuperCallouts");
     internal static bool UsingSe { get; } = IsLoaded("SuperEvents");
+    internal static bool UsingDw { get; } = IsLoaded("DeadlyWeapons");
 
     internal static void InitCommon(string plugName, string plugVersion)
     {
@@ -28,20 +31,24 @@ public static class Main
         _init = true;
         AssemblyLoader.Load();
         InitParticles();
-        GameFiber.StartNew(CheckPluginVersions);
         GameFiber.StartNew(Runner);
+        GameFiber.StartNew(DelayStart);
     }
 
     internal static void StopCommon()
     {
         InstalledPyroPlugins.Clear();
         _init = false;
+        Manager.StopUi();
+        Log.Info("PyroCommon stopped!");
     }
 
-    private static void CheckPluginVersions()
+    private static void DelayStart()
     {
         GameFiber.Sleep(3000);
         VersionChecker.IsUpdateAvailable(InstalledPyroPlugins);
+        Manager.Run();
+        Log.Info("PyroCommon Loaded!");
     }
 
     private static void InitParticles()

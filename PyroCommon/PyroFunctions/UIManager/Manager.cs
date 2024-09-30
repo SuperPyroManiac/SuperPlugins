@@ -1,4 +1,7 @@
-﻿using System.Linq;
+﻿using System.Drawing;
+using System.Linq;
+using System.Reflection;
+using System.Windows.Forms;
 using LSPD_First_Response.Mod.API;
 using Rage;
 using RAGENativeUI;
@@ -10,16 +13,19 @@ internal static class Manager
 {
     private static bool _running;
     private static readonly MenuPool MainMenuPool = new();
-    private static readonly UIMenu MainMenu = new("SuperPlugins", "Choose an option.");
+    private static readonly UIMenu MainMenu = new("Pyro Plugins", "                By SuperPyroManiac");
     private static readonly UIMenu CalloutMenu = new("Callouts", "Choose a callout to spawn.");
     private static readonly UIMenu EventMenu = new("Events", "Choose an event to spawn.");
+    private static readonly UIMenuItem CalloutConfig = new("Config", "Configure SC Settings.");
     private static readonly UIMenuItem CalloutList = new("Force Callout", "Spawn any selected callout.");
     private static readonly UIMenuItem EndCallout = new("~r~End Callout", "Ends the current callout.");
+    private static readonly UIMenuItem EventConfig = new("Config", "Configure SE Settings.");
     private static readonly UIMenuItem EventList = new("Force Event", "Spawn any selected event.");
-    private static readonly UIMenuItem PauseEvent = new("~y~Pause Events", "Pause events from spawning. Force Event bypasses this.");
+    private static readonly UIMenuCheckboxItem PauseEvent = new("~y~Pause Events", !Main.EventsPaused);
     private static readonly UIMenuItem EndEvent = new("~r~End Event", "Ends the current event.");
+    private static readonly UIMenuItem DwConfig = new("Config", "Configure DW Settings.");
 
-    private static void Run()
+    internal static void Run()
     {
         _running = true;
         StartUi();
@@ -30,46 +36,76 @@ internal static class Manager
         MainMenuPool.Add(MainMenu);
         MainMenuPool.Add(CalloutMenu);
         MainMenuPool.Add(EventMenu);
-        MainMenu.MouseControlsEnabled = false;
-        MainMenu.AllowCameraMovement = true;
-        CalloutMenu.MouseControlsEnabled = false;
-        CalloutMenu.AllowCameraMovement = true;
-        EventMenu.MouseControlsEnabled = false;
-        EventMenu.AllowCameraMovement = true;
-        MainMenu.AddItem(CalloutList);
-        MainMenu.AddItem(EventList);
-        MainMenu.AddItem(PauseEvent);
-        MainMenu.AddItem(EndCallout);
-        MainMenu.AddItem(EndEvent);
+        MainMenu.MaxItemsOnScreen = 20;
+        foreach ( var men in MainMenuPool )
+        {
+            men.SetBannerType(Color.FromArgb(240, 0, 0, 15));
+            men.TitleStyle = MainMenu.TitleStyle with
+            {
+                Color = Color.DarkGoldenrod,
+                Font = TextFont.ChaletComprimeCologne,
+                DropShadow = true,
+                Outline = true
+            };
+            men.MouseControlsEnabled = false;
+            men.AllowCameraMovement = true;
+        }
+        MainMenu.AddItems(
+            Extras.UiSeparator(MainMenu, "Installed Plugins"), 
+            Extras.SuperCallouts(), Extras.SuperEvents(), Extras.DeadlyWeapons(),
+            Extras.UiSeparator(MainMenu, "SuperCallouts"), 
+            CalloutConfig, CalloutList, EndCallout, 
+            Extras.UiSeparator(MainMenu, "SuperEvents"), 
+            EventConfig, EventList, PauseEvent, EndEvent, 
+            Extras.UiSeparator(MainMenu, "DeadlyWeapons"),
+            DwConfig);
         MainMenu.BindMenuToItem(CalloutMenu, CalloutList);
         MainMenu.BindMenuToItem(EventMenu, EventList);
         MainMenu.RefreshIndex();
         CalloutMenu.RefreshIndex();
         EventMenu.RefreshIndex();
         MainMenu.OnItemSelect += MainMenuSelected;
-        CalloutList.Enabled = false;
-        EndCallout.Enabled = false;
-        EventList.Enabled = false;
-        EndEvent.Enabled = false;
-        PauseEvent.Enabled = false;
-        
+        CalloutConfig.Enabled = false;
+        EventConfig.Enabled = false;
+        DwConfig.Enabled = false;
+        if ( !Main.UsingSc )
+        {
+            CalloutConfig.RightLabel = "Not Installed!";
+            CalloutConfig.Skipped = true;
+            CalloutList.Skipped = true;
+            EndCallout.Skipped = true;
+        }
+        if ( !Main.UsingSe )
+        {
+            EventConfig.RightLabel = "Not Installed!";
+            EventConfig.Skipped = true;
+            EventList.Skipped = true;
+            EndEvent.Skipped = true;
+            PauseEvent.Skipped = true;
+        }
+        if ( !Main.UsingDw )
+        {
+            DwConfig.RightLabel = "Not Installed!";
+            DwConfig.Skipped = true;
+        }
+        GameFiber.StartNew(Process);
+    }
+
+    private static void RefreshMenus()
+    {
+        CalloutMenu.Clear();
+        EventMenu.Clear();
         if ( Main.UsingSc )
         {
-            CalloutList.Enabled = true;
-            EndCallout.Enabled = true;
-            foreach (var t in PyroFunctions.RegisteredCallouts.Where(x => x.Name.Contains("[SC] ")))
+            foreach (var t in PyroFunctions.RegisteredScCallouts)
             {
                 var s = new UIMenuItem(t.Name);
-                EventMenu.AddItem(s);
+                CalloutMenu.AddItem(s);
                 s.Activated += (_, _) => Functions.StartCallout(t.Name);
             }
         }
-        
         if ( Main.UsingSe )
         {
-            EventList.Enabled = true;
-            EndEvent.Enabled = true;
-            PauseEvent.Enabled = true;
             foreach (var t in Wrappers.SuperEvents.GetAllEvents())
             {
                 var s = new UIMenuItem($"[{t.Namespace!.Split('.').First()}] {t.Name}");
@@ -77,11 +113,11 @@ internal static class Manager
                 s.Activated += (_,_) => Wrappers.SuperEvents.ForceEvent(t.FullName);
             }
         }
-        GameFiber.StartNew(Process);
     }
 
-    internal static void ToggleMenu()
+    private static void ToggleMenu()
     {
+        RefreshMenus();
         MainMenu.Visible = !MainMenu.Visible;
     }
 
@@ -91,12 +127,27 @@ internal static class Manager
         {
             GameFiber.Yield();
             MainMenuPool.ProcessMenus();
+            if (Game.IsKeyDown(Keys.K)) ToggleMenu();
         }
+    }
+
+    internal static void StopUi()
+    {
+        MainMenuPool.CloseAllMenus();
+        MainMenuPool.Clear();
+        MainMenu.Clear();
+        CalloutMenu.Clear();
+        EventMenu.Clear();
+        _running = false;
     }
     
     private static void MainMenuSelected(UIMenu sender, UIMenuItem selecteditem, int index)
     {
-        if (selecteditem == PauseEvent) Wrappers.SuperEvents.PauseEvents();
+        if ( selecteditem == PauseEvent )
+        {
+            Wrappers.SuperEvents.PauseEvents();
+            PauseEvent.Checked = !Main.EventsPaused;
+        }
         if (selecteditem == EndCallout) Functions.StopCurrentCallout();
         if (selecteditem == EndEvent) Wrappers.SuperEvents.EndEvent();
     }

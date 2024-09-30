@@ -1,7 +1,6 @@
 ﻿using System;
 using DamageTrackerLib.DamageInfo;
 using DeadlyWeapons.PyroFunctions;
-using PyroCommon.Objects;
 using PyroCommon.PyroFunctions;
 using Rage;
 

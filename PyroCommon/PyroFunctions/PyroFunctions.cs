@@ -18,7 +18,7 @@ namespace PyroCommon.PyroFunctions;
 
 public static class PyroFunctions
 {
-    internal static CalloutInfoAttribute[] RegisteredCallouts { get; } = GenerateCalloutNames().ToArray();
+    internal static CalloutInfoAttribute[] RegisteredScCallouts { get; } = GenerateCalloutNames().ToArray();
     
     public static T DeserializeYaml<T>(string path)
     {
@@ -358,12 +358,6 @@ public static class PyroFunctions
     
     private static IEnumerable<CalloutInfoAttribute> GenerateCalloutNames()
     {
-        foreach (Type type in Assembly.GetExecutingAssembly().GetTypes())
-        {
-            foreach (CalloutInfoAttribute calloutInfo in type.GetCustomAttributes<CalloutInfoAttribute>())
-            {
-                yield return calloutInfo;
-            }
-        }
+        return Functions.GetAllUserPlugins().First(assembly => assembly.GetName().Name.Equals("SuperCallouts")).GetTypes().SelectMany(type => type.GetCustomAttributes<CalloutInfoAttribute>());
     }
 }

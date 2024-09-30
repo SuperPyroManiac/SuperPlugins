@@ -2,7 +2,6 @@
 using DamageTrackerLib.DamageInfo;
 using DeadlyWeapons.PyroFunctions;
 using LSPD_First_Response.Mod.API;
-using PyroCommon.Objects;
 using PyroCommon.PyroFunctions;
 using Rage;
 

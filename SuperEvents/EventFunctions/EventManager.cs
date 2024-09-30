@@ -72,7 +72,7 @@ public static class EventManager
                     EventTimer.Start();
                 }
 
-                EventTimer.Paused = PlayerIsBusy || Main.PluginPaused;
+                EventTimer.Paused = PlayerIsBusy || PyroCommon.Main.EventsPaused;
                 if (EventTimer.Finished && CurrentEvent == null) StartRandomEvent();
             }
         }
@@ -127,10 +127,10 @@ public static class EventManager
     
     internal static void PauseEvents()
     {
-        Main.PluginPaused = !Main.PluginPaused;
+        PyroCommon.Main.EventsPaused = !PyroCommon.Main.EventsPaused;
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~r~SuperEvents", "~g~Plugin Status:",
-            "SuperEvents paused: " + Main.PluginPaused);
-        Log.Info("Plugin paused: " + Main.PluginPaused);
+            "SuperEvents paused: " + PyroCommon.Main.EventsPaused);
+        Log.Info("Plugin paused: " + PyroCommon.Main.EventsPaused);
     }
 
     internal static void EndEvent()

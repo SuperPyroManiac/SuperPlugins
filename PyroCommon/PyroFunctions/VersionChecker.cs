@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Net;
 using System.Threading;
 using Rage;
+using Task = System.Threading.Tasks.Task;
 
 namespace PyroCommon.PyroFunctions;
 
 internal static class VersionChecker
 {
-	private static readonly Dictionary<string, string> OutdatedPyroPlugins = new();
+	internal static readonly Dictionary<string, string> OutdatedPyroPlugins = new();
 	
 	private enum State
 	{
@@ -21,8 +22,8 @@ internal static class VersionChecker
 	private static string _receivedData = string.Empty;
 
 	internal static void IsUpdateAvailable(Dictionary<string, string> pluginDict)
-	{
-		try
+    {
+        try
 		{
 			var updateThread = new Thread(() => CheckVersion(pluginDict));
 			updateThread.Start();
@@ -63,7 +64,7 @@ internal static class VersionChecker
 			_state = State.Failed;
 			Log.Info("VersionChecker failed due to rapid reloads!");
 		}
-	}
+    }
 
 	private static void CheckVersion(Dictionary<string, string> plugDict)
 	{

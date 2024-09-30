@@ -21,8 +21,6 @@ public class Main : Plugin
         DependManager.AddDepend("RageNativeUI.dll", "1.9.2.0");
         DependManager.AddDepend("DamageTrackerLib.dll", "1.0.2");
         if ( !DependManager.CheckDepends() ) return;
-        
-        Settings.LoadSettings();
         Functions.OnOnDutyStateChanged += OnOnDutyStateChangedHandler;
         Game.AddConsoleCommands([typeof(ConsoleCommands)]);
     }
@@ -31,6 +29,7 @@ public class Main : Plugin
     {
         if (onDuty)
         {
+            PyroCommon.Main.InitCommon("DeadlyWeapons", Assembly.GetExecutingAssembly().GetName().Version.ToString());
             Running = true;
             Log.Info("DeadlyWeapons by SuperPyroManiac loaded successfully!");
             Log.Info("======================================================");
@@ -42,11 +41,11 @@ public class Main : Plugin
             Log.Info($"Using StopThePed: {PyroCommon.Main.UsingStp}");
             Log.Info("======================================================");
             DamageTrackerService.Start();
+            Settings.LoadSettings();
             if (Settings.PlayerDamage) DamageTrackerService.OnPlayerTookDamage += PlayerShot.OnPlayerDamaged;
             if (Settings.NpcDamage) DamageTrackerService.OnPedTookDamage += PedShot.OnPedDamaged;
             if (Settings.Panic) _panicFiber = GameFiber.StartNew(Panic.StartPanicFiber);
             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~r~DeadlyWeapons", "~g~Plugin Loaded.", "DeadlyWeapons version: " + Assembly.GetExecutingAssembly().GetName().Version + " loaded.");
-            PyroCommon.Main.InitCommon("DeadlyWeapons", Assembly.GetExecutingAssembly().GetName().Version.ToString());
             return;
         }
         PyroCommon.Main.StopCommon();
@@ -56,7 +55,7 @@ public class Main : Plugin
     {
         Running = false;
         DamageTrackerService.Stop();
-        _panicFiber.Abort();
+        _panicFiber?.Abort();
         PyroCommon.Main.StopCommon();
         Log.Info("Plugin unloaded!");
     }

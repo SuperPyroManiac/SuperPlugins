@@ -27,6 +27,7 @@ internal class Main : Plugin
     {
         if (onDuty)
         {
+            PyroCommon.Main.InitCommon("SuperCallouts", Assembly.GetExecutingAssembly().GetName().Version.ToString());
             Log.Info("SuperCallouts by SuperPyroManiac loaded successfully!");
             Log.Info("======================================================");
             Log.Info("Dependencies Found:");
@@ -36,7 +37,6 @@ internal class Main : Plugin
             Log.Info($"Using StopThePed: {PyroCommon.Main.UsingStp}");
             Log.Info("======================================================");
             RegisterCallouts();
-            PyroCommon.Main.InitCommon("SuperCallouts", Assembly.GetExecutingAssembly().GetName().Version.ToString());
             return;
         }
         PyroCommon.Main.StopCommon();
