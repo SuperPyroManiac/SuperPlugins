@@ -100,6 +100,10 @@
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
             <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
         </None>
+        <None Update="Libs\RageNativeUI.dll">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+        </None>
         <EmbeddedResource Include="Libs\YamlDotNet.dll" />
         <EmbeddedResource Include="Libs\RageNativeUI.dll" />
     </ItemGroup>
