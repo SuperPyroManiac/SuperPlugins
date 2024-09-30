@@ -17,6 +17,7 @@ internal class Extras
         {
             menuItem.ForeColor = Color.Red;
             menuItem.LeftBadge = UIMenuItem.BadgeStyle.Alert;
+            menuItem.LeftBadgeInfo.Color = Color.Yellow;
             return menuItem;
         }
         menuItem.ForeColor = Color.Green;
@@ -34,6 +35,7 @@ internal class Extras
         {
             menuItem.ForeColor = Color.Red;
             menuItem.LeftBadge = UIMenuItem.BadgeStyle.Alert;
+            menuItem.LeftBadgeInfo.Color = Color.Yellow;
             return menuItem;
         }
         menuItem.ForeColor = Color.Green;
@@ -51,6 +53,7 @@ internal class Extras
         {
             menuItem.ForeColor = Color.Red;
             menuItem.LeftBadge = UIMenuItem.BadgeStyle.Alert;
+            menuItem.LeftBadgeInfo.Color = Color.Yellow;
             return menuItem;
         }
         menuItem.ForeColor = Color.Green;
@@ -58,13 +61,18 @@ internal class Extras
         return menuItem;
     }
     
-    internal static UIMenuItem UiSeparator(UIMenu menu, string text)
+    internal static string CenterText(UIMenu menu, string text)
     {
         var totalChars = (int)(menu.AdjustedWidth * 255);
         var padding = (totalChars - text.Length) / 2;
         var space = new string(' ', padding);
         var cText = space + text;
-        var sep = new UIMenuItem(cText);
+        return cText;
+    }
+    
+    internal static UIMenuItem UiSeparator(string text)
+    {
+        var sep = new UIMenuItem(text);
         sep.Skipped = true;
         sep.BackColor = Color.FromArgb(220, 0, 0, 15);
         sep.ForeColor = Color.DarkGoldenrod;

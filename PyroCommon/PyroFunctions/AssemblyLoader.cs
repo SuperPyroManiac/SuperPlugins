@@ -31,8 +31,5 @@ public static class AssemblyLoader
         };
     }
 
-    public static void Load()
-    {
-        Log.Info("Starting AssemblyLoader...");
-    }
+    public static void Load(){}
 }

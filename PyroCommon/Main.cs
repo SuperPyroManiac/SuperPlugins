@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using LSPD_First_Response.Mod.API;
 using PyroCommon.PyroFunctions;
 using PyroCommon.PyroFunctions.UIManager;
@@ -13,7 +14,7 @@ public static class Main
     private static bool _init;
     internal static bool EventsPaused { get; set; }
     private static readonly Func<string, bool> IsLoaded = plugName => Functions.GetAllUserPlugins().Any(assembly => assembly.GetName().Name.Equals(plugName));
-    internal static Dictionary<string, string> InstalledPyroPlugins = new();
+    internal static readonly Dictionary<string, string> InstalledPyroPlugins = new();
 
     internal static bool UsingUb { get; } = IsLoaded("UltimateBackup");
     internal static bool UsingStp { get; } = IsLoaded("StopThePed");
@@ -24,23 +25,14 @@ public static class Main
 
     internal static void InitCommon(string plugName, string plugVersion)
     {
-        if (InstalledPyroPlugins.ContainsKey(plugName)) InstalledPyroPlugins.Remove(plugName);
+        if ( InstalledPyroPlugins.ContainsKey(plugName) ) InstalledPyroPlugins.Remove(plugName);
         InstalledPyroPlugins.Add(plugName, plugVersion);
-
         if (_init) return;
         _init = true;
         AssemblyLoader.Load();
         InitParticles();
-        GameFiber.StartNew(Runner);
+        //GameFiber.StartNew(Runner);
         GameFiber.StartNew(DelayStart);
-    }
-
-    internal static void StopCommon()
-    {
-        InstalledPyroPlugins.Clear();
-        _init = false;
-        Manager.StopUi();
-        Log.Info("PyroCommon stopped!");
     }
 
     private static void DelayStart()
@@ -48,7 +40,6 @@ public static class Main
         GameFiber.Sleep(3000);
         VersionChecker.IsUpdateAvailable(InstalledPyroPlugins);
         Manager.Run();
-        Log.Info("PyroCommon Loaded!");
     }
 
     private static void InitParticles()
@@ -68,5 +59,12 @@ public static class Main
         {
             GameFiber.Yield();
         }
+    }
+    
+    internal static void StopCommon()
+    {
+        InstalledPyroPlugins.Clear();
+        _init = false;
+        Manager.StopUi();
     }
 }

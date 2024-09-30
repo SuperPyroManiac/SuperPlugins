@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Net;
 using System.Threading;
 using Rage;
-using Task = System.Threading.Tasks.Task;
 
 namespace PyroCommon.PyroFunctions;
 
@@ -29,8 +28,6 @@ internal static class VersionChecker
 			updateThread.Start();
             GameFiber.SleepWhile(() => updateThread.IsAlive, 0);
             
-
-            Log.Info(_state.ToString());
 			switch (_state)
 			{
 				case State.Failed:
@@ -62,7 +59,7 @@ internal static class VersionChecker
 		catch (Exception)
 		{
 			_state = State.Failed;
-			Log.Info("VersionChecker failed due to rapid reloads!");
+			Log.Info("VersionChecker failed to run!");
 		}
     }
 
@@ -79,6 +76,7 @@ internal static class VersionChecker
                     "DeadlyWeapons" => "27453",
                     _ => string.Empty
                 };
+                Log.Info(id);
                 _receivedData = new WebClient().DownloadString($"https://www.lcpdfr.com/applications/downloadsng/interface/api.php?do=checkForUpdates&fileId={id}&textOnly=1").Trim();
             }
 			catch (WebException)
@@ -86,7 +84,9 @@ internal static class VersionChecker
 				_state = State.Failed;
 			}
 			
-			if (_receivedData == plug.Value) return;
+            Log.Info(_receivedData);
+            Log.Info(plug.Value);
+			if (_receivedData == plug.Value) continue;
 			OutdatedPyroPlugins.Add(plug.Key, _receivedData);
 			_state = State.Update;
 		}

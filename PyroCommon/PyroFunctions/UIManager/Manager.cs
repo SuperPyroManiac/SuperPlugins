@@ -13,7 +13,7 @@ internal static class Manager
 {
     private static bool _running;
     private static readonly MenuPool MainMenuPool = new();
-    private static readonly UIMenu MainMenu = new("Pyro Plugins", "                By SuperPyroManiac");
+    private static readonly UIMenu MainMenu = new("Pyro Plugins", "                 By SuperPyroManiac");
     private static readonly UIMenu CalloutMenu = new("Callouts", "Choose a callout to spawn.");
     private static readonly UIMenu EventMenu = new("Events", "Choose an event to spawn.");
     private static readonly UIMenuItem CalloutConfig = new("Config", "Configure SC Settings.");
@@ -51,13 +51,13 @@ internal static class Manager
             men.AllowCameraMovement = true;
         }
         MainMenu.AddItems(
-            Extras.UiSeparator(MainMenu, "Installed Plugins"), 
+            Extras.UiSeparator(Extras.CenterText(MainMenu, "Installed Plugins")), 
             Extras.SuperCallouts(), Extras.SuperEvents(), Extras.DeadlyWeapons(),
-            Extras.UiSeparator(MainMenu, "SuperCallouts"), 
+            Extras.UiSeparator(Extras.CenterText(MainMenu, "SuperCallouts")), 
             CalloutConfig, CalloutList, EndCallout, 
-            Extras.UiSeparator(MainMenu, "SuperEvents"), 
+            Extras.UiSeparator(Extras.CenterText(MainMenu, "SuperEvents")), 
             EventConfig, EventList, PauseEvent, EndEvent, 
-            Extras.UiSeparator(MainMenu, "DeadlyWeapons"),
+            Extras.UiSeparator(Extras.CenterText(MainMenu, "DeadlyWeapons")),
             DwConfig);
         MainMenu.BindMenuToItem(CalloutMenu, CalloutList);
         MainMenu.BindMenuToItem(EventMenu, EventList);
