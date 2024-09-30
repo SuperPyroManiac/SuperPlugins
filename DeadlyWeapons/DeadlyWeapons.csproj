@@ -37,6 +37,7 @@
     <ItemGroup>
         <Reference Include="DamageTrackerLib, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
           <HintPath>..\packages\DamageTrackerLib.1.0.2\lib\DamageTrackerLib.dll</HintPath>
+          <Private>False</Private>
         </Reference>
         <Reference Include="LSPD First Response, Version=0.4.8433.20359, Culture=neutral, processorArchitecture=MSIL">
           <HintPath>..\packages\PyroSpecial.1.0.1\lib\LSPD First Response.dll</HintPath>
