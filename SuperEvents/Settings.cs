@@ -23,14 +23,10 @@ public static class Settings
     public static int TimeBetweenEvents = 300;
     public static Keys Interact = Keys.Y;
     public static Keys EndEvent = Keys.End;
-    public static Keys EventManager = Keys.K;
-    //public static Keys EventManagerMod = Keys.Control;
 
     internal static void LoadSettings()
     {
-        Log.Info("Loading config.");
-        var path = "Plugins/LSPDFR/SuperEvents.ini";
-        var ini = new InitializationFile(path);
+        var ini = new InitializationFile("Plugins/LSPDFR/SuperEvents.ini");
         ini.Create();
         Fight = ini.ReadBoolean("Events", "Fight", true);
         PulloverShooting = ini.ReadBoolean("Events", "PulloverShooting", true);
@@ -45,8 +41,6 @@ public static class Settings
         TimeBetweenEvents = ini.ReadInt32("Settings", "TimeBetweenEvents", 150);
         Interact = ini.ReadEnum("Keys", "Interact", Keys.Y);
         EndEvent = ini.ReadEnum("Keys", "EndEvent", Keys.End);
-        EventManager = ini.ReadEnum("Keys", "EventManager", Keys.K);
-        //EventManagerMod = ini.ReadEnum("Keys", "EventManagerMod", Keys.Control);
-        Log.Info("Config loaded.");
+        PyroCommon.PyroFunctions.UIManager.Manager.AddManagerKey(ini.ReadEnum("Keys", "PluginManager", Keys.K));
     }
 }

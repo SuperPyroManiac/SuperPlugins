@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using LSPD_First_Response.Mod.API;
+using Rage;
 
 namespace PyroCommon.Wrappers
 {
-    internal class SuperEvents
+    internal static class SuperEvents
     {
         private static readonly Assembly SEvents = Functions.GetAllUserPlugins().First(assembly => assembly.GetName().Name.Equals("SuperEvents"));
         
@@ -29,6 +30,7 @@ namespace PyroCommon.Wrappers
             SEvents.GetType("SuperEvents.EventFunctions.EventManager")
                 ?.GetMethod("ForceEvent", BindingFlags.Static | BindingFlags.NonPublic)
                 ?.Invoke(null, [eventName]);
+            Game.DisplayHelp("Starting Event...");
         }
 
 

@@ -36,9 +36,9 @@ public static class Main
 
     private static void DelayStart()
     {
-        GameFiber.Sleep(3000);
+        GameFiber.Sleep(5000);
         VersionChecker.IsUpdateAvailable(InstalledPyroPlugins);
-        Manager.Run();
+        Manager.StartUi();
     }
 
     private static void InitParticles()

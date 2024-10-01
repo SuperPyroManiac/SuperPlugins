@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Windows.Forms;
 using DeadlyWeapons.Configs;
 using PyroCommon.PyroFunctions;
 using Rage;
@@ -40,6 +41,7 @@ internal static class Settings
         Code3Backup = ini.ReadBoolean("Backup", "Code3Backup", true);
         SwatBackup = ini.ReadBoolean("Backup", "SwatBackup");
         NooseBackup = ini.ReadBoolean("Backup", "NooseBackup");
+        PyroCommon.PyroFunctions.UIManager.Manager.AddManagerKey(ini.ReadEnum("Keys", "PluginManager", Keys.K));
         Debug = ini.ReadBoolean("Debug", "Debug");
         
         // YAML Configs

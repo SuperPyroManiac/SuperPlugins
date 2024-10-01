@@ -96,6 +96,7 @@ internal static class Settings
         //Settings
         Interact = ini.ReadEnum("Keys", "Interact", Keys.Y);
         EndCall = ini.ReadEnum("Keys", "EndCall", Keys.End);
+        PyroCommon.PyroFunctions.UIManager.Manager.AddManagerKey(ini.ReadEnum("Keys", "PluginManager", Keys.K));
         EmergencyNumber = ini.ReadString("Msc", "EmergencyNumber", "911");
         Log.Info("Config loaded.");
     }
