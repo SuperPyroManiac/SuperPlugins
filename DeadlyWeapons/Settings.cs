@@ -1,7 +1,5 @@
 using System.Collections.Generic;
-using System.Windows.Forms;
 using DeadlyWeapons.Configs;
-using PyroCommon.PyroFunctions;
 using Rage;
 using Weapon = DeadlyWeapons.Configs.Weapon;
 

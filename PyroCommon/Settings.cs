@@ -19,4 +19,14 @@ internal static class Settings
         FirstTime = ini.ReadBoolean("Settings", "FirstTime", true);
         Manager = ini.ReadEnum("Keys", "PluginManager", Keys.K);
     }
+    
+    internal static void SaveSettings()
+    {
+        var ini = new InitializationFile("PyroCommon.ini");
+        ini.Create();
+        ini.Write("Settings", "UpdateNotifications", UpdateNotifications);
+        ini.Write("Settings", "ErrorReporting", ErrorReporting);
+        ini.Write("Settings", "FirstTime", FirstTime);
+        ini.Write("Keys", "PluginManager", Manager);
+    }
 }

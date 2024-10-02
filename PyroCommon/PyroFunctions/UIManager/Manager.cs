@@ -1,12 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Linq;
-using System.Windows.Forms;
 using LSPD_First_Response.Mod.API;
 using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
-using YamlDotNet.Core.Tokens;
 
 namespace PyroCommon.PyroFunctions.UIManager;
 
@@ -15,23 +12,32 @@ internal static class Manager
     private static bool _running;
     private static readonly MenuPool MainMenuPool = new();
     private static readonly UIMenu MainMenu = new("Pyro Plugins", "                 By SuperPyroManiac");
+    
+    private static readonly UIMenu FirstMenu = new("Pyro Plugins", "                 By SuperPyroManiac");
+    private static readonly UIMenuCheckboxItem UpdateNotifications = new("~y~Update Notifications", Settings.UpdateNotifications);
+    private static readonly UIMenuCheckboxItem ErrorReporting = new("~y~Error Reporting", Settings.ErrorReporting);
+    private static readonly UIMenuItem SaveButton = new("~r~Save Settings", "Saves PyroCommon.ini");
+    
     private static readonly UIMenu CalloutMenu = new("Callouts", "Choose a callout to spawn.");
-    private static readonly UIMenu EventMenu = new("Events", "Choose an event to spawn.");
-    internal static readonly UIMenu SeMenu = new("SuperEvents", "Choose an option.");
-    internal static readonly UIMenu ScMenu = new("SuperCallouts", "Choose an option.");
     private static readonly UIMenuItem CalloutConfig = new("Config", "Configure SC Settings.");
     private static readonly UIMenuItem CalloutList = new("Force Callout", "Spawn any selected callout.");
     private static readonly UIMenuItem EndCallout = new("~r~End Callout", "Ends the current callout.");
+    
+    private static readonly UIMenu EventMenu = new("Events", "Choose an event to spawn.");
     private static readonly UIMenuItem EventConfig = new("Config", "Configure SE Settings.");
     private static readonly UIMenuItem EventList = new("Force Event", "Spawn any selected event.");
     private static readonly UIMenuCheckboxItem PauseEvent = new("~y~Pause Events", Main.EventsPaused);
     private static readonly UIMenuItem EndEvent = new("~r~End Event", "Ends the current event.");
+    
+    internal static readonly UIMenu SeMenu = new("SuperEvents", "Choose an option.");
+    internal static readonly UIMenu ScMenu = new("SuperCallouts", "Choose an option.");
     private static readonly UIMenuItem DwConfig = new("Config", "Configure DW Settings.");
 
     internal static void StartUi()
     {
         _running = true;
         MainMenuPool.Add(MainMenu);
+        MainMenuPool.Add(FirstMenu);
         MainMenuPool.Add(CalloutMenu);
         MainMenuPool.Add(EventMenu);
         MainMenuPool.Add(SeMenu);
@@ -82,6 +88,28 @@ internal static class Manager
             DwConfig.Skipped = true;
         }
         GameFiber.StartNew(Process);
+        if (Settings.FirstTime) FirstRun();
+    }
+
+    private static void FirstRun()
+    {
+        FirstMenu.AddItems(
+            Extras.UiSeparator(Extras.CenterText(FirstMenu, "Installed Plugins")),
+            Extras.SuperCallouts(), Extras.SuperEvents(), Extras.DeadlyWeapons(),
+            Extras.UiSeparator(Extras.CenterText(FirstMenu, "First Time Setup")),
+            UpdateNotifications, ErrorReporting,
+            Extras.UiSeparator(Extras.CenterText(FirstMenu, "Saves PyroCommon.ini")),
+            SaveButton);
+        FirstMenu.RefreshIndex();
+        FirstMenu.OnItemSelect += FirstMenuSelected;
+        UpdateNotifications.Checked = Settings.UpdateNotifications;
+        UpdateNotifications.Description = "Shows update notifications on startup.";
+        ErrorReporting.Checked = Settings.ErrorReporting;
+        ErrorReporting.Description = "Reports errors automatically to help better my plugins. No personal data is shared!";
+        RefreshMenus();
+        FirstMenu.Visible = true;
+        Settings.FirstTime = false;
+        Settings.SaveSettings();
     }
 
     private static void RefreshMenus()
@@ -161,5 +189,16 @@ internal static class Manager
         }
         if (selecteditem == EndCallout) Functions.StopCurrentCallout();
         if (selecteditem == EndEvent) Wrappers.SuperEvents.EndEvent();
+    }
+    
+    private static void FirstMenuSelected(UIMenu sender, UIMenuItem selecteditem, int index)
+    {
+        if ( selecteditem == UpdateNotifications ) Settings.UpdateNotifications = !UpdateNotifications.Checked;
+        if ( selecteditem == ErrorReporting ) Settings.ErrorReporting = !ErrorReporting.Checked;
+        if (selecteditem == SaveButton)
+        {
+            Settings.SaveSettings();
+            FirstMenu.Visible = false;
+        }
     }
 }

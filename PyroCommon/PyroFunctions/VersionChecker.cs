@@ -86,6 +86,7 @@ internal static class VersionChecker
             Log.Info(_receivedData);
             Log.Info(plug.Value);
 			if (_receivedData == plug.Value) continue;
+            if ( OutdatedPyroPlugins.ContainsKey(plug.Key) ) OutdatedPyroPlugins.Remove(plug.Key);
 			OutdatedPyroPlugins.Add(plug.Key, _receivedData);
 			_state = State.Update;
 		}
