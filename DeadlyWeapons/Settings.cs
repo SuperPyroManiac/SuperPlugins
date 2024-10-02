@@ -27,10 +27,7 @@ internal static class Settings
 
     internal static void LoadSettings()
     {
-        Log.Info("Loading configs...");
-        
         //INI Config
-        Log.Info("DeadlyWeapons.ini");
         var ini = new InitializationFile("Plugins/LSPDFR/DeadlyWeapons.ini");
         ini.Create();
         PlayerDamage = ini.ReadBoolean("Features", "PlayerDamage", true);
@@ -41,21 +38,15 @@ internal static class Settings
         Code3Backup = ini.ReadBoolean("Backup", "Code3Backup", true);
         SwatBackup = ini.ReadBoolean("Backup", "SwatBackup");
         NooseBackup = ini.ReadBoolean("Backup", "NooseBackup");
-        PyroCommon.PyroFunctions.UIManager.Manager.AddManagerKey(ini.ReadEnum("Keys", "PluginManager", Keys.K));
         Debug = ini.ReadBoolean("Debug", "Debug");
         
         // YAML Configs
-        Log.Info("Weapons.yml");
         Weapons = PyroCommon.PyroFunctions.PyroFunctions.DeserializeYaml<List<Weapon>>("Plugins/LSPDFR/DeadlyWeapons/Weapons.yml");
-        Log.Info("WeaponTypes.yml");
         WeaponTypes = PyroCommon.PyroFunctions.PyroFunctions.DeserializeYaml<List<WeaponType>>("Plugins/LSPDFR/DeadlyWeapons/WeaponTypes.yml");
-        Log.Info("Damage.yml");
         var damageConfig = PyroCommon.PyroFunctions.PyroFunctions.DeserializeYaml<DamageConfigurations>("Plugins/LSPDFR/DeadlyWeapons/Damage.yml");
         PlayerArmorValues = damageConfig.PlayerDamage.WithArmor;
         NpcArmorValues = damageConfig.NpcDamage.WithArmor;
         PlayerValues = damageConfig.PlayerDamage.WithoutArmor;
         NpcValues = damageConfig.NpcDamage.WithoutArmor;
-
-        Log.Info("Configs loaded.");
     }
 }

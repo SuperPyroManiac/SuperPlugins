@@ -51,9 +51,7 @@ internal static class Settings
 
     internal static void LoadSettings()
     {
-        Log.Info("Loading config.");
-        var path = "Plugins/LSPDFR/SuperCallouts.ini";
-        var ini = new InitializationFile(path);
+        var ini = new InitializationFile("Plugins/LSPDFR/SuperCallouts.ini");
         ini.Create();
         //Reg
         CarAccident = ini.ReadBoolean("Settings", "CarAccident", true);
@@ -96,8 +94,6 @@ internal static class Settings
         //Settings
         Interact = ini.ReadEnum("Keys", "Interact", Keys.Y);
         EndCall = ini.ReadEnum("Keys", "EndCall", Keys.End);
-        PyroCommon.PyroFunctions.UIManager.Manager.AddManagerKey(ini.ReadEnum("Keys", "PluginManager", Keys.K));
         EmergencyNumber = ini.ReadString("Msc", "EmergencyNumber", "911");
-        Log.Info("Config loaded.");
     }
 }

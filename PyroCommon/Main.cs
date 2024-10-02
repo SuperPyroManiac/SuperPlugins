@@ -24,8 +24,8 @@ public static class Main
 
     internal static void InitCommon(string plugName, string plugVersion)
     {
-        if ( InstalledPyroPlugins.ContainsKey(plugName) ) InstalledPyroPlugins.Remove(plugName);
-        InstalledPyroPlugins.Add(plugName, plugVersion);
+         if ( InstalledPyroPlugins.ContainsKey(plugName) ) InstalledPyroPlugins.Remove(plugName);
+         InstalledPyroPlugins.Add(plugName, plugVersion);
         if (_init) return;
         _init = true;
         AssemblyLoader.Load();

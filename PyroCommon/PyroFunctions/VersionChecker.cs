@@ -45,9 +45,8 @@ internal static class VersionChecker
 							ingameNotice += $"~w~{plug.Key}: ~r~{pluginDict[plug.Key]} <br>~w~New Version: ~g~{plug.Value}<br>";
 							logNotice += $"\r\n{plug.Key}: Current Version: {pluginDict[plug.Key]} New Version: {plug.Value}";
 						}
-						
-						Game.DisplayNotification("commonmenu", "mp_alerttriangle",
-							"~r~SuperPlugins Warning", "~y~New updates available!", ingameNotice);
+						if (Settings.UpdateNotifications) Game.DisplayNotification("commonmenu", "mp_alerttriangle", 
+                            "~r~SuperPlugins Warning", "~y~New updates available!", ingameNotice);
 						Log.Warning(logNotice);
 						break;
 					

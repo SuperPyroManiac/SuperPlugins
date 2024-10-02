@@ -83,6 +83,7 @@
         <Compile Include="PyroFunctions\UIManager\Manager.cs" />
         <Compile Include="PyroFunctions\UIManager\SuperEvents.cs" />
         <Compile Include="PyroFunctions\VersionChecker.cs" />
+        <Compile Include="Settings.cs" />
         <Compile Include="Wrappers\PedInfo.cs" />
         <Compile Include="Wrappers\SearchItems.cs" />
         <Compile Include="Wrappers\Backup.cs" />
@@ -94,6 +95,9 @@
     <ItemGroup>
       <Content Include="Libs\RAGENativeUI.dll" />
       <Content Include="Libs\YamlDotNet.dll" />
+      <Content Include="PyroCommon.ini">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
     </ItemGroup>
     <ItemGroup>
         <None Update="Libs\YamlDotNet.dll">

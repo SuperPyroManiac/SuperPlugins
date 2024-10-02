@@ -41,6 +41,5 @@ public static class Settings
         TimeBetweenEvents = ini.ReadInt32("Settings", "TimeBetweenEvents", 150);
         Interact = ini.ReadEnum("Keys", "Interact", Keys.Y);
         EndEvent = ini.ReadEnum("Keys", "EndEvent", Keys.End);
-        PyroCommon.PyroFunctions.UIManager.Manager.AddManagerKey(ini.ReadEnum("Keys", "PluginManager", Keys.K));
     }
 }

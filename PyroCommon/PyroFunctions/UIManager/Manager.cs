@@ -12,7 +12,6 @@ namespace PyroCommon.PyroFunctions.UIManager;
 
 internal static class Manager
 {
-    internal static readonly List<Keys> ManagerKeys = [];
     private static bool _running;
     private static readonly MenuPool MainMenuPool = new();
     private static readonly UIMenu MainMenu = new("Pyro Plugins", "                 By SuperPyroManiac");
@@ -127,7 +126,7 @@ internal static class Manager
         }
     }
 
-    private static void ToggleManagerMenu()
+    internal static void ToggleManagerMenu()
     {
         RefreshMenus();
         MainMenu.Visible = !MainMenu.Visible;
@@ -139,18 +138,12 @@ internal static class Manager
         {
             GameFiber.Yield();
             MainMenuPool.ProcessMenus();
-            if (ManagerKeys.Any(Game.IsKeyDown)) ToggleManagerMenu();
+            if (Game.IsKeyDown(Settings.Manager)) ToggleManagerMenu();
         }
-    }
-
-    internal static void AddManagerKey(Keys key)
-    {
-        if (!ManagerKeys.Contains(key)) ManagerKeys.Add(key);
     }
 
     internal static void StopUi()
     {
-        ManagerKeys.Clear();
         MainMenuPool.CloseAllMenus();
         MainMenuPool.Clear();
         MainMenu.Clear();
