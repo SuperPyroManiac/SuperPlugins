@@ -24,6 +24,7 @@ public static class Main
 
     internal static void InitCommon(string plugName, string plugVersion)
     {
+        Settings.LoadSettings();
          if ( InstalledPyroPlugins.ContainsKey(plugName) ) InstalledPyroPlugins.Remove(plugName);
          InstalledPyroPlugins.Add(plugName, plugVersion);
         if (_init) return;
