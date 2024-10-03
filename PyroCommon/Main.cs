@@ -37,7 +37,7 @@ public static class Main
 
     private static void DelayStart()
     {
-        GameFiber.Sleep(5000);
+        GameFiber.Sleep(7000);
         VersionChecker.IsUpdateAvailable(InstalledPyroPlugins);
         Manager.StartUi();
     }

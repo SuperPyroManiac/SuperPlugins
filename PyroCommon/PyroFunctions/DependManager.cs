@@ -36,7 +36,7 @@ internal static class DependManager
 
         if (missingDepend.Length > 0)
         {
-            Log.Error($"These dependencies are not installed correctly!\r\n{missingDepend.Replace("~n~", "\r\n")}{plugName} could not load!");
+            Log.Error($"These dependencies are not installed correctly!\r\n{missingDepend.Replace("~n~", "\r\n")}{plugName} could not load!", false);
             Game.DisplayNotification("new_editor", "warningtriangle", $"~r~{plugName}", "~y~Not Loaded!", "Plugin is installed incorrectly! Please see the RagePluginHook.log! Visit https://dsc.PyrosFun.com for help!");
             return false;
         }
@@ -49,7 +49,7 @@ internal static class DependManager
 
         if (outdatedDepend.Length > 0)
         {
-            Log.Error($"These dependencies are outdated!\r\n{outdatedDepend.Replace("~n~", "\r\n")}{plugName} could not load!");
+            Log.Error($"These dependencies are outdated!\r\n{outdatedDepend.Replace("~n~", "\r\n")}{plugName} could not load!", false);
             Game.DisplayNotification("new_editor", "warningtriangle", $"~r~{plugName}", "~y~Not Loaded!", "Plugin is installed incorrectly! Please see the RagePluginHook.log! Visit https://dsc.PyrosFun.com for help!");
             return false;
         }

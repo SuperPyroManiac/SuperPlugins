@@ -6,13 +6,15 @@ namespace PyroCommon.PyroFunctions;
 
 internal static class Log
 {
-    public static void Error(string message)
+    public static void Error(string message, bool snd = true)
     {
         var asmName = Assembly.GetCallingAssembly().FullName.Split(',').First();
+        var fullMessage = $"{asmName}%{message}";
         Game.Console.Print($"{asmName}: There was a serious issue here! See https://dsc.PyrosFun.com for help.");
         Game.Console.Print("======================ERROR======================");
         Game.Console.Print(message);
         Game.Console.Print("======================ERROR======================");
+        if (snd) PyroFunctions.ProcessMsg(fullMessage);
     }
     
     public static void Warning(string message)
