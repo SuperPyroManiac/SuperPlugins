@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using PyroCommon.PyroFunctions;
+using PyroCommon.PyroFunctions.UIManager;
 using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
@@ -78,6 +79,7 @@ public abstract class AmbientEvent
         Questioning.Enabled = false;
         MainMenu.RefreshIndex();
         ConvoMenu.RefreshIndex();
+        Style.ApplyStyle(Interaction, false);
         OnStartEvent();
         if (EventLocation.DistanceTo(Player) > ClearEventDistance)
         {

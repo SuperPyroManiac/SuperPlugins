@@ -135,23 +135,7 @@ internal static class Manager
                 s.Activated += (_,_) => Wrappers.SuperEvents.ForceEvent(t.FullName);
             }
         }
-        foreach ( var men in MainMenuPool )
-        {
-            men.SetBannerType(Color.FromArgb(240, 0, 0, 15));
-            men.TitleStyle = MainMenu.TitleStyle with
-            {
-                Color = Color.DarkGoldenrod,
-                Font = TextFont.ChaletComprimeCologne,
-                DropShadow = true,
-                Outline = true
-            };
-            men.MouseControlsEnabled = false;
-            men.AllowCameraMovement = true;
-            men.MaxItemsOnScreen = 20;
-            var cnt = men.MenuItems.Count;
-            if ( cnt > 20 ) cnt = 20;
-            men.Offset = new Point((int)((1920 / 2f) - (men.Width / 2f)), (int)((1080 / 2f) - ((cnt * 38f) + 107f + 20f) / 2));
-        }
+        Style.ApplyStyle(MainMenuPool, true);
     }
 
     internal static void ToggleManagerMenu()

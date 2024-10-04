@@ -81,7 +81,7 @@
         <Compile Include="PyroFunctions\PyroFunctions.cs" />
         <Compile Include="PyroFunctions\UIManager\Extras.cs" />
         <Compile Include="PyroFunctions\UIManager\Manager.cs" />
-        <Compile Include="PyroFunctions\UIManager\SuperEvents.cs" />
+        <Compile Include="PyroFunctions\UIManager\Style.cs" />
         <Compile Include="PyroFunctions\VersionChecker.cs" />
         <Compile Include="Settings.cs" />
         <Compile Include="Wrappers\PedInfo.cs" />
