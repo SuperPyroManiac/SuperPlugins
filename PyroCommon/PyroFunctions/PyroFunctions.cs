@@ -7,6 +7,7 @@ using System.Net.Sockets;
 using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
+using System.Windows.Forms;
 using LSPD_First_Response.Mod.API;
 using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.Objects;
@@ -358,6 +359,24 @@ public static class PyroFunctions
             var match = matches[new Random(DateTime.Now.Millisecond).Next(matches.Count)];
             spawnPoint = match.Position;
             spawnPointH = match.Heading;
+        }
+    }
+    
+    public static Keys ConvertStringToClosestKey(string input, Keys defaultKey)
+    {
+        try
+        {
+            if (Enum.TryParse<Keys>(input, true, out var key)) return key;
+            var allKeys = Enum.GetNames(typeof(Keys));
+            var closestMatch = allKeys.FirstOrDefault(k => k.StartsWith(input, StringComparison.OrdinalIgnoreCase));
+            if (closestMatch != null && Enum.TryParse<Keys>(closestMatch, out var matchedKey)) return matchedKey;
+            Game.DisplayHelp("Invalid key. Please try again.");
+            return defaultKey;
+        }
+        catch (Exception e)
+        {
+            Log.Error(e.ToString());
+            return defaultKey;
         }
     }
     

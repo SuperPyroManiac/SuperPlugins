@@ -5,17 +5,17 @@ namespace PyroCommon.Wrappers;
 
 internal static class DwSettings
 {
-    private static bool _playerDamage;
-    private static bool _npcDamage;
-    private static float _damageRandomizer;
-    private static bool _panic;
-    private static int _panicCooldown;
-    private static bool _code3Backup;
-    private static bool _swatBackup;
-    private static bool _nooseBackup;
-    private static bool _debug;
+    internal static bool _playerDamage;
+    internal static bool _npcDamage;
+    internal static float _damageRandomizer;
+    internal static bool _panic;
+    internal static int _panicCooldown;
+    internal static bool _code3Backup;
+    internal static bool _swatBackup;
+    internal static bool _nooseBackup;
+    internal static bool _debug;
 
-    private static readonly Type SettingsType = Assembly.Load("DeadlyWeapons").GetType("DeadlyWeapons.Settings");
+    internal static readonly Type SettingsType = Assembly.Load("DeadlyWeapons").GetType("DeadlyWeapons.Settings");
 
     internal static void GetSettings()
     {

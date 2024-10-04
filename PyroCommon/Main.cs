@@ -4,6 +4,7 @@ using System.Linq;
 using LSPD_First_Response.Mod.API;
 using PyroCommon.PyroFunctions;
 using PyroCommon.PyroFunctions.UIManager;
+using PyroCommon.Wrappers;
 using Rage;
 
 namespace PyroCommon;
@@ -39,6 +40,9 @@ public static class Main
     {
         GameFiber.Sleep(7000);
         VersionChecker.IsUpdateAvailable(InstalledPyroPlugins);
+        if ( UsingSc ) ScSettings.GetSettings();
+        if ( UsingSe ) SeSettings.GetSettings();
+        if ( UsingDw ) DwSettings.GetSettings();
         Manager.StartUi();
     }
 

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
 
@@ -7,21 +6,21 @@ namespace PyroCommon.Wrappers;
 
 internal static class SeSettings
 {
-    private static bool _fight;
-    private static bool _carFire;
-    private static bool _carAccident;
-    private static bool _pulloverShooting;
-    private static bool _recklessDriver;
-    private static bool _abandonedCar;
-    private static bool _openCarry;
-    private static bool _wildAnimal;
-    private static bool _showBlips;
-    private static bool _showHints;
-    private static int _timeBetweenEvents;
-    private static Keys _interact;
-    private static Keys _endEvent;
+    internal static bool _fight;
+    internal static bool _carFire;
+    internal static bool _carAccident;
+    internal static bool _pulloverShooting;
+    internal static bool _recklessDriver;
+    internal static bool _abandonedCar;
+    internal static bool _openCarry;
+    internal static bool _wildAnimal;
+    internal static bool _showBlips;
+    internal static bool _showHints;
+    internal static int _timeBetweenEvents;
+    internal static Keys _interact;
+    internal static Keys _endEvent;
 
-    private static readonly Type SettingsType = Assembly.Load("SuperEvents").GetType("SuperEvents.Settings");
+    internal static readonly Type SettingsType = Assembly.Load("SuperEvents").GetType("SuperEvents.Settings");
 
     internal static void GetSettings()
     {

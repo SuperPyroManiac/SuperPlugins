@@ -71,6 +71,6 @@ internal class StolenCopVehicle : SuperCallout
     {
         if ( _cBlip.Exists() ) _cBlip.Delete();
         PyroFunctions.StartPursuit(false, true, _suspect);
-        PyroCommon.PyroFunctions.Backup.Request(Enums.BackupType.Pursuit);
+        Backup.Request(Enums.BackupType.Pursuit);
     }
 }
