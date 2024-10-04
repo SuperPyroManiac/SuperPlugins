@@ -1,9 +1,5 @@
-#region
-
 using System.Windows.Forms;
 using Rage;
-
-#endregion
 
 namespace SuperEvents;
 
@@ -41,4 +37,24 @@ public static class Settings
         Interact = ini.ReadEnum("Keys", "Interact", Keys.Y);
         EndEvent = ini.ReadEnum("Keys", "EndEvent", Keys.End);
     }
+    
+    internal static void SaveSettings()
+    {
+        var ini = new InitializationFile("Plugins/LSPDFR/SuperEvents.ini");
+        ini.Create();
+        ini.Write("Events", "Fight", Fight);
+        ini.Write("Events", "PulloverShooting", PulloverShooting);
+        ini.Write("Events", "CarFire", CarFire);
+        ini.Write("Events", "CarAccident", CarAccident);
+        ini.Write("Events", "RecklessDriver", RecklessDriver);
+        ini.Write("Events", "AbandonedCar", AbandonedCar);
+        ini.Write("Events", "OpenCarry", OpenCarry);
+        ini.Write("Events", "WildAnimal", WildAnimal);
+        ini.Write("Settings", "ShowBlips", ShowBlips);
+        ini.Write("Settings", "ShowHints", ShowHints);
+        ini.Write("Settings", "TimeBetweenEvents", TimeBetweenEvents);
+        ini.Write("Keys", "Interact", Interact);
+        ini.Write("Keys", "EndEvent", EndEvent);
+    }
+
 }

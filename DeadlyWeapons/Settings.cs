@@ -47,4 +47,19 @@ internal static class Settings
         PlayerValues = damageConfig.PlayerDamage.WithoutArmor;
         NpcValues = damageConfig.NpcDamage.WithoutArmor;
     }
+    
+    internal static void SaveSettings()
+    {
+        var ini = new InitializationFile("Plugins/LSPDFR/DeadlyWeapons.ini");
+        ini.Create();
+        ini.Write("Features", "PlayerDamage", PlayerDamage);
+        ini.Write("Features", "NPCDamage", NpcDamage);
+        ini.Write("Features", "DamageRandomizer", DamageRandomizer);
+        ini.Write("Features", "Panic", Panic);
+        ini.Write("Features", "PanicCooldown", PanicCooldown);
+        ini.Write("Backup", "Code3Backup", Code3Backup);
+        ini.Write("Backup", "SwatBackup", SwatBackup);
+        ini.Write("Backup", "NooseBackup", NooseBackup);
+        ini.Write("Debug", "Debug", Debug);
+    }
 }

@@ -5,7 +5,6 @@ namespace SuperCallouts;
 
 internal static class Settings
 {
-    //Reg
     internal static bool Animals = true;
     internal static bool Robbery = true;
     internal static bool CarAccident = true;
@@ -35,7 +34,6 @@ internal static class Settings
     internal static bool InjuredCop = true;
     internal static bool IndecentExposure = true;
     internal static bool Fight = true;
-    //Swat
     internal static bool PrisonBreak = true;
     internal static bool Mafia1 = true;
     internal static bool Mafia2 = true;
@@ -43,7 +41,6 @@ internal static class Settings
     internal static bool Mafia4 = true;
     internal static bool LostMc = true;
     internal static bool Lsgtf = true;
-    //Settings
     internal static Keys Interact = Keys.Y;
     internal static Keys EndCall = Keys.End;
     internal static string EmergencyNumber = "911";
@@ -52,7 +49,6 @@ internal static class Settings
     {
         var ini = new InitializationFile("Plugins/LSPDFR/SuperCallouts.ini");
         ini.Create();
-        //Reg
         CarAccident = ini.ReadBoolean("Settings", "CarAccident", true);
         HotPursuit = ini.ReadBoolean("Settings", "HighSpeedPursuit", true);
         Robbery = ini.ReadBoolean("Settings", "Robbery", true);
@@ -82,7 +78,6 @@ internal static class Settings
         InjuredCop = ini.ReadBoolean("Settings", "InjuredCop", true);
         IndecentExposure = ini.ReadBoolean("Settings", "IndecentExposure", true);
         Fight = ini.ReadBoolean("Settings", "Fight", true);
-        //Swat
         PrisonBreak = ini.ReadBoolean("Settings", "PrisonBreak", true);
         Mafia1 = ini.ReadBoolean("Settings", "Mafia1", true);
         Mafia2 = ini.ReadBoolean("Settings", "Mafia2", true);
@@ -90,9 +85,53 @@ internal static class Settings
         Mafia4 = ini.ReadBoolean("Settings", "Mafia4", true);
         LostMc = ini.ReadBoolean("Settings", "LostMC", true);
         Lsgtf = ini.ReadBoolean("Settings", "LSGTF", true);
-        //Settings
         Interact = ini.ReadEnum("Keys", "Interact", Keys.Y);
         EndCall = ini.ReadEnum("Keys", "EndCall", Keys.End);
         EmergencyNumber = ini.ReadString("Msc", "EmergencyNumber", "911");
+    }
+    
+    internal static void SaveSettings()
+    {
+        var ini = new InitializationFile("Plugins/LSPDFR/SuperCallouts.ini");
+        ini.Create();
+        ini.Write("Settings", "CarAccident", CarAccident);
+        ini.Write("Settings", "HighSpeedPursuit", HotPursuit);
+        ini.Write("Settings", "Robbery", Robbery);
+        ini.Write("Settings", "AttackingAnimal", Animals);
+        ini.Write("Settings", "Kidnapping", Kidnapping);
+        ini.Write("Settings", "TruckCrash", TruckCrash);
+        ini.Write("Settings", "PrisonTransport", PrisonTransport);
+        ini.Write("Settings", "HitAndRun", HitRun);
+        ini.Write("Settings", "StolenCopVehicle", StolenCopVehicle);
+        ini.Write("Settings", "StolenDumptruck", StolenDumptruck);
+        ini.Write("Settings", "AmbulanceEscort", AmbulanceEscort);
+        ini.Write("Settings", "Aliens", Aliens);
+        ini.Write("Settings", "OpenCarry", OpenCarry);
+        ini.Write("Settings", "Fire", Fire);
+        ini.Write("Settings", "OfficerShootout", OfficerShootout);
+        ini.Write("Settings", "SuspiciousCar", WeirdCar);
+        ini.Write("Settings", "Manhunt", Manhunt);
+        ini.Write("Settings", "Impersonator", Impersonator);
+        ini.Write("Settings", "ToiletPaperBandit", ToiletPaperBandit);
+        ini.Write("Settings", "BlockingTraffic", BlockingTraffic);
+        ini.Write("Settings", "IllegalParking", IllegalParking);
+        ini.Write("Settings", "KnifeAttack", KnifeAttack);
+        ini.Write("Settings", "DeadBody", DeadBody);
+        ini.Write("Settings", "FakeCall", FakeCall);
+        ini.Write("Settings", "Trespassing", Trespassing);
+        ini.Write("Settings", "Vandalizing", Vandalizing);
+        ini.Write("Settings", "InjuredCop", InjuredCop);
+        ini.Write("Settings", "IndecentExposure", IndecentExposure);
+        ini.Write("Settings", "Fight", Fight);
+        ini.Write("Settings", "PrisonBreak", PrisonBreak);
+        ini.Write("Settings", "Mafia1", Mafia1);
+        ini.Write("Settings", "Mafia2", Mafia2);
+        ini.Write("Settings", "Mafia3", Mafia3);
+        ini.Write("Settings", "Mafia4", Mafia4);
+        ini.Write("Settings", "LostMC", LostMc);
+        ini.Write("Settings", "LSGTF", Lsgtf);
+        ini.Write("Keys", "Interact", Interact);
+        ini.Write("Keys", "EndCall", EndCall);
+        ini.Write("Msc", "EmergencyNumber", EmergencyNumber);
     }
 }

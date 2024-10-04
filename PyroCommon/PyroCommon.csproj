@@ -84,9 +84,12 @@
         <Compile Include="PyroFunctions\UIManager\Style.cs" />
         <Compile Include="PyroFunctions\VersionChecker.cs" />
         <Compile Include="Settings.cs" />
+        <Compile Include="Wrappers\DwSettings.cs" />
         <Compile Include="Wrappers\PedInfo.cs" />
+        <Compile Include="Wrappers\ScSettings.cs" />
         <Compile Include="Wrappers\SearchItems.cs" />
         <Compile Include="Wrappers\Backup.cs" />
+        <Compile Include="Wrappers\SeSettings.cs" />
         <Compile Include="Wrappers\SuperEvents.cs" />
     </ItemGroup>
     <ItemGroup>
