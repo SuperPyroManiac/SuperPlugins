@@ -102,7 +102,7 @@ public abstract class AmbientEvent
     
     protected abstract void OnStartEvent();
 
-    protected virtual void OnScene() { }
+    protected virtual void OnScene() {}
 
     private void Process()
     {

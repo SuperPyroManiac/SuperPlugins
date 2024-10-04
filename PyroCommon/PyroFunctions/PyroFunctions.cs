@@ -10,6 +10,7 @@ using System.Text;
 using LSPD_First_Response.Mod.API;
 using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.Objects;
+using PyroCommon.PyroFunctions.UIManager;
 using PyroCommon.Wrappers;
 using Rage;
 using Rage.Native;
@@ -317,6 +318,7 @@ public static class PyroFunctions
         convoMenu.MouseControlsEnabled = false;
         mainMenu.RefreshIndex();
         convoMenu.RefreshIndex();
+        Style.ApplyStyle(interaction, false);
     }
 
     [Obsolete("Method is deprecated, please use SetDrunk instead.")]

@@ -1,7 +1,9 @@
 ﻿using System.Drawing;
+using System.Windows.Forms;
 using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.Objects;
 using PyroCommon.PyroFunctions;
+using PyroCommon.PyroFunctions.UIManager;
 using Rage;
 using Rage.Native;
 using RAGENativeUI;
@@ -104,6 +106,7 @@ internal class Lsgtf : Callout
         _conversation.Add(_mainMenu);
         _mainMenu.AddItem(_startConv = new UIMenuItem("What's the plan?"));
         _mainMenu.RefreshIndex();
+        Style.ApplyStyle(_conversation, false);
         _mainMenu.OnItemSelect += LetsChatBois;
 
         return base.OnCalloutAccepted();

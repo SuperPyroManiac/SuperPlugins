@@ -4,6 +4,7 @@ using System.Linq;
 using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.Objects;
 using PyroCommon.PyroFunctions;
+using PyroCommon.PyroFunctions.UIManager;
 using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
@@ -68,6 +69,7 @@ internal abstract class SuperCallout : Callout
         }
         MainMenu.RefreshIndex();
         ConvoMenu.RefreshIndex();
+        Style.ApplyStyle(Interaction, false);
         MainMenu.OnItemSelect += Interactions;
         ConvoMenu.OnItemSelect += Conversations;
         return base.OnCalloutAccepted();
