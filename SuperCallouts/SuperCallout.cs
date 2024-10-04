@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using LSPD_First_Response.Mod.Callouts;
-using PyroCommon.Objects;
 using PyroCommon.PyroFunctions;
 using PyroCommon.PyroFunctions.UIManager;
 using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
+using Location = PyroCommon.API.Location;
 
 namespace SuperCallouts;
 

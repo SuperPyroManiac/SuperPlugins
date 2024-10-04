@@ -6,6 +6,7 @@ using PyroCommon.PyroFunctions;
 using Rage;
 using Rage.Native;
 using Functions = LSPD_First_Response.Mod.API.Functions;
+using Location = PyroCommon.API.Location;
 
 namespace SuperCallouts.RemasteredCallouts;
 

@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using PyroCommon.Objects;
+using Location = PyroCommon.API.Location;
 
 namespace PyroCommon.PyroFunctions;
 

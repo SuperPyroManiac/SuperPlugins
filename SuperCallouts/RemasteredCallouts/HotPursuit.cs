@@ -8,6 +8,7 @@ using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using Functions = LSPD_First_Response.Mod.API.Functions;
+using Location = PyroCommon.API.Location;
 
 namespace SuperCallouts.RemasteredCallouts;
 

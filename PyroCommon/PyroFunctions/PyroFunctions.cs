@@ -18,6 +18,7 @@ using Rage.Native;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using YamlDotNet.Serialization;
+using Location = PyroCommon.API.Location;
 
 namespace PyroCommon.PyroFunctions;
 
