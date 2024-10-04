@@ -7,6 +7,7 @@ using Rage;
 using SuperCallouts.Callouts;
 using SuperCallouts.RemasteredCallouts;
 using SuperCallouts.SimpleFunctions;
+using DependManager = PyroCommon.API.DependManager;
 
 namespace SuperCallouts;
 

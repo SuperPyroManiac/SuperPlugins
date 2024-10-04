@@ -7,6 +7,8 @@ using PyroCommon.PyroFunctions;
 using Rage;
 using SuperEvents.EventFunctions;
 using SuperEvents.Events;
+using DependManager = PyroCommon.API.DependManager;
+
 // ReSharper disable ClassNeverInstantiated.Global
 
 namespace SuperEvents;
