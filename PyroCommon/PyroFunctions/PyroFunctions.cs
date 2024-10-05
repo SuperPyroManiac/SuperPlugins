@@ -11,7 +11,7 @@ using System.Windows.Forms;
 using LSPD_First_Response.Mod.API;
 using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.Objects;
-using PyroCommon.PyroFunctions.UIManager;
+using PyroCommon.UIManager;
 using PyroCommon.Wrappers;
 using Rage;
 using Rage.Native;

@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using PyroCommon.PyroFunctions;
-using PyroCommon.PyroFunctions.UIManager;
+using PyroCommon.UIManager;
 using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
@@ -57,7 +57,6 @@ public abstract class AmbientEvent
         catch (Exception e)
         {
             Log.Error(e.ToString());
-            // ReSharper disable once VirtualMemberCallInConstructor
             HasEnded = true;
             EndEvent(true);
         }

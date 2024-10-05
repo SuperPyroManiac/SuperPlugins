@@ -3,7 +3,7 @@ using System.Reflection;
 using LSPD_First_Response.Engine.Scripting.Entities;
 using LSPD_First_Response.Mod.API;
 using PyroCommon.Objects;
-using PyroCommon.PyroFunctions.UIManager;
+using PyroCommon.UIManager;
 using Rage;
 using Rage.Native;
 using RAGENativeUI.Elements;
@@ -196,7 +196,6 @@ public static class EntityExtensions
         item.Activated += (m, s) =>
         {
             Manager.MainMenuPool.Draw();
-
             NativeFunction.Natives.DISPLAY_ONSCREEN_KEYBOARD(6, "", "", strGetter(), "", "", "", maxLength);
             int state;
             while ((state = NativeFunction.Natives.UPDATE_ONSCREEN_KEYBOARD<int>()) == 0)

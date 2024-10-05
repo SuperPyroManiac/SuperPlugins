@@ -2,7 +2,7 @@
 using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.Objects;
 using PyroCommon.PyroFunctions;
-using PyroCommon.PyroFunctions.UIManager;
+using PyroCommon.UIManager;
 using Rage;
 using Rage.Native;
 using RAGENativeUI;

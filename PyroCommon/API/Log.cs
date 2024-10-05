@@ -2,20 +2,17 @@
 using System.Reflection;
 using Rage;
 
-namespace PyroCommon.PyroFunctions;
+namespace PyroCommon.API;
 
 internal static class Log
 {
-    public static void Error(string message, bool snd = true)
+    public static void Error(string message)
     {
         var asmName = Assembly.GetCallingAssembly().FullName.Split(',').First();
-        if (VersionChecker.OutdatedPyroPlugins.ContainsKey(asmName)) snd = false;
-        var fullMessage = $"{asmName}%{message}";
         Game.Console.Print($"{asmName}: There was a serious issue here! See https://dsc.PyrosFun.com for help.");
         Game.Console.Print("======================ERROR======================");
         Game.Console.Print(message);
         Game.Console.Print("======================ERROR======================");
-        if (snd) PyroFunctions.ProcessMsg(fullMessage);
     }
     
     public static void Warning(string message)

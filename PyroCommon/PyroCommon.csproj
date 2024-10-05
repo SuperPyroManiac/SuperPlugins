@@ -68,6 +68,7 @@
     <ItemGroup>
         <Compile Include="API\DependManager.cs" />
         <Compile Include="API\Location.cs" />
+        <Compile Include="API\Log.cs" />
         <Compile Include="Main.cs" />
         <Compile Include="Objects\Dependency.cs" />
         <Compile Include="Objects\Enums.cs" />
@@ -81,11 +82,11 @@
         <Compile Include="PyroFunctions\Log.cs" />
         <Compile Include="PyroFunctions\Particles.cs" />
         <Compile Include="PyroFunctions\PyroFunctions.cs" />
-        <Compile Include="PyroFunctions\UIManager\Extras.cs" />
-        <Compile Include="PyroFunctions\UIManager\Manager.cs" />
-        <Compile Include="PyroFunctions\UIManager\Style.cs" />
         <Compile Include="PyroFunctions\VersionChecker.cs" />
         <Compile Include="Settings.cs" />
+        <Compile Include="UIManager\Extras.cs" />
+        <Compile Include="UIManager\Manager.cs" />
+        <Compile Include="UIManager\Style.cs" />
         <Compile Include="Wrappers\DwSettings.cs" />
         <Compile Include="Wrappers\PedInfo.cs" />
         <Compile Include="Wrappers\ScSettings.cs" />

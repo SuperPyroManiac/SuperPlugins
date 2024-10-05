@@ -1,11 +1,12 @@
 ﻿using System.Linq;
 using LSPD_First_Response.Mod.API;
+using PyroCommon.PyroFunctions;
 using PyroCommon.Wrappers;
 using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 
-namespace PyroCommon.PyroFunctions.UIManager;
+namespace PyroCommon.UIManager;
 
 internal static class Manager
 {
@@ -141,7 +142,7 @@ internal static class Manager
         UpdateNotifications.Description = "Shows update notifications on startup.";
         ErrorReporting.Checked = Settings.ErrorReporting;
         ErrorReporting.Description = "Reports errors automatically to help better my plugins. No personal data is shared!";
-        ManagerKey.WithTextEditing(Settings.Manager.ToString, s => { Settings.Manager = PyroFunctions.ConvertStringToClosestKey(s, Settings.Manager); });
+        ManagerKey.WithTextEditing(Settings.Manager.ToString, s => { Settings.Manager = PyroFunctions.PyroFunctions.ConvertStringToClosestKey(s, Settings.Manager); });
         RefreshMenus();
         FirstMenu.Visible = true;
         Settings.FirstTime = false;
@@ -155,7 +156,7 @@ internal static class Manager
         PauseEvent.Checked = Main.EventsPaused;
         if ( Main.UsingSc )
         {
-            foreach (var t in PyroFunctions.RegisteredScCallouts)
+            foreach (var t in PyroFunctions.PyroFunctions.RegisteredScCallouts)
             {
                 var s = new UIMenuItem(t.Name);
                 CalloutMenu.AddItem(s);
@@ -176,8 +177,8 @@ internal static class Manager
         {
             ScSettings.GetSettings();
             //SuperCallouts Text buttons
-            ScCfgInteract.WithTextEditing(ScSettings._interact.ToString, s => { ScSettings._interact = PyroFunctions.ConvertStringToClosestKey(s, ScSettings._interact); });
-            ScCfgEndCall.WithTextEditing(ScSettings._endCall.ToString, s => { ScSettings._endCall = PyroFunctions.ConvertStringToClosestKey(s, ScSettings._endCall); });
+            ScCfgInteract.WithTextEditing(ScSettings._interact.ToString, s => { ScSettings._interact = PyroFunctions.PyroFunctions.ConvertStringToClosestKey(s, ScSettings._interact); });
+            ScCfgEndCall.WithTextEditing(ScSettings._endCall.ToString, s => { ScSettings._endCall = PyroFunctions.PyroFunctions.ConvertStringToClosestKey(s, ScSettings._endCall); });
             ScCfgNumber.WithTextEditing(ScSettings._emergencyNumber.ToString, s => { ScSettings._emergencyNumber = s; });
         }
 
@@ -190,8 +191,8 @@ internal static class Manager
                 if (int.TryParse(s, out var value)) SeSettings._timeBetweenEvents = value; 
                 else Game.DisplayHelp("~r~That is not a number!");
             });
-            SeCfgInteract.WithTextEditing(SeSettings._interact.ToString, s => { SeSettings._interact = PyroFunctions.ConvertStringToClosestKey(s, SeSettings._interact); });
-            SeCfgEndEvent.WithTextEditing(SeSettings._endEvent.ToString, s => { SeSettings._endEvent = PyroFunctions.ConvertStringToClosestKey(s, SeSettings._endEvent); });
+            SeCfgInteract.WithTextEditing(SeSettings._interact.ToString, s => { SeSettings._interact = PyroFunctions.PyroFunctions.ConvertStringToClosestKey(s, SeSettings._interact); });
+            SeCfgEndEvent.WithTextEditing(SeSettings._endEvent.ToString, s => { SeSettings._endEvent = PyroFunctions.PyroFunctions.ConvertStringToClosestKey(s, SeSettings._endEvent); });
         }
 
         if ( Main.UsingDw )

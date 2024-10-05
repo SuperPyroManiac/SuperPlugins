@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
 using RAGENativeUI;
 
-namespace PyroCommon.PyroFunctions.UIManager;
+namespace PyroCommon.UIManager;
 
 public class Style
 {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.PyroFunctions;
-using PyroCommon.PyroFunctions.UIManager;
+using PyroCommon.UIManager;
 using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;

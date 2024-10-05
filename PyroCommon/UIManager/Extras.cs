@@ -1,8 +1,9 @@
 ﻿using System.Drawing;
+using PyroCommon.PyroFunctions;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 
-namespace PyroCommon.PyroFunctions.UIManager;
+namespace PyroCommon.UIManager;
 
 internal class Extras
 {
