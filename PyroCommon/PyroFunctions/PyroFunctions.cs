@@ -26,20 +26,28 @@ public static class PyroFunctions
 {
     internal static CalloutInfoAttribute[] RegisteredScCallouts { get; } = GenerateCalloutNames().ToArray();
     
-    public static T DeserializeYaml<T>(string path)
+    public static T DeserializeYaml<T>(string path, string resourceFileName)
     {
         try
         {
+            if (!File.Exists(path))
+            {
+                var directory = Path.GetDirectoryName(path);
+                if (!string.IsNullOrEmpty(directory)) Directory.CreateDirectory(directory);
+                using var resourceStream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"PyroCommon.Libs.Resources.{resourceFileName}");
+                using var fileStream = new FileStream(path, FileMode.Create, FileAccess.Write);
+                resourceStream?.CopyTo(fileStream);
+            }
             using var reader = new StreamReader(path);
-            var deserializer = new DeserializerBuilder().Build();
-            return deserializer.Deserialize<T>(reader);
+            return new DeserializerBuilder().Build().Deserialize<T>(reader);
         }
-        catch ( Exception e )
+        catch (Exception e)
         {
             Log.Error($"Error deserializing YAML at {path}: {e.Message}");
             throw;
         }
     }
+
     
     public static void AddDrugItem(string item, Enums.DrugType drugType, Ped ped = null, Vehicle vehicle = null, Enums.ItemLocation itemLocation = Enums.ItemLocation.Anywhere)
     {

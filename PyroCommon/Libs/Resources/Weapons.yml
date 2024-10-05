@@ -1,0 +1,202 @@
+# Formatting is critical! If you have issues, you can check your config at https://codebeautify.org/yaml-parser-online
+# Any weapons not in this list will use a default value of 1 for the damage and weapon type multipliers.
+
+- Name: APPistol
+  WeaponHash: 584646201
+  WeaponType: Pistol
+  PanicIgnore: false
+
+- Name: Assault_Rifle
+  WeaponHash: 3220176749
+  WeaponType: Rifle
+  PanicIgnore: false
+
+- Name: Assault_Rifle_MK2
+  WeaponHash: 961495388
+  WeaponType: Rifle
+  PanicIgnore: false
+
+- Name: Combat_PDW
+  WeaponHash: 171789620
+  WeaponType: SubmachineGun
+  PanicIgnore: false
+
+- Name: Combat_Pistol
+  WeaponHash: 1593441988
+  WeaponType: Pistol
+  PanicIgnore: false
+
+- Name: Combat_Shotgun
+  WeaponHash: 94989220
+  WeaponType: Shotgun
+  PanicIgnore: false
+
+- Name: Ceramic_Pistol
+  WeaponHash: 727643628
+  WeaponType: Pistol
+  PanicIgnore: false
+
+- Name: Flare_Gun
+  WeaponHash: 1198879012
+  WeaponType: Other
+  PanicIgnore: false
+
+- Name: Gusenberg_Sweeper
+  WeaponHash: 1627465347
+  WeaponType: SubmachineGun
+  PanicIgnore: false
+
+- Name: Grenade_Launcher
+  WeaponHash: 2726580491
+  WeaponType: Other
+  PanicIgnore: false
+
+- Name: Heavy_Pistol
+  WeaponHash: 3523564046
+  WeaponType: Pistol
+  PanicIgnore: false
+
+- Name: Heavy_Revolver
+  WeaponHash: 3249783761
+  WeaponType: Pistol
+  PanicIgnore: false
+
+- Name: Heavy_Revolver_MK2
+  WeaponHash: 3415619887
+  WeaponType: Pistol
+  PanicIgnore: false
+
+- Name: Heavy_Shotgun
+  WeaponHash: 984333226
+  WeaponType: Shotgun
+  PanicIgnore: false
+
+- Name: Heavy_Sniper
+  WeaponHash: 205991906
+  WeaponType: Sniper
+  PanicIgnore: false
+
+- Name: Heavy_Sniper_MK2
+  WeaponHash: 177293209
+  WeaponType: Sniper
+  PanicIgnore: false
+
+- Name: Homing_Launcher
+  WeaponHash: 1672152130
+  WeaponType: Other
+  PanicIgnore: false
+
+- Name: Machine_Pistol
+  WeaponHash: 3675956304
+  WeaponType: SubmachineGun
+  PanicIgnore: false
+
+- Name: Marksman_Rifle
+  WeaponHash: 3342088282
+  WeaponType: Sniper
+  PanicIgnore: false
+
+- Name: Marksman_Rifle_MK2
+  WeaponHash: 1785463520
+  WeaponType: Sniper
+  PanicIgnore: false
+
+- Name: Mini_SMG
+  WeaponHash: 3173288789
+  WeaponType: SubmachineGun
+  PanicIgnore: false
+
+- Name: Micro_SMG
+  WeaponHash: 324215364
+  WeaponType: SubmachineGun
+  PanicIgnore: false
+
+- Name: Minigun
+  WeaponHash: 1119849093
+  WeaponType: MachineGun
+  PanicIgnore: false
+
+- Name: Molotov
+  WeaponHash: 615608432
+  WeaponType: Other
+  PanicIgnore: false
+
+- Name: Pipe_Bomb
+  WeaponHash: 3125143736
+  WeaponType: Other
+  PanicIgnore: false
+
+- Name: Pistol
+  WeaponHash: 453432689
+  WeaponType: Pistol
+  PanicIgnore: false
+
+- Name: Pistol_MK2
+  WeaponHash: 3219281620
+  WeaponType: Pistol
+  PanicIgnore: false
+
+- Name: RPG
+  WeaponHash: 2982836145
+  WeaponType: Other
+  PanicIgnore: false
+
+- Name: Railgun
+  WeaponHash: 1834241177
+  WeaponType: Other
+  PanicIgnore: false
+
+- Name: Service_Carbine
+  WeaponHash: 3520460075
+  WeaponType: Rifle
+  PanicIgnore: false
+
+- Name: SMG
+  WeaponHash: 736523883
+  WeaponType: SubmachineGun
+  PanicIgnore: false
+
+- Name: Sniper_Rifle
+  WeaponHash: 100416529
+  WeaponType: Sniper
+  PanicIgnore: false
+
+- Name: SNSPistol
+  WeaponHash: 3218215474
+  WeaponType: Pistol
+  PanicIgnore: false
+
+- Name: Special_Carbine
+  WeaponHash: 3231910285
+  WeaponType: Rifle
+  PanicIgnore: false
+
+- Name: Sticky_Bomb
+  WeaponHash: 741814745
+  WeaponType: Other
+  PanicIgnore: false
+
+- Name: Sweeper_Shotgun
+  WeaponHash: 317205821
+  WeaponType: Shotgun
+  PanicIgnore: false
+
+- Name: Vintage_Pistol
+  WeaponHash: 137902532
+  WeaponType: Pistol
+  PanicIgnore: false
+
+- Name: FireExtinguisher
+  WeaponHash: 3012838707
+  WeaponType: Other
+  PanicIgnore: true
+
+- Name: Flare
+  WeaponHash: 1198879012
+  WeaponType: Other
+  PanicIgnore: true
+
+- Name: Stun_gun
+  WeaponHash: 911657153
+  WeaponType: Other
+  PanicIgnore: true
