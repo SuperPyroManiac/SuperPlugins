@@ -16,7 +16,6 @@ public static class AssemblyLoader
             var resourceName = assemblyName switch
             {
                 "YamlDotNet" => "PyroCommon.Libs.YamlDotNet.dll",
-                "RageNativeUI" => "PyroCommon.Libs.RageNativeUI.dll",
                 _ => null
             };
             if (resourceName == null) return null;
