@@ -26,9 +26,6 @@ public static class Main
 
     internal static void InitCommon(string plugName, string plugVersion)
     {
-        AssemblyLoader.Load();
-        Assembly.Load("RageNativeUI");
-        Assembly.Load("YamlDotNet");
         Settings.LoadSettings();
         if ( InstalledPyroPlugins.ContainsKey(plugName) ) InstalledPyroPlugins.Remove(plugName);
         InstalledPyroPlugins.Add(plugName, plugVersion);
@@ -42,7 +39,6 @@ public static class Main
     private static void DelayStart()
     {
         GameFiber.Sleep(7000);
-        Assembly.Load("RageNativeUI");
         VersionChecker.IsUpdateAvailable(InstalledPyroPlugins);
         if ( UsingSc ) ScSettings.GetSettings();
         if ( UsingSe ) SeSettings.GetSettings();

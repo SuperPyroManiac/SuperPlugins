@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using Rage;
 using RAGENativeUI;
 
 namespace PyroCommon.UIManager;
@@ -23,7 +24,8 @@ public class Style
             if ( !center ) return;
             var cnt = men.MenuItems.Count;
             if ( cnt > 20 ) cnt = 20;
-            men.Offset = new Point((int)((1920 / 2f) - (men.Width / 2f)), (int)((1080 / 2f) - ((cnt * 38f) + 107f + 20f) / 2));
+            men.Offset = new Point((int)((Game.Resolution.Width / 2f) - (men.Width / 2f)), (int)((Game.Resolution.Height / 2f) - ((cnt * 38f) + 107f + 20f) / 2));
+            //var red = UIMenu.GetActualScreenResolution();
         }
     }
 }
