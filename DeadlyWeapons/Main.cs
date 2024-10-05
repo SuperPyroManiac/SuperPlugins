@@ -53,9 +53,10 @@ public class Main : Plugin
     public override void Finally()
     {
         Running = false;
+        DamageTrackerService.OnPlayerTookDamage -= PlayerShot.OnPlayerDamaged;
+        DamageTrackerService.OnPedTookDamage -= PedShot.OnPedDamaged;
         DamageTrackerService.Stop();
         _panicFiber?.Abort();
         PyroCommon.Main.StopCommon();
-        Log.Info("Plugin unloaded!");
     }
 }

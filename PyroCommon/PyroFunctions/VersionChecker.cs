@@ -24,6 +24,7 @@ internal static class VersionChecker
     {
         try
 		{
+            OutdatedPyroPlugins.Clear();
 			var updateThread = new Thread(() => CheckVersion(pluginDict));
 			updateThread.Start();
             GameFiber.SleepWhile(() => updateThread.IsAlive, 0);
@@ -40,8 +41,6 @@ internal static class VersionChecker
 						
 						foreach ( var plug in OutdatedPyroPlugins )
 						{
-                            Log.Info($"ign {plug.Key} {plug.Value}");
-                            Log.Info($"{pluginDict[plug.Key]}");
 							ingameNotice += $"~w~{plug.Key}: ~r~{pluginDict[plug.Key]} <br>~w~New Version: ~g~{plug.Value}<br>";
 							logNotice += $"\r\n{plug.Key}: Current Version: {pluginDict[plug.Key]} New Version: {plug.Value}";
 						}
@@ -75,7 +74,6 @@ internal static class VersionChecker
                     "DeadlyWeapons" => "27453",
                     _ => string.Empty
                 };
-                Log.Info(id);
                 _receivedData = new WebClient().DownloadString($"https://www.lcpdfr.com/applications/downloadsng/interface/api.php?do=checkForUpdates&fileId={id}&textOnly=1").Trim();
             }
 			catch (WebException)
@@ -83,8 +81,6 @@ internal static class VersionChecker
 				_state = State.Failed;
 			}
 			
-            Log.Info(_receivedData);
-            Log.Info(plug.Value);
 			if (_receivedData == plug.Value) continue;
             if ( OutdatedPyroPlugins.ContainsKey(plug.Key) ) OutdatedPyroPlugins.Remove(plug.Key);
 			OutdatedPyroPlugins.Add(plug.Key, _receivedData);

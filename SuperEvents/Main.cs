@@ -77,6 +77,5 @@ internal class Main : Plugin
         }
         PluginRunning = false;
         PyroCommon.Main.StopCommon();
-        Log.Info( "Plugin unloaded!");
     }
 }

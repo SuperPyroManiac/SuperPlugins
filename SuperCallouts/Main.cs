@@ -94,6 +94,5 @@ internal class Main : Plugin
     public override void Finally()
     {
         PyroCommon.Main.StopCommon();
-        Log.Info("Plugin unloaded!");
     }
 }
