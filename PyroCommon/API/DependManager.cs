@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using PyroCommon.Objects;
-using PyroCommon.PyroFunctions;
 using Rage;
 
 namespace PyroCommon.API;

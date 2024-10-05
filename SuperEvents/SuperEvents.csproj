@@ -43,6 +43,7 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="RAGENativeUI, Version=1.9.2.0, Culture=neutral, processorArchitecture=Amd64">
       <HintPath>..\packages\RAGENativeUI.1.9.2\lib\net472\RAGENativeUI.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="RagePluginHook, Version=0.0.0.0, Culture=neutral, processorArchitecture=Amd64">
       <HintPath>..\packages\RagePluginHook.1.109.1\lib\net472\RagePluginHook.dll</HintPath>

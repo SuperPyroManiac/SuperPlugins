@@ -40,23 +40,23 @@ internal static class Manager
     private static readonly UIMenuItem ScCfgSave = new("~r~Save Config", "Saves to the ini file!");
     
     private static readonly UIMenu SeConfigMenu = new("SuperEvents.ini", "Config Settings");
-    private static readonly UIMenuCheckboxItem SeCfgBlips = new("Show Blips", SeSettings._showBlips);
-    private static readonly UIMenuCheckboxItem SeCfgHints = new("Show Hints", SeSettings._showHints);
+    private static readonly UIMenuCheckboxItem SeCfgBlips = new("Show Blips", SeSettings.ShowBlips);
+    private static readonly UIMenuCheckboxItem SeCfgHints = new("Show Hints", SeSettings.ShowHints);
     private static readonly UIMenuItem SeCfgTimer = new("Event Timer", "How long between events.");
     private static readonly UIMenuItem SeCfgInteract = new("Interaction Key", "This must be a valid key name!");
     private static readonly UIMenuItem SeCfgEndEvent = new("End Event Key", "This must be a valid key name!");
     private static readonly UIMenuItem SeCfgSave = new("~r~Save Config", "Saves to the ini file!");
     
     private static readonly UIMenu DwConfigMenu = new("DeadlyWeapons.ini", "Config Settings");
-    private static readonly UIMenuCheckboxItem DwCfgPdamage = new("Player Damage", DwSettings._playerDamage);
-    private static readonly UIMenuCheckboxItem DwCfgNdamage = new("NPC Damage", DwSettings._npcDamage);
+    private static readonly UIMenuCheckboxItem DwCfgPdamage = new("Player Damage", DwSettings.PlayerDamage);
+    private static readonly UIMenuCheckboxItem DwCfgNdamage = new("NPC Damage", DwSettings.NpcDamage);
     private static readonly UIMenuItem DwCfgRandomizer = new("Damage Randomizer", "Amount to randomize damage.");
-    private static readonly UIMenuCheckboxItem DwCfgPanic = new("Panic", DwSettings._panic);
+    private static readonly UIMenuCheckboxItem DwCfgPanic = new("Panic", DwSettings.Panic);
     private static readonly UIMenuItem DwCfgCooldown = new("Cooldown", "How long between panic activations.");
-    private static readonly UIMenuCheckboxItem DwCfgCode3 = new("Code3", DwSettings._code3Backup);
-    private static readonly UIMenuCheckboxItem DwCfgSwat = new("Swat", DwSettings._swatBackup);
-    private static readonly UIMenuCheckboxItem DwCfgNoose = new("Noose", DwSettings._nooseBackup);
-    private static readonly UIMenuCheckboxItem DwCfgDebug = new("Debug", DwSettings._debug);
+    private static readonly UIMenuCheckboxItem DwCfgCode3 = new("Code3", DwSettings.Code3Backup);
+    private static readonly UIMenuCheckboxItem DwCfgSwat = new("Swat", DwSettings.SwatBackup);
+    private static readonly UIMenuCheckboxItem DwCfgNoose = new("Noose", DwSettings.NooseBackup);
+    private static readonly UIMenuCheckboxItem DwCfgDebug = new("Debug", DwSettings.Debug);
     private static readonly UIMenuItem DwCfgSave = new("~r~Save Config", "Saves to the ini file!");
 
     internal static void StartUi()
@@ -177,36 +177,36 @@ internal static class Manager
         {
             ScSettings.GetSettings();
             //SuperCallouts Text buttons
-            ScCfgInteract.WithTextEditing(ScSettings._interact.ToString, s => { ScSettings._interact = PyroFunctions.PyroFunctions.ConvertStringToClosestKey(s, ScSettings._interact); });
-            ScCfgEndCall.WithTextEditing(ScSettings._endCall.ToString, s => { ScSettings._endCall = PyroFunctions.PyroFunctions.ConvertStringToClosestKey(s, ScSettings._endCall); });
-            ScCfgNumber.WithTextEditing(ScSettings._emergencyNumber.ToString, s => { ScSettings._emergencyNumber = s; });
+            ScCfgInteract.WithTextEditing(ScSettings.Interact.ToString, s => { ScSettings.Interact = PyroFunctions.PyroFunctions.ConvertStringToClosestKey(s, ScSettings.Interact); });
+            ScCfgEndCall.WithTextEditing(ScSettings.EndCall.ToString, s => { ScSettings.EndCall = PyroFunctions.PyroFunctions.ConvertStringToClosestKey(s, ScSettings.EndCall); });
+            ScCfgNumber.WithTextEditing(ScSettings.EmergencyNumber.ToString, s => { ScSettings.EmergencyNumber = s; });
         }
 
         if ( Main.UsingSe )
         {
             SeSettings.GetSettings();
             //SuperEvents Text buttons
-            SeCfgTimer.WithTextEditing(SeSettings._timeBetweenEvents.ToString, s =>
+            SeCfgTimer.WithTextEditing(SeSettings.TimeBetweenEvents.ToString, s =>
             {
-                if (int.TryParse(s, out var value)) SeSettings._timeBetweenEvents = value; 
+                if (int.TryParse(s, out var value)) SeSettings.TimeBetweenEvents = value; 
                 else Game.DisplayHelp("~r~That is not a number!");
             });
-            SeCfgInteract.WithTextEditing(SeSettings._interact.ToString, s => { SeSettings._interact = PyroFunctions.PyroFunctions.ConvertStringToClosestKey(s, SeSettings._interact); });
-            SeCfgEndEvent.WithTextEditing(SeSettings._endEvent.ToString, s => { SeSettings._endEvent = PyroFunctions.PyroFunctions.ConvertStringToClosestKey(s, SeSettings._endEvent); });
+            SeCfgInteract.WithTextEditing(SeSettings.Interact.ToString, s => { SeSettings.Interact = PyroFunctions.PyroFunctions.ConvertStringToClosestKey(s, SeSettings.Interact); });
+            SeCfgEndEvent.WithTextEditing(SeSettings.EndEvent.ToString, s => { SeSettings.EndEvent = PyroFunctions.PyroFunctions.ConvertStringToClosestKey(s, SeSettings.EndEvent); });
         }
 
         if ( Main.UsingDw )
         {
             DwSettings.GetSettings();
             //DeadlyWeapons Text buttons
-            DwCfgRandomizer.WithTextEditing(DwSettings._damageRandomizer.ToString, s =>
+            DwCfgRandomizer.WithTextEditing(DwSettings.DamageRandomizer.ToString, s =>
             {
-                if (int.TryParse(s, out var value)) DwSettings._damageRandomizer = value; 
+                if (int.TryParse(s, out var value)) DwSettings.DamageRandomizer = value; 
                 else Game.DisplayHelp("~r~That is not a number!");
             });
-            DwCfgCooldown.WithTextEditing(DwSettings._panicCooldown.ToString, s =>
+            DwCfgCooldown.WithTextEditing(DwSettings.PanicCooldown.ToString, s =>
             {
-                if (int.TryParse(s, out var value)) DwSettings._panicCooldown = value; 
+                if (int.TryParse(s, out var value)) DwSettings.PanicCooldown = value; 
                 else Game.DisplayHelp("~r~That is not a number!");
             });
         }
@@ -265,8 +265,8 @@ internal static class Manager
             Game.DisplayHelp("~g~SuperCallouts.ini saved!");
         }
         //SeConfigMenu
-        if ( selecteditem == SeCfgBlips ) SeSettings._showBlips = !SeCfgBlips.Checked;
-        if ( selecteditem == SeCfgHints ) SeSettings._showHints = !SeCfgHints.Checked;
+        if ( selecteditem == SeCfgBlips ) SeSettings.ShowBlips = !SeCfgBlips.Checked;
+        if ( selecteditem == SeCfgHints ) SeSettings.ShowHints = !SeCfgHints.Checked;
         if ( selecteditem == SeCfgSave )
         {
             SeSettings.ApplySettings();
@@ -275,13 +275,13 @@ internal static class Manager
             Game.DisplayHelp("~g~SuperEvents.ini saved!");
         }
         //DwConfigMenu
-        if ( selecteditem == DwCfgPdamage ) DwSettings._playerDamage = !DwCfgPdamage.Checked;
-        if ( selecteditem == DwCfgNdamage ) DwSettings._npcDamage = !DwCfgNdamage.Checked;
-        if ( selecteditem == DwCfgPanic ) DwSettings._panic = !DwCfgPanic.Checked;
-        if ( selecteditem == DwCfgCode3 ) DwSettings._code3Backup = !DwCfgCode3.Checked;
-        if ( selecteditem == DwCfgSwat ) DwSettings._swatBackup = !DwCfgSwat.Checked;
-        if ( selecteditem == DwCfgNoose ) DwSettings._nooseBackup = !DwCfgNoose.Checked;
-        if ( selecteditem == DwCfgDebug ) DwSettings._debug = !DwCfgDebug.Checked;
+        if ( selecteditem == DwCfgPdamage ) DwSettings.PlayerDamage = !DwCfgPdamage.Checked;
+        if ( selecteditem == DwCfgNdamage ) DwSettings.NpcDamage = !DwCfgNdamage.Checked;
+        if ( selecteditem == DwCfgPanic ) DwSettings.Panic = !DwCfgPanic.Checked;
+        if ( selecteditem == DwCfgCode3 ) DwSettings.Code3Backup = !DwCfgCode3.Checked;
+        if ( selecteditem == DwCfgSwat ) DwSettings.SwatBackup = !DwCfgSwat.Checked;
+        if ( selecteditem == DwCfgNoose ) DwSettings.NooseBackup = !DwCfgNoose.Checked;
+        if ( selecteditem == DwCfgDebug ) DwSettings.Debug = !DwCfgDebug.Checked;
         if ( selecteditem == DwCfgSave )
         {
             DwSettings.ApplySettings();
