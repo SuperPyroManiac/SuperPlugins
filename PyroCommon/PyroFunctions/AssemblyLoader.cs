@@ -28,7 +28,7 @@ public static class AssemblyLoader
                 LoadedAssemblies[assemblyName] = assembly; // Strong reference to prevent unloading
                 return assembly;
             }
-            API.Log.Error($"Resource {resourceName} not found.");
+            Log.Error($"Resource {resourceName} not found.");
             return null;
         };
     }

@@ -1,6 +1,6 @@
 ﻿using Rage;
 
-namespace PyroCommon.Objects;
+namespace PyroCommon.API;
 
 public struct Location
 {

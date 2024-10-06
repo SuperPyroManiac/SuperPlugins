@@ -7,7 +7,7 @@ using PyroCommon.PyroFunctions;
 using Rage;
 using SuperEvents.EventFunctions;
 using SuperEvents.Events;
-using DependManager = PyroCommon.API.DependManager;
+using DependManager = PyroCommon.PyroFunctions.DependManager;
 
 namespace SuperEvents;
 

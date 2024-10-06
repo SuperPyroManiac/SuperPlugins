@@ -66,9 +66,6 @@
         </Reference>
     </ItemGroup>
     <ItemGroup>
-        <Compile Include="API\DependManager.cs" />
-        <Compile Include="API\Location.cs" />
-        <Compile Include="API\Log.cs" />
         <Compile Include="Main.cs" />
         <Compile Include="Objects\Dependency.cs" />
         <Compile Include="Objects\Enums.cs" />

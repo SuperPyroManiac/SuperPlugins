@@ -7,7 +7,7 @@ using DeadlyWeapons.PyroFunctions;
 using LSPD_First_Response.Mod.API;
 using PyroCommon.PyroFunctions;
 using Rage;
-using DependManager = PyroCommon.API.DependManager;
+using DependManager = PyroCommon.PyroFunctions.DependManager;
 
 namespace DeadlyWeapons;
 
