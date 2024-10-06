@@ -58,13 +58,11 @@ internal abstract class SuperCallout : Callout
         MainMenu.BindMenuToItem(ConvoMenu, Questioning);
         ConvoMenu.ParentMenu = MainMenu;
         Questioning.Enabled = false;
-        try 
-        {
-            CalloutAccepted();
-        }
+        try { CalloutAccepted(); }
         catch (Exception e)
         {
-            Log.Error(e.ToString());
+            if (e.Message.Contains("Could not spawn new vehicle")) Log.Error("Vehicle spawn failed! This is likely a mods folder issue and not the plugins fault!\r\n" + e.Message, false);
+            else Log.Error(e.ToString());
             CalloutEnd(true);
         }
         MainMenu.RefreshIndex();
