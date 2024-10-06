@@ -6,6 +6,7 @@ using PyroCommon.Wrappers;
 using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
+using Log = PyroCommon.API.Log;
 
 namespace PyroCommon.UIManager;
 
@@ -145,9 +146,6 @@ internal static class Manager
         ErrorReporting.Description = "Reports errors automatically to help better my plugins. No personal data is shared!";
         ManagerKey.WithTextEditing(Settings.Manager.ToString, s => { Settings.Manager = PyroFunctions.PyroFunctions.ConvertStringToClosestKey(s, Settings.Manager); });
         RefreshMenus();
-        FirstMenu.Visible = true;
-        Settings.FirstTime = false;
-        Settings.SaveSettings();
     }
 
     private static void RefreshMenus()
@@ -225,7 +223,16 @@ internal static class Manager
         {
             GameFiber.Yield();
             MainMenuPool.ProcessMenus();
-            if (Game.IsKeyDown(Settings.Manager)) ToggleManagerMenu();
+            if ( Game.IsKeyDown(Settings.Manager) )
+            {
+                if ( Settings.FirstTime )
+                {
+                    FirstMenu.Visible = true;
+                    Settings.FirstTime = false;
+                    Settings.SaveSettings();
+                }
+                else ToggleManagerMenu();
+            }
         }
     }
 

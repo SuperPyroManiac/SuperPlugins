@@ -1,4 +1,6 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
+using PyroCommon.API;
 using RAGENativeUI;
 
 namespace PyroCommon.UIManager;
@@ -20,10 +22,11 @@ public class Style
             men.MouseControlsEnabled = false;
             men.AllowCameraMovement = true;
             men.MaxItemsOnScreen = 20;
-            if ( !center ) return;
-            var cnt = men.MenuItems.Count;
-            if ( cnt > 20 ) cnt = 20;
-            men.Offset = new Point((int)((1920 / 2f) - (men.Width / 2f)), (int)((1080 / 2f) - ((cnt * 38f) + 107f + 20f) / 2));
+            if (!center) return;
+            var screenWidth = UIMenu.GetActualScreenResolution().Width;
+            var menuWidth = men.Width * screenWidth + (men.WidthOffset != 0 ? men.WidthOffset : 0);
+            var cnt = Math.Min(men.MenuItems.Count, 20);
+            men.Offset = new Point((int)((screenWidth - menuWidth) / 2f), (int)((1080f - (cnt * 38f + 107f + 20f)) / 2f));
         }
     }
 }

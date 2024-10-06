@@ -20,6 +20,7 @@ public class Main : Plugin
     {
         DependManager.AddDepend("PyroCommon.dll", "1.8.0.0");
         DependManager.AddDepend("DamageTrackerLib.dll", "1.0.2");
+        DependManager.AddDepend("RageNativeUI.dll", "1.9.2.0");
         if ( !DependManager.CheckDepends() ) return;
         Functions.OnOnDutyStateChanged += OnOnDutyStateChangedHandler;
         Game.AddConsoleCommands([typeof(ConsoleCommands)]);
