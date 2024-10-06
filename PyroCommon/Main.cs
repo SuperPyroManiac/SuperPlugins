@@ -34,19 +34,25 @@ public static class Main
         if (_init) return;
         _init = true;
         InitParticles();
-        //GameFiber.StartNew(Runner);
         GameFiber.StartNew(DelayStart);
     }
 
     private static void DelayStart()
     {
-        GameFiber.Sleep(7000);
+        GameFiber.WaitUntil(() => {
+            var pluginsToCheck = new List<string>();
+            if (UsingSc) pluginsToCheck.Add("SuperCallouts");
+            if (UsingSe) pluginsToCheck.Add("SuperEvents");
+            if (UsingDw) pluginsToCheck.Add("DeadlyWeapons");
+            return pluginsToCheck.All(plugin => InstalledPyroPlugins.ContainsKey(plugin));
+        });
         VersionChecker.IsUpdateAvailable(InstalledPyroPlugins);
-        if ( UsingSc ) ScSettings.GetSettings();
-        if ( UsingSe ) SeSettings.GetSettings();
-        if ( UsingDw ) DwSettings.GetSettings();
+        if (UsingSc) ScSettings.GetSettings();
+        if (UsingSe) SeSettings.GetSettings();
+        if (UsingDw) DwSettings.GetSettings();
         Manager.StartUi();
     }
+
 
     private static void InitParticles()
     {
@@ -57,14 +63,6 @@ public static class Main
         };
         foreach (var part in particleDict)
             GameFiber.StartNew(() => Particles.LoadParticles(part));
-    }
-
-    private static void Runner()
-    {
-        while ( _init )
-        {
-            GameFiber.Yield();
-        }
     }
     
     internal static void StopCommon()
