@@ -15,7 +15,7 @@ internal class Main : Plugin
 {
     public override void Initialize()
     {
-        DependManager.AddDepend("PyroCommon.dll", "1.8.0.0");
+        DependManager.AddDepend("PyroCommon.dll", "1.10.0.0");
         DependManager.AddDepend("RageNativeUI.dll", "1.9.2.0");
         if ( !DependManager.CheckDepends() ) return;
         
