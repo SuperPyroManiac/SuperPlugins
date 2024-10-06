@@ -31,7 +31,7 @@ public static class Main
         AssemblyLoader.Load();
         Settings.LoadSettings();
         DependManager.AddDepend("RageNativeUI.dll", "1.9.2.0");
-        InitParticles();
+        Particles.InitParticles();
         GameFiber.StartNew(DelayStart);
     }
 
@@ -50,20 +50,6 @@ public static class Main
         if (UsingSe) SeSettings.GetSettings();
         if (UsingDw) DwSettings.GetSettings();
         Manager.StartUi();
-    }
-
-    private static void InitParticles()
-    {
-        var particleDict = new[]
-        {
-            "scr_trevor3", // Large Fire/Smoke
-            "scr_agencyheistb" // Misty Smoke
-        };
-
-        foreach (var part in particleDict)
-        {
-            GameFiber.StartNew(() => Particles.LoadParticles(part));
-        }
     }
 
     internal static void StopCommon()

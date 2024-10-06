@@ -5,7 +5,17 @@ namespace PyroCommon.PyroFunctions;
 
 internal static class Particles
 {
-    internal static void LoadParticles(string dictName)
+    internal static void InitParticles()
+    {
+        var particleDict = new[]
+        {
+            "scr_trevor3", // Large Fire/Smoke
+            "scr_agencyheistb" // Misty Smoke
+        };
+        foreach (var part in particleDict) GameFiber.StartNew(() => LoadParticles(part));
+    }
+
+    private static void LoadParticles(string dictName)
     {
         NativeFunction.Natives.REQUEST_NAMED_PTFX_ASSET(dictName);
         GameFiber.WaitUntil(() => NativeFunction.Natives.HAS_NAMED_PTFX_ASSET_LOADED<bool>(dictName), 5000);
