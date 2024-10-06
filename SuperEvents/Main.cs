@@ -22,7 +22,6 @@ internal class Main : Plugin
         if ( !DependManager.CheckDepends() ) return;
         Functions.OnOnDutyStateChanged += OnOnDutyStateChangedHandler;
         Settings.LoadSettings();
-        Game.AddConsoleCommands([typeof(ConsoleCommands)]);
     }
 
     private static void OnOnDutyStateChangedHandler(bool onDuty)

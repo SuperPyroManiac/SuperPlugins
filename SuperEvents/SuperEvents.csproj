@@ -65,7 +65,6 @@
     <Compile Include="Attributes\AttributeExpectedException.cs" />
     <Compile Include="Attributes\AttributeExtensions.cs" />
     <Compile Include="Attributes\EventInfoAttribute.cs" />
-    <Compile Include="EventFunctions\EventParameterAutoCompleter.cs" />
     <Compile Include="Events\CarAccident.cs" />
     <Compile Include="Events\CarFire.cs" />
     <Compile Include="Events\Fight.cs" />
@@ -78,7 +77,6 @@
     <Compile Include="Main.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings.cs" />
-    <Compile Include="EventFunctions\ConsoleCommands.cs" />
     <Compile Include="EventFunctions\EventManager.cs" />
     <Compile Include="EventFunctions\EventTimer.cs" />
   </ItemGroup>
