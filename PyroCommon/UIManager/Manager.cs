@@ -214,6 +214,7 @@ internal static class Manager
     private static void ToggleManagerMenu()
     {
         RefreshMenus();
+        if (FirstMenu.Visible) FirstMenu.Close();
         MainMenu.Visible = !MainMenu.Visible;
     }
 
