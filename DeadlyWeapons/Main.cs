@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.Reflection;
 using DamageTrackerLib;
 using DeadlyWeapons.Modules;
-using DeadlyWeapons.PyroFunctions;
 using LSPD_First_Response.Mod.API;
 using PyroCommon.PyroFunctions;
 using Rage;
@@ -23,7 +22,6 @@ public class Main : Plugin
         DependManager.AddDepend("RageNativeUI.dll", "1.9.2.0");
         if ( !DependManager.CheckDepends() ) return;
         Functions.OnOnDutyStateChanged += OnOnDutyStateChangedHandler;
-        Game.AddConsoleCommands([typeof(ConsoleCommands)]);
     }
 
     private void OnOnDutyStateChangedHandler(bool onDuty)

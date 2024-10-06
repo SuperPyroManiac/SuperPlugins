@@ -6,7 +6,6 @@ using PyroCommon.PyroFunctions;
 using Rage;
 using SuperCallouts.Callouts;
 using SuperCallouts.RemasteredCallouts;
-using SuperCallouts.SimpleFunctions;
 using DependManager = PyroCommon.PyroFunctions.DependManager;
 
 namespace SuperCallouts;
@@ -18,10 +17,8 @@ internal class Main : Plugin
         DependManager.AddDepend("PyroCommon.dll", "1.10.0.0");
         DependManager.AddDepend("RageNativeUI.dll", "1.9.2.0");
         if ( !DependManager.CheckDepends() ) return;
-        
         Functions.OnOnDutyStateChanged += OnOnDutyStateChangedHandler;
         Settings.LoadSettings();
-        Game.AddConsoleCommands([typeof(ConsoleCommands)]);
     }
 
     private void OnOnDutyStateChangedHandler(bool onDuty)
@@ -44,7 +41,6 @@ internal class Main : Plugin
 
     private static void RegisterCallouts()
     {
-        //Reg
         if (Settings.HotPursuit) Functions.RegisterCallout(typeof(HotPursuit));
         if (Settings.Robbery) Functions.RegisterCallout(typeof(Robbery));
         if (Settings.CarAccident) Functions.RegisterCallout(typeof(CarAccident));
@@ -76,7 +72,6 @@ internal class Main : Plugin
         if (Settings.InjuredCop) Functions.RegisterCallout(typeof(InjuredCop));
         if (Settings.IndecentExposure) Functions.RegisterCallout(typeof(IndecentExposure));
         if (Settings.Fight) Functions.RegisterCallout(typeof(Fight));
-        //Swat
         if (Settings.PrisonBreak) Functions.RegisterCallout(typeof(PrisonBreak));
         if (Settings.Mafia1) Functions.RegisterCallout(typeof(Mafia1));
         if (Settings.Mafia2) Functions.RegisterCallout(typeof(Mafia2));
@@ -84,11 +79,7 @@ internal class Main : Plugin
         if (Settings.Mafia4) Functions.RegisterCallout(typeof(Mafia4));
         if (Settings.LostMc) Functions.RegisterCallout(typeof(LostGang));
         if (Settings.Lsgtf) Functions.RegisterCallout(typeof(Lsgtf));
-        Game.DisplayNotification("3dtextures",
-            "mpgroundlogo_cops",
-            "~r~SuperCallouts",
-            "~g~Plugin Loaded.",
-            "SuperCallouts version: " + Assembly.GetExecutingAssembly().GetName().Version + " loaded.");
+        Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~r~SuperCallouts", "~g~Plugin Loaded.", "SuperCallouts version: " + Assembly.GetExecutingAssembly().GetName().Version + " loaded.");
     }
 
     public override void Finally()

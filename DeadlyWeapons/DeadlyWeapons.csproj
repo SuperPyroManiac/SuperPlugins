@@ -63,7 +63,6 @@
         <Compile Include="Configs\DamageValues.cs" />
         <Compile Include="Configs\Weapon.cs" />
         <Compile Include="Configs\WeaponType.cs" />
-        <Compile Include="PyroFunctions\ConsoleCommands.cs" />
         <Compile Include="Main.cs" />
         <Compile Include="Modules\Panic.cs" />
         <Compile Include="Modules\PedShot.cs" />

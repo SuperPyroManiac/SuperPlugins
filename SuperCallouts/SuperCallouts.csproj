@@ -86,7 +86,6 @@
         <Compile Include="RemasteredCallouts\StolenCopVehicle.cs" />
         <Compile Include="RemasteredCallouts\WeirdCar.cs" />
         <Compile Include="Settings.cs" />
-        <Compile Include="SimpleFunctions\ConsoleCommands.cs" />
         <Compile Include="SuperCallout.cs" />
     </ItemGroup>
     <ItemGroup>
