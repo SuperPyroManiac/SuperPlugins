@@ -14,37 +14,36 @@ public static class Main
 {
     private static bool _init;
     internal static bool EventsPaused { get; set; }
-    private static readonly Func<string, bool> IsLoaded = plugName => Functions.GetAllUserPlugins().Any(assembly => assembly.GetName().Name.Equals(plugName));
     internal static readonly Dictionary<string, string> InstalledPyroPlugins = new();
-
-    internal static bool UsingUb { get; } = IsLoaded("UltimateBackup");
-    internal static bool UsingStp { get; } = IsLoaded("StopThePed");
-    internal static bool UsingPr { get; } = IsLoaded("PolicingRedefined");
-    internal static bool UsingSc { get; } = IsLoaded("SuperCallouts");
-    internal static bool UsingSe { get; } = IsLoaded("SuperEvents");
-    internal static bool UsingDw { get; } = IsLoaded("DeadlyWeapons");
+    private static readonly Func<string, bool> IsLoaded = plugName => Functions.GetAllUserPlugins().Any(assembly => assembly.GetName().Name.Equals(plugName));
+    internal static bool UsingUb => IsLoaded("UltimateBackup");
+    internal static bool UsingStp => IsLoaded("StopThePed");
+    internal static bool UsingPr => IsLoaded("PolicingRedefined");
+    internal static bool UsingSc => IsLoaded("SuperCallouts");
+    internal static bool UsingSe => IsLoaded("SuperEvents");
+    internal static bool UsingDw => IsLoaded("DeadlyWeapons");
 
     internal static void InitCommon(string plugName, string plugVersion)
     {
+        InstalledPyroPlugins[plugName] = plugVersion;
+        if (_init) return;
+        _init = true;
         AssemblyLoader.Load();
         Settings.LoadSettings();
         DependManager.AddDepend("RageNativeUI.dll", "1.9.2.0");
-        if ( InstalledPyroPlugins.ContainsKey(plugName) ) InstalledPyroPlugins.Remove(plugName);
-        InstalledPyroPlugins.Add(plugName, plugVersion);
-        if (_init) return;
-        _init = true;
         InitParticles();
         GameFiber.StartNew(DelayStart);
     }
 
     private static void DelayStart()
     {
-        GameFiber.WaitUntil(() => {
+        GameFiber.WaitUntil(() =>
+        {
             var pluginsToCheck = new List<string>();
             if (UsingSc) pluginsToCheck.Add("SuperCallouts");
             if (UsingSe) pluginsToCheck.Add("SuperEvents");
             if (UsingDw) pluginsToCheck.Add("DeadlyWeapons");
-            return pluginsToCheck.All(plugin => InstalledPyroPlugins.ContainsKey(plugin));
+            return pluginsToCheck.All(InstalledPyroPlugins.ContainsKey);
         });
         VersionChecker.IsUpdateAvailable(InstalledPyroPlugins);
         if (UsingSc) ScSettings.GetSettings();
@@ -53,18 +52,20 @@ public static class Main
         Manager.StartUi();
     }
 
-
     private static void InitParticles()
     {
-        var particleDict = new List<string>
+        var particleDict = new[]
         {
-            "scr_trevor3",//particle1: scr_trev3_trailer_plume - Large Fire/Smoke
-            "scr_agencyheistb"//particle2: scr_env_agency3b_smoke - Misty Smoke
+            "scr_trevor3", // Large Fire/Smoke
+            "scr_agencyheistb" // Misty Smoke
         };
+
         foreach (var part in particleDict)
+        {
             GameFiber.StartNew(() => Particles.LoadParticles(part));
+        }
     }
-    
+
     internal static void StopCommon()
     {
         InstalledPyroPlugins.Clear();
