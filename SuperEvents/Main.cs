@@ -20,7 +20,6 @@ internal class Main : Plugin
         DependManager.AddDepend("PyroCommon.dll", "1.8.0.0");
         DependManager.AddDepend("RageNativeUI.dll", "1.9.2.0");
         if ( !DependManager.CheckDepends() ) return;
-        
         Functions.OnOnDutyStateChanged += OnOnDutyStateChangedHandler;
         Settings.LoadSettings();
         Game.AddConsoleCommands([typeof(ConsoleCommands)]);
@@ -56,7 +55,6 @@ internal class Main : Plugin
         if (Settings.CarAccident) EventManager.RegisterEvent(typeof(CarAccident), EventManager.Priority.High);
         if (Settings.CarFire) EventManager.RegisterEvent(typeof(CarFire));
         if (Settings.Fight) EventManager.RegisterEvent(typeof(Fight));
-        //if (Settings.) EventManager.RegisterEvent(typeof(InjuredPed)); TODO: Complete IP Event
         if (Settings.OpenCarry) EventManager.RegisterEvent(typeof(OpenCarry), EventManager.Priority.Low);
         if (Settings.PulloverShooting) EventManager.RegisterEvent(typeof(PulloverShooting), EventManager.Priority.Low);
         if (Settings.RecklessDriver) EventManager.RegisterEvent(typeof(RecklessDriver));
@@ -68,10 +66,8 @@ internal class Main : Plugin
     {
         if (EventManager.CurrentEvent != null)
         {
-            foreach (var entity in EventManager.CurrentEvent.EntitiesToClear.Where(entity => entity))
-                entity.Delete();
-            foreach (var blip in EventManager.CurrentEvent.BlipsToClear.Where(blip => blip))
-                blip.Delete();
+            foreach (var entity in EventManager.CurrentEvent.EntitiesToClear.Where(entity => entity)) entity.Delete();
+            foreach (var blip in EventManager.CurrentEvent.BlipsToClear.Where(blip => blip)) blip.Delete();
         }
         PluginRunning = false;
         PyroCommon.Main.StopCommon();

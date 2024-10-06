@@ -268,7 +268,7 @@ public static class PyroFunctions
     }
     
     [Obsolete("Method is deprecated, please use SpawnCar instead.")]
-    public static void SpawnNormalCar(out Vehicle cVehicle, Vector3 spawnPoint, float heading = 0) //Spawn normal random car..
+    public static void SpawnNormalCar(out Vehicle cVehicle, Vector3 spawnPoint, float heading = 0) //Spawn normal random car.
     {
         Model[] vehicleModels =
         [
@@ -284,7 +284,7 @@ public static class PyroFunctions
     }
 
     [Obsolete("Method is deprecated, please use SpawnCar instead.")]
-    public static void SpawnAnyCar(out Vehicle cVehicle, Vector3 spawnPoint, float heading = 0) //Spawn ANY random car..
+    public static void SpawnAnyCar(out Vehicle cVehicle, Vector3 spawnPoint, float heading = 0) //Spawn ANY random car.
     {
         Model[] vehicleModels =
         [
