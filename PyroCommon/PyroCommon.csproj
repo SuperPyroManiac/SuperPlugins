@@ -67,7 +67,6 @@
     </ItemGroup>
     <ItemGroup>
         <Compile Include="Main.cs" />
-        <Compile Include="Objects\Dependency.cs" />
         <Compile Include="Objects\Enums.cs" />
         <Compile Include="Objects\Location.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />

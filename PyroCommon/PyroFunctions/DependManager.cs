@@ -4,53 +4,44 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using PyroCommon.Objects;
 using Rage;
 
 namespace PyroCommon.PyroFunctions;
 
 internal static class DependManager
 {
-    //TODO: Remove! PC 1.8+ will use depend manager in PyroFunctions
-    private static List<Dependency> _depends = [];
-    
+    private static readonly Dictionary<string, (string PluginName, string Version)> Depends = new();
+
     internal static void AddDepend(string name, string version)
     {
-        var newDepend = new Dependency()
-        {
-            PluginName = Assembly.GetCallingAssembly().FullName.Split(',').First(),
-            DependName = name,
-            DependVersion = version
-        };
-        if (!_depends.Contains(newDepend)) _depends.Add(newDepend);
+        var pluginName = Assembly.GetCallingAssembly().FullName.Split(',').First();
+        Depends[name] = (pluginName, version);
     }
 
     internal static bool CheckDepends()
     {
         var plugName = Assembly.GetCallingAssembly().FullName.Split(',').First();
-        var missingDepend = string.Empty;
-        var outdatedDepend = string.Empty;
-        var pluginDepends = _depends.Where(depend => depend.PluginName == plugName).ToList();
+        var missingDepend = new List<string>();
+        var outdatedDepend = new List<string>();
 
-        foreach (var depend in pluginDepends)
-            if (!File.Exists(depend.DependName)) missingDepend += $"{depend.DependName}~n~";
-
-        if (missingDepend.Length > 0)
+        foreach (var depend in Depends)
         {
-            PyroCommon.PyroFunctions.Log.Error($"These dependencies are not installed correctly!\r\n{missingDepend.Replace("~n~", "\r\n")}{plugName} could not load!", false);
+            if (!File.Exists(depend.Key)) missingDepend.Add(depend.Key);
+            else if (new Version(FileVersionInfo.GetVersionInfo(depend.Key).FileVersion) < new Version(depend.Value.Version)) outdatedDepend.Add(depend.Key);
+        }
+
+        if (missingDepend.Count > 0)
+        {
+            var missingMessage = string.Join("\r\n", missingDepend);
+            Log.Error($"These dependencies are not installed correctly!\r\n{missingMessage}\r\n{plugName} could not load!", false);
             Game.DisplayNotification("new_editor", "warningtriangle", $"~r~{plugName}", "~y~Not Loaded!", "Plugin is installed incorrectly! Please see the RagePluginHook.log! Visit https://dsc.PyrosFun.com for help!");
             return false;
         }
 
-        foreach (var depend in pluginDepends)
+        if (outdatedDepend.Count > 0)
         {
-            var dependVersion = new Version(FileVersionInfo.GetVersionInfo(depend.DependName).FileVersion);
-            if (dependVersion < new Version(depend.DependVersion)) outdatedDepend += $"{depend.DependName}~n~";
-        }
-
-        if (outdatedDepend.Length > 0)
-        {
-            PyroCommon.PyroFunctions.Log.Error($"These dependencies are outdated!\r\n{outdatedDepend.Replace("~n~", "\r\n")}{plugName} could not load!", false);
+            var outdatedMessage = string.Join("\r\n", outdatedDepend);
+            Log.Error($"These dependencies are outdated!\r\n{outdatedMessage}\r\n{plugName} could not load!", false);
             Game.DisplayNotification("new_editor", "warningtriangle", $"~r~{plugName}", "~y~Not Loaded!", "Plugin is installed incorrectly! Please see the RagePluginHook.log! Visit https://dsc.PyrosFun.com for help!");
             return false;
         }
