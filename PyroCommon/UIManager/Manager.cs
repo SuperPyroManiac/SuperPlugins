@@ -125,8 +125,8 @@ internal static class Manager
             DwConfig.RightLabel = "Not Installed!";
             DwConfig.Skipped = true;
         }
-        GameFiber.StartNew(Process);
         if (Settings.FirstTime) FirstRun();
+        Process();
     }
 
     private static void FirstRun()

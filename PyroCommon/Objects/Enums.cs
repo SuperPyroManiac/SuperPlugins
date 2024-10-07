@@ -2,6 +2,13 @@
 
 public static class Enums
 {
+    public enum UpdateState
+    {
+        Failed,
+        Update,
+        Current
+    }
+    
     public enum ScAnimationsSet
     {
         Drunk,

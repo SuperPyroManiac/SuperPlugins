@@ -30,13 +30,13 @@ public static class Main
         if (_init) return;
         _init = true;
         AssemblyLoader.Load();
-        Settings.LoadSettings();
-        Particles.InitParticles();
-        GameFiber.StartNew(DelayStart);
+        GameFiber.StartNew(Run, "[PC] Main");
     }
 
-    private static void DelayStart()
+    private static void Run()
     {
+        Settings.LoadSettings();
+        Particles.InitParticles();
         GameFiber.WaitUntil(() =>
         {
             var pluginsToCheck = new List<string>();
@@ -45,7 +45,7 @@ public static class Main
             if (UsingDw) pluginsToCheck.Add("DeadlyWeapons");
             return pluginsToCheck.All(InstalledPyroPlugins.ContainsKey);
         });
-        VersionChecker.IsUpdateAvailable(InstalledPyroPlugins);
+        VersionChecker.Validate(InstalledPyroPlugins);
         if (UsingSc) ScSettings.GetSettings();
         if (UsingSe) SeSettings.GetSettings();
         if (UsingDw) DwSettings.GetSettings();
