@@ -92,8 +92,8 @@ internal class OfficerShootout : SuperCallout
         Functions.PlayScannerAudioUsingPosition("REQUEST_BACKUP", SpawnPoint.Position);
         Game.SetRelationshipBetweenRelationshipGroups("BADGANG", "COP", Relationship.Hate);
         Game.SetRelationshipBetweenRelationshipGroups("BADGANG", "PLAYER", Relationship.Hate);
-        Backup.Request(Enums.BackupType.Code3);
-        Backup.Request(Enums.BackupType.Code3);
+        PyroFunctions.RequestBackup(Enums.BackupType.Code3);
+        PyroFunctions.RequestBackup(Enums.BackupType.Code3);
         if (_cBlip.Exists()) _cBlip.DisableRoute();
     }
 }

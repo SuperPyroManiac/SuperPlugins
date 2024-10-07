@@ -117,10 +117,10 @@ internal class Mafia4 : Callout
                         Game.SetRelationshipBetweenRelationshipGroups("MAFIA", "COP", Relationship.Hate);
                         Game.SetRelationshipBetweenRelationshipGroups("MAFIA", "PLAYER", Relationship.Hate);
                         Game.SetRelationshipBetweenRelationshipGroups("COP", "MAFIA", Relationship.Hate);
-                        Backup.Request(Enums.BackupType.Swat);
-                        Backup.Request(Enums.BackupType.Code3);
-                        Backup.Request(Enums.BackupType.Code3);
-                        Backup.Request(Enums.BackupType.Code3);
+                        PyroFunctions.RequestBackup(Enums.BackupType.Swat);
+                        PyroFunctions.RequestBackup(Enums.BackupType.Code3);
+                        PyroFunctions.RequestBackup(Enums.BackupType.Code3);
+                        PyroFunctions.RequestBackup(Enums.BackupType.Code3);
                         _state = RunState.RaidScene;
                     }
 

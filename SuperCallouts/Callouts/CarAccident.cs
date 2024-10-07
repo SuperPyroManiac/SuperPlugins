@@ -69,8 +69,8 @@ internal class CarAccident : SuperCallout
         {
             Game.DisplaySubtitle(
                 "~g~You~s~: Dispatch, we have a vehicle accident, possible hit and run. Looks like someone is inside and injured! I need EMS out here.");
-            Backup.Request(Enums.BackupType.Fire);
-            Backup.Request(Enums.BackupType.Medical);
+            PyroFunctions.RequestBackup(Enums.BackupType.Fire);
+            PyroFunctions.RequestBackup(Enums.BackupType.Medical);
 
             _callEms.Enabled = false;
             base.Interactions(sender, selItem, index);

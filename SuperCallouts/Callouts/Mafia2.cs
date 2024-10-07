@@ -109,10 +109,10 @@ internal class Mafia2 : Callout
                     "~r~Dispatch:~s~ Officer on scene, mafia activity spotted. Dispatching specialized units.");
                 Functions.PlayScannerAudioUsingPosition(
                     "DISPATCH_SWAT_UNITS_FROM_01 IN_OR_ON_POSITION UNITS_RESPOND_CODE_99_01", _callPos);
-                Backup.Request(Enums.BackupType.Noose);
-                Backup.Request(Enums.BackupType.Code3);
-                Backup.Request(Enums.BackupType.Code3);
-                Backup.Request(Enums.BackupType.Code3);
+                PyroFunctions.RequestBackup(Enums.BackupType.Noose);
+                PyroFunctions.RequestBackup(Enums.BackupType.Code3);
+                PyroFunctions.RequestBackup(Enums.BackupType.Code3);
+                PyroFunctions.RequestBackup(Enums.BackupType.Code3);
 
                 Game.LocalPlayer.Character.RelationshipGroup = "COP";
                 _mafiaDude13.Tasks.FightAgainst(Game.LocalPlayer.Character, -1);

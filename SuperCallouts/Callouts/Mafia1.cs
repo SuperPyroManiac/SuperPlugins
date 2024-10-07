@@ -133,18 +133,18 @@ internal class Mafia1 : Callout
                         switch (_choice)
                         {
                             case SrChoice.Noose:
-                                Backup.Request(Enums.BackupType.Noose);
-                                Backup.Request(Enums.BackupType.Noose);
+                                PyroFunctions.RequestBackup(Enums.BackupType.Noose);
+                                PyroFunctions.RequestBackup(Enums.BackupType.Noose);
                                 _state = SrState.RaidScene;
                                 break;
                             case SrChoice.Swat:
-                                Backup.Request(Enums.BackupType.Swat);
-                                Backup.Request(Enums.BackupType.Swat);
+                                PyroFunctions.RequestBackup(Enums.BackupType.Swat);
+                                PyroFunctions.RequestBackup(Enums.BackupType.Swat);
                                 _state = SrState.RaidScene;
                                 break;
                             case SrChoice.You:
-                                Backup.Request(Enums.BackupType.Code3);
-                                Backup.Request(Enums.BackupType.Code3);
+                                PyroFunctions.RequestBackup(Enums.BackupType.Code3);
+                                PyroFunctions.RequestBackup(Enums.BackupType.Code3);
                                 _state = SrState.RaidScene;
                                 break;
                             default:

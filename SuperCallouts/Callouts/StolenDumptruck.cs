@@ -59,6 +59,6 @@ internal class StolenDumptruck : SuperCallout
         var pursuit = Functions.CreatePursuit();
         Functions.AddPedToPursuit(pursuit, _bad);
         Functions.SetPursuitIsActiveForPlayer(pursuit, true);
-        Backup.Request(Enums.BackupType.Pursuit);
+        PyroFunctions.RequestBackup(Enums.BackupType.Pursuit);
     }
 }

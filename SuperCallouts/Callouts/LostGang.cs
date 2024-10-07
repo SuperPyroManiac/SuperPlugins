@@ -108,9 +108,9 @@ internal class LostGang : Callout
                 PyroFunctions.SetWanted(bikerss, true);
                 bikerss.Tasks.FightAgainstClosestHatedTarget(50f);
             }
-            Backup.Request(Enums.BackupType.Code3);
-            Backup.Request(Enums.BackupType.Code3);
-            Backup.Request(Enums.BackupType.Code3);
+            PyroFunctions.RequestBackup(Enums.BackupType.Code3);
+            PyroFunctions.RequestBackup(Enums.BackupType.Code3);
+            PyroFunctions.RequestBackup(Enums.BackupType.Code3);
         }
 
         if (_onScene && Game.LocalPlayer.Character.DistanceTo(_spawnPoint) > 90f) End();

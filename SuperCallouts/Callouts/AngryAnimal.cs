@@ -2,6 +2,7 @@ using System;
 using System.Drawing;
 using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.Objects;
+using PyroCommon.PyroFunctions;
 using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
@@ -77,8 +78,8 @@ internal class AngryAnimal : SuperCallout
         {
             Game.DisplaySubtitle(
                 "~g~You~s~: Dispatch, we have a person that has been attacked by an animal! We need medical here ASAP!");
-            PyroCommon.PyroFunctions.Backup.Request(Enums.BackupType.Fire);
-            PyroCommon.PyroFunctions.Backup.Request(Enums.BackupType.Medical);
+            PyroFunctions.RequestBackup(Enums.BackupType.Fire);
+            PyroFunctions.RequestBackup(Enums.BackupType.Medical);
 
             _callEms.Enabled = false;
             base.Interactions(sender, selItem, index);

@@ -29,9 +29,9 @@ internal static class Panic
         if (PyroCommon.Main.UsingUb) Log.Info("Using Ultimate Backup for panic.");
         GameFiber.StartNew(delegate
         {
-            if (Settings.Code3Backup) Backup.Request(Enums.BackupType.Code3);
-            if (Settings.SwatBackup) Backup.Request(Enums.BackupType.Swat);
-            if (Settings.NooseBackup) Backup.Request(Enums.BackupType.Noose);
+            if (Settings.Code3Backup) PyroCommon.PyroFunctions.PyroFunctions.RequestBackup(Enums.BackupType.Code3);
+            if (Settings.SwatBackup) PyroCommon.PyroFunctions.PyroFunctions.RequestBackup(Enums.BackupType.Swat);
+            if (Settings.NooseBackup) PyroCommon.PyroFunctions.PyroFunctions.RequestBackup(Enums.BackupType.Noose);
 
             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~r~Shots Fired", "~y~Panic Activated", "Your weapon has been discharged. Dispatch has been alerted.");
             GameFiber.Wait(Settings.PanicCooldown * 1000);

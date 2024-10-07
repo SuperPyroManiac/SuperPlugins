@@ -117,8 +117,8 @@ internal class CarAccident2 : SuperCallout
         {
             _callFd.Enabled = false;
             Game.DisplaySubtitle("~g~You~s~: Dispatch, we have an MVA. One person is seriously injured.");
-            Backup.Request(Enums.BackupType.Fire);
-            Backup.Request(Enums.BackupType.Medical);
+            PyroFunctions.RequestBackup(Enums.BackupType.Fire);
+            PyroFunctions.RequestBackup(Enums.BackupType.Medical);
 
             _callFd.Enabled = false;
             base.Interactions(sender, selItem, index);
