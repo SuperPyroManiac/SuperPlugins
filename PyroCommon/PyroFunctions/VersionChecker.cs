@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Net.Http;
 using System.Threading;
 using Rage;
+using Task = System.Threading.Tasks.Task;
 
 namespace PyroCommon.PyroFunctions;
 
@@ -24,8 +26,6 @@ internal static class VersionChecker
         {
             OutdatedPyroPlugins.Clear();
             var updateThread = new Thread(() => CheckVersion(pluginDict));
-            updateThread.Start();
-            GameFiber.SleepWhile(() => updateThread.IsAlive, 0);
             HandleUpdateResult(pluginDict);
         }
         catch (Exception)
@@ -35,48 +35,19 @@ internal static class VersionChecker
         }
     }
 
-    private static void HandleUpdateResult(Dictionary<string, string> pluginDict)
+    private static async Task CheckVersion(Dictionary<string, string> plugDict)
     {
-        switch (_state)
-        {
-            case State.Failed:
-                Log.Warning("Unable to check for updates! No internet or LSPDFR is down?");
-                break;
-            case State.Update:
-                NotifyOutdatedPlugins(pluginDict);
-                break;
-            case State.Current:
-                Log.Info("Plugins are up to date!");
-                break;
-        }
-    }
-
-    private static void NotifyOutdatedPlugins(Dictionary<string, string> pluginDict)
-    {
-        var ingameNotice = string.Empty;
-        var logNotice = "Plugin updates available!";
-
-        foreach (var plug in OutdatedPyroPlugins)
-        {
-            ingameNotice += $"~w~{plug.Key}: ~r~{pluginDict[plug.Key]} <br>~w~New Version: ~g~{plug.Value}<br>";
-            logNotice += $"\r\n{plug.Key}: Current Version: {pluginDict[plug.Key]} New Version: {plug.Value}";
-        }
-
-        if (Settings.UpdateNotifications)
-            Game.DisplayNotification("commonmenu", "mp_alerttriangle", "~r~SuperPlugins Warning", "~y~New updates available!", ingameNotice);
-        Log.Warning(logNotice);
-    }
-
-    private static void CheckVersion(Dictionary<string, string> plugDict)
-    {
+        var client = new HttpClient();
+        var cts = new CancellationTokenSource();
+        cts.CancelAfter(TimeSpan.FromSeconds(15));
         foreach (var plug in plugDict)
         {
-            var id = GetPluginId(plug.Key);
-            if (string.IsNullOrEmpty(id)) continue;
             try
             {
-                var receivedData = new WebClient().DownloadString($"https://www.lcpdfr.com/applications/downloadsng/interface/api.php?do=checkForUpdates&fileId={id}&textOnly=1").Trim();
-                ProcessReceivedData(plug, receivedData);
+                var receivedData = await client.GetStringAsync($"https://api.PyrosFun.com/ver/{plug.Key}", cts.Token);
+                if ( receivedData == plug.Value ) return;
+                OutdatedPyroPlugins[plug.Key] = receivedData;
+                _state = State.Update;
             }
             catch (WebException)
             {
@@ -84,22 +55,29 @@ internal static class VersionChecker
             }
         }
     }
-
-    private static string GetPluginId(string pluginName)
+    
+    private static void HandleUpdateResult(Dictionary<string, string> pluginDict)
     {
-        return pluginName switch
+        switch (_state)
         {
-            "SuperCallouts" => "23995",
-            "SuperEvents" => "24437",
-            "DeadlyWeapons" => "27453",
-            _ => string.Empty
-        };
-    }
+            case State.Failed:
+                Log.Warning("Unable to check for updates!");
+                break;
+            case State.Update:
+                var ingameNotice = string.Empty;
+                var logNotice = "Plugin updates available!";
 
-    private static void ProcessReceivedData(KeyValuePair<string, string> plug, string receivedData)
-    {
-        if ( receivedData == plug.Value ) return;
-        OutdatedPyroPlugins[plug.Key] = receivedData;
-        _state = State.Update;
+                foreach (var plug in OutdatedPyroPlugins)
+                {
+                    ingameNotice += $"~w~{plug.Key}: ~r~{pluginDict[plug.Key]} <br>~w~New Version: ~g~{plug.Value}<br>";
+                    logNotice += $"\r\n{plug.Key}: Current Version: {pluginDict[plug.Key]} New Version: {plug.Value}";
+                }
+                if (Settings.UpdateNotifications) Game.DisplayNotification("commonmenu", "mp_alerttriangle", "~r~SuperPlugins Warning", "~y~New updates available!", ingameNotice);
+                Log.Warning(logNotice);
+                break;
+            case State.Current:
+                Log.Info("Plugins are up to date!");
+                break;
+        }
     }
 }
