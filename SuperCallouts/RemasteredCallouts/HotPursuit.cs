@@ -8,7 +8,7 @@ using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using Functions = LSPD_First_Response.Mod.API.Functions;
-using Location = PyroCommon.API.Location;
+using Location = PyroCommon.Objects.Location;
 
 namespace SuperCallouts.RemasteredCallouts;
 
@@ -98,8 +98,7 @@ internal class HotPursuit : SuperCallout
             });
         }
         
-        if (OnScene && !Functions.IsPursuitStillRunning(_pursuit) 
-            && Player.DistanceTo(_bad1) > 75 && Player.DistanceTo(_bad2) > 75) CalloutEnd();
+        if (OnScene && !Functions.IsPursuitStillRunning(_pursuit) && (Player?.DistanceTo(_bad1) ?? 100) > 75 && (Player?.DistanceTo(_bad2) ?? 100) > 75) CalloutEnd();
 
         if (OnScene && !Functions.IsPursuitStillRunning(_pursuit))
         {
@@ -108,18 +107,18 @@ internal class HotPursuit : SuperCallout
             _speakSuspect2.Enabled = true;
         }
 
-        if (_bad1.IsDead)
+        if (_bad1?.IsDead ?? true)
         {
             _speakSuspect.Enabled = false;
             _speakSuspect.RightLabel = "~r~Dead";
         }
 
-        if (_bad2.IsDead)
+        if (_bad2?.IsDead ?? true)
         {
             _speakSuspect2.Enabled = false;
             _speakSuspect2.RightLabel = "~r~Dead";
         }
-
+        
         SpawnPoint = new Location(_cVehicle.Position);
     }
 
@@ -153,9 +152,7 @@ internal class HotPursuit : SuperCallout
                 _bad2.Tasks.FaceEntity(Player);
                 Game.DisplaySubtitle("~g~You~s~: You know this is a stolen vehicle right? What are you guys doing?", 5000);
                 GameFiber.Wait(5000);
-                Game.DisplaySubtitle(
-                    "~r~" + _name2 +
-                    "~s~: I didn't do anything wrong, I was just hanging out with my buddy and all this happened.", 5000);
+                Game.DisplaySubtitle("~r~" + _name2 + "~s~: I didn't do anything wrong, I was just hanging out with my buddy and all this happened.", 5000);
             });
         base.Conversations(sender, selItem, index);
     }

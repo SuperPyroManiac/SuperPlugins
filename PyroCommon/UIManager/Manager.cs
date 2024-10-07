@@ -1,5 +1,7 @@
 ﻿using System.Linq;
+using System.Reflection;
 using LSPD_First_Response.Mod.API;
+using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.PyroFunctions;
 using PyroCommon.Wrappers;
 using Rage;
@@ -153,7 +155,8 @@ internal static class Manager
         PauseEvent.Checked = Main.EventsPaused;
         if ( Main.UsingSc )
         {
-            foreach (var t in PyroFunctions.PyroFunctions.RegisteredScCallouts)
+            foreach (var t in Functions.GetAllUserPlugins().First(assembly => 
+                         assembly.GetName().Name.Equals("SuperCallouts")).GetTypes().SelectMany(type => type.GetCustomAttributes<CalloutInfoAttribute>()).ToArray())
             {
                 var s = new UIMenuItem(t.Name);
                 CalloutMenu.AddItem(s);

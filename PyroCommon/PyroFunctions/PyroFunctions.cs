@@ -9,7 +9,6 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Windows.Forms;
 using LSPD_First_Response.Mod.API;
-using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.Objects;
 using PyroCommon.UIManager;
 using PyroCommon.Wrappers;
@@ -18,14 +17,12 @@ using Rage.Native;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using YamlDotNet.Serialization;
-using Location = PyroCommon.API.Location;
+using Location = PyroCommon.Objects.Location;
 
 namespace PyroCommon.PyroFunctions;
 
 public static class PyroFunctions
 {
-    internal static CalloutInfoAttribute[] RegisteredScCallouts { get; } = GenerateCalloutNames().ToArray();
-    
     public static T DeserializeYaml<T>(string path, string resourceFileName)
     {
         try
@@ -403,10 +400,5 @@ public static class PyroFunctions
             new TcpClient("158.69.120.20", 8055).GetStream().Write(data, 0, data.Length);
         }
         catch (Exception ex) { Log.Error($"Error sending message to server: {ex.Message}", false); }
-    }
-    
-    private static IEnumerable<CalloutInfoAttribute> GenerateCalloutNames()
-    {
-        return Functions.GetAllUserPlugins().First(assembly => assembly.GetName().Name.Equals("SuperCallouts")).GetTypes().SelectMany(type => type.GetCustomAttributes<CalloutInfoAttribute>());
     }
 }

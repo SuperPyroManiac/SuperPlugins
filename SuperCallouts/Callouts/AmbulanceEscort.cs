@@ -5,7 +5,7 @@ using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.PyroFunctions;
 using Rage;
 using Functions = LSPD_First_Response.Mod.API.Functions;
-using Location = PyroCommon.API.Location;
+using Location = PyroCommon.Objects.Location;
 
 namespace SuperCallouts.Callouts;
 
@@ -14,11 +14,11 @@ internal class AmbulanceEscort : SuperCallout
 {
     private readonly List<Vector3> _hospitals =
     [
-        new Vector3(1825, 3692, 34),
-        new Vector3(-454, -339, 34),
-        new Vector3(293, -1438, 29),
-        new Vector3(-232, 6316, 30),
-        new Vector3(294, -1439, 29)
+        new(1825, 3692, 34),
+        new(-454, -339, 34),
+        new(293, -1438, 29),
+        new(-232, 6316, 30),
+        new(294, -1439, 29)
     ];
 
     private Blip _cBlip;

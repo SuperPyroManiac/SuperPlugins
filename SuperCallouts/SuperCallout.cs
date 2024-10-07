@@ -7,7 +7,7 @@ using PyroCommon.UIManager;
 using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
-using Location = PyroCommon.API.Location;
+using Location = PyroCommon.Objects.Location;
 
 namespace SuperCallouts;
 
