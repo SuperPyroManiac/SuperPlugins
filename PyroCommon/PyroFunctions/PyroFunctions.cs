@@ -35,16 +35,14 @@ public static class PyroFunctions
                 using var fileStream = new FileStream(path, FileMode.Create, FileAccess.Write);
                 resourceStream?.CopyTo(fileStream);
             }
-            using var reader = new StreamReader(path);
-            return new DeserializerBuilder().Build().Deserialize<T>(reader);
+            return new DeserializerBuilder().Build().Deserialize<T>(new StreamReader(path));
         }
         catch (Exception e)
         {
-            Log.Error($"Error deserializing YAML at {path}: {e.Message}");
+            Log.Error($"Error deserializing YAML at {path}:\r\n{e.Message}", false);
             throw;
         }
     }
-
     
     public static void AddDrugItem(string item, Enums.DrugType drugType, Ped ped = null, Vehicle vehicle = null, Enums.ItemLocation itemLocation = Enums.ItemLocation.Anywhere)
     {
@@ -94,7 +92,7 @@ public static class PyroFunctions
     public static void DrawMarker(Enums.MarkerType type, Vector3 position, float scale, Color color, bool bounce)
     {
         NativeFunction.Natives.x28477EC23D892089((int)type, position.X, position.Y, position.Z, 0, 0, 0, 0, 180, 0, scale, scale, scale, color.R, color.G, color.B, color.A, bounce, true, 1, false, 0, 0, false);
-        //PyroFunctions.DrawMarker(Enums.MarkerType.Arrow, _cVehicle.Position, 0.3f, Color.Red, true);
+        //Usage Example: PyroFunctions.DrawMarker(Enums.MarkerType.Arrow, _cVehicle.Position, 0.3f, Color.Red, true);
     }
 
     public static Vehicle SpawnCar(Location location)
@@ -205,8 +203,6 @@ public static class PyroFunctions
         pursuitAttributes.AverageBurstTireSurrenderTime = rnd.Next(30, 120);
         pursuitAttributes.AverageSurrenderTime = rnd.Next(750, 10000);
     }
-    
-    //TODO: These will be removed when the remaster is complete!
     
     [Obsolete("Method is deprecated, please use Ped.SetWalkAnimation instead.")]
     public static void SetAnimation(Ped person, string theAnimation)

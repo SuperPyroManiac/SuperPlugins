@@ -73,7 +73,10 @@
         <Compile Include="PyroFunctions\AssemblyLoader.cs" />
         <Compile Include="PyroFunctions\Backup.cs" />
         <Compile Include="PyroFunctions\DependManager.cs" />
-        <Compile Include="PyroFunctions\EntityExtensions.cs" />
+        <Compile Include="PyroFunctions\Extensions\Peds.cs" />
+        <Compile Include="PyroFunctions\Extensions\RNUI.cs" />
+        <Compile Include="PyroFunctions\Extensions\Tasks.cs" />
+        <Compile Include="PyroFunctions\Extensions\Vehicles.cs" />
         <Compile Include="PyroFunctions\Locations.cs" />
         <Compile Include="PyroFunctions\Log.cs" />
         <Compile Include="PyroFunctions\Particles.cs" />

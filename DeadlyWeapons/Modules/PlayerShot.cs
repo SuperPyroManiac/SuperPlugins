@@ -2,6 +2,7 @@
 using DamageTrackerLib.DamageInfo;
 using DeadlyWeapons.PyroFunctions;
 using PyroCommon.PyroFunctions;
+using PyroCommon.PyroFunctions.Extensions;
 using Rage;
 
 namespace DeadlyWeapons.Modules;

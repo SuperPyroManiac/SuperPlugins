@@ -7,7 +7,7 @@ namespace PyroCommon.Wrappers;
 
 public static class SearchItems
 {
-    //TODO: PR API
+    //PR API
     // internal static void AddDrugItem(string item, Enums.DrugType drugType, Enums.ItemLocation itemLocation = Enums.ItemLocation.Anywhere, Ped ped = null, Vehicle vehicle = null)
     // {
     //     if (ped == null && vehicle == null) return;

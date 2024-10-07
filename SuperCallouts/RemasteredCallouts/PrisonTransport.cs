@@ -2,6 +2,7 @@ using System;
 using System.Drawing;
 using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.PyroFunctions;
+using PyroCommon.PyroFunctions.Extensions;
 using Rage;
 using Functions = LSPD_First_Response.Mod.API.Functions;
 using Location = PyroCommon.Objects.Location;
