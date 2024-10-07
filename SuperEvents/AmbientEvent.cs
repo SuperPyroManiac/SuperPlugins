@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Windows.Forms;
 using PyroCommon.PyroFunctions;
 using PyroCommon.UIManager;
 using Rage;
@@ -17,10 +16,6 @@ namespace SuperEvents;
 public abstract class AmbientEvent
 {
     internal bool HasEnded { get; set; }
-    private static bool ShowBlips = Settings.ShowBlips;
-    private static bool ShowHints = Settings.ShowHints;
-    private static Keys EndKey = Settings.EndEvent;
-    private static Keys Interact = Settings.Interact;
     private readonly string _eventTitle;
     private readonly string _eventDescription;
     protected readonly UIMenu ConvoMenu = new("SuperEvents", "~y~Choose a subject to speak with.");
@@ -87,7 +82,7 @@ public abstract class AmbientEvent
         }
         MainMenu.OnItemSelect += Interactions;
         ConvoMenu.OnItemSelect += Conversations;
-        if (ShowBlips)
+        if (Settings.ShowBlips)
         {
             var eventBlip = new Blip(EventLocation, 15f);
             eventBlip.Color = Color.Red;
@@ -105,8 +100,8 @@ public abstract class AmbientEvent
 
     private void Process()
     {
-        if (Game.IsKeyDown(EndKey)) EndEvent();
-        if (Game.IsKeyDown(Interact)) MainMenu.Visible = !MainMenu.Visible;
+        if (Game.IsKeyDown(Settings.EndEvent)) EndEvent();
+        if (Game.IsKeyDown(Settings.Interact)) MainMenu.Visible = !MainMenu.Visible;
         if (EventLocation.DistanceTo(Player) > ClearEventDistance)
         {
             EndEvent(true);
@@ -115,10 +110,10 @@ public abstract class AmbientEvent
         if (!onScene && Game.LocalPlayer.Character.DistanceTo(EventLocation) < OnSceneDistance)
         {
             onScene = true;
-            if (ShowHints)
+            if (Settings.ShowHints)
                 Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~y~Officer Sighting",
                     "~r~" + _eventTitle, _eventDescription);
-            Game.DisplayHelp("~y~Press ~r~" + Interact + "~y~ to open interaction menu.");
+            Game.DisplayHelp("~y~Press ~r~" + Settings.Interact + "~y~ to open interaction menu.");
             OnScene();
         }
         if (Player.IsDead) EndEvent();
