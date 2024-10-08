@@ -4,25 +4,34 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using LSPD_First_Response.Mod.API;
 using Rage;
 
 namespace PyroCommon.PyroFunctions;
 
-internal static class DependManager
+internal class DependManager
 {
-    private static readonly Dictionary<string, (string PluginName, string Version)> Depends = new();
+    private readonly Dictionary<string, (string PluginName, string Version)> Depends = new();
 
-    internal static void AddDepend(string name, string version)
+    internal void AddDepend(string name, string version)
     {
         var pluginName = Assembly.GetCallingAssembly().FullName.Split(',').First();
         Depends[name] = (pluginName, version);
     }
 
-    internal static bool CheckDepends()
+    internal bool CheckDepends()
     {
         var plugName = Assembly.GetCallingAssembly().FullName.Split(',').First();
         var missingDepend = new List<string>();
         var outdatedDepend = new List<string>();
+        
+        if ( Functions.GetVersion() < new Version("0.4.9") )
+        {
+            var outdatedMessage = string.Join("\r\n", outdatedDepend);
+            Log.Error($"LSPDFR is too far outdated! You require at least version 0.4.9.\r\nYour version: {Functions.GetVersion()}", false);
+            Game.DisplayNotification("new_editor", "warningtriangle", $"~r~{plugName}", "~y~Not Loaded!", "Plugin is installed incorrectly! Please see the RagePluginHook.log! Visit https://dsc.PyrosFun.com for help!");
+            return false;
+        }
 
         foreach (var depend in Depends)
         {

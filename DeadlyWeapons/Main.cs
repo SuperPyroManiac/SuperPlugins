@@ -13,14 +13,15 @@ namespace DeadlyWeapons;
 public class Main : Plugin
 {
     internal static bool Running;
-    private GameFiber _panicFiber;
+    private GameFiber? _panicFiber;
     
     public override void Initialize()
     {
-        DependManager.AddDepend("PyroCommon.dll", "1.10.0.0");
-        DependManager.AddDepend("DamageTrackerLib.dll", "1.0.2");
-        DependManager.AddDepend("RageNativeUI.dll", "1.9.2.0");
-        if ( !DependManager.CheckDepends() ) return;
+        var dCheck = new DependManager();
+        dCheck.AddDepend("PyroCommon.dll", "1.10.0.0");
+        dCheck.AddDepend("DamageTrackerLib.dll", "2.0.0");
+        dCheck.AddDepend("RageNativeUI.dll", "1.9.2.0");
+        if ( !dCheck.CheckDepends() ) return;
         Functions.OnOnDutyStateChanged += OnOnDutyStateChangedHandler;
     }
 

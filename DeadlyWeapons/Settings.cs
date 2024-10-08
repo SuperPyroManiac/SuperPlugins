@@ -42,10 +42,10 @@ internal static class Settings
         Weapons = PyroCommon.PyroFunctions.PyroFunctions.DeserializeYaml<List<Weapon>>("Plugins/LSPDFR/DeadlyWeapons/Weapons.yml", "Weapons.yml");
         WeaponTypes = PyroCommon.PyroFunctions.PyroFunctions.DeserializeYaml<List<WeaponType>>("Plugins/LSPDFR/DeadlyWeapons/WeaponTypes.yml", "WeaponTypes.yml");
         var damageConfig = PyroCommon.PyroFunctions.PyroFunctions.DeserializeYaml<DamageConfigurations>("Plugins/LSPDFR/DeadlyWeapons/Damage.yml", "Damage.yml");
-        PlayerArmorValues = damageConfig.PlayerDamage.WithArmor;
-        NpcArmorValues = damageConfig.NpcDamage.WithArmor;
-        PlayerValues = damageConfig.PlayerDamage.WithoutArmor;
-        NpcValues = damageConfig.NpcDamage.WithoutArmor;
+        PlayerArmorValues = damageConfig!.PlayerDamage!.WithArmor!;
+        NpcArmorValues = damageConfig.NpcDamage!.WithArmor!;
+        PlayerValues = damageConfig.PlayerDamage.WithoutArmor!;
+        NpcValues = damageConfig.NpcDamage.WithoutArmor!;
     }
     
     internal static void SaveSettings()

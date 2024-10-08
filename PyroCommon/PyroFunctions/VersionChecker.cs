@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using PyroCommon.Objects;
 using Rage;
 using Task = System.Threading.Tasks.Task;
-using TaskStatus = System.Threading.Tasks.TaskStatus;
 
 namespace PyroCommon.PyroFunctions;
 

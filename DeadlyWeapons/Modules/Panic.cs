@@ -19,7 +19,9 @@ internal static class Panic
             GameFiber.Yield();
             if (Player.IsInAnyVehicle(true)) continue;
             if ( Player.IsShooting && Settings.Panic && !Utils.GetWeaponByHash(Player.Inventory.EquippedWeapon.Hash).PanicIgnore) PanicHit();
-            if ( Settings.Debug && Player.IsShooting && Settings.Panic ) Log.Info($"[DEBUG] Weapon fired: ({Player.Inventory.EquippedWeapon.Hash.ToString()}) Best DW Match: ({Utils.GetWeaponByHash(Player.Inventory.EquippedWeapon.Hash).Name}: {Utils.GetWeaponByHash(Player.Inventory.EquippedWeapon.Hash).WeaponHash})");
+            if ( Settings.Debug && Player.IsShooting && Settings.Panic ) 
+                Log.Info($"[DEBUG] Weapon fired: ({Player.Inventory.EquippedWeapon.Hash.ToString()}) " +
+                         $"Best DW Match: ({Utils.GetWeaponByHash(Player.Inventory.EquippedWeapon.Hash).Name}: {Utils.GetWeaponByHash(Player.Inventory.EquippedWeapon.Hash).WeaponHash})");
         }
     }
     private static void PanicHit()

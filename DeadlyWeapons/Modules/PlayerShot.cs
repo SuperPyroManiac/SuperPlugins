@@ -11,7 +11,7 @@ internal static class PlayerShot
 {
     private static Ped Player => Game.LocalPlayer.Character;
 
-    internal static void OnPlayerDamaged(Ped victim, Ped attacker, PedDamageInfo damageInfo)
+    internal static void OnPlayerDamaged(Ped victim, Ped? attacker, PedDamageInfo damageInfo)
     {
         if ( Player.IsDead ) return;
         if ( victim != Player ) return;

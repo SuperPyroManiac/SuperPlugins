@@ -6,7 +6,7 @@ using Weapon = DeadlyWeapons.Configs.Weapon;
 
 namespace DeadlyWeapons.PyroFunctions;
 
-public class Utils
+public static class Utils
 {
     internal static WeaponType GetWeaponType(Weapon weapon)
     {
