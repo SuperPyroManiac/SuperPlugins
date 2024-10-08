@@ -8,10 +8,10 @@ namespace SuperEvents.Events;
 [EventInfo("A Fire", "Call the Fire Department and clear the scene!")]
 internal class CarFire : AmbientEvent
 {
-    private Vehicle _eVehicle;
+    private Vehicle? _eVehicle;
     private Vector3 _spawnPoint;
     private Tasks _tasks = Tasks.CheckDistance;
-    private Ped _victim;
+    private Ped? _victim;
 
     protected override Vector3 EventLocation { get; set; }
 
@@ -47,6 +47,11 @@ internal class CarFire : AmbientEvent
                 case Tasks.OnScene:
                     var choice = new Random(DateTime.Now.Millisecond).Next(1, 4);
                     Log.Info("Fire event picked scenerio #" + choice);
+                    if ( _eVehicle == null )
+                    {
+                        EndEvent(true);
+                        break;
+                    }
                     switch (choice)
                     {
                         case 1:

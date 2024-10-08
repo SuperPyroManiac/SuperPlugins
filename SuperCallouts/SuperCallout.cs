@@ -121,6 +121,7 @@ internal abstract class SuperCallout : Callout
         {
             foreach (var entity in EntitiesToClear.Where(entity => entity.Exists())) entity.Delete();
             Log.Info($"{CalloutName} callout has been forcefully cleaned up.");
+            Game.DisplayHelp("~r~Error Detected: ~y~Callout forcefully cleared!");
         }
         else
         {

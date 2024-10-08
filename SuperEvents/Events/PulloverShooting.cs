@@ -9,12 +9,12 @@ namespace SuperEvents.Events;
 [EventInfo("Officer Under Fire", "Help the other officer!")]
 internal class PulloverShooting : AmbientEvent
 {
-    private Ped _cPed;
-    private Vehicle _cVehicle;
+    private Ped? _cPed;
+    private Vehicle? _cVehicle;
     private Vector3 _spawnPoint;
     private float _spawnPointH;
-    private Ped _sPed;
-    private Vehicle _sVehicle;
+    private Ped? _sPed;
+    private Vehicle? _sVehicle;
 
     private Tasks _tasks = Tasks.CheckDistance;
 
@@ -57,6 +57,12 @@ internal class PulloverShooting : AmbientEvent
     {
         try
         {
+            if ( _sPed == null || _cPed == null )
+            {
+                EndEvent(true);
+                return;
+            }
+            
             switch (_tasks)
             {
                 case Tasks.CheckDistance:

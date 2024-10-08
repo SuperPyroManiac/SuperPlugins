@@ -29,7 +29,7 @@ public abstract class AmbientEvent
     protected float ClearEventDistance { get; set; } = 200;
     public List<Entity> EntitiesToClear { get; } = [];
     public List<Blip> BlipsToClear { get; } = [];
-    private GameFiber ProcessFiber { get; }
+    private GameFiber? ProcessFiber { get; }
     protected static Ped Player => Game.LocalPlayer.Character;
     private bool onScene;
 
@@ -47,7 +47,7 @@ public abstract class AmbientEvent
                     Process();
                     GameFiber.Yield();
                 }
-            });
+            }, "[SE] ProcessFiber");
         }
         catch (Exception e)
         {
@@ -91,7 +91,7 @@ public abstract class AmbientEvent
             eventBlip.Flash(500, 8000);
             BlipsToClear.Add(eventBlip);
         }
-        ProcessFiber.Start();
+        ProcessFiber?.Start();
     }
     
     protected abstract void OnStartEvent();
@@ -131,6 +131,7 @@ public abstract class AmbientEvent
         {
             foreach (var entity in EntitiesToClear.Where(entity => entity.Exists())) entity.Delete();
             Log.Info("Event has been forcefully cleaned up.");
+            Game.DisplayHelp("~r~Error Detected: ~y~Event forcefully cleared!");
         }
         else
         {

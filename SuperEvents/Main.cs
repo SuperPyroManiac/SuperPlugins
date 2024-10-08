@@ -44,7 +44,7 @@ internal class Main : Plugin
                 "~r~SuperEvents",
                 "~g~Plugin Loaded.",
                 "SuperEvents version: " + Assembly.GetExecutingAssembly().GetName().Version + " loaded.");
-            GameFiber.StartNew(EventManager.InitEvents);
+            GameFiber.StartNew(EventManager.InitEvents, "[SE] EventManager");
             return;
         }
         PyroCommon.Main.StopCommon();

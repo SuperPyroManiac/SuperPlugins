@@ -13,7 +13,7 @@ public static class EventManager
     internal static readonly List<Type> RegisteredEvents = [];
     internal static readonly List<Type> AllEvents = [];
     private static readonly List<Type> BrokenEvents = [];
-    internal static AmbientEvent CurrentEvent;
+    internal static AmbientEvent? CurrentEvent;
 
     internal static bool PlayerIsBusy =>
         Functions.IsCalloutRunning() || Functions.IsPlayerPerformingPullover() ||
@@ -78,7 +78,9 @@ public static class EventManager
         }
         catch (Exception e) when (e is not ThreadAbortException)
         {
-            Log.Error(e.ToString());
+            if (e.Message.Contains("Could not spawn new vehicle")) Log.Error("Vehicle spawn failed! This is likely a mods folder issue and not the plugins fault!\r\n" + e.Message, false);
+            else Log.Error(e.ToString());
+            EndEvent();
         }
     }
 

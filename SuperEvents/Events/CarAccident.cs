@@ -14,20 +14,20 @@ namespace SuperEvents.Events;
 internal class CarAccident : AmbientEvent
 {
     private readonly int _choice = new Random(DateTime.Now.Millisecond).Next(0, 5);
-    private Ped _ePed;
-    private Ped _ePed2;
-    private Vehicle _eVehicle;
-    private Vehicle _eVehicle2;
-    private string _name1;
-    private string _name2;
+    private Ped? _ePed;
+    private Ped? _ePed2;
+    private Vehicle? _eVehicle;
+    private Vehicle? _eVehicle2;
+    private string? _name1;
+    private string? _name2;
     private Vector3 _spawnPoint;
     private float _spawnPointH;
 
     private Tasks _tasks = Tasks.CheckDistance;
 
     //UI Items
-    private UIMenuItem _speakSuspect;
-    private UIMenuItem _speakSuspect2;
+    private UIMenuItem? _speakSuspect;
+    private UIMenuItem? _speakSuspect2;
 
     protected override Vector3 EventLocation { get; set; }
 
@@ -112,6 +112,11 @@ internal class CarAccident : AmbientEvent
 
                     break;
                 case Tasks.OnScene:
+                    if ( _ePed == null || _ePed2 == null )
+                    {
+                        EndEvent(true);
+                        break;
+                    }
                     _ePed.BlockPermanentEvents = false;
                     _ePed2.BlockPermanentEvents = false;
                     switch (_choice)
@@ -140,8 +145,8 @@ internal class CarAccident : AmbientEvent
                             break;
                     }
 
-                    _speakSuspect.Enabled = true;
-                    _speakSuspect2.Enabled = true;
+                    _speakSuspect!.Enabled = true;
+                    _speakSuspect2!.Enabled = true;
 
                     _tasks = Tasks.End;
                     break;
@@ -165,6 +170,12 @@ internal class CarAccident : AmbientEvent
 
     protected override void Conversations(UIMenu sender, UIMenuItem selItem, int index)
     {
+        if ( _ePed == null || _ePed2 == null )
+        {
+            EndEvent(true);
+            return;
+        }
+        
         if (selItem == _speakSuspect)
         {
             if (_ePed.IsDead)
