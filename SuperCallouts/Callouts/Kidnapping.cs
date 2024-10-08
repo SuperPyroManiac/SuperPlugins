@@ -15,14 +15,14 @@ namespace SuperCallouts.Callouts;
 internal class Kidnapping : SuperCallout
 {
     private readonly Random _rNd = new();
-    private Ped _bad1;
-    private Blip _cBlip1;
-    private Vehicle _cVehicle;
-    private string _name1;
-    private string _name2;
-    private UIMenuItem _speakSuspect;
-    private UIMenuItem _speakSuspect2;
-    private Ped _victim1;
+    private Ped? _bad1;
+    private Blip? _cBlip1;
+    private Vehicle? _cVehicle;
+    private string? _name1;
+    private string? _name2;
+    private UIMenuItem? _speakSuspect;
+    private UIMenuItem? _speakSuspect2;
+    private Ped? _victim1;
     internal override Location SpawnPoint { get; set; } = new(World.GetNextPositionOnStreet(Player.Position.Around(350f)));
     internal override float OnSceneDistance { get; set; } = 25f;
     internal override string CalloutName { get; set; } = "Kidnapping";
@@ -79,22 +79,34 @@ internal class Kidnapping : SuperCallout
 
     internal override void CalloutRunning()
     {
+        if ( _bad1 == null || _victim1 == null )
+        {
+            CalloutEnd(true);
+            return;
+        }
+        
         if (_bad1.IsDead)
         {
-            _speakSuspect.Enabled = false;
+            _speakSuspect!.Enabled = false;
             _speakSuspect.RightLabel = "~r~Dead";
         }
 
         if (_victim1.IsDead)
         {
-            _speakSuspect2.Enabled = false;
+            _speakSuspect2!.Enabled = false;
             _speakSuspect2.RightLabel = "~r~Dead";
         }
     }
 
     internal override void CalloutOnScene()
     {
-        _cBlip1.Delete();
+        if ( _bad1 == null || _victim1 == null )
+        {
+            CalloutEnd(true);
+            return;
+        }
+        
+        _cBlip1?.Delete();
         _bad1.BlockPermanentEvents = false;
         var pursuit = Functions.CreatePursuit();
         Functions.AddPedToPursuit(pursuit, _bad1);
@@ -120,6 +132,12 @@ internal class Kidnapping : SuperCallout
     {
         try
         {
+            if ( _victim1 == null || _bad1 == null )
+            {
+                CalloutEnd(true);
+                return;
+            }
+            
             if (selItem == _speakSuspect)
                 GameFiber.StartNew(delegate
                 {

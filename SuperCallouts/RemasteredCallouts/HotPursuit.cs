@@ -16,15 +16,15 @@ namespace SuperCallouts.RemasteredCallouts;
 [CalloutInfo("[SC] High Speed Pursuit", CalloutProbability.Medium)]
 internal class HotPursuit : SuperCallout
 {
-    private Ped _bad1;
-    private Ped _bad2;
-    private Blip _cBlip;
-    private Vehicle _cVehicle;
-    private string _name1;
-    private string _name2;
+    private Ped? _bad1;
+    private Ped? _bad2;
+    private Blip? _cBlip;
+    private Vehicle? _cVehicle;
+    private string? _name1;
+    private string? _name2;
     private LHandle _pursuit = Functions.CreatePursuit();
-    private UIMenuItem _speakSuspect;
-    private UIMenuItem _speakSuspect2;
+    private UIMenuItem? _speakSuspect;
+    private UIMenuItem? _speakSuspect2;
     private bool _blipHelper;
     internal override Location SpawnPoint { get; set; } = new(World.GetNextPositionOnStreet(Player.Position.Around(350f)));
     internal override float OnSceneDistance { get; set; } = 25;
@@ -85,7 +85,13 @@ internal class HotPursuit : SuperCallout
 
     internal override void CalloutRunning()
     {
-        if ( !OnScene && !_blipHelper )
+        if ( _bad1 == null || _bad2 == null || _cVehicle == null )
+        {
+            CalloutEnd(true);
+            return;
+        }
+        
+        if ( _cBlip != null && !OnScene && !_blipHelper )
         {
             GameFiber.StartNew(() =>
             {
@@ -99,24 +105,24 @@ internal class HotPursuit : SuperCallout
             });
         }
         
-        if (OnScene && !Functions.IsPursuitStillRunning(_pursuit) && (Player?.DistanceTo(_bad1) ?? 100) > 75 && (Player?.DistanceTo(_bad2) ?? 100) > 75) CalloutEnd();
+        if (OnScene && !Functions.IsPursuitStillRunning(_pursuit) && Player.DistanceTo(_bad1) > 75 && Player.DistanceTo(_bad2) > 75) CalloutEnd();
 
         if (OnScene && !Functions.IsPursuitStillRunning(_pursuit))
         {
             Questioning.Enabled = true;
-            _speakSuspect.Enabled = true;
-            _speakSuspect2.Enabled = true;
+            _speakSuspect!.Enabled = true;
+            _speakSuspect2!.Enabled = true;
         }
 
-        if (_bad1?.IsDead ?? true)
+        if (_bad1.IsDead)
         {
-            _speakSuspect.Enabled = false;
+            _speakSuspect!.Enabled = false;
             _speakSuspect.RightLabel = "~r~Dead";
         }
 
-        if (_bad2?.IsDead ?? true)
+        if (_bad2.IsDead)
         {
-            _speakSuspect2.Enabled = false;
+            _speakSuspect2!.Enabled = false;
             _speakSuspect2.RightLabel = "~r~Dead";
         }
         
@@ -125,7 +131,13 @@ internal class HotPursuit : SuperCallout
 
     internal override void CalloutOnScene()
     {
-        if ( _cBlip.Exists() ) _cBlip.Delete();
+        if ( _cBlip == null || _bad1 == null || _bad2 == null )
+        {
+            CalloutEnd(true);
+            return;
+        }
+        
+        _cBlip.Delete();
         _bad1.BlockPermanentEvents = false;
         _bad2.BlockPermanentEvents = false;
         _pursuit = PyroFunctions.StartPursuit(false, true, _bad1, _bad2);
@@ -135,6 +147,12 @@ internal class HotPursuit : SuperCallout
 
     protected override void Conversations(UIMenu sender, UIMenuItem selItem, int index)
     {
+        if ( _bad1 == null || _bad2 == null )
+        {
+            CalloutEnd(true);
+            return;
+        }
+        
         if (selItem == _speakSuspect)
             GameFiber.StartNew(delegate
             {
@@ -149,7 +167,7 @@ internal class HotPursuit : SuperCallout
         if (selItem == _speakSuspect2)
             GameFiber.StartNew(delegate
             {
-                _speakSuspect.Enabled = false;
+                _speakSuspect!.Enabled = false;
                 _bad2.Tasks.FaceEntity(Player);
                 Game.DisplaySubtitle("~g~You~s~: You know this is a stolen vehicle right? What are you guys doing?", 5000);
                 GameFiber.Wait(5000);

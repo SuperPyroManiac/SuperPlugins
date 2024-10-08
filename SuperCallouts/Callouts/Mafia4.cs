@@ -22,25 +22,25 @@ internal class Mafia4 : Callout
     private readonly TimerBarPool _cTimer = new();
     private readonly List<Ped> _peds = [];
     private readonly List<Vehicle> _vehicles = [];
-    private Ped _bad1;
-    private Ped _bad2;
-    private Ped _bad3;
-    private Ped _bad4;
-    private Ped _bad5;
-    private Ped _bad6;
-    private Ped _bad7;
-    private Object _bomb;
-    private Blip _cBlip;
-    private BarTimerBar _cTimerBar;
-    private Ped _doctor1;
-    private Ped _doctor2;
-    private UIMenuItem _endCall;
-    private Vehicle _eVehicle;
-    private Vehicle _eVehicle2;
-    private Vehicle _eVehicle3;
-    private Vehicle _eVehicle4;
-    private MenuPool _interaction;
-    private UIMenu _mainMenu;
+    private Ped? _bad1;
+    private Ped? _bad2;
+    private Ped? _bad3;
+    private Ped? _bad4;
+    private Ped? _bad5;
+    private Ped? _bad6;
+    private Ped? _bad7;
+    private Object? _bomb;
+    private Blip? _cBlip;
+    private BarTimerBar? _cTimerBar;
+    private Ped? _doctor1;
+    private Ped? _doctor2;
+    private UIMenuItem? _endCall;
+    private Vehicle? _eVehicle;
+    private Vehicle? _eVehicle2;
+    private Vehicle? _eVehicle3;
+    private Vehicle? _eVehicle4;
+    private MenuPool? _interaction;
+    private UIMenu? _mainMenu;
     private bool _running = true;
     private RunState _state = RunState.CheckDistance;
     private static Ped Player => Game.LocalPlayer.Character;
@@ -135,9 +135,9 @@ internal class Mafia4 : Callout
                             mafiaDudes.Tasks.FightAgainstClosestHatedTarget(100, -1);
                         }
 
-                        _bad1.Tasks.FightAgainst(Player);
+                        _bad1?.Tasks.FightAgainst(Player);
 
-                        _cBlip.DisableRoute();
+                        _cBlip?.DisableRoute();
                         TimerBarCounter();
                     });
                     _state = RunState.End;
@@ -155,21 +155,21 @@ internal class Mafia4 : Callout
 
         //Keybinds
         if (Game.IsKeyDown(Settings.EndCall)) End();
-        if (Game.IsKeyDown(Settings.Interact)) _mainMenu.Visible = !_mainMenu.Visible;
-        _interaction.ProcessMenus();
+        if (Game.IsKeyDown(Settings.Interact)) _mainMenu!.Visible = !_mainMenu.Visible;
+        _interaction!.ProcessMenus();
         base.Process();
     }
 
     public override void End()
     {
         _running = false;
-        if (_cBlip.Exists()) _cBlip.Delete();
+        _cBlip?.Delete();
         foreach (var mafiaCars in _vehicles.Where(mafiaCars => mafiaCars.Exists())) mafiaCars.Dismiss();
         foreach (var mafiaDudes in _peds.Where(mafiaDudes => mafiaDudes.Exists())) mafiaDudes.Dismiss();
-        if (_bomb.Exists()) _bomb.Delete();
+        if (_bomb.Exists()) _bomb?.Delete();
         Game.SetRelationshipBetweenRelationshipGroups("COP", "MAFIA", Relationship.Dislike);
         Game.SetRelationshipBetweenRelationshipGroups("MAFIA", "COP", Relationship.Dislike);
-        _interaction.CloseAllMenus();
+        _interaction!.CloseAllMenus();
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
         
         base.End();

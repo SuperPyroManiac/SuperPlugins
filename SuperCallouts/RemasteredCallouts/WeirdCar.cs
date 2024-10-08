@@ -16,11 +16,11 @@ namespace SuperCallouts.RemasteredCallouts;
 internal class WeirdCar : SuperCallout
 {
     private readonly Random _rNd = new();
-    private Ped _bad1;
-    private Blip _cBlip;
-    private Vehicle _cVehicle1;
-    private string _name;
-    private UIMenuItem _speakSuspect;
+    private Ped? _bad1;
+    private Blip? _cBlip;
+    private Vehicle? _cVehicle1;
+    private string? _name;
+    private UIMenuItem? _speakSuspect;
     internal override Location SpawnPoint { get; set; } = PyroFunctions.GetSideOfRoad(750, 180);
     internal override float OnSceneDistance { get; set; } = 40;
     internal override string CalloutName { get; set; } = "Suspicious Vehicle";
@@ -49,9 +49,19 @@ internal class WeirdCar : SuperCallout
 
     internal override void CalloutOnScene()
     {
-        _cBlip.Position = SpawnPoint.Position;
-        _cBlip.Scale = 20;
-        _cBlip.DisableRoute();
+        if ( _cVehicle1 == null )
+        {
+            CalloutEnd(true);
+            return;
+        }
+        
+        if ( _cBlip != null )
+        {
+            _cBlip.Position = SpawnPoint.Position;
+            _cBlip.Scale = 20;
+            _cBlip.DisableRoute();
+        }
+
         Game.DisplayNotification("Investigate the vehicle.");
         var choices = _rNd.Next(1, 4);
         Log.Info("Suspicious vehicle scene: " + choices);
@@ -98,6 +108,12 @@ internal class WeirdCar : SuperCallout
 
     protected override void Conversations(UIMenu sender, UIMenuItem selItem, int index)
     {
+        if ( _bad1 == null )
+        {
+            CalloutEnd(true);
+            return;
+        }
+        
         if (selItem == _speakSuspect)
             GameFiber.StartNew(delegate
             {

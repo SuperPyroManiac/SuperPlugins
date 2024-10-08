@@ -10,7 +10,7 @@ namespace SuperCallouts.RemasteredCallouts;
 [CalloutInfo("[SC] Call Dropped", CalloutProbability.Medium)]
 internal class FakeCall : SuperCallout
 {
-    private Blip _cBlip;
+    private Blip? _cBlip;
     internal override Location SpawnPoint { get; set; } = PyroFunctions.GetSideOfRoad(750, 180);
     internal override float OnSceneDistance { get; set; } = 30;
     internal override string CalloutName { get; set; } = "Prank Call";
@@ -35,7 +35,7 @@ internal class FakeCall : SuperCallout
 
     internal override void CalloutOnScene()
     {
-        _cBlip.DisableRoute();
+        _cBlip?.DisableRoute();
         Game.DisplayHelp("Investigate the area.", 5000);
         GameFiber.Wait(10000);
         Game.DisplaySubtitle("~g~You~s~: Dispatch, not seeing anyone out here.", 4000);

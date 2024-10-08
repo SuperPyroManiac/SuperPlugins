@@ -11,8 +11,8 @@ namespace SuperCallouts.RemasteredCallouts;
 [CalloutInfo("[SC] Fire", CalloutProbability.Medium)]
 internal class Fire : SuperCallout
 {
-    private Blip _cBlip;
-    private Vehicle _cVehicle;
+    private Blip? _cBlip;
+    private Vehicle? _cVehicle;
     private int _partHandleBigFire;
     private int _partHandleMistySmoke;
     internal override Location SpawnPoint { get; set; } = PyroFunctions.GetSideOfRoad(750, 180);
@@ -47,12 +47,15 @@ internal class Fire : SuperCallout
 
     internal override void CalloutOnScene()
     {
-        _cBlip.Position = SpawnPoint.Position;
-        _cBlip.Scale = 20;
-        _cBlip.DisableRoute();
-        
+        if ( _cBlip != null )
+        {
+            _cBlip.Position = SpawnPoint.Position;
+            _cBlip.Scale = 20;
+            _cBlip.DisableRoute();
+        }
+
         GameFiber.Wait(5000);
-        _cVehicle.StartFire(true);
+        _cVehicle?.StartFire(true);
         
         GameFiber.Wait(12000);
         Particles.StopLoopedParticles(_partHandleBigFire);

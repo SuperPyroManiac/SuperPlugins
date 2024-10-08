@@ -13,14 +13,14 @@ namespace SuperCallouts.Callouts;
 internal class Robbery : SuperCallout
 {
     private readonly Random _rNd = new();
-    private Blip _blip1;
-    private Blip _blip2;
-    private Blip _blip3;
-    private Vehicle _cVehicle;
-    private Vehicle _cVehicle2;
-    private Ped _rude1;
-    private Ped _rude2;
-    private Ped _victim;
+    private Blip? _blip1;
+    private Blip? _blip2;
+    private Blip? _blip3;
+    private Vehicle? _cVehicle;
+    private Vehicle? _cVehicle2;
+    private Ped? _rude1;
+    private Ped? _rude2;
+    private Ped? _victim;
     internal override Location SpawnPoint { get; set; } = new(World.GetNextPositionOnStreet(Player.Position.Around(450f)));
     internal override float OnSceneDistance { get; set; } = 40;
     internal override string CalloutName { get; set; } = "Armed Robbery";
@@ -91,9 +91,15 @@ internal class Robbery : SuperCallout
 
     internal override void CalloutOnScene()
     {
-        _blip1.Delete();
-        _blip2.Delete();
-        _blip3.Delete();
+        if ( _victim == null || _rude1 == null || _rude2 == null )
+        {
+            CalloutEnd(true);
+            return;
+        }
+        
+        _blip1?.Delete();
+        _blip2?.Delete();
+        _blip3?.Delete();
         var pursuit = Functions.CreatePursuit();
         var choices = _rNd.Next(1, 5);
         Game.DisplaySubtitle("~r~Suspect: ~w~What are the cops doing here?!", 5000);

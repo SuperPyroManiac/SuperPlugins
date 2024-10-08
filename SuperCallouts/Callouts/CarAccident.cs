@@ -14,9 +14,9 @@ namespace SuperCallouts.Callouts;
 internal class CarAccident : SuperCallout
 {
     private readonly UIMenuItem _callEms = new("~r~ Call EMS", "Calls for an ambulance.");
-    private Blip _cBlip;
-    private Vehicle _cVehicle;
-    private Ped _cVictim;
+    private Blip? _cBlip;
+    private Vehicle? _cVehicle;
+    private Ped? _cVictim;
     internal override Location SpawnPoint { get; set; } = PyroFunctions.GetSideOfRoad(750, 180);
     internal override float OnSceneDistance { get; set; } = 25;
     internal override string CalloutName { get; set; } = "Car Accident (1)";
@@ -59,7 +59,7 @@ internal class CarAccident : SuperCallout
 
     internal override void CalloutOnScene()
     {
-        _cBlip.DisableRoute();
+        _cBlip?.DisableRoute();
         _callEms.Enabled = true;
     }
 

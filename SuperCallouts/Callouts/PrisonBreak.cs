@@ -11,18 +11,18 @@ namespace SuperCallouts.Callouts;
 internal class PrisonBreak : Callout
 {
     private readonly Vector3 _spawnPoint = new(1970.794f, 2624.078f, 46.00704f);
-    private Blip _cBlip1;
-    private Blip _cBlip2;
-    private Blip _cBlip3;
-    private Blip _cBlip4;
-    private Blip _cBlip5;
-    private Vehicle _cVehicle;
+    private Blip? _cBlip1;
+    private Blip? _cBlip2;
+    private Blip? _cBlip3;
+    private Blip? _cBlip4;
+    private Blip? _cBlip5;
+    private Vehicle? _cVehicle;
     private bool _onScene;
-    private Ped _prisoner1;
-    private Ped _prisoner2;
-    private Ped _prisoner3;
-    private Ped _prisoner4;
-    private Ped _prisoner5;
+    private Ped? _prisoner1;
+    private Ped? _prisoner2;
+    private Ped? _prisoner3;
+    private Ped? _prisoner4;
+    private Ped? _prisoner5;
 
     public override bool OnBeforeCalloutDisplayed()
     {
@@ -89,7 +89,7 @@ internal class PrisonBreak : Callout
         {
             _onScene = true;
             Game.DisplaySubtitle("Suspects spotted, they appear to have stolen a bus!", 5000);
-            _cBlip1.DisableRoute();
+            _cBlip1?.DisableRoute();
             var pursuit = Functions.CreatePursuit();
             Functions.AddPedToPursuit(pursuit, _prisoner1);
             Functions.AddPedToPursuit(pursuit, _prisoner2);
@@ -108,17 +108,17 @@ internal class PrisonBreak : Callout
     public override void End()
     {
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
-        if (_prisoner1.Exists()) _prisoner1.Dismiss();
-        if (_prisoner2.Exists()) _prisoner2.Dismiss();
-        if (_prisoner3.Exists()) _prisoner3.Dismiss();
-        if (_prisoner4.Exists()) _prisoner4.Dismiss();
-        if (_prisoner5.Exists()) _prisoner5.Dismiss();
-        if (_cVehicle.Exists()) _cVehicle.Dismiss();
-        if (_cBlip1.Exists()) _cBlip1.Delete();
-        if (_cBlip2.Exists()) _cBlip2.Delete();
-        if (_cBlip3.Exists()) _cBlip3.Delete();
-        if (_cBlip4.Exists()) _cBlip4.Delete();
-        if (_cBlip5.Exists()) _cBlip5.Delete();
+        if (_prisoner1 != null) _prisoner1.Dismiss();
+        if (_prisoner2 != null) _prisoner2.Dismiss();
+        if (_prisoner3 != null) _prisoner3.Dismiss();
+        if (_prisoner4 != null) _prisoner4.Dismiss();
+        if (_prisoner5 != null) _prisoner5.Dismiss();
+        if (_cVehicle != null) _cVehicle.Dismiss();
+        _cBlip1?.Delete();
+        _cBlip2?.Delete();
+        _cBlip3?.Delete();
+        _cBlip4?.Delete();
+        _cBlip5?.Delete();
         base.End();
     }
 }

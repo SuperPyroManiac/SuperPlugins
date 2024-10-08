@@ -11,14 +11,14 @@ namespace SuperCallouts.Callouts;
 [CalloutInfo("[SC] Shots Fired", CalloutProbability.Medium)]
 internal class OfficerShootout : SuperCallout
 {
-    private Ped _bad1;
-    private Ped _bad2;
-    private Blip _cBlip;
-    private Ped _cop1;
-    private Ped _cop2;
-    private Vehicle _copVehicle;
+    private Ped? _bad1;
+    private Ped? _bad2;
+    private Blip? _cBlip;
+    private Ped? _cop1;
+    private Ped? _cop2;
+    private Vehicle? _copVehicle;
     private Vector3 _cSpawnPoint;
-    private Vehicle _cVehicle;
+    private Vehicle? _cVehicle;
     internal override Location SpawnPoint { get; set; } = PyroFunctions.GetSideOfRoad(750, 180);
     internal override float OnSceneDistance { get; set; } = 50;
     internal override string CalloutName { get; set; } = "Officer Shootout";
@@ -85,6 +85,12 @@ internal class OfficerShootout : SuperCallout
 
     internal override void CalloutOnScene()
     {
+        if ( _cop1 == null || _cop2 == null || _bad1 == null || _bad2 == null )
+        {
+            CalloutEnd(true);
+            return;
+        }
+        
         _cop1.Tasks.FightAgainst(_bad1, 60000);
         _bad1.Tasks.FightAgainst(_cop1, 60000);
         _cop2.Tasks.FightAgainst(_bad2, 60000);

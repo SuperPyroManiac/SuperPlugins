@@ -14,12 +14,12 @@ namespace SuperCallouts.Callouts;
 [CalloutInfo("[SC] Stolen Cleaning Truck", CalloutProbability.Low)]
 internal class ToiletPaperBandit : SuperCallout
 {
-    private Ped _bad;
-    private Blip _cBlip;
-    private Vehicle _cVehicle;
-    private string _name1;
-    private LHandle _pursuit = Functions.CreatePursuit();
-    private UIMenuItem _speakSuspect;
+    private Ped? _bad;
+    private Blip? _cBlip;
+    private Vehicle? _cVehicle;
+    private string? _name1;
+    private readonly LHandle _pursuit = Functions.CreatePursuit();
+    private UIMenuItem? _speakSuspect;
     internal override Location SpawnPoint { get; set; } = PyroFunctions.GetSideOfRoad(750, 180);
     internal override float OnSceneDistance { get; set; } = 30;
     internal override string CalloutName { get; set; } = "Stolen Cleaning Truck";
@@ -71,6 +71,12 @@ internal class ToiletPaperBandit : SuperCallout
     {
         if (OnScene)
         {
+            if ( _bad == null )
+            {
+                CalloutEnd(true);
+                return;
+            }
+            
             if (!Functions.IsPursuitStillRunning(_pursuit) || _bad.IsCuffed)
             {
                 if (!OnScene) return;
@@ -83,7 +89,7 @@ internal class ToiletPaperBandit : SuperCallout
 
     internal override void CalloutOnScene()
     {
-        if (_cBlip.Exists()) _cBlip.DisableRoute();
+        _cBlip?.DisableRoute();
         Game.DisplayHelp(
             $"Press ~{Settings.Interact.GetInstructionalId()}~ to open interaction menu.");
         Game.DisplayHelp("Suspect is fleeing!");

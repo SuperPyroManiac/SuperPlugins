@@ -11,9 +11,9 @@ namespace SuperCallouts.Callouts;
 [CalloutInfo("[SC] Stolen Construction Vehicle", CalloutProbability.Low)]
 internal class StolenDumptruck : SuperCallout
 {
-    private Ped _bad;
-    private Blip _cBlip;
-    private Vehicle _cVehicle;
+    private Ped? _bad;
+    private Blip? _cBlip;
+    private Vehicle? _cVehicle;
     internal override Location SpawnPoint { get; set; } = new(World.GetNextPositionOnStreet(Player.Position.Around(350f)));
     internal override float OnSceneDistance { get; set; } = 30;
     internal override string CalloutName { get; set; } = "Stolen Construction Vehicle";
@@ -55,7 +55,7 @@ internal class StolenDumptruck : SuperCallout
 
     internal override void CalloutOnScene()
     {
-        _cBlip.Delete();
+        _cBlip?.Delete();
         var pursuit = Functions.CreatePursuit();
         Functions.AddPedToPursuit(pursuit, _bad);
         Functions.SetPursuitIsActiveForPlayer(pursuit, true);

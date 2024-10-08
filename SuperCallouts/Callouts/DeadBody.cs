@@ -14,12 +14,12 @@ namespace SuperCallouts.Callouts;
 [CalloutInfo("[SC] Dead Body", CalloutProbability.Medium)]
 internal class DeadBody : SuperCallout
 {
-    private Blip _cBlip;
-    private Vehicle _cVehicle;
-    private string _name;
-    private UIMenuItem _speakSuspect;
-    private Ped _victim;
-    private Ped _witness;
+    private Blip? _cBlip;
+    private Vehicle? _cVehicle;
+    private string? _name;
+    private UIMenuItem? _speakSuspect;
+    private Ped? _victim;
+    private Ped? _witness;
     internal override Location SpawnPoint { get; set; } = PyroFunctions.GetSideOfRoad(750, 180);
     internal override float OnSceneDistance { get; set; } = 90;
     internal override string CalloutName { get; set; } = "Dead Body";
@@ -68,19 +68,31 @@ internal class DeadBody : SuperCallout
 
     internal override void CalloutRunning()
     {
+        if ( _witness == null )
+        {
+            CalloutEnd(true);
+            return;
+        }
+        
         if (_witness.IsDead)
         {
-            _speakSuspect.Enabled = false;
+            _speakSuspect!.Enabled = false;
             _speakSuspect.RightLabel = "~r~Dead";
         }
     }
 
     internal override void CalloutOnScene()
     {
+        if ( _witness == null || _victim == null )
+        {
+            CalloutEnd(true);
+            return;
+        }
+        
         NativeFunction.Natives.x5AD23D40115353AC(_witness, _victim, -1);
         _witness.Tasks.Cower(-1);
         _victim.Kill();
-        _cBlip.DisableRoute();
+        _cBlip?.DisableRoute();
         Questioning.Enabled = true;
         Game.DisplayHelp($"Press ~{Settings.Interact.GetInstructionalId()}~ to open interaction menu.");
     }
@@ -89,6 +101,12 @@ internal class DeadBody : SuperCallout
     {
         try
         {
+            if ( _witness == null )
+            {
+                CalloutEnd(true);
+                return;
+            }
+            
             if (selItem == _speakSuspect)
                 GameFiber.StartNew(delegate
                 {

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.Objects;
 using PyroCommon.PyroFunctions;
@@ -15,29 +16,29 @@ internal class LostGang : Callout
 {
     private readonly List<Ped> _bikers = [];
     private readonly List<Vehicle> _cVehicles = [];
-    private Vehicle _bike1;
-    private Vehicle _bike2;
-    private Vehicle _bike3;
-    private Vehicle _bike4;
-    private Vehicle _bike5;
-    private Vehicle _bike6;
-    private Vehicle _bike7;
-    private Ped _biker1;
-    private Ped _biker10;
-    private Ped _biker2;
-    private Ped _biker3;
-    private Ped _biker4;
-    private Ped _biker5;
-    private Ped _biker6;
-    private Ped _biker7;
-    private Ped _biker8;
-    private Ped _biker9;
-    private Blip _cBlip;
-    private Vehicle _cCar1;
-    private Vehicle _cCar2;
-    private Ped _cop1;
-    private Ped _cop2;
-    private Ped _cop3;
+    private Vehicle? _bike1;
+    private Vehicle? _bike2;
+    private Vehicle? _bike3;
+    private Vehicle? _bike4;
+    private Vehicle? _bike5;
+    private Vehicle? _bike6;
+    private Vehicle? _bike7;
+    private Ped? _biker1;
+    private Ped? _biker10;
+    private Ped? _biker2;
+    private Ped? _biker3;
+    private Ped? _biker4;
+    private Ped? _biker5;
+    private Ped? _biker6;
+    private Ped? _biker7;
+    private Ped? _biker8;
+    private Ped? _biker9;
+    private Blip? _cBlip;
+    private Vehicle? _cCar1;
+    private Vehicle? _cCar2;
+    private Ped? _cop1;
+    private Ped? _cop2;
+    private Ped? _cop3;
     private bool _onScene;
     private Vector3 _searcharea;
     private Vector3 _spawnPoint;
@@ -96,7 +97,7 @@ internal class LostGang : Callout
         if (!_onScene && Game.LocalPlayer.Character.DistanceTo(_spawnPoint) < 100f)
         {
             _onScene = true;
-            _cBlip.DisableRoute();
+            _cBlip?.DisableRoute();
             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~OutNumbered",
                 "~y~Stay in cover until backup arrives!");
             Functions.PlayScannerAudioUsingPosition(
@@ -119,16 +120,12 @@ internal class LostGang : Callout
 
     public override void End()
     {
-        foreach (var bikerss in _bikers)
-            if (bikerss.Exists())
-                bikerss.Dismiss();
-        foreach (var vehicless in _cVehicles)
-            if (vehicless.Exists())
-                vehicless.Dismiss();
-        if (_cop1.Exists()) _cop1.Dismiss();
-        if (_cop2.Exists()) _cop2.Dismiss();
-        if (_cop3.Exists()) _cop3.Dismiss();
-        if (_cBlip.Exists()) _cBlip.Delete();
+        foreach (var bikerss in _bikers.OfType<Ped>()) bikerss.Dismiss(); 
+        foreach (var vehicless in _cVehicles.OfType<Vehicle>()) vehicless.Dismiss();
+        if (_cop1!= null) _cop1.Dismiss();
+        if (_cop2!= null) _cop2.Dismiss();
+        if (_cop3!= null) _cop3.Dismiss();
+        if (_cBlip!= null) _cBlip.Delete();
 
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
         base.End();

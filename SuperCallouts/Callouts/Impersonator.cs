@@ -13,13 +13,13 @@ namespace SuperCallouts.Callouts;
 [CalloutInfo("[SC] Police Impersonator", CalloutProbability.Medium)]
 internal class Impersonator : SuperCallout
 {
-    private Ped _bad;
-    private Blip _cBlip;
-    private Vehicle _cVehicle1;
-    private Vehicle _cVehicle2;
-    private string _name1;
-    private UIMenuItem _speakSuspect;
-    private Ped _victim;
+    private Ped? _bad;
+    private Blip? _cBlip;
+    private Vehicle? _cVehicle1;
+    private Vehicle? _cVehicle2;
+    private string? _name1;
+    private UIMenuItem? _speakSuspect;
+    private Ped? _victim;
     internal override Location SpawnPoint { get; set; } = PyroFunctions.GetSideOfRoad(750, 180);
     internal override float OnSceneDistance { get; set; } = 30;
     internal override string CalloutName { get; set; } = "Impersonator";
@@ -69,7 +69,13 @@ internal class Impersonator : SuperCallout
 
     internal override void CalloutOnScene()
     {
-        _cBlip.DisableRoute();
+        if ( _victim == null || _bad == null )
+        {
+            CalloutEnd(true);
+            return;
+        }
+        
+        _cBlip?.DisableRoute();
         _victim.Tasks.CruiseWithVehicle(10f, VehicleDrivingFlags.Normal);
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Suspicious Pullover",
             "Be advised, caller has been instructed to leave scene by the dispatcher.");

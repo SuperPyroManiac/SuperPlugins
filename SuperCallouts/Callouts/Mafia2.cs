@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using LSPD_First_Response.Engine.Scripting.Entities;
 using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.Objects;
@@ -17,26 +18,26 @@ internal class Mafia2 : Callout
     private readonly Vector3 _callPos = new(1543.173f, 3606.55f, 35.19303f);
     private readonly List<Vehicle> _mafiaCars = [];
     private readonly List<Ped> _mafiaDudes = [];
-    private Blip _cBlip;
-    private Vehicle _cVehicle1;
-    private Vehicle _cVehicle2;
-    private Vehicle _cVehicle3;
-    private Vehicle _cVehicle4;
-    private Ped _mafiaDude1;
-    private Ped _mafiaDude10;
-    private Ped _mafiaDude11;
-    private Ped _mafiaDude12;
-    private Ped _mafiaDude13;
-    private Ped _mafiaDude14;
-    private Ped _mafiaDude15;
-    private Ped _mafiaDude2;
-    private Ped _mafiaDude3;
-    private Ped _mafiaDude4;
-    private Ped _mafiaDude5;
-    private Ped _mafiaDude6;
-    private Ped _mafiaDude7;
-    private Ped _mafiaDude8;
-    private Ped _mafiaDude9;
+    private Blip? _cBlip;
+    private Vehicle? _cVehicle1;
+    private Vehicle? _cVehicle2;
+    private Vehicle? _cVehicle3;
+    private Vehicle? _cVehicle4;
+    private Ped? _mafiaDude1;
+    private Ped? _mafiaDude10;
+    private Ped? _mafiaDude11;
+    private Ped? _mafiaDude12;
+    private Ped? _mafiaDude13;
+    private Ped? _mafiaDude14;
+    private Ped? _mafiaDude15;
+    private Ped? _mafiaDude2;
+    private Ped? _mafiaDude3;
+    private Ped? _mafiaDude4;
+    private Ped? _mafiaDude5;
+    private Ped? _mafiaDude6;
+    private Ped? _mafiaDude7;
+    private Ped? _mafiaDude8;
+    private Ped? _mafiaDude9;
     private bool _onScene;
 
     public override bool OnBeforeCalloutDisplayed()
@@ -115,10 +116,10 @@ internal class Mafia2 : Callout
                 PyroFunctions.RequestBackup(Enums.BackupType.Code3);
 
                 Game.LocalPlayer.Character.RelationshipGroup = "COP";
-                _mafiaDude13.Tasks.FightAgainst(Game.LocalPlayer.Character, -1);
+                if ( _mafiaDude13 != null ) _mafiaDude13.Tasks.FightAgainst(Game.LocalPlayer.Character, -1);
                 Game.SetRelationshipBetweenRelationshipGroups("MAFIA", "COP", Relationship.Hate);
                 Game.SetRelationshipBetweenRelationshipGroups("COP", "MAFIA", Relationship.Hate);
-                if (_cBlip.Exists()) _cBlip.Delete();
+                _cBlip?.Delete();
             }
             catch (Exception e)
             {
@@ -135,14 +136,9 @@ internal class Mafia2 : Callout
 
     public override void End()
     {
-        foreach (var mafiaCars in _mafiaCars)
-            if (mafiaCars.Exists())
-                mafiaCars.Dismiss();
-        foreach (var mafiaDudes in _mafiaDudes)
-            if (mafiaDudes.Exists())
-                mafiaDudes.Dismiss();
-        if (_cBlip.Exists()) _cBlip.Delete();
-
+        foreach (var mafiaCars in _mafiaCars.Where(mafiaCars => mafiaCars.Exists())) mafiaCars.Dismiss();
+        foreach (var mafiaDudes in _mafiaDudes.Where(mafiaDudes => mafiaDudes.Exists())) mafiaDudes.Dismiss();
+        _cBlip?.Delete();
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
         base.End();
     }

@@ -14,25 +14,25 @@ namespace SuperCallouts.Callouts;
 [CalloutInfo("[SC] Hit and Run", CalloutProbability.Medium)]
 internal class HitRun : SuperCallout
 {
-    private Ped _bad1;
-    private Ped _bad2;
-    private Blip _cBlip1;
-    private Blip _cBlip2;
-    private Blip _cBlip3;
-    private Vehicle _cVehicle1;
-    private Vehicle _cVehicle2;
-    private string _name1;
-    private string _name2;
-    private string _name3;
+    private Ped? _bad1;
+    private Ped? _bad2;
+    private Blip? _cBlip1;
+    private Blip? _cBlip2;
+    private Blip? _cBlip3;
+    private Vehicle? _cVehicle1;
+    private Vehicle? _cVehicle2;
+    private string? _name1;
+    private string? _name2;
+    private string? _name3;
     private bool _onScene;
     private bool _onScene2;
     private LHandle _pursuit = Functions.CreatePursuit();
     private Vector3 _spawnPointOffset;
-    private UIMenuItem _speakSuspect1;
-    private UIMenuItem _speakSuspect2;
-    private UIMenuItem _speakVictim;
+    private UIMenuItem? _speakSuspect1;
+    private UIMenuItem? _speakSuspect2;
+    private UIMenuItem? _speakVictim;
     private bool _startPursuit;
-    private Ped _victim;
+    private Ped? _victim;
     internal override Location SpawnPoint { get; set; } = PyroFunctions.GetSideOfRoad(750, 180);
     internal override float OnSceneDistance { get; set; } = 20;
     internal override string CalloutName { get; set; } = "Hit and Run";
@@ -101,9 +101,8 @@ internal class HitRun : SuperCallout
         {
             _onScene = true;
             Questioning.Enabled = true;
-            _speakVictim.Enabled = true;
-            Game.DisplayNotification(
-                $"Speak with the victim to continue! Press: ~{Settings.Interact.GetInstructionalId()}~");
+            _speakVictim!.Enabled = true;
+            Game.DisplayNotification($"Speak with the victim to continue! Press: ~{Settings.Interact.GetInstructionalId()}~");
         }
 
         if (_startPursuit && !_onScene2 && Game.LocalPlayer.Character.DistanceTo(_cVehicle2) < 50f)
@@ -113,8 +112,8 @@ internal class HitRun : SuperCallout
             Functions.AddPedToPursuit(_pursuit, _bad1);
             Functions.AddPedToPursuit(_pursuit, _bad2);
             Functions.SetPursuitIsActiveForPlayer(_pursuit, true);
-            if (_cBlip2.Exists()) _cBlip2.Delete();
-            if (_cBlip3.Exists()) _cBlip3.Delete();
+            _cBlip2?.Delete();
+            _cBlip3?.Delete();
         }
 
         if (_onScene2 && Game.LocalPlayer.Character.DistanceTo(_cVehicle2) < 50f &&
@@ -122,13 +121,19 @@ internal class HitRun : SuperCallout
         {
             _onScene2 = false;
             Game.DisplayHelp($"Press ~{Settings.Interact.GetInstructionalId()}~ to open interaction menu.");
-            _speakSuspect1.Enabled = true;
-            _speakSuspect2.Enabled = true;
+            _speakSuspect1!.Enabled = true;
+            _speakSuspect2!.Enabled = true;
         }
     }
 
     protected override void Conversations(UIMenu sender, UIMenuItem selItem, int index)
     {
+        if ( _bad1 == null || _bad2 == null )
+        {
+            CalloutEnd(true);
+            return;
+        }
+        
         if (selItem == _speakVictim)
             GameFiber.StartNew(delegate
             {
@@ -156,9 +161,9 @@ internal class HitRun : SuperCallout
                 Game.DisplaySubtitle(
                     "~g~You~s~: You are good to go, we will be in contact once we get more information on the suspect.");
                 GameFiber.Wait(1000);
-                if (_victim.Exists()) _victim.Dismiss();
-                if (_cVehicle1.Exists()) _cVehicle1.Dismiss();
-                if (_cBlip1.Exists()) _cBlip1.Delete();
+                _victim?.Dismiss();
+                _cVehicle1?.Dismiss();
+                _cBlip1?.Delete();
                 _startPursuit = true;
                 _cBlip2 = _bad1.AttachBlip();
                 _cBlip2.Color = Color.Red;

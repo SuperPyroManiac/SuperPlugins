@@ -21,13 +21,13 @@ internal class AmbulanceEscort : SuperCallout
         new(294, -1439, 29)
     ];
 
-    private Blip _cBlip;
-    private Blip _cBlip2;
-    private Vehicle _cVehicle;
-    private Ped _doc1;
-    private Ped _doc2;
+    private Blip? _cBlip;
+    private Blip? _cBlip2;
+    private Vehicle? _cVehicle;
+    private Ped? _doc1;
+    private Ped? _doc2;
     private Vector3 _hospital;
-    private Ped _victim;
+    private Ped? _victim;
     internal override Location SpawnPoint { get; set; } = PyroFunctions.GetSideOfRoad(400, 70);
     internal override float OnSceneDistance { get; set; } = 35;
     internal override string CalloutName { get; set; } = "Ambulance Escort";
@@ -70,6 +70,12 @@ internal class AmbulanceEscort : SuperCallout
 
     internal override void CalloutRunning()
     {
+        if ( _cVehicle == null || _doc1 == null || _doc2 == null || _victim == null )
+        {
+            CalloutEnd(true);
+            return;
+        }
+        
         if (_cVehicle.DistanceTo(_hospital) < 15f && OnScene)
         {
             _cVehicle.IsSirenSilent = true;
@@ -82,6 +88,12 @@ internal class AmbulanceEscort : SuperCallout
 
     internal override void CalloutOnScene()
     {
+        if ( _cVehicle == null || _doc1 == null || _doc2 == null || _victim == null )
+        {
+            CalloutEnd(true);
+            return;
+        }
+        
         Game.DisplayHelp("Ensure the ambulance has a clear path!");
         _cBlip.DisableRoute();
         _doc1.Tasks.DriveToPosition(_cVehicle, _hospital, 20f, VehicleDrivingFlags.Emergency, 10f);

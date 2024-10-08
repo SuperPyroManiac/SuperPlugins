@@ -16,41 +16,39 @@ namespace SuperCallouts.Callouts;
 internal class Lsgtf : Callout
 {
     private readonly Vector3 _raidpoint = new(113.1443f, -1926.435f, 20.8231f);
-    private Ped _bad1;
-    private Ped _bad2;
-    private Ped _bad3;
-    private Ped _bad4;
-    private Ped _bad5;
-    private Ped _bad6;
-    private Ped _bad7;
-    private Ped _bad8;
-    private Blip _cBlip1;
-    private Blip _cBlip2;
-    private Blip _cBlip3;
-    private Blip _cBlip4;
-    private Blip _cBlip5;
-    private Blip _cBlip6;
-    private Blip _cBlip7;
-    private Blip _cBlip8;
-    private MenuPool _conversation;
-    private Vehicle _cVehicle;
-    private Ped _fib1;
-    private Ped _fib2;
-    private UIMenu _mainMenu;
+    private Ped? _bad1;
+    private Ped? _bad2;
+    private Ped? _bad3;
+    private Ped? _bad4;
+    private Ped? _bad5;
+    private Ped? _bad6;
+    private Ped? _bad7;
+    private Ped? _bad8;
+    private Blip? _cBlip1;
+    private Blip? _cBlip2;
+    private Blip? _cBlip3;
+    private Blip? _cBlip4;
+    private Blip? _cBlip5;
+    private Blip? _cBlip6;
+    private Blip? _cBlip7;
+    private Blip? _cBlip8;
+    private MenuPool? _conversation;
+    private Vehicle? _cVehicle;
+    private Ped? _fib1;
+    private Ped? _fib2;
+    private UIMenu? _mainMenu;
     private bool _meeting;
-    private Blip _meetingB;
+    private Blip? _meetingB;
     private Vector3 _meetingP;
-    private bool _okcool;
+    private bool _cool;
     private bool _onScene;
-    private UIMenuItem _startConv;
-    private UIMenuItem _startConv2;
-    private UIMenuItem _startConv3;
+    private UIMenuItem? _startConv;
+    private UIMenuItem? _startConv2;
+    private UIMenuItem? _startConv3;
 
     public override bool OnBeforeCalloutDisplayed()
     {
         ShowCalloutAreaBlipBeforeAccepting(_raidpoint, 80f);
-        //AddMinimumDistanceCheck(20f, Raidpoint);
-        //AddMaximumDistanceCheck(1500f, Raidpoint);
         CalloutMessage = "~b~LSPD Report:~s~ Wanted gang members located.";
         CalloutPosition = _raidpoint;
         Functions.PlayScannerAudioUsingPosition(
@@ -113,6 +111,12 @@ internal class Lsgtf : Callout
 
     private void LetsChatBois(UIMenu unUn, UIMenuItem selItem, int nanana)
     {
+        if ( _fib1 == null || _fib2 == null || _bad1 == null || _bad2 == null || _bad3 == null || _bad4 == null || _bad5 == null || _bad6 == null || _bad7 == null || _bad8 == null )
+        {
+            End();
+            return;
+        }
+        
         if (selItem == _startConv)
             GameFiber.StartNew(delegate
             {
@@ -135,21 +139,21 @@ internal class Lsgtf : Callout
                 GameFiber.Wait(6000);
                 Game.DisplaySubtitle(
                     "~g~FIB: ~w~You will be the officer in charge in this raid. Let us know when to begin.", 6000);
-                _mainMenu.AddItem(_startConv2 = new UIMenuItem("Yes, lets start."));
+                _mainMenu!.AddItem(_startConv2 = new UIMenuItem("Yes, lets start."));
                 _mainMenu.AddItem(_startConv3 = new UIMenuItem("No, I need a minute."));
             });
         if (selItem == _startConv2)
             GameFiber.StartNew(delegate
             {
                 _startConv2.Enabled = false;
-                _startConv3.Enabled = false;
-                _mainMenu.Visible = false;
+                _startConv3!.Enabled = false;
+                _mainMenu!.Visible = false;
                 _meeting = true;
                 Game.DisplaySubtitle(
                     "~g~FIB: ~w~We will call in the raid team. They will be awaiting your arrival.", 5000);
                 Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~y~Preparation", "Get to the scene",
                     "Get to the site to start the raid.");
-                _meetingB.Delete();
+                _meetingB?.Delete();
                 _cBlip1 = _bad1.AttachBlip();
                 _cBlip1.Color = Color.Red;
                 _cBlip1.EnableRoute(Color.Red);
@@ -167,21 +171,27 @@ internal class Lsgtf : Callout
         if (selItem == _startConv3)
             GameFiber.StartNew(delegate
             {
-                _mainMenu.Visible = false;
+                _mainMenu!.Visible = false;
                 Game.DisplaySubtitle("~g~FIB: ~w~No problem, let us know when you are.", 5000);
             });
     }
 
     public override void Process()
     {
-        _conversation.ProcessMenus();
-        if (!_meeting && !_okcool && Game.LocalPlayer.Character.DistanceTo(_meetingP) < 15f)
+        if ( _fib1 == null || _fib2 == null || _bad1 == null || _bad2 == null || _bad3 == null || _bad4 == null || _bad5 == null || _bad6 == null || _bad7 == null || _bad8 == null || _cVehicle == null )
+        {
+            End();
+            return;
+        }
+        
+        _conversation!.ProcessMenus();
+        if (!_meeting && !_cool && Game.LocalPlayer.Character.DistanceTo(_meetingP) < 15f)
         {
             Game.DisplayHelp("Speak with the FIB agents. Press " + Settings.Interact + " When close.", 12000);
-            _okcool = true;
+            _cool = true;
         }
 
-        if (Game.IsKeyDown(Settings.Interact) && !_meeting) _mainMenu.Visible = !_mainMenu.Visible;
+        if (Game.IsKeyDown(Settings.Interact) && !_meeting) _mainMenu!.Visible = !_mainMenu.Visible;
         if (Game.IsKeyDown(Settings.EndCall)) End();
         if (!_onScene && _meeting && Game.LocalPlayer.Character.DistanceTo(_raidpoint) < 50f)
         {
@@ -194,7 +204,7 @@ internal class Lsgtf : Callout
             PyroFunctions.RequestBackup(Enums.BackupType.Noose);
             PyroFunctions.RequestBackup(Enums.BackupType.Swat);
 
-            _cBlip1.DisableRoute();
+            _cBlip1?.DisableRoute();
             _cBlip2 = _bad2.AttachBlip();
             _cBlip2.Color = Color.Red;
             _cBlip3 = _bad3.AttachBlip();
@@ -241,26 +251,26 @@ internal class Lsgtf : Callout
 
     public override void End()
     {
-        if (_fib1.Exists()) _fib1.Dismiss();
-        if (_fib2.Exists()) _fib2.Dismiss();
-        if (_cVehicle.Exists()) _cVehicle.Dismiss();
-        if (_bad1.Exists()) _bad1.Dismiss();
-        if (_bad2.Exists()) _bad2.Dismiss();
-        if (_bad3.Exists()) _bad3.Dismiss();
-        if (_bad4.Exists()) _bad4.Dismiss();
-        if (_bad5.Exists()) _bad5.Dismiss();
-        if (_bad6.Exists()) _bad6.Dismiss();
-        if (_bad7.Exists()) _bad7.Dismiss();
-        if (_bad8.Exists()) _bad8.Dismiss();
-        if (_cBlip1.Exists()) _cBlip1.Delete();
-        if (_cBlip2.Exists()) _cBlip2.Delete();
-        if (_cBlip3.Exists()) _cBlip3.Delete();
-        if (_cBlip4.Exists()) _cBlip4.Delete();
-        if (_cBlip5.Exists()) _cBlip5.Delete();
-        if (_cBlip6.Exists()) _cBlip6.Delete();
-        if (_cBlip7.Exists()) _cBlip7.Delete();
-        if (_cBlip8.Exists()) _cBlip8.Delete();
-        if (_meetingB.Exists()) _meetingB.Delete();
+        if (_fib1 != null) _fib1.Dismiss();
+        if (_fib2 != null) _fib2.Dismiss();
+        if (_cVehicle != null) _cVehicle.Dismiss();
+        if (_bad1 != null) _bad1.Dismiss();
+        if (_bad2 != null) _bad2.Dismiss();
+        if (_bad3 != null) _bad3.Dismiss();
+        if (_bad4 != null) _bad4.Dismiss();
+        if (_bad5 != null) _bad5.Dismiss();
+        if (_bad6 != null) _bad6.Dismiss();
+        if (_bad7 != null) _bad7.Dismiss();
+        if (_bad8 != null) _bad8.Dismiss();
+        if (_cBlip1 != null) _cBlip1.Delete();
+        if (_cBlip2 != null) _cBlip2.Delete();
+        if (_cBlip3 != null) _cBlip3.Delete();
+        if (_cBlip4 != null) _cBlip4.Delete();
+        if (_cBlip5 != null) _cBlip5.Delete();
+        if (_cBlip6 != null) _cBlip6.Delete();
+        if (_cBlip7 != null) _cBlip7.Delete();
+        if (_cBlip8 != null) _cBlip8.Delete();
+        if (_meetingB != null) _meetingB.Delete();
 
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
         base.End();

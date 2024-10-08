@@ -15,14 +15,14 @@ namespace SuperCallouts.Callouts;
 internal class CarAccident2 : SuperCallout
 {
     private readonly UIMenuItem _callFd = new("~r~ Call Fire Department", "Calls for ambulance and firetruck.");
-    private Blip _cBlip1;
-    private Blip _cBlip2;
-    private Vehicle _cVehicle1;
-    private Vehicle _cVehicle2;
-    private string _name1;
-    private UIMenuItem _speakSuspect;
-    private Ped _victim1;
-    private Ped _victim2;
+    private Blip? _cBlip1;
+    private Blip? _cBlip2;
+    private Vehicle? _cVehicle1;
+    private Vehicle? _cVehicle2;
+    private string? _name1;
+    private UIMenuItem? _speakSuspect;
+    private Ped? _victim1;
+    private Ped? _victim2;
 
     internal override Location SpawnPoint { get; set; } = new(World.GetNextPositionOnStreet(Player.Position.Around(45f, 320f)));
 
@@ -93,16 +93,28 @@ internal class CarAccident2 : SuperCallout
 
     internal override void CalloutRunning()
     {
+        if ( _victim2 == null )
+        {
+            CalloutEnd(true);
+            return;
+        }
+        
         if (_victim2.IsDead)
         {
-            _speakSuspect.Enabled = false;
+            _speakSuspect!.Enabled = false;
             _speakSuspect.RightLabel = "~r~Dead";
         }
     }
 
     internal override void CalloutOnScene()
     {
-        _cBlip1.DisableRoute();
+        if ( _victim1 == null || _victim2 == null )
+        {
+            CalloutEnd(true);
+            return;
+        }
+        
+        _cBlip1?.DisableRoute();
         Questioning.Enabled = true;
         _callFd.Enabled = true;
         NativeFunction.Natives.xCDDC2B77CE54AC6E(_victim1, _victim2, -1, 1000); //TASK_WRITHE
@@ -127,6 +139,12 @@ internal class CarAccident2 : SuperCallout
 
     protected override void Conversations(UIMenu sender, UIMenuItem selItem, int index)
     {
+        if ( _victim1 == null || _victim2 == null )
+        {
+            CalloutEnd(true);
+            return;
+        }
+        
         if (selItem == _speakSuspect)
             GameFiber.StartNew(delegate
             {

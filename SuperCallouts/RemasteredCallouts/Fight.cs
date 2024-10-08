@@ -14,9 +14,9 @@ namespace SuperCallouts.RemasteredCallouts;
 [CalloutInfo("[SC] Fight", CalloutProbability.Medium)]
 internal class Fight : SuperCallout
 {
-    private Ped _victim;
-    private Ped _suspect;
-    private Blip _blip;
+    private Ped? _victim;
+    private Ped? _suspect;
+    private Blip? _blip;
     internal override Location SpawnPoint { get; set; } = PyroFunctions.GetSideOfRoad(750, 180);
     internal override float OnSceneDistance { get; set; } = 35;
     internal override string CalloutName { get; set; } = "Fight";
@@ -53,13 +53,19 @@ internal class Fight : SuperCallout
     {
         if (!OnScene)
         {
-            _suspect.PlayAmbientSpeech("GENERIC_CURSE_MED");
-            _victim.PlayAmbientSpeech("GENERIC_CURSE_MED");
+            _suspect?.PlayAmbientSpeech("GENERIC_CURSE_MED");
+            _victim?.PlayAmbientSpeech("GENERIC_CURSE_MED");
         }
     }
 
     internal override void CalloutOnScene()
     {
+        if ( _blip == null || _suspect == null || _victim == null )
+        {
+            CalloutEnd(true);
+            return;
+        }
+        
         _blip.Position = SpawnPoint.Position;
         _blip.Scale = 20;
         _blip.DisableRoute();

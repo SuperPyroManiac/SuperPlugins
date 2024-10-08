@@ -14,35 +14,31 @@ internal class KnifeAttack : SuperCallout
 {
     private readonly int _cScene = new Random(DateTime.Now.Millisecond).Next(1, 4);
 
-    private readonly List<Tuple<Vector3, float>> _locations =
+    private readonly List<Location> _locations =
     [
-        Tuple.Create(new Vector3(98.695f, -1711.661f, 30.11257f), 226f),
-        Tuple.Create(new Vector3(128.4992f, -1737.29f, 30.11015f), 240f),
-        Tuple.Create(new Vector3(-219.8601f, -1049.929f, 30.13966f), 168f),
-        Tuple.Create(new Vector3(-498.5762f, -671.4704f, 11.80903f), 173f),
-        Tuple.Create(new Vector3(-1337.652f, -494.7437f, 15.04538f), 21f),
-        Tuple.Create(new Vector3(-818.4063f, -128.05f, 28.17534f), 49f),
-        Tuple.Create(new Vector3(-290.8545f, -338.4935f, 10.06309f), 0f),
-        Tuple.Create(new Vector3(297.8111f, -1202.387f, 38.89421f), 172f),
-        Tuple.Create(new Vector3(-549.0919f, -1298.383f, 26.90161f), 187f),
-        Tuple.Create(new Vector3(-882.8482f, -2308.612f, -11.7328f), 234f),
-        Tuple.Create(new Vector3(-1066.983f, -2700.32f, -7.41007f), 339f)
+        new(new Vector3(98.695f, -1711.661f, 30.11257f), 226f),
+        new(new Vector3(128.4992f, -1737.29f, 30.11015f), 240f),
+        new(new Vector3(-219.8601f, -1049.929f, 30.13966f), 168f),
+        new(new Vector3(-498.5762f, -671.4704f, 11.80903f), 173f),
+        new(new Vector3(-1337.652f, -494.7437f, 15.04538f), 21f),
+        new(new Vector3(-818.4063f, -128.05f, 28.17534f), 49f),
+        new(new Vector3(-290.8545f, -338.4935f, 10.06309f), 0f),
+        new(new Vector3(297.8111f, -1202.387f, 38.89421f), 172f),
+        new(new Vector3(-549.0919f, -1298.383f, 26.90161f), 187f),
+        new(new Vector3(-882.8482f, -2308.612f, -11.7328f), 234f),
+        new(new Vector3(-1066.983f, -2700.32f, -7.41007f), 339f)
     ];
 
-    private Blip _cBlip;
-    private Tuple<Vector3, float> _chosenLocation;
-    private Ped _cSuspect;
-    private Ped _cVictim;
+    private Blip? _cBlip;
+    private Ped? _cSuspect;
+    private Ped? _cVictim;
     internal override Location SpawnPoint { get; set; }
     internal override float OnSceneDistance { get; set; } = 25f;
     internal override string CalloutName { get; set; } = "Knife Attack";
 
     internal override void CalloutPrep()
     {
-        foreach (var unused in _locations)
-            _chosenLocation = _locations.OrderBy(x => x.Item1.DistanceTo(Game.LocalPlayer.Character.Position))
-                .FirstOrDefault();
-        SpawnPoint = new(_chosenLocation!.Item1, _chosenLocation.Item2);
+        SpawnPoint = _locations.OrderBy(x => x.Position.DistanceTo(Game.LocalPlayer.Character.Position)).FirstOrDefault();
         CalloutMessage = "~b~Dispatch:~s~ Reports of a knife attack.";
         CalloutAdvisory = "Caller says attacker has injured others.";
         Functions.PlayScannerAudioUsingPosition(
@@ -78,6 +74,12 @@ internal class KnifeAttack : SuperCallout
 
     internal override void CalloutOnScene()
     {
+        if ( _cVictim == null || _cSuspect == null )
+        {
+            CalloutEnd(true);
+            return;
+        }
+        
         _cVictim.Kill();
         switch (_cScene)
         {
@@ -96,6 +98,6 @@ internal class KnifeAttack : SuperCallout
 
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Locate Suspect",
             "Search for the suspect. Last was seen carrying a knife.");
-        _cBlip.Delete();
+        _cBlip?.Delete();
     }
 }

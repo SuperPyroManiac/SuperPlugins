@@ -13,9 +13,9 @@ namespace SuperCallouts.RemasteredCallouts;
 [CalloutInfo("[SC] Stolen PD Vehicle", CalloutProbability.Medium)]
 internal class StolenCopVehicle : SuperCallout
 {
-    private Ped _suspect;
-    private Blip _cBlip;
-    private Vehicle _cVehicle;
+    private Ped? _suspect;
+    private Blip? _cBlip;
+    private Vehicle? _cVehicle;
     private bool _blipHelper;
     internal override Location SpawnPoint { get; set; } = new(World.GetNextPositionOnStreet(Player.Position.Around(350f)));
     internal override float OnSceneDistance { get; set; } = 50f;
@@ -54,15 +54,25 @@ internal class StolenCopVehicle : SuperCallout
 
     internal override void CalloutRunning()
     {
+        if ( _suspect == null )
+        {
+            CalloutEnd(true);
+            return;
+        }
+        
         if ( !OnScene && !_blipHelper )
         {
             GameFiber.StartNew(delegate
             {
                 _blipHelper = true;
                 SpawnPoint = new Location(_suspect.Position);
-                _cBlip.DisableRoute();
-                _cBlip.Position = SpawnPoint.Position;
-                _cBlip.EnableRoute(Color.Red);
+                if ( _cBlip != null )
+                {
+                    _cBlip.DisableRoute();
+                    _cBlip.Position = SpawnPoint.Position;
+                    _cBlip.EnableRoute(Color.Red);
+                }
+
                 GameFiber.Sleep(2500);
                 _blipHelper = false;
             });
@@ -71,7 +81,13 @@ internal class StolenCopVehicle : SuperCallout
 
     internal override void CalloutOnScene()
     {
-        if ( _cBlip.Exists() ) _cBlip.Delete();
+        if ( _suspect == null )
+        {
+            CalloutEnd(true);
+            return;
+        }
+        
+        _cBlip?.Delete();
         PyroFunctions.StartPursuit(false, true, _suspect);
         PyroFunctions.RequestBackup(Enums.BackupType.Pursuit);
     }

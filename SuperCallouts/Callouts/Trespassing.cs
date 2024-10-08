@@ -4,7 +4,9 @@ using System.Drawing;
 using System.Linq;
 using LSPD_First_Response.Mod.API;
 using LSPD_First_Response.Mod.Callouts;
+using PyroCommon.Objects;
 using PyroCommon.PyroFunctions;
+using PyroCommon.PyroFunctions.Extensions;
 using Rage;
 using Rage.Native;
 using RAGENativeUI;
@@ -19,35 +21,31 @@ internal class Trespassing : SuperCallout
 {
     private readonly int _cScene = new Random(DateTime.Now.Millisecond).Next(0, 4);
 
-    private readonly List<Tuple<Vector3, float>> _locations =
+    private readonly List<Location> _locations =
     [
-        Tuple.Create(new Vector3(1323.59f, -1652.35f, 52.27f), 99f),
-        Tuple.Create(new Vector3(77.46f, -1390.56f, 29.3761f), 86f),
-        Tuple.Create(new Vector3(423.18f, -808.52f, 29.49f), 268f),
-        Tuple.Create(new Vector3(-711.29f, -156.18f, 37.41f), 344f),
-        Tuple.Create(new Vector3(1392.59f, 3602.87f, 34.98f), 24f),
-        Tuple.Create(new Vector3(1699.71f, 4926.49f, 42.06f), 167f),
-        Tuple.Create(new Vector3(1733.94f, 6420.61f, 35.03f), 245f),
-        Tuple.Create(new Vector3(2679.04f, 3281.72f, 55.24f), 128f),
-        Tuple.Create(new Vector3(-49.33f, -1756.87f, 29.42f), 255f),
-        Tuple.Create(new Vector3(-1224.55f, -906.21f, 12.32f), 229f)
+        new(new Vector3(1323.59f, -1652.35f, 52.27f), 99f),
+        new(new Vector3(77.46f, -1390.56f, 29.3761f), 86f),
+        new(new Vector3(423.18f, -808.52f, 29.49f), 268f),
+        new(new Vector3(-711.29f, -156.18f, 37.41f), 344f),
+        new(new Vector3(1392.59f, 3602.87f, 34.98f), 24f),
+        new(new Vector3(1699.71f, 4926.49f, 42.06f), 167f),
+        new(new Vector3(1733.94f, 6420.61f, 35.03f), 245f),
+        new(new Vector3(2679.04f, 3281.72f, 55.24f), 128f),
+        new(new Vector3(-49.33f, -1756.87f, 29.42f), 255f),
+        new(new Vector3(-1224.55f, -906.21f, 12.32f), 229f)
     ];
 
-    private Blip _cBlip;
-    private Tuple<Vector3, float> _chosenLocation;
-    private string _name;
-    private UIMenuItem _speakSuspect;
-    private Ped _suspect;
+    private Blip? _cBlip;
+    private string? _name;
+    private UIMenuItem? _speakSuspect;
+    private Ped? _suspect;
     internal override Location SpawnPoint { get; set; }
     internal override float OnSceneDistance { get; set; } = 10;
     internal override string CalloutName { get; set; } = "Trespassing";
 
     internal override void CalloutPrep()
     {
-        foreach (var unused in _locations)
-            _chosenLocation = _locations.OrderBy(x =>
-                x.Item1.DistanceTo(Game.LocalPlayer.Character.Position)).FirstOrDefault();
-        SpawnPoint = new(_chosenLocation!.Item1, _chosenLocation.Item2);
+        SpawnPoint = _locations.OrderBy(x => x.Position.DistanceTo(Game.LocalPlayer.Character.Position)).FirstOrDefault();
         CalloutMessage = "~r~" + Settings.EmergencyNumber + " Report:~s~ Reports of a person trespassing.";
         CalloutAdvisory = "Caller says the person is being aggressive and damaging property.";
         Functions.PlayScannerAudioUsingPosition(
@@ -62,7 +60,7 @@ internal class Trespassing : SuperCallout
 
         _suspect = new Ped(SpawnPoint.Position, SpawnPoint.Heading)
             { IsPersistent = true, BlockPermanentEvents = true };
-        PyroFunctions.SetDrunkOld(_suspect, true);
+        _suspect.SetDrunk(Enums.DrunkState.Sloshed);
         _suspect.Metadata.stpAlcoholDetected = true;
         _name = Functions.GetPersonaForPed(_suspect).FullName;
         _suspect.Tasks.Cower(-1);
@@ -79,19 +77,31 @@ internal class Trespassing : SuperCallout
 
     internal override void CalloutRunning()
     {
+        if ( _suspect == null )
+        {
+            CalloutEnd(true);
+            return;
+        }
+        
         if (!OnScene) _suspect.PlayAmbientSpeech("GENERIC_CURSE_MED");
         if (_suspect.IsDead)
         {
-            _speakSuspect.Enabled = false;
+            _speakSuspect!.Enabled = false;
             _speakSuspect.RightLabel = "~r~Dead";
         }
     }
 
     internal override void CalloutOnScene()
     {
-        _cBlip.DisableRoute();
+        if ( _suspect == null )
+        {
+            CalloutEnd(true);
+            return;
+        }
+        
+        _cBlip?.DisableRoute();
         Questioning.Enabled = true;
-        NativeFunction.Natives.x5AD23D40115353AC(_suspect, Game.LocalPlayer.Character, -1);
+        _suspect.Face(Game.LocalPlayer.Character);
         Game.DisplaySubtitle("~r~" + _name + "~s~: What do you want?", 3000);
     }
 
@@ -99,6 +109,12 @@ internal class Trespassing : SuperCallout
     {
         try
         {
+            if ( _suspect == null )
+            {
+                CalloutEnd(true);
+                return;
+            }
+            
             if (selItem == _speakSuspect)
                 GameFiber.StartNew(delegate
                 {

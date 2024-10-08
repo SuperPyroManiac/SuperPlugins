@@ -15,11 +15,11 @@ namespace SuperCallouts.RemasteredCallouts;
 [CalloutInfo("[SC] Open Carry", CalloutProbability.Low)]
 internal class OpenCarry : SuperCallout
 {
-    private Ped _suspect;
-    private Blip _cBlip;
-    private string _name1;
+    private Ped? _suspect;
+    private Blip? _cBlip;
+    private string? _name1;
     private bool _blipHelper;
-    private UIMenuItem _speakSuspect;
+    private UIMenuItem? _speakSuspect;
     internal override Location SpawnPoint { get; set; } = new(World.GetNextPositionOnStreet(Player.Position.Around(350f)));
     internal override float OnSceneDistance { get; set; } = 20;
     internal override string CalloutName { get; set; } = "Open Carry";
@@ -52,9 +52,15 @@ internal class OpenCarry : SuperCallout
 
     internal override void CalloutRunning()
     {
-        if ( _suspect.Exists() && _suspect.IsDead )
+        if ( _suspect == null )
         {
-            _speakSuspect.Enabled = false;
+            CalloutEnd(true);
+            return;
+        }
+        
+        if ( _suspect.IsDead )
+        {
+            _speakSuspect!.Enabled = false;
             _speakSuspect.RightLabel = "~r~Dead";
         }
 
@@ -64,9 +70,12 @@ internal class OpenCarry : SuperCallout
             {
                 _blipHelper = true;
                 SpawnPoint = new Location(_suspect.Position);
-                _cBlip.DisableRoute();
-                _cBlip.Position = SpawnPoint.Position.Around2D(25, 45);
-                _cBlip.EnableRoute(Color.Red);
+                if ( _cBlip != null )
+                {
+                    _cBlip.DisableRoute();
+                    _cBlip.Position = SpawnPoint.Position.Around2D(25, 45);
+                    _cBlip.EnableRoute(Color.Red);
+                }
                 GameFiber.Sleep(5000);
                 _blipHelper = false;
             });
@@ -75,9 +84,19 @@ internal class OpenCarry : SuperCallout
 
     internal override void CalloutOnScene()
     {
-        _cBlip.Position = SpawnPoint.Position;
-        _cBlip.Scale = 20;
-        _cBlip.DisableRoute();
+        if ( _cBlip != null )
+        {
+            _cBlip.Position = SpawnPoint.Position;
+            _cBlip.Scale = 20;
+            _cBlip.DisableRoute();
+        }
+
+        if ( _suspect == null )
+        {
+            CalloutEnd(true);
+            return;
+        }
+
         Game.DisplaySubtitle("~g~You~s~: Hey, stop for a second.");
         _suspect.Tasks.ClearImmediately();
         _suspect.Tasks.FaceEntity(Player);
@@ -123,6 +142,12 @@ internal class OpenCarry : SuperCallout
 
     protected override void Conversations(UIMenu sender, UIMenuItem selItem, int index)
     {
+        if ( _suspect == null )
+        {
+            CalloutEnd(true);
+            return;
+        }
+        
         if ( selItem == _speakSuspect )
             GameFiber.StartNew(delegate
             {

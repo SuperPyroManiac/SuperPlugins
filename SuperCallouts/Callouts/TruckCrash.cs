@@ -13,14 +13,14 @@ namespace SuperCallouts.Callouts;
 [CalloutInfo("[SC] Truck Crash", CalloutProbability.Low)]
 internal class TruckCrash : SuperCallout
 {
-    private Vehicle _car1;
-    private Vehicle _car2;
-    private Blip _cBlip;
-    private UIMenuItem _speakSuspect;
-    private Vehicle _truck;
-    private Ped _victim;
-    private Ped _victim2;
-    private Ped _victim3;
+    private Vehicle? _car1;
+    private Vehicle? _car2;
+    private Blip? _cBlip;
+    private UIMenuItem? _speakSuspect;
+    private Vehicle? _truck;
+    private Ped? _victim;
+    private Ped? _victim2;
+    private Ped? _victim3;
     internal override Location SpawnPoint { get; set; } = new(2455.644f, -186.7955f, 87.83904f);
     internal override float OnSceneDistance { get; set; } = 30;
     internal override string CalloutName { get; set; } = "Truck Accident";
@@ -69,19 +69,21 @@ internal class TruckCrash : SuperCallout
 
     protected override void Conversations(UIMenu sender, UIMenuItem selItem, int index)
     {
+        if ( _victim == null || _victim2 == null )
+        {
+            CalloutEnd(true);
+            return;
+        }
+        
         if (selItem == _speakSuspect)
             GameFiber.StartNew(delegate
             {
                 _speakSuspect.Enabled = false;
-                NativeFunction.Natives.x5AD23D40115353AC(_victim, Game.LocalPlayer.Character,
-                    -1);
-                NativeFunction.Natives.x5AD23D40115353AC(_victim2, Game.LocalPlayer.Character,
-                    -1);
+                _victim.Face(Game.LocalPlayer.Character);
+                _victim2.Face(Game.LocalPlayer.Character);
                 Game.DisplaySubtitle("~g~Me: ~w~What happened? Are you all ok?", 4000);
                 GameFiber.Wait(4000);
-                Game.DisplaySubtitle(
-                    "~y~Victims: ~w~We're ok but the truck driver needs help! We were just going home and he flipped over!",
-                    4000);
+                Game.DisplaySubtitle("~y~Victims: ~w~We're ok but the truck driver needs help! We were just going home and he flipped over!", 4000);
             });
         base.Conversations(sender, selItem, index);
     }

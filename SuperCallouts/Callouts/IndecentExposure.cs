@@ -14,8 +14,8 @@ internal class IndecentExposure : SuperCallout
     internal override Location SpawnPoint { get; set; } = new(World.GetNextPositionOnStreet(Player.Position.Around(60f, 320f)));
     internal override float OnSceneDistance { get; set; } = 15;
     internal override string CalloutName { get; set; } = "Indecent Exposure";
-    private Ped _naked;
-    private Blip _blip;
+    private Ped? _naked;
+    private Blip? _blip;
     private readonly int _rNd = new Random(DateTime.Now.Millisecond).Next(1);
 
     internal override void CalloutPrep()
@@ -45,7 +45,13 @@ internal class IndecentExposure : SuperCallout
 
     internal override void CalloutOnScene()
     {
-        if (_blip.Exists()) _blip.Delete();
+        if ( _naked == null )
+        {
+            CalloutEnd(true);
+            return;
+        }
+        
+        _blip?.Delete();
         _naked.BlockPermanentEvents = false;
         switch (_rNd)
         {
