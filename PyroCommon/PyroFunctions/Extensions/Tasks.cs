@@ -7,7 +7,7 @@ namespace PyroCommon.PyroFunctions.Extensions;
 
 public static class Tasks
 {
-    private static Ped GetPedFromTaskInvoker(this TaskInvoker taskInvoker)
+    private static Ped? GetPedFromTaskInvoker(this TaskInvoker taskInvoker)
     {
         var property = taskInvoker.GetType().GetProperty("Ped", BindingFlags.Instance | BindingFlags.NonPublic);
         return property != null ? (Ped)property.GetMethod.Invoke(taskInvoker, null) : null;
@@ -29,7 +29,7 @@ public static class Tasks
         try
         {
             var ped = taskInvoker.GetPedFromTaskInvoker();
-            NativeFunction.Natives.xD76632D99E4966C8(ped, 1000, 3500, 0, ped.Direction, World.GetGroundZ(ped.Position, false, false), 0, 0);
+            if ( ped != null ) NativeFunction.Natives.xD76632D99E4966C8(ped, 1000, 3500, 0, ped.Direction, World.GetGroundZ(ped.Position, false, false), 0, 0);
         }
         catch (Exception e)
         {

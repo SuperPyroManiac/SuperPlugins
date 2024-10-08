@@ -50,31 +50,31 @@ public static class PyroFunctions
         switch (bType)
         {
             case Enums.BackupType.Code2:
-                if ( Main.UsingUb ) Wrappers.Backup.UbCode2();
+                if ( Main.UsingUb ) Backup.UbCode2();
                 else Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Code2, EBackupUnitType.LocalUnit);
                 break;
             case Enums.BackupType.Code3:
-                if (Main.UsingUb) Wrappers.Backup.UbCode3();
+                if (Main.UsingUb) Backup.UbCode3();
                 else Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Code3, EBackupUnitType.LocalUnit);
                 break;
             case Enums.BackupType.Swat:
-                if (Main.UsingUb) Wrappers.Backup.UbSwat(false);
+                if (Main.UsingUb) Backup.UbSwat(false);
                 else Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Code3, EBackupUnitType.SwatTeam);
                 break;
             case Enums.BackupType.Noose:
-                if (Main.UsingUb) Wrappers.Backup.UbSwat(true);
+                if (Main.UsingUb) Backup.UbSwat(true);
                 else Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Code3, EBackupUnitType.NooseTeam);
                 break;
             case Enums.BackupType.Fire:
-                if (Main.UsingUb) Wrappers.Backup.UbFd();
+                if (Main.UsingUb) Backup.UbFd();
                 else Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Code3, EBackupUnitType.Firetruck);
                 break;
             case Enums.BackupType.Medical:
-                if (Main.UsingUb) Wrappers.Backup.UbEms();
+                if (Main.UsingUb) Backup.UbEms();
                 else Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Code3, EBackupUnitType.Ambulance);
                 break;
             case Enums.BackupType.Pursuit:
-                if (Main.UsingUb) Wrappers.Backup.UbPursuit();
+                if (Main.UsingUb) Backup.UbPursuit();
                 else Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Pursuit, EBackupUnitType.LocalUnit);
                 break;
             default:
@@ -82,19 +82,19 @@ public static class PyroFunctions
         }
     }
     
-    public static void AddDrugItem(string item, Enums.DrugType drugType, Ped ped = null, Vehicle vehicle = null, Enums.ItemLocation itemLocation = Enums.ItemLocation.Anywhere)
+    public static void AddDrugItem(string item, Enums.DrugType drugType, Ped? ped = null, Vehicle? vehicle = null, Enums.ItemLocation itemLocation = Enums.ItemLocation.Anywhere)
     {
         if (ped != null && Main.UsingStp) SearchItems.AddStpPedSearchItems(ped, item);
         if (vehicle != null && Main.UsingStp) SearchItems.AddStpVehicleDriverSearchItems(vehicle, item);
         //if (Main.UsingPr) SearchItems.AddDrugItem(item, drugType, itemLocation, ped, vehicle);
     }
-    public static void AddWeaponItem(string item, string weaponId, Ped ped = null, Vehicle vehicle = null, Enums.ItemLocation itemLocation = Enums.ItemLocation.Anywhere)
+    public static void AddWeaponItem(string item, string weaponId, Ped? ped = null, Vehicle? vehicle = null, Enums.ItemLocation itemLocation = Enums.ItemLocation.Anywhere)
     {
         if (ped != null && Main.UsingStp) SearchItems.AddStpPedSearchItems(ped, item);
         if (vehicle != null && Main.UsingStp) SearchItems.AddStpVehicleDriverSearchItems(vehicle, item);
         //if (Main.UsingPr) SearchItems.AddWeaponItem(item, weaponId, itemLocation, ped, vehicle);
     }
-    public static void AddFirearmItem(string item, string weaponId, bool visible, bool stolen, bool equiped = false, Ped ped = null, Vehicle vehicle = null, Enums.ItemLocation itemLocation = Enums.ItemLocation.Anywhere)
+    public static void AddFirearmItem(string item, string weaponId, bool visible, bool stolen, bool equiped = false, Ped? ped = null, Vehicle? vehicle = null, Enums.ItemLocation itemLocation = Enums.ItemLocation.Anywhere)
     {
         if (ped != null)
         {
@@ -104,14 +104,14 @@ public static class PyroFunctions
         if (vehicle != null && Main.UsingStp) SearchItems.AddStpVehicleDriverSearchItems(vehicle, item);
         //if (Main.UsingPr) SearchItems.AddFirearmItem(item, weaponId, visible, stolen, itemLocation, ped, vehicle);
     }
-    public static void AddSearchItem(string item, Ped ped = null, Vehicle vehicle = null, Enums.ItemLocation itemLocation = Enums.ItemLocation.Anywhere)
+    public static void AddSearchItem(string item, Ped? ped = null, Vehicle? vehicle = null, Enums.ItemLocation itemLocation = Enums.ItemLocation.Anywhere)
     {
         if (ped != null && Main.UsingStp) SearchItems.AddStpPedSearchItems(ped, item);
         if (vehicle != null && Main.UsingStp) SearchItems.AddStpVehicleDriverSearchItems(vehicle, item);
         //if (Main.UsingPr) SearchItems.AddSearchItem(item, itemLocation, ped, vehicle);
     }
     
-    public static void ClearSearchItems(Ped ped = null, Vehicle vehicle = null)
+    public static void ClearSearchItems(Ped? ped = null, Vehicle? vehicle = null)
     {
         if (ped != null)
         {
@@ -270,7 +270,7 @@ public static class PyroFunctions
     }
     
     [Obsolete("Method is deprecated, please use Ped.SetWanted instead.")]
-    public static Ped SetWanted(Ped ped, bool isWanted)
+    public static Ped? SetWanted(Ped ped, bool isWanted)
     {
         if (!ped.Exists()) return null;
         var thePersona = Functions.GetPersonaForPed(ped);

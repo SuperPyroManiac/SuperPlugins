@@ -34,7 +34,7 @@ internal static class SuperEvents
     }
 
 
-    internal static List<Type> GetAllEvents()
+    internal static List<Type>? GetAllEvents()
     {
         var eventManagerType = SEvents.GetType("SuperEvents.EventFunctions.EventManager");
         if (eventManagerType == null) return null;
@@ -49,7 +49,7 @@ internal static class SuperEvents
         return null;
     }
 
-    internal static List<Type> GetRegisteredEvents()
+    internal static List<Type>? GetRegisteredEvents()
     {
         var eventManagerType = SEvents.GetType("SuperEvents.EventFunctions.EventManager");
         if (eventManagerType == null) return null;

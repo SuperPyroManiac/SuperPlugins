@@ -11,12 +11,12 @@ namespace PyroCommon.PyroFunctions;
 
 internal class DependManager
 {
-    private readonly Dictionary<string, (string PluginName, string Version)> Depends = new();
+    private readonly Dictionary<string, (string PluginName, string Version)> _depends = new();
 
     internal void AddDepend(string name, string version)
     {
         var pluginName = Assembly.GetCallingAssembly().FullName.Split(',').First();
-        Depends[name] = (pluginName, version);
+        _depends[name] = (pluginName, version);
     }
 
     internal bool CheckDepends()
@@ -27,13 +27,12 @@ internal class DependManager
         
         if ( Functions.GetVersion() < new Version("0.4.9") )
         {
-            var outdatedMessage = string.Join("\r\n", outdatedDepend);
             Log.Error($"LSPDFR is too far outdated! You require at least version 0.4.9.\r\nYour version: {Functions.GetVersion()}", false);
             Game.DisplayNotification("new_editor", "warningtriangle", $"~r~{plugName}", "~y~Not Loaded!", "Plugin is installed incorrectly! Please see the RagePluginHook.log! Visit https://dsc.PyrosFun.com for help!");
             return false;
         }
 
-        foreach (var depend in Depends)
+        foreach (var depend in _depends)
         {
             if (!File.Exists(depend.Key)) missingDepend.Add(depend.Key);
             else if (new Version(FileVersionInfo.GetVersionInfo(depend.Key).FileVersion) < new Version(depend.Value.Version)) outdatedDepend.Add(depend.Key);

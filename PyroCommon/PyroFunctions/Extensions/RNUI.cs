@@ -6,9 +6,9 @@ using RAGENativeUI.Elements;
 
 namespace PyroCommon.PyroFunctions.Extensions;
 
-public static class RNUI
+public static class Rnui
 {
-        private static T WithTextEditingBase<T>(T item, int maxLength, Func<string> strGetter, Action<string> resultCallback) where T : UIMenuItem
+        private static void WithTextEditingBase<T>(T item, int maxLength, Func<string> strGetter, Action<string> resultCallback) where T : UIMenuItem
     {
         item = item ?? throw new ArgumentNullException(nameof(item));
         if (maxLength < 0)
@@ -16,7 +16,7 @@ public static class RNUI
             throw new ArgumentOutOfRangeException("Length cannot be negative", nameof(maxLength));
         }
 
-        item.Activated += (m, s) =>
+        item.Activated += (_, _) =>
         {
             Manager.MainMenuPool.Draw();
             NativeFunction.Natives.DISPLAY_ONSCREEN_KEYBOARD(6, "", "", strGetter(), "", "", "", maxLength);
@@ -32,7 +32,6 @@ public static class RNUI
                 resultCallback(str);
             }
         };
-        return item;
     }
     /// <summary>
     /// Allows to edit a string by selecting the item. The current string is displayed in the item's <see cref="UIMenuItem.RightLabel"/>.

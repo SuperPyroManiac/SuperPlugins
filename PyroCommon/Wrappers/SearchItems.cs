@@ -51,8 +51,7 @@ public static class SearchItems
     //STP WORKAROUND
     internal static void AddStpVehicleDriverSearchItems(Vehicle vehicle, params string[] items)
     {
-        var existingItems = (string)vehicle.Metadata.searchDriver;
-        if (existingItems == null) existingItems = string.Empty;
+        var existingItems = (string)vehicle.Metadata.searchDriver ?? string.Empty;
         var splitItems = existingItems.Split(',').ToList();
         var lastItems = splitItems[splitItems.Count - 1].Split([" and "], StringSplitOptions.RemoveEmptyEntries).ToList();
         splitItems.RemoveAt(splitItems.Count - 1);
@@ -65,8 +64,7 @@ public static class SearchItems
 
     internal static void AddStpPedSearchItems(Ped ped, params string[] items)
     {
-        var existingItems = (string)ped.Metadata.searchPed;
-        if (existingItems == null) existingItems = string.Empty;
+        var existingItems = (string)ped.Metadata.searchPed ?? string.Empty;
         var splitItems = existingItems.Split(',').ToList();
         var lastItems = splitItems[splitItems.Count - 1].Split([" and "], StringSplitOptions.RemoveEmptyEntries).ToList();
         splitItems.RemoveAt(splitItems.Count - 1);

@@ -8,9 +8,9 @@ namespace PyroCommon.PyroFunctions.Extensions;
 
 public static class Peds
 {
-        public static void SetWalkAnimation(this Ped ped, Enums.ScAnimationsSet animationsSet)
+    public static void SetWalkAnimation(this Ped ped, Enums.ScAnimationsSet animationsSet)
     {
-        string chosenSet = null;
+        var chosenSet = string.Empty;
         switch (animationsSet)
         {
             case Enums.ScAnimationsSet.Drunk:

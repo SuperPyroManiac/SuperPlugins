@@ -165,11 +165,11 @@ internal static class Manager
         }
         if ( Main.UsingSe )
         {
-            foreach (var t in SuperEvents.GetAllEvents())
+            foreach (var t in SuperEvents.GetAllEvents()!)
             {
                 var s = new UIMenuItem($"[{t.Namespace!.Split('.').First()}] {t.Name}");
                 EventMenu.AddItem(s);
-                s.Activated += (_,_) => SuperEvents.ForceEvent(t.FullName);
+                s.Activated += (_,_) => SuperEvents.ForceEvent(t.FullName!);
             }
         }
         Style.ApplyStyle(MainMenuPool, true);

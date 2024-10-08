@@ -43,7 +43,7 @@ internal static class ScSettings
     internal static bool Lsgtf;
     internal static Keys Interact;
     internal static Keys EndCall;
-    internal static string EmergencyNumber;
+    internal static string EmergencyNumber = "911";
 
     internal static void GetSettings()
     {
