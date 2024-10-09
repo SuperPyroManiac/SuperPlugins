@@ -71,7 +71,7 @@ internal class ToiletPaperBandit : SuperCallout
     {
         if (OnScene)
         {
-            if ( _bad == null )
+            if ( !_bad )
             {
                 CalloutEnd(true);
                 return;

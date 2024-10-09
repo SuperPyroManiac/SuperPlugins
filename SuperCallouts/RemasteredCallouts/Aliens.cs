@@ -68,7 +68,7 @@ internal class Aliens : SuperCallout
 
     internal override void CalloutOnScene()
     {
-        if ( _alien1 == null || _alien2 == null || _alien3 == null || _cVehicle1 == null )
+        if ( !_alien1 || !_alien2 || !_alien3 || !_cVehicle1 )
         {
             CalloutEnd(true);
             return;

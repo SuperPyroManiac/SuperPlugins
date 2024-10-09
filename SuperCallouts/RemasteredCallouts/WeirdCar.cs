@@ -49,13 +49,13 @@ internal class WeirdCar : SuperCallout
 
     internal override void CalloutOnScene()
     {
-        if ( _cVehicle1 == null )
+        if ( !_cVehicle1 )
         {
             CalloutEnd(true);
             return;
         }
         
-        if ( _cBlip != null )
+        if ( _cBlip )
         {
             _cBlip.Position = SpawnPoint.Position;
             _cBlip.Scale = 20;
@@ -108,7 +108,7 @@ internal class WeirdCar : SuperCallout
 
     protected override void Conversations(UIMenu sender, UIMenuItem selItem, int index)
     {
-        if ( _bad1 == null )
+        if ( !_bad1 )
         {
             CalloutEnd(true);
             return;

@@ -52,7 +52,7 @@ internal class OpenCarry : SuperCallout
 
     internal override void CalloutRunning()
     {
-        if ( _suspect == null )
+        if ( !_suspect )
         {
             CalloutEnd(true);
             return;
@@ -70,7 +70,7 @@ internal class OpenCarry : SuperCallout
             {
                 _blipHelper = true;
                 SpawnPoint = new Location(_suspect.Position);
-                if ( _cBlip != null )
+                if ( _cBlip )
                 {
                     _cBlip.DisableRoute();
                     _cBlip.Position = SpawnPoint.Position.Around2D(25, 45);
@@ -84,14 +84,14 @@ internal class OpenCarry : SuperCallout
 
     internal override void CalloutOnScene()
     {
-        if ( _cBlip != null )
+        if ( _cBlip )
         {
             _cBlip.Position = SpawnPoint.Position;
             _cBlip.Scale = 20;
             _cBlip.DisableRoute();
         }
 
-        if ( _suspect == null )
+        if ( !_suspect )
         {
             CalloutEnd(true);
             return;
@@ -142,7 +142,7 @@ internal class OpenCarry : SuperCallout
 
     protected override void Conversations(UIMenu sender, UIMenuItem selItem, int index)
     {
-        if ( _suspect == null )
+        if ( !_suspect )
         {
             CalloutEnd(true);
             return;

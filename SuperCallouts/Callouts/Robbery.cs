@@ -91,7 +91,7 @@ internal class Robbery : SuperCallout
 
     internal override void CalloutOnScene()
     {
-        if ( _victim == null || _rude1 == null || _rude2 == null )
+        if ( !_victim || !_rude1 || !_rude2 )
         {
             CalloutEnd(true);
             return;

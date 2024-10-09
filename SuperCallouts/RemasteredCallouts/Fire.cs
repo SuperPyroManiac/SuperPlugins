@@ -47,9 +47,9 @@ internal class Fire : SuperCallout
 
     internal override void CalloutOnScene()
     {
-        if ( _cBlip != null )
+        if ( _cBlip )
         {
-            _cBlip.Position = SpawnPoint.Position;
+            _cBlip!.Position = SpawnPoint.Position;
             _cBlip.Scale = 20;
             _cBlip.DisableRoute();
         }

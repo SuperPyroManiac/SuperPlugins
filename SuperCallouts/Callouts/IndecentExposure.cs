@@ -45,7 +45,7 @@ internal class IndecentExposure : SuperCallout
 
     internal override void CalloutOnScene()
     {
-        if ( _naked == null )
+        if ( !_naked )
         {
             CalloutEnd(true);
             return;

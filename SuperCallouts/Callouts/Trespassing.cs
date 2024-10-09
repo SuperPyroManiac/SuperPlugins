@@ -77,7 +77,7 @@ internal class Trespassing : SuperCallout
 
     internal override void CalloutRunning()
     {
-        if ( _suspect == null )
+        if ( !_suspect )
         {
             CalloutEnd(true);
             return;
@@ -93,7 +93,7 @@ internal class Trespassing : SuperCallout
 
     internal override void CalloutOnScene()
     {
-        if ( _suspect == null )
+        if ( !_suspect )
         {
             CalloutEnd(true);
             return;
@@ -109,7 +109,7 @@ internal class Trespassing : SuperCallout
     {
         try
         {
-            if ( _suspect == null )
+            if ( !_suspect )
             {
                 CalloutEnd(true);
                 return;

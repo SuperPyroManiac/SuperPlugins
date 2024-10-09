@@ -111,7 +111,7 @@ internal class Lsgtf : Callout
 
     private void LetsChatBois(UIMenu unUn, UIMenuItem selItem, int nanana)
     {
-        if ( _fib1 == null || _fib2 == null || _bad1 == null || _bad2 == null || _bad3 == null || _bad4 == null || _bad5 == null || _bad6 == null || _bad7 == null || _bad8 == null )
+        if ( !_fib1 || !_fib2 || !_bad1 || !_bad2 || !_bad3 || !_bad4 || !_bad5 || !_bad6 || !_bad7 || !_bad8 )
         {
             End();
             return;
@@ -178,7 +178,7 @@ internal class Lsgtf : Callout
 
     public override void Process()
     {
-        if ( _fib1 == null || _fib2 == null || _bad1 == null || _bad2 == null || _bad3 == null || _bad4 == null || _bad5 == null || _bad6 == null || _bad7 == null || _bad8 == null || _cVehicle == null )
+        if ( !_fib1 || !_fib2 || !_bad1 || !_bad2 || !_bad3 || !_bad4 || !_bad5 || !_bad6 || !_bad7 || !_bad8 || !_cVehicle )
         {
             End();
             return;
@@ -251,26 +251,26 @@ internal class Lsgtf : Callout
 
     public override void End()
     {
-        if (_fib1 != null) _fib1.Dismiss();
-        if (_fib2 != null) _fib2.Dismiss();
-        if (_cVehicle != null) _cVehicle.Dismiss();
-        if (_bad1 != null) _bad1.Dismiss();
-        if (_bad2 != null) _bad2.Dismiss();
-        if (_bad3 != null) _bad3.Dismiss();
-        if (_bad4 != null) _bad4.Dismiss();
-        if (_bad5 != null) _bad5.Dismiss();
-        if (_bad6 != null) _bad6.Dismiss();
-        if (_bad7 != null) _bad7.Dismiss();
-        if (_bad8 != null) _bad8.Dismiss();
-        if (_cBlip1 != null) _cBlip1.Delete();
-        if (_cBlip2 != null) _cBlip2.Delete();
-        if (_cBlip3 != null) _cBlip3.Delete();
-        if (_cBlip4 != null) _cBlip4.Delete();
-        if (_cBlip5 != null) _cBlip5.Delete();
-        if (_cBlip6 != null) _cBlip6.Delete();
-        if (_cBlip7 != null) _cBlip7.Delete();
-        if (_cBlip8 != null) _cBlip8.Delete();
-        if (_meetingB != null) _meetingB.Delete();
+        if (_fib1 ) _fib1.Dismiss();
+        if (_fib2 ) _fib2.Dismiss();
+        if (_cVehicle ) _cVehicle.Dismiss();
+        if (_bad1 ) _bad1.Dismiss();
+        if (_bad2 ) _bad2.Dismiss();
+        if (_bad3 ) _bad3.Dismiss();
+        if (_bad4 ) _bad4.Dismiss();
+        if (_bad5 ) _bad5.Dismiss();
+        if (_bad6 ) _bad6.Dismiss();
+        if (_bad7 ) _bad7.Dismiss();
+        if (_bad8 ) _bad8.Dismiss();
+        if (_cBlip1 ) _cBlip1.Delete();
+        if (_cBlip2 ) _cBlip2.Delete();
+        if (_cBlip3 ) _cBlip3.Delete();
+        if (_cBlip4 ) _cBlip4.Delete();
+        if (_cBlip5 ) _cBlip5.Delete();
+        if (_cBlip6 ) _cBlip6.Delete();
+        if (_cBlip7 ) _cBlip7.Delete();
+        if (_cBlip8 ) _cBlip8.Delete();
+        if (_meetingB ) _meetingB.Delete();
 
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
         base.End();

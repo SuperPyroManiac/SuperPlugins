@@ -47,7 +47,7 @@ internal class CarFire : AmbientEvent
                 case Tasks.OnScene:
                     var choice = new Random(DateTime.Now.Millisecond).Next(1, 4);
                     Log.Info("Fire event picked scenerio #" + choice);
-                    if ( _eVehicle == null )
+                    if ( !_eVehicle )
                     {
                         EndEvent(true);
                         break;

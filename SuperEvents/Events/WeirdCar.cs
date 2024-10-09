@@ -35,7 +35,7 @@ internal class WeirdCar : AmbientEvent
     {
         try
         {
-            if ( _eVehicle == null )
+            if ( !_eVehicle )
             {
                 EndEvent(true);
                 return;

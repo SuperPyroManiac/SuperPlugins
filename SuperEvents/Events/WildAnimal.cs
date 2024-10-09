@@ -27,7 +27,7 @@ internal class WildAnimal : AmbientEvent
     {
         try
         {
-            if ( _animal == null )
+            if ( !_animal )
             {
                 EndEvent(true);
                 return;

@@ -122,10 +122,10 @@ internal class LostGang : Callout
     {
         foreach (var bikerss in _bikers.OfType<Ped>()) bikerss.Dismiss(); 
         foreach (var vehicless in _cVehicles.OfType<Vehicle>()) vehicless.Dismiss();
-        if (_cop1!= null) _cop1.Dismiss();
-        if (_cop2!= null) _cop2.Dismiss();
-        if (_cop3!= null) _cop3.Dismiss();
-        if (_cBlip!= null) _cBlip.Delete();
+        if (_cop1) _cop1.Dismiss();
+        if (_cop2) _cop2.Dismiss();
+        if (_cop3) _cop3.Dismiss();
+        if (_cBlip) _cBlip.Delete();
 
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
         base.End();

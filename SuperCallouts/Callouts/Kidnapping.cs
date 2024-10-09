@@ -79,7 +79,7 @@ internal class Kidnapping : SuperCallout
 
     internal override void CalloutRunning()
     {
-        if ( _bad1 == null || _victim1 == null )
+        if ( !_bad1 || !_victim1 )
         {
             CalloutEnd(true);
             return;
@@ -100,7 +100,7 @@ internal class Kidnapping : SuperCallout
 
     internal override void CalloutOnScene()
     {
-        if ( _bad1 == null || _victim1 == null )
+        if ( !_bad1 || !_victim1 )
         {
             CalloutEnd(true);
             return;
@@ -132,7 +132,7 @@ internal class Kidnapping : SuperCallout
     {
         try
         {
-            if ( _victim1 == null || _bad1 == null )
+            if ( !_victim1 || !_bad1 )
             {
                 CalloutEnd(true);
                 return;

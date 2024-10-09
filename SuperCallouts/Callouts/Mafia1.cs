@@ -106,7 +106,7 @@ internal class Mafia1 : Callout
     {
         try
         {
-            if ( _fib1 == null )
+            if ( !_fib1 )
             {
                 End();
                 return;

@@ -69,7 +69,7 @@ internal class Impersonator : SuperCallout
 
     internal override void CalloutOnScene()
     {
-        if ( _victim == null || _bad == null )
+        if ( !_victim || !_bad )
         {
             CalloutEnd(true);
             return;

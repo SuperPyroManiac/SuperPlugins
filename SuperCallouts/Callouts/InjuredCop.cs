@@ -69,7 +69,7 @@ internal class InjuredCop : SuperCallout
 
     internal override void CalloutOnScene()
     {
-        if ( _cop == null )
+        if ( !_cop )
         {
             CalloutEnd(true);
             return;

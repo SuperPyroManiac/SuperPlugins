@@ -85,13 +85,13 @@ internal class HotPursuit : SuperCallout
 
     internal override void CalloutRunning()
     {
-        if ( _bad1 == null || _bad2 == null || _cVehicle == null )
+        if ( !_bad1 || !_bad2 || !_cVehicle )
         {
             CalloutEnd(true);
             return;
         }
         
-        if ( _cBlip != null && !OnScene && !_blipHelper )
+        if ( _cBlip && !OnScene && !_blipHelper )
         {
             GameFiber.StartNew(() =>
             {
@@ -131,7 +131,7 @@ internal class HotPursuit : SuperCallout
 
     internal override void CalloutOnScene()
     {
-        if ( _cBlip == null || _bad1 == null || _bad2 == null )
+        if ( !_cBlip || !_bad1 || !_bad2 )
         {
             CalloutEnd(true);
             return;
@@ -147,7 +147,7 @@ internal class HotPursuit : SuperCallout
 
     protected override void Conversations(UIMenu sender, UIMenuItem selItem, int index)
     {
-        if ( _bad1 == null || _bad2 == null )
+        if ( !_bad1 || !_bad2 )
         {
             CalloutEnd(true);
             return;

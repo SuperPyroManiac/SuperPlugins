@@ -129,7 +129,7 @@ public abstract class AmbientEvent
         OnCleanup();
         if (forceCleanup)
         {
-            foreach (var entity in EntitiesToClear.Where(entity => entity.Exists())) entity.Delete();
+            foreach (var entity in EntitiesToClear.Where(entity => entity.Exists())) entity.Dismiss();
             Log.Info("Event has been forcefully cleaned up.");
             Game.DisplayHelp("~r~Error Detected: ~y~Event forcefully cleared!");
         }

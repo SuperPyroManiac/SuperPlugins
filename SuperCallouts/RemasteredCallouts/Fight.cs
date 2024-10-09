@@ -60,7 +60,7 @@ internal class Fight : SuperCallout
 
     internal override void CalloutOnScene()
     {
-        if ( _blip == null || _suspect == null || _victim == null )
+        if ( !_blip || !_suspect || !_victim )
         {
             CalloutEnd(true);
             return;

@@ -93,7 +93,7 @@ internal class CarAccident2 : SuperCallout
 
     internal override void CalloutRunning()
     {
-        if ( _victim2 == null )
+        if ( !_victim2 )
         {
             CalloutEnd(true);
             return;
@@ -108,7 +108,7 @@ internal class CarAccident2 : SuperCallout
 
     internal override void CalloutOnScene()
     {
-        if ( _victim1 == null || _victim2 == null )
+        if ( !_victim1 || !_victim2 )
         {
             CalloutEnd(true);
             return;
@@ -139,7 +139,7 @@ internal class CarAccident2 : SuperCallout
 
     protected override void Conversations(UIMenu sender, UIMenuItem selItem, int index)
     {
-        if ( _victim1 == null || _victim2 == null )
+        if ( !_victim1 || !_victim2 )
         {
             CalloutEnd(true);
             return;

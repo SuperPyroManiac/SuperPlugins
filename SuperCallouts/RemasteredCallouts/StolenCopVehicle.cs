@@ -54,7 +54,7 @@ internal class StolenCopVehicle : SuperCallout
 
     internal override void CalloutRunning()
     {
-        if ( _suspect == null )
+        if ( !_suspect )
         {
             CalloutEnd(true);
             return;
@@ -66,7 +66,7 @@ internal class StolenCopVehicle : SuperCallout
             {
                 _blipHelper = true;
                 SpawnPoint = new Location(_suspect.Position);
-                if ( _cBlip != null )
+                if ( _cBlip )
                 {
                     _cBlip.DisableRoute();
                     _cBlip.Position = SpawnPoint.Position;
@@ -81,7 +81,7 @@ internal class StolenCopVehicle : SuperCallout
 
     internal override void CalloutOnScene()
     {
-        if ( _suspect == null )
+        if ( !_suspect )
         {
             CalloutEnd(true);
             return;

@@ -57,7 +57,7 @@ internal class PrisonTransport : SuperCallout
     {
         _cBlip?.DisableRoute();
 
-        if ( _cop == null || _suspect == null )
+        if ( !_cop || !_suspect )
         {
             CalloutEnd(true);
             return;
@@ -88,7 +88,7 @@ internal class PrisonTransport : SuperCallout
 
     internal override void CalloutEnd(bool forceCleanup = false)
     {
-        if (_cVehicle != null && _cop != null && _cop.IsAlive) _cop.Tasks.EnterVehicle(_cVehicle, -1);
+        if (_cVehicle && _cop && _cop!.IsAlive) _cop.Tasks.EnterVehicle(_cVehicle, -1);
         base.CalloutEnd(forceCleanup);
     }
 }

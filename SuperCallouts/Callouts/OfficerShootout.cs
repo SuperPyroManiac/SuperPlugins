@@ -85,7 +85,7 @@ internal class OfficerShootout : SuperCallout
 
     internal override void CalloutOnScene()
     {
-        if ( _cop1 == null || _cop2 == null || _bad1 == null || _bad2 == null )
+        if ( !_cop1 || !_cop2 || !_bad1 || !_bad2 )
         {
             CalloutEnd(true);
             return;

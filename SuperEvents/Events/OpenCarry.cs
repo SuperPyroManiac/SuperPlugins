@@ -49,7 +49,7 @@ internal class OpenCarry : AmbientEvent
 
     protected override void OnScene()
     {
-        if ( _bad == null )
+        if ( !_bad )
         {
             EndEvent(true);
             return;

@@ -69,7 +69,7 @@ internal class TruckCrash : SuperCallout
 
     protected override void Conversations(UIMenu sender, UIMenuItem selItem, int index)
     {
-        if ( _victim == null || _victim2 == null )
+        if ( !_victim || !_victim2 )
         {
             CalloutEnd(true);
             return;

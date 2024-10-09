@@ -128,7 +128,7 @@ internal class HitRun : SuperCallout
 
     protected override void Conversations(UIMenu sender, UIMenuItem selItem, int index)
     {
-        if ( _bad1 == null || _bad2 == null )
+        if ( !_bad1 || !_bad2 )
         {
             CalloutEnd(true);
             return;

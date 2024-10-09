@@ -58,7 +58,7 @@ internal class Fight : AmbientEvent
     {
         try
         {
-            if ( _suspect == null || _suspect2 == null )
+            if ( !_suspect || !_suspect2 )
             {
                 EndEvent(true);
                 return;
@@ -130,7 +130,7 @@ internal class Fight : AmbientEvent
 
     protected override void Conversations(UIMenu sender, UIMenuItem selItem, int index)
     {
-        if ( _suspect == null || _suspect2 == null )
+        if ( !_suspect || !_suspect2 )
         {
             EndEvent(true);
             return;

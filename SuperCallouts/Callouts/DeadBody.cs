@@ -68,7 +68,7 @@ internal class DeadBody : SuperCallout
 
     internal override void CalloutRunning()
     {
-        if ( _witness == null )
+        if ( !_witness )
         {
             CalloutEnd(true);
             return;
@@ -83,7 +83,7 @@ internal class DeadBody : SuperCallout
 
     internal override void CalloutOnScene()
     {
-        if ( _witness == null || _victim == null )
+        if ( !_witness || !_victim )
         {
             CalloutEnd(true);
             return;
@@ -101,7 +101,7 @@ internal class DeadBody : SuperCallout
     {
         try
         {
-            if ( _witness == null )
+            if ( !_witness )
             {
                 CalloutEnd(true);
                 return;

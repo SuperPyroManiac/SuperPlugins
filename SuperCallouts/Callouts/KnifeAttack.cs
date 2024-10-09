@@ -74,7 +74,7 @@ internal class KnifeAttack : SuperCallout
 
     internal override void CalloutOnScene()
     {
-        if ( _cVictim == null || _cSuspect == null )
+        if ( !_cVictim || !_cSuspect )
         {
             CalloutEnd(true);
             return;

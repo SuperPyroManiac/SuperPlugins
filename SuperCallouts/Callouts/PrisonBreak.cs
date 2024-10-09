@@ -108,12 +108,12 @@ internal class PrisonBreak : Callout
     public override void End()
     {
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
-        if (_prisoner1 != null) _prisoner1.Dismiss();
-        if (_prisoner2 != null) _prisoner2.Dismiss();
-        if (_prisoner3 != null) _prisoner3.Dismiss();
-        if (_prisoner4 != null) _prisoner4.Dismiss();
-        if (_prisoner5 != null) _prisoner5.Dismiss();
-        if (_cVehicle != null) _cVehicle.Dismiss();
+        if (_prisoner1 ) _prisoner1.Dismiss();
+        if (_prisoner2 ) _prisoner2.Dismiss();
+        if (_prisoner3 ) _prisoner3.Dismiss();
+        if (_prisoner4 ) _prisoner4.Dismiss();
+        if (_prisoner5 ) _prisoner5.Dismiss();
+        if (_cVehicle ) _cVehicle.Dismiss();
         _cBlip1?.Delete();
         _cBlip2?.Delete();
         _cBlip3?.Delete();

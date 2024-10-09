@@ -112,7 +112,7 @@ internal class CarAccident : AmbientEvent
 
                     break;
                 case Tasks.OnScene:
-                    if ( _ePed == null || _ePed2 == null )
+                    if ( !_ePed || !_ePed2 )
                     {
                         EndEvent(true);
                         break;
@@ -170,7 +170,7 @@ internal class CarAccident : AmbientEvent
 
     protected override void Conversations(UIMenu sender, UIMenuItem selItem, int index)
     {
-        if ( _ePed == null || _ePed2 == null )
+        if ( !_ePed || !_ePed2 )
         {
             EndEvent(true);
             return;

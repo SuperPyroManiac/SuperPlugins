@@ -50,7 +50,7 @@ internal class Manhunt : SuperCallout
 
     internal override void CalloutOnScene()
     {
-        if ( _bad == null )
+        if ( !_bad )
         {
             CalloutEnd(true);
             return;

@@ -92,7 +92,7 @@ internal class CarAccident3 : SuperCallout
 
     internal override void CalloutOnScene()
     {
-        if ( _ePed == null || _ePed2 == null )
+        if ( !_ePed || !_ePed2 )
         {
             CalloutEnd(true);
             return;

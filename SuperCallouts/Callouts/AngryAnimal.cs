@@ -66,7 +66,7 @@ internal class AngryAnimal : SuperCallout
 
     internal override void CalloutOnScene()
     {
-        if ( _animal == null || _victim == null )
+        if ( !_animal || !_victim )
         {
             CalloutEnd(true);
             return;

@@ -57,7 +57,7 @@ internal class PulloverShooting : AmbientEvent
     {
         try
         {
-            if ( _sPed == null || _cPed == null )
+            if ( !_sPed || !_cPed )
             {
                 EndEvent(true);
                 return;

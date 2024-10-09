@@ -34,7 +34,7 @@ internal class RecklessDriver : AmbientEvent
             _eVehicle = randomVehicle;
         }
 
-        if (_eVehicle == null || !_eVehicle.Exists() || !_eVehicle.HasDriver)
+        if (!_eVehicle || !_eVehicle.Exists() || !_eVehicle.HasDriver)
         {
             EndEvent(true);
             return;
@@ -59,7 +59,7 @@ internal class RecklessDriver : AmbientEvent
     {
         try
         {
-            if ( _ePed == null )
+            if ( !_ePed )
             {
                 EndEvent(true);
                 return;
