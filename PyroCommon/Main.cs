@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using LSPD_First_Response.Mod.API;
+using LSPD_First_Response.Mod.Utils;
 using PyroCommon.PyroFunctions;
 using PyroCommon.UIManager;
 using PyroCommon.Wrappers;
 using Rage;
+using Rage.Attributes;
 
 namespace PyroCommon;
 
@@ -30,6 +32,7 @@ public static class Main
         InstalledPyroPlugins[plugName] = plugVersion;
         if (_init) return;
         _init = true;
+        Game.AddConsoleCommands([typeof(ConsoleCommands)]);
         AssemblyLoader.Load();
         GameFiber.StartNew(Run, "[PC] Main");
     }
@@ -58,5 +61,15 @@ public static class Main
         InstalledPyroPlugins.Clear();
         _init = false;
         Manager.StopUi();
+    }
+    
+    //DEBUG RESET
+    [ConsoleCommand]
+    public static void RLP()
+    {
+        Game.Console.Print("Reloading LSPDFR");            
+        World.CleanWorld(true, true, true, true, true, true);
+        foreach (Blip b in World.GetAllBlips()) if (b) b.Delete();
+        Game.ReloadActivePlugin();
     }
 }
