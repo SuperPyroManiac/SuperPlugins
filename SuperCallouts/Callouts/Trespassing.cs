@@ -35,10 +35,10 @@ internal class Trespassing : SuperCallout
         new(new Vector3(-1224.55f, -906.21f, 12.32f), 229f)
     ];
 
-    private Blip? _cBlip;
-    private string? _name;
-    private UIMenuItem? _speakSuspect;
-    private Ped? _suspect;
+    private Blip _cBlip;
+    private string _name;
+    private UIMenuItem _speakSuspect;
+    private Ped _suspect;
     internal override Location SpawnPoint { get; set; }
     internal override float OnSceneDistance { get; set; } = 10;
     internal override string CalloutName { get; set; } = "Trespassing";

@@ -29,7 +29,7 @@ public abstract class AmbientEvent
     protected float ClearEventDistance { get; set; } = 200;
     public List<Entity> EntitiesToClear { get; } = [];
     public List<Blip> BlipsToClear { get; } = [];
-    private GameFiber? ProcessFiber { get; }
+    private GameFiber ProcessFiber { get; }
     protected static Ped Player => Game.LocalPlayer.Character;
     private bool onScene;
 
@@ -104,7 +104,7 @@ public abstract class AmbientEvent
         if (Game.IsKeyDown(Settings.Interact)) MainMenu.Visible = !MainMenu.Visible;
         if (EventLocation.DistanceTo(Player) > ClearEventDistance)
         {
-            EndEvent(true);
+            EndEvent();
             Log.Info("Ending event due to player being too far.");
         }
         if (!onScene && Game.LocalPlayer.Character.DistanceTo(EventLocation) < OnSceneDistance)

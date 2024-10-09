@@ -13,14 +13,14 @@ namespace SuperCallouts.Callouts;
 [CalloutInfo("[SC] Truck Crash", CalloutProbability.Low)]
 internal class TruckCrash : SuperCallout
 {
-    private Vehicle? _car1;
-    private Vehicle? _car2;
-    private Blip? _cBlip;
-    private UIMenuItem? _speakSuspect;
-    private Vehicle? _truck;
-    private Ped? _victim;
-    private Ped? _victim2;
-    private Ped? _victim3;
+    private Vehicle _car1;
+    private Vehicle _car2;
+    private Blip _cBlip;
+    private UIMenuItem _speakSuspect;
+    private Vehicle _truck;
+    private Ped _victim;
+    private Ped _victim2;
+    private Ped _victim3;
     internal override Location SpawnPoint { get; set; } = new(2455.644f, -186.7955f, 87.83904f);
     internal override float OnSceneDistance { get; set; } = 30;
     internal override string CalloutName { get; set; } = "Truck Accident";

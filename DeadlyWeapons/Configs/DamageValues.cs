@@ -2,14 +2,14 @@
 
 public class DamageConfigurations
 {
-    public DamageWithArmor? PlayerDamage { get; set; }
-    public DamageWithArmor? NpcDamage { get; set; }
+    public DamageWithArmor PlayerDamage { get; set; }
+    public DamageWithArmor NpcDamage { get; set; }
 }
 
 public class DamageWithArmor
 {
-    public DamageValues? WithArmor { get; set; }
-    public DamageValues? WithoutArmor { get; set; }
+    public DamageValues WithArmor { get; set; }
+    public DamageValues WithoutArmor { get; set; }
 }
 
 public class DamageValues

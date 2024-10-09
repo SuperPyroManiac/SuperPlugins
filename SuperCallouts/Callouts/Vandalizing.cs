@@ -14,9 +14,9 @@ internal class Vandalizing : SuperCallout
     internal override Location SpawnPoint { get; set; } = new(World.GetNextPositionOnStreet(Player.Position.Around(350f)));
     internal override float OnSceneDistance { get; set; } = 50;
     internal override string CalloutName { get; set; } = "Vandalizing";
-    private Vehicle? _cVehicle;
-    private Ped? _bad;
-    private Blip? _cBlip;
+    private Vehicle _cVehicle;
+    private Ped _bad;
+    private Blip _cBlip;
     private readonly int _rNd = new Random(DateTime.Now.Millisecond).Next(2);
     
     internal override void CalloutPrep()

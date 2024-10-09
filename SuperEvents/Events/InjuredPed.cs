@@ -8,8 +8,8 @@ namespace SuperEvents.Events;
 [EventInfo("Injured Person", "Ensure the person is ok!")]
 internal class InjuredPed : AmbientEvent
 {
-    private Ped? _bad;
-    private Ped? _bad2;
+    private Ped _bad;
+    private Ped _bad2;
     private Vector3 _spawnPoint;
     private float _spawnPointH;
     private readonly int _choice = new Random(DateTime.Now.Millisecond).Next(1, 4);

@@ -12,11 +12,11 @@ namespace SuperCallouts.Callouts;
 internal class CarAccident3 : SuperCallout
 {
     private readonly int _choice = new Random(DateTime.Now.Millisecond).Next(0, 4);
-    private Blip? _eBlip;
-    private Ped? _ePed;
-    private Ped? _ePed2;
-    private Vehicle? _eVehicle;
-    private Vehicle? _eVehicle2;
+    private Blip _eBlip;
+    private Ped _ePed;
+    private Ped _ePed2;
+    private Vehicle _eVehicle;
+    private Vehicle _eVehicle2;
     internal override Location SpawnPoint { get; set; } = PyroFunctions.GetSideOfRoad(750, 180);
     internal override float OnSceneDistance { get; set; } = 25;
     internal override string CalloutName { get; set; } = "Car Accident (3)";

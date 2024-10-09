@@ -15,14 +15,14 @@ namespace SuperCallouts.Callouts;
 internal class CarAccident2 : SuperCallout
 {
     private readonly UIMenuItem _callFd = new("~r~ Call Fire Department", "Calls for ambulance and firetruck.");
-    private Blip? _cBlip1;
-    private Blip? _cBlip2;
-    private Vehicle? _cVehicle1;
-    private Vehicle? _cVehicle2;
-    private string? _name1;
-    private UIMenuItem? _speakSuspect;
-    private Ped? _victim1;
-    private Ped? _victim2;
+    private Blip _cBlip1;
+    private Blip _cBlip2;
+    private Vehicle _cVehicle1;
+    private Vehicle _cVehicle2;
+    private string _name1;
+    private UIMenuItem _speakSuspect;
+    private Ped _victim1;
+    private Ped _victim2;
 
     internal override Location SpawnPoint { get; set; } = new(World.GetNextPositionOnStreet(Player.Position.Around(45f, 320f)));
 

@@ -14,12 +14,12 @@ namespace SuperCallouts.Callouts;
 [CalloutInfo("[SC] Dead Body", CalloutProbability.Medium)]
 internal class DeadBody : SuperCallout
 {
-    private Blip? _cBlip;
-    private Vehicle? _cVehicle;
-    private string? _name;
-    private UIMenuItem? _speakSuspect;
-    private Ped? _victim;
-    private Ped? _witness;
+    private Blip _cBlip;
+    private Vehicle _cVehicle;
+    private string _name;
+    private UIMenuItem _speakSuspect;
+    private Ped _victim;
+    private Ped _witness;
     internal override Location SpawnPoint { get; set; } = PyroFunctions.GetSideOfRoad(750, 180);
     internal override float OnSceneDistance { get; set; } = 90;
     internal override string CalloutName { get; set; } = "Dead Body";

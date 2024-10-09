@@ -29,9 +29,9 @@ internal class KnifeAttack : SuperCallout
         new(new Vector3(-1066.983f, -2700.32f, -7.41007f), 339f)
     ];
 
-    private Blip? _cBlip;
-    private Ped? _cSuspect;
-    private Ped? _cVictim;
+    private Blip _cBlip;
+    private Ped _cSuspect;
+    private Ped _cVictim;
     internal override Location SpawnPoint { get; set; }
     internal override float OnSceneDistance { get; set; } = 25f;
     internal override string CalloutName { get; set; } = "Knife Attack";

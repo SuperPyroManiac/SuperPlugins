@@ -12,11 +12,11 @@ namespace SuperCallouts.Callouts;
 [CalloutInfo("[SC] Manhunt", CalloutProbability.Low)]
 internal class Manhunt : SuperCallout
 {
-    private Ped? _bad;
-    private Blip? _cBlip;
-    private Blip? _cBlip2;
-    private string? _name1;
-    private UIMenuItem? _speakSuspect;
+    private Ped _bad;
+    private Blip _cBlip;
+    private Blip _cBlip2;
+    private string _name1;
+    private UIMenuItem _speakSuspect;
     internal override Location SpawnPoint { get; set; } = new(World.GetNextPositionOnStreet(Player.Position.Around(650f)));
     internal override float OnSceneDistance { get; set; } = 50;
     internal override string CalloutName { get; set; } = "Manhunt";

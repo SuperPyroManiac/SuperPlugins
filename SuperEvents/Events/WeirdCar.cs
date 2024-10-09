@@ -8,7 +8,7 @@ namespace SuperEvents.Events;
 [EventInfo("Abandoned Vehicle", "Investigate the vehicle.")]
 internal class WeirdCar : AmbientEvent
 {
-    private Vehicle? _eVehicle;
+    private Vehicle _eVehicle;
     private Vector3 _spawnPoint;
 
     private Tasks _tasks = Tasks.CheckDistance;

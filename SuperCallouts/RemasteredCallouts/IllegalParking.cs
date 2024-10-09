@@ -13,9 +13,9 @@ namespace SuperCallouts.RemasteredCallouts;
 [CalloutInfo("[SC] Illegal Parking", CalloutProbability.Medium)]
 internal class IllegalParking : SuperCallout
 {
-    private Blip? _cBlip;
-    private Vehicle? _cVehicle;
-    private Ped? _suspect;
+    private Blip _cBlip;
+    private Vehicle _cVehicle;
+    private Ped _suspect;
     private readonly int _scene = new Random(DateTime.Now.Millisecond).Next(1, 5);
     private int _partHandleBigFire;
     private int _partHandleMistySmoke;

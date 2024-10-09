@@ -9,7 +9,7 @@ namespace SuperEvents.Events;
 internal class WildAnimal : AmbientEvent
 {
     private Tasks _tasks = Tasks.CheckDistance;
-    private Ped? _animal;
+    private Ped _animal;
     private Vector3 _spawnPoint;
 
     protected override Vector3 EventLocation { get; set; }

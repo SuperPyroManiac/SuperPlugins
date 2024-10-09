@@ -14,9 +14,9 @@ namespace SuperCallouts.RemasteredCallouts;
 [CalloutInfo("[SC] Fight", CalloutProbability.Medium)]
 internal class Fight : SuperCallout
 {
-    private Ped? _victim;
-    private Ped? _suspect;
-    private Blip? _blip;
+    private Ped _victim;
+    private Ped _suspect;
+    private Blip _blip;
     internal override Location SpawnPoint { get; set; } = PyroFunctions.GetSideOfRoad(750, 180);
     internal override float OnSceneDistance { get; set; } = 35;
     internal override string CalloutName { get; set; } = "Fight";

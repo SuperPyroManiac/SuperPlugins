@@ -11,18 +11,18 @@ namespace SuperCallouts.Callouts;
 internal class PrisonBreak : Callout
 {
     private readonly Vector3 _spawnPoint = new(1970.794f, 2624.078f, 46.00704f);
-    private Blip? _cBlip1;
-    private Blip? _cBlip2;
-    private Blip? _cBlip3;
-    private Blip? _cBlip4;
-    private Blip? _cBlip5;
-    private Vehicle? _cVehicle;
+    private Blip _cBlip1;
+    private Blip _cBlip2;
+    private Blip _cBlip3;
+    private Blip _cBlip4;
+    private Blip _cBlip5;
+    private Vehicle _cVehicle;
     private bool _onScene;
-    private Ped? _prisoner1;
-    private Ped? _prisoner2;
-    private Ped? _prisoner3;
-    private Ped? _prisoner4;
-    private Ped? _prisoner5;
+    private Ped _prisoner1;
+    private Ped _prisoner2;
+    private Ped _prisoner3;
+    private Ped _prisoner4;
+    private Ped _prisoner5;
 
     public override bool OnBeforeCalloutDisplayed()
     {

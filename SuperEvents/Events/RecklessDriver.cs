@@ -10,8 +10,8 @@ namespace SuperEvents.Events;
 [EventInfo("Reckless Driving", "Stop The Vehicle")]
 internal class RecklessDriver : AmbientEvent
 {
-    private Ped? _ePed;
-    private Vehicle? _eVehicle;
+    private Ped _ePed;
+    private Vehicle _eVehicle;
     private Vector3 _spawnPoint;
 
     private Tasks _tasks = Tasks.CheckDistance;

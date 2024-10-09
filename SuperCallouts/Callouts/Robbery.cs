@@ -13,14 +13,14 @@ namespace SuperCallouts.Callouts;
 internal class Robbery : SuperCallout
 {
     private readonly Random _rNd = new();
-    private Blip? _blip1;
-    private Blip? _blip2;
-    private Blip? _blip3;
-    private Vehicle? _cVehicle;
-    private Vehicle? _cVehicle2;
-    private Ped? _rude1;
-    private Ped? _rude2;
-    private Ped? _victim;
+    private Blip _blip1;
+    private Blip _blip2;
+    private Blip _blip3;
+    private Vehicle _cVehicle;
+    private Vehicle _cVehicle2;
+    private Ped _rude1;
+    private Ped _rude2;
+    private Ped _victim;
     internal override Location SpawnPoint { get; set; } = new(World.GetNextPositionOnStreet(Player.Position.Around(450f)));
     internal override float OnSceneDistance { get; set; } = 40;
     internal override string CalloutName { get; set; } = "Armed Robbery";

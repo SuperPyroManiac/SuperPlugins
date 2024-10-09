@@ -16,11 +16,11 @@ namespace SuperCallouts.RemasteredCallouts;
 internal class WeirdCar : SuperCallout
 {
     private readonly Random _rNd = new();
-    private Ped? _bad1;
-    private Blip? _cBlip;
-    private Vehicle? _cVehicle1;
-    private string? _name;
-    private UIMenuItem? _speakSuspect;
+    private Ped _bad1;
+    private Blip _cBlip;
+    private Vehicle _cVehicle1;
+    private string _name;
+    private UIMenuItem _speakSuspect;
     internal override Location SpawnPoint { get; set; } = PyroFunctions.GetSideOfRoad(750, 180);
     internal override float OnSceneDistance { get; set; } = 40;
     internal override string CalloutName { get; set; } = "Suspicious Vehicle";

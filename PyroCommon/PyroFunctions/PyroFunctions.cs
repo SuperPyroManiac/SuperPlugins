@@ -82,19 +82,19 @@ public static class PyroFunctions
         }
     }
     
-    public static void AddDrugItem(string item, Enums.DrugType drugType, Ped? ped = null, Vehicle? vehicle = null, Enums.ItemLocation itemLocation = Enums.ItemLocation.Anywhere)
+    public static void AddDrugItem(string item, Enums.DrugType drugType, Ped ped = null, Vehicle vehicle = null, Enums.ItemLocation itemLocation = Enums.ItemLocation.Anywhere)
     {
         if (ped != null && Main.UsingStp) SearchItems.AddStpPedSearchItems(ped, item);
         if (vehicle != null && Main.UsingStp) SearchItems.AddStpVehicleDriverSearchItems(vehicle, item);
         //if (Main.UsingPr) SearchItems.AddDrugItem(item, drugType, itemLocation, ped, vehicle);
     }
-    public static void AddWeaponItem(string item, string weaponId, Ped? ped = null, Vehicle? vehicle = null, Enums.ItemLocation itemLocation = Enums.ItemLocation.Anywhere)
+    public static void AddWeaponItem(string item, string weaponId, Ped ped = null, Vehicle vehicle = null, Enums.ItemLocation itemLocation = Enums.ItemLocation.Anywhere)
     {
         if (ped != null && Main.UsingStp) SearchItems.AddStpPedSearchItems(ped, item);
         if (vehicle != null && Main.UsingStp) SearchItems.AddStpVehicleDriverSearchItems(vehicle, item);
         //if (Main.UsingPr) SearchItems.AddWeaponItem(item, weaponId, itemLocation, ped, vehicle);
     }
-    public static void AddFirearmItem(string item, string weaponId, bool visible, bool stolen, bool equiped = false, Ped? ped = null, Vehicle? vehicle = null, Enums.ItemLocation itemLocation = Enums.ItemLocation.Anywhere)
+    public static void AddFirearmItem(string item, string weaponId, bool visible, bool stolen, bool equiped = false, Ped ped = null, Vehicle vehicle = null, Enums.ItemLocation itemLocation = Enums.ItemLocation.Anywhere)
     {
         if (ped != null)
         {
@@ -104,14 +104,14 @@ public static class PyroFunctions
         if (vehicle != null && Main.UsingStp) SearchItems.AddStpVehicleDriverSearchItems(vehicle, item);
         //if (Main.UsingPr) SearchItems.AddFirearmItem(item, weaponId, visible, stolen, itemLocation, ped, vehicle);
     }
-    public static void AddSearchItem(string item, Ped? ped = null, Vehicle? vehicle = null, Enums.ItemLocation itemLocation = Enums.ItemLocation.Anywhere)
+    public static void AddSearchItem(string item, Ped ped = null, Vehicle vehicle = null, Enums.ItemLocation itemLocation = Enums.ItemLocation.Anywhere)
     {
         if (ped != null && Main.UsingStp) SearchItems.AddStpPedSearchItems(ped, item);
         if (vehicle != null && Main.UsingStp) SearchItems.AddStpVehicleDriverSearchItems(vehicle, item);
         //if (Main.UsingPr) SearchItems.AddSearchItem(item, itemLocation, ped, vehicle);
     }
     
-    public static void ClearSearchItems(Ped? ped = null, Vehicle? vehicle = null)
+    public static void ClearSearchItems(Ped ped = null, Vehicle vehicle = null)
     {
         if (ped != null)
         {
@@ -270,7 +270,7 @@ public static class PyroFunctions
     }
     
     [Obsolete("Method is deprecated, please use Ped.SetWanted instead.")]
-    public static Ped? SetWanted(Ped ped, bool isWanted)
+    public static Ped SetWanted(Ped ped, bool isWanted)
     {
         if (!ped.Exists()) return null;
         var thePersona = Functions.GetPersonaForPed(ped);

@@ -10,7 +10,7 @@ namespace DeadlyWeapons.Modules;
 
 internal static class PedShot
 {
-    internal static void OnPedDamaged(Ped victim, Ped? attacker, PedDamageInfo damageInfo)
+    internal static void OnPedDamaged(Ped victim, Ped attacker, PedDamageInfo damageInfo)
     {
         if ( victim.IsDead ) return;
         if ( victim == Game.LocalPlayer.Character ) return;

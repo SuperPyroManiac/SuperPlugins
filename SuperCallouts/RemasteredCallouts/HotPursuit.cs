@@ -16,15 +16,15 @@ namespace SuperCallouts.RemasteredCallouts;
 [CalloutInfo("[SC] High Speed Pursuit", CalloutProbability.Medium)]
 internal class HotPursuit : SuperCallout
 {
-    private Ped? _bad1;
-    private Ped? _bad2;
-    private Blip? _cBlip;
-    private Vehicle? _cVehicle;
-    private string? _name1;
-    private string? _name2;
+    private Ped _bad1;
+    private Ped _bad2;
+    private Blip _cBlip;
+    private Vehicle _cVehicle;
+    private string _name1;
+    private string _name2;
     private LHandle _pursuit = Functions.CreatePursuit();
-    private UIMenuItem? _speakSuspect;
-    private UIMenuItem? _speakSuspect2;
+    private UIMenuItem _speakSuspect;
+    private UIMenuItem _speakSuspect2;
     private bool _blipHelper;
     internal override Location SpawnPoint { get; set; } = new(World.GetNextPositionOnStreet(Player.Position.Around(350f)));
     internal override float OnSceneDistance { get; set; } = 25;

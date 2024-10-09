@@ -15,14 +15,14 @@ namespace SuperCallouts.Callouts;
 internal class Kidnapping : SuperCallout
 {
     private readonly Random _rNd = new();
-    private Ped? _bad1;
-    private Blip? _cBlip1;
-    private Vehicle? _cVehicle;
-    private string? _name1;
-    private string? _name2;
-    private UIMenuItem? _speakSuspect;
-    private UIMenuItem? _speakSuspect2;
-    private Ped? _victim1;
+    private Ped _bad1;
+    private Blip _cBlip1;
+    private Vehicle _cVehicle;
+    private string _name1;
+    private string _name2;
+    private UIMenuItem _speakSuspect;
+    private UIMenuItem _speakSuspect2;
+    private Ped _victim1;
     internal override Location SpawnPoint { get; set; } = new(World.GetNextPositionOnStreet(Player.Position.Around(350f)));
     internal override float OnSceneDistance { get; set; } = 25f;
     internal override string CalloutName { get; set; } = "Kidnapping";

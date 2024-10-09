@@ -14,20 +14,20 @@ namespace SuperEvents.Events;
 internal class CarAccident : AmbientEvent
 {
     private readonly int _choice = new Random(DateTime.Now.Millisecond).Next(0, 5);
-    private Ped? _ePed;
-    private Ped? _ePed2;
-    private Vehicle? _eVehicle;
-    private Vehicle? _eVehicle2;
-    private string? _name1;
-    private string? _name2;
+    private Ped _ePed;
+    private Ped _ePed2;
+    private Vehicle _eVehicle;
+    private Vehicle _eVehicle2;
+    private string _name1;
+    private string _name2;
     private Vector3 _spawnPoint;
     private float _spawnPointH;
 
     private Tasks _tasks = Tasks.CheckDistance;
 
     //UI Items
-    private UIMenuItem? _speakSuspect;
-    private UIMenuItem? _speakSuspect2;
+    private UIMenuItem _speakSuspect;
+    private UIMenuItem _speakSuspect2;
 
     protected override Vector3 EventLocation { get; set; }
 
@@ -69,19 +69,19 @@ internal class CarAccident : AmbientEvent
         switch (_choice)
         {
             case 0: //Peds fight
-                _ePed.Tasks.LeaveVehicle(LeaveVehicleFlags.LeaveDoorOpen);
+                if (_ePed.IsInAnyVehicle(false) && _eVehicle) _ePed.Tasks.LeaveVehicle(LeaveVehicleFlags.LeaveDoorOpen);
                 _ePed2.Tasks.LeaveVehicle(LeaveVehicleFlags.LeaveDoorOpen);
                 break;
             case 1: //Ped Dies, other flees
-                _ePed.Tasks.LeaveVehicle(LeaveVehicleFlags.LeaveDoorOpen);
+                if (_ePed.IsInAnyVehicle(false) && _eVehicle) _ePed.Tasks.LeaveVehicle(LeaveVehicleFlags.LeaveDoorOpen);
                 _ePed2.Kill();
                 break;
             case 2: //Hit and run
-                _ePed2.Tasks.LeaveVehicle(LeaveVehicleFlags.LeaveDoorOpen);
+                if (_ePed2.IsInAnyVehicle(false) && _eVehicle2) _ePed2.Tasks.LeaveVehicle(LeaveVehicleFlags.LeaveDoorOpen);
                 break;
             case 3: //Fire + dead ped.
                 _ePed.Kill();
-                _ePed2.Tasks.LeaveVehicle(LeaveVehicleFlags.LeaveDoorOpen);
+                if (_ePed2.IsInAnyVehicle(false) && _eVehicle2) _ePed2.Tasks.LeaveVehicle(LeaveVehicleFlags.LeaveDoorOpen);
                 break;
             default:
                 EndEvent(true);
@@ -134,7 +134,6 @@ internal class CarAccident : AmbientEvent
                             var pursuit2 = Functions.CreatePursuit();
                             Functions.AddPedToPursuit(pursuit2, _ePed2);
                             Functions.SetPursuitIsActiveForPlayer(pursuit2, true);
-                            _ePed2.Tasks.LeaveVehicle(LeaveVehicleFlags.LeaveDoorOpen);
                             break;
                         case 3: //Fire + dead ped.
                             _ePed2.Tasks.Cower(-1);

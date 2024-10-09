@@ -7,7 +7,7 @@ namespace PyroCommon.PyroFunctions.Extensions;
 
 public static class Tasks
 {
-    private static Ped? GetPedFromTaskInvoker(this TaskInvoker taskInvoker)
+    private static Ped GetPedFromTaskInvoker(this TaskInvoker taskInvoker)
     {
         var property = taskInvoker.GetType().GetProperty("Ped", BindingFlags.Instance | BindingFlags.NonPublic);
         return property != null ? (Ped)property.GetMethod.Invoke(taskInvoker, null) : null;

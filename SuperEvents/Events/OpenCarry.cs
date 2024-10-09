@@ -11,8 +11,8 @@ namespace SuperEvents.Events;
 internal class OpenCarry : AmbientEvent
 {
     private readonly int _choice = new Random(DateTime.Now.Millisecond).Next(1, 4);
-    private Ped? _bad;
-    private string? _name;
+    private Ped _bad;
+    private string _name;
     private Vector3 _spawnPoint;
 
     private float _spawnPointH;

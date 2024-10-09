@@ -24,34 +24,34 @@ internal class Mafia1 : Callout
     private readonly List<Ped> _goodguys = [];
     private readonly UIMenuItem _speakFib = new("- Speak With FIB Agent");
     private readonly List<Vehicle> _vehicles = [];
-    private Blip? _aBlip;
-    private Ped? _bad1;
-    private Ped? _bad2;
-    private Ped? _bad3;
-    private Ped? _bad4;
-    private Ped? _bad5;
-    private Ped? _bad6;
-    private Ped? _bad7;
-    private Ped? _bad8;
-    private Vehicle? _badCar1;
-    private Vehicle? _badCar2;
-    private Vehicle? _badCar3;
-    private Vehicle? _badCar4;
+    private Blip _aBlip;
+    private Ped _bad1;
+    private Ped _bad2;
+    private Ped _bad3;
+    private Ped _bad4;
+    private Ped _bad5;
+    private Ped _bad6;
+    private Ped _bad7;
+    private Ped _bad8;
+    private Vehicle _badCar1;
+    private Vehicle _badCar2;
+    private Vehicle _badCar3;
+    private Vehicle _badCar4;
     private Vector3 _callPos = new(909.56f, 4.041f, 78.67f);
-    private Blip? _cBlip;
+    private Blip _cBlip;
     private SrChoice _choice;
-    private UIMenu? _convoMenu;
-    private UIMenuItem? _endCall;
-    private Ped? _fib1;
-    private Ped? _fib2;
-    private Ped? _fib3;
-    private Ped? _fib4;
-    private Ped? _fib5;
-    private Vehicle? _fibCar1;
-    private Vehicle? _fibCar2;
-    private MenuPool? _interaction;
-    private UIMenu? _mainMenu;
-    private UIMenuItem? _questioning;
+    private UIMenu _convoMenu;
+    private UIMenuItem _endCall;
+    private Ped _fib1;
+    private Ped _fib2;
+    private Ped _fib3;
+    private Ped _fib4;
+    private Ped _fib5;
+    private Vehicle _fibCar1;
+    private Vehicle _fibCar2;
+    private MenuPool _interaction;
+    private UIMenu _mainMenu;
+    private UIMenuItem _questioning;
     private SrState _state = SrState.CheckDistance;
     private static Ped Player => Game.LocalPlayer.Character;
 
@@ -197,8 +197,8 @@ internal class Mafia1 : Callout
 
     public override void End()
     {
-        _cBlip?.Delete();
-        _aBlip?.Delete();
+        if (_cBlip) _cBlip?.Delete();
+        if (_aBlip) _aBlip?.Delete();
         foreach (var entity in _badGuys.Where(entity => entity))
             if (entity.Exists())
                 entity.Dismiss();
@@ -230,7 +230,7 @@ internal class Mafia1 : Callout
         if (selItem == _speakFib)
             GameFiber.StartNew(delegate
             {
-                if (Player.DistanceTo(_fib1) > 4f)
+                if (_fib1 && Player.DistanceTo(_fib1) > 4f)
                 {
                     Game.DisplaySubtitle("~r~Get closer to talk!");
                     return;
@@ -272,7 +272,7 @@ internal class Mafia1 : Callout
                 _questioning!.Enabled = false;
                 Game.DisplaySubtitle("~b~Agent~s~: We will have a NOOSE team on standby until you arrive on scene.",
                     6000);
-                _cBlip?.Delete();
+                if (_cBlip) _cBlip?.Delete();
                 _aBlip = new Blip(_callPos.Around2D(1, 2), 30);
                 _aBlip.Color = Color.Red;
                 _aBlip.Alpha = .5f;
@@ -288,7 +288,7 @@ internal class Mafia1 : Callout
                 _questioning!.Enabled = false;
                 Game.DisplaySubtitle("~b~Agent~s~: Your departments SWAT team will standby for your arrival.",
                     6000);
-                _cBlip?.Delete();
+                if (_cBlip) _cBlip?.Delete();
                 _aBlip = new Blip(_callPos.Around2D(1, 2), 30);
                 _aBlip.Color = Color.Red;
                 _aBlip.Alpha = .5f;
@@ -304,7 +304,7 @@ internal class Mafia1 : Callout
                 _questioning!.Enabled = false;
                 Game.DisplaySubtitle(
                     "~b~Agent~s~: We will leave it to you then. Seems like a dangerous choice though.", 6000);
-                _cBlip?.Delete();
+                if (_cBlip) _cBlip?.Delete();
                 _aBlip = new Blip(_callPos.Around2D(1, 2), 30);
                 _aBlip.Color = Color.Red;
                 _aBlip.Alpha = .5f;

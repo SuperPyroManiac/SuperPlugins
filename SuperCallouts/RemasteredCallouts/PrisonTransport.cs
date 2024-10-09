@@ -12,10 +12,10 @@ namespace SuperCallouts.RemasteredCallouts;
 [CalloutInfo("[SC] Transport Escape", CalloutProbability.Medium)]
 internal class PrisonTransport : SuperCallout
 {
-    private Ped? _suspect;
-    private Blip? _cBlip;
-    private Ped? _cop;
-    private Vehicle? _cVehicle;
+    private Ped _suspect;
+    private Blip _cBlip;
+    private Ped _cop;
+    private Vehicle _cVehicle;
     internal override Location SpawnPoint { get; set; } = new(World.GetNextPositionOnStreet(Player.Position.Around(500f)));
     internal override float OnSceneDistance { get; set; } = 90;
     internal override string CalloutName { get; set; } = "Transport Escape";

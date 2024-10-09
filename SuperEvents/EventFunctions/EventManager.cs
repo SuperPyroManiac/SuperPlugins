@@ -13,7 +13,7 @@ public static class EventManager
     internal static readonly List<Type> RegisteredEvents = [];
     internal static readonly List<Type> AllEvents = [];
     private static readonly List<Type> BrokenEvents = [];
-    internal static AmbientEvent? CurrentEvent;
+    internal static AmbientEvent CurrentEvent;
 
     internal static bool PlayerIsBusy =>
         Functions.IsCalloutRunning() || Functions.IsPlayerPerformingPullover() ||

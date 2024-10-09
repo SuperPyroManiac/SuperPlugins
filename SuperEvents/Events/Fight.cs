@@ -13,13 +13,13 @@ namespace SuperEvents.Events;
 [EventInfo("A Fight", "Stop the fight, and make sure everyone is ok.")]
 internal class Fight : AmbientEvent
 {
-    private string? _name1;
-    private string? _name2;
+    private string _name1;
+    private string _name2;
     private Vector3 _spawnPoint;
-    private UIMenuItem? _speakSuspect;
-    private UIMenuItem? _speakSuspect2;
-    private Ped? _suspect;
-    private Ped? _suspect2;
+    private UIMenuItem _speakSuspect;
+    private UIMenuItem _speakSuspect2;
+    private Ped _suspect;
+    private Ped _suspect2;
     private Tasks _tasks = Tasks.CheckDistance;
     protected override Vector3 EventLocation { get; set; }
 

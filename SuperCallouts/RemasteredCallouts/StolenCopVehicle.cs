@@ -13,9 +13,9 @@ namespace SuperCallouts.RemasteredCallouts;
 [CalloutInfo("[SC] Stolen PD Vehicle", CalloutProbability.Medium)]
 internal class StolenCopVehicle : SuperCallout
 {
-    private Ped? _suspect;
-    private Blip? _cBlip;
-    private Vehicle? _cVehicle;
+    private Ped _suspect;
+    private Blip _cBlip;
+    private Vehicle _cVehicle;
     private bool _blipHelper;
     internal override Location SpawnPoint { get; set; } = new(World.GetNextPositionOnStreet(Player.Position.Around(350f)));
     internal override float OnSceneDistance { get; set; } = 50f;

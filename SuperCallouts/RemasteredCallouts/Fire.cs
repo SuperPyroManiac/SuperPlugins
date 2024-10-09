@@ -11,8 +11,8 @@ namespace SuperCallouts.RemasteredCallouts;
 [CalloutInfo("[SC] Fire", CalloutProbability.Medium)]
 internal class Fire : SuperCallout
 {
-    private Blip? _cBlip;
-    private Vehicle? _cVehicle;
+    private Blip _cBlip;
+    private Vehicle _cVehicle;
     private int _partHandleBigFire;
     private int _partHandleMistySmoke;
     internal override Location SpawnPoint { get; set; } = PyroFunctions.GetSideOfRoad(750, 180);

@@ -14,10 +14,10 @@ internal class InjuredCop : SuperCallout
     internal override Location SpawnPoint { get; set; } = PyroFunctions.GetSideOfRoad(750, 180);
     internal override float OnSceneDistance { get; set; } = 30;
     internal override string CalloutName { get; set; } = "Injured Cop";
-    private Ped? _cop;
-    private Ped? _bad;
-    private Vehicle? _vehicle;
-    private Blip? _blip;
+    private Ped _cop;
+    private Ped _bad;
+    private Vehicle _vehicle;
+    private Blip _blip;
     private int _rNd = new Random(DateTime.Now.Millisecond).Next(2);
 
     internal override void CalloutPrep()

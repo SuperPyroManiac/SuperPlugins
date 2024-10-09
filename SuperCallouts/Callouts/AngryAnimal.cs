@@ -15,10 +15,10 @@ namespace SuperCallouts.Callouts;
 internal class AngryAnimal : SuperCallout
 {
     private readonly UIMenuItem _callEms = new("~r~ Call EMS", "Calls for a medical team.");
-    private Ped? _animal;
-    private Blip? _cBlip;
-    private Blip? _cBlip2;
-    private Ped? _victim;
+    private Ped _animal;
+    private Blip _cBlip;
+    private Blip _cBlip2;
+    private Ped _victim;
     internal override Location SpawnPoint { get; set; } = new(World.GetNextPositionOnStreet(Player.Position.Around(450f)));
     internal override float OnSceneDistance { get; set; } = 30;
     internal override string CalloutName { get; set; } = "Animal Attack";

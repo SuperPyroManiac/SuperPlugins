@@ -13,7 +13,7 @@ namespace DeadlyWeapons;
 public class Main : Plugin
 {
     internal static bool Running;
-    private GameFiber? _panicFiber;
+    private GameFiber _panicFiber;
     
     public override void Initialize()
     {

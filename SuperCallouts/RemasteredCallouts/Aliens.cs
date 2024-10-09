@@ -1,4 +1,5 @@
 using System.Drawing;
+using System.Linq;
 using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.PyroFunctions;
 using PyroCommon.PyroFunctions.Extensions;
@@ -11,11 +12,11 @@ namespace SuperCallouts.RemasteredCallouts;
 [CalloutInfo("[SC] Aliens", CalloutProbability.VeryLow)]
 internal class Aliens : SuperCallout
 {
-    private Ped? _alien1;
-    private Ped? _alien2;
-    private Ped? _alien3;
-    private Blip? _cBlip1;
-    private Vehicle? _cVehicle1;
+    private Ped _alien1;
+    private Ped _alien2;
+    private Ped _alien3;
+    private Blip _cBlip1;
+    private Vehicle _cVehicle1;
     internal override Location SpawnPoint { get; set; } = new(World.GetNextPositionOnStreet(Player.Position.Around(350f)));
     internal override float OnSceneDistance { get; set; } = 40;
     internal override string CalloutName { get; set; } = "Aliens";
@@ -88,6 +89,8 @@ internal class Aliens : SuperCallout
         GameFiber.Wait(500);
         _cVehicle1.Velocity = new Vector3(0, 0, 70);
         GameFiber.Wait(500);
-        CalloutEnd(true);
+        foreach (var entity in EntitiesToClear.Where(entity => entity)) entity.Delete();
+        EntitiesToClear.Clear();
+        CalloutEnd();
     }
 }

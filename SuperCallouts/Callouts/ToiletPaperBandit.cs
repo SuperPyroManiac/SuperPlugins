@@ -14,12 +14,12 @@ namespace SuperCallouts.Callouts;
 [CalloutInfo("[SC] Stolen Cleaning Truck", CalloutProbability.Low)]
 internal class ToiletPaperBandit : SuperCallout
 {
-    private Ped? _bad;
-    private Blip? _cBlip;
-    private Vehicle? _cVehicle;
-    private string? _name1;
+    private Ped _bad;
+    private Blip _cBlip;
+    private Vehicle _cVehicle;
+    private string _name1;
     private readonly LHandle _pursuit = Functions.CreatePursuit();
-    private UIMenuItem? _speakSuspect;
+    private UIMenuItem _speakSuspect;
     internal override Location SpawnPoint { get; set; } = PyroFunctions.GetSideOfRoad(750, 180);
     internal override float OnSceneDistance { get; set; } = 30;
     internal override string CalloutName { get; set; } = "Stolen Cleaning Truck";

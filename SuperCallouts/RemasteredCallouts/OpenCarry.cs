@@ -15,11 +15,11 @@ namespace SuperCallouts.RemasteredCallouts;
 [CalloutInfo("[SC] Open Carry", CalloutProbability.Low)]
 internal class OpenCarry : SuperCallout
 {
-    private Ped? _suspect;
-    private Blip? _cBlip;
-    private string? _name1;
+    private Ped _suspect;
+    private Blip _cBlip;
+    private string _name1;
     private bool _blipHelper;
-    private UIMenuItem? _speakSuspect;
+    private UIMenuItem _speakSuspect;
     internal override Location SpawnPoint { get; set; } = new(World.GetNextPositionOnStreet(Player.Position.Around(350f)));
     internal override float OnSceneDistance { get; set; } = 20;
     internal override string CalloutName { get; set; } = "Open Carry";

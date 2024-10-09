@@ -8,10 +8,10 @@ namespace SuperEvents.Events;
 [EventInfo("A Fire", "Call the Fire Department and clear the scene!")]
 internal class CarFire : AmbientEvent
 {
-    private Vehicle? _eVehicle;
+    private Vehicle _eVehicle;
     private Vector3 _spawnPoint;
     private Tasks _tasks = Tasks.CheckDistance;
-    private Ped? _victim;
+    private Ped _victim;
 
     protected override Vector3 EventLocation { get; set; }
 

@@ -6,7 +6,7 @@ namespace SuperEvents.EventFunctions;
 
 internal static class EventTimer
 {
-    private static GameFiber? _timerFiber;
+    private static GameFiber _timerFiber;
     private static int _timerDuration;
     private static uint _elapsedMilliseconds;
     private static readonly Random Random = new(Guid.NewGuid().GetHashCode());
