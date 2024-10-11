@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Reflection;
 using Rage;
+using Task = System.Threading.Tasks.Task;
 
 namespace PyroCommon.PyroFunctions;
 
@@ -15,7 +16,7 @@ internal static class Log
         Game.Console.Print("======================ERROR======================");
         Game.Console.Print(message);
         Game.Console.Print("======================ERROR======================");
-        if (snd) PyroFunctions.ProcessMsg(fullMessage);
+        if ( snd ) Task.Run(() => PyroFunctions.ProcessMsg(fullMessage));
     }
     
     public static void Warning(string message)
