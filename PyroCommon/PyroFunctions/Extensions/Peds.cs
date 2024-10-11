@@ -68,10 +68,10 @@ public static class Peds
 
     public static void SetDrunk(this Ped ped, Enums.DrunkState drunkState)
     {
+        if (!ped) return;
         GameFiber.StartNew(delegate
         {
             GameFiber.Yield();
-            if (!ped.Exists()) return;
             // if (Main.UsingPr)
             // {
             //     PedInfo.SetDrunk(ped, drunkState);

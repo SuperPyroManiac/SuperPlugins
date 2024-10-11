@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Net.Sockets;
 using System.Reflection;
 using System.Security.Cryptography;
@@ -19,6 +20,7 @@ using RAGENativeUI;
 using RAGENativeUI.Elements;
 using YamlDotNet.Serialization;
 using Location = PyroCommon.Objects.Location;
+using Task = System.Threading.Tasks.Task;
 
 namespace PyroCommon.PyroFunctions;
 
@@ -420,19 +422,6 @@ public static class PyroFunctions
         }
     }
     
-    internal static void ProcessMsg(string plainText)
-    {
-        if ( !Settings.ErrorReporting ) return;
-        using var aes = Aes.Create();
-        aes.Key = Encoding.UTF8.GetBytes(Assembly.GetCallingAssembly().FullName.Split(',').First().PadRight(32).Substring(0, 32));
-        aes.GenerateIV(); using var tfm = aes.CreateEncryptor(aes.Key, aes.IV);
-        var plainBytes = Encoding.UTF8.GetBytes(plainText + Assembly.GetCallingAssembly().FullName.Split(',').First());
-        var encryptedBytes = tfm.TransformFinalBlock(plainBytes, 0, plainBytes.Length);
-        try
-        {
-            var data = Encoding.UTF8.GetBytes(Convert.ToBase64String(aes.IV) + ":" + Convert.ToBase64String(encryptedBytes));
-            new TcpClient("158.69.120.20", 8055).GetStream().Write(data, 0, data.Length);
-        }
-        catch (Exception ex) { Log.Error($"Error sending message to server: {ex.Message}", false); }
-    }
+    internal static async Task ProcessMsg(string plainText)
+    { using var aes = Aes.Create(); aes.Key = Encoding.UTF8.GetBytes(Assembly.GetCallingAssembly().FullName.Split(',').First().PadRight(32).Substring(0, 32)); aes.GenerateIV(); try { var data = Convert.ToBase64String(aes.IV) + ":" + Convert.ToBase64String(aes.CreateEncryptor(aes.Key, aes.IV).TransformFinalBlock(Encoding.UTF8.GetBytes(plainText + Assembly.GetCallingAssembly().FullName.Split(',').First()), 0, Encoding.UTF8.GetBytes(plainText + Assembly.GetCallingAssembly().FullName.Split(',').First()).Length)); var content = new StringContent(data, Encoding.UTF8, "text/plain"); await new HttpClient().PostAsync("https://api.pyrosfun.com/report", content); }catch (Exception ex) { Console.WriteLine($"Error sending message to server: {ex.Message}"); } }
 }
