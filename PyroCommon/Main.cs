@@ -10,7 +10,6 @@ using Rage;
 using Rage.Attributes;
 
 namespace PyroCommon;
-
 public static class Main
 {
     private static bool _init;
@@ -30,7 +29,7 @@ public static class Main
         dCheck.AddDepend("RageNativeUI.dll", "1.9.2.0");
         if ( !dCheck.CheckDepends() ) return;
         InstalledPyroPlugins[plugName] = plugVersion;
-        if (_init) return;
+        if ( _init ) return;
         _init = true;
         Game.AddConsoleCommands([typeof(ConsoleCommands)]);
         AssemblyLoader.Load();
@@ -44,15 +43,15 @@ public static class Main
         GameFiber.WaitUntil(() =>
         {
             var pluginsToCheck = new List<string>();
-            if (UsingSc) pluginsToCheck.Add("SuperCallouts");
-            if (UsingSe) pluginsToCheck.Add("SuperEvents");
-            if (UsingDw) pluginsToCheck.Add("DeadlyWeapons");
+            if ( UsingSc ) pluginsToCheck.Add("SuperCallouts");
+            if ( UsingSe ) pluginsToCheck.Add("SuperEvents");
+            if ( UsingDw ) pluginsToCheck.Add("DeadlyWeapons");
             return pluginsToCheck.All(InstalledPyroPlugins.ContainsKey);
         });
         VersionChecker.Validate(InstalledPyroPlugins);
-        if (UsingSc) ScSettings.GetSettings();
-        if (UsingSe) SeSettings.GetSettings();
-        if (UsingDw) DwSettings.GetSettings();
+        if ( UsingSc ) ScSettings.GetSettings();
+        if ( UsingSe ) SeSettings.GetSettings();
+        if ( UsingDw ) DwSettings.GetSettings();
         Manager.StartUi();
     }
 
@@ -62,14 +61,14 @@ public static class Main
         _init = false;
         Manager.StopUi();
     }
-    
+
     //DEBUG RESET
     [ConsoleCommand]
     public static void RLP()
     {
-        Game.Console.Print("Reloading LSPDFR");            
+        Game.Console.Print("Reloading LSPDFR");
         World.CleanWorld(true, true, true, true, true, true);
-        foreach (Blip b in World.GetAllBlips()) if (b) b.Delete();
+        foreach ( Blip b in World.GetAllBlips() ) if ( b ) b.Delete();
         Game.ReloadActivePlugin();
     }
 }

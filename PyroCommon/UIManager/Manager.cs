@@ -19,6 +19,7 @@ internal static class Manager
     private static readonly UIMenu FirstMenu = new("Pyro Plugins", "                 By SuperPyroManiac");
     private static readonly UIMenuCheckboxItem UpdateNotifications = new("~y~Update Notifications", Settings.UpdateNotifications);
     private static readonly UIMenuCheckboxItem ErrorReporting = new("~y~Error Reporting", Settings.ErrorReporting);
+    private static readonly UIMenuCheckboxItem DisableManagerUI = new("~y~Disable Manager UI", Settings.DisableManagerUI);
     private static readonly UIMenuItem ManagerKey = new("~y~Menu Key", "Key used to open the main menu!");
     private static readonly UIMenuItem SaveButton = new("~r~Save Settings", "Saves PyroCommon.ini");
     
@@ -135,7 +136,7 @@ internal static class Manager
             Extras.UiSeparator(Extras.CenterText(FirstMenu, "Installed Plugins")),
             Extras.SuperCallouts(), Extras.SuperEvents(), Extras.DeadlyWeapons(),
             Extras.UiSeparator(Extras.CenterText(FirstMenu, "First Time Setup")),
-            UpdateNotifications, ErrorReporting, ManagerKey,
+            UpdateNotifications, ErrorReporting, DisableManagerUI, ManagerKey,
             Extras.UiSeparator(Extras.CenterText(FirstMenu, "Saves PyroCommon.ini")),
             SaveButton);
         FirstMenu.RefreshIndex();
@@ -144,6 +145,8 @@ internal static class Manager
         UpdateNotifications.Description = "Shows update notifications on startup.";
         ErrorReporting.Checked = Settings.ErrorReporting;
         ErrorReporting.Description = "Reports errors automatically to help better my plugins. No personal data is shared!";
+        DisableManagerUI.Checked = Settings.DisableManagerUI;
+        DisableManagerUI.Description = "Disables the manager UI. Can be re-enabled in the ini file.";
         ManagerKey.WithTextEditing(Settings.Manager.ToString, s => { Settings.Manager = PyroFunctions.PyroFunctions.ConvertStringToClosestKey(s, Settings.Manager); });
         RefreshMenus();
     }
@@ -225,7 +228,7 @@ internal static class Manager
         {
             GameFiber.Yield();
             MainMenuPool.ProcessMenus();
-            if ( Game.IsKeyDown(Settings.Manager) )
+            if ( !Settings.DisableManagerUI && Game.IsKeyDown(Settings.Manager) )
             {
                 if ( Settings.FirstTime )
                 {
@@ -261,6 +264,7 @@ internal static class Manager
         //FirstMenu
         if ( selecteditem == UpdateNotifications ) Settings.UpdateNotifications = !UpdateNotifications.Checked;
         if ( selecteditem == ErrorReporting ) Settings.ErrorReporting = !ErrorReporting.Checked;
+        if ( selecteditem == DisableManagerUI ) Settings.DisableManagerUI = !DisableManagerUI.Checked;
         if (selecteditem == SaveButton)
         {
             Settings.SaveSettings();

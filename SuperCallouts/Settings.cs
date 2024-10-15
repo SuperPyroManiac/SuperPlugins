@@ -89,7 +89,7 @@ internal static class Settings
         EndCall = ini.ReadEnum("Keys", "EndCall", Keys.End);
         EmergencyNumber = ini.ReadString("Msc", "EmergencyNumber", "911");
     }
-    
+
     internal static void SaveSettings()
     {
         var ini = new InitializationFile("Plugins/LSPDFR/SuperCallouts.ini");
