@@ -1,106 +1,78 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{8F8EF7EA-0500-4243-A0CD-2C5013197AA5}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <TargetFramework>net481</TargetFramework>
     <RootNamespace>SuperEvents</RootNamespace>
     <AssemblyName>SuperEvents</AssemblyName>
-    <TargetFrameworkVersion>v4.8.1</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
     <LangVersion>12</LangVersion>
     <Nullable>disable</Nullable>
+    <OutputType>Library</OutputType>
+    <NoWarn>MSB3270</NoWarn>
+    
+    <!-- Assembly Information -->
+    <AssemblyTitle>SuperEvents</AssemblyTitle>
+    <AssemblyDescription>By SuperPyroManiac</AssemblyDescription>
+    <AssemblyProduct>SuperEvents</AssemblyProduct>
+    <AssemblyCopyright>Copyright © 2025</AssemblyCopyright>
+    <AssemblyVersion>3.1.0.5</AssemblyVersion>
+    <FileVersion>3.1.0.5</FileVersion>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>None</ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>None</ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>C:\Coding\SPBuild\Plugins\LSPDFR</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
     <WarningLevel>1</WarningLevel>
   </PropertyGroup>
+
+  <PropertyGroup>
+    <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies> <!-- Prevent copying references -->
+  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="LSPD First Response, Version=0.4.8433.20359, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\PyroSpecial.1.0.1\lib\LSPD First Response.dll</HintPath>
-      <Private>False</Private>
+    <PackageReference Include="RAGENativeUI" Version="1.9.2" />
+    <PackageReference Include="RagePluginHook" Version="1.109.1" />
+    
+    <Reference Include="LSPD First Response">
+      <HintPath>..\packages\!Manual\LSPD First Response.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="RAGENativeUI, Version=1.9.2.0, Culture=neutral, processorArchitecture=Amd64">
-      <HintPath>..\packages\RAGENativeUI.1.9.2\lib\net472\RAGENativeUI.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="RagePluginHook, Version=0.0.0.0, Culture=neutral, processorArchitecture=Amd64">
-      <HintPath>..\packages\RagePluginHook.1.109.1\lib\net472\RagePluginHook.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="UltimateBackup, Version=1.8.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\PyroSpecial.1.0.1\lib\UltimateBackup.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="AmbientEvent.cs" />
-    <Compile Include="Attributes\AttributeExpectedException.cs" />
-    <Compile Include="Attributes\AttributeExtensions.cs" />
-    <Compile Include="Attributes\EventInfoAttribute.cs" />
-    <Compile Include="Events\CarAccident.cs" />
-    <Compile Include="Events\CarFire.cs" />
-    <Compile Include="Events\Fight.cs" />
-    <Compile Include="Events\InjuredPed.cs" />
-    <Compile Include="Events\OpenCarry.cs" />
-    <Compile Include="Events\PulloverShooting.cs" />
-    <Compile Include="Events\RecklessDriver.cs" />
-    <Compile Include="Events\WeirdCar.cs" />
-    <Compile Include="Events\WildAnimal.cs" />
-    <Compile Include="Main.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Settings.cs" />
-    <Compile Include="EventFunctions\EventManager.cs" />
-    <Compile Include="EventFunctions\EventTimer.cs" />
-  </ItemGroup>
+
   <ItemGroup>
     <Content Include="SuperEvents.ini">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+
   <ItemGroup>
-    <ProjectReference Include="..\PyroCommon\PyroCommon.csproj">
-      <Project>{6e27f96f-aa33-477f-80f4-4245324be25c}</Project>
-      <Name>PyroCommon</Name>
-      <Private>False</Private>
-    </ProjectReference>
+    <ProjectReference Include="..\PyroCommon\PyroCommon.csproj" />
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-         Other similar extension points exist, see Microsoft.Common.targets.
-    <Target Name="BeforeBuild">
-    </Target>
-    <Target Name="AfterBuild">
-    </Target>
-    -->
+
+  <Target Name="CopyFiles" AfterTargets="Build">
+    <Copy SourceFiles="$(OutputPath)SuperEvents.dll" DestinationFolder="C:\Coding\SPBuild\Plugins\LSPDFR" />
+    <Copy SourceFiles="$(OutputPath)SuperEvents.pdb" DestinationFolder="C:\Coding\SPBuild\Plugins\LSPDFR" />
+    <Copy SourceFiles="$(ProjectDir)SuperEvents.ini" DestinationFolder="C:\Coding\SPBuild\Plugins\LSPDFR" />
+  </Target>
+
 </Project>
