@@ -76,12 +76,12 @@ internal class AmbulanceEscort : SuperCallout
             return;
         }
 
-        if ( _cVehicle!.DistanceTo(_hospital) < 15f && OnScene )
+        if ( _cVehicle.DistanceTo(_hospital) < 15f && OnScene )
         {
             _cVehicle.IsSirenSilent = true;
-            _doc1!.Tasks.LeaveVehicle(LeaveVehicleFlags.None);
-            _doc2!.Tasks.LeaveVehicle(LeaveVehicleFlags.None);
-            _victim!.Tasks.LeaveVehicle(LeaveVehicleFlags.None);
+            if ( _doc1.IsInAnyVehicle(false) ) _doc1.Tasks.LeaveVehicle(LeaveVehicleFlags.None);
+            if ( _doc2.IsInAnyVehicle(false) ) _doc2.Tasks.LeaveVehicle(LeaveVehicleFlags.None);
+            if ( _victim.IsInAnyVehicle(false) ) _victim.Tasks.LeaveVehicle(LeaveVehicleFlags.None);
             CalloutEnd();
         }
     }
@@ -95,8 +95,8 @@ internal class AmbulanceEscort : SuperCallout
         }
 
         Game.DisplayHelp("Ensure the ambulance has a clear path!");
-        _cBlip!.DisableRoute();
-        _doc1!.Tasks.DriveToPosition(_cVehicle, _hospital, 20f, VehicleDrivingFlags.Emergency, 10f);
+        _cBlip.DisableRoute();
+        if ( _doc1.IsInAnyVehicle(false) ) _doc1.Tasks.DriveToPosition(_cVehicle, _hospital, 20f, VehicleDrivingFlags.Emergency, 10f);
         _cBlip2 = new Blip(_hospital);
         _cBlip2.EnableRoute(Color.Blue);
         _cBlip2.Color = Color.Blue;

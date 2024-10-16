@@ -42,7 +42,7 @@ public static class PyroFunctions
         }
         catch ( Exception e )
         {
-            Log.Error($"Error deserializing YAML at {path}:\r\n{e.Message}", false);
+            Log.Error($"You messed up your configs to the point even I cant fix it automatically!\r\nError deserializing YAML at {path}:\r\n{e}", false);
             throw;
         }
     }
