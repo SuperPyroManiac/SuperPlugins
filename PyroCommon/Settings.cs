@@ -19,7 +19,7 @@ internal static class Settings
         ErrorReporting = ini.ReadBoolean("Settings", "ErrorReporting", true);
         DisableManagerUI = ini.ReadBoolean("Settings", "DisableManagerUI", false);
         FirstTime = ini.ReadBoolean("Settings", "FirstTime", true);
-        Manager = ini.ReadEnum("Keys", "PluginManager", Keys.OemQuotes);
+        Manager = ini.ReadEnum("Keys", "PluginManager", Keys.F9);
     }
 
     internal static void SaveSettings()
