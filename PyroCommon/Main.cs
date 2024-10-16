@@ -62,6 +62,14 @@ public static class Main
         Manager.StopUi();
     }
 
+    //Open PC Menu
+    [ConsoleCommand]
+    public static void OpenPyroMenu()
+    {
+        Manager.RefreshMenus();
+        Manager.MainMenu.Visible = true;
+    }
+
     //DEBUG RESET
     [ConsoleCommand]
     public static void RLP()

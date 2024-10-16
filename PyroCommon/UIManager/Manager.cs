@@ -14,9 +14,10 @@ internal static class Manager
 {
     private static bool _running;
     internal static readonly MenuPool MainMenuPool = new();
-    private static readonly UIMenu MainMenu = new("Pyro Plugins", "                 By SuperPyroManiac");
+    internal static readonly UIMenu MainMenu = new("Pyro Plugins", "                 By SuperPyroManiac");
 
-    private static readonly UIMenu FirstMenu = new("Pyro Plugins", "                 By SuperPyroManiac");
+    private static readonly UIMenu PcMenu = new("Pyro Plugins", "                 By SuperPyroManiac");
+    private static readonly UIMenuItem PcConfig = new("Config", "Configure PyroCommon Settings.");
     private static readonly UIMenuCheckboxItem UpdateNotifications = new("~y~Update Notifications", Settings.UpdateNotifications);
     private static readonly UIMenuCheckboxItem ErrorReporting = new("~y~Error Reporting", Settings.ErrorReporting);
     private static readonly UIMenuCheckboxItem DisableManagerUI = new("~y~Disable Manager UI", Settings.DisableManagerUI);
@@ -66,7 +67,7 @@ internal static class Manager
     {
         _running = true;
         MainMenuPool.Add(MainMenu);
-        MainMenuPool.Add(FirstMenu);
+        MainMenuPool.Add(PcMenu);
         MainMenuPool.Add(CalloutMenu);
         MainMenuPool.Add(EventMenu);
         MainMenuPool.Add(ScConfigMenu);
@@ -75,17 +76,28 @@ internal static class Manager
         MainMenu.AddItems(
             Extras.UiSeparator(Extras.CenterText(MainMenu, "Installed Plugins")),
             Extras.SuperCallouts(), Extras.SuperEvents(), Extras.DeadlyWeapons(),
+            Extras.UiSeparator(Extras.CenterText(MainMenu, "PyroCommon")),
+            PcConfig,
             Extras.UiSeparator(Extras.CenterText(MainMenu, "SuperCallouts")),
             ScConfig, CalloutList, EndCallout,
             Extras.UiSeparator(Extras.CenterText(MainMenu, "SuperEvents")),
             SeConfig, EventList, PauseEvent, EndEvent,
             Extras.UiSeparator(Extras.CenterText(MainMenu, "DeadlyWeapons")),
             DwConfig);
+        MainMenu.BindMenuToItem(PcMenu, PcConfig);
         MainMenu.BindMenuToItem(CalloutMenu, CalloutList);
         MainMenu.BindMenuToItem(ScConfigMenu, ScConfig);
         MainMenu.BindMenuToItem(EventMenu, EventList);
         MainMenu.BindMenuToItem(SeConfigMenu, SeConfig);
         MainMenu.BindMenuToItem(DwConfigMenu, DwConfig);
+
+        PcMenu.AddItems(
+            Extras.UiSeparator(Extras.CenterText(PcMenu, "Installed Plugins")),
+            Extras.SuperCallouts(), Extras.SuperEvents(), Extras.DeadlyWeapons(),
+            Extras.UiSeparator(Extras.CenterText(PcMenu, "First Time Setup")),
+            UpdateNotifications, ErrorReporting, DisableManagerUI, ManagerKey,
+            Extras.UiSeparator(Extras.CenterText(PcMenu, "Saves PyroCommon.ini")),
+            SaveButton);
 
         ScConfigMenu.AddItems(ScCfgInteract, ScCfgEndCall, ScCfgNumber, ScCfgSave);
         SeConfigMenu.AddItems(SeCfgBlips, SeCfgHints, SeCfgTimer, SeCfgInteract, SeCfgEndEvent, SeCfgSave);
@@ -93,6 +105,7 @@ internal static class Manager
             DwCfgCode3, DwCfgSwat, DwCfgNoose, Extras.UiSeparator(Extras.CenterText(DwConfigMenu, "Debug Mode")), DwCfgDebug, DwCfgSave);
 
         MainMenu.RefreshIndex();
+        PcMenu.RefreshIndex();
         CalloutMenu.RefreshIndex();
         EventMenu.RefreshIndex();
         ScConfigMenu.RefreshIndex();
@@ -100,6 +113,7 @@ internal static class Manager
         DwConfigMenu.RefreshIndex();
 
         MainMenu.OnItemSelect += MenuSelected;
+        PcMenu.OnItemSelect += MenuSelected;
         ScConfigMenu.OnItemSelect += MenuSelected;
         SeConfigMenu.OnItemSelect += MenuSelected;
         DwConfigMenu.OnItemSelect += MenuSelected;
@@ -126,21 +140,15 @@ internal static class Manager
             DwConfig.RightLabel = "Not Installed!";
             DwConfig.Skipped = true;
         }
-        if ( Settings.FirstTime ) FirstRun();
+        RefreshMenus();
         Process();
     }
 
-    private static void FirstRun()
+    internal static void RefreshMenus()
     {
-        FirstMenu.AddItems(
-            Extras.UiSeparator(Extras.CenterText(FirstMenu, "Installed Plugins")),
-            Extras.SuperCallouts(), Extras.SuperEvents(), Extras.DeadlyWeapons(),
-            Extras.UiSeparator(Extras.CenterText(FirstMenu, "First Time Setup")),
-            UpdateNotifications, ErrorReporting, DisableManagerUI, ManagerKey,
-            Extras.UiSeparator(Extras.CenterText(FirstMenu, "Saves PyroCommon.ini")),
-            SaveButton);
-        FirstMenu.RefreshIndex();
-        FirstMenu.OnItemSelect += MenuSelected;
+        CalloutMenu.Clear();
+        EventMenu.Clear();
+        PauseEvent.Checked = Main.EventsPaused;
         UpdateNotifications.Checked = Settings.UpdateNotifications;
         UpdateNotifications.Description = "Shows update notifications on startup.";
         ErrorReporting.Checked = Settings.ErrorReporting;
@@ -148,14 +156,7 @@ internal static class Manager
         DisableManagerUI.Checked = Settings.DisableManagerUI;
         DisableManagerUI.Description = "Disables the manager UI. Can be re-enabled in the ini file.";
         ManagerKey.WithTextEditing(Settings.Manager.ToString, s => { Settings.Manager = PyroFunctions.PyroFunctions.ConvertStringToClosestKey(s, Settings.Manager); });
-        RefreshMenus();
-    }
 
-    private static void RefreshMenus()
-    {
-        CalloutMenu.Clear();
-        EventMenu.Clear();
-        PauseEvent.Checked = Main.EventsPaused;
         if ( Main.UsingSc )
         {
             foreach ( var t in Functions.GetAllUserPlugins().First(assembly =>
@@ -165,19 +166,6 @@ internal static class Manager
                 CalloutMenu.AddItem(s);
                 s.Activated += (_, _) => Functions.StartCallout(t.Name);
             }
-        }
-        if ( Main.UsingSe )
-        {
-            foreach ( var t in SuperEvents.GetAllEvents()! )
-            {
-                var s = new UIMenuItem($"[{t.Namespace!.Split('.').First()}] {t.Name}");
-                EventMenu.AddItem(s);
-                s.Activated += (_, _) => SuperEvents.ForceEvent(t.FullName!);
-            }
-        }
-        Style.ApplyStyle(MainMenuPool, true);
-        if ( Main.UsingSc )
-        {
             ScSettings.GetSettings();
             //SuperCallouts Text buttons
             ScCfgInteract.WithTextEditing(ScSettings.Interact.ToString, s => { ScSettings.Interact = PyroFunctions.PyroFunctions.ConvertStringToClosestKey(s, ScSettings.Interact); });
@@ -187,6 +175,12 @@ internal static class Manager
 
         if ( Main.UsingSe )
         {
+            foreach ( var t in SuperEvents.GetAllEvents()! )
+            {
+                var s = new UIMenuItem($"[{t.Namespace!.Split('.').First()}] {t.Name}");
+                EventMenu.AddItem(s);
+                s.Activated += (_, _) => SuperEvents.ForceEvent(t.FullName!);
+            }
             SeSettings.GetSettings();
             //SuperEvents Text buttons
             SeCfgTimer.WithTextEditing(SeSettings.TimeBetweenEvents.ToString, s =>
@@ -213,12 +207,14 @@ internal static class Manager
                 else Game.DisplayHelp("~r~That is not a number!");
             });
         }
+
+        Style.ApplyStyle(MainMenuPool, true);
     }
 
     private static void ToggleManagerMenu()
     {
         RefreshMenus();
-        if ( FirstMenu.Visible ) FirstMenu.Close();
+        if ( PcMenu.Visible ) PcMenu.Close();
         MainMenu.Visible = !MainMenu.Visible;
     }
 
@@ -232,7 +228,7 @@ internal static class Manager
             {
                 if ( Settings.FirstTime )
                 {
-                    FirstMenu.Visible = true;
+                    PcMenu.Visible = true;
                     Settings.FirstTime = false;
                     Settings.SaveSettings();
                 }
@@ -268,7 +264,7 @@ internal static class Manager
         if ( selecteditem == SaveButton )
         {
             Settings.SaveSettings();
-            FirstMenu.Visible = false;
+            PcMenu.Visible = false;
         }
         //ScConfigMenu
         if ( selecteditem == ScCfgSave )
