@@ -74,6 +74,7 @@
         <Compile Include="Objects\Location.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
         <Compile Include="PyroFunctions\AssemblyLoader.cs" />
+        <Compile Include="PyroFunctions\ConsoleCommands.cs" />
         <Compile Include="PyroFunctions\DependManager.cs" />
         <Compile Include="PyroFunctions\Extensions\Peds.cs" />
         <Compile Include="PyroFunctions\Extensions\RNUI.cs" />

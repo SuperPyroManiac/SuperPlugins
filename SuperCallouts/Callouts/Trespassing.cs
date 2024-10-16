@@ -8,7 +8,6 @@ using PyroCommon.Objects;
 using PyroCommon.PyroFunctions;
 using PyroCommon.PyroFunctions.Extensions;
 using Rage;
-using Rage.Native;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using Functions = LSPD_First_Response.Mod.API.Functions;
