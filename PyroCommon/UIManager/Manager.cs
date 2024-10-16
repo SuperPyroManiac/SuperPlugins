@@ -65,6 +65,46 @@ internal static class Manager
 
     internal static void StartUi()
     {
+        ManagerKey.WithTextEditing(Settings.Manager.ToString, s => { Settings.Manager = PyroFunctions.PyroFunctions.ConvertStringToClosestKey(s, Settings.Manager); });
+        
+        if ( Main.UsingSc )
+        {
+            //SuperCallouts Text buttons
+            ScSettings.GetSettings();
+            ScCfgInteract.WithTextEditing(ScSettings.Interact.ToString, s => { ScSettings.Interact = PyroFunctions.PyroFunctions.ConvertStringToClosestKey(s, ScSettings.Interact); });
+            ScCfgEndCall.WithTextEditing(ScSettings.EndCall.ToString, s => { ScSettings.EndCall = PyroFunctions.PyroFunctions.ConvertStringToClosestKey(s, ScSettings.EndCall); });
+        }
+        
+        if ( Main.UsingSe )
+        {
+            //SuperEvents Text buttons
+            SeSettings.GetSettings();
+            SeCfgTimer.WithTextEditing(SeSettings.TimeBetweenEvents.ToString, s =>
+            {
+                if ( int.TryParse(s, out var value) ) SeSettings.TimeBetweenEvents = value;
+                else Game.DisplayHelp("~r~That is not a number!");
+            });
+            SeCfgInteract.WithTextEditing(SeSettings.Interact.ToString, s => { SeSettings.Interact = PyroFunctions.PyroFunctions.ConvertStringToClosestKey(s, SeSettings.Interact); });
+            SeCfgEndEvent.WithTextEditing(SeSettings.EndEvent.ToString, s => { SeSettings.EndEvent = PyroFunctions.PyroFunctions.ConvertStringToClosestKey(s, SeSettings.EndEvent); });
+            ScCfgNumber.WithTextEditing(ScSettings.EmergencyNumber.ToString, s => { ScSettings.EmergencyNumber = s; });
+        }
+        
+        if ( Main.UsingDw )
+        {
+            //DeadlyWeapons Text buttons
+            DwSettings.GetSettings();
+            DwCfgRandomizer.WithTextEditing(DwSettings.DamageRandomizer.ToString, s =>
+            {
+                if ( int.TryParse(s, out var value) ) DwSettings.DamageRandomizer = value;
+                else Game.DisplayHelp("~r~That is not a number!");
+            });
+            DwCfgCooldown.WithTextEditing(DwSettings.PanicCooldown.ToString, s =>
+            {
+                if ( int.TryParse(s, out var value) ) DwSettings.PanicCooldown = value;
+                else Game.DisplayHelp("~r~That is not a number!");
+            });
+        }
+        
         _running = true;
         MainMenuPool.Add(MainMenu);
         MainMenuPool.Add(PcMenu);
@@ -155,7 +195,6 @@ internal static class Manager
         ErrorReporting.Description = "Reports errors automatically to help better my plugins. No personal data is shared!";
         DisableManagerUI.Checked = Settings.DisableManagerUI;
         DisableManagerUI.Description = "Disables the manager UI. Can be re-enabled in the ini file.";
-        ManagerKey.WithTextEditing(Settings.Manager.ToString, s => { Settings.Manager = PyroFunctions.PyroFunctions.ConvertStringToClosestKey(s, Settings.Manager); });
 
         if ( Main.UsingSc )
         {
@@ -167,10 +206,6 @@ internal static class Manager
                 s.Activated += (_, _) => Functions.StartCallout(t.Name);
             }
             ScSettings.GetSettings();
-            //SuperCallouts Text buttons
-            ScCfgInteract.WithTextEditing(ScSettings.Interact.ToString, s => { ScSettings.Interact = PyroFunctions.PyroFunctions.ConvertStringToClosestKey(s, ScSettings.Interact); });
-            ScCfgEndCall.WithTextEditing(ScSettings.EndCall.ToString, s => { ScSettings.EndCall = PyroFunctions.PyroFunctions.ConvertStringToClosestKey(s, ScSettings.EndCall); });
-            ScCfgNumber.WithTextEditing(ScSettings.EmergencyNumber.ToString, s => { ScSettings.EmergencyNumber = s; });
         }
 
         if ( Main.UsingSe )
@@ -182,31 +217,9 @@ internal static class Manager
                 s.Activated += (_, _) => SuperEvents.ForceEvent(t.FullName!);
             }
             SeSettings.GetSettings();
-            //SuperEvents Text buttons
-            SeCfgTimer.WithTextEditing(SeSettings.TimeBetweenEvents.ToString, s =>
-            {
-                if ( int.TryParse(s, out var value) ) SeSettings.TimeBetweenEvents = value;
-                else Game.DisplayHelp("~r~That is not a number!");
-            });
-            SeCfgInteract.WithTextEditing(SeSettings.Interact.ToString, s => { SeSettings.Interact = PyroFunctions.PyroFunctions.ConvertStringToClosestKey(s, SeSettings.Interact); });
-            SeCfgEndEvent.WithTextEditing(SeSettings.EndEvent.ToString, s => { SeSettings.EndEvent = PyroFunctions.PyroFunctions.ConvertStringToClosestKey(s, SeSettings.EndEvent); });
         }
 
-        if ( Main.UsingDw )
-        {
-            DwSettings.GetSettings();
-            //DeadlyWeapons Text buttons
-            DwCfgRandomizer.WithTextEditing(DwSettings.DamageRandomizer.ToString, s =>
-            {
-                if ( int.TryParse(s, out var value) ) DwSettings.DamageRandomizer = value;
-                else Game.DisplayHelp("~r~That is not a number!");
-            });
-            DwCfgCooldown.WithTextEditing(DwSettings.PanicCooldown.ToString, s =>
-            {
-                if ( int.TryParse(s, out var value) ) DwSettings.PanicCooldown = value;
-                else Game.DisplayHelp("~r~That is not a number!");
-            });
-        }
+        if ( Main.UsingDw ) DwSettings.GetSettings();
 
         Style.ApplyStyle(MainMenuPool, true);
     }

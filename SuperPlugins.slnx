@@ -1,0 +1,6 @@
+﻿<Solution>
+  <Project Path="DeadlyWeapons\DeadlyWeapons.csproj" Type="Classic C#" />
+  <Project Path="PyroCommon\PyroCommon.csproj" Type="Classic C#" />
+  <Project Path="SuperCallouts\SuperCallouts.csproj" Type="Classic C#" />
+  <Project Path="SuperEvents\SuperEvents.csproj" Type="Classic C#" />
+</Solution>
