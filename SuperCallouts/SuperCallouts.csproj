@@ -1,64 +1,64 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net481</TargetFramework>
-    <RootNamespace>SuperCallouts</RootNamespace>
-    <AssemblyName>SuperCallouts</AssemblyName>
-    <LangVersion>12</LangVersion>
-    <Nullable>disable</Nullable>
-    <OutputType>Library</OutputType>
-    <NoWarn>MSB3270</NoWarn>
-  
-    <!-- Assembly Information -->
-    <AssemblyTitle>SuperCallouts</AssemblyTitle>
-    <AssemblyDescription>By SuperPyroManiac</AssemblyDescription>
-    <AssemblyProduct>SuperCallouts</AssemblyProduct>
-    <AssemblyCopyright>Copyright © 2025</AssemblyCopyright>
-    <AssemblyVersion>3.9.7.6</AssemblyVersion>
-    <FileVersion>3.9.7.6</FileVersion>
-  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>net481</TargetFramework>
+        <RootNamespace>SuperCallouts</RootNamespace>
+        <AssemblyName>SuperCallouts</AssemblyName>
+        <LangVersion>12</LangVersion>
+        <Nullable>disable</Nullable>
+        <OutputType>Library</OutputType>
+        <NoWarn>MSB3270</NoWarn>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
+        <!-- Assembly Information -->
+        <AssemblyTitle>SuperCallouts</AssemblyTitle>
+        <AssemblyDescription>By SuperPyroManiac</AssemblyDescription>
+        <AssemblyProduct>SuperCallouts</AssemblyProduct>
+        <AssemblyCopyright>Copyright © 2025</AssemblyCopyright>
+        <AssemblyVersion>3.9.7.6</AssemblyVersion>
+        <FileVersion>3.9.7.6</FileVersion>
+    </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <WarningLevel>1</WarningLevel>
-  </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+        <OutputPath>bin\Debug\</OutputPath>
+        <DefineConstants>DEBUG;TRACE</DefineConstants>
+        <DebugSymbols>true</DebugSymbols>
+        <DebugType>full</DebugType>
+        <Optimize>false</Optimize>
+        <WarningLevel>4</WarningLevel>
+    </PropertyGroup>
 
-<ItemGroup>
-  <PackageReference Include="RAGENativeUI" Version="1.9.2" />
-  <PackageReference Include="RagePluginHook" Version="1.109.1" />
-  <PackageReference Include="DamageTrackerLib" Version="1.0.2" />
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+        <OutputPath>bin\Release\</OutputPath>
+        <DefineConstants>TRACE</DefineConstants>
+        <DebugType>pdbonly</DebugType>
+        <Optimize>true</Optimize>
+        <WarningLevel>1</WarningLevel>
+    </PropertyGroup>
 
-  <Reference Include="LSPD First Response">
-    <HintPath>..\packages\!Manual\LSPD First Response.dll</HintPath>
-  </Reference>
-  <Reference Include="Microsoft.CSharp" />
-  <Reference Include="System" />
-  <Reference Include="System.Drawing" />
-  <Reference Include="System.Windows.Forms" />
+    <ItemGroup>
+        <PackageReference Include="RAGENativeUI" Version="1.9.2" />
+        <PackageReference Include="RagePluginHook" Version="1.109.1" />
+        <PackageReference Include="DamageTrackerLib" Version="1.0.2" />
 
-</ItemGroup>
+        <Reference Include="LSPD First Response">
+            <HintPath>..\packages\!Manual\LSPD First Response.dll</HintPath>
+        </Reference>
+        <Reference Include="Microsoft.CSharp" />
+        <Reference Include="System" />
+        <Reference Include="System.Drawing" />
+        <Reference Include="System.Windows.Forms" />
+
+    </ItemGroup>
 
 
-  <ItemGroup>
-    <ProjectReference Include="..\PyroCommon\PyroCommon.csproj" />
-  </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\PyroCommon\PyroCommon.csproj" />
+    </ItemGroup>
 
-  <Target Name="CopyFiles" AfterTargets="Build">
-    <Copy SourceFiles="$(OutputPath)SuperCallouts.dll" DestinationFolder="C:\Coding\SPBuild\Plugins\LSPDFR" />
-    <Copy SourceFiles="$(OutputPath)SuperCallouts.pdb" DestinationFolder="C:\Coding\SPBuild\Plugins\LSPDFR" />
-    <Copy SourceFiles="$(ProjectDir)SuperCallouts.ini" DestinationFolder="C:\Coding\SPBuild\Plugins\LSPDFR" />
-  </Target>
+    <Target Name="CopyFiles" AfterTargets="Build">
+        <Copy SourceFiles="$(OutputPath)SuperCallouts.dll" DestinationFolder="C:\Coding\SPBuild\Plugins\LSPDFR" />
+        <Copy SourceFiles="$(OutputPath)SuperCallouts.pdb" DestinationFolder="C:\Coding\SPBuild\Plugins\LSPDFR" />
+        <Copy SourceFiles="$(ProjectDir)SuperCallouts.ini" DestinationFolder="C:\Coding\SPBuild\Plugins\LSPDFR" />
+    </Target>
 
 </Project>

@@ -1,64 +1,64 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net481</TargetFramework>
-    <RootNamespace>SuperEvents</RootNamespace>
-    <AssemblyName>SuperEvents</AssemblyName>
-    <LangVersion>12</LangVersion>
-    <Nullable>disable</Nullable>
-    <OutputType>Library</OutputType>
-    <NoWarn>MSB3270</NoWarn>
-    
-    <!-- Assembly Information -->
-    <AssemblyTitle>SuperEvents</AssemblyTitle>
-    <AssemblyDescription>By SuperPyroManiac</AssemblyDescription>
-    <AssemblyProduct>SuperEvents</AssemblyProduct>
-    <AssemblyCopyright>Copyright © 2025</AssemblyCopyright>
-    <AssemblyVersion>3.1.0.5</AssemblyVersion>
-    <FileVersion>3.1.0.5</FileVersion>
-  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>net481</TargetFramework>
+        <RootNamespace>SuperEvents</RootNamespace>
+        <AssemblyName>SuperEvents</AssemblyName>
+        <LangVersion>12</LangVersion>
+        <Nullable>disable</Nullable>
+        <OutputType>Library</OutputType>
+        <NoWarn>MSB3270</NoWarn>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
+        <!-- Assembly Information -->
+        <AssemblyTitle>SuperEvents</AssemblyTitle>
+        <AssemblyDescription>By SuperPyroManiac</AssemblyDescription>
+        <AssemblyProduct>SuperEvents</AssemblyProduct>
+        <AssemblyCopyright>Copyright © 2025</AssemblyCopyright>
+        <AssemblyVersion>3.1.0.5</AssemblyVersion>
+        <FileVersion>3.1.0.5</FileVersion>
+    </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <WarningLevel>1</WarningLevel>
-  </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+        <OutputPath>bin\Debug\</OutputPath>
+        <DefineConstants>DEBUG;TRACE</DefineConstants>
+        <DebugSymbols>true</DebugSymbols>
+        <DebugType>full</DebugType>
+        <Optimize>false</Optimize>
+        <WarningLevel>4</WarningLevel>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="RAGENativeUI" Version="1.9.2" />
-    <PackageReference Include="RagePluginHook" Version="1.109.1" />
-    
-    <Reference Include="LSPD First Response">
-      <HintPath>..\packages\!Manual\LSPD First Response.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+        <OutputPath>bin\Release\</OutputPath>
+        <DefineConstants>TRACE</DefineConstants>
+        <DebugType>pdbonly</DebugType>
+        <Optimize>true</Optimize>
+        <WarningLevel>1</WarningLevel>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\PyroCommon\PyroCommon.csproj" />
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="RAGENativeUI" Version="1.9.2" />
+        <PackageReference Include="RagePluginHook" Version="1.109.1" />
 
-  <Target Name="CopyFiles" AfterTargets="Build">
-    <Copy SourceFiles="$(OutputPath)SuperEvents.dll" DestinationFolder="C:\Coding\SPBuild\Plugins\LSPDFR" />
-    <Copy SourceFiles="$(OutputPath)SuperEvents.pdb" DestinationFolder="C:\Coding\SPBuild\Plugins\LSPDFR" />
-    <Copy SourceFiles="$(ProjectDir)SuperEvents.ini" DestinationFolder="C:\Coding\SPBuild\Plugins\LSPDFR" />
-  </Target>
+        <Reference Include="LSPD First Response">
+            <HintPath>..\packages\!Manual\LSPD First Response.dll</HintPath>
+        </Reference>
+        <Reference Include="Microsoft.CSharp" />
+        <Reference Include="System" />
+        <Reference Include="System.Core" />
+        <Reference Include="System.Data" />
+        <Reference Include="System.Drawing" />
+        <Reference Include="System.Windows.Forms" />
+        <Reference Include="System.Xml" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\PyroCommon\PyroCommon.csproj" />
+    </ItemGroup>
+
+    <Target Name="CopyFiles" AfterTargets="Build">
+        <Copy SourceFiles="$(OutputPath)SuperEvents.dll" DestinationFolder="C:\Coding\SPBuild\Plugins\LSPDFR" />
+        <Copy SourceFiles="$(OutputPath)SuperEvents.pdb" DestinationFolder="C:\Coding\SPBuild\Plugins\LSPDFR" />
+        <Copy SourceFiles="$(ProjectDir)SuperEvents.ini" DestinationFolder="C:\Coding\SPBuild\Plugins\LSPDFR" />
+    </Target>
 
 </Project>
