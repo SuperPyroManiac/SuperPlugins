@@ -1,3 +1,4 @@
+using System;
 using System.Drawing;
 using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.Objects;
@@ -49,7 +50,9 @@ internal class OfficerShootout : SuperCallout
         };
         EntitiesToClear.Add(_copVehicle);
 
-        _bad1 = new Ped { IsPersistent = true, Health = 400 };
+        _bad1 = new Ped();
+        _bad1.IsPersistent = true;
+        _bad1.Health = 400;
         _bad1.Inventory.Weapons.Add(WeaponHash.AssaultShotgun).Ammo = -1;
         _bad1.WarpIntoVehicle(_cVehicle, -1);
         _bad1.RelationshipGroup = new RelationshipGroup("BADGANG");
@@ -57,7 +60,9 @@ internal class OfficerShootout : SuperCallout
         _bad1.Tasks.LeaveVehicle(_cVehicle, LeaveVehicleFlags.LeaveDoorOpen);
         EntitiesToClear.Add(_bad1);
 
-        _bad2 = new Ped { IsPersistent = true, Health = 400 };
+        _bad2 = new Ped();
+        _bad2.IsPersistent = true;
+        _bad2.Health = 400;
         _bad2.Inventory.Weapons.Add(WeaponHash.CarbineRifle).Ammo = -1;
         _bad2.WarpIntoVehicle(_cVehicle, 0);
         _bad2.RelationshipGroup = new RelationshipGroup("BADGANG");
@@ -65,13 +70,15 @@ internal class OfficerShootout : SuperCallout
         _bad2.Tasks.LeaveVehicle(_cVehicle, LeaveVehicleFlags.LeaveDoorOpen);
         EntitiesToClear.Add(_bad2);
 
-        _cop1 = new Ped("s_m_y_cop_01", SpawnPoint.Position, 0f) { IsPersistent = true };
+        _cop1 = new Ped("s_m_y_cop_01", SpawnPoint.Position, 0f);
+        _cop1.IsPersistent = true;
         _cop1.WarpIntoVehicle(_copVehicle, -1);
         _cop1.Inventory.Weapons.Add(WeaponHash.CombatPistol).Ammo = -1;
         _cop1.Tasks.LeaveVehicle(_copVehicle, LeaveVehicleFlags.LeaveDoorOpen);
         EntitiesToClear.Add(_cop1);
 
-        _cop2 = new Ped("s_f_y_cop_01", SpawnPoint.Position, 0f) { IsPersistent = true };
+        _cop2 = new Ped("s_f_y_cop_01", SpawnPoint.Position, 0f);
+        _cop2.IsPersistent = true;
         _cop2.WarpIntoVehicle(_copVehicle, 0);
         _cop2.Inventory.Weapons.Add(WeaponHash.CombatPistol).Ammo = -1;
         _cop2.Tasks.LeaveVehicle(_copVehicle, LeaveVehicleFlags.LeaveDoorOpen);

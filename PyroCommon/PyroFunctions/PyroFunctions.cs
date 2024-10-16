@@ -79,8 +79,6 @@ public static class PyroFunctions
                 if (Main.UsingUb) Backup.UbPursuit();
                 else Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Pursuit, EBackupUnitType.LocalUnit);
                 break;
-            default:
-                throw new ArgumentOutOfRangeException(nameof(bType), bType, null);
         }
     }
     

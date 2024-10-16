@@ -33,7 +33,8 @@ internal class OpenCarry : AmbientEvent
         OnSceneDistance = 10;
 
         //Ped
-        _bad = new Ped(_spawnPoint, _spawnPointH) { IsPersistent = true };
+        _bad = new Ped(_spawnPoint, _spawnPointH);
+        _bad.IsPersistent = true;
         EntitiesToClear.Add(_bad);
         _bad.Inventory.GiveNewWeapon(WeaponHash.AdvancedRifle, -1, true);
         _bad.Metadata.stpAlcoholDetected = true;
