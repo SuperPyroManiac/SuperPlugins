@@ -40,10 +40,7 @@
     <PackageReference Include="DamageTrackerLib" Version="1.0.2" />
     
     <Reference Include="LSPD First Response">
-      <HintPath>..\packages\PyroSpecial.1.0.1\lib\LSPD First Response.dll</HintPath>
-    </Reference>
-    <Reference Include="UltimateBackup">
-      <HintPath>..\packages\PyroSpecial.1.0.1\lib\UltimateBackup.dll</HintPath>
+      <HintPath>..\packages\!Manual\LSPD First Response.dll</HintPath>
     </Reference>
     
     <Reference Include="Microsoft.CSharp" />
