@@ -8,7 +8,7 @@ public static class Enums
         Update,
         Current
     }
-    
+
     public enum ScAnimationsSet
     {
         Drunk,

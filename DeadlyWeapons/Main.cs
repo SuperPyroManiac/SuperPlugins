@@ -14,7 +14,7 @@ public class Main : Plugin
 {
     internal static bool Running;
     private GameFiber _panicFiber;
-    
+
     public override void Initialize()
     {
         var dCheck = new DependManager();
@@ -27,7 +27,7 @@ public class Main : Plugin
 
     private void OnOnDutyStateChangedHandler(bool onDuty)
     {
-        if (onDuty)
+        if ( onDuty )
         {
             PyroCommon.Main.InitCommon("DeadlyWeapons", Assembly.GetExecutingAssembly().GetName().Version.ToString());
             Running = true;
@@ -41,15 +41,15 @@ public class Main : Plugin
             Log.Info("======================================================");
             DamageTrackerService.Start();
             Settings.LoadSettings();
-            if (Settings.PlayerDamage) DamageTrackerService.OnPlayerTookDamage += PlayerShot.OnPlayerDamaged;
-            if (Settings.NpcDamage) DamageTrackerService.OnPedTookDamage += PedShot.OnPedDamaged;
-            if (Settings.Panic) _panicFiber = GameFiber.StartNew(Panic.StartPanicFiber);
+            if ( Settings.PlayerDamage ) DamageTrackerService.OnPlayerTookDamage += PlayerShot.OnPlayerDamaged;
+            if ( Settings.NpcDamage ) DamageTrackerService.OnPedTookDamage += PedShot.OnPedDamaged;
+            if ( Settings.Panic ) _panicFiber = GameFiber.StartNew(Panic.StartPanicFiber);
             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~r~DeadlyWeapons", "~g~Plugin Loaded.", "DeadlyWeapons version: " + Assembly.GetExecutingAssembly().GetName().Version + " loaded.");
             return;
         }
         PyroCommon.Main.StopCommon();
     }
-        
+
     public override void Finally()
     {
         Running = false;

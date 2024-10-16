@@ -30,12 +30,12 @@ internal class StolenCopVehicle : SuperCallout
 
     internal override void CalloutAccepted()
     {
-        Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch","~r~Stolen Police Vehicle",
+        Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Stolen Police Vehicle",
             "A suspect has stolen a police vehicle during his arrest. Respond ~r~CODE-3");
 
         Model[] vehicleModels = ["POLICE", "POLICE2", "POLICE3", "SHERIFF", "SHERIFF2"];
         _cVehicle = new Vehicle(vehicleModels[new Random(DateTime.Now.Millisecond).Next(vehicleModels.Length)], SpawnPoint.Position)
-                { IsPersistent = true, IsStolen = true, IsSirenOn = true, IsSirenSilent = true };
+        { IsPersistent = true, IsStolen = true, IsSirenOn = true, IsSirenSilent = true };
         EntitiesToClear.Add(_cVehicle);
 
         _suspect = new Ped(SpawnPoint.Position.Around(15f));
@@ -59,7 +59,7 @@ internal class StolenCopVehicle : SuperCallout
             CalloutEnd(true);
             return;
         }
-        
+
         if ( !OnScene && !_blipHelper )
         {
             GameFiber.StartNew(delegate
@@ -86,7 +86,7 @@ internal class StolenCopVehicle : SuperCallout
             CalloutEnd(true);
             return;
         }
-        
+
         _cBlip?.Delete();
         PyroFunctions.StartPursuit(false, true, _suspect);
         PyroFunctions.RequestBackup(Enums.BackupType.Pursuit);

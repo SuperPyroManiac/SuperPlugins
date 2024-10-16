@@ -74,8 +74,8 @@ internal class TruckCrash : SuperCallout
             CalloutEnd(true);
             return;
         }
-        
-        if (selItem == _speakSuspect)
+
+        if ( selItem == _speakSuspect )
             GameFiber.StartNew(delegate
             {
                 _speakSuspect.Enabled = false;

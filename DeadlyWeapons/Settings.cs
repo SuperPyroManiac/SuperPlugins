@@ -9,10 +9,10 @@ internal static class Settings
 {
     internal static List<Weapon> Weapons = [];
     internal static List<WeaponType> WeaponTypes = [];
-    internal static DamageValues PlayerValues = new ();
-    internal static DamageValues PlayerArmorValues = new ();
-    internal static DamageValues NpcValues = new ();
-    internal static DamageValues NpcArmorValues = new ();
+    internal static DamageValues PlayerValues = new();
+    internal static DamageValues PlayerArmorValues = new();
+    internal static DamageValues NpcValues = new();
+    internal static DamageValues NpcArmorValues = new();
     internal static bool PlayerDamage = true;
     internal static bool NpcDamage = true;
     internal static float DamageRandomizer = 15;
@@ -37,7 +37,7 @@ internal static class Settings
         SwatBackup = ini.ReadBoolean("Backup", "SwatBackup");
         NooseBackup = ini.ReadBoolean("Backup", "NooseBackup");
         Debug = ini.ReadBoolean("Debug", "Debug");
-        
+
         // YAML Configs
         Weapons = PyroCommon.PyroFunctions.PyroFunctions.DeserializeYaml<List<Weapon>>("Plugins/LSPDFR/DeadlyWeapons/Weapons.yml", "Weapons.yml");
         WeaponTypes = PyroCommon.PyroFunctions.PyroFunctions.DeserializeYaml<List<WeaponType>>("Plugins/LSPDFR/DeadlyWeapons/WeaponTypes.yml", "WeaponTypes.yml");
@@ -47,7 +47,7 @@ internal static class Settings
         PlayerValues = damageConfig.PlayerDamage.WithoutArmor!;
         NpcValues = damageConfig.NpcDamage.WithoutArmor!;
     }
-    
+
     internal static void SaveSettings()
     {
         var ini = new InitializationFile("Plugins/LSPDFR/DeadlyWeapons.ini");

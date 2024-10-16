@@ -37,7 +37,7 @@ public static class Settings
         Interact = ini.ReadEnum("Keys", "Interact", Keys.Y);
         EndEvent = ini.ReadEnum("Keys", "EndEvent", Keys.End);
     }
-    
+
     internal static void SaveSettings()
     {
         var ini = new InitializationFile("Plugins/LSPDFR/SuperEvents.ini");

@@ -39,7 +39,7 @@ internal class ToiletPaperBandit : SuperCallout
             "Reports of someone robbing a truck full of cleaning supplies, respond ~r~CODE-3");
 
         _cVehicle = new Vehicle("pounder", SpawnPoint.Position)
-            { IsPersistent = true, IsStolen = true, Heading = SpawnPoint.Heading };
+        { IsPersistent = true, IsStolen = true, Heading = SpawnPoint.Heading };
         _cVehicle.Metadata.searchDriver =
             "~y~50 travel hand sanitizers~s~, ~y~48 toilet paper rolls~s~, ~g~lighters~s~, ~g~cigarettes~s~";
         _cVehicle.Metadata.searchPassenger =
@@ -49,7 +49,7 @@ internal class ToiletPaperBandit : SuperCallout
         EntitiesToClear.Add(_cVehicle);
 
         _bad = new Ped("s_m_m_movspace_01", SpawnPoint.Position.Around2D(20f), 0f)
-            { BlockPermanentEvents = true, IsPersistent = true };
+        { BlockPermanentEvents = true, IsPersistent = true };
         _bad.WarpIntoVehicle(_cVehicle, -1);
         _bad.Inventory.Weapons.Add(WeaponHash.Molotov);
         _bad.Metadata.searchPed = "~r~Molotov's~s~, ~g~multiple hand sanitizers~s~, ~g~cleaning wipes~s~";
@@ -69,17 +69,17 @@ internal class ToiletPaperBandit : SuperCallout
 
     internal override void CalloutRunning()
     {
-        if (OnScene)
+        if ( OnScene )
         {
             if ( !_bad )
             {
                 CalloutEnd(true);
                 return;
             }
-            
-            if (!Functions.IsPursuitStillRunning(_pursuit) || _bad.IsCuffed)
+
+            if ( !Functions.IsPursuitStillRunning(_pursuit) || _bad.IsCuffed )
             {
-                if (!OnScene) return;
+                if ( !OnScene ) return;
                 Game.DisplaySubtitle("~r~" + _name1 + "~s~: I surrender!", 5000);
                 Game.DisplayHelp($"Press ~{Settings.Interact.GetInstructionalId()}~ to open interaction menu.");
                 Questioning.Enabled = true;
@@ -105,7 +105,7 @@ internal class ToiletPaperBandit : SuperCallout
 
     protected override void Conversations(UIMenu sender, UIMenuItem selItem, int index)
     {
-        if (selItem == _speakSuspect)
+        if ( selItem == _speakSuspect )
             GameFiber.StartNew(delegate
             {
                 Game.DisplaySubtitle("~g~You~s~: What are you doing with this truck?", 5000);

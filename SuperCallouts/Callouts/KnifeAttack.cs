@@ -79,9 +79,9 @@ internal class KnifeAttack : SuperCallout
             CalloutEnd(true);
             return;
         }
-        
+
         _cVictim.Kill();
-        switch (_cScene)
+        switch ( _cScene )
         {
             case 1:
                 _cSuspect.Tasks.FightAgainst(Game.LocalPlayer.Character);

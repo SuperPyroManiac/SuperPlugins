@@ -88,8 +88,8 @@ internal class Mafia1 : Callout
         _goodguys.Add(_fib4);
         _goodguys.Add(_fib5);
 
-        foreach (var entity in _vehicles.Where(entity => entity)) entity.IsPersistent = true;
-        foreach (var entity in _goodguys.Where(entity => entity))
+        foreach ( var entity in _vehicles.Where(entity => entity) ) entity.IsPersistent = true;
+        foreach ( var entity in _goodguys.Where(entity => entity) )
         {
             entity.IsPersistent = true;
             entity.BlockPermanentEvents = true;
@@ -111,11 +111,11 @@ internal class Mafia1 : Callout
                 End();
                 return;
             }
-            
-            switch (_state)
+
+            switch ( _state )
             {
                 case SrState.CheckDistance:
-                    if (Player.DistanceTo(_fib1.Position) < 10f)
+                    if ( Player.DistanceTo(_fib1.Position) < 10f )
                     {
                         _cBlip?.DisableRoute();
                         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~y~SuperCallouts",
@@ -130,13 +130,13 @@ internal class Mafia1 : Callout
 
                     break;
                 case SrState.CheckDistance2:
-                    if (Player.DistanceTo(_callPos) < 120f)
+                    if ( Player.DistanceTo(_callPos) < 120f )
                     {
                         Game.SetRelationshipBetweenRelationshipGroups("MAFIA", "COP", Relationship.Hate);
                         Game.SetRelationshipBetweenRelationshipGroups("MAFIA", "PLAYER", Relationship.Hate);
                         Game.SetRelationshipBetweenRelationshipGroups("COP", "MAFIA", Relationship.Hate);
                         Game.DisplayHelp($"Press ~{Settings.Interact.GetInstructionalId()}~ to open interaction menu.");
-                        switch (_choice)
+                        switch ( _choice )
                         {
                             case SrChoice.Noose:
                                 PyroFunctions.RequestBackup(Enums.BackupType.Noose);
@@ -162,16 +162,16 @@ internal class Mafia1 : Callout
 
                     break;
                 case SrState.RaidScene:
-                    foreach (var entity in _goodguys.Where(entity => entity))
-                        if (entity.Exists())
+                    foreach ( var entity in _goodguys.Where(entity => entity) )
+                        if ( entity.Exists() )
                             entity.Dismiss();
-                    foreach (var entity in _badGuys.Where(entity => entity)) entity.BlockPermanentEvents = false;
+                    foreach ( var entity in _badGuys.Where(entity => entity) ) entity.BlockPermanentEvents = false;
                     GameFiber.StartNew(delegate
                     {
                         GameFiber.Wait(5000);
-                        foreach (var entity in _badGuys.Where(entity => entity))
+                        foreach ( var entity in _badGuys.Where(entity => entity) )
                             entity.Tasks.FightAgainstClosestHatedTarget(150, -1);
-                        if (_aBlip.Exists()) _aBlip?.DisableRoute();
+                        if ( _aBlip.Exists() ) _aBlip?.DisableRoute();
                         _state = SrState.End;
                     });
                     break;
@@ -183,12 +183,12 @@ internal class Mafia1 : Callout
             }
 
             //Keybinds
-            if (Game.IsKeyDown(Settings.EndCall)) End();
-            if (Game.IsKeyDown(Settings.Interact)) _mainMenu!.Visible = !_mainMenu.Visible;
+            if ( Game.IsKeyDown(Settings.EndCall) ) End();
+            if ( Game.IsKeyDown(Settings.Interact) ) _mainMenu!.Visible = !_mainMenu.Visible;
             _interaction!.ProcessMenus();
             base.Process();
         }
-        catch (Exception e)
+        catch ( Exception e )
         {
             Log.Error(e.ToString());
             End();
@@ -197,16 +197,16 @@ internal class Mafia1 : Callout
 
     public override void End()
     {
-        if (_cBlip) _cBlip?.Delete();
-        if (_aBlip) _aBlip?.Delete();
-        foreach (var entity in _badGuys.Where(entity => entity))
-            if (entity.Exists())
+        if ( _cBlip ) _cBlip?.Delete();
+        if ( _aBlip ) _aBlip?.Delete();
+        foreach ( var entity in _badGuys.Where(entity => entity) )
+            if ( entity.Exists() )
                 entity.Dismiss();
-        foreach (var entity in _goodguys.Where(entity => entity))
-            if (entity.Exists())
+        foreach ( var entity in _goodguys.Where(entity => entity) )
+            if ( entity.Exists() )
                 entity.Dismiss();
-        foreach (var entity in _vehicles.Where(entity => entity))
-            if (entity.Exists())
+        foreach ( var entity in _vehicles.Where(entity => entity) )
+            if ( entity.Exists() )
                 entity.Dismiss();
         Game.SetRelationshipBetweenRelationshipGroups("COP", "MAFIA", Relationship.Dislike);
         _interaction!.CloseAllMenus();
@@ -218,7 +218,7 @@ internal class Mafia1 : Callout
     //UI Functions
     private void InteractionProcess(UIMenu sender, UIMenuItem selItem, int index)
     {
-        if (selItem == _endCall)
+        if ( selItem == _endCall )
         {
             Game.DisplaySubtitle("~y~Callout Ended.");
             End();
@@ -227,10 +227,10 @@ internal class Mafia1 : Callout
 
     private void ConversationProcess(UIMenu sender, UIMenuItem selItem, int index)
     {
-        if (selItem == _speakFib)
+        if ( selItem == _speakFib )
             GameFiber.StartNew(delegate
             {
-                if (_fib1 && Player.DistanceTo(_fib1) > 4f)
+                if ( _fib1 && Player.DistanceTo(_fib1) > 4f )
                 {
                     Game.DisplaySubtitle("~r~Get closer to talk!");
                     return;
@@ -265,14 +265,14 @@ internal class Mafia1 : Callout
                 _convoMenu.AddItem(_choiceYou);
                 _convoMenu.RefreshIndex();
             });
-        if (selItem == _choiceNoose)
+        if ( selItem == _choiceNoose )
             GameFiber.StartNew(delegate
             {
                 _interaction!.CloseAllMenus();
                 _questioning!.Enabled = false;
                 Game.DisplaySubtitle("~b~Agent~s~: We will have a NOOSE team on standby until you arrive on scene.",
                     6000);
-                if (_cBlip) _cBlip?.Delete();
+                if ( _cBlip ) _cBlip?.Delete();
                 _aBlip = new Blip(_callPos.Around2D(1, 2), 30);
                 _aBlip.Color = Color.Red;
                 _aBlip.Alpha = .5f;
@@ -281,14 +281,14 @@ internal class Mafia1 : Callout
                 _choice = SrChoice.Noose;
                 _state = SrState.CheckDistance2;
             });
-        if (selItem == _choiceSwat)
+        if ( selItem == _choiceSwat )
             GameFiber.StartNew(delegate
             {
                 _interaction!.CloseAllMenus();
                 _questioning!.Enabled = false;
                 Game.DisplaySubtitle("~b~Agent~s~: Your departments SWAT team will standby for your arrival.",
                     6000);
-                if (_cBlip) _cBlip?.Delete();
+                if ( _cBlip ) _cBlip?.Delete();
                 _aBlip = new Blip(_callPos.Around2D(1, 2), 30);
                 _aBlip.Color = Color.Red;
                 _aBlip.Alpha = .5f;
@@ -297,14 +297,14 @@ internal class Mafia1 : Callout
                 _choice = SrChoice.Swat;
                 _state = SrState.CheckDistance2;
             });
-        if (selItem == _choiceYou)
+        if ( selItem == _choiceYou )
             GameFiber.StartNew(delegate
             {
                 _interaction!.CloseAllMenus();
                 _questioning!.Enabled = false;
                 Game.DisplaySubtitle(
                     "~b~Agent~s~: We will leave it to you then. Seems like a dangerous choice though.", 6000);
-                if (_cBlip) _cBlip?.Delete();
+                if ( _cBlip ) _cBlip?.Delete();
                 _aBlip = new Blip(_callPos.Around2D(1, 2), 30);
                 _aBlip.Color = Color.Red;
                 _aBlip.Alpha = .5f;
@@ -331,7 +331,7 @@ internal class Mafia1 : Callout
         _badGuys.Add(_bad6);
         _badGuys.Add(_bad7);
         _badGuys.Add(_bad8);
-        foreach (var entity in _badGuys.Where(entity => entity))
+        foreach ( var entity in _badGuys.Where(entity => entity) )
         {
             entity.IsPersistent = true;
             entity.Inventory.Weapons.Add(WeaponHash.AdvancedRifle);
@@ -339,8 +339,8 @@ internal class Mafia1 : Callout
             PyroFunctions.SetWanted(entity, true);
         }
 
-        foreach (var entity in _vehicles.Where(entity => entity))
-            if (entity)
+        foreach ( var entity in _vehicles.Where(entity => entity) )
+            if ( entity )
             {
                 entity.IsPersistent = true;
                 entity.Metadata.searchTrunk =

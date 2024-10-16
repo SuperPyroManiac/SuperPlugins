@@ -84,8 +84,8 @@ internal class Mafia2 : Callout
         _mafiaDudes.Add(_mafiaDude13);
         _mafiaDudes.Add(_mafiaDude14);
         _mafiaDudes.Add(_mafiaDude15);
-        foreach (var mafiaCars in _mafiaCars) mafiaCars.IsPersistent = true;
-        foreach (var mafiaDudes in _mafiaDudes)
+        foreach ( var mafiaCars in _mafiaCars ) mafiaCars.IsPersistent = true;
+        foreach ( var mafiaDudes in _mafiaDudes )
         {
             mafiaDudes.IsPersistent = true;
             mafiaDudes.Inventory.Weapons.Add(WeaponHash.CombatPistol).Ammo = -1;
@@ -98,8 +98,8 @@ internal class Mafia2 : Callout
 
     public override void Process()
     {
-        if (Game.IsKeyDown(Settings.EndCall)) End();
-        if (!_onScene && Game.LocalPlayer.Character.DistanceTo(_callPos) < 100f)
+        if ( Game.IsKeyDown(Settings.EndCall) ) End();
+        if ( !_onScene && Game.LocalPlayer.Character.DistanceTo(_callPos) < 100f )
         {
             try
             {
@@ -121,7 +121,7 @@ internal class Mafia2 : Callout
                 Game.SetRelationshipBetweenRelationshipGroups("COP", "MAFIA", Relationship.Hate);
                 _cBlip?.Delete();
             }
-            catch (Exception e)
+            catch ( Exception e )
             {
                 Log.Error(e.ToString());
                 End();
@@ -130,14 +130,14 @@ internal class Mafia2 : Callout
             _onScene = true;
         }
 
-        if (_onScene && Game.LocalPlayer.Character.DistanceTo(_callPos) > 120f) End();
+        if ( _onScene && Game.LocalPlayer.Character.DistanceTo(_callPos) > 120f ) End();
         base.Process();
     }
 
     public override void End()
     {
-        foreach (var mafiaCars in _mafiaCars.Where(mafiaCars => mafiaCars.Exists())) mafiaCars.Dismiss();
-        foreach (var mafiaDudes in _mafiaDudes.Where(mafiaDudes => mafiaDudes.Exists())) mafiaDudes.Dismiss();
+        foreach ( var mafiaCars in _mafiaCars.Where(mafiaCars => mafiaCars.Exists()) ) mafiaCars.Dismiss();
+        foreach ( var mafiaDudes in _mafiaDudes.Where(mafiaDudes => mafiaDudes.Exists()) ) mafiaDudes.Dismiss();
         _cBlip?.Delete();
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
         base.End();

@@ -46,7 +46,10 @@ internal class OfficerShootout : SuperCallout
 
         _copVehicle = new Vehicle("POLICE", _cSpawnPoint)
         {
-            IsPersistent = true, Heading = SpawnPoint.Heading, IsSirenOn = true, IsSirenSilent = true
+            IsPersistent = true,
+            Heading = SpawnPoint.Heading,
+            IsSirenOn = true,
+            IsSirenSilent = true
         };
         EntitiesToClear.Add(_copVehicle);
 
@@ -97,7 +100,7 @@ internal class OfficerShootout : SuperCallout
             CalloutEnd(true);
             return;
         }
-        
+
         _cop1.Tasks.FightAgainst(_bad1, 60000);
         _bad1.Tasks.FightAgainst(_cop1, 60000);
         _cop2.Tasks.FightAgainst(_bad2, 60000);
@@ -107,6 +110,6 @@ internal class OfficerShootout : SuperCallout
         Game.SetRelationshipBetweenRelationshipGroups("BADGANG", "PLAYER", Relationship.Hate);
         PyroFunctions.RequestBackup(Enums.BackupType.Code3);
         PyroFunctions.RequestBackup(Enums.BackupType.Code3);
-        if (_cBlip.Exists()) _cBlip.DisableRoute();
+        if ( _cBlip.Exists() ) _cBlip.DisableRoute();
     }
 }

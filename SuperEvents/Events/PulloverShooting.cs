@@ -25,7 +25,7 @@ internal class PulloverShooting : AmbientEvent
         //Setup
         PyroFunctions.FindSideOfRoad(120, 45, out _spawnPoint, out _spawnPointH);
         EventLocation = _spawnPoint;
-        if (_spawnPoint.DistanceTo(Player) < 35f)
+        if ( _spawnPoint.DistanceTo(Player) < 35f )
         {
             EndEvent(true);
             return;
@@ -62,11 +62,11 @@ internal class PulloverShooting : AmbientEvent
                 EndEvent(true);
                 return;
             }
-            
-            switch (_tasks)
+
+            switch ( _tasks )
             {
                 case Tasks.CheckDistance:
-                    if (Game.LocalPlayer.Character.DistanceTo(_spawnPoint) < 30f)
+                    if ( Game.LocalPlayer.Character.DistanceTo(_spawnPoint) < 30f )
                     {
                         _tasks = Tasks.OnScene;
                     }
@@ -75,7 +75,7 @@ internal class PulloverShooting : AmbientEvent
                 case Tasks.OnScene:
                     var choice = new Random(DateTime.Now.Millisecond).Next(1, 4);
                     Log.Info("PulloverShooting event picked scenerio #" + choice);
-                    switch (choice)
+                    switch ( choice )
                     {
                         case 1:
                             _sPed.BlockPermanentEvents = false;
@@ -109,9 +109,9 @@ internal class PulloverShooting : AmbientEvent
                     break;
             }
         }
-        catch (Exception e)
+        catch ( Exception e )
         {
-            Log.Error( e.ToString());
+            Log.Error(e.ToString());
             EndEvent(true);
         }
     }

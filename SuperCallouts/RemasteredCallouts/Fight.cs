@@ -51,7 +51,7 @@ internal class Fight : SuperCallout
 
     internal override void CalloutRunning()
     {
-        if (!OnScene)
+        if ( !OnScene )
         {
             _suspect?.PlayAmbientSpeech("GENERIC_CURSE_MED");
             _victim?.PlayAmbientSpeech("GENERIC_CURSE_MED");
@@ -65,7 +65,7 @@ internal class Fight : SuperCallout
             CalloutEnd(true);
             return;
         }
-        
+
         _blip.Position = SpawnPoint.Position;
         _blip.Scale = 20;
         _blip.DisableRoute();
@@ -73,7 +73,7 @@ internal class Fight : SuperCallout
         _victim.BlockPermanentEvents = false;
         _suspect.BlockPermanentEvents = false;
 
-        switch (new Random(DateTime.Now.Millisecond).Next(1, 4))
+        switch ( new Random(DateTime.Now.Millisecond).Next(1, 4) )
         {
             case 1:
                 Log.Info("Callout Scene 1");

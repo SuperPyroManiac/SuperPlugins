@@ -24,7 +24,7 @@ internal class OpenCarry : AmbientEvent
         //Setup
         PyroFunctions.FindSideOfRoad(120, 45, out _spawnPoint, out _spawnPointH);
         EventLocation = _spawnPoint;
-        if (_spawnPoint.DistanceTo(Player) < 35f)
+        if ( _spawnPoint.DistanceTo(Player) < 35f )
         {
             EndEvent(true);
             return;
@@ -55,15 +55,15 @@ internal class OpenCarry : AmbientEvent
             EndEvent(true);
             return;
         }
-        
+
         Game.DisplaySubtitle("~g~You: ~s~Hey there! I want to speak to you about that assault rifle.", 3000);
         _bad.Tasks.Clear();
         Log.Info("OpenCarry event picked scenerio #" + _choice);
         NativeFunction.Natives.x5AD23D40115353AC(_bad, Player, 2500);
         GameFiber.Wait(3000);
         LHandle pursuit;
-        
-        switch (_choice)
+
+        switch ( _choice )
         {
             case 1:
                 Game.DisplaySubtitle("~r~" + _name + ": ~s~It's.. It's my right.. I'll leave im sorry! Please leave me alone!", 3000);

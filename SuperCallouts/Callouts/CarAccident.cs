@@ -65,7 +65,7 @@ internal class CarAccident : SuperCallout
 
     protected override void Interactions(UIMenu sender, UIMenuItem selItem, int index)
     {
-        if (selItem == _callEms)
+        if ( selItem == _callEms )
         {
             Game.DisplaySubtitle(
                 "~g~You~s~: Dispatch, we have a vehicle accident, possible hit and run. Looks like someone is inside and injured! I need EMS out here.");

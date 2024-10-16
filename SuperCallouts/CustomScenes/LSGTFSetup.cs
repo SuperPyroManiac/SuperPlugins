@@ -184,7 +184,7 @@ internal static class LsgtfSetup
             SecondaryColor = Color.FromArgb(255, 0, 0, 0),
             PrimaryColor = Color.FromArgb(255, 0, 0, 0),
             ConvertibleRoofState = VehicleConvertibleRoofState.Raised,
-            LockStatus = (VehicleLockStatus)5,
+            LockStatus = ( VehicleLockStatus )5,
             DirtLevel = 4f,
             LicensePlate = "64HTK085",
             CollisionIgnoredEntity = null,

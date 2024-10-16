@@ -32,7 +32,7 @@ internal class StolenDumptruck : SuperCallout
             "A suspect has stolen a very large construction vehicle. Respond ~r~CODE-3");
 
         _cVehicle = new Vehicle("dump", SpawnPoint.Position)
-            { IsPersistent = true, IsStolen = true };
+        { IsPersistent = true, IsStolen = true };
         EntitiesToClear.Add(_cVehicle);
 
         _bad = new Ped(SpawnPoint.Position.Around(15f));

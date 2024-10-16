@@ -98,8 +98,8 @@ internal class CarAccident2 : SuperCallout
             CalloutEnd(true);
             return;
         }
-        
-        if (_victim2.IsDead)
+
+        if ( _victim2.IsDead )
         {
             _speakSuspect!.Enabled = false;
             _speakSuspect.RightLabel = "~r~Dead";
@@ -113,7 +113,7 @@ internal class CarAccident2 : SuperCallout
             CalloutEnd(true);
             return;
         }
-        
+
         _cBlip1?.DisableRoute();
         Questioning.Enabled = true;
         _callFd.Enabled = true;
@@ -125,7 +125,7 @@ internal class CarAccident2 : SuperCallout
 
     protected override void Interactions(UIMenu sender, UIMenuItem selItem, int index)
     {
-        if (selItem == _callFd)
+        if ( selItem == _callFd )
         {
             _callFd.Enabled = false;
             Game.DisplaySubtitle("~g~You~s~: Dispatch, we have an MVA. One person is seriously injured.");
@@ -144,8 +144,8 @@ internal class CarAccident2 : SuperCallout
             CalloutEnd(true);
             return;
         }
-        
-        if (selItem == _speakSuspect)
+
+        if ( selItem == _speakSuspect )
             GameFiber.StartNew(delegate
             {
                 _speakSuspect.Enabled = false;

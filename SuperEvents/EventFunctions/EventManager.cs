@@ -33,7 +33,7 @@ public static class EventManager
         {
             type.GetEventInfo();
         }
-        catch (AttributeExpectedException)
+        catch ( AttributeExpectedException )
         {
             BrokenEvents.Add(type);
             return;
@@ -47,7 +47,7 @@ public static class EventManager
             Priority.High => 3,
             _ => 0
         };
-        while (pri > 0)
+        while ( pri > 0 )
         {
             RegisteredEvents.Add(type);
             pri--;
@@ -59,27 +59,27 @@ public static class EventManager
     {
         try
         {
-            if (BrokenEvents.Count > 0) LogBrokenEvents();
+            if ( BrokenEvents.Count > 0 ) LogBrokenEvents();
             CurrentEvent?.EndEvent(true);
             CurrentEvent = null;
             EventTimer.Start();
-            while (Main.PluginRunning)
+            while ( Main.PluginRunning )
             {
                 GameFiber.Wait(1000);
-                if (CurrentEvent?.HasEnded == true)
+                if ( CurrentEvent?.HasEnded == true )
                 {
                     CurrentEvent = null;
                     EventTimer.Start();
                 }
 
                 EventTimer.Paused = PlayerIsBusy || PyroCommon.Main.EventsPaused;
-                if (EventTimer.Finished && CurrentEvent == null) StartRandomEvent();
+                if ( EventTimer.Finished && CurrentEvent == null ) StartRandomEvent();
             }
         }
-        catch (Exception e) when (e is not ThreadAbortException)
+        catch ( Exception e ) when ( e is not ThreadAbortException )
         {
-            if (e.ToString().Contains("Could not spawn new vehicle")) Log.Error("Vehicle spawn failed! This is likely a mods folder issue and not the plugins fault!\r\n" + e.Message, false);
-            if (e.ToString().Contains("Rage.Exceptions.InvalidHandleableException")) Log.Error("Failed to start callout! Welcome to modded GTA. Not much I can do here.\r\n" + e.Message, false);
+            if ( e.ToString().Contains("Could not spawn new vehicle") ) Log.Error("Vehicle spawn failed! This is likely a mods folder issue and not the plugins fault!\r\n" + e.Message, false);
+            if ( e.ToString().Contains("Rage.Exceptions.InvalidHandleableException") ) Log.Error("Failed to start callout! Welcome to modded GTA. Not much I can do here.\r\n" + e.Message, false);
             else Log.Error(e.ToString());
             EndEvent();
         }
@@ -88,7 +88,7 @@ public static class EventManager
     private static void LogBrokenEvents()
     {
         var message = "~b~SuperEvents\n~w~The following events could not be loaded:\n";
-        foreach (var type in BrokenEvents) message += $"{type.FullName} ";
+        foreach ( var type in BrokenEvents ) message += $"{type.FullName} ";
         Game.DisplayHelp(message);
         Log.Warning(message);
     }
@@ -103,15 +103,15 @@ public static class EventManager
 
     internal static void ForceEvent(string eventName)
     {
-        if (PlayerIsBusy)
+        if ( PlayerIsBusy )
         {
             Log.Info($"Failed to start \"{eventName}\", player is busy.");
             return;
         }
 
         Log.Info($"Generating {eventName} event.");
-        foreach (var currentEvent in RegisteredEvents)
-            if (currentEvent.FullName == eventName)
+        foreach ( var currentEvent in RegisteredEvents )
+            if ( currentEvent.FullName == eventName )
             {
                 StartEvent(currentEvent);
                 return;
@@ -127,7 +127,7 @@ public static class EventManager
         CurrentEvent?.StartEvent();
         EventTimer.Stop();
     }
-    
+
     internal static void PauseEvents()
     {
         PyroCommon.Main.EventsPaused = !PyroCommon.Main.EventsPaused;

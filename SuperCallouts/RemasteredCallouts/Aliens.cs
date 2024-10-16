@@ -62,7 +62,7 @@ internal class Aliens : SuperCallout
         _alien3.SetVariation(5, 0, 0);
         _alien3.IsPersistent = true;
         EntitiesToClear.Add(_alien3);
-        
+
         _cBlip1 = PyroFunctions.CreateSearchBlip(SpawnPoint, Color.Yellow, true, true);
         BlipsToClear.Add(_cBlip1);
     }
@@ -74,7 +74,7 @@ internal class Aliens : SuperCallout
             CalloutEnd(true);
             return;
         }
-        
+
         _alien1.Tasks.GoToEntity(Player);
         _alien2.Tasks.GoToEntity(Player);
         _alien3.Tasks.GoToEntity(Player);
@@ -89,7 +89,7 @@ internal class Aliens : SuperCallout
         GameFiber.Wait(500);
         _cVehicle1.Velocity = new Vector3(0, 0, 70);
         GameFiber.Wait(500);
-        foreach (var entity in EntitiesToClear.Where(entity => entity)) entity.Delete();
+        foreach ( var entity in EntitiesToClear.Where(entity => entity) ) entity.Delete();
         EntitiesToClear.Clear();
         CalloutEnd();
     }

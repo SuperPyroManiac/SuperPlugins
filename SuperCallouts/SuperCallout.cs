@@ -34,7 +34,7 @@ internal abstract class SuperCallout : Callout
         {
             CalloutPrep();
         }
-        catch (Exception e)
+        catch ( Exception e )
         {
             Log.Error(e.ToString());
             CalloutEnd(true);
@@ -59,10 +59,10 @@ internal abstract class SuperCallout : Callout
         ConvoMenu.ParentMenu = MainMenu;
         Questioning.Enabled = false;
         try { CalloutAccepted(); }
-        catch (Exception e)
+        catch ( Exception e )
         {
-            if (e.ToString().Contains("Could not spawn new vehicle")) Log.Error("Vehicle spawn failed! This is likely a mods folder issue and not the plugins fault!\r\n" + e.Message, false);
-            if (e.ToString().Contains("Rage.Exceptions.InvalidHandleableException")) Log.Error("Failed to start callout! Welcome to modded GTA. Not much I can do here.\r\n" + e.Message, false);
+            if ( e.ToString().Contains("Could not spawn new vehicle") ) Log.Error("Vehicle spawn failed! This is likely a mods folder issue and not the plugins fault!\r\n" + e.Message, false);
+            if ( e.ToString().Contains("Rage.Exceptions.InvalidHandleableException") ) Log.Error("Failed to start callout! Welcome to modded GTA. Not much I can do here.\r\n" + e.Message, false);
             else Log.Error(e.ToString());
             CalloutEnd(true);
         }
@@ -78,25 +78,25 @@ internal abstract class SuperCallout : Callout
     {
         try
         {
-            if (CalloutEnded) return;
+            if ( CalloutEnded ) return;
             CalloutRunning();
-            if (!OnScene && Player.DistanceTo(SpawnPoint.Position) < OnSceneDistance)
+            if ( !OnScene && Player.DistanceTo(SpawnPoint.Position) < OnSceneDistance )
             {
                 OnScene = true;
                 Game.DisplayHelp($"Press ~{Settings.Interact.GetInstructionalId()}~ to open interaction menu.");
-                try {GameFiber.StartNew(CalloutOnScene);}
-                catch(Exception e)
+                try { GameFiber.StartNew(CalloutOnScene); }
+                catch ( Exception e )
                 {
                     Log.Error(e.ToString());
                     CalloutEnd(true);
                 }
             }
-            if (Game.IsKeyDown(Settings.EndCall)) CalloutEnd();
-            if (Game.IsKeyDown(Settings.Interact)) MainMenu.Visible = !MainMenu.Visible;
-            if (Player.IsDead) CalloutEnd();
+            if ( Game.IsKeyDown(Settings.EndCall) ) CalloutEnd();
+            if ( Game.IsKeyDown(Settings.Interact) ) MainMenu.Visible = !MainMenu.Visible;
+            if ( Player.IsDead ) CalloutEnd();
             Interaction.ProcessMenus();
         }
-        catch(Exception e)
+        catch ( Exception e )
         {
             Log.Error(e.ToString());
             CalloutEnd(true);
@@ -106,31 +106,31 @@ internal abstract class SuperCallout : Callout
 
     public override void End()
     {
-        if (!CalloutEnded) CalloutEnd();
+        if ( !CalloutEnded ) CalloutEnd();
         base.End();
     }
 
     //Overrides
-    internal virtual void CalloutPrep() {}
-    internal virtual void CalloutAccepted() {}
-    internal virtual void CalloutRunning() {}
-    internal virtual void CalloutOnScene() {}
+    internal virtual void CalloutPrep() { }
+    internal virtual void CalloutAccepted() { }
+    internal virtual void CalloutRunning() { }
+    internal virtual void CalloutOnScene() { }
     internal virtual void CalloutEnd(bool forceCleanup = false)
     {
         CalloutEnded = true;
-        if (forceCleanup)
+        if ( forceCleanup )
         {
-            foreach (var entity in EntitiesToClear.Where(entity => entity.Exists())) entity.Dismiss();
+            foreach ( var entity in EntitiesToClear.Where(entity => entity.Exists()) ) entity.Dismiss();
             Log.Info($"{CalloutName} callout has been forcefully cleaned up.");
             Game.DisplayHelp("~r~Error Detected: ~y~Callout forcefully cleared!");
         }
         else
         {
-            foreach (var entity in EntitiesToClear.Where(entity => entity.Exists())) entity.Dismiss();
+            foreach ( var entity in EntitiesToClear.Where(entity => entity.Exists()) ) entity.Dismiss();
         }
         Game.DisplayHelp("~y~Callout Ended.");
-        foreach (var blip in BlipsToClear.Where(blip => blip.Exists())) blip.Delete();
-        
+        foreach ( var blip in BlipsToClear.Where(blip => blip.Exists()) ) blip.Delete();
+
         Interaction.CloseAllMenus();
         Log.Info($"Ending {CalloutName} Callout.");
         End();
@@ -138,8 +138,8 @@ internal abstract class SuperCallout : Callout
 
     protected virtual void Interactions(UIMenu sender, UIMenuItem selItem, int index)
     {
-        if (selItem == EndCall) CalloutEnd();
+        if ( selItem == EndCall ) CalloutEnd();
     }
 
-    protected virtual void Conversations(UIMenu sender, UIMenuItem selItem, int index){}
+    protected virtual void Conversations(UIMenu sender, UIMenuItem selItem, int index) { }
 }

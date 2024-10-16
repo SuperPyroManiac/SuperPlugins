@@ -47,7 +47,7 @@ internal class AmbulanceEscort : SuperCallout
             "Ambulance has a wounded police officer in critical condition, ensure the ambulance has a clear path to the nearest hospital, get to the scene! High priority, respond ~y~CODE-3");
 
         _cVehicle = new Vehicle("AMBULANCE", SpawnPoint.Position)
-            { Heading = SpawnPoint.Heading, IsPersistent = true, IsSirenOn = true };
+        { Heading = SpawnPoint.Heading, IsPersistent = true, IsSirenOn = true };
         EntitiesToClear.Add(_cVehicle);
 
         _doc1 = new Ped("s_m_m_paramedic_01", SpawnPoint.Position, 0f) { IsPersistent = true, BlockPermanentEvents = true };
@@ -75,8 +75,8 @@ internal class AmbulanceEscort : SuperCallout
             CalloutEnd(true);
             return;
         }
-        
-        if (_cVehicle!.DistanceTo(_hospital) < 15f && OnScene)
+
+        if ( _cVehicle!.DistanceTo(_hospital) < 15f && OnScene )
         {
             _cVehicle.IsSirenSilent = true;
             _doc1!.Tasks.LeaveVehicle(LeaveVehicleFlags.None);
@@ -88,12 +88,12 @@ internal class AmbulanceEscort : SuperCallout
 
     internal override void CalloutOnScene()
     {
-        if ( !_cVehicle || !_doc1 || !_doc2 || !_victim || !_cBlip)
+        if ( !_cVehicle || !_doc1 || !_doc2 || !_victim || !_cBlip )
         {
             CalloutEnd(true);
             return;
         }
-        
+
         Game.DisplayHelp("Ensure the ambulance has a clear path!");
         _cBlip!.DisableRoute();
         _doc1!.Tasks.DriveToPosition(_cVehicle, _hospital, 20f, VehicleDrivingFlags.Emergency, 10f);

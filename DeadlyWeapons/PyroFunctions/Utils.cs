@@ -11,7 +11,7 @@ public static class Utils
     internal static WeaponType GetWeaponType(Weapon weapon)
     {
         var matchingWeaponType = Settings.WeaponTypes.FirstOrDefault(w => w.Name == weapon.WeaponType);
-        if (matchingWeaponType == null)
+        if ( matchingWeaponType == null )
         {
             return new WeaponType
             {
@@ -23,8 +23,8 @@ public static class Utils
     }
     internal static Weapon GetWeaponByHash(WeaponHash weaponHash)
     {
-        var matchingWeapon = Settings.Weapons.FirstOrDefault(w => w.WeaponHash == (long)weaponHash);
-        if (matchingWeapon == null)
+        var matchingWeapon = Settings.Weapons.FirstOrDefault(w => w.WeaponHash == ( long )weaponHash);
+        if ( matchingWeapon == null )
         {
             return new Weapon
             {
@@ -36,12 +36,12 @@ public static class Utils
         }
         return matchingWeapon;
     }
-    
+
     internal static float RandomizeValue(float input)
     {
-        if (Settings.DamageRandomizer == 0) return input;
-        var randomAdjustment = (float)(new Random().NextDouble() * (Settings.DamageRandomizer * 2)) - Settings.DamageRandomizer;
+        if ( Settings.DamageRandomizer == 0 ) return input;
+        var randomAdjustment = ( float )( new Random().NextDouble() * ( Settings.DamageRandomizer * 2 ) ) - Settings.DamageRandomizer;
         var newValue = input + randomAdjustment;
-        return (int)Math.Max(newValue, 1);
+        return ( int )Math.Max(newValue, 1);
     }
 }

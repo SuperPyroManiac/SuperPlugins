@@ -36,7 +36,7 @@ internal class IndecentExposure : SuperCallout
         _naked.BlockPermanentEvents = true;
         _naked.Tasks.Wander();
         EntitiesToClear.Add(_naked);
-        
+
         _blip = _naked.AttachBlip();
         _blip.EnableRoute(Color.Yellow);
         _blip.Color = Color.Yellow;
@@ -50,10 +50,10 @@ internal class IndecentExposure : SuperCallout
             CalloutEnd(true);
             return;
         }
-        
+
         _blip?.Delete();
         _naked.BlockPermanentEvents = false;
-        switch (_rNd)
+        switch ( _rNd )
         {
             case 0:
                 var pursuit = Functions.CreatePursuit();

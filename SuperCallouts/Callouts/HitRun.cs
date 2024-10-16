@@ -97,7 +97,7 @@ internal class HitRun : SuperCallout
 
     internal override void CalloutRunning()
     {
-        if (!_onScene && Game.LocalPlayer.Character.DistanceTo(_cVehicle1) < 20f)
+        if ( !_onScene && Game.LocalPlayer.Character.DistanceTo(_cVehicle1) < 20f )
         {
             _onScene = true;
             Questioning.Enabled = true;
@@ -105,7 +105,7 @@ internal class HitRun : SuperCallout
             Game.DisplayNotification($"Speak with the victim to continue! Press: ~{Settings.Interact.GetInstructionalId()}~");
         }
 
-        if (_startPursuit && !_onScene2 && Game.LocalPlayer.Character.DistanceTo(_cVehicle2) < 50f)
+        if ( _startPursuit && !_onScene2 && Game.LocalPlayer.Character.DistanceTo(_cVehicle2) < 50f )
         {
             _startPursuit = false;
             _onScene2 = true;
@@ -116,8 +116,8 @@ internal class HitRun : SuperCallout
             _cBlip3?.Delete();
         }
 
-        if (_onScene2 && Game.LocalPlayer.Character.DistanceTo(_cVehicle2) < 50f &&
-            !Functions.IsPursuitStillRunning(_pursuit))
+        if ( _onScene2 && Game.LocalPlayer.Character.DistanceTo(_cVehicle2) < 50f &&
+            !Functions.IsPursuitStillRunning(_pursuit) )
         {
             _onScene2 = false;
             Game.DisplayHelp($"Press ~{Settings.Interact.GetInstructionalId()}~ to open interaction menu.");
@@ -133,8 +133,8 @@ internal class HitRun : SuperCallout
             CalloutEnd(true);
             return;
         }
-        
-        if (selItem == _speakVictim)
+
+        if ( selItem == _speakVictim )
             GameFiber.StartNew(delegate
             {
                 _speakVictim.Enabled = false;
@@ -173,7 +173,7 @@ internal class HitRun : SuperCallout
                 _cBlip3.Color = Color.Red;
                 BlipsToClear.Add(_cBlip3);
             });
-        if (selItem == _speakSuspect1)
+        if ( selItem == _speakSuspect1 )
             GameFiber.StartNew(delegate
             {
                 _speakSuspect1.Enabled = false;
@@ -185,7 +185,7 @@ internal class HitRun : SuperCallout
                 _bad1.PlayAmbientSpeech("GENERIC_CURSE_MED");
                 Game.DisplaySubtitle("~r~" + _name2 + "~s~: Screw you pig, I aint talkin to you!", 5000);
             });
-        if (selItem == _speakSuspect2)
+        if ( selItem == _speakSuspect2 )
             GameFiber.StartNew(delegate
             {
                 _speakSuspect2.Enabled = false;

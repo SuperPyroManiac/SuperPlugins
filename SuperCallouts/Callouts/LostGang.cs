@@ -86,15 +86,15 @@ internal class LostGang : Callout
         _bikers.Add(_biker8);
         _bikers.Add(_biker9);
         _bikers.Add(_biker10);
-        foreach (var vehicless in _cVehicles) vehicless.IsPersistent = true;
-        foreach (var bikerss in _bikers) bikerss.IsPersistent = true;
+        foreach ( var vehicless in _cVehicles ) vehicless.IsPersistent = true;
+        foreach ( var bikerss in _bikers ) bikerss.IsPersistent = true;
         return base.OnCalloutAccepted();
     }
 
     public override void Process()
     {
-        if (Game.IsKeyDown(Settings.EndCall)) End();
-        if (!_onScene && Game.LocalPlayer.Character.DistanceTo(_spawnPoint) < 100f)
+        if ( Game.IsKeyDown(Settings.EndCall) ) End();
+        if ( !_onScene && Game.LocalPlayer.Character.DistanceTo(_spawnPoint) < 100f )
         {
             _onScene = true;
             _cBlip?.DisableRoute();
@@ -104,7 +104,7 @@ internal class LostGang : Callout
                 "DISPATCH_SWAT_UNITS_FROM_01 IN_OR_ON_POSITION UNITS_RESPOND_CODE_99_01", _spawnPoint);
             Game.SetRelationshipBetweenRelationshipGroups("LOSTERS", "COP", Relationship.Hate);
             Game.SetRelationshipBetweenRelationshipGroups("LOSTERS", "PLAYER", Relationship.Hate);
-            foreach (var bikerss in _bikers)
+            foreach ( var bikerss in _bikers )
             {
                 PyroFunctions.SetWanted(bikerss, true);
                 bikerss.Tasks.FightAgainstClosestHatedTarget(50f);
@@ -114,18 +114,18 @@ internal class LostGang : Callout
             PyroFunctions.RequestBackup(Enums.BackupType.Code3);
         }
 
-        if (_onScene && Game.LocalPlayer.Character.DistanceTo(_spawnPoint) > 90f) End();
+        if ( _onScene && Game.LocalPlayer.Character.DistanceTo(_spawnPoint) > 90f ) End();
         base.Process();
     }
 
     public override void End()
     {
-        foreach (var bikerss in _bikers.OfType<Ped>()) bikerss.Dismiss(); 
-        foreach (var vehicless in _cVehicles.OfType<Vehicle>()) vehicless.Dismiss();
-        if (_cop1) _cop1.Dismiss();
-        if (_cop2) _cop2.Dismiss();
-        if (_cop3) _cop3.Dismiss();
-        if (_cBlip) _cBlip.Delete();
+        foreach ( var bikerss in _bikers.OfType<Ped>() ) bikerss.Dismiss();
+        foreach ( var vehicless in _cVehicles.OfType<Vehicle>() ) vehicless.Dismiss();
+        if ( _cop1 ) _cop1.Dismiss();
+        if ( _cop2 ) _cop2.Dismiss();
+        if ( _cop3 ) _cop3.Dismiss();
+        if ( _cBlip ) _cBlip.Delete();
 
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
         base.End();

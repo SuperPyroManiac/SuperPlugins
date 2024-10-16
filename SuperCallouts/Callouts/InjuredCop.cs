@@ -42,7 +42,7 @@ internal class InjuredCop : SuperCallout
         _cop = new Ped("s_m_y_cop_01", SpawnPoint.Position.Around2D(5), 0);
         _cop.IsPersistent = true;
         _cop.BlockPermanentEvents = true;
-        switch (_rNd)
+        switch ( _rNd )
         {
             case 0:
                 _cop.WarpIntoVehicle(_vehicle, -1);
@@ -74,20 +74,20 @@ internal class InjuredCop : SuperCallout
             CalloutEnd(true);
             return;
         }
-        
+
         Game.DisplayNotification("Investigate the area.");
         _blip?.Delete();
-        switch (_rNd)
+        switch ( _rNd )
         {
             case 0:
-                if (_cop.Exists())
+                if ( _cop.Exists() )
                 {
                     _cop.Kill();
                     _cop.BlockPermanentEvents = false;
                 }
                 break;
             case 1:
-                if (_cop.Exists()) _cop.BlockPermanentEvents = false;
+                if ( _cop.Exists() ) _cop.BlockPermanentEvents = false;
                 break;
             case 2:
                 break;

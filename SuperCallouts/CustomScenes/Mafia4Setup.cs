@@ -11,7 +11,7 @@ namespace SuperCallouts.CustomScenes;
 
 internal class Mafia4Setup
 {
-//ConstructMafia4Scene(out fiboffice, out fiboffice2, out fiboffice3, out fiboffice4, out doctor, out doctor2, out fiboffice5, out fiboffice6, out fiboffice7, out benson, out burrito, out burrito2, out burrito3, out propMbCargoa);
+    //ConstructMafia4Scene(out fiboffice, out fiboffice2, out fiboffice3, out fiboffice4, out doctor, out doctor2, out fiboffice5, out fiboffice6, out fiboffice7, out benson, out burrito, out burrito2, out burrito3, out propMbCargoa);
 
     internal static void ConstructMafia4Scene(out Ped fiboffice, out Ped fiboffice2, out Ped fiboffice3,
         out Ped fiboffice4, out Ped fiboffice5, out Ped fiboffice6, out Ped fiboffice7, out Ped doctor, out Ped doctor2,
@@ -194,7 +194,7 @@ internal class Mafia4Setup
             PrimaryColor = Color.FromArgb(255, 240, 240, 240),
             FuelLevel = 80f,
             ConvertibleRoofState = VehicleConvertibleRoofState.Raised,
-            LockStatus = (VehicleLockStatus)1,
+            LockStatus = ( VehicleLockStatus )1,
             DirtLevel = 14f,
             LicensePlate = "80VSS783",
             CollisionIgnoredEntity = null,
@@ -216,7 +216,7 @@ internal class Mafia4Setup
             PrimaryColor = Color.FromArgb(255, 18, 17, 16),
             FuelLevel = 60f,
             ConvertibleRoofState = VehicleConvertibleRoofState.Raised,
-            LockStatus = (VehicleLockStatus)1,
+            LockStatus = ( VehicleLockStatus )1,
             DirtLevel = 5f,
             LicensePlate = "09VUH533",
             CollisionIgnoredEntity = null,
@@ -238,7 +238,7 @@ internal class Mafia4Setup
             PrimaryColor = Color.FromArgb(255, 8, 8, 8),
             FuelLevel = 60f,
             ConvertibleRoofState = VehicleConvertibleRoofState.Raised,
-            LockStatus = (VehicleLockStatus)1,
+            LockStatus = ( VehicleLockStatus )1,
             DirtLevel = 6f,
             LicensePlate = "82LJQ362",
             CollisionIgnoredEntity = null,
@@ -260,7 +260,7 @@ internal class Mafia4Setup
             PrimaryColor = Color.FromArgb(255, 240, 240, 240),
             FuelLevel = 60f,
             ConvertibleRoofState = VehicleConvertibleRoofState.Raised,
-            LockStatus = (VehicleLockStatus)1,
+            LockStatus = ( VehicleLockStatus )1,
             LicensePlate = "61KIP155",
             CollisionIgnoredEntity = null,
             AngularVelocity = new Rotator(0f, 0f, 0f),

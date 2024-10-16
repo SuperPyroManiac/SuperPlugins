@@ -34,10 +34,10 @@ internal class Fire : SuperCallout
 
         _cVehicle = PyroFunctions.SpawnCar(SpawnPoint);
         EntitiesToClear.Add(_cVehicle);
-        
+
         _partHandleBigFire = Particles.StartLoopedParticlesOnEntity("scr_trevor3", "scr_trev3_trailer_plume", _cVehicle,
             new Vector3(0, 1f, 0), Vector3.Zero, 0.7f);
-        
+
         _partHandleMistySmoke = Particles.StartLoopedParticlesOnEntity("scr_agencyheistb", "scr_env_agency3b_smoke", _cVehicle,
             new Vector3(0, 1f, 0), Vector3.Zero, .7f);
 
@@ -56,7 +56,7 @@ internal class Fire : SuperCallout
 
         GameFiber.Wait(5000);
         _cVehicle?.StartFire(true);
-        
+
         GameFiber.Wait(12000);
         Particles.StopLoopedParticles(_partHandleBigFire);
     }

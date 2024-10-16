@@ -59,7 +59,7 @@ internal class Trespassing : SuperCallout
             "Caller reports an individual trespassing and causing a disturbance. ~r~CODE-2");
 
         _suspect = new Ped(SpawnPoint.Position, SpawnPoint.Heading)
-            { IsPersistent = true, BlockPermanentEvents = true };
+        { IsPersistent = true, BlockPermanentEvents = true };
         _suspect.SetDrunk(Enums.DrunkState.Sloshed);
         _suspect.Metadata.stpAlcoholDetected = true;
         _name = Functions.GetPersonaForPed(_suspect).FullName;
@@ -82,9 +82,9 @@ internal class Trespassing : SuperCallout
             CalloutEnd(true);
             return;
         }
-        
-        if (!OnScene) _suspect.PlayAmbientSpeech("GENERIC_CURSE_MED");
-        if (_suspect.IsDead)
+
+        if ( !OnScene ) _suspect.PlayAmbientSpeech("GENERIC_CURSE_MED");
+        if ( _suspect.IsDead )
         {
             _speakSuspect!.Enabled = false;
             _speakSuspect.RightLabel = "~r~Dead";
@@ -98,7 +98,7 @@ internal class Trespassing : SuperCallout
             CalloutEnd(true);
             return;
         }
-        
+
         _cBlip?.DisableRoute();
         Questioning.Enabled = true;
         _suspect.Face(Game.LocalPlayer.Character);
@@ -114,8 +114,8 @@ internal class Trespassing : SuperCallout
                 CalloutEnd(true);
                 return;
             }
-            
-            if (selItem == _speakSuspect)
+
+            if ( selItem == _speakSuspect )
                 GameFiber.StartNew(delegate
                 {
                     _speakSuspect.Enabled = false;
@@ -135,7 +135,7 @@ internal class Trespassing : SuperCallout
                     Game.DisplaySubtitle(
                         "~g~You~s~: Alright, well let's step outside and have a talk about this.",
                         4000);
-                    switch (_cScene)
+                    switch ( _cScene )
                     {
                         case 0:
                             _suspect.PlayAmbientSpeech("GENERIC_CURSE_MED");
@@ -167,7 +167,7 @@ internal class Trespassing : SuperCallout
                 });
             base.Conversations(sender, selItem, index);
         }
-        catch (Exception e)
+        catch ( Exception e )
         {
             Log.Error(e.ToString());
             End();

@@ -65,9 +65,9 @@ internal class CarAccident3 : SuperCallout
         BlipsToClear.Add(_eBlip);
 
         Log.Info("Car Accident Scenario #" + _choice);
-        if (!_eVehicle.Exists() || !_eVehicle2.Exists())
+        if ( !_eVehicle.Exists() || !_eVehicle2.Exists() )
         { CalloutEnd(true); return; }
-        switch (_choice)
+        switch ( _choice )
         {
             case 0: //Peds fight
                 _ePed.Tasks.LeaveVehicle(LeaveVehicleFlags.LeaveDoorOpen);
@@ -97,14 +97,14 @@ internal class CarAccident3 : SuperCallout
             CalloutEnd(true);
             return;
         }
-        
+
         Game.DisplayNotification("web_lossantospolicedept", "web_lossantospolicedept",
             "~y~On Scene",
             "~r~Car Accident", "Investigate the scene.");
         _eBlip?.DisableRoute();
         _ePed.BlockPermanentEvents = false;
         _ePed2.BlockPermanentEvents = false;
-        switch (_choice)
+        switch ( _choice )
         {
             case 0: //Peds fight
                 _ePed.Tasks.FightAgainst(_ePed2);

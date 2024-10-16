@@ -11,7 +11,7 @@ public static class Peds
     public static void SetWalkAnimation(this Ped ped, Enums.ScAnimationsSet animationsSet)
     {
         var chosenSet = string.Empty;
-        switch (animationsSet)
+        switch ( animationsSet )
         {
             case Enums.ScAnimationsSet.Drunk:
                 chosenSet = "move_m@drunk@verydrunk";
@@ -36,7 +36,7 @@ public static class Peds
         //     PedInfo.SetResistance(ped, resistanceAction, walkAway, resistanceChance);
         //     return;
         // }
-        switch (resistanceAction)
+        switch ( resistanceAction )
         {
             case Enums.ResistanceAction.Flee:
                 PyroFunctions.StartPursuit(false, false, ped);
@@ -54,13 +54,13 @@ public static class Peds
                 break;
         }
     }
-    
+
     public static void SetWanted(this Ped ped, bool isWanted)
     {
-        if (!ped.Exists()) return;
+        if ( !ped.Exists() ) return;
         Functions.GetPersonaForPed(ped).Wanted = isWanted;
     }
-    
+
     public static bool GetWanted(this Ped ped)
     {
         return Functions.GetPersonaForPed(ped).Wanted;
@@ -68,7 +68,7 @@ public static class Peds
 
     public static void SetDrunk(this Ped ped, Enums.DrunkState drunkState)
     {
-        if (!ped) return;
+        if ( !ped ) return;
         GameFiber.StartNew(delegate
         {
             GameFiber.Yield();
@@ -82,14 +82,14 @@ public static class Peds
             NativeFunction.Natives.x95D2D383D5396B8A(ped, true);
         });
     }
-    
+
     public static void SetLicenseStatus(this Ped ped, Enums.Permits permits, Enums.PermitStatus status)
     {
         //if (Main.UsingPr) PedInfo.SetPermit(ped, permits, status);
-        switch (permits)
+        switch ( permits )
         {
             case Enums.Permits.Drivers:
-                switch (status)
+                switch ( status )
                 {
                     case Enums.PermitStatus.None:
                         Functions.GetPersonaForPed(ped).ELicenseState = ELicenseState.None;
@@ -106,7 +106,7 @@ public static class Peds
                 }
                 break;
             case Enums.Permits.Guns:
-                switch (status)
+                switch ( status )
                 {
                     case Enums.PermitStatus.None or Enums.PermitStatus.Revoked or Enums.PermitStatus.Expired:
                         ped.Metadata.hasGunPermit = false;

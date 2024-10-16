@@ -20,7 +20,7 @@ internal class CarFire : AmbientEvent
         //Setup
         PyroFunctions.FindSideOfRoad(120, 45, out _spawnPoint, out _);
         EventLocation = _spawnPoint;
-        if (_spawnPoint.DistanceTo(Player) < 35f)
+        if ( _spawnPoint.DistanceTo(Player) < 35f )
         {
             EndEvent(true);
             return;
@@ -35,10 +35,10 @@ internal class CarFire : AmbientEvent
     {
         try
         {
-            switch (_tasks)
+            switch ( _tasks )
             {
                 case Tasks.CheckDistance:
-                    if (Game.LocalPlayer.Character.DistanceTo(_spawnPoint) < 25f)
+                    if ( Game.LocalPlayer.Character.DistanceTo(_spawnPoint) < 25f )
                     {
                         _tasks = Tasks.OnScene;
                     }
@@ -52,7 +52,7 @@ internal class CarFire : AmbientEvent
                         EndEvent(true);
                         break;
                     }
-                    switch (choice)
+                    switch ( choice )
                     {
                         case 1:
                             PyroFunctions.FireControl(_spawnPoint.Around2D(4f), 24, true);
@@ -83,9 +83,9 @@ internal class CarFire : AmbientEvent
                     break;
             }
         }
-        catch (Exception e)
+        catch ( Exception e )
         {
-            Log.Error( e.ToString());
+            Log.Error(e.ToString());
             EndEvent(true);
         }
     }

@@ -71,7 +71,7 @@ internal class AngryAnimal : SuperCallout
             CalloutEnd(true);
             return;
         }
-        
+
         _cBlip?.DisableRoute();
         _animal.Tasks.FightAgainst(_victim, -1);
         _victim.Tasks.ReactAndFlee(_animal);
@@ -80,7 +80,7 @@ internal class AngryAnimal : SuperCallout
 
     protected override void Interactions(UIMenu sender, UIMenuItem selItem, int index)
     {
-        if (selItem == _callEms)
+        if ( selItem == _callEms )
         {
             Game.DisplaySubtitle(
                 "~g~You~s~: Dispatch, we have a person that has been attacked by an animal! We need medical here ASAP!");

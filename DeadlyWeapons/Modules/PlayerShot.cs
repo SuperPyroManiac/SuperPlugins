@@ -16,11 +16,11 @@ internal static class PlayerShot
         if ( Player.IsDead ) return;
         if ( victim != Player ) return;
         if ( damageInfo.WeaponInfo.Group != DamageGroup.Bullet ) return;
-        if (Settings.Debug)
+        if ( Settings.Debug )
         {
             Log.Info("[DEBUG]: Detailed damage info Start");
             Log.Info(
-                $"\n{victim.Model.Name} ({damageInfo.Damage} Dmg) ({(victim.IsAlive ? "Alive" : "Dead")})" +
+                $"\n{victim.Model.Name} ({damageInfo.Damage} Dmg) ({( victim.IsAlive ? "Alive" : "Dead" )})" +
                 $"\n{attacker?.Model.Name ?? "None"}" +
                 $"\n{damageInfo.WeaponInfo.Hash.ToString()} {damageInfo.WeaponInfo.Type.ToString()} {damageInfo.WeaponInfo.Group.ToString()}" +
                 $"\n{damageInfo.BoneInfo.BoneId.ToString()} {damageInfo.BoneInfo.Limb.ToString()} {damageInfo.BoneInfo.BodyRegion.ToString()}");
@@ -30,61 +30,61 @@ internal static class PlayerShot
         }
 
         var weapon = Utils.GetWeaponByHash(( Rage.WeaponHash )damageInfo.WeaponInfo.Hash);
-        switch (damageInfo.BoneInfo.BodyRegion)
+        switch ( damageInfo.BoneInfo.BodyRegion )
         {
             case BodyRegion.Head:
-                if (Player.Armor > 5)
+                if ( Player.Armor > 5 )
                 {
-                    var headDamage = (int)Utils.RandomizeValue((Settings.PlayerArmorValues.Head - damageInfo.Damage) * Utils.GetWeaponType(weapon).DamageMultiplier);
+                    var headDamage = ( int )Utils.RandomizeValue(( Settings.PlayerArmorValues.Head - damageInfo.Damage ) * Utils.GetWeaponType(weapon).DamageMultiplier);
                     Log.Info($"Player shot in head with armor! Damage: {headDamage}");
                     Player.Health -= headDamage;
                 }
                 else
                 {
-                    var withoutArmor = (int)Utils.RandomizeValue((Settings.PlayerValues.Head - damageInfo.Damage) * Utils.GetWeaponType(weapon).DamageMultiplier);
+                    var withoutArmor = ( int )Utils.RandomizeValue(( Settings.PlayerValues.Head - damageInfo.Damage ) * Utils.GetWeaponType(weapon).DamageMultiplier);
                     Log.Info($"Player shot in head without armor! Damage: {withoutArmor}");
                     Player.Health -= withoutArmor;
                 }
                 break;
             case BodyRegion.Torso:
-                if (Player.Armor > 5)
+                if ( Player.Armor > 5 )
                 {
-                    var torsoDamage = (int)Utils.RandomizeValue((Settings.PlayerArmorValues.Torso - damageInfo.Damage) * Utils.GetWeaponType(weapon).DamageMultiplier);
+                    var torsoDamage = ( int )Utils.RandomizeValue(( Settings.PlayerArmorValues.Torso - damageInfo.Damage ) * Utils.GetWeaponType(weapon).DamageMultiplier);
                     Log.Info($"Player shot in torso with armor! Damage: {torsoDamage}");
                     Player.Health -= torsoDamage;
                 }
                 else
                 {
-                    var torsoDamageWithoutArmor = (int)Utils.RandomizeValue((Settings.PlayerValues.Torso - damageInfo.Damage) * Utils.GetWeaponType(weapon).DamageMultiplier);
+                    var torsoDamageWithoutArmor = ( int )Utils.RandomizeValue(( Settings.PlayerValues.Torso - damageInfo.Damage ) * Utils.GetWeaponType(weapon).DamageMultiplier);
                     Log.Info($"Player shot in torso without armor! Damage: {torsoDamageWithoutArmor}");
                     Player.Health -= torsoDamageWithoutArmor;
                 }
                 break;
             case BodyRegion.Arms:
-                if (Player.Armor > 5)
+                if ( Player.Armor > 5 )
                 {
-                    var armsDamage = (int)Utils.RandomizeValue((Settings.PlayerArmorValues.Arms - damageInfo.Damage) * Utils.GetWeaponType(weapon).DamageMultiplier);
+                    var armsDamage = ( int )Utils.RandomizeValue(( Settings.PlayerArmorValues.Arms - damageInfo.Damage ) * Utils.GetWeaponType(weapon).DamageMultiplier);
                     Log.Info($"Player shot in arms with armor! Damage: {armsDamage}");
                     Player.Health -= armsDamage;
                 }
                 else
                 {
-                    var armsDamageWithoutArmor = (int)Utils.RandomizeValue((Settings.PlayerValues.Arms - damageInfo.Damage) * Utils.GetWeaponType(weapon).DamageMultiplier);
+                    var armsDamageWithoutArmor = ( int )Utils.RandomizeValue(( Settings.PlayerValues.Arms - damageInfo.Damage ) * Utils.GetWeaponType(weapon).DamageMultiplier);
                     Log.Info($"Player shot in arms without armor! Damage: {armsDamageWithoutArmor}");
                     Player.Health -= armsDamageWithoutArmor;
                 }
                 break;
             case BodyRegion.Legs:
-                if (new Random(DateTime.Now.Millisecond).Next(0, 3) == 0) Player.Tasks.Ragdoll();
-                if (Player.Armor > 5)
+                if ( new Random(DateTime.Now.Millisecond).Next(0, 3) == 0 ) Player.Tasks.Ragdoll();
+                if ( Player.Armor > 5 )
                 {
-                    var legsDamage = (int)Utils.RandomizeValue((Settings.PlayerArmorValues.Legs - damageInfo.Damage) * Utils.GetWeaponType(weapon).DamageMultiplier);
+                    var legsDamage = ( int )Utils.RandomizeValue(( Settings.PlayerArmorValues.Legs - damageInfo.Damage ) * Utils.GetWeaponType(weapon).DamageMultiplier);
                     Log.Info($"Player shot in legs with armor! Damage: {legsDamage}");
                     Player.Health -= legsDamage;
                 }
                 else
                 {
-                    var legsDamageWithoutArmor = (int)Utils.RandomizeValue((Settings.PlayerValues.Legs - damageInfo.Damage) * Utils.GetWeaponType(weapon).DamageMultiplier);
+                    var legsDamageWithoutArmor = ( int )Utils.RandomizeValue(( Settings.PlayerValues.Legs - damageInfo.Damage ) * Utils.GetWeaponType(weapon).DamageMultiplier);
                     Log.Info($"Player shot in legs without armor! Damage: {legsDamageWithoutArmor}");
                     Player.Health -= legsDamageWithoutArmor;
                 }

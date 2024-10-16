@@ -116,8 +116,8 @@ internal class Lsgtf : Callout
             End();
             return;
         }
-        
-        if (selItem == _startConv)
+
+        if ( selItem == _startConv )
             GameFiber.StartNew(delegate
             {
                 _startConv.Enabled = false;
@@ -142,7 +142,7 @@ internal class Lsgtf : Callout
                 _mainMenu!.AddItem(_startConv2 = new UIMenuItem("Yes, lets start."));
                 _mainMenu.AddItem(_startConv3 = new UIMenuItem("No, I need a minute."));
             });
-        if (selItem == _startConv2)
+        if ( selItem == _startConv2 )
             GameFiber.StartNew(delegate
             {
                 _startConv2.Enabled = false;
@@ -168,7 +168,7 @@ internal class Lsgtf : Callout
                 _bad7.Tasks.Wander();
                 _bad8.Tasks.Wander();
             });
-        if (selItem == _startConv3)
+        if ( selItem == _startConv3 )
             GameFiber.StartNew(delegate
             {
                 _mainMenu!.Visible = false;
@@ -183,17 +183,17 @@ internal class Lsgtf : Callout
             End();
             return;
         }
-        
+
         _conversation!.ProcessMenus();
-        if (!_meeting && !_cool && Game.LocalPlayer.Character.DistanceTo(_meetingP) < 15f)
+        if ( !_meeting && !_cool && Game.LocalPlayer.Character.DistanceTo(_meetingP) < 15f )
         {
             Game.DisplayHelp("Speak with the FIB agents. Press " + Settings.Interact + " When close.", 12000);
             _cool = true;
         }
 
-        if (Game.IsKeyDown(Settings.Interact) && !_meeting) _mainMenu!.Visible = !_mainMenu.Visible;
-        if (Game.IsKeyDown(Settings.EndCall)) End();
-        if (!_onScene && _meeting && Game.LocalPlayer.Character.DistanceTo(_raidpoint) < 50f)
+        if ( Game.IsKeyDown(Settings.Interact) && !_meeting ) _mainMenu!.Visible = !_mainMenu.Visible;
+        if ( Game.IsKeyDown(Settings.EndCall) ) End();
+        if ( !_onScene && _meeting && Game.LocalPlayer.Character.DistanceTo(_raidpoint) < 50f )
         {
             _fib1.Tasks.DriveToPosition(_raidpoint, 10f, VehicleDrivingFlags.Emergency, 10f);
             _cVehicle.IsSirenOn = true;
@@ -232,45 +232,45 @@ internal class Lsgtf : Callout
             });
         }
 
-        if (_onScene && _bad1.IsDead && _bad2.IsDead && _bad3.IsDead && _bad4.IsDead && _bad5.IsDead &&
+        if ( _onScene && _bad1.IsDead && _bad2.IsDead && _bad3.IsDead && _bad4.IsDead && _bad5.IsDead &&
             _bad6.IsDead &&
-            _bad7.IsDead && _bad8.IsDead)
+            _bad7.IsDead && _bad8.IsDead )
             Game.DisplaySubtitle(
                 "~r~Radio: ~s~Well that was to be expected. Clear the scene or leave and we will take care of it.",
                 7000);
-        if (_onScene && Game.LocalPlayer.Character.DistanceTo(_bad1.Position) > 100f &&
+        if ( _onScene && Game.LocalPlayer.Character.DistanceTo(_bad1.Position) > 100f &&
             Game.LocalPlayer.Character.DistanceTo(_bad2.Position) > 100f &&
             Game.LocalPlayer.Character.DistanceTo(_bad3.Position) > 100f &&
             Game.LocalPlayer.Character.DistanceTo(_bad4.Position) > 100f &&
             Game.LocalPlayer.Character.DistanceTo(_bad5.Position) > 100f &&
             Game.LocalPlayer.Character.DistanceTo(_bad6.Position) > 100f &&
             Game.LocalPlayer.Character.DistanceTo(_bad7.Position) > 100f &&
-            Game.LocalPlayer.Character.DistanceTo(_bad8.Position) > 100f) End();
+            Game.LocalPlayer.Character.DistanceTo(_bad8.Position) > 100f ) End();
         base.Process();
     }
 
     public override void End()
     {
-        if (_fib1 ) _fib1.Dismiss();
-        if (_fib2 ) _fib2.Dismiss();
-        if (_cVehicle ) _cVehicle.Dismiss();
-        if (_bad1 ) _bad1.Dismiss();
-        if (_bad2 ) _bad2.Dismiss();
-        if (_bad3 ) _bad3.Dismiss();
-        if (_bad4 ) _bad4.Dismiss();
-        if (_bad5 ) _bad5.Dismiss();
-        if (_bad6 ) _bad6.Dismiss();
-        if (_bad7 ) _bad7.Dismiss();
-        if (_bad8 ) _bad8.Dismiss();
-        if (_cBlip1 ) _cBlip1.Delete();
-        if (_cBlip2 ) _cBlip2.Delete();
-        if (_cBlip3 ) _cBlip3.Delete();
-        if (_cBlip4 ) _cBlip4.Delete();
-        if (_cBlip5 ) _cBlip5.Delete();
-        if (_cBlip6 ) _cBlip6.Delete();
-        if (_cBlip7 ) _cBlip7.Delete();
-        if (_cBlip8 ) _cBlip8.Delete();
-        if (_meetingB ) _meetingB.Delete();
+        if ( _fib1 ) _fib1.Dismiss();
+        if ( _fib2 ) _fib2.Dismiss();
+        if ( _cVehicle ) _cVehicle.Dismiss();
+        if ( _bad1 ) _bad1.Dismiss();
+        if ( _bad2 ) _bad2.Dismiss();
+        if ( _bad3 ) _bad3.Dismiss();
+        if ( _bad4 ) _bad4.Dismiss();
+        if ( _bad5 ) _bad5.Dismiss();
+        if ( _bad6 ) _bad6.Dismiss();
+        if ( _bad7 ) _bad7.Dismiss();
+        if ( _bad8 ) _bad8.Dismiss();
+        if ( _cBlip1 ) _cBlip1.Delete();
+        if ( _cBlip2 ) _cBlip2.Delete();
+        if ( _cBlip3 ) _cBlip3.Delete();
+        if ( _cBlip4 ) _cBlip4.Delete();
+        if ( _cBlip5 ) _cBlip5.Delete();
+        if ( _cBlip6 ) _cBlip6.Delete();
+        if ( _cBlip7 ) _cBlip7.Delete();
+        if ( _cBlip8 ) _cBlip8.Delete();
+        if ( _meetingB ) _meetingB.Delete();
 
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
         base.End();

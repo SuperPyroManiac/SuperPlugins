@@ -32,11 +32,11 @@ internal class WildAnimal : AmbientEvent
                 EndEvent(true);
                 return;
             }
-            
-            switch (_tasks)
+
+            switch ( _tasks )
             {
                 case Tasks.CheckDistance:
-                    if (Player.DistanceTo(_animal) < 20f)
+                    if ( Player.DistanceTo(_animal) < 20f )
                     {
                         _animal.Tasks.FightAgainst(Player);
                         _tasks = Tasks.OnScene;
@@ -50,9 +50,9 @@ internal class WildAnimal : AmbientEvent
                     break;
             }
         }
-        catch (Exception e)
+        catch ( Exception e )
         {
-            Log.Error( e.ToString());
+            Log.Error(e.ToString());
             EndEvent(true);
         }
     }

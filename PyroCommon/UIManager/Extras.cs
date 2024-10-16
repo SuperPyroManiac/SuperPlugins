@@ -61,16 +61,16 @@ internal class Extras
         menuItem.LeftBadge = UIMenuItem.BadgeStyle.Tick;
         return menuItem;
     }
-    
+
     internal static string CenterText(UIMenu menu, string text)
     {
-        var totalChars = (int)(menu.AdjustedWidth * 255);
-        var padding = (totalChars - text.Length) / 2;
+        var totalChars = ( int )( menu.AdjustedWidth * 255 );
+        var padding = ( totalChars - text.Length ) / 2;
         var space = new string(' ', padding);
         var cText = space + text;
         return cText;
     }
-    
+
     internal static UIMenuItem UiSeparator(string text)
     {
         var sep = new UIMenuItem(text);

@@ -25,7 +25,7 @@ internal class InjuredPed : AmbientEvent
         //Setup
         PyroFunctions.FindSideOfRoad(120, 45, out _spawnPoint, out _spawnPointH);
         EventLocation = _spawnPoint;
-        if (_spawnPoint.DistanceTo(Player) < 35f)
+        if ( _spawnPoint.DistanceTo(Player) < 35f )
         {
             EndEvent(true);
             return;
@@ -33,7 +33,7 @@ internal class InjuredPed : AmbientEvent
 
         //Peds
         _bad = new Ped(_spawnPoint) { Heading = _spawnPointH, IsPersistent = true, BlockPermanentEvents = true };
-        switch (_choice)
+        switch ( _choice )
         {
             case 1:
                 _bad.IsRagdoll = true;
@@ -57,19 +57,19 @@ internal class InjuredPed : AmbientEvent
     {
         try
         {
-            switch (_tasks)
+            switch ( _tasks )
             {
                 case Tasks.CheckDistance:
-                    switch (_choice)
+                    switch ( _choice )
                     {
                         case 1:
-                            if (_bad != null && !_bad.IsAnySpeechPlaying) _bad.PlayAmbientSpeech("GENERIC_FRIGHTENED_MED");
+                            if ( _bad != null && !_bad.IsAnySpeechPlaying ) _bad.PlayAmbientSpeech("GENERIC_FRIGHTENED_MED");
                             break;
                         case 2:
-                            if (_bad2 != null && !_bad2.IsAnySpeechPlaying) _bad2.PlayAmbientSpeech("GENERIC_WAR_CRY");
+                            if ( _bad2 != null && !_bad2.IsAnySpeechPlaying ) _bad2.PlayAmbientSpeech("GENERIC_WAR_CRY");
                             break;
                         case 3:
-                            if (_bad != null && !_bad.IsAnySpeechPlaying) _bad.PlayAmbientSpeech("GENERIC_FRIGHTENED_MED");
+                            if ( _bad != null && !_bad.IsAnySpeechPlaying ) _bad.PlayAmbientSpeech("GENERIC_FRIGHTENED_MED");
                             break;
                         default:
                             EndEvent(true);
@@ -84,9 +84,9 @@ internal class InjuredPed : AmbientEvent
                     break;
             }
         }
-        catch (Exception e)
+        catch ( Exception e )
         {
-            Log.Error( e.ToString());
+            Log.Error(e.ToString());
             EndEvent(true);
         }
     }

@@ -10,7 +10,7 @@ namespace SuperCallouts.CustomScenes;
 
 internal static class Mafia3Setup
 {
-//ConstructMafia3Scene(out limo, out benson, out benson2, out benson3, out mpExarmy, out mpPros, out mpPros2, out mpPros3, out mpPros4, out mpPros5, out mpPros6, out igBankman, out chemwork, out chemwork2, out chemwork3, out korlieut, out insurgent);
+    //ConstructMafia3Scene(out limo, out benson, out benson2, out benson3, out mpExarmy, out mpPros, out mpPros2, out mpPros3, out mpPros4, out mpPros5, out mpPros6, out igBankman, out chemwork, out chemwork2, out chemwork3, out korlieut, out insurgent);
 
     internal static void ConstructMafia3Scene(out Vehicle limo, out Vehicle insurgent, out Vehicle benson,
         out Vehicle benson2,
@@ -30,7 +30,7 @@ internal static class Mafia3Setup
             SecondaryColor = Color.FromArgb(255, 255, 255, 255),
             PrimaryColor = Color.FromArgb(255, 255, 255, 255),
             ConvertibleRoofState = VehicleConvertibleRoofState.Raised,
-            LockStatus = (VehicleLockStatus)1,
+            LockStatus = ( VehicleLockStatus )1,
             DirtLevel = 8f,
             LicensePlate = "41GXM801",
             CollisionIgnoredEntity = null,
@@ -56,7 +56,7 @@ internal static class Mafia3Setup
             CanTiresBurst = false,
             FuelLevel = 80f,
             ConvertibleRoofState = VehicleConvertibleRoofState.Raised,
-            LockStatus = (VehicleLockStatus)1,
+            LockStatus = ( VehicleLockStatus )1,
             DirtLevel = 0.007985972f,
             LicensePlate = "02SHJ554",
             CollisionIgnoredEntity = null,
@@ -79,7 +79,7 @@ internal static class Mafia3Setup
             PrimaryColor = Color.FromArgb(255, 255, 255, 255),
             FuelLevel = 80f,
             ConvertibleRoofState = VehicleConvertibleRoofState.Raised,
-            LockStatus = (VehicleLockStatus)1,
+            LockStatus = ( VehicleLockStatus )1,
             DirtLevel = 5f,
             LicensePlate = "81XVR507",
             CollisionIgnoredEntity = null,
@@ -102,7 +102,7 @@ internal static class Mafia3Setup
             PrimaryColor = Color.FromArgb(255, 255, 255, 255),
             FuelLevel = 80f,
             ConvertibleRoofState = VehicleConvertibleRoofState.Raised,
-            LockStatus = (VehicleLockStatus)1,
+            LockStatus = ( VehicleLockStatus )1,
             DirtLevel = 8f,
             LicensePlate = "00BUC112",
             CollisionIgnoredEntity = null,
@@ -125,7 +125,7 @@ internal static class Mafia3Setup
             PrimaryColor = Color.FromArgb(255, 255, 255, 255),
             FuelLevel = 80f,
             ConvertibleRoofState = VehicleConvertibleRoofState.Raised,
-            LockStatus = (VehicleLockStatus)1,
+            LockStatus = ( VehicleLockStatus )1,
             LicensePlate = "69HGV923",
             CollisionIgnoredEntity = null,
             IsGravityDisabled = false,

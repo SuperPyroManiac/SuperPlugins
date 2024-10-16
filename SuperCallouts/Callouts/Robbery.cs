@@ -96,14 +96,14 @@ internal class Robbery : SuperCallout
             CalloutEnd(true);
             return;
         }
-        
+
         _blip1?.Delete();
         _blip2?.Delete();
         _blip3?.Delete();
         var pursuit = Functions.CreatePursuit();
         var choices = _rNd.Next(1, 5);
         Game.DisplaySubtitle("~r~Suspect: ~w~What are the cops doing here?!", 5000);
-        switch (choices)
+        switch ( choices )
         {
             case 1:
                 GameFiber.StartNew(delegate

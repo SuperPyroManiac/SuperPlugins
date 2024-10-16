@@ -62,24 +62,24 @@ internal class PrisonTransport : SuperCallout
             CalloutEnd(true);
             return;
         }
-        
-        switch (new Random(DateTime.Now.Millisecond).Next(1, 3))
+
+        switch ( new Random(DateTime.Now.Millisecond).Next(1, 3) )
         {
             case 1:
-              Log.Info("Callout Scene 1");
+                Log.Info("Callout Scene 1");
                 PyroFunctions.AddFirearmItem("Pistol", "weapon_pistol_mk2", true, true, true, _suspect);
                 _suspect.Inventory.EquippedWeapon = "weapon_pistol_mk2";
                 _suspect.Tasks.FightAgainst(_cop);
                 _suspect.Health = 250;
                 GameFiber.Wait(6000);
-                if (_suspect.IsAlive)
+                if ( _suspect.IsAlive )
                 {
-                    if (_cop.IsAlive) _cop.Kill();
+                    if ( _cop.IsAlive ) _cop.Kill();
                     PyroFunctions.StartPursuit(false, false, _suspect);
                 }
                 break;
             case 2:
-              Log.Info("Callout Scene 2");
+                Log.Info("Callout Scene 2");
                 var pursuit = PyroFunctions.StartPursuit(false, false, _suspect);
                 Functions.AddCopToPursuit(pursuit, _cop);
                 break;
@@ -88,7 +88,7 @@ internal class PrisonTransport : SuperCallout
 
     internal override void CalloutEnd(bool forceCleanup = false)
     {
-        if (_cVehicle && _cop && _cop!.IsAlive) _cop.Tasks.EnterVehicle(_cVehicle, -1);
+        if ( _cVehicle && _cop && _cop!.IsAlive ) _cop.Tasks.EnterVehicle(_cVehicle, -1);
         base.CalloutEnd(forceCleanup);
     }
 }

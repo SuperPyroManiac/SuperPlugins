@@ -39,7 +39,7 @@ internal class IllegalParking : SuperCallout
         _cVehicle = PyroFunctions.SpawnCar(SpawnPoint);
         EntitiesToClear.Add(_cVehicle);
 
-        if (_scene == 1)
+        if ( _scene == 1 )
         {
             _cVehicle.ApplyDamage(100, 100);
             _partHandleBigFire = Particles.StartLoopedParticlesOnEntity("scr_trevor3", "scr_trev3_trailer_plume", _cVehicle,
@@ -67,7 +67,7 @@ internal class IllegalParking : SuperCallout
             return;
         }
 
-        switch (_scene)
+        switch ( _scene )
         {
             case 1:
                 Log.Info("Callout Scene 1");
@@ -91,8 +91,8 @@ internal class IllegalParking : SuperCallout
                 PyroFunctions.AddSearchItem("~r~Empty used needles", _suspect);
                 PyroFunctions.AddSearchItem("~y~Suicide letter", null, _cVehicle);
                 break;
-                case 4:
-                    break;
+            case 4:
+                break;
         }
     }
 
@@ -100,6 +100,6 @@ internal class IllegalParking : SuperCallout
     {
         Particles.StopLoopedParticles(_partHandleBigFire);
         Particles.StopLoopedParticles(_partHandleMistySmoke);
-	    base.CalloutEnd(forceCleanup);
+        base.CalloutEnd(forceCleanup);
     }
 }

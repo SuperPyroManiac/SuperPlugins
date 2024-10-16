@@ -20,7 +20,7 @@ internal class WeirdCar : AmbientEvent
         //Setup
         PyroFunctions.FindSideOfRoad(120, 45, out _spawnPoint, out _);
         EventLocation = _spawnPoint;
-        if (_spawnPoint.DistanceTo(Player) < 35f)
+        if ( _spawnPoint.DistanceTo(Player) < 35f )
         {
             EndEvent(true);
             return;
@@ -40,11 +40,11 @@ internal class WeirdCar : AmbientEvent
                 EndEvent(true);
                 return;
             }
-            
-            switch (_tasks)
+
+            switch ( _tasks )
             {
                 case Tasks.CheckDistance:
-                    if (Game.LocalPlayer.Character.DistanceTo(_spawnPoint) < 25f)
+                    if ( Game.LocalPlayer.Character.DistanceTo(_spawnPoint) < 25f )
                     {
                         _tasks = Tasks.OnScene;
                     }
@@ -53,7 +53,7 @@ internal class WeirdCar : AmbientEvent
                 case Tasks.OnScene:
                     var choice = new Random(DateTime.Now.Millisecond).Next(1, 7);
                     Log.Info("Abandoned Vehicle event picked scenario #" + choice);
-                    switch (choice)
+                    switch ( choice )
                     {
                         case 1:
                             PyroFunctions.DamageVehicle(_eVehicle, 200, 200);
@@ -89,7 +89,7 @@ internal class WeirdCar : AmbientEvent
                     break;
             }
         }
-        catch (Exception e)
+        catch ( Exception e )
         {
             Log.Error(e.ToString());
             EndEvent(true);

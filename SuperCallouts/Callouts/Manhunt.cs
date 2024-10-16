@@ -55,7 +55,7 @@ internal class Manhunt : SuperCallout
             CalloutEnd(true);
             return;
         }
-        
+
         var pursuit = Functions.CreatePursuit();
         Functions.AddPedToPursuit(pursuit, _bad);
         Functions.SetPursuitIsActiveForPlayer(pursuit, true);
@@ -67,7 +67,7 @@ internal class Manhunt : SuperCallout
 
     protected override void Conversations(UIMenu sender, UIMenuItem selItem, int index)
     {
-        if (selItem == _speakSuspect)
+        if ( selItem == _speakSuspect )
             GameFiber.StartNew(delegate
             {
                 Game.DisplaySubtitle("~g~You~s~: Why did you run? It makes just makes the situation worse.", 5000);

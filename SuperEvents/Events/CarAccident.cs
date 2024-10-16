@@ -36,7 +36,7 @@ internal class CarAccident : AmbientEvent
         //Setup
         PyroFunctions.FindSideOfRoad(120, 45, out _spawnPoint, out _spawnPointH);
         EventLocation = _spawnPoint;
-        if (_spawnPoint.DistanceTo(Player) < 35f)
+        if ( _spawnPoint.DistanceTo(Player) < 35f )
         {
             EndEvent(true);
             return;
@@ -66,22 +66,22 @@ internal class CarAccident : AmbientEvent
         EntitiesToClear.Add(_ePed2);
         //Randomize
         Log.Info("Car Accident Scenario #" + _choice);
-        switch (_choice)
+        switch ( _choice )
         {
             case 0: //Peds fight
-                if (_ePed.IsInAnyVehicle(false) && _eVehicle) _ePed.Tasks.LeaveVehicle(LeaveVehicleFlags.LeaveDoorOpen);
+                if ( _ePed.IsInAnyVehicle(false) && _eVehicle ) _ePed.Tasks.LeaveVehicle(LeaveVehicleFlags.LeaveDoorOpen);
                 _ePed2.Tasks.LeaveVehicle(LeaveVehicleFlags.LeaveDoorOpen);
                 break;
             case 1: //Ped Dies, other flees
-                if (_ePed.IsInAnyVehicle(false) && _eVehicle) _ePed.Tasks.LeaveVehicle(LeaveVehicleFlags.LeaveDoorOpen);
+                if ( _ePed.IsInAnyVehicle(false) && _eVehicle ) _ePed.Tasks.LeaveVehicle(LeaveVehicleFlags.LeaveDoorOpen);
                 _ePed2.Kill();
                 break;
             case 2: //Hit and run
-                if (_ePed2.IsInAnyVehicle(false) && _eVehicle2) _ePed2.Tasks.LeaveVehicle(LeaveVehicleFlags.LeaveDoorOpen);
+                if ( _ePed2.IsInAnyVehicle(false) && _eVehicle2 ) _ePed2.Tasks.LeaveVehicle(LeaveVehicleFlags.LeaveDoorOpen);
                 break;
             case 3: //Fire + dead ped.
                 _ePed.Kill();
-                if (_ePed2.IsInAnyVehicle(false) && _eVehicle2) _ePed2.Tasks.LeaveVehicle(LeaveVehicleFlags.LeaveDoorOpen);
+                if ( _ePed2.IsInAnyVehicle(false) && _eVehicle2 ) _ePed2.Tasks.LeaveVehicle(LeaveVehicleFlags.LeaveDoorOpen);
                 break;
             default:
                 EndEvent(true);
@@ -101,10 +101,10 @@ internal class CarAccident : AmbientEvent
     {
         try
         {
-            switch (_tasks)
+            switch ( _tasks )
             {
                 case Tasks.CheckDistance:
-                    if (Game.LocalPlayer.Character.DistanceTo(_spawnPoint) < 25f)
+                    if ( Game.LocalPlayer.Character.DistanceTo(_spawnPoint) < 25f )
                     {
                         Questioning.Enabled = true;
                         _tasks = Tasks.OnScene;
@@ -119,7 +119,7 @@ internal class CarAccident : AmbientEvent
                     }
                     _ePed.BlockPermanentEvents = false;
                     _ePed2.BlockPermanentEvents = false;
-                    switch (_choice)
+                    switch ( _choice )
                     {
                         case 0: //Peds fight
                             _ePed.Tasks.FightAgainst(_ePed2);
@@ -156,9 +156,9 @@ internal class CarAccident : AmbientEvent
                     break;
             }
         }
-        catch (Exception e)
+        catch ( Exception e )
         {
-            Log.Error( e.ToString());
+            Log.Error(e.ToString());
             EndEvent(true);
         }
     }
@@ -174,10 +174,10 @@ internal class CarAccident : AmbientEvent
             EndEvent(true);
             return;
         }
-        
-        if (selItem == _speakSuspect)
+
+        if ( selItem == _speakSuspect )
         {
-            if (_ePed.IsDead)
+            if ( _ePed.IsDead )
             {
                 _speakSuspect.Enabled = false;
                 _speakSuspect.RightLabel = "~r~Dead";
@@ -210,7 +210,7 @@ internal class CarAccident : AmbientEvent
             var dialogOutcome = new Random(DateTime.Now.Millisecond).Next(0, 101);
             var stillTalking = true;
 
-            if (Player.DistanceTo(_ePed) > 5f)
+            if ( Player.DistanceTo(_ePed) > 5f )
             {
                 Game.DisplaySubtitle("Too far to talk!");
                 return;
@@ -219,9 +219,9 @@ internal class CarAccident : AmbientEvent
             NativeFunction.Natives.x5AD23D40115353AC(_ePed, Game.LocalPlayer.Character, -1);
             GameFiber.StartNew(delegate
             {
-                while (stillTalking)
+                while ( stillTalking )
                 {
-                    if (dialogOutcome > 50)
+                    if ( dialogOutcome > 50 )
                     {
                         Game.DisplaySubtitle(dialog1[dialogIndex1]);
                         dialogIndex1++;
@@ -232,15 +232,15 @@ internal class CarAccident : AmbientEvent
                         dialogIndex2++;
                     }
 
-                    if (dialogIndex1 == 4 || dialogIndex2 == 5) stillTalking = false;
+                    if ( dialogIndex1 == 4 || dialogIndex2 == 5 ) stillTalking = false;
                     GameFiber.Wait(6000);
                 }
             });
         }
 
-        if (selItem == _speakSuspect2)
+        if ( selItem == _speakSuspect2 )
         {
-            if (_ePed2.IsDead)
+            if ( _ePed2.IsDead )
             {
                 _speakSuspect2.Enabled = false;
                 _speakSuspect2.RightLabel = "~r~Dead";
@@ -270,7 +270,7 @@ internal class CarAccident : AmbientEvent
             var dialogOutcome = new Random(DateTime.Now.Millisecond).Next(0, 101);
             var stillTalking = true;
 
-            if (Player.DistanceTo(_ePed2) > 5f)
+            if ( Player.DistanceTo(_ePed2) > 5f )
             {
                 Game.DisplaySubtitle("Too far to talk!");
                 return;
@@ -279,9 +279,9 @@ internal class CarAccident : AmbientEvent
             NativeFunction.Natives.x5AD23D40115353AC(_ePed2, Game.LocalPlayer.Character, -1);
             GameFiber.StartNew(delegate
             {
-                while (stillTalking)
+                while ( stillTalking )
                 {
-                    if (dialogOutcome > 50)
+                    if ( dialogOutcome > 50 )
                     {
                         Game.DisplaySubtitle(dialog1[dialogIndex1]);
                         dialogIndex1++;
@@ -292,7 +292,7 @@ internal class CarAccident : AmbientEvent
                         dialogIndex2++;
                     }
 
-                    if (dialogIndex1 == 4 || dialogIndex2 == 5) stillTalking = false;
+                    if ( dialogIndex1 == 4 || dialogIndex2 == 5 ) stillTalking = false;
                     GameFiber.Wait(6000);
                 }
             });

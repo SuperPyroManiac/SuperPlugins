@@ -33,7 +33,7 @@ internal class OpenCarry : SuperCallout
 
     internal override void CalloutAccepted()
     {
-        Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch","~r~Person With Gun","Reports of a person walking around with an assault rifle. Respond ~y~CODE-2");
+        Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Person With Gun", "Reports of a person walking around with an assault rifle. Respond ~y~CODE-2");
         _suspect = PyroFunctions.SpawnPed(SpawnPoint);
         _name1 = Functions.GetPersonaForPed(_suspect).FullName;
         _suspect.SetDrunk(Enums.DrunkState.ModeratelyDrunk);
@@ -57,7 +57,7 @@ internal class OpenCarry : SuperCallout
             CalloutEnd(true);
             return;
         }
-        
+
         if ( _suspect.IsDead )
         {
             _speakSuspect!.Enabled = false;
@@ -147,7 +147,7 @@ internal class OpenCarry : SuperCallout
             CalloutEnd(true);
             return;
         }
-        
+
         if ( selItem == _speakSuspect )
             GameFiber.StartNew(delegate
             {

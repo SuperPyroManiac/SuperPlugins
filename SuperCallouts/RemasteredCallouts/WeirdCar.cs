@@ -54,7 +54,7 @@ internal class WeirdCar : SuperCallout
             CalloutEnd(true);
             return;
         }
-        
+
         if ( _cBlip )
         {
             _cBlip.Position = SpawnPoint.Position;
@@ -65,7 +65,7 @@ internal class WeirdCar : SuperCallout
         Game.DisplayNotification("Investigate the vehicle.");
         var choices = _rNd.Next(1, 4);
         Log.Info("Suspicious vehicle scene: " + choices);
-        switch (choices)
+        switch ( choices )
         {
             case 1:
                 Log.Info("Callout Scene 1");
@@ -113,8 +113,8 @@ internal class WeirdCar : SuperCallout
             CalloutEnd(true);
             return;
         }
-        
-        if (selItem == _speakSuspect)
+
+        if ( selItem == _speakSuspect )
             GameFiber.StartNew(delegate
             {
                 _speakSuspect.Enabled = false;

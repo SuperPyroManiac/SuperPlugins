@@ -84,14 +84,14 @@ internal class Kidnapping : SuperCallout
             CalloutEnd(true);
             return;
         }
-        
-        if (_bad1.IsDead)
+
+        if ( _bad1.IsDead )
         {
             _speakSuspect!.Enabled = false;
             _speakSuspect.RightLabel = "~r~Dead";
         }
 
-        if (_victim1.IsDead)
+        if ( _victim1.IsDead )
         {
             _speakSuspect2!.Enabled = false;
             _speakSuspect2.RightLabel = "~r~Dead";
@@ -105,7 +105,7 @@ internal class Kidnapping : SuperCallout
             CalloutEnd(true);
             return;
         }
-        
+
         _cBlip1?.Delete();
         _bad1.BlockPermanentEvents = false;
         var pursuit = Functions.CreatePursuit();
@@ -113,7 +113,7 @@ internal class Kidnapping : SuperCallout
         Functions.SetPursuitIsActiveForPlayer(pursuit, true);
         Game.DisplayHelp("~r~Suspect is evading!");
         var choices = _rNd.Next(1, 6);
-        switch (choices)
+        switch ( choices )
         {
             case 1:
                 _victim1.Kill();
@@ -137,8 +137,8 @@ internal class Kidnapping : SuperCallout
                 CalloutEnd(true);
                 return;
             }
-            
-            if (selItem == _speakSuspect)
+
+            if ( selItem == _speakSuspect )
                 GameFiber.StartNew(delegate
                 {
                     _speakSuspect.Enabled = false;
@@ -148,7 +148,7 @@ internal class Kidnapping : SuperCallout
                     _bad1.PlayAmbientSpeech("GENERIC_CURSE_MED");
                     Game.DisplaySubtitle("~r~" + _name1 + "~s~: I don't know, why do you think?'", 5000);
                 });
-            if (selItem == _speakSuspect2)
+            if ( selItem == _speakSuspect2 )
                 GameFiber.StartNew(delegate
                 {
                     _speakSuspect2.Enabled = false;
@@ -170,7 +170,7 @@ internal class Kidnapping : SuperCallout
                         "~b~Bailey Smith~s~: They gave me this fake id.. They were going to give me away I think! Please I want to go home!");
                 });
         }
-        catch (Exception e)
+        catch ( Exception e )
         {
             Log.Error(e.ToString());
             CalloutEnd(true);

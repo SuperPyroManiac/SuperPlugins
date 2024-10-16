@@ -22,10 +22,10 @@ public static class AssemblyLoader
             _ => null
         };
 
-        if (resourceName == null) return null!;
+        if ( resourceName == null ) return null!;
 
         using var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName);
-        if (stream is null)
+        if ( stream is null )
         {
             Log.Error($"Resource {resourceName} not found.");
             return null!;

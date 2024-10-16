@@ -28,7 +28,7 @@ internal class Fight : AmbientEvent
         //Setup
         PyroFunctions.FindSideOfRoad(120, 45, out _spawnPoint, out _);
         EventLocation = _spawnPoint;
-        if (_spawnPoint.DistanceTo(Player) < 35f)
+        if ( _spawnPoint.DistanceTo(Player) < 35f )
         {
             EndEvent(true);
             return;
@@ -63,11 +63,11 @@ internal class Fight : AmbientEvent
                 EndEvent(true);
                 return;
             }
-            
-            switch (_tasks)
+
+            switch ( _tasks )
             {
                 case Tasks.CheckDistance:
-                    if (Game.LocalPlayer.Character.DistanceTo(_spawnPoint) < 20f)
+                    if ( Game.LocalPlayer.Character.DistanceTo(_spawnPoint) < 20f )
                     {
                         _suspect.PlayAmbientSpeech("GENERIC_CURSE_MED");
                         _suspect2.PlayAmbientSpeech("GENERIC_CURSE_MED");
@@ -79,7 +79,7 @@ internal class Fight : AmbientEvent
                 case Tasks.OnScene:
                     var choice = new Random(DateTime.Now.Millisecond).Next(1, 4);
                     Log.Info("Fight event picked scenerio #" + choice);
-                    switch (choice)
+                    switch ( choice )
                     {
                         case 1:
                             _suspect.Tasks.FightAgainst(_suspect2);
@@ -117,7 +117,7 @@ internal class Fight : AmbientEvent
                     break;
             }
         }
-        catch (Exception e)
+        catch ( Exception e )
         {
             Log.Error(e.ToString());
             EndEvent(true);
@@ -136,9 +136,9 @@ internal class Fight : AmbientEvent
             return;
         }
 
-        if (selItem == _speakSuspect)
+        if ( selItem == _speakSuspect )
         {
-            if (_suspect.IsDead)
+            if ( _suspect.IsDead )
             {
                 _speakSuspect.Enabled = false;
                 _speakSuspect.RightLabel = "~r~Dead";
@@ -165,7 +165,7 @@ internal class Fight : AmbientEvent
             var dialogOutcome = new Random(DateTime.Now.Millisecond).Next(0, 101);
             var stillTalking = true;
 
-            if (Player.DistanceTo(_suspect) > 5f)
+            if ( Player.DistanceTo(_suspect) > 5f )
             {
                 Game.DisplaySubtitle("Too far to talk!");
                 return;
@@ -174,9 +174,9 @@ internal class Fight : AmbientEvent
             NativeFunction.Natives.x5AD23D40115353AC(_suspect, Game.LocalPlayer.Character, -1);
             GameFiber.StartNew(delegate
             {
-                while (stillTalking)
+                while ( stillTalking )
                 {
-                    if (dialogOutcome > 50)
+                    if ( dialogOutcome > 50 )
                     {
                         Game.DisplaySubtitle(dialog1[dialogIndex1]);
                         dialogIndex1++;
@@ -187,15 +187,15 @@ internal class Fight : AmbientEvent
                         dialogIndex2++;
                     }
 
-                    if (dialogIndex1 == 4 || dialogIndex2 == 5) stillTalking = false;
+                    if ( dialogIndex1 == 4 || dialogIndex2 == 5 ) stillTalking = false;
                     GameFiber.Wait(6000);
                 }
             });
         }
 
-        if (selItem == _speakSuspect2)
+        if ( selItem == _speakSuspect2 )
         {
-            if (_suspect2.IsDead)
+            if ( _suspect2.IsDead )
             {
                 _speakSuspect2.Enabled = false;
                 _speakSuspect2.RightLabel = "~r~Dead";
@@ -222,7 +222,7 @@ internal class Fight : AmbientEvent
             var dialogOutcome = new Random(DateTime.Now.Millisecond).Next(0, 101);
             var stillTalking = true;
 
-            if (Player.DistanceTo(_suspect2) > 5f)
+            if ( Player.DistanceTo(_suspect2) > 5f )
             {
                 Game.DisplaySubtitle("Too far to talk!");
                 return;
@@ -231,9 +231,9 @@ internal class Fight : AmbientEvent
             NativeFunction.Natives.x5AD23D40115353AC(_suspect2, Game.LocalPlayer.Character, -1);
             GameFiber.StartNew(delegate
             {
-                while (stillTalking)
+                while ( stillTalking )
                 {
-                    if (dialogOutcome > 50)
+                    if ( dialogOutcome > 50 )
                     {
                         Game.DisplaySubtitle(dialog1[dialogIndex1]);
                         dialogIndex1++;
@@ -244,7 +244,7 @@ internal class Fight : AmbientEvent
                         dialogIndex2++;
                     }
 
-                    if (dialogIndex1 == 4 || dialogIndex2 == 5) stillTalking = false;
+                    if ( dialogIndex1 == 4 || dialogIndex2 == 5 ) stillTalking = false;
                     GameFiber.Wait(6000);
                 }
             });

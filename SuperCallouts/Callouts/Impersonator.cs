@@ -42,7 +42,7 @@ internal class Impersonator : SuperCallout
         EntitiesToClear.Add(_cVehicle1);
 
         _cVehicle2 = new Vehicle("DILETTANTE2", _cVehicle1.GetOffsetPositionFront(-9f))
-            { Heading = SpawnPoint.Heading, IsPersistent = true };
+        { Heading = SpawnPoint.Heading, IsPersistent = true };
         _cVehicle2.Metadata.searchDriver =
             "~y~police radio scanner~s~, ~y~handcuffs~s~, ~g~parking ticket~s~, ~g~cigarettes~s~";
         EntitiesToClear.Add(_cVehicle2);
@@ -74,7 +74,7 @@ internal class Impersonator : SuperCallout
             CalloutEnd(true);
             return;
         }
-        
+
         _cBlip?.DisableRoute();
         _victim.Tasks.CruiseWithVehicle(10f, VehicleDrivingFlags.Normal);
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Suspicious Pullover",
@@ -82,7 +82,7 @@ internal class Impersonator : SuperCallout
         Game.DisplayHelp($"Press ~{Settings.Interact.GetInstructionalId()}~ to open interaction menu.");
         var rNd = new Random(DateTime.Now.Millisecond);
         var choices = rNd.Next(1, 4);
-        switch (choices)
+        switch ( choices )
         {
             case 1:
                 Game.DisplayHelp("Suspect is fleeing!");
@@ -108,7 +108,7 @@ internal class Impersonator : SuperCallout
 
     protected override void Conversations(UIMenu sender, UIMenuItem selItem, int index)
     {
-        if (selItem == _speakSuspect)
+        if ( selItem == _speakSuspect )
             GameFiber.StartNew(delegate
             {
                 Game.DisplaySubtitle("~g~You~s~: What's going on? Why did you have that person stopped?", 5000);

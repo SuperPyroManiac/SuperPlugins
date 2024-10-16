@@ -21,11 +21,11 @@ public class Style
             men.MouseControlsEnabled = false;
             men.AllowCameraMovement = true;
             men.MaxItemsOnScreen = 20;
-            if (!center) return;
+            if ( !center ) return;
             var screenWidth = UIMenu.GetActualScreenResolution().Width;
-            var menuWidth = men.Width * screenWidth + (men.WidthOffset != 0 ? men.WidthOffset : 0);
+            var menuWidth = men.Width * screenWidth + ( men.WidthOffset != 0 ? men.WidthOffset : 0 );
             var cnt = Math.Min(men.MenuItems.Count, 20);
-            men.Offset = new Point((int)((screenWidth - menuWidth) / 2f), (int)((1080f - (cnt * 38f + 107f + 20f)) / 2f));
+            men.Offset = new Point(( int )( ( screenWidth - menuWidth ) / 2f ), ( int )( ( 1080f - ( cnt * 38f + 107f + 20f ) ) / 2f ));
         }
     }
 }

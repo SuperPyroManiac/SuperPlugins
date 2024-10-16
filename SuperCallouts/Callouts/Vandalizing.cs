@@ -18,7 +18,7 @@ internal class Vandalizing : SuperCallout
     private Ped _bad;
     private Blip _cBlip;
     private readonly int _rNd = new Random(DateTime.Now.Millisecond).Next(2);
-    
+
     internal override void CalloutPrep()
     {
         CalloutMessage = "~b~Dispatch:~s~ Person vandalizing a vehicle.";
@@ -61,11 +61,11 @@ internal class Vandalizing : SuperCallout
             CalloutEnd(true);
             return;
         }
-        
+
         _cBlip?.Delete();
         _bad.BlockPermanentEvents = false;
-        
-        switch (_rNd)
+
+        switch ( _rNd )
         {
             case 0:
                 var pursuit = Functions.CreatePursuit();

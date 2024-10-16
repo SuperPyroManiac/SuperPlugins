@@ -90,7 +90,7 @@ internal class HotPursuit : SuperCallout
             CalloutEnd(true);
             return;
         }
-        
+
         if ( _cBlip && !OnScene && !_blipHelper )
         {
             GameFiber.StartNew(() =>
@@ -104,28 +104,28 @@ internal class HotPursuit : SuperCallout
                 _blipHelper = false;
             });
         }
-        
-        if (OnScene && !Functions.IsPursuitStillRunning(_pursuit) && Player.DistanceTo(_bad1) > 75 && Player.DistanceTo(_bad2) > 75) CalloutEnd();
 
-        if (OnScene && !Functions.IsPursuitStillRunning(_pursuit))
+        if ( OnScene && !Functions.IsPursuitStillRunning(_pursuit) && Player.DistanceTo(_bad1) > 75 && Player.DistanceTo(_bad2) > 75 ) CalloutEnd();
+
+        if ( OnScene && !Functions.IsPursuitStillRunning(_pursuit) )
         {
             Questioning.Enabled = true;
             _speakSuspect!.Enabled = true;
             _speakSuspect2!.Enabled = true;
         }
 
-        if (_bad1.IsDead)
+        if ( _bad1.IsDead )
         {
             _speakSuspect!.Enabled = false;
             _speakSuspect.RightLabel = "~r~Dead";
         }
 
-        if (_bad2.IsDead)
+        if ( _bad2.IsDead )
         {
             _speakSuspect2!.Enabled = false;
             _speakSuspect2.RightLabel = "~r~Dead";
         }
-        
+
         SpawnPoint = new Location(_cVehicle.Position);
     }
 
@@ -136,13 +136,13 @@ internal class HotPursuit : SuperCallout
             CalloutEnd(true);
             return;
         }
-        
+
         _cBlip.Delete();
         _bad1.BlockPermanentEvents = false;
         _bad2.BlockPermanentEvents = false;
         _pursuit = PyroFunctions.StartPursuit(false, true, _bad1, _bad2);
 
-    Game.DisplayHelp("~r~Suspects are evading!");
+        Game.DisplayHelp("~r~Suspects are evading!");
     }
 
     protected override void Conversations(UIMenu sender, UIMenuItem selItem, int index)
@@ -152,8 +152,8 @@ internal class HotPursuit : SuperCallout
             CalloutEnd(true);
             return;
         }
-        
-        if (selItem == _speakSuspect)
+
+        if ( selItem == _speakSuspect )
             GameFiber.StartNew(delegate
             {
                 _speakSuspect.Enabled = false;
@@ -164,7 +164,7 @@ internal class HotPursuit : SuperCallout
                 Game.DisplaySubtitle("~r~" + _name1 + "~s~: I don't know, why do you think?", 5000);
             });
 
-        if (selItem == _speakSuspect2)
+        if ( selItem == _speakSuspect2 )
             GameFiber.StartNew(delegate
             {
                 _speakSuspect!.Enabled = false;

@@ -10,7 +10,7 @@ internal static class Log
     public static void Error(string message, bool snd = true)
     {
         var asmName = Assembly.GetCallingAssembly().FullName.Split(',').First();
-        if (VersionChecker.OutdatedPyroPlugins.ContainsKey(asmName)) snd = false;
+        if ( VersionChecker.OutdatedPyroPlugins.ContainsKey(asmName) ) snd = false;
         var fullMessage = $"{asmName}%{message}";
         Game.Console.Print($"{asmName}: There was a serious issue here! See https://dsc.PyrosFun.com for help.");
         Game.Console.Print("======================ERROR======================");
@@ -18,7 +18,7 @@ internal static class Log
         Game.Console.Print("======================ERROR======================");
         if ( snd ) Task.Run(() => PyroFunctions.ProcessMsg(fullMessage));
     }
-    
+
     public static void Warning(string message)
     {
         var asmName = Assembly.GetCallingAssembly().FullName.Split(',').First();

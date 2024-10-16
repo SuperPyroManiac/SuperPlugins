@@ -84,8 +84,8 @@ internal class PrisonBreak : Callout
 
     public override void Process()
     {
-        if (Game.IsKeyDown(Settings.EndCall)) End();
-        if (!_onScene && Game.LocalPlayer.Character.DistanceTo(_spawnPoint) < 90f)
+        if ( Game.IsKeyDown(Settings.EndCall) ) End();
+        if ( !_onScene && Game.LocalPlayer.Character.DistanceTo(_spawnPoint) < 90f )
         {
             _onScene = true;
             Game.DisplaySubtitle("Suspects spotted, they appear to have stolen a bus!", 5000);
@@ -108,12 +108,12 @@ internal class PrisonBreak : Callout
     public override void End()
     {
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
-        if (_prisoner1 ) _prisoner1.Dismiss();
-        if (_prisoner2 ) _prisoner2.Dismiss();
-        if (_prisoner3 ) _prisoner3.Dismiss();
-        if (_prisoner4 ) _prisoner4.Dismiss();
-        if (_prisoner5 ) _prisoner5.Dismiss();
-        if (_cVehicle ) _cVehicle.Dismiss();
+        if ( _prisoner1 ) _prisoner1.Dismiss();
+        if ( _prisoner2 ) _prisoner2.Dismiss();
+        if ( _prisoner3 ) _prisoner3.Dismiss();
+        if ( _prisoner4 ) _prisoner4.Dismiss();
+        if ( _prisoner5 ) _prisoner5.Dismiss();
+        if ( _cVehicle ) _cVehicle.Dismiss();
         _cBlip1?.Delete();
         _cBlip2?.Delete();
         _cBlip3?.Delete();

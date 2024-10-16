@@ -8,10 +8,10 @@ namespace PyroCommon.PyroFunctions.Extensions;
 
 public static class Rnui
 {
-        private static void WithTextEditingBase<T>(T item, int maxLength, Func<string> strGetter, Action<string> resultCallback) where T : UIMenuItem
+    private static void WithTextEditingBase<T>(T item, int maxLength, Func<string> strGetter, Action<string> resultCallback) where T : UIMenuItem
     {
         item = item ?? throw new ArgumentNullException(nameof(item));
-        if (maxLength < 0)
+        if ( maxLength < 0 )
         {
             throw new ArgumentOutOfRangeException("Length cannot be negative", nameof(maxLength));
         }
@@ -21,12 +21,12 @@ public static class Rnui
             Manager.MainMenuPool.Draw();
             NativeFunction.Natives.DISPLAY_ONSCREEN_KEYBOARD(6, "", "", strGetter(), "", "", "", maxLength);
             int state;
-            while ((state = NativeFunction.Natives.UPDATE_ONSCREEN_KEYBOARD<int>()) == 0)
+            while ( ( state = NativeFunction.Natives.UPDATE_ONSCREEN_KEYBOARD<int>() ) == 0 )
             {
                 GameFiber.Yield();
                 Manager.MainMenuPool.Draw();
             }
-            if (state == 1)
+            if ( state == 1 )
             {
                 string str = NativeFunction.Natives.GET_ONSCREEN_KEYBOARD_RESULT<string>();
                 resultCallback(str);
@@ -60,6 +60,6 @@ public static class Rnui
         return item;
 
         static void TrimAndSetRightLabel(UIMenuItem item, string str, int maxLength)
-            => item.RightLabel = str.Length > maxLength ? (str.Substring(0, maxLength) + "...") : str;
+            => item.RightLabel = str.Length > maxLength ? ( str.Substring(0, maxLength) + "..." ) : str;
     }
 }

@@ -89,8 +89,8 @@ internal class Mafia3 : Callout
         _peds.Add(_bad10);
         _peds.Add(_bad11);
         _peds.Add(_bad12);
-        foreach (var mafiaCars in _vehicles) mafiaCars.IsPersistent = true;
-        foreach (var mafiaDudes in _peds)
+        foreach ( var mafiaCars in _vehicles ) mafiaCars.IsPersistent = true;
+        foreach ( var mafiaDudes in _peds )
         {
             mafiaDudes.IsPersistent = true;
             mafiaDudes.BlockPermanentEvents = true;
@@ -117,10 +117,10 @@ internal class Mafia3 : Callout
     {
         try
         {
-            switch (_state)
+            switch ( _state )
             {
                 case RunState.CheckDistance:
-                    if (Player.DistanceTo(_callPos) < 90f)
+                    if ( Player.DistanceTo(_callPos) < 90f )
                     {
                         Game.SetRelationshipBetweenRelationshipGroups("MAFIA", "COP", Relationship.Hate);
                         Game.SetRelationshipBetweenRelationshipGroups("MAFIA", "PLAYER", Relationship.Hate);
@@ -136,7 +136,7 @@ internal class Mafia3 : Callout
                     GameFiber.StartNew(delegate
                     {
                         GameFiber.Wait(5000);
-                        foreach (var mafiaDudes in _peds.Where(mafiaDudes => mafiaDudes.Exists()))
+                        foreach ( var mafiaDudes in _peds.Where(mafiaDudes => mafiaDudes.Exists()) )
                         {
                             mafiaDudes.BlockPermanentEvents = false;
                             mafiaDudes.Tasks.FightAgainstClosestHatedTarget(100, -1);
@@ -151,15 +151,15 @@ internal class Mafia3 : Callout
                     break;
             }
         }
-        catch (Exception e)
+        catch ( Exception e )
         {
             Log.Error(e.ToString());
             End();
         }
 
         //Keybinds
-        if (Game.IsKeyDown(Settings.EndCall)) End();
-        if (Game.IsKeyDown(Settings.Interact)) _mainMenu!.Visible = !_mainMenu.Visible;
+        if ( Game.IsKeyDown(Settings.EndCall) ) End();
+        if ( Game.IsKeyDown(Settings.Interact) ) _mainMenu!.Visible = !_mainMenu.Visible;
         _interaction!.ProcessMenus();
         base.Process();
     }
@@ -167,21 +167,21 @@ internal class Mafia3 : Callout
     public override void End()
     {
         _cBlip?.Delete();
-        foreach (var mafiaCars in _vehicles.Where(mafiaCars => mafiaCars.Exists())) mafiaCars.Dismiss();
-        foreach (var mafiaDudes in _peds.Where(mafiaDudes => mafiaDudes.Exists())) mafiaDudes.Dismiss();
+        foreach ( var mafiaCars in _vehicles.Where(mafiaCars => mafiaCars.Exists()) ) mafiaCars.Dismiss();
+        foreach ( var mafiaDudes in _peds.Where(mafiaDudes => mafiaDudes.Exists()) ) mafiaDudes.Dismiss();
         Game.SetRelationshipBetweenRelationshipGroups("COP", "MAFIA", Relationship.Dislike);
         Game.SetRelationshipBetweenRelationshipGroups("MAFIA", "COP", Relationship.Dislike);
 
         _interaction!.CloseAllMenus();
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
-        
+
         base.End();
     }
 
     //UI Functions
     private void InteractionProcess(UIMenu sender, UIMenuItem selItem, int index)
     {
-        if (selItem == _endCall)
+        if ( selItem == _endCall )
         {
             Game.DisplaySubtitle("~y~Callout Ended.");
             End();

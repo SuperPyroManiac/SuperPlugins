@@ -15,33 +15,33 @@ internal static class Manager
     private static bool _running;
     internal static readonly MenuPool MainMenuPool = new();
     private static readonly UIMenu MainMenu = new("Pyro Plugins", "                 By SuperPyroManiac");
-    
+
     private static readonly UIMenu FirstMenu = new("Pyro Plugins", "                 By SuperPyroManiac");
     private static readonly UIMenuCheckboxItem UpdateNotifications = new("~y~Update Notifications", Settings.UpdateNotifications);
     private static readonly UIMenuCheckboxItem ErrorReporting = new("~y~Error Reporting", Settings.ErrorReporting);
     private static readonly UIMenuCheckboxItem DisableManagerUI = new("~y~Disable Manager UI", Settings.DisableManagerUI);
     private static readonly UIMenuItem ManagerKey = new("~y~Menu Key", "Key used to open the main menu!");
     private static readonly UIMenuItem SaveButton = new("~r~Save Settings", "Saves PyroCommon.ini");
-    
+
     private static readonly UIMenu CalloutMenu = new("Callouts", "Choose a callout to spawn.");
     private static readonly UIMenuItem ScConfig = new("Config", "Configure SC Settings.");
     private static readonly UIMenuItem CalloutList = new("Force Callout", "Spawn any selected callout.");
     private static readonly UIMenuItem EndCallout = new("~r~End Callout", "Ends the current callout.");
-    
+
     private static readonly UIMenu EventMenu = new("Events", "Choose an event to spawn.");
     private static readonly UIMenuItem SeConfig = new("Config", "Configure SE Settings.");
     private static readonly UIMenuItem EventList = new("Force Event", "Spawn any selected event.");
     private static readonly UIMenuCheckboxItem PauseEvent = new("~y~Pause Events", Main.EventsPaused);
     private static readonly UIMenuItem EndEvent = new("~r~End Event", "Ends the current event.");
-    
+
     private static readonly UIMenuItem DwConfig = new("Config", "Configure DW Settings.");
-    
+
     private static readonly UIMenu ScConfigMenu = new("SuperCallouts.ini", "Config Settings");
     private static readonly UIMenuItem ScCfgInteract = new("Interaction Key", "This must be a valid key name!");
     private static readonly UIMenuItem ScCfgEndCall = new("End Call Key", "This must be a valid key name!");
     private static readonly UIMenuItem ScCfgNumber = new("Emergency Number", "Number to show in calls, ex 911");
     private static readonly UIMenuItem ScCfgSave = new("~r~Save Config", "Saves to the ini file!");
-    
+
     private static readonly UIMenu SeConfigMenu = new("SuperEvents.ini", "Config Settings");
     private static readonly UIMenuCheckboxItem SeCfgBlips = new("Show Blips", SeSettings.ShowBlips);
     private static readonly UIMenuCheckboxItem SeCfgHints = new("Show Hints", SeSettings.ShowHints);
@@ -49,7 +49,7 @@ internal static class Manager
     private static readonly UIMenuItem SeCfgInteract = new("Interaction Key", "This must be a valid key name!");
     private static readonly UIMenuItem SeCfgEndEvent = new("End Event Key", "This must be a valid key name!");
     private static readonly UIMenuItem SeCfgSave = new("~r~Save Config", "Saves to the ini file!");
-    
+
     private static readonly UIMenu DwConfigMenu = new("DeadlyWeapons.ini", "Config Settings");
     private static readonly UIMenuCheckboxItem DwCfgPdamage = new("Player Damage", DwSettings.PlayerDamage);
     private static readonly UIMenuCheckboxItem DwCfgNdamage = new("NPC Damage", DwSettings.NpcDamage);
@@ -73,12 +73,12 @@ internal static class Manager
         MainMenuPool.Add(SeConfigMenu);
         MainMenuPool.Add(DwConfigMenu);
         MainMenu.AddItems(
-            Extras.UiSeparator(Extras.CenterText(MainMenu, "Installed Plugins")), 
+            Extras.UiSeparator(Extras.CenterText(MainMenu, "Installed Plugins")),
             Extras.SuperCallouts(), Extras.SuperEvents(), Extras.DeadlyWeapons(),
-            Extras.UiSeparator(Extras.CenterText(MainMenu, "SuperCallouts")), 
-            ScConfig, CalloutList, EndCallout, 
-            Extras.UiSeparator(Extras.CenterText(MainMenu, "SuperEvents")), 
-            SeConfig, EventList, PauseEvent, EndEvent, 
+            Extras.UiSeparator(Extras.CenterText(MainMenu, "SuperCallouts")),
+            ScConfig, CalloutList, EndCallout,
+            Extras.UiSeparator(Extras.CenterText(MainMenu, "SuperEvents")),
+            SeConfig, EventList, PauseEvent, EndEvent,
             Extras.UiSeparator(Extras.CenterText(MainMenu, "DeadlyWeapons")),
             DwConfig);
         MainMenu.BindMenuToItem(CalloutMenu, CalloutList);
@@ -86,24 +86,24 @@ internal static class Manager
         MainMenu.BindMenuToItem(EventMenu, EventList);
         MainMenu.BindMenuToItem(SeConfigMenu, SeConfig);
         MainMenu.BindMenuToItem(DwConfigMenu, DwConfig);
-        
+
         ScConfigMenu.AddItems(ScCfgInteract, ScCfgEndCall, ScCfgNumber, ScCfgSave);
         SeConfigMenu.AddItems(SeCfgBlips, SeCfgHints, SeCfgTimer, SeCfgInteract, SeCfgEndEvent, SeCfgSave);
-        DwConfigMenu.AddItems(DwCfgPdamage, DwCfgNdamage, DwCfgRandomizer, DwCfgPanic, DwCfgCooldown, Extras.UiSeparator(Extras.CenterText(DwConfigMenu, "Backup Options")), 
+        DwConfigMenu.AddItems(DwCfgPdamage, DwCfgNdamage, DwCfgRandomizer, DwCfgPanic, DwCfgCooldown, Extras.UiSeparator(Extras.CenterText(DwConfigMenu, "Backup Options")),
             DwCfgCode3, DwCfgSwat, DwCfgNoose, Extras.UiSeparator(Extras.CenterText(DwConfigMenu, "Debug Mode")), DwCfgDebug, DwCfgSave);
-        
+
         MainMenu.RefreshIndex();
         CalloutMenu.RefreshIndex();
         EventMenu.RefreshIndex();
         ScConfigMenu.RefreshIndex();
         SeConfigMenu.RefreshIndex();
         DwConfigMenu.RefreshIndex();
-        
+
         MainMenu.OnItemSelect += MenuSelected;
         ScConfigMenu.OnItemSelect += MenuSelected;
         SeConfigMenu.OnItemSelect += MenuSelected;
         DwConfigMenu.OnItemSelect += MenuSelected;
-        
+
         if ( !Main.UsingSc )
         {
             ScConfig.RightLabel = "Not Installed!";
@@ -111,7 +111,7 @@ internal static class Manager
             CalloutList.Skipped = true;
             EndCallout.Skipped = true;
         }
-        
+
         if ( !Main.UsingSe )
         {
             SeConfig.RightLabel = "Not Installed!";
@@ -120,13 +120,13 @@ internal static class Manager
             EndEvent.Skipped = true;
             PauseEvent.Skipped = true;
         }
-        
+
         if ( !Main.UsingDw )
         {
             DwConfig.RightLabel = "Not Installed!";
             DwConfig.Skipped = true;
         }
-        if (Settings.FirstTime) FirstRun();
+        if ( Settings.FirstTime ) FirstRun();
         Process();
     }
 
@@ -158,8 +158,8 @@ internal static class Manager
         PauseEvent.Checked = Main.EventsPaused;
         if ( Main.UsingSc )
         {
-            foreach (var t in Functions.GetAllUserPlugins().First(assembly => 
-                         assembly.GetName().Name.Equals("SuperCallouts")).GetTypes().SelectMany(type => type.GetCustomAttributes<CalloutInfoAttribute>()).ToArray())
+            foreach ( var t in Functions.GetAllUserPlugins().First(assembly =>
+                         assembly.GetName().Name.Equals("SuperCallouts")).GetTypes().SelectMany(type => type.GetCustomAttributes<CalloutInfoAttribute>()).ToArray() )
             {
                 var s = new UIMenuItem(t.Name);
                 CalloutMenu.AddItem(s);
@@ -168,11 +168,11 @@ internal static class Manager
         }
         if ( Main.UsingSe )
         {
-            foreach (var t in SuperEvents.GetAllEvents()!)
+            foreach ( var t in SuperEvents.GetAllEvents()! )
             {
                 var s = new UIMenuItem($"[{t.Namespace!.Split('.').First()}] {t.Name}");
                 EventMenu.AddItem(s);
-                s.Activated += (_,_) => SuperEvents.ForceEvent(t.FullName!);
+                s.Activated += (_, _) => SuperEvents.ForceEvent(t.FullName!);
             }
         }
         Style.ApplyStyle(MainMenuPool, true);
@@ -191,7 +191,7 @@ internal static class Manager
             //SuperEvents Text buttons
             SeCfgTimer.WithTextEditing(SeSettings.TimeBetweenEvents.ToString, s =>
             {
-                if (int.TryParse(s, out var value)) SeSettings.TimeBetweenEvents = value; 
+                if ( int.TryParse(s, out var value) ) SeSettings.TimeBetweenEvents = value;
                 else Game.DisplayHelp("~r~That is not a number!");
             });
             SeCfgInteract.WithTextEditing(SeSettings.Interact.ToString, s => { SeSettings.Interact = PyroFunctions.PyroFunctions.ConvertStringToClosestKey(s, SeSettings.Interact); });
@@ -204,12 +204,12 @@ internal static class Manager
             //DeadlyWeapons Text buttons
             DwCfgRandomizer.WithTextEditing(DwSettings.DamageRandomizer.ToString, s =>
             {
-                if (int.TryParse(s, out var value)) DwSettings.DamageRandomizer = value; 
+                if ( int.TryParse(s, out var value) ) DwSettings.DamageRandomizer = value;
                 else Game.DisplayHelp("~r~That is not a number!");
             });
             DwCfgCooldown.WithTextEditing(DwSettings.PanicCooldown.ToString, s =>
             {
-                if (int.TryParse(s, out var value)) DwSettings.PanicCooldown = value; 
+                if ( int.TryParse(s, out var value) ) DwSettings.PanicCooldown = value;
                 else Game.DisplayHelp("~r~That is not a number!");
             });
         }
@@ -218,7 +218,7 @@ internal static class Manager
     private static void ToggleManagerMenu()
     {
         RefreshMenus();
-        if (FirstMenu.Visible) FirstMenu.Close();
+        if ( FirstMenu.Visible ) FirstMenu.Close();
         MainMenu.Visible = !MainMenu.Visible;
     }
 
@@ -250,7 +250,7 @@ internal static class Manager
         EventMenu.Clear();
         _running = false;
     }
-    
+
     private static void MenuSelected(UIMenu sender, UIMenuItem selecteditem, int index)
     {
         //MainMenu
@@ -259,13 +259,13 @@ internal static class Manager
             SuperEvents.PauseEvents();
             PauseEvent.Checked = !Main.EventsPaused;
         }
-        if (selecteditem == EndCallout) Functions.StopCurrentCallout();
-        if (selecteditem == EndEvent) SuperEvents.EndEvent();
+        if ( selecteditem == EndCallout ) Functions.StopCurrentCallout();
+        if ( selecteditem == EndEvent ) SuperEvents.EndEvent();
         //FirstMenu
         if ( selecteditem == UpdateNotifications ) Settings.UpdateNotifications = !UpdateNotifications.Checked;
         if ( selecteditem == ErrorReporting ) Settings.ErrorReporting = !ErrorReporting.Checked;
         if ( selecteditem == DisableManagerUI ) Settings.DisableManagerUI = !DisableManagerUI.Checked;
-        if (selecteditem == SaveButton)
+        if ( selecteditem == SaveButton )
         {
             Settings.SaveSettings();
             FirstMenu.Visible = false;

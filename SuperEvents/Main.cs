@@ -27,7 +27,7 @@ internal class Main : Plugin
 
     private static void OnOnDutyStateChangedHandler(bool onDuty)
     {
-        if (onDuty)
+        if ( onDuty )
         {
             PyroCommon.Main.InitCommon("SuperEvents", Assembly.GetExecutingAssembly().GetName().Version.ToString());
             Log.Info("SuperEvents by SuperPyroManiac loaded successfully!");
@@ -52,22 +52,22 @@ internal class Main : Plugin
 
     private static void RegisterAllEvents()
     {
-        if (Settings.CarAccident) EventManager.RegisterEvent(typeof(CarAccident), EventManager.Priority.High);
-        if (Settings.CarFire) EventManager.RegisterEvent(typeof(CarFire));
-        if (Settings.Fight) EventManager.RegisterEvent(typeof(Fight));
-        if (Settings.OpenCarry) EventManager.RegisterEvent(typeof(OpenCarry), EventManager.Priority.Low);
-        if (Settings.PulloverShooting) EventManager.RegisterEvent(typeof(PulloverShooting), EventManager.Priority.Low);
-        if (Settings.RecklessDriver) EventManager.RegisterEvent(typeof(RecklessDriver));
-        if (Settings.AbandonedCar) EventManager.RegisterEvent(typeof(WeirdCar));
-        if (Settings.WildAnimal) EventManager.RegisterEvent(typeof(WildAnimal));
+        if ( Settings.CarAccident ) EventManager.RegisterEvent(typeof(CarAccident), EventManager.Priority.High);
+        if ( Settings.CarFire ) EventManager.RegisterEvent(typeof(CarFire));
+        if ( Settings.Fight ) EventManager.RegisterEvent(typeof(Fight));
+        if ( Settings.OpenCarry ) EventManager.RegisterEvent(typeof(OpenCarry), EventManager.Priority.Low);
+        if ( Settings.PulloverShooting ) EventManager.RegisterEvent(typeof(PulloverShooting), EventManager.Priority.Low);
+        if ( Settings.RecklessDriver ) EventManager.RegisterEvent(typeof(RecklessDriver));
+        if ( Settings.AbandonedCar ) EventManager.RegisterEvent(typeof(WeirdCar));
+        if ( Settings.WildAnimal ) EventManager.RegisterEvent(typeof(WildAnimal));
     }
 
     public override void Finally()
     {
-        if (EventManager.CurrentEvent != null)
+        if ( EventManager.CurrentEvent != null )
         {
-            foreach (var entity in EventManager.CurrentEvent.EntitiesToClear.Where(entity => entity)) entity.Delete();
-            foreach (var blip in EventManager.CurrentEvent.BlipsToClear.Where(blip => blip)) blip.Delete();
+            foreach ( var entity in EventManager.CurrentEvent.EntitiesToClear.Where(entity => entity) ) entity.Delete();
+            foreach ( var blip in EventManager.CurrentEvent.BlipsToClear.Where(blip => blip) ) blip.Delete();
         }
         PluginRunning = false;
         PyroCommon.Main.StopCommon();

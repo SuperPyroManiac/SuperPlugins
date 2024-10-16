@@ -73,8 +73,8 @@ internal class DeadBody : SuperCallout
             CalloutEnd(true);
             return;
         }
-        
-        if (_witness.IsDead)
+
+        if ( _witness.IsDead )
         {
             _speakSuspect!.Enabled = false;
             _speakSuspect.RightLabel = "~r~Dead";
@@ -88,7 +88,7 @@ internal class DeadBody : SuperCallout
             CalloutEnd(true);
             return;
         }
-        
+
         NativeFunction.Natives.x5AD23D40115353AC(_witness, _victim, -1);
         _witness.Tasks.Cower(-1);
         _victim.Kill();
@@ -106,8 +106,8 @@ internal class DeadBody : SuperCallout
                 CalloutEnd(true);
                 return;
             }
-            
-            if (selItem == _speakSuspect)
+
+            if ( selItem == _speakSuspect )
                 GameFiber.StartNew(delegate
                 {
                     _speakSuspect.Enabled = false;
@@ -127,10 +127,10 @@ internal class DeadBody : SuperCallout
                     Game.DisplaySubtitle(
                         "~g~You~s~: It's alright, thank you for your time and the call. You are free to go home.",
                         4000);
-                    if (_witness.Exists()) _witness.Dismiss();
+                    if ( _witness.Exists() ) _witness.Dismiss();
                 });
         }
-        catch (Exception e)
+        catch ( Exception e )
         {
             Log.Error(e.ToString());
             CalloutEnd(true);

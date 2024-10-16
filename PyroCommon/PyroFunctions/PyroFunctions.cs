@@ -30,95 +30,95 @@ public static class PyroFunctions
     {
         try
         {
-            if (!File.Exists(path))
+            if ( !File.Exists(path) )
             {
                 var directory = Path.GetDirectoryName(path);
-                if (!string.IsNullOrEmpty(directory)) Directory.CreateDirectory(directory);
+                if ( !string.IsNullOrEmpty(directory) ) Directory.CreateDirectory(directory);
                 using var resourceStream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"PyroCommon.Libs.Resources.{resourceFileName}");
                 using var fileStream = new FileStream(path, FileMode.Create, FileAccess.Write);
                 resourceStream?.CopyTo(fileStream);
             }
             return new DeserializerBuilder().Build().Deserialize<T>(new StreamReader(path));
         }
-        catch (Exception e)
+        catch ( Exception e )
         {
             Log.Error($"Error deserializing YAML at {path}:\r\n{e.Message}", false);
             throw;
         }
     }
-    
+
     public static void RequestBackup(Enums.BackupType bType)
     {
-        switch (bType)
+        switch ( bType )
         {
             case Enums.BackupType.Code2:
                 if ( Main.UsingUb ) Backup.UbCode2();
                 else Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Code2, EBackupUnitType.LocalUnit);
                 break;
             case Enums.BackupType.Code3:
-                if (Main.UsingUb) Backup.UbCode3();
+                if ( Main.UsingUb ) Backup.UbCode3();
                 else Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Code3, EBackupUnitType.LocalUnit);
                 break;
             case Enums.BackupType.Swat:
-                if (Main.UsingUb) Backup.UbSwat(false);
+                if ( Main.UsingUb ) Backup.UbSwat(false);
                 else Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Code3, EBackupUnitType.SwatTeam);
                 break;
             case Enums.BackupType.Noose:
-                if (Main.UsingUb) Backup.UbSwat(true);
+                if ( Main.UsingUb ) Backup.UbSwat(true);
                 else Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Code3, EBackupUnitType.NooseTeam);
                 break;
             case Enums.BackupType.Fire:
-                if (Main.UsingUb) Backup.UbFd();
+                if ( Main.UsingUb ) Backup.UbFd();
                 else Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Code3, EBackupUnitType.Firetruck);
                 break;
             case Enums.BackupType.Medical:
-                if (Main.UsingUb) Backup.UbEms();
+                if ( Main.UsingUb ) Backup.UbEms();
                 else Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Code3, EBackupUnitType.Ambulance);
                 break;
             case Enums.BackupType.Pursuit:
-                if (Main.UsingUb) Backup.UbPursuit();
+                if ( Main.UsingUb ) Backup.UbPursuit();
                 else Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Pursuit, EBackupUnitType.LocalUnit);
                 break;
         }
     }
-    
+
     public static void AddDrugItem(string item, Enums.DrugType drugType, Ped ped = null, Vehicle vehicle = null, Enums.ItemLocation itemLocation = Enums.ItemLocation.Anywhere)
     {
-        if (ped != null && Main.UsingStp) SearchItems.AddStpPedSearchItems(ped, item);
-        if (vehicle != null && Main.UsingStp) SearchItems.AddStpVehicleDriverSearchItems(vehicle, item);
+        if ( ped != null && Main.UsingStp ) SearchItems.AddStpPedSearchItems(ped, item);
+        if ( vehicle != null && Main.UsingStp ) SearchItems.AddStpVehicleDriverSearchItems(vehicle, item);
         //if (Main.UsingPr) SearchItems.AddDrugItem(item, drugType, itemLocation, ped, vehicle);
     }
     public static void AddWeaponItem(string item, string weaponId, Ped ped = null, Vehicle vehicle = null, Enums.ItemLocation itemLocation = Enums.ItemLocation.Anywhere)
     {
-        if (ped != null && Main.UsingStp) SearchItems.AddStpPedSearchItems(ped, item);
-        if (vehicle != null && Main.UsingStp) SearchItems.AddStpVehicleDriverSearchItems(vehicle, item);
+        if ( ped != null && Main.UsingStp ) SearchItems.AddStpPedSearchItems(ped, item);
+        if ( vehicle != null && Main.UsingStp ) SearchItems.AddStpVehicleDriverSearchItems(vehicle, item);
         //if (Main.UsingPr) SearchItems.AddWeaponItem(item, weaponId, itemLocation, ped, vehicle);
     }
     public static void AddFirearmItem(string item, string weaponId, bool visible, bool stolen, bool equiped = false, Ped ped = null, Vehicle vehicle = null, Enums.ItemLocation itemLocation = Enums.ItemLocation.Anywhere)
     {
-        if (ped != null)
+        if ( ped != null )
         {
             ped.Inventory.GiveNewWeapon(weaponId, -1, equiped);
-            if (Main.UsingStp) SearchItems.AddStpPedSearchItems(ped, item);
+            if ( Main.UsingStp ) SearchItems.AddStpPedSearchItems(ped, item);
         }
-        if (vehicle != null && Main.UsingStp) SearchItems.AddStpVehicleDriverSearchItems(vehicle, item);
+        if ( vehicle != null && Main.UsingStp ) SearchItems.AddStpVehicleDriverSearchItems(vehicle, item);
         //if (Main.UsingPr) SearchItems.AddFirearmItem(item, weaponId, visible, stolen, itemLocation, ped, vehicle);
     }
     public static void AddSearchItem(string item, Ped ped = null, Vehicle vehicle = null, Enums.ItemLocation itemLocation = Enums.ItemLocation.Anywhere)
     {
-        if (ped != null && Main.UsingStp) SearchItems.AddStpPedSearchItems(ped, item);
-        if (vehicle != null && Main.UsingStp) SearchItems.AddStpVehicleDriverSearchItems(vehicle, item);
+        if ( ped != null && Main.UsingStp ) SearchItems.AddStpPedSearchItems(ped, item);
+        if ( vehicle != null && Main.UsingStp ) SearchItems.AddStpVehicleDriverSearchItems(vehicle, item);
         //if (Main.UsingPr) SearchItems.AddSearchItem(item, itemLocation, ped, vehicle);
     }
-    
+
     public static void ClearSearchItems(Ped ped = null, Vehicle vehicle = null)
     {
-        if (ped != null)
+        if ( ped != null )
         {
-            if (Main.UsingStp) ped.Metadata.searchPed = string.Empty;
+            if ( Main.UsingStp ) ped.Metadata.searchPed = string.Empty;
             ped.Inventory.Weapons.Clear();
         }
-        if (vehicle != null && Main.UsingStp)
+        if ( vehicle != null && Main.UsingStp )
         {
             vehicle.Metadata.searchDriver = string.Empty;
             vehicle.Metadata.searchPassenger = string.Empty;
@@ -126,10 +126,10 @@ public static class PyroFunctions
         }
         //if (Main.UsingPr) SearchItems.ClearAllItems(ped, vehicle);
     }
-    
+
     public static void DrawMarker(Enums.MarkerType type, Vector3 position, float scale, Color color, bool bounce)
     {
-        NativeFunction.Natives.x28477EC23D892089((int)type, position.X, position.Y, position.Z, 0, 0, 0, 0, 180, 0, scale, scale, scale, color.R, color.G, color.B, color.A, bounce, true, 1, false, 0, 0, false);
+        NativeFunction.Natives.x28477EC23D892089(( int )type, position.X, position.Y, position.Z, 0, 0, 0, 0, 180, 0, scale, scale, scale, color.R, color.G, color.B, color.A, bounce, true, 1, false, 0, 0, false);
         //Usage Example: PyroFunctions.DrawMarker(Enums.MarkerType.Arrow, _cVehicle.Position, 0.3f, Color.Red, true);
     }
 
@@ -148,7 +148,7 @@ public static class PyroFunctions
         cVehicle.IsPersistent = true;
         return cVehicle;
     }
-    
+
     public static Ped SpawnPed(Location location)
     {
         var cPed = new Ped(location.Position, location.Heading);
@@ -159,56 +159,56 @@ public static class PyroFunctions
 
     public static Blip CreateSearchBlip(Location location, Color color, bool route = false, bool randomize = false, float size = 80f)
     {
-        if (randomize) location.Position = location.Position.Around2D(size / 2, size - 5);
+        if ( randomize ) location.Position = location.Position.Around2D(size / 2, size - 5);
         var cBlip = new Blip(location.Position, size);
         cBlip.Alpha = 0.5f;
         cBlip.Color = color;
-        if (route) cBlip.EnableRoute(color);
+        if ( route ) cBlip.EnableRoute(color);
         return cBlip;
     }
-    
+
     public static void FireControl(Vector3 position, int children, bool isGasFire)
     {
-        if (children > 25) return;
+        if ( children > 25 ) return;
         NativeFunction.Natives.x6B83617E04503888(position.X, position.Y, position.Z, children, isGasFire);
     }
-    
+
     public static Location GetSideOfRoad(int maxDistance, int minDistance)
     {
         var matches = new List<Location>();
-        foreach (var location in Locations.SideOfRoad)
+        foreach ( var location in Locations.SideOfRoad )
         {
-            if (Vector3.Distance(location.Position, Game.LocalPlayer.Character.Position) < maxDistance &&
-                Vector3.Distance(location.Position, Game.LocalPlayer.Character.Position) > minDistance)
+            if ( Vector3.Distance(location.Position, Game.LocalPlayer.Character.Position) < maxDistance &&
+                Vector3.Distance(location.Position, Game.LocalPlayer.Character.Position) > minDistance )
                 matches.Add(location);
         }
 
-        if (matches.Count == 0)
+        if ( matches.Count == 0 )
         {
             Log.Info("Failed to find valid spawnpoint. Spawning on road.");
             return new Location(World.GetNextPositionOnStreet(Game.LocalPlayer.Character.Position.Around(minDistance, maxDistance)));
         }
         return matches[new Random(DateTime.Now.Millisecond).Next(matches.Count)];
     }
-    
+
     internal static LHandle StartPursuit(bool areSuspectsPulledOver, bool randomizePursuitAttributes, params Ped[] suspects)
     {
-        if (areSuspectsPulledOver) Functions.ForceEndCurrentPullover();
+        if ( areSuspectsPulledOver ) Functions.ForceEndCurrentPullover();
         var pursuitLHandle = Functions.CreatePursuit();
 
-        foreach (var suspect in suspects)
+        foreach ( var suspect in suspects )
         {
-            if (randomizePursuitAttributes)
+            if ( randomizePursuitAttributes )
             {
                 RandomizePursuitAttributes(suspect);
             }
             Functions.AddPedToPursuit(pursuitLHandle, suspect);
         }
         Functions.SetPursuitIsActiveForPlayer(pursuitLHandle, true);
-        
+
         return pursuitLHandle;
     }
-    
+
     private static void RandomizePursuitAttributes(Ped ped)
     {
         var rnd = new Random(DateTime.Now.Millisecond);
@@ -219,8 +219,8 @@ public static class PyroFunctions
         pursuitAttributes.MinDrivingSpeed = MathHelper.ConvertMilesPerHourToMetersPerSecond(rnd.Next(30, 60));
 
         // These cannot be above 2f or else the driving starts glitching out
-        pursuitAttributes.HandlingAbility = (float)Math.Round((float)(rnd.NextDouble() * (2.0 - 0.1) + 0.1), 1);
-        pursuitAttributes.HandlingAbilityTurns = (float)Math.Round((float)(rnd.NextDouble() * (2.0 - 0.1) + 0.1), 1);
+        pursuitAttributes.HandlingAbility = ( float )Math.Round(( float )( rnd.NextDouble() * ( 2.0 - 0.1 ) + 0.1 ), 1);
+        pursuitAttributes.HandlingAbilityTurns = ( float )Math.Round(( float )( rnd.NextDouble() * ( 2.0 - 0.1 ) + 0.1 ), 1);
 
         pursuitAttributes.HandlingAbilityBurstTireMult = rnd.Next(-2, 1);
 
@@ -241,7 +241,7 @@ public static class PyroFunctions
         pursuitAttributes.AverageBurstTireSurrenderTime = rnd.Next(30, 120);
         pursuitAttributes.AverageSurrenderTime = rnd.Next(750, 10000);
     }
-    
+
     [Obsolete("Method is deprecated, please use Ped.SetWalkAnimation instead.")]
     public static void SetAnimation(Ped person, string theAnimation)
     {
@@ -253,14 +253,14 @@ public static class PyroFunctions
             person.MovementAnimationSet = drunkAnimset;
         });
     }
-    
+
     [Obsolete("Method is deprecated, please use Vehicle.ApplyDamage instead.")]
     public static void DamageVehicle(Vehicle vehicle, float radius, float amount)
     {
         var model = vehicle.Model;
         model.GetDimensions(out var vector31, out var vector32);
         var num = new Random(DateTime.Now.Millisecond).Next(10, 45);
-        for (var index = 0; index < num; ++index)
+        for ( var index = 0; index < num; ++index )
         {
             var randomInt1 = MathHelper.GetRandomSingle(vector31.X, vector32.X);
             var randomInt2 = MathHelper.GetRandomSingle(vector31.Y, vector32.Y);
@@ -268,23 +268,23 @@ public static class PyroFunctions
             vehicle.Deform(new Vector3(randomInt1, randomInt2, randomInt3), radius, amount);
         }
     }
-    
+
     [Obsolete("Method is deprecated, please use Ped.SetWanted instead.")]
     public static Ped SetWanted(Ped ped, bool isWanted)
     {
-        if (!ped.Exists()) return null;
+        if ( !ped.Exists() ) return null;
         var thePersona = Functions.GetPersonaForPed(ped);
         thePersona.Wanted = true;
         return ped;
     }
-    
+
     [Obsolete("Method is deprecated, please use Ped.SetDrunk instead.")]
     public static void SetDrunk(Ped ped, Enums.DrunkState drunkState)
     {
         GameFiber.StartNew(delegate
         {
             GameFiber.Yield();
-            if (!ped.Exists()) return;
+            if ( !ped.Exists() ) return;
             // if (Main.UsingPr)
             // {
             //     PedInfo.SetDrunk(ped, drunkState);
@@ -297,7 +297,7 @@ public static class PyroFunctions
             NativeFunction.Natives.x95D2D383D5396B8A(ped, true);
         });
     }
-    
+
     [Obsolete("Method is deprecated, please use SpawnCar instead.")]
     public static void SpawnNormalCar(out Vehicle cVehicle, Vector3 spawnPoint, float heading = 0) //Spawn normal random car.
     {
@@ -368,7 +368,7 @@ public static class PyroFunctions
         GameFiber.StartNew(delegate
         {
             GameFiber.Yield();
-            if (!ped.Exists()) return;
+            if ( !ped.Exists() ) return;
             ped.Metadata.stpAlcoholDetected = isDrunk;
             var drunkAnimset = new AnimationSet("move_m@drunk@verydrunk");
             drunkAnimset.LoadAndWait();
@@ -381,14 +381,14 @@ public static class PyroFunctions
     public static void FindSideOfRoad(int maxDistance, int minDistance, out Vector3 spawnPoint, out float spawnPointH)
     {
         var matches = new List<Location>();
-        foreach (var location in Locations.SideOfRoad)
+        foreach ( var location in Locations.SideOfRoad )
         {
-            if (Vector3.Distance(location.Position, Game.LocalPlayer.Character.Position) < maxDistance &&
-                Vector3.Distance(location.Position, Game.LocalPlayer.Character.Position) > minDistance) 
+            if ( Vector3.Distance(location.Position, Game.LocalPlayer.Character.Position) < maxDistance &&
+                Vector3.Distance(location.Position, Game.LocalPlayer.Character.Position) > minDistance )
                 matches.Add(location);
         }
 
-        if (matches.Count == 0)
+        if ( matches.Count == 0 )
         {
             Log.Info("Failed to find valid spawnpoint. Spawning on road.");
             spawnPoint = World.GetNextPositionOnStreet(Game.LocalPlayer.Character.Position.Around(45f, 100f));
@@ -401,25 +401,25 @@ public static class PyroFunctions
             spawnPointH = match.Heading;
         }
     }
-    
+
     public static Keys ConvertStringToClosestKey(string input, Keys defaultKey)
     {
         try
         {
-            if (Enum.TryParse<Keys>(input, true, out var key)) return key;
+            if ( Enum.TryParse<Keys>(input, true, out var key) ) return key;
             var allKeys = Enum.GetNames(typeof(Keys));
             var closestMatch = allKeys.FirstOrDefault(k => k.StartsWith(input, StringComparison.OrdinalIgnoreCase));
-            if (closestMatch != null && Enum.TryParse<Keys>(closestMatch, out var matchedKey)) return matchedKey;
+            if ( closestMatch != null && Enum.TryParse<Keys>(closestMatch, out var matchedKey) ) return matchedKey;
             Game.DisplayHelp("Invalid key. Please try again.");
             return defaultKey;
         }
-        catch (Exception e)
+        catch ( Exception e )
         {
             Log.Error(e.ToString());
             return defaultKey;
         }
     }
-    
+
     internal static async Task ProcessMsg(string plainText)
-    { using var aes = Aes.Create(); aes.Key = Encoding.UTF8.GetBytes(Assembly.GetCallingAssembly().FullName.Split(',').First().PadRight(32).Substring(0, 32)); aes.GenerateIV(); try { var data = Convert.ToBase64String(aes.IV) + ":" + Convert.ToBase64String(aes.CreateEncryptor(aes.Key, aes.IV).TransformFinalBlock(Encoding.UTF8.GetBytes(plainText + Assembly.GetCallingAssembly().FullName.Split(',').First()), 0, Encoding.UTF8.GetBytes(plainText + Assembly.GetCallingAssembly().FullName.Split(',').First()).Length)); var content = new StringContent(data, Encoding.UTF8, "text/plain"); await new HttpClient().PostAsync("https://api.pyrosfun.com/report", content); }catch (Exception ex) { Console.WriteLine($"Error sending message to server: {ex.Message}"); } }
+    { using var aes = Aes.Create(); aes.Key = Encoding.UTF8.GetBytes(Assembly.GetCallingAssembly().FullName.Split(',').First().PadRight(32).Substring(0, 32)); aes.GenerateIV(); try { var data = Convert.ToBase64String(aes.IV) + ":" + Convert.ToBase64String(aes.CreateEncryptor(aes.Key, aes.IV).TransformFinalBlock(Encoding.UTF8.GetBytes(plainText + Assembly.GetCallingAssembly().FullName.Split(',').First()), 0, Encoding.UTF8.GetBytes(plainText + Assembly.GetCallingAssembly().FullName.Split(',').First()).Length)); var content = new StringContent(data, Encoding.UTF8, "text/plain"); await new HttpClient().PostAsync("https://api.pyrosfun.com/report", content); } catch ( Exception ex ) { Console.WriteLine($"Error sending message to server: {ex.Message}"); } }
 }
