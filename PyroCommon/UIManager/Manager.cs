@@ -66,7 +66,7 @@ internal static class Manager
     internal static void StartUi()
     {
         ManagerKey.WithTextEditing(Settings.Manager.ToString, s => { Settings.Manager = PyroFunctions.PyroFunctions.ConvertStringToClosestKey(s, Settings.Manager); });
-        
+
         if ( Main.UsingSc )
         {
             //SuperCallouts Text buttons
@@ -74,7 +74,7 @@ internal static class Manager
             ScCfgInteract.WithTextEditing(ScSettings.Interact.ToString, s => { ScSettings.Interact = PyroFunctions.PyroFunctions.ConvertStringToClosestKey(s, ScSettings.Interact); });
             ScCfgEndCall.WithTextEditing(ScSettings.EndCall.ToString, s => { ScSettings.EndCall = PyroFunctions.PyroFunctions.ConvertStringToClosestKey(s, ScSettings.EndCall); });
         }
-        
+
         if ( Main.UsingSe )
         {
             //SuperEvents Text buttons
@@ -88,7 +88,7 @@ internal static class Manager
             SeCfgEndEvent.WithTextEditing(SeSettings.EndEvent.ToString, s => { SeSettings.EndEvent = PyroFunctions.PyroFunctions.ConvertStringToClosestKey(s, SeSettings.EndEvent); });
             ScCfgNumber.WithTextEditing(ScSettings.EmergencyNumber.ToString, s => { ScSettings.EmergencyNumber = s; });
         }
-        
+
         if ( Main.UsingDw )
         {
             //DeadlyWeapons Text buttons
@@ -104,7 +104,7 @@ internal static class Manager
                 else Game.DisplayHelp("~r~That is not a number!");
             });
         }
-        
+
         _running = true;
         MainMenuPool.Add(MainMenu);
         MainMenuPool.Add(PcMenu);
@@ -134,7 +134,7 @@ internal static class Manager
         PcMenu.AddItems(
             Extras.UiSeparator(Extras.CenterText(PcMenu, "Installed Plugins")),
             Extras.SuperCallouts(), Extras.SuperEvents(), Extras.DeadlyWeapons(),
-            Extras.UiSeparator(Extras.CenterText(PcMenu, "First Time Setup")),
+            Extras.UiSeparator(Extras.CenterText(PcMenu, "PyroCommon Setup")),
             UpdateNotifications, ErrorReporting, DisableManagerUI, ManagerKey,
             Extras.UiSeparator(Extras.CenterText(PcMenu, "Saves PyroCommon.ini")),
             SaveButton);
