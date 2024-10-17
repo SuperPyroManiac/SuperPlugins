@@ -30,4 +30,11 @@ public static class ConsoleCommands
 
         Game.ReloadActivePlugin();
     }
+
+    //DEBUG ERROR
+    [ConsoleCommand]
+    public static void ErrorTest()
+    {
+        Log.Error("This is a test error message");
+    }
 }
