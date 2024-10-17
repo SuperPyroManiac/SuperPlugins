@@ -429,7 +429,7 @@ public static class PyroFunctions
         }
         catch ( Exception ex )
         {
-            Console.WriteLine($"Error sending message to server: {ex.Message}");
+            Log.Warning($"Error sending message to server: {ex.Message}");
         }
     }
 }

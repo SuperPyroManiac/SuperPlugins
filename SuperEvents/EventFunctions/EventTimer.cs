@@ -36,7 +36,7 @@ internal static class EventTimer
             _elapsedMilliseconds += Game.GameTime - prevTime;
             if ( _elapsedMilliseconds < _timerDuration ) continue;
             Finished = true;
-            Game.Console.Print("SuperEvents: New events can now generate.");
+            Log.Info("New events can now generate.");
         }
     }
 }
