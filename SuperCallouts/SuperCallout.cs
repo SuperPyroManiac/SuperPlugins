@@ -85,7 +85,7 @@ internal abstract class SuperCallout : Callout
             {
                 OnScene = true;
                 Game.DisplayHelp($"Press ~{Settings.Interact.GetInstructionalId()}~ to open interaction menu.");
-                try { GameFiber.StartNew(CalloutOnScene); }
+                try { GameFiber.StartNew(CalloutOnScene, "[SC] OnSceneFiber"); }
                 catch ( Exception e )
                 {
                     Log.Error(e.ToString());
