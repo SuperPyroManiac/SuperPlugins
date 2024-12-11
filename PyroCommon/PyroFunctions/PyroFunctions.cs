@@ -194,17 +194,12 @@ public static class PyroFunctions
     {
         if ( areSuspectsPulledOver ) Functions.ForceEndCurrentPullover();
         var pursuitLHandle = Functions.CreatePursuit();
-
         foreach ( var suspect in suspects )
         {
-            if ( randomizePursuitAttributes )
-            {
-                RandomizePursuitAttributes(suspect);
-            }
+            if ( randomizePursuitAttributes ) RandomizePursuitAttributes(suspect);
             Functions.AddPedToPursuit(pursuitLHandle, suspect);
         }
         Functions.SetPursuitIsActiveForPlayer(pursuitLHandle, true);
-
         return pursuitLHandle;
     }
 

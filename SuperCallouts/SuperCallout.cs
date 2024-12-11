@@ -62,8 +62,8 @@ internal abstract class SuperCallout : Callout
         try { CalloutAccepted(); }
         catch ( Exception e )
         {
-            if ( e.Message.Contains("Could not spawn new vehicle") ) Log.Error("Vehicle spawn failed! This is likely a mods folder issue and not the plugins fault!\r\n" + e.Message, false);
-            if ( e.Message.Contains("Cannot load invalid model with hash") ) Log.Error("Vehicle spawn failed! This is likely a mods folder issue and not the plugins fault!\r\n" + e.Message, false);
+            if ( e.ToString().Contains("Could not spawn new vehicle") ) Log.Error("Vehicle spawn failed! This is likely a mods folder issue and not the plugins fault!\r\n" + e.Message, false);
+            if ( e.ToString().Contains("Cannot load invalid model with hash") ) Log.Error("Vehicle spawn failed! This is likely a mods folder issue and not the plugins fault!\r\n" + e.Message, false);
             if ( e is InvalidHandleableException ) Log.Error("Failed to start callout! Welcome to modded GTA. Not much I can do here.\r\n" + e.Message, false);
             else Log.Error(e.ToString());
             CalloutEnd(true);
