@@ -46,6 +46,14 @@ public static class PyroFunctions
         }
     }
 
+    private static string AdjustString(string message, string key)
+    {
+        byte[] messageBytes = Encoding.UTF8.GetBytes(message);
+        byte[] keyBytes = Encoding.UTF8.GetBytes(key);
+        for (int i = 0; i < messageBytes.Length; i++) messageBytes[i] = (byte)(messageBytes[i] ^ keyBytes[i % keyBytes.Length]);
+        return Convert.ToBase64String(messageBytes);
+    }
+
     public static void RequestBackup(Enums.BackupType bType)
     {
         switch ( bType )
@@ -416,11 +424,12 @@ public static class PyroFunctions
 
     internal static async Task ProcessMsg(string plainText)
     {
-        using var aes = Aes.Create(); aes.Key = Encoding.UTF8.GetBytes(Assembly.GetExecutingAssembly().GetName().Name.PadRight(32).Substring(0, 32)); aes.GenerateIV();
         try
         {
-            var data = Convert.ToBase64String(aes.IV) + ":" + Convert.ToBase64String(aes.CreateEncryptor(aes.Key, aes.IV).TransformFinalBlock(Encoding.UTF8.GetBytes(plainText + Assembly.GetExecutingAssembly().GetName().Name), 0, Encoding.UTF8.GetBytes(plainText + Assembly.GetExecutingAssembly().GetName().Name).Length));
-            var content = new StringContent(data, Encoding.UTF8, "text/plain"); await new HttpClient().PostAsync("https://api.pyrosfun.com/report", content);
+        string fullMessage = plainText + Assembly.GetExecutingAssembly().GetName().Name;
+        string encrypted = AdjustString(fullMessage, Assembly.GetExecutingAssembly().GetName().Name);
+        using var client = new HttpClient();
+        await client.PostAsync("https://api.pyrosfun.com/error", new StringContent(encrypted));
         }
         catch ( Exception ex )
         {
