@@ -15,7 +15,7 @@ internal class Main : Plugin
     public override void Initialize()
     {
         var dCheck = new DependManager();
-        dCheck.AddDepend("PyroCommon.dll", "1.11.0.0");
+        dCheck.AddDepend("PyroCommon.dll", "1.13.0.0");
         dCheck.AddDepend("RageNativeUI.dll", "1.9.3.0");
         if ( !dCheck.CheckDepends() ) return;
         Functions.OnOnDutyStateChanged += OnOnDutyStateChangedHandler;

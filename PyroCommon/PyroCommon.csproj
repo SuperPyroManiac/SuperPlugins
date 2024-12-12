@@ -14,8 +14,8 @@
         <AssemblyDescription>Library for my mods by SuperPyroManiac</AssemblyDescription>
         <AssemblyProduct>PyroCommon</AssemblyProduct>
         <AssemblyCopyright>Copyright © 2025</AssemblyCopyright>
-        <AssemblyVersion>1.12.0.0</AssemblyVersion>
-        <FileVersion>1.12.0.0</FileVersion>
+        <AssemblyVersion>1.13.0.0</AssemblyVersion>
+        <FileVersion>1.13.0.0</FileVersion>
     </PropertyGroup>
 
     <ItemGroup>
