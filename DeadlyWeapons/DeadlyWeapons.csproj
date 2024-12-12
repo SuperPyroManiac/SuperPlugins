@@ -38,9 +38,6 @@
     <ItemGroup>
         <PackageReference Include="RagePluginHook" Version="1.109.1" />
         <PackageReference Include="DamageTrackerLib" Version="2.0.0">
-          <PrivateAssets>all</PrivateAssets>
-          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
 
         <Reference Include="LSPD First Response">
             <HintPath>..\packages\!Manual\LSPD First Response.dll</HintPath>
