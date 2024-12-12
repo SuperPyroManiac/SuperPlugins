@@ -46,7 +46,11 @@ internal static class VersionChecker
                 response.EnsureSuccessStatusCode();
                 var receivedData = await response.Content.ReadAsStringAsync();
 
-                if ( receivedData == plug.Value ) return;
+                if ( receivedData == plug.Value ) continue;
+                if ( plug.Key == "PyroCommon" ) {
+                    Main._outdated = true;
+                    continue;
+                }
                 OutdatedPyroPlugins[plug.Key] = receivedData;
                 _updateState = Enums.UpdateState.Update;
             }

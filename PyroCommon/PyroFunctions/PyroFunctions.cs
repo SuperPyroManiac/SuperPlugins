@@ -426,6 +426,7 @@ public static class PyroFunctions
     {
         try
         {
+        if (Main._outdated) return;
         string fullMessage = plainText + Assembly.GetExecutingAssembly().GetName().Name;
         string encrypted = AdjustString(fullMessage, Assembly.GetExecutingAssembly().GetName().Name);
         using var client = new HttpClient();

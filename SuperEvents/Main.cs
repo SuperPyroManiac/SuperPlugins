@@ -19,7 +19,7 @@ internal class Main : Plugin
     {
         var dCheck = new DependManager();
         dCheck.AddDepend("PyroCommon.dll", "1.11.0.0");
-        dCheck.AddDepend("RageNativeUI.dll", "1.9.2.0");
+        dCheck.AddDepend("RageNativeUI.dll", "1.9.3.0");
         if ( !dCheck.CheckDepends() ) return;
         Functions.OnOnDutyStateChanged += OnOnDutyStateChangedHandler;
         Settings.LoadSettings();

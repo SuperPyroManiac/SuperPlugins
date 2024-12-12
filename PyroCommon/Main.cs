@@ -11,6 +11,7 @@ namespace PyroCommon;
 public static class Main
 {
     private static bool _init;
+    internal static bool _outdated = false;
     internal static bool EventsPaused { get; set; }
     internal static readonly Dictionary<string, string> InstalledPyroPlugins = new();
     private static readonly Func<string, bool> IsLoaded = plugName => Functions.GetAllUserPlugins().Any(assembly => assembly.GetName().Name.Equals(plugName));
@@ -24,11 +25,12 @@ public static class Main
     internal static void InitCommon(string plugName, string plugVersion)
     {
         var dCheck = new DependManager();
-        dCheck.AddDepend("RageNativeUI.dll", "1.9.2.0");
+        dCheck.AddDepend("RageNativeUI.dll", "1.9.3.0");
         if ( !dCheck.CheckDepends() ) return;
         InstalledPyroPlugins[plugName] = plugVersion;
         if ( _init ) return;
         _init = true;
+        InstalledPyroPlugins["PyroCommon"] = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
         Game.AddConsoleCommands([typeof(ConsoleCommands)]);
         AssemblyLoader.Load();
         GameFiber.StartNew(Run, "[PC] Main");
