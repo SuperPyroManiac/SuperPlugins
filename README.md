@@ -4,7 +4,7 @@
 <br>
 
 > [!Note]
-> This repo contains all of my projects for all my plugins except [TurnOffThatEngine](https://www.lcpdfr.com/downloads/gta5mods/scripts/34834-turn-off-that-engine/). You can find builds in the actions tab.<br>
+> This repo contains all of my plugins except [TurnOffThatEngine](https://www.lcpdfr.com/downloads/gta5mods/scripts/34834-turn-off-that-engine/). You can find builds in the actions tab.<br>
 > I ask that people only download the compiled addons from here, or on the LSPDFR site.
 
 <br>
