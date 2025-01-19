@@ -24,9 +24,6 @@ public static class Main
 
     internal static void InitCommon(string plugName, string plugVersion)
     {
-        var dCheck = new DependManager();
-        dCheck.AddDepend("RageNativeUI.dll", "1.9.3.0");
-        if ( !dCheck.CheckDepends() ) return;
         InstalledPyroPlugins[plugName] = plugVersion;
         if ( _init ) return;
         _init = true;
@@ -52,6 +49,9 @@ public static class Main
         if ( UsingSc ) ScSettings.GetSettings();
         if ( UsingSe ) SeSettings.GetSettings();
         if ( UsingDw ) DwSettings.GetSettings();
+        var dCheck = new DependManager();
+        dCheck.AddDepend("RageNativeUI.dll", "1.9.3.0");
+        if ( !dCheck.CheckDepends() ) return;
         Manager.StartUi();
     }
 
