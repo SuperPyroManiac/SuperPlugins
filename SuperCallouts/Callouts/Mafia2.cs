@@ -45,21 +45,41 @@ internal class Mafia2 : Callout
         ShowCalloutAreaBlipBeforeAccepting(_callPos, 80f);
         CalloutMessage = "~b~FIB Report:~s~ Organized crime members spotted.";
         CalloutPosition = _callPos;
-        Functions.PlayScannerAudioUsingPosition(
-            "ATTENTION_ALL_SWAT_UNITS_01 WE_HAVE CRIME_BRANDISHING_WEAPON_01 IN_OR_ON_POSITION UNITS_RESPOND_CODE_03_01",
-            _callPos);
+        Functions.PlayScannerAudioUsingPosition("ATTENTION_ALL_SWAT_UNITS_01 WE_HAVE CRIME_BRANDISHING_WEAPON_01 IN_OR_ON_POSITION UNITS_RESPOND_CODE_03_01", _callPos);
         return base.OnBeforeCalloutDisplayed();
     }
 
     public override bool OnCalloutAccepted()
     {
-        Mafia2Setup.ConstructMafia2Scene(out _cVehicle1, out _cVehicle2, out _cVehicle3, out _cVehicle4,
-            out _mafiaDude1, out _mafiaDude2, out _mafiaDude3, out _mafiaDude4, out _mafiaDude5, out _mafiaDude6,
-            out _mafiaDude7, out _mafiaDude8, out _mafiaDude9, out _mafiaDude10, out _mafiaDude11, out _mafiaDude12,
-            out _mafiaDude13, out _mafiaDude14, out _mafiaDude15);
+        Mafia2Setup.ConstructMafia2Scene(
+            out _cVehicle1,
+            out _cVehicle2,
+            out _cVehicle3,
+            out _cVehicle4,
+            out _mafiaDude1,
+            out _mafiaDude2,
+            out _mafiaDude3,
+            out _mafiaDude4,
+            out _mafiaDude5,
+            out _mafiaDude6,
+            out _mafiaDude7,
+            out _mafiaDude8,
+            out _mafiaDude9,
+            out _mafiaDude10,
+            out _mafiaDude11,
+            out _mafiaDude12,
+            out _mafiaDude13,
+            out _mafiaDude14,
+            out _mafiaDude15
+        );
         Log.Info("Mafia2 callout accepted...");
-        Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~The Mafia",
-            "FIB and IAA reports the Mafia have been spotted near Sandy Shores. Possible large scale drug trafficking. Investigate the scene.");
+        Game.DisplayNotification(
+            "3dtextures",
+            "mpgroundlogo_cops",
+            "~b~Dispatch",
+            "~r~The Mafia",
+            "FIB and IAA reports the Mafia have been spotted near Sandy Shores. Possible large scale drug trafficking. Investigate the scene."
+        );
         Game.LocalPlayer.Character.RelationshipGroup = "COP";
         Game.DisplaySubtitle("Get to the ~r~scene~w~! Proceed with ~r~CAUTION~w~!", 10000);
         _cBlip = _mafiaDude2.AttachBlip();
@@ -84,8 +104,9 @@ internal class Mafia2 : Callout
         _mafiaDudes.Add(_mafiaDude13);
         _mafiaDudes.Add(_mafiaDude14);
         _mafiaDudes.Add(_mafiaDude15);
-        foreach ( var mafiaCars in _mafiaCars ) mafiaCars.IsPersistent = true;
-        foreach ( var mafiaDudes in _mafiaDudes )
+        foreach (var mafiaCars in _mafiaCars)
+            mafiaCars.IsPersistent = true;
+        foreach (var mafiaDudes in _mafiaDudes)
         {
             mafiaDudes.IsPersistent = true;
             mafiaDudes.Inventory.Weapons.Add(WeaponHash.CombatPistol).Ammo = -1;
@@ -98,30 +119,28 @@ internal class Mafia2 : Callout
 
     public override void Process()
     {
-        if ( Game.IsKeyDown(Settings.EndCall) ) End();
-        if ( !_onScene && Game.LocalPlayer.Character.DistanceTo(_callPos) < 100f )
+        if (Game.IsKeyDown(Settings.EndCall))
+            End();
+        if (!_onScene && Game.LocalPlayer.Character.DistanceTo(_callPos) < 100f)
         {
             try
             {
-                Game.DisplaySubtitle(
-                    "Suspects spotted, appear to be ~r~armed~w~ and ~r~wanted~w~! Proceed with caution or wait for backup.",
-                    5000);
-                Game.DisplayNotification(
-                    "~r~Dispatch:~s~ Officer on scene, mafia activity spotted. Dispatching specialized units.");
-                Functions.PlayScannerAudioUsingPosition(
-                    "DISPATCH_SWAT_UNITS_FROM_01 IN_OR_ON_POSITION UNITS_RESPOND_CODE_99_01", _callPos);
+                Game.DisplaySubtitle("Suspects spotted, appear to be ~r~armed~w~ and ~r~wanted~w~! Proceed with caution or wait for backup.", 5000);
+                Game.DisplayNotification("~r~Dispatch:~s~ Officer on scene, mafia activity spotted. Dispatching specialized units.");
+                Functions.PlayScannerAudioUsingPosition("DISPATCH_SWAT_UNITS_FROM_01 IN_OR_ON_POSITION UNITS_RESPOND_CODE_99_01", _callPos);
                 PyroFunctions.RequestBackup(Enums.BackupType.Noose);
                 PyroFunctions.RequestBackup(Enums.BackupType.Code3);
                 PyroFunctions.RequestBackup(Enums.BackupType.Code3);
                 PyroFunctions.RequestBackup(Enums.BackupType.Code3);
 
                 Game.LocalPlayer.Character.RelationshipGroup = "COP";
-                if ( _mafiaDude13 != null ) _mafiaDude13.Tasks.FightAgainst(Game.LocalPlayer.Character, -1);
+                if (_mafiaDude13 != null)
+                    _mafiaDude13.Tasks.FightAgainst(Game.LocalPlayer.Character, -1);
                 Game.SetRelationshipBetweenRelationshipGroups("MAFIA", "COP", Relationship.Hate);
                 Game.SetRelationshipBetweenRelationshipGroups("COP", "MAFIA", Relationship.Hate);
                 _cBlip?.Delete();
             }
-            catch ( Exception e )
+            catch (Exception e)
             {
                 Log.Error(e.ToString());
                 End();
@@ -130,14 +149,17 @@ internal class Mafia2 : Callout
             _onScene = true;
         }
 
-        if ( _onScene && Game.LocalPlayer.Character.DistanceTo(_callPos) > 120f ) End();
+        if (_onScene && Game.LocalPlayer.Character.DistanceTo(_callPos) > 120f)
+            End();
         base.Process();
     }
 
     public override void End()
     {
-        foreach ( var mafiaCars in _mafiaCars.Where(mafiaCars => mafiaCars.Exists()) ) mafiaCars.Dismiss();
-        foreach ( var mafiaDudes in _mafiaDudes.Where(mafiaDudes => mafiaDudes.Exists()) ) mafiaDudes.Dismiss();
+        foreach (var mafiaCars in _mafiaCars.Where(mafiaCars => mafiaCars.Exists()))
+            mafiaCars.Dismiss();
+        foreach (var mafiaDudes in _mafiaDudes.Where(mafiaDudes => mafiaDudes.Exists()))
+            mafiaDudes.Dismiss();
         _cBlip?.Delete();
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
         base.End();
