@@ -12,94 +12,133 @@ namespace SuperCallouts.Callouts;
 [CalloutInfo("[SC] Ambulance Escort", CalloutProbability.Medium)]
 internal class AmbulanceEscort : SuperCallout
 {
-    private readonly List<Vector3> _hospitals =
-    [
-        new(1825, 3692, 34),
-        new(-454, -339, 34),
-        new(293, -1438, 29),
-        new(-232, 6316, 30),
-        new(294, -1439, 29)
-    ];
+    private readonly List<Vector3> _hospitals = [new(1825, 3692, 34), new(-454, -339, 34), new(293, -1438, 29), new(-232, 6316, 30), new(294, -1439, 29)];
 
-    private Blip _cBlip;
-    private Blip _cBlip2;
-    private Vehicle _cVehicle;
-    private Ped _doc1;
-    private Ped _doc2;
+    private Blip _ambulanceBlip;
+    private Blip _hospitalBlip;
+    private Vehicle _ambulance;
+    private Ped _paramedic1;
+    private Ped _paramedic2;
     private Vector3 _hospital;
     private Ped _victim;
+
     internal override Location SpawnPoint { get; set; } = PyroFunctions.GetSideOfRoad(400, 70);
     internal override float OnSceneDistance { get; set; } = 35;
     internal override string CalloutName { get; set; } = "Ambulance Escort";
 
     internal override void CalloutPrep()
     {
-        _hospital = _hospitals.OrderBy(x => x.DistanceTo(Game.LocalPlayer.Character.Position)).FirstOrDefault();
+        _hospital = _hospitals.OrderBy(x => x.DistanceTo(Player.Position)).FirstOrDefault();
         CalloutMessage = "~b~Dispatch:~s~ Ambulance requests police escort.";
         CalloutAdvisory = "Ambulance needs assistance clearing traffic.";
-        Functions.PlayScannerAudioUsingPosition(
-            "ATTENTION_ALL_UNITS_05 WE_HAVE CRIME_AMBULANCE_REQUESTED_01 IN_OR_ON_POSITION", SpawnPoint.Position);
+        Functions.PlayScannerAudioUsingPosition("ATTENTION_ALL_UNITS_05 WE_HAVE CRIME_AMBULANCE_REQUESTED_01 IN_OR_ON_POSITION", SpawnPoint.Position);
     }
 
     internal override void CalloutAccepted()
     {
-        Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Ambulance Escort",
-            "Ambulance has a wounded police officer in critical condition, ensure the ambulance has a clear path to the nearest hospital, get to the scene! High priority, respond ~y~CODE-3");
+        Game.DisplayNotification(
+            "3dtextures",
+            "mpgroundlogo_cops",
+            "~b~Dispatch",
+            "~r~Ambulance Escort",
+            "Ambulance has a wounded police officer in critical condition, ensure the ambulance has a clear path to the nearest hospital, get to the scene! High priority, respond ~y~CODE-3"
+        );
 
-        _cVehicle = new Vehicle("AMBULANCE", SpawnPoint.Position)
-        { Heading = SpawnPoint.Heading, IsPersistent = true, IsSirenOn = true };
-        EntitiesToClear.Add(_cVehicle);
+        SpawnAmbulance();
+        SpawnParamedics();
+        SpawnVictim();
+        CreateAmbulanceBlip();
+    }
 
-        _doc1 = new Ped("s_m_m_paramedic_01", SpawnPoint.Position, 0f) { IsPersistent = true, BlockPermanentEvents = true };
-        _doc1.WarpIntoVehicle(_cVehicle, -1);
-        EntitiesToClear.Add(_doc1);
+    private void SpawnAmbulance()
+    {
+        _ambulance = new Vehicle("AMBULANCE", SpawnPoint.Position)
+        {
+            Heading = SpawnPoint.Heading,
+            IsPersistent = true,
+            IsSirenOn = true,
+        };
+        EntitiesToClear.Add(_ambulance);
+    }
 
-        _doc2 = new Ped("s_m_m_paramedic_01", SpawnPoint.Position, 0f) { IsPersistent = true, BlockPermanentEvents = true };
-        _doc2.WarpIntoVehicle(_cVehicle, 0);
-        EntitiesToClear.Add(_doc2);
+    private void SpawnParamedics()
+    {
+        _paramedic1 = new Ped("s_m_m_paramedic_01", SpawnPoint.Position, 0f) { IsPersistent = true, BlockPermanentEvents = true };
+        _paramedic1.WarpIntoVehicle(_ambulance, -1);
+        EntitiesToClear.Add(_paramedic1);
 
+        _paramedic2 = new Ped("s_m_m_paramedic_01", SpawnPoint.Position, 0f) { IsPersistent = true, BlockPermanentEvents = true };
+        _paramedic2.WarpIntoVehicle(_ambulance, 0);
+        EntitiesToClear.Add(_paramedic2);
+    }
+
+    private void SpawnVictim()
+    {
         _victim = new Ped("s_m_y_hwaycop_01", SpawnPoint.Position, 0f) { IsPersistent = true, BlockPermanentEvents = true };
-        _victim.WarpIntoVehicle(_cVehicle, 1);
+        _victim.WarpIntoVehicle(_ambulance, 1);
         EntitiesToClear.Add(_victim);
+    }
 
-        _cBlip = _cVehicle.AttachBlip();
-        _cBlip.EnableRoute(Color.Green);
-        _cBlip.Color = Color.Green;
-        BlipsToClear.Add(_cBlip);
+    private void CreateAmbulanceBlip()
+    {
+        _ambulanceBlip = _ambulance.AttachBlip();
+        _ambulanceBlip.EnableRoute(Color.Green);
+        _ambulanceBlip.Color = Color.Green;
+        BlipsToClear.Add(_ambulanceBlip);
     }
 
     internal override void CalloutRunning()
     {
-        if ( !_cVehicle || !_doc1 || !_doc2 || !_victim )
+        if (!_ambulance || !_paramedic1 || !_paramedic2 || !_victim)
         {
             CalloutEnd(true);
             return;
         }
 
-        if ( _cVehicle.DistanceTo(_hospital) < 15f && OnScene )
+        if (_ambulance.DistanceTo(_hospital) < 15f && OnScene)
         {
-            _cVehicle.IsSirenSilent = true;
-            if ( _doc1.IsInAnyVehicle(false) ) _doc1.Tasks.LeaveVehicle(LeaveVehicleFlags.None);
-            if ( _doc2.IsInAnyVehicle(false) ) _doc2.Tasks.LeaveVehicle(LeaveVehicleFlags.None);
-            if ( _victim.IsInAnyVehicle(false) ) _victim.Tasks.LeaveVehicle(LeaveVehicleFlags.None);
-            CalloutEnd();
+            HandleArrivalAtHospital();
         }
+    }
+
+    private void HandleArrivalAtHospital()
+    {
+        _ambulance.IsSirenSilent = true;
+
+        if (_paramedic1.IsInAnyVehicle(false))
+            _paramedic1.Tasks.LeaveVehicle(LeaveVehicleFlags.None);
+
+        if (_paramedic2.IsInAnyVehicle(false))
+            _paramedic2.Tasks.LeaveVehicle(LeaveVehicleFlags.None);
+
+        if (_victim.IsInAnyVehicle(false))
+            _victim.Tasks.LeaveVehicle(LeaveVehicleFlags.None);
+
+        CalloutEnd();
     }
 
     internal override void CalloutOnScene()
     {
-        if ( !_cVehicle || !_doc1 || !_doc2 || !_victim || !_cBlip )
+        if (!_ambulance || !_paramedic1 || !_paramedic2 || !_victim || !_ambulanceBlip)
         {
             CalloutEnd(true);
             return;
         }
 
         Game.DisplayHelp("Ensure the ambulance has a clear path!");
-        _cBlip.DisableRoute();
-        if ( _doc1.IsInAnyVehicle(false) ) _doc1.Tasks.DriveToPosition(_cVehicle, _hospital, 20f, VehicleDrivingFlags.Emergency, 10f);
-        _cBlip2 = new Blip(_hospital);
-        _cBlip2.EnableRoute(Color.Blue);
-        _cBlip2.Color = Color.Blue;
-        BlipsToClear.Add(_cBlip2);
+        _ambulanceBlip.DisableRoute();
+
+        if (_paramedic1.IsInAnyVehicle(false))
+            _paramedic1.Tasks.DriveToPosition(_ambulance, _hospital, 20f, VehicleDrivingFlags.Emergency, 10f);
+
+        CreateHospitalBlip();
+    }
+
+    private void CreateHospitalBlip()
+    {
+        _hospitalBlip = new Blip(_hospital);
+        _hospitalBlip.EnableRoute(Color.Blue);
+        _hospitalBlip.Color = Color.Blue;
+        BlipsToClear.Add(_hospitalBlip);
     }
 }

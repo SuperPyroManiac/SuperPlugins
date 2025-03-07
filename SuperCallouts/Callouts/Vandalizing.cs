@@ -2,7 +2,10 @@
 using System.Drawing;
 using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.PyroFunctions;
+using PyroCommon.PyroFunctions.Extensions;
 using Rage;
+using RAGENativeUI;
+using RAGENativeUI.Elements;
 using Functions = LSPD_First_Response.Mod.API.Functions;
 using Location = PyroCommon.Objects.Location;
 
@@ -11,75 +14,120 @@ namespace SuperCallouts.Callouts;
 [CalloutInfo("[SC] Vandalizing", CalloutProbability.Medium)]
 internal class Vandalizing : SuperCallout
 {
-    internal override Location SpawnPoint { get; set; } = new(World.GetNextPositionOnStreet(Player.Position.Around(350f)));
-    internal override float OnSceneDistance { get; set; } = 50;
+    private Ped _suspect;
+    private Blip _suspectBlip;
+    private string _suspectName;
+    private UIMenuItem _speakSuspect;
+
+    internal override Location SpawnPoint { get; set; } = PyroFunctions.GetSideOfRoad(750, 180);
+    internal override float OnSceneDistance { get; set; } = 25;
     internal override string CalloutName { get; set; } = "Vandalizing";
-    private Vehicle _cVehicle;
-    private Ped _bad;
-    private Blip _cBlip;
-    private readonly int _rNd = new Random(DateTime.Now.Millisecond).Next(2);
 
     internal override void CalloutPrep()
     {
-        CalloutMessage = "~b~Dispatch:~s~ Person vandalizing a vehicle.";
-        CalloutAdvisory = "Caller states a person is damaging a parked vehicle.";
-        Functions.PlayScannerAudioUsingPosition(
-            "WE_HAVE CRIME_SUSPECT_ON_THE_RUN_03 IN_OR_ON_POSITION", SpawnPoint.Position);
+        CalloutMessage = $"~r~{Settings.EmergencyNumber} Report:~s~ Reports of a person vandalizing property.";
+        CalloutAdvisory = "Caller reports a person is spray painting a wall.";
+        Functions.PlayScannerAudioUsingPosition("CITIZENS_REPORT_04 CRIME_DISTURBING_THE_PEACE_01 IN_OR_ON_POSITION UNITS_RESPOND_CODE_02_01", SpawnPoint.Position);
     }
 
     internal override void CalloutAccepted()
     {
-        Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Vandalizing",
-            "A suspect has been reported damaging a vehicle. Respond ~r~CODE-3");
+        Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Vandalizing", "Reports of a person vandalizing property. Respond ~y~CODE-2");
 
-        PyroFunctions.SpawnNormalCar(out _cVehicle, SpawnPoint.Position);
-        PyroFunctions.DamageVehicle(_cVehicle, 200, 200);
-        EntitiesToClear.Add(_cVehicle);
+        SpawnSuspect();
+        CreateBlip();
+        SetupConversation();
+    }
 
-        _bad = new Ped(SpawnPoint.Position.Around(15f));
-        _bad.WarpIntoVehicle(_cVehicle, -1);
-        _bad.IsPersistent = true;
-        _bad.BlockPermanentEvents = true;
-        _bad.Metadata.stpDrugsDetected = true;
-        _bad.Metadata.stpAlcoholDetected = true;
-        PyroFunctions.SetDrunkOld(_bad, true);
-        EntitiesToClear.Add(_bad);
+    private void SpawnSuspect()
+    {
+        _suspect = new Ped(SpawnPoint.Position);
+        _suspect.IsPersistent = true;
+        _suspect.BlockPermanentEvents = true;
+        _suspectName = Functions.GetPersonaForPed(_suspect).FullName;
+        _suspect.Metadata.searchPed = "~r~Spray paint can~s~, ~g~wallet~s~";
+        EntitiesToClear.Add(_suspect);
+    }
 
-        _cBlip = _bad.AttachBlip();
-        _cBlip.EnableRoute(Color.Red);
-        _cBlip.Color = Color.Red;
-        _cBlip.Scale = .5f;
-        BlipsToClear.Add(_cBlip);
+    private void CreateBlip()
+    {
+        _suspectBlip = _suspect.AttachBlip();
+        _suspectBlip.Color = Color.Yellow;
+        _suspectBlip.EnableRoute(Color.Yellow);
+        BlipsToClear.Add(_suspectBlip);
+    }
 
-        _bad.Tasks.LeaveVehicle(LeaveVehicleFlags.WarpOut);
+    private void SetupConversation()
+    {
+        _speakSuspect = new UIMenuItem($"Speak with ~y~{_suspectName}");
+        ConvoMenu.AddItem(_speakSuspect);
     }
 
     internal override void CalloutOnScene()
     {
-        if ( !_bad )
+        if (!_suspect)
         {
             CalloutEnd(true);
             return;
         }
 
-        _cBlip?.Delete();
-        _bad.BlockPermanentEvents = false;
+        _suspectBlip?.DisableRoute();
+        Questioning.Enabled = true;
 
-        switch ( _rNd )
+        DetermineSuspectBehavior();
+    }
+
+    private void DetermineSuspectBehavior()
+    {
+        var random = new Random(DateTime.Now.Millisecond);
+        var behavior = random.Next(1, 4);
+
+        switch (behavior)
         {
-            case 0:
+            case 1: // Suspect flees
                 var pursuit = Functions.CreatePursuit();
-                Functions.AddPedToPursuit(pursuit, _bad);
+                Functions.AddPedToPursuit(pursuit, _suspect);
                 Functions.SetPursuitIsActiveForPlayer(pursuit, true);
                 break;
-            case 1:
-                _bad.Tasks.FightAgainst(Player, -1);
+
+            case 2: // Suspect is aggressive
+                _suspect.Tasks.FightAgainst(Player);
                 break;
-            case 2:
-                _bad.Inventory.Weapons.Add(WeaponHash.CombatPistol).Ammo = -1;
-                _bad.Tasks.FireWeaponAt(_cVehicle, -1, FiringPattern.BurstFirePistol);
+
+            case 3: // Suspect complies
+                _suspect.Tasks.PutHandsUp(-1, Player);
                 break;
         }
     }
-}
 
+    protected override void Conversations(UIMenu sender, UIMenuItem selItem, int index)
+    {
+        if (!_suspect)
+        {
+            CalloutEnd(true);
+            return;
+        }
+
+        if (selItem == _speakSuspect)
+        {
+            GameFiber.StartNew(
+                delegate
+                {
+                    _speakSuspect.Enabled = false;
+                    Game.DisplaySubtitle("~g~You~s~: Excuse me, I've received reports of someone vandalizing property in this area.", 5000);
+                    _suspect.Tasks.FaceEntity(Player);
+                    GameFiber.Wait(5000);
+                    Game.DisplaySubtitle($"~r~{_suspectName}~s~: It wasn't me officer, I was just walking by.", 5000);
+                    GameFiber.Wait(5000);
+                    Game.DisplaySubtitle("~g~You~s~: Do you mind if I search you for spray paint?", 5000);
+                    GameFiber.Wait(5000);
+                    Game.DisplaySubtitle($"~r~{_suspectName}~s~: I don't consent to searches.", 5000);
+                    GameFiber.Wait(5000);
+                    Game.DisplaySubtitle("~g~You~s~: I have reasonable suspicion that you were involved in vandalism, which gives me grounds to search you.", 5000);
+                }
+            );
+        }
+
+        base.Conversations(sender, selItem, index);
+    }
+}

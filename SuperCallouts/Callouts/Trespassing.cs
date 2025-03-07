@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using LSPD_First_Response.Mod.API;
 using LSPD_First_Response.Mod.Callouts;
-using PyroCommon.Objects;
 using PyroCommon.PyroFunctions;
 using PyroCommon.PyroFunctions.Extensions;
 using Rage;
@@ -18,158 +14,161 @@ namespace SuperCallouts.Callouts;
 [CalloutInfo("[SC] Trespassing", CalloutProbability.Medium)]
 internal class Trespassing : SuperCallout
 {
-    private readonly int _cScene = new Random(DateTime.Now.Millisecond).Next(0, 4);
-
-    private readonly List<Location> _locations =
-    [
-        new(new Vector3(1323.59f, -1652.35f, 52.27f), 99f),
-        new(new Vector3(77.46f, -1390.56f, 29.3761f), 86f),
-        new(new Vector3(423.18f, -808.52f, 29.49f), 268f),
-        new(new Vector3(-711.29f, -156.18f, 37.41f), 344f),
-        new(new Vector3(1392.59f, 3602.87f, 34.98f), 24f),
-        new(new Vector3(1699.71f, 4926.49f, 42.06f), 167f),
-        new(new Vector3(1733.94f, 6420.61f, 35.03f), 245f),
-        new(new Vector3(2679.04f, 3281.72f, 55.24f), 128f),
-        new(new Vector3(-49.33f, -1756.87f, 29.42f), 255f),
-        new(new Vector3(-1224.55f, -906.21f, 12.32f), 229f)
-    ];
-
-    private Blip _cBlip;
-    private string _name;
-    private UIMenuItem _speakSuspect;
     private Ped _suspect;
-    internal override Location SpawnPoint { get; set; }
-    internal override float OnSceneDistance { get; set; } = 10;
+    private Blip _suspectBlip;
+    private Ped _homeowner;
+    private string _suspectName;
+    private string _homeownerName;
+    private UIMenuItem _speakSuspect;
+    private UIMenuItem _speakHomeowner;
+
+    internal override Location SpawnPoint { get; set; } = PyroFunctions.GetSideOfRoad(750, 180);
+    internal override float OnSceneDistance { get; set; } = 25;
     internal override string CalloutName { get; set; } = "Trespassing";
 
     internal override void CalloutPrep()
     {
-        SpawnPoint = _locations.OrderBy(x => x.Position.DistanceTo(Game.LocalPlayer.Character.Position)).FirstOrDefault();
-        CalloutMessage = "~r~" + Settings.EmergencyNumber + " Report:~s~ Reports of a person trespassing.";
-        CalloutAdvisory = "Caller says the person is being aggressive and damaging property.";
-        Functions.PlayScannerAudioUsingPosition(
-            "ATTENTION_ALL_UNITS_05 WE_HAVE CRIME_DISTURBING_THE_PEACE_01 IN_OR_ON_POSITION",
-            SpawnPoint.Position);
+        CalloutMessage = $"~r~{Settings.EmergencyNumber} Report:~s~ Reports of a trespasser.";
+        CalloutAdvisory = "Caller reports a person is on their property and refusing to leave.";
+        Functions.PlayScannerAudioUsingPosition("CITIZENS_REPORT_04 CRIME_DISTURBING_THE_PEACE_01 IN_OR_ON_POSITION UNITS_RESPOND_CODE_02_01", SpawnPoint.Position);
     }
 
     internal override void CalloutAccepted()
     {
-        Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~y~Trespassing",
-            "Caller reports an individual trespassing and causing a disturbance. ~r~CODE-2");
+        Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Trespassing", "Reports of a person trespassing on private property. Respond ~y~CODE-2");
 
-        _suspect = new Ped(SpawnPoint.Position, SpawnPoint.Heading)
-        { IsPersistent = true, BlockPermanentEvents = true };
-        _suspect.SetDrunk(Enums.DrunkState.Sloshed);
-        _suspect.Metadata.stpAlcoholDetected = true;
-        _name = Functions.GetPersonaForPed(_suspect).FullName;
-        _suspect.Tasks.Cower(-1);
-        EntitiesToClear.Add(_suspect);
-
-        _cBlip = _suspect.AttachBlip();
-        _cBlip.Color = Color.Red;
-        _cBlip.EnableRoute(Color.Red);
-        BlipsToClear.Add(_cBlip);
-
-        _speakSuspect = new UIMenuItem("Speak with ~y~" + _name);
-        ConvoMenu.AddItem(_speakSuspect);
+        SpawnSuspect();
+        SpawnHomeowner();
+        CreateBlip();
+        SetupConversations();
     }
 
-    internal override void CalloutRunning()
+    private void SpawnSuspect()
     {
-        if ( !_suspect )
-        {
-            CalloutEnd(true);
-            return;
-        }
+        _suspect = new Ped(SpawnPoint.Position);
+        _suspect.IsPersistent = true;
+        _suspect.BlockPermanentEvents = true;
+        _suspectName = Functions.GetPersonaForPed(_suspect).FullName;
+        EntitiesToClear.Add(_suspect);
+    }
 
-        if ( !OnScene ) _suspect.PlayAmbientSpeech("GENERIC_CURSE_MED");
-        if ( _suspect.IsDead )
-        {
-            _speakSuspect!.Enabled = false;
-            _speakSuspect.RightLabel = "~r~Dead";
-        }
+    private void SpawnHomeowner()
+    {
+        _homeowner = new Ped(_suspect.GetOffsetPositionFront(2f));
+        _homeowner.IsPersistent = true;
+        _homeowner.BlockPermanentEvents = true;
+        _homeownerName = Functions.GetPersonaForPed(_homeowner).FullName;
+        EntitiesToClear.Add(_homeowner);
+    }
+
+    private void CreateBlip()
+    {
+        _suspectBlip = _suspect.AttachBlip();
+        _suspectBlip.Color = Color.Yellow;
+        _suspectBlip.EnableRoute(Color.Yellow);
+        BlipsToClear.Add(_suspectBlip);
+    }
+
+    private void SetupConversations()
+    {
+        _speakSuspect = new UIMenuItem($"Speak with ~y~{_suspectName}");
+        _speakHomeowner = new UIMenuItem($"Speak with ~b~{_homeownerName}");
+        ConvoMenu.AddItem(_speakSuspect);
+        ConvoMenu.AddItem(_speakHomeowner);
     }
 
     internal override void CalloutOnScene()
     {
-        if ( !_suspect )
+        if (!_suspect || !_homeowner)
         {
             CalloutEnd(true);
             return;
         }
 
-        _cBlip?.DisableRoute();
+        _suspectBlip?.DisableRoute();
         Questioning.Enabled = true;
-        _suspect.Face(Game.LocalPlayer.Character);
-        Game.DisplaySubtitle("~r~" + _name + "~s~: What do you want?", 3000);
+
+        SetupInitialInteraction();
+    }
+
+    private void SetupInitialInteraction()
+    {
+        _suspect.Tasks.FaceEntity(_homeowner);
+        _homeowner.Tasks.FaceEntity(_suspect);
+
+        // Determine scenario type
+        var random = new Random(DateTime.Now.Millisecond);
+        var scenario = random.Next(1, 4);
+
+        switch (scenario)
+        {
+            case 1: // Argument
+                _suspect.PlayAmbientSpeech("GENERIC_CURSE_MED");
+                _homeowner.PlayAmbientSpeech("GENERIC_CURSE_HIGH");
+                break;
+
+            case 2: // Suspect is drunk
+                PyroFunctions.SetDrunkOld(_suspect, true);
+                _suspect.Metadata.stpAlcoholDetected = true;
+                break;
+
+            case 3: // Suspect is aggressive
+                _suspect.Tasks.FightAgainst(_homeowner);
+                break;
+        }
     }
 
     protected override void Conversations(UIMenu sender, UIMenuItem selItem, int index)
     {
-        try
+        if (!_suspect || !_homeowner)
         {
-            if ( !_suspect )
-            {
-                CalloutEnd(true);
-                return;
-            }
+            CalloutEnd(true);
+            return;
+        }
 
-            if ( selItem == _speakSuspect )
-                GameFiber.StartNew(delegate
+        if (selItem == _speakSuspect)
+        {
+            GameFiber.StartNew(
+                delegate
                 {
                     _speakSuspect.Enabled = false;
-                    Game.DisplaySubtitle("~g~You~s~: What's going on?", 4000);
-                    GameFiber.Wait(4000);
-                    _suspect.PlayAmbientSpeech("GENERIC_CURSE_MED");
+                    Game.DisplaySubtitle("~g~You~s~: Hello, I'm Officer " + Functions.GetPersonaForPed(Player).FullName + ". What's going on here?", 5000);
+                    _suspect.Tasks.FaceEntity(Player);
+                    GameFiber.Wait(5000);
+                    Game.DisplaySubtitle($"~r~{_suspectName}~s~: I'm not doing anything wrong officer, I'm just trying to talk to this person.", 5000);
+                    GameFiber.Wait(5000);
+                    Game.DisplaySubtitle("~g~You~s~: They've asked you to leave their property, and you need to respect that.", 5000);
+                    GameFiber.Wait(5000);
+                    Game.DisplaySubtitle($"~r~{_suspectName}~s~: But I need to talk to them! It's important!", 5000);
+                    GameFiber.Wait(5000);
                     Game.DisplaySubtitle(
-                        "~r~" + _name + "~s~: Nothing, beat it im not doing anything wrong.",
-                        4000);
-                    GameFiber.Wait(4000);
-                    Game.DisplaySubtitle(
-                        "~g~You~s~: Well we have records showing you have been trespassed from this business.", 4000);
-                    GameFiber.Wait(4000);
-                    Game.DisplaySubtitle(
-                        "~r~" + _name + "~s~: I don't know anything about that, this is a free country!", 4000);
-                    GameFiber.Wait(4000);
-                    Game.DisplaySubtitle(
-                        "~g~You~s~: Alright, well let's step outside and have a talk about this.",
-                        4000);
-                    switch ( _cScene )
-                    {
-                        case 0:
-                            _suspect.PlayAmbientSpeech("GENERIC_CURSE_MED");
-                            _suspect.BlockPermanentEvents = false;
-                            LHandle pursuit;
-                            pursuit = Functions.CreatePursuit();
-                            Functions.AddPedToPursuit(pursuit, _suspect);
-                            Functions.SetPursuitIsActiveForPlayer(pursuit, true);
-                            break;
-                        case 1:
-                            _suspect.Tasks.FightAgainst(Game.LocalPlayer.Character, -1);
-                            break;
-                        case 2:
-                            _suspect.PlayAmbientSpeech("GENERIC_CURSE_MED");
-                            _suspect.Inventory.Weapons.Clear();
-                            _suspect.Inventory.Weapons.Add(WeaponHash.Pistol).Ammo = -1;
-                            _suspect.Tasks.ClearImmediately();
-                            _suspect.Tasks.AimWeaponAt(Game.LocalPlayer.Character, -1);
-                            Game.DisplaySubtitle(
-                                "~r~" + _name + "~s~: Don't make me do this!", 4000);
-                            break;
-                        case 3:
-                            _suspect.PlayAmbientSpeech("GENERIC_CURSE_MED");
-                            Game.DisplaySubtitle("~r~" + _name + "~s~: Ok, ok, I am leaving. Now leave me alone.",
-                                4000);
-                            _suspect.Dismiss();
-                            break;
-                    }
-                });
-            base.Conversations(sender, selItem, index);
+                        "~g~You~s~: I understand, but if they don't want to talk to you, you need to leave. Otherwise, I'll have to arrest you for trespassing.",
+                        5000
+                    );
+                }
+            );
         }
-        catch ( Exception e )
+
+        if (selItem == _speakHomeowner)
         {
-            Log.Error(e.ToString());
-            End();
+            GameFiber.StartNew(
+                delegate
+                {
+                    _speakHomeowner.Enabled = false;
+                    Game.DisplaySubtitle("~g~You~s~: Hello, I'm Officer " + Functions.GetPersonaForPed(Player).FullName + ". Can you tell me what's happening?", 5000);
+                    _homeowner.Tasks.FaceEntity(Player);
+                    GameFiber.Wait(5000);
+                    Game.DisplaySubtitle($"~b~{_homeownerName}~s~: This person won't leave my property! I've asked them multiple times but they refuse to go.", 5000);
+                    GameFiber.Wait(5000);
+                    Game.DisplaySubtitle("~g~You~s~: Do you know this person?", 5000);
+                    GameFiber.Wait(5000);
+                    Game.DisplaySubtitle($"~b~{_homeownerName}~s~: Yes, they're my ex and they keep showing up uninvited. I want them gone!", 5000);
+                    GameFiber.Wait(5000);
+                    Game.DisplaySubtitle("~g~You~s~: I understand. I'll handle it and make sure they leave.", 5000);
+                }
+            );
         }
+
+        base.Conversations(sender, selItem, index);
     }
 }

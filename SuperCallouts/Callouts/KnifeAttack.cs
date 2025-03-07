@@ -12,7 +12,7 @@ namespace SuperCallouts.Callouts;
 [CalloutInfo("[SC] Knife Attack", CalloutProbability.Medium)]
 internal class KnifeAttack : SuperCallout
 {
-    private readonly int _cScene = new Random(DateTime.Now.Millisecond).Next(1, 4);
+    private readonly int _scenarioType = new Random(DateTime.Now.Millisecond).Next(1, 4);
 
     private readonly List<Location> _locations =
     [
@@ -26,78 +26,104 @@ internal class KnifeAttack : SuperCallout
         new(new Vector3(297.8111f, -1202.387f, 38.89421f), 172f),
         new(new Vector3(-549.0919f, -1298.383f, 26.90161f), 187f),
         new(new Vector3(-882.8482f, -2308.612f, -11.7328f), 234f),
-        new(new Vector3(-1066.983f, -2700.32f, -7.41007f), 339f)
+        new(new Vector3(-1066.983f, -2700.32f, -7.41007f), 339f),
     ];
 
-    private Blip _cBlip;
-    private Ped _cSuspect;
-    private Ped _cVictim;
+    private Blip _sceneBlip;
+    private Ped _suspect;
+    private Ped _victim;
+
     internal override Location SpawnPoint { get; set; }
     internal override float OnSceneDistance { get; set; } = 25f;
     internal override string CalloutName { get; set; } = "Knife Attack";
 
     internal override void CalloutPrep()
     {
-        SpawnPoint = _locations.OrderBy(x => x.Position.DistanceTo(Game.LocalPlayer.Character.Position)).FirstOrDefault();
+        SpawnPoint = _locations.OrderBy(x => x.Position.DistanceTo(Player.Position)).FirstOrDefault();
         CalloutMessage = "~b~Dispatch:~s~ Reports of a knife attack.";
         CalloutAdvisory = "Caller says attacker has injured others.";
-        Functions.PlayScannerAudioUsingPosition(
-            "CITIZENS_REPORT_04 CRIME_ROBBERY_01 IN_OR_ON_POSITION UNITS_RESPOND_CODE_03_01", SpawnPoint.Position);
+        Functions.PlayScannerAudioUsingPosition("CITIZENS_REPORT_04 CRIME_ROBBERY_01 IN_OR_ON_POSITION UNITS_RESPOND_CODE_03_01", SpawnPoint.Position);
     }
 
     internal override void CalloutAccepted()
     {
-        Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Knife Attack",
-            "Reports of a person attacking people with a knife at the train station.");
+        Game.DisplayNotification(
+            "3dtextures",
+            "mpgroundlogo_cops",
+            "~b~Dispatch",
+            "~r~Knife Attack",
+            "Reports of a person attacking people with a knife at the train station."
+        );
 
-        _cSuspect = new Ped(SpawnPoint.Position);
-        _cSuspect.Heading = SpawnPoint.Heading;
-        _cSuspect.IsPersistent = true;
-        _cSuspect.BlockPermanentEvents = true;
-        _cSuspect.Inventory.Weapons.Add(WeaponHash.Knife);
-        _cSuspect.Inventory.EquippedWeapon = WeaponHash.Knife;
-        EntitiesToClear.Add(_cSuspect);
+        SpawnSuspect();
+        SpawnVictim();
+        CreateBlip();
+    }
 
-        _cVictim = new Ped(_cSuspect.FrontPosition);
-        _cVictim.IsPersistent = true;
-        _cVictim.BlockPermanentEvents = true;
-        EntitiesToClear.Add(_cVictim);
+    private void SpawnSuspect()
+    {
+        _suspect = new Ped(SpawnPoint.Position);
+        _suspect.Heading = SpawnPoint.Heading;
+        _suspect.IsPersistent = true;
+        _suspect.BlockPermanentEvents = true;
+        _suspect.Inventory.Weapons.Add(WeaponHash.Knife);
+        _suspect.Inventory.EquippedWeapon = WeaponHash.Knife;
+        EntitiesToClear.Add(_suspect);
+    }
 
-        _cBlip = new Blip(SpawnPoint.Position, 8f);
-        _cBlip.Color = Color.Red;
-        _cBlip.Alpha /= 2;
-        _cBlip.Name = "Callout";
-        _cBlip.Flash(500, 8000);
-        _cBlip.EnableRoute(Color.Red);
-        BlipsToClear.Add(_cBlip);
+    private void SpawnVictim()
+    {
+        _victim = new Ped(_suspect.FrontPosition);
+        _victim.IsPersistent = true;
+        _victim.BlockPermanentEvents = true;
+        EntitiesToClear.Add(_victim);
+    }
+
+    private void CreateBlip()
+    {
+        _sceneBlip = new Blip(SpawnPoint.Position, 8f)
+        {
+            Color = Color.Red,
+            Alpha = 0.5f,
+            Name = "Callout",
+        };
+        _sceneBlip.Flash(500, 8000);
+        _sceneBlip.EnableRoute(Color.Red);
+        BlipsToClear.Add(_sceneBlip);
     }
 
     internal override void CalloutOnScene()
     {
-        if ( !_cVictim || !_cSuspect )
+        if (!_victim || !_suspect)
         {
             CalloutEnd(true);
             return;
         }
 
-        _cVictim.Kill();
-        switch ( _cScene )
+        _victim.Kill();
+        ExecuteScenario();
+
+        Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Locate Suspect", "Search for the suspect. Last was seen carrying a knife.");
+        _sceneBlip?.Delete();
+    }
+
+    private void ExecuteScenario()
+    {
+        switch (_scenarioType)
         {
-            case 1:
-                _cSuspect.Tasks.FightAgainst(Game.LocalPlayer.Character);
+            case 1: // Suspect attacks player
+                _suspect.Tasks.FightAgainst(Player);
                 break;
-            case 2:
-                var flee = Functions.CreatePursuit();
-                Functions.AddPedToPursuit(flee, _cSuspect);
-                Functions.SetPursuitIsActiveForPlayer(flee, true);
+
+            case 2: // Suspect flees
+                var pursuit = Functions.CreatePursuit();
+                Functions.AddPedToPursuit(pursuit, _suspect);
+                Functions.SetPursuitIsActiveForPlayer(pursuit, true);
                 break;
-            case 3:
-                _cSuspect.Tasks.Wander();
+
+            case 3: // Suspect wanders
+                _suspect.Tasks.Wander();
                 break;
         }
-
-        Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Locate Suspect",
-            "Search for the suspect. Last was seen carrying a knife.");
-        _cBlip?.Delete();
     }
 }

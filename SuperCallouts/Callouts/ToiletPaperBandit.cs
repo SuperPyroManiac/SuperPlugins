@@ -1,6 +1,5 @@
+using System;
 using System.Drawing;
-using LSPD_First_Response;
-using LSPD_First_Response.Mod.API;
 using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.PyroFunctions;
 using Rage;
@@ -11,122 +10,140 @@ using Location = PyroCommon.Objects.Location;
 
 namespace SuperCallouts.Callouts;
 
-[CalloutInfo("[SC] Stolen Cleaning Truck", CalloutProbability.Low)]
+[CalloutInfo("[SC] Toilet Paper Bandit", CalloutProbability.Low)]
 internal class ToiletPaperBandit : SuperCallout
 {
-    private Ped _bad;
-    private Blip _cBlip;
-    private Vehicle _cVehicle;
-    private string _name1;
-    private readonly LHandle _pursuit = Functions.CreatePursuit();
+    private Ped _suspect;
+    private Blip _suspectBlip;
+    private Vehicle _vehicle;
+    private string _suspectName;
     private UIMenuItem _speakSuspect;
+
     internal override Location SpawnPoint { get; set; } = PyroFunctions.GetSideOfRoad(750, 180);
-    internal override float OnSceneDistance { get; set; } = 30;
-    internal override string CalloutName { get; set; } = "Stolen Cleaning Truck";
+    internal override float OnSceneDistance { get; set; } = 25;
+    internal override string CalloutName { get; set; } = "Toilet Paper Bandit";
 
     internal override void CalloutPrep()
     {
-        CalloutMessage = "~b~Dispatch:~s~ Reports of a sanitization transport robbery.";
-        CalloutAdvisory = "Caller reports the vehicle of full of cleaning supplies. Possible fire hazard.";
-        Functions.PlayScannerAudioUsingPosition(
-            "ATTENTION_ALL_UNITS_05 WE_HAVE CRIME_GRAND_THEFT_AUTO_03 IN_OR_ON_POSITION",
-            SpawnPoint.Position);
+        CalloutMessage = "~b~Dispatch:~s~ Reports of a person stealing toilet paper.";
+        CalloutAdvisory = "Caller reports a person is stealing toilet paper from a store.";
+        Functions.PlayScannerAudioUsingPosition("CITIZENS_REPORT_04 CRIME_ROBBERY_01 IN_OR_ON_POSITION UNITS_RESPOND_CODE_03_01", SpawnPoint.Position);
     }
 
     internal override void CalloutAccepted()
     {
-        Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Robbery",
-            "Reports of someone robbing a truck full of cleaning supplies, respond ~r~CODE-3");
+        Game.DisplayNotification(
+            "3dtextures",
+            "mpgroundlogo_cops",
+            "~b~Dispatch",
+            "~r~Toilet Paper Bandit",
+            "Reports of a person stealing toilet paper from a store. Respond ~r~CODE-3"
+        );
 
-        _cVehicle = new Vehicle("pounder", SpawnPoint.Position)
-        { IsPersistent = true, IsStolen = true, Heading = SpawnPoint.Heading };
-        _cVehicle.Metadata.searchDriver =
-            "~y~50 travel hand sanitizers~s~, ~y~48 toilet paper rolls~s~, ~g~lighters~s~, ~g~cigarettes~s~";
-        _cVehicle.Metadata.searchPassenger =
-            "~r~multiple packs of cleaning wipes~s~, ~r~box full of medical masks~s~";
-        _cVehicle.Metadata.searchTrunk =
-            "~r~multiple pallets of toilet paper~s~, ~r~hazmat suits~s~, ~r~12 molotov explosives~s~, ~y~22 packs of cigarettes~s~";
-        EntitiesToClear.Add(_cVehicle);
-
-        _bad = new Ped("s_m_m_movspace_01", SpawnPoint.Position.Around2D(20f), 0f)
-        { BlockPermanentEvents = true, IsPersistent = true };
-        _bad.WarpIntoVehicle(_cVehicle, -1);
-        _bad.Inventory.Weapons.Add(WeaponHash.Molotov);
-        _bad.Metadata.searchPed = "~r~Molotov's~s~, ~g~multiple hand sanitizers~s~, ~g~cleaning wipes~s~";
-        _bad.Metadata.stpDrugsDetected = true;
-        _bad.Tasks.CruiseWithVehicle(_cVehicle, 10f, VehicleDrivingFlags.Normal);
-        _name1 = Functions.GetPersonaForPed(_bad).FullName;
-        EntitiesToClear.Add(_bad);
-
-        _cBlip = _bad.AttachBlip();
-        _cBlip.Color = Color.Red;
-        _cBlip.EnableRoute(Color.Red);
-        BlipsToClear.Add(_cBlip);
-
-        _speakSuspect = new UIMenuItem("Speak with ~y~" + _name1);
-        ConvoMenu.AddItem(_speakSuspect);
+        SpawnVehicle();
+        SpawnSuspect();
+        CreateBlip();
+        SetupConversation();
     }
 
-    internal override void CalloutRunning()
+    private void SpawnVehicle()
     {
-        if ( OnScene )
-        {
-            if ( !_bad )
-            {
-                CalloutEnd(true);
-                return;
-            }
+        PyroFunctions.SpawnNormalCar(out _vehicle, SpawnPoint.Position);
+        _vehicle.Heading = SpawnPoint.Heading;
+        EntitiesToClear.Add(_vehicle);
+    }
 
-            if ( !Functions.IsPursuitStillRunning(_pursuit) || _bad.IsCuffed )
-            {
-                if ( !OnScene ) return;
-                Game.DisplaySubtitle("~r~" + _name1 + "~s~: I surrender!", 5000);
-                Game.DisplayHelp($"Press ~{Settings.Interact.GetInstructionalId()}~ to open interaction menu.");
-                Questioning.Enabled = true;
-            }
-        }
+    private void SpawnSuspect()
+    {
+        _suspect = _vehicle.CreateRandomDriver();
+        _suspect.IsPersistent = true;
+        _suspect.BlockPermanentEvents = true;
+        _suspectName = Functions.GetPersonaForPed(_suspect).FullName;
+        _suspect.Metadata.searchPed = "~r~Toilet Paper~s~, ~g~wallet~s~";
+        EntitiesToClear.Add(_suspect);
+    }
+
+    private void CreateBlip()
+    {
+        _suspectBlip = _suspect.AttachBlip();
+        _suspectBlip.Color = Color.Red;
+        _suspectBlip.EnableRoute(Color.Red);
+        BlipsToClear.Add(_suspectBlip);
+    }
+
+    private void SetupConversation()
+    {
+        _speakSuspect = new UIMenuItem($"Speak with ~y~{_suspectName}");
+        ConvoMenu.AddItem(_speakSuspect);
     }
 
     internal override void CalloutOnScene()
     {
-        _cBlip?.DisableRoute();
-        Game.DisplayHelp(
-            $"Press ~{Settings.Interact.GetInstructionalId()}~ to open interaction menu.");
-        Game.DisplayHelp("Suspect is fleeing!");
-        Functions.AddPedToPursuit(_pursuit, _bad);
-        Functions.SetPursuitIsActiveForPlayer(_pursuit, true);
-        Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Pursuit,
-            EBackupUnitType.AirUnit);
-        Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Pursuit,
-            EBackupUnitType.SwatTeam);
-        Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Pursuit,
-            EBackupUnitType.LocalUnit);
+        if (!_suspect)
+        {
+            CalloutEnd(true);
+            return;
+        }
+
+        _suspectBlip?.DisableRoute();
+        Questioning.Enabled = true;
+
+        // Determine suspect behavior
+        DetermineSuspectBehavior();
+    }
+
+    private void DetermineSuspectBehavior()
+    {
+        var random = new Random(DateTime.Now.Millisecond);
+        var choice = random.Next(1, 4);
+
+        switch (choice)
+        {
+            case 1: // Suspect flees
+                var pursuit = Functions.CreatePursuit();
+                Functions.AddPedToPursuit(pursuit, _suspect);
+                Functions.SetPursuitIsActiveForPlayer(pursuit, true);
+                break;
+
+            case 2: // Suspect fights
+                _suspect.Tasks.FightAgainst(Player);
+                break;
+
+            case 3: // Suspect complies
+                _suspect.Tasks.PutHandsUp(-1, Player);
+                break;
+        }
     }
 
     protected override void Conversations(UIMenu sender, UIMenuItem selItem, int index)
     {
-        if ( selItem == _speakSuspect )
-            GameFiber.StartNew(delegate
-            {
-                Game.DisplaySubtitle("~g~You~s~: What are you doing with this truck?", 5000);
-                GameFiber.Wait(5000);
-                Game.DisplaySubtitle(
-                    "~r~" + _name1 + "~s~: Get away from me! You might have that virus!!!", 5000);
-                GameFiber.Wait(5000);
-                Game.DisplaySubtitle(
-                    "~g~You~s~: You need to calm down, is that why you stole a truck full of cleaning supplies?",
-                    5000);
-                GameFiber.Wait(5000);
-                Game.DisplaySubtitle(
-                    "~r~" + _name1 + "~s~: Everyone is infected.. EVERYONE! Let me go, give me my sanitizer!!",
-                    5000);
-                GameFiber.Wait(5000);
-                Game.DisplaySubtitle("~g~You~s~: I understand your fears but you need to calm down.", 5000);
-                GameFiber.Wait(5000);
-                Game.DisplaySubtitle(
-                    "~r~" + _name1 + "~s~: Its everywhere.. EVERYWHERE! I need my sanitizer, I NEED IT! I NEED IT!",
-                    5000);
-            });
+        if (!_suspect)
+        {
+            CalloutEnd(true);
+            return;
+        }
+
+        if (selItem == _speakSuspect)
+        {
+            GameFiber.StartNew(
+                delegate
+                {
+                    _speakSuspect.Enabled = false;
+                    Game.DisplaySubtitle("~g~You~s~: I've received reports that you stole toilet paper from a store, is that true?", 5000);
+                    GameFiber.Wait(5000);
+                    Game.DisplaySubtitle($"~r~{_suspectName}~s~: I didn't steal anything officer, I bought it fair and square!", 5000);
+                    GameFiber.Wait(5000);
+                    Game.DisplaySubtitle("~g~You~s~: Do you have a receipt for it?", 5000);
+                    GameFiber.Wait(5000);
+                    Game.DisplaySubtitle($"~r~{_suspectName}~s~: No, I threw it away already.", 5000);
+                    GameFiber.Wait(5000);
+                    Game.DisplaySubtitle("~g~You~s~: The store owner says you didn't pay for it, and we have you on camera.", 5000);
+                    GameFiber.Wait(5000);
+                    Game.DisplaySubtitle($"~r~{_suspectName}~s~: Fine, I took it. But I needed it! There's none left anywhere!", 5000);
+                }
+            );
+        }
+
         base.Conversations(sender, selItem, index);
     }
 }

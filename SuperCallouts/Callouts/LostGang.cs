@@ -4,130 +4,144 @@ using System.Linq;
 using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.Objects;
 using PyroCommon.PyroFunctions;
+using PyroCommon.PyroFunctions.Extensions;
 using Rage;
 using SuperCallouts.CustomScenes;
 using Functions = LSPD_First_Response.Mod.API.Functions;
-
+using Location = PyroCommon.Objects.Location;
 
 namespace SuperCallouts.Callouts;
 
 [CalloutInfo("[SC] Officer Ambush", CalloutProbability.Low)]
-internal class LostGang : Callout
+internal class LostGang : SuperCallout
 {
     private readonly List<Ped> _bikers = [];
-    private readonly List<Vehicle> _cVehicles = [];
-    private Vehicle _bike1;
-    private Vehicle _bike2;
-    private Vehicle _bike3;
-    private Vehicle _bike4;
-    private Vehicle _bike5;
-    private Vehicle _bike6;
-    private Vehicle _bike7;
-    private Ped _biker1;
-    private Ped _biker10;
-    private Ped _biker2;
-    private Ped _biker3;
-    private Ped _biker4;
-    private Ped _biker5;
-    private Ped _biker6;
-    private Ped _biker7;
-    private Ped _biker8;
-    private Ped _biker9;
-    private Blip _cBlip;
-    private Vehicle _cCar1;
-    private Vehicle _cCar2;
-    private Ped _cop1;
-    private Ped _cop2;
-    private Ped _cop3;
-    private bool _onScene;
-    private Vector3 _searcharea;
-    private Vector3 _spawnPoint;
+    private readonly List<Vehicle> _bikerVehicles = [];
+    private readonly List<Vehicle> _copVehicles = [];
+    private readonly List<Ped> _officers = [];
+    private Blip _searchBlip;
+    internal override Location SpawnPoint { get; set; } = new(new Vector3(2350.661f, 4920.378f, 41.7339f));
+    internal override float OnSceneDistance { get; set; } = 100f;
+    internal override string CalloutName { get; set; } = "Officer Ambush";
 
-    public override bool OnBeforeCalloutDisplayed()
+    internal override void CalloutPrep()
     {
-        _spawnPoint = new Vector3(2350.661f, 4920.378f, 41.7339f);
-        ShowCalloutAreaBlipBeforeAccepting(_spawnPoint, 80f);
         CalloutMessage = "~r~Panic Button:~s~ Multiple officers under fire.";
-        CalloutPosition = _spawnPoint;
+        CalloutAdvisory = "Biker gang attacking sheriff officers. Multiple suspects armed.";
         Functions.PlayScannerAudioUsingPosition(
             "ATTENTION_ALL_SWAT_UNITS_01 WE_HAVE CRIME_BRANDISHING_WEAPON_01 IN_OR_ON_POSITION UNITS_RESPOND_CODE_03_01",
-            _spawnPoint);
-        return base.OnBeforeCalloutDisplayed();
+            SpawnPoint.Position
+        );
     }
 
-    public override bool OnCalloutAccepted()
+    internal override void CalloutAccepted()
     {
-        Log.Info("LostMC callout accepted...");
-        Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Biker Gang Attack",
-            "~r~EMERGENCY~s~ All Units: Multiple officers under fire, 7 plus armed gang members attacking sheriff officers. ~r~Respond CODE-3");
-        LostMc.ConstructBikersScene(out _cCar1, out _cCar2, out _cop1, out _cop2, out _cop3, out _bike1, out _bike2,
-            out _bike3, out _bike4, out _bike5, out _bike6, out _bike7, out _biker1, out _biker2, out _biker3,
-            out _biker4,
-            out _biker5, out _biker6, out _biker7, out _biker8, out _biker9, out _biker10);
-        _searcharea = _spawnPoint.Around2D(1f, 2f);
-        _cBlip = new Blip(_searcharea, 80f) { Color = Color.Yellow, Alpha = .5f };
-        _cBlip.EnableRoute(Color.Yellow);
-        _cVehicles.Add(_cCar1);
-        _cVehicles.Add(_cCar2);
-        _cVehicles.Add(_bike1);
-        _cVehicles.Add(_bike2);
-        _cVehicles.Add(_bike3);
-        _cVehicles.Add(_bike4);
-        _cVehicles.Add(_bike5);
-        _cVehicles.Add(_bike6);
-        _cVehicles.Add(_bike7);
-        _bikers.Add(_biker1);
-        _bikers.Add(_biker2);
-        _bikers.Add(_biker3);
-        _bikers.Add(_biker4);
-        _bikers.Add(_biker5);
-        _bikers.Add(_biker6);
-        _bikers.Add(_biker7);
-        _bikers.Add(_biker8);
-        _bikers.Add(_biker9);
-        _bikers.Add(_biker10);
-        foreach ( var vehicless in _cVehicles ) vehicless.IsPersistent = true;
-        foreach ( var bikerss in _bikers ) bikerss.IsPersistent = true;
-        return base.OnCalloutAccepted();
-    }
+        Game.DisplayNotification(
+            "3dtextures",
+            "mpgroundlogo_cops",
+            "~b~Dispatch",
+            "~r~Biker Gang Attack",
+            "~r~EMERGENCY~s~ All Units: Multiple officers under fire, 7 plus armed gang members attacking sheriff officers. ~r~Respond CODE-3"
+        );
 
-    public override void Process()
-    {
-        if ( Game.IsKeyDown(Settings.EndCall) ) End();
-        if ( !_onScene && Game.LocalPlayer.Character.DistanceTo(_spawnPoint) < 100f )
+        // Construct the scene using the custom scene builder
+        LostMc.ConstructBikersScene(
+            out Vehicle copCar1,
+            out Vehicle copCar2,
+            out Ped cop1,
+            out Ped cop2,
+            out Ped cop3,
+            out Vehicle bike1,
+            out Vehicle bike2,
+            out Vehicle bike3,
+            out Vehicle bike4,
+            out Vehicle bike5,
+            out Vehicle bike6,
+            out Vehicle bike7,
+            out Ped biker1,
+            out Ped biker2,
+            out Ped biker3,
+            out Ped biker4,
+            out Ped biker5,
+            out Ped biker6,
+            out Ped biker7,
+            out Ped biker8,
+            out Ped biker9,
+            out Ped biker10
+        );
+
+        // Add vehicles to tracking lists
+        _copVehicles.AddRange([copCar1, copCar2]);
+        _bikerVehicles.AddRange([bike1, bike2, bike3, bike4, bike5, bike6, bike7]);
+
+        // Add officers to tracking list
+        _officers.AddRange([cop1, cop2, cop3]);
+
+        // Add bikers to tracking list
+        _bikers.AddRange([biker1, biker2, biker3, biker4, biker5, biker6, biker7, biker8, biker9, biker10]);
+
+        // Create search area blip
+        _searchBlip = new Blip(SpawnPoint.Position.Around2D(1f, 2f), 80f) { Color = Color.Yellow, Alpha = .5f };
+        _searchBlip.EnableRoute(Color.Yellow);
+        BlipsToClear.Add(_searchBlip);
+
+        // Make all entities persistent and add to cleanup
+        foreach (var vehicle in _copVehicles.Concat(_bikerVehicles))
         {
-            _onScene = true;
-            _cBlip?.DisableRoute();
-            Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~OutNumbered",
-                "~y~Stay in cover until backup arrives!");
-            Functions.PlayScannerAudioUsingPosition(
-                "DISPATCH_SWAT_UNITS_FROM_01 IN_OR_ON_POSITION UNITS_RESPOND_CODE_99_01", _spawnPoint);
-            Game.SetRelationshipBetweenRelationshipGroups("LOSTERS", "COP", Relationship.Hate);
-            Game.SetRelationshipBetweenRelationshipGroups("LOSTERS", "PLAYER", Relationship.Hate);
-            foreach ( var bikerss in _bikers )
-            {
-                PyroFunctions.SetWanted(bikerss, true);
-                bikerss.Tasks.FightAgainstClosestHatedTarget(50f);
-            }
-            PyroFunctions.RequestBackup(Enums.BackupType.Code3);
-            PyroFunctions.RequestBackup(Enums.BackupType.Code3);
-            PyroFunctions.RequestBackup(Enums.BackupType.Code3);
+            vehicle.IsPersistent = true;
+            EntitiesToClear.Add(vehicle);
         }
 
-        if ( _onScene && Game.LocalPlayer.Character.DistanceTo(_spawnPoint) > 90f ) End();
-        base.Process();
+        foreach (var biker in _bikers)
+        {
+            biker.IsPersistent = true;
+            EntitiesToClear.Add(biker);
+        }
+
+        foreach (var officer in _officers)
+        {
+            officer.IsPersistent = true;
+            EntitiesToClear.Add(officer);
+        }
     }
 
-    public override void End()
+    internal override void CalloutOnScene()
     {
-        foreach ( var bikerss in _bikers.OfType<Ped>() ) bikerss.Dismiss();
-        foreach ( var vehicless in _cVehicles.OfType<Vehicle>() ) vehicless.Dismiss();
-        if ( _cop1 ) _cop1.Dismiss();
-        if ( _cop2 ) _cop2.Dismiss();
-        if ( _cop3 ) _cop3.Dismiss();
-        if ( _cBlip ) _cBlip.Delete();
+        _searchBlip?.DisableRoute();
+
+        Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~OutNumbered", "~y~Stay in cover until backup arrives!");
+        Functions.PlayScannerAudioUsingPosition("DISPATCH_SWAT_UNITS_FROM_01 IN_OR_ON_POSITION UNITS_RESPOND_CODE_99_01", SpawnPoint.Position);
+
+        // Set relationship groups to make bikers hostile
+        Game.SetRelationshipBetweenRelationshipGroups("LOSTERS", "COP", Relationship.Hate);
+        Game.SetRelationshipBetweenRelationshipGroups("LOSTERS", "PLAYER", Relationship.Hate);
+
+        // Make bikers wanted and fight
+        foreach (var biker in _bikers.Where(b => b != null && b.Exists()))
+        {
+            biker.SetWanted(true);
+            biker.Tasks.FightAgainstClosestHatedTarget(50f);
+        }
+
+        // Request backup
+        PyroFunctions.RequestBackup(Enums.BackupType.Code3);
+        PyroFunctions.RequestBackup(Enums.BackupType.Code3);
+        PyroFunctions.RequestBackup(Enums.BackupType.Code3);
+    }
+
+    internal override void CalloutRunning()
+    {
+        // End callout if player gets too far away after being on scene
+        if (OnScene && Game.LocalPlayer.Character.DistanceTo(SpawnPoint.Position) > 90f)
+            CalloutEnd();
+    }
+
+    internal override void CalloutEnd(bool forceCleanup = false)
+    {
+        Game.SetRelationshipBetweenRelationshipGroups("LOSTERS", "COP", Relationship.Neutral);
+        Game.SetRelationshipBetweenRelationshipGroups("LOSTERS", "PLAYER", Relationship.Neutral);
 
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
-        base.End();
+        base.CalloutEnd(forceCleanup);
     }
 }

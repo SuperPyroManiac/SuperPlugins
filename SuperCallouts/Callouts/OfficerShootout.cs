@@ -11,14 +11,15 @@ namespace SuperCallouts.Callouts;
 [CalloutInfo("[SC] Shots Fired", CalloutProbability.Medium)]
 internal class OfficerShootout : SuperCallout
 {
-    private Ped _bad1;
-    private Ped _bad2;
-    private Blip _cBlip;
-    private Ped _cop1;
-    private Ped _cop2;
-    private Vehicle _copVehicle;
-    private Vector3 _cSpawnPoint;
-    private Vehicle _cVehicle;
+    private Ped _suspect1;
+    private Ped _suspect2;
+    private Blip _sceneBlip;
+    private Ped _officer1;
+    private Ped _officer2;
+    private Vehicle _policeVehicle;
+    private Vector3 _policeVehiclePosition;
+    private Vehicle _suspectVehicle;
+
     internal override Location SpawnPoint { get; set; } = PyroFunctions.GetSideOfRoad(750, 180);
     internal override float OnSceneDistance { get; set; } = 50;
     internal override string CalloutName { get; set; } = "Officer Shootout";
@@ -29,86 +30,126 @@ internal class OfficerShootout : SuperCallout
         CalloutAdvisory = "Panic alert issues, shots fired.";
         Functions.PlayScannerAudioUsingPosition(
             "ATTENTION_ALL_UNITS_05 WE_HAVE CRIME_SHOTS_FIRED_AT_AN_OFFICER_01 IN_OR_ON_POSITION UNITS_RESPOND_CODE_99_02",
-            SpawnPoint.Position);
+            SpawnPoint.Position
+        );
     }
 
     internal override void CalloutAccepted()
     {
-        Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Officer Shot",
-            "Officer reports shots fired during felony stop, panic button hit. Respond ~r~CODE-3");
+        Game.DisplayNotification(
+            "3dtextures",
+            "mpgroundlogo_cops",
+            "~b~Dispatch",
+            "~r~Officer Shot",
+            "Officer reports shots fired during felony stop, panic button hit. Respond ~r~CODE-3"
+        );
 
-        PyroFunctions.SpawnNormalCar(out _cVehicle, SpawnPoint.Position);
-        _cVehicle.Heading = SpawnPoint.Heading;
-        _cSpawnPoint = _cVehicle.GetOffsetPositionFront(-9f);
-        _cVehicle.IsStolen = true;
-        EntitiesToClear.Add(_cVehicle);
+        SpawnVehicles();
+        SpawnSuspects();
+        SpawnOfficers();
+        CreateBlip();
+    }
 
-        _copVehicle = new Vehicle("POLICE", _cSpawnPoint)
+    private void SpawnVehicles()
+    {
+        // Suspect vehicle
+        PyroFunctions.SpawnNormalCar(out _suspectVehicle, SpawnPoint.Position);
+        _suspectVehicle.Heading = SpawnPoint.Heading;
+        _policeVehiclePosition = _suspectVehicle.GetOffsetPositionFront(-9f);
+        _suspectVehicle.IsStolen = true;
+        EntitiesToClear.Add(_suspectVehicle);
+
+        // Police vehicle
+        _policeVehicle = new Vehicle("POLICE", _policeVehiclePosition)
         {
             IsPersistent = true,
             Heading = SpawnPoint.Heading,
             IsSirenOn = true,
-            IsSirenSilent = true
+            IsSirenSilent = true,
         };
-        EntitiesToClear.Add(_copVehicle);
+        EntitiesToClear.Add(_policeVehicle);
+    }
 
-        _bad1 = new Ped();
-        _bad1.IsPersistent = true;
-        _bad1.Health = 400;
-        _bad1.Inventory.Weapons.Add(WeaponHash.AssaultShotgun).Ammo = -1;
-        _bad1.WarpIntoVehicle(_cVehicle, -1);
-        _bad1.RelationshipGroup = new RelationshipGroup("BADGANG");
-        PyroFunctions.SetWanted(_bad1, true);
-        _bad1.Tasks.LeaveVehicle(_cVehicle, LeaveVehicleFlags.LeaveDoorOpen);
-        EntitiesToClear.Add(_bad1);
+    private void SpawnSuspects()
+    {
+        // First suspect
+        _suspect1 = new Ped();
+        _suspect1.IsPersistent = true;
+        _suspect1.Health = 400;
+        _suspect1.Inventory.Weapons.Add(WeaponHash.AssaultShotgun).Ammo = -1;
+        _suspect1.WarpIntoVehicle(_suspectVehicle, -1);
+        _suspect1.RelationshipGroup = new RelationshipGroup("BADGANG");
+        PyroFunctions.SetWanted(_suspect1, true);
+        _suspect1.Tasks.LeaveVehicle(_suspectVehicle, LeaveVehicleFlags.LeaveDoorOpen);
+        EntitiesToClear.Add(_suspect1);
 
-        _bad2 = new Ped();
-        _bad2.IsPersistent = true;
-        _bad2.Health = 400;
-        _bad2.Inventory.Weapons.Add(WeaponHash.CarbineRifle).Ammo = -1;
-        _bad2.WarpIntoVehicle(_cVehicle, 0);
-        _bad2.RelationshipGroup = new RelationshipGroup("BADGANG");
-        PyroFunctions.SetWanted(_bad2, true);
-        _bad2.Tasks.LeaveVehicle(_cVehicle, LeaveVehicleFlags.LeaveDoorOpen);
-        EntitiesToClear.Add(_bad2);
+        // Second suspect
+        _suspect2 = new Ped();
+        _suspect2.IsPersistent = true;
+        _suspect2.Health = 400;
+        _suspect2.Inventory.Weapons.Add(WeaponHash.CarbineRifle).Ammo = -1;
+        _suspect2.WarpIntoVehicle(_suspectVehicle, 0);
+        _suspect2.RelationshipGroup = new RelationshipGroup("BADGANG");
+        PyroFunctions.SetWanted(_suspect2, true);
+        _suspect2.Tasks.LeaveVehicle(_suspectVehicle, LeaveVehicleFlags.LeaveDoorOpen);
+        EntitiesToClear.Add(_suspect2);
+    }
 
-        _cop1 = new Ped("s_m_y_cop_01", SpawnPoint.Position, 0f);
-        _cop1.IsPersistent = true;
-        _cop1.WarpIntoVehicle(_copVehicle, -1);
-        _cop1.Inventory.Weapons.Add(WeaponHash.CombatPistol).Ammo = -1;
-        _cop1.Tasks.LeaveVehicle(_copVehicle, LeaveVehicleFlags.LeaveDoorOpen);
-        EntitiesToClear.Add(_cop1);
+    private void SpawnOfficers()
+    {
+        // First officer
+        _officer1 = new Ped("s_m_y_cop_01", SpawnPoint.Position, 0f);
+        _officer1.IsPersistent = true;
+        _officer1.WarpIntoVehicle(_policeVehicle, -1);
+        _officer1.Inventory.Weapons.Add(WeaponHash.CombatPistol).Ammo = -1;
+        _officer1.Tasks.LeaveVehicle(_policeVehicle, LeaveVehicleFlags.LeaveDoorOpen);
+        EntitiesToClear.Add(_officer1);
 
-        _cop2 = new Ped("s_f_y_cop_01", SpawnPoint.Position, 0f);
-        _cop2.IsPersistent = true;
-        _cop2.WarpIntoVehicle(_copVehicle, 0);
-        _cop2.Inventory.Weapons.Add(WeaponHash.CombatPistol).Ammo = -1;
-        _cop2.Tasks.LeaveVehicle(_copVehicle, LeaveVehicleFlags.LeaveDoorOpen);
-        EntitiesToClear.Add(_cop2);
+        // Second officer
+        _officer2 = new Ped("s_f_y_cop_01", SpawnPoint.Position, 0f);
+        _officer2.IsPersistent = true;
+        _officer2.WarpIntoVehicle(_policeVehicle, 0);
+        _officer2.Inventory.Weapons.Add(WeaponHash.CombatPistol).Ammo = -1;
+        _officer2.Tasks.LeaveVehicle(_policeVehicle, LeaveVehicleFlags.LeaveDoorOpen);
+        EntitiesToClear.Add(_officer2);
+    }
 
-        _cBlip = _copVehicle.AttachBlip();
-        _cBlip.Color = Color.Red;
-        _cBlip.EnableRoute(Color.Red);
-        BlipsToClear.Add(_cBlip);
+    private void CreateBlip()
+    {
+        _sceneBlip = _policeVehicle.AttachBlip();
+        _sceneBlip.Color = Color.Red;
+        _sceneBlip.EnableRoute(Color.Red);
+        BlipsToClear.Add(_sceneBlip);
     }
 
     internal override void CalloutOnScene()
     {
-        if ( !_cop1 || !_cop2 || !_bad1 || !_bad2 )
+        if (!_officer1 || !_officer2 || !_suspect1 || !_suspect2)
         {
             CalloutEnd(true);
             return;
         }
 
-        _cop1.Tasks.FightAgainst(_bad1, 60000);
-        _bad1.Tasks.FightAgainst(_cop1, 60000);
-        _cop2.Tasks.FightAgainst(_bad2, 60000);
-        _bad2.Tasks.FightAgainst(_cop2, 60000);
-        Functions.PlayScannerAudioUsingPosition("REQUEST_BACKUP", SpawnPoint.Position);
+        InitiateShootout();
+        RequestBackup();
+        _sceneBlip?.DisableRoute();
+    }
+
+    private void InitiateShootout()
+    {
+        _officer1.Tasks.FightAgainst(_suspect1, 60000);
+        _suspect1.Tasks.FightAgainst(_officer1, 60000);
+        _officer2.Tasks.FightAgainst(_suspect2, 60000);
+        _suspect2.Tasks.FightAgainst(_officer2, 60000);
+
         Game.SetRelationshipBetweenRelationshipGroups("BADGANG", "COP", Relationship.Hate);
         Game.SetRelationshipBetweenRelationshipGroups("BADGANG", "PLAYER", Relationship.Hate);
+    }
+
+    private void RequestBackup()
+    {
+        Functions.PlayScannerAudioUsingPosition("REQUEST_BACKUP", SpawnPoint.Position);
         PyroFunctions.RequestBackup(Enums.BackupType.Code3);
         PyroFunctions.RequestBackup(Enums.BackupType.Code3);
-        if ( _cBlip.Exists() ) _cBlip.DisableRoute();
     }
 }

@@ -14,11 +14,12 @@ internal class InjuredCop : SuperCallout
     internal override Location SpawnPoint { get; set; } = PyroFunctions.GetSideOfRoad(750, 180);
     internal override float OnSceneDistance { get; set; } = 30;
     internal override string CalloutName { get; set; } = "Injured Cop";
-    private Ped _cop;
-    private Ped _bad;
-    private Vehicle _vehicle;
-    private Blip _blip;
-    private int _rNd = new Random(DateTime.Now.Millisecond).Next(2);
+
+    private Ped _officer;
+    private Ped _suspect;
+    private Vehicle _policeVehicle;
+    private Blip _sceneBlip;
+    private readonly int _scenarioType = new Random(DateTime.Now.Millisecond).Next(2);
 
     internal override void CalloutPrep()
     {
@@ -29,67 +30,100 @@ internal class InjuredCop : SuperCallout
 
     internal override void CalloutAccepted()
     {
-        Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Officer Not Responding",
-            "Officer not reporting back over radio. Investigate their location. Respond ~r~CODE-3");
+        Game.DisplayNotification(
+            "3dtextures",
+            "mpgroundlogo_cops",
+            "~b~Dispatch",
+            "~r~Officer Not Responding",
+            "Officer not reporting back over radio. Investigate their location. Respond ~r~CODE-3"
+        );
 
-        _vehicle = new Vehicle("POLICE", SpawnPoint.Position);
-        _vehicle.IsPersistent = true;
-        _vehicle.Heading = SpawnPoint.Heading;
-        _vehicle.IsSirenOn = true;
-        _vehicle.IsSirenSilent = true;
-        EntitiesToClear.Add(_vehicle);
+        SpawnPoliceVehicle();
+        SpawnOfficer();
+        SetupScenario();
+        CreateBlip();
+    }
 
-        _cop = new Ped("s_m_y_cop_01", SpawnPoint.Position.Around2D(5), 0);
-        _cop.IsPersistent = true;
-        _cop.BlockPermanentEvents = true;
-        switch ( _rNd )
+    private void SpawnPoliceVehicle()
+    {
+        _policeVehicle = new Vehicle("POLICE", SpawnPoint.Position)
         {
-            case 0:
-                _cop.WarpIntoVehicle(_vehicle, -1);
+            IsPersistent = true,
+            Heading = SpawnPoint.Heading,
+            IsSirenOn = true,
+            IsSirenSilent = true,
+        };
+        EntitiesToClear.Add(_policeVehicle);
+    }
+
+    private void SpawnOfficer()
+    {
+        _officer = new Ped("s_m_y_cop_01", SpawnPoint.Position.Around2D(5), 0) { IsPersistent = true, BlockPermanentEvents = true };
+        EntitiesToClear.Add(_officer);
+    }
+
+    private void SetupScenario()
+    {
+        switch (_scenarioType)
+        {
+            case 0: // Officer in vehicle
+                _officer.WarpIntoVehicle(_policeVehicle, -1);
                 break;
-            case 1:
-                _cop.Kill();
-                PyroFunctions.DamageVehicle(_vehicle, 100, 100);
+
+            case 1: // Dead officer, damaged vehicle
+                _officer.Kill();
+                PyroFunctions.DamageVehicle(_policeVehicle, 100, 100);
                 break;
-            case 2:
-                _bad = new Ped(_cop.Position.Around(2));
-                _bad.IsPersistent = true;
-                _bad.Kill();
-                PyroFunctions.SetWanted(_bad, true);
-                EntitiesToClear.Add(_bad);
+
+            case 2: // Dead suspect, officer alive
+                _suspect = new Ped(_officer.Position.Around(2)) { IsPersistent = true };
+                _suspect.Kill();
+                PyroFunctions.SetWanted(_suspect, true);
+                EntitiesToClear.Add(_suspect);
                 break;
         }
-        EntitiesToClear.Add(_cop);
+    }
 
-        _blip = _vehicle.AttachBlip();
-        _blip.EnableRoute(Color.Red);
-        _blip.Color = Color.Red;
-        BlipsToClear.Add(_blip);
+    private void CreateBlip()
+    {
+        _sceneBlip = _policeVehicle.AttachBlip();
+        _sceneBlip.EnableRoute(Color.Red);
+        _sceneBlip.Color = Color.Red;
+        BlipsToClear.Add(_sceneBlip);
     }
 
     internal override void CalloutOnScene()
     {
-        if ( !_cop )
+        if (!_officer)
         {
             CalloutEnd(true);
             return;
         }
 
         Game.DisplayNotification("Investigate the area.");
-        _blip?.Delete();
-        switch ( _rNd )
+        _sceneBlip?.Delete();
+
+        CompleteScenario();
+    }
+
+    private void CompleteScenario()
+    {
+        switch (_scenarioType)
         {
-            case 0:
-                if ( _cop.Exists() )
+            case 0: // Officer in vehicle - kill officer
+                if (_officer.Exists())
                 {
-                    _cop.Kill();
-                    _cop.BlockPermanentEvents = false;
+                    _officer.Kill();
+                    _officer.BlockPermanentEvents = false;
                 }
                 break;
-            case 1:
-                if ( _cop.Exists() ) _cop.BlockPermanentEvents = false;
+
+            case 1: // Dead officer - release block
+                if (_officer.Exists())
+                    _officer.BlockPermanentEvents = false;
                 break;
-            case 2:
+
+            case 2: // Dead suspect - no additional action needed
                 break;
         }
     }

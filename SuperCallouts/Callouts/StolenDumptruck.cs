@@ -11,9 +11,10 @@ namespace SuperCallouts.Callouts;
 [CalloutInfo("[SC] Stolen Construction Vehicle", CalloutProbability.Low)]
 internal class StolenDumptruck : SuperCallout
 {
-    private Ped _bad;
-    private Blip _cBlip;
-    private Vehicle _cVehicle;
+    private Ped _suspect;
+    private Blip _suspectBlip;
+    private Vehicle _dumpTruck;
+
     internal override Location SpawnPoint { get; set; } = new(World.GetNextPositionOnStreet(Player.Position.Around(350f)));
     internal override float OnSceneDistance { get; set; } = 30;
     internal override string CalloutName { get; set; } = "Stolen Construction Vehicle";
@@ -22,43 +23,73 @@ internal class StolenDumptruck : SuperCallout
     {
         CalloutMessage = "~b~Dispatch:~s~ Stolen construction vehicle.";
         CalloutAdvisory = "A very large vehicle was stolen from a construction site.";
-        Functions.PlayScannerAudioUsingPosition(
-            "WE_HAVE CRIME_BRANDISHING_WEAPON_01 CRIME_ROBBERY_01 IN_OR_ON_POSITION", SpawnPoint.Position);
+        Functions.PlayScannerAudioUsingPosition("WE_HAVE CRIME_BRANDISHING_WEAPON_01 CRIME_ROBBERY_01 IN_OR_ON_POSITION", SpawnPoint.Position);
     }
 
     internal override void CalloutAccepted()
     {
-        Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Stolen Construction Vehicle",
-            "A suspect has stolen a very large construction vehicle. Respond ~r~CODE-3");
+        Game.DisplayNotification(
+            "3dtextures",
+            "mpgroundlogo_cops",
+            "~b~Dispatch",
+            "~r~Stolen Construction Vehicle",
+            "A suspect has stolen a very large construction vehicle. Respond ~r~CODE-3"
+        );
 
-        _cVehicle = new Vehicle("dump", SpawnPoint.Position)
-        { IsPersistent = true, IsStolen = true };
-        EntitiesToClear.Add(_cVehicle);
+        SpawnVehicle();
+        SpawnSuspect();
+        CreateBlip();
+        InitiateDriving();
+    }
 
-        _bad = new Ped(SpawnPoint.Position.Around(15f));
-        _bad.WarpIntoVehicle(_cVehicle, -1);
-        _bad.IsPersistent = true;
-        _bad.BlockPermanentEvents = true;
-        _bad.Metadata.stpDrugsDetected = true;
-        _bad.Metadata.stpAlcoholDetected = true;
-        PyroFunctions.SetDrunkOld(_bad, true);
-        EntitiesToClear.Add(_bad);
+    private void SpawnVehicle()
+    {
+        _dumpTruck = new Vehicle("dump", SpawnPoint.Position) { IsPersistent = true, IsStolen = true };
+        EntitiesToClear.Add(_dumpTruck);
+    }
 
-        _cBlip = _bad.AttachBlip();
-        _cBlip.EnableRoute(Color.Red);
-        _cBlip.Color = Color.Red;
-        _cBlip.Scale = .5f;
-        BlipsToClear.Add(_cBlip);
+    private void SpawnSuspect()
+    {
+        _suspect = new Ped(SpawnPoint.Position.Around(15f));
+        _suspect.WarpIntoVehicle(_dumpTruck, -1);
+        _suspect.IsPersistent = true;
+        _suspect.BlockPermanentEvents = true;
+        _suspect.Metadata.stpDrugsDetected = true;
+        _suspect.Metadata.stpAlcoholDetected = true;
+        PyroFunctions.SetDrunkOld(_suspect, true);
+        EntitiesToClear.Add(_suspect);
+    }
 
-        _bad.Tasks.CruiseWithVehicle(_cVehicle, 100f, VehicleDrivingFlags.Emergency);
+    private void CreateBlip()
+    {
+        _suspectBlip = _suspect.AttachBlip();
+        _suspectBlip.EnableRoute(Color.Red);
+        _suspectBlip.Color = Color.Red;
+        _suspectBlip.Scale = .5f;
+        BlipsToClear.Add(_suspectBlip);
+    }
+
+    private void InitiateDriving()
+    {
+        _suspect.Tasks.CruiseWithVehicle(_dumpTruck, 100f, VehicleDrivingFlags.Emergency);
     }
 
     internal override void CalloutOnScene()
     {
-        _cBlip?.Delete();
+        _suspectBlip?.Delete();
+        StartPursuit();
+        RequestBackup();
+    }
+
+    private void StartPursuit()
+    {
         var pursuit = Functions.CreatePursuit();
-        Functions.AddPedToPursuit(pursuit, _bad);
+        Functions.AddPedToPursuit(pursuit, _suspect);
         Functions.SetPursuitIsActiveForPlayer(pursuit, true);
+    }
+
+    private void RequestBackup()
+    {
         PyroFunctions.RequestBackup(Enums.BackupType.Pursuit);
     }
 }

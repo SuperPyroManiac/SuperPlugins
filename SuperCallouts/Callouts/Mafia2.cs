@@ -6,51 +6,86 @@ using LSPD_First_Response.Engine.Scripting.Entities;
 using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.Objects;
 using PyroCommon.PyroFunctions;
+using PyroCommon.PyroFunctions.Extensions;
 using Rage;
 using SuperCallouts.CustomScenes;
 using Functions = LSPD_First_Response.Mod.API.Functions;
+using Location = PyroCommon.Objects.Location;
 
 namespace SuperCallouts.Callouts;
 
 [CalloutInfo("[SC] Drug Raid", CalloutProbability.Low)]
-internal class Mafia2 : Callout
+internal class Mafia2 : SuperCallout
 {
-    private readonly Vector3 _callPos = new(1543.173f, 3606.55f, 35.19303f);
     private readonly List<Vehicle> _mafiaCars = [];
     private readonly List<Ped> _mafiaDudes = [];
-    private Blip _cBlip;
+    private Blip _sceneBlip;
+
+    // Mafia vehicles
     private Vehicle _cVehicle1;
     private Vehicle _cVehicle2;
     private Vehicle _cVehicle3;
     private Vehicle _cVehicle4;
-    private Ped _mafiaDude1;
-    private Ped _mafiaDude10;
-    private Ped _mafiaDude11;
-    private Ped _mafiaDude12;
-    private Ped _mafiaDude13;
-    private Ped _mafiaDude14;
-    private Ped _mafiaDude15;
-    private Ped _mafiaDude2;
-    private Ped _mafiaDude3;
-    private Ped _mafiaDude4;
-    private Ped _mafiaDude5;
-    private Ped _mafiaDude6;
-    private Ped _mafiaDude7;
-    private Ped _mafiaDude8;
-    private Ped _mafiaDude9;
-    private bool _onScene;
 
-    public override bool OnBeforeCalloutDisplayed()
+    // Mafia members
+    private Ped _mafiaDude1,
+        _mafiaDude2,
+        _mafiaDude3,
+        _mafiaDude4,
+        _mafiaDude5;
+    private Ped _mafiaDude6,
+        _mafiaDude7,
+        _mafiaDude8,
+        _mafiaDude9,
+        _mafiaDude10;
+    private Ped _mafiaDude11,
+        _mafiaDude12,
+        _mafiaDude13,
+        _mafiaDude14,
+        _mafiaDude15;
+
+    internal override Location SpawnPoint { get; set; } = new(new Vector3(1543.173f, 3606.55f, 35.19303f));
+    internal override float OnSceneDistance { get; set; } = 100f;
+    internal override string CalloutName { get; set; } = "Drug Raid";
+
+    internal override void CalloutPrep()
     {
-        ShowCalloutAreaBlipBeforeAccepting(_callPos, 80f);
         CalloutMessage = "~b~FIB Report:~s~ Organized crime members spotted.";
-        CalloutPosition = _callPos;
-        Functions.PlayScannerAudioUsingPosition("ATTENTION_ALL_SWAT_UNITS_01 WE_HAVE CRIME_BRANDISHING_WEAPON_01 IN_OR_ON_POSITION UNITS_RESPOND_CODE_03_01", _callPos);
-        return base.OnBeforeCalloutDisplayed();
+        CalloutAdvisory = "Large group of armed Mafia members conducting drug operation.";
+        Functions.PlayScannerAudioUsingPosition(
+            "ATTENTION_ALL_SWAT_UNITS_01 WE_HAVE CRIME_BRANDISHING_WEAPON_01 IN_OR_ON_POSITION UNITS_RESPOND_CODE_03_01",
+            SpawnPoint.Position
+        );
     }
 
-    public override bool OnCalloutAccepted()
+    internal override void CalloutAccepted()
     {
+        Log.Info("Mafia2 callout accepted...");
+        Game.DisplayNotification(
+            "3dtextures",
+            "mpgroundlogo_cops",
+            "~b~Dispatch",
+            "~r~The Mafia",
+            "FIB and IAA reports the Mafia have been spotted near Sandy Shores. Possible large scale drug trafficking. Investigate the scene."
+        );
+
+        // Setup player and initial guidance
+        Game.LocalPlayer.Character.RelationshipGroup = "COP";
+        Game.DisplaySubtitle("Get to the ~r~scene~w~! Proceed with ~r~CAUTION~w~!", 10000);
+
+        // Construct the scene
+        CreateMafiaScene();
+
+        // Create tracking blip
+        _sceneBlip = _mafiaDude2.AttachBlip();
+        _sceneBlip.EnableRoute(Color.Red);
+        _sceneBlip.Color = Color.Red;
+        BlipsToClear.Add(_sceneBlip);
+    }
+
+    private void CreateMafiaScene()
+    {
+        // Construct the scene using the custom scene builder
         Mafia2Setup.ConstructMafia2Scene(
             out _cVehicle1,
             out _cVehicle2,
@@ -72,96 +107,86 @@ internal class Mafia2 : Callout
             out _mafiaDude14,
             out _mafiaDude15
         );
-        Log.Info("Mafia2 callout accepted...");
-        Game.DisplayNotification(
-            "3dtextures",
-            "mpgroundlogo_cops",
-            "~b~Dispatch",
-            "~r~The Mafia",
-            "FIB and IAA reports the Mafia have been spotted near Sandy Shores. Possible large scale drug trafficking. Investigate the scene."
+
+        // Add entities to tracking lists
+        _mafiaCars.AddRange([_cVehicle1, _cVehicle2, _cVehicle3, _cVehicle4]);
+        _mafiaDudes.AddRange(
+            [
+                _mafiaDude1,
+                _mafiaDude2,
+                _mafiaDude3,
+                _mafiaDude4,
+                _mafiaDude5,
+                _mafiaDude6,
+                _mafiaDude7,
+                _mafiaDude8,
+                _mafiaDude9,
+                _mafiaDude10,
+                _mafiaDude11,
+                _mafiaDude12,
+                _mafiaDude13,
+                _mafiaDude14,
+                _mafiaDude15,
+            ]
         );
+
+        // Setup vehicles
+        foreach (var car in _mafiaCars)
+        {
+            car.IsPersistent = true;
+            EntitiesToClear.Add(car);
+        }
+
+        // Setup mafia members
+        foreach (var gangster in _mafiaDudes)
+        {
+            gangster.IsPersistent = true;
+            gangster.Inventory.Weapons.Add(WeaponHash.CombatPistol).Ammo = -1;
+            gangster.SetWanted(true);
+            Functions.AddPedContraband(gangster, ContrabandType.Narcotics, "Cocaine");
+            EntitiesToClear.Add(gangster);
+        }
+    }
+
+    internal override void CalloutRunning()
+    {
+        // Check if player left the scene after arriving
+        if (OnScene && Game.LocalPlayer.Character.DistanceTo(SpawnPoint.Position) > 120f)
+            CalloutEnd();
+    }
+
+    internal override void CalloutOnScene()
+    {
+        Game.DisplaySubtitle("Suspects spotted, appear to be ~r~armed~w~ and ~r~wanted~w~! Proceed with caution or wait for backup.", 5000);
+        Game.DisplayNotification("~r~Dispatch:~s~ Officer on scene, mafia activity spotted. Dispatching specialized units.");
+        Functions.PlayScannerAudioUsingPosition("DISPATCH_SWAT_UNITS_FROM_01 IN_OR_ON_POSITION UNITS_RESPOND_CODE_99_01", SpawnPoint.Position);
+
+        // Request backup
+        PyroFunctions.RequestBackup(Enums.BackupType.Noose);
+        PyroFunctions.RequestBackup(Enums.BackupType.Code3);
+        PyroFunctions.RequestBackup(Enums.BackupType.Code3);
+        PyroFunctions.RequestBackup(Enums.BackupType.Code3);
+
+        // Setup hostility
         Game.LocalPlayer.Character.RelationshipGroup = "COP";
-        Game.DisplaySubtitle("Get to the ~r~scene~w~! Proceed with ~r~CAUTION~w~!", 10000);
-        _cBlip = _mafiaDude2.AttachBlip();
-        _cBlip.EnableRoute(Color.Red);
-        _cBlip.Color = Color.Red;
-        _mafiaCars.Add(_cVehicle1);
-        _mafiaCars.Add(_cVehicle2);
-        _mafiaCars.Add(_cVehicle3);
-        _mafiaCars.Add(_cVehicle4);
-        _mafiaDudes.Add(_mafiaDude1);
-        _mafiaDudes.Add(_mafiaDude2);
-        _mafiaDudes.Add(_mafiaDude3);
-        _mafiaDudes.Add(_mafiaDude4);
-        _mafiaDudes.Add(_mafiaDude5);
-        _mafiaDudes.Add(_mafiaDude6);
-        _mafiaDudes.Add(_mafiaDude7);
-        _mafiaDudes.Add(_mafiaDude8);
-        _mafiaDudes.Add(_mafiaDude9);
-        _mafiaDudes.Add(_mafiaDude10);
-        _mafiaDudes.Add(_mafiaDude11);
-        _mafiaDudes.Add(_mafiaDude12);
-        _mafiaDudes.Add(_mafiaDude13);
-        _mafiaDudes.Add(_mafiaDude14);
-        _mafiaDudes.Add(_mafiaDude15);
-        foreach (var mafiaCars in _mafiaCars)
-            mafiaCars.IsPersistent = true;
-        foreach (var mafiaDudes in _mafiaDudes)
-        {
-            mafiaDudes.IsPersistent = true;
-            mafiaDudes.Inventory.Weapons.Add(WeaponHash.CombatPistol).Ammo = -1;
-            PyroFunctions.SetWanted(mafiaDudes, true);
-            Functions.AddPedContraband(mafiaDudes, ContrabandType.Narcotics, "Cocaine");
-        }
+        Game.SetRelationshipBetweenRelationshipGroups("MAFIA", "COP", Relationship.Hate);
+        Game.SetRelationshipBetweenRelationshipGroups("COP", "MAFIA", Relationship.Hate);
 
-        return base.OnCalloutAccepted();
+        // Have one mafia member directly attack the player
+        if (_mafiaDude13?.Exists() == true)
+            _mafiaDude13.Tasks.FightAgainst(Game.LocalPlayer.Character, -1);
+
+        // Remove the navigation blip
+        _sceneBlip?.Delete();
+        BlipsToClear.Remove(_sceneBlip);
     }
 
-    public override void Process()
+    internal override void CalloutEnd(bool forceCleanup = false)
     {
-        if (Game.IsKeyDown(Settings.EndCall))
-            End();
-        if (!_onScene && Game.LocalPlayer.Character.DistanceTo(_callPos) < 100f)
-        {
-            try
-            {
-                Game.DisplaySubtitle("Suspects spotted, appear to be ~r~armed~w~ and ~r~wanted~w~! Proceed with caution or wait for backup.", 5000);
-                Game.DisplayNotification("~r~Dispatch:~s~ Officer on scene, mafia activity spotted. Dispatching specialized units.");
-                Functions.PlayScannerAudioUsingPosition("DISPATCH_SWAT_UNITS_FROM_01 IN_OR_ON_POSITION UNITS_RESPOND_CODE_99_01", _callPos);
-                PyroFunctions.RequestBackup(Enums.BackupType.Noose);
-                PyroFunctions.RequestBackup(Enums.BackupType.Code3);
-                PyroFunctions.RequestBackup(Enums.BackupType.Code3);
-                PyroFunctions.RequestBackup(Enums.BackupType.Code3);
+        Game.SetRelationshipBetweenRelationshipGroups("MAFIA", "COP", Relationship.Neutral);
+        Game.SetRelationshipBetweenRelationshipGroups("COP", "MAFIA", Relationship.Neutral);
 
-                Game.LocalPlayer.Character.RelationshipGroup = "COP";
-                if (_mafiaDude13 != null)
-                    _mafiaDude13.Tasks.FightAgainst(Game.LocalPlayer.Character, -1);
-                Game.SetRelationshipBetweenRelationshipGroups("MAFIA", "COP", Relationship.Hate);
-                Game.SetRelationshipBetweenRelationshipGroups("COP", "MAFIA", Relationship.Hate);
-                _cBlip?.Delete();
-            }
-            catch (Exception e)
-            {
-                Log.Error(e.ToString());
-                End();
-            }
-
-            _onScene = true;
-        }
-
-        if (_onScene && Game.LocalPlayer.Character.DistanceTo(_callPos) > 120f)
-            End();
-        base.Process();
-    }
-
-    public override void End()
-    {
-        foreach (var mafiaCars in _mafiaCars.Where(mafiaCars => mafiaCars.Exists()))
-            mafiaCars.Dismiss();
-        foreach (var mafiaDudes in _mafiaDudes.Where(mafiaDudes => mafiaDudes.Exists()))
-            mafiaDudes.Dismiss();
-        _cBlip?.Delete();
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
-        base.End();
+        base.CalloutEnd(forceCleanup);
     }
 }
