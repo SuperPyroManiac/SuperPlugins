@@ -19,57 +19,55 @@ namespace SuperCallouts.Callouts;
 [CalloutInfo("[SC] Casino Raid", CalloutProbability.Low)]
 internal class Mafia1 : SuperCallout
 {
-    private readonly List<Ped> _badGuys = [];
-    private readonly List<Ped> _goodGuys = [];
+    private readonly List<Ped> _suspects = [];
+    private readonly List<Ped> _agents = [];
     private readonly List<Vehicle> _vehicles = [];
 
     // UI Menu Items
-    private readonly UIMenuItem _speakFib = new("- Speak With FIB Agent");
-    private readonly UIMenuItem _choiceNoose = new("- NOOSE Team");
-    private readonly UIMenuItem _choiceSwat = new("- Local SWAT Team");
-    private readonly UIMenuItem _choiceYou = new("- Handle It Yourself");
+    private readonly UIMenuItem _menuSpeakFib = new("- Speak With FIB Agent");
+    private readonly UIMenuItem _menuChoiceNoose = new("- NOOSE Team");
+    private readonly UIMenuItem _menuChoiceSwat = new("- Local SWAT Team");
+    private readonly UIMenuItem _menuChoiceSolo = new("- Handle It Yourself");
 
     // Menu Controls
-    private MenuPool _interaction;
+    private MenuPool _menuPool;
     private UIMenu _mainMenu;
-    private UIMenu _convoMenu;
-    private UIMenuItem _questioning;
-    private UIMenuItem _endCall;
+    private UIMenu _conversationMenu;
+    private UIMenuItem _menuQuestioning;
+    private UIMenuItem _menuEndCall;
 
     // FIB Agents and Vehicles
-    private Ped _fib1;
-    private Ped _fib2;
-    private Ped _fib3;
-    private Ped _fib4;
-    private Ped _fib5;
-    private Vehicle _fibCar1;
-    private Vehicle _fibCar2;
+    private Ped _agentLead;
+    private Ped _agentSecondary;
+    private Ped _agentBackup1;
+    private Ped _agentBackup2;
+    private Ped _agentBackup3;
+    private Vehicle _agentVehicle1;
+    private Vehicle _agentVehicle2;
 
     // Mafia members and vehicles
-    private Ped _bad1;
-    private Ped _bad2;
-    private Ped _bad3;
-    private Ped _bad4;
-    private Ped _bad5;
-    private Ped _bad6;
-    private Ped _bad7;
-    private Ped _bad8;
-    private Vehicle _badCar1;
-    private Vehicle _badCar2;
-    private Vehicle _badCar3;
-    private Vehicle _badCar4;
+    private Ped _suspect1;
+    private Ped _suspect2;
+    private Ped _suspect3;
+    private Ped _suspect4;
+    private Ped _suspect5;
+    private Ped _suspect6;
+    private Ped _suspect7;
+    private Ped _suspect8;
+    private Vehicle _suspectVehicle1;
+    private Vehicle _suspectVehicle2;
+    private Vehicle _suspectVehicle3;
+    private Vehicle _suspectVehicle4;
 
     // State tracking
-    private Blip _actionBlip;
-    private SrChoice _choice;
-    private SrState _state = SrState.CheckDistance;
+    private Blip _targetBlip;
+    private RaidChoice _raidChoice;
+    private CalloutState _calloutState = CalloutState.CheckDistance;
     private bool _raidStarted;
 
     internal override Location SpawnPoint { get; set; } = new(new Vector3(909.56f, 4.041f, 78.67f));
     internal override float OnSceneDistance { get; set; } = 120f;
     internal override string CalloutName { get; set; } = "Casino Raid";
-
-    private static Ped Player => Game.LocalPlayer.Character;
 
     internal override void CalloutPrep()
     {
@@ -99,10 +97,10 @@ internal class Mafia1 : SuperCallout
     private void SetupInitialScene()
     {
         // Create FIB agents and vehicles
-        Mafia1Setup.BuildMafia1PreScene(out _fib1, out _fib2, out _fib3, out _fib4, out _fib5, out _fibCar1, out _fibCar2);
+        Mafia1Setup.BuildMafia1PreScene(out _agentLead, out _agentSecondary, out _agentBackup1, out _agentBackup2, out _agentBackup3, out _agentVehicle1, out _agentVehicle2);
 
         // Create blip for FIB meeting point
-        var meetingBlip = new Blip(_fib1.Position)
+        var meetingBlip = new Blip(_agentLead.Position)
         {
             Color = Color.Yellow,
             Alpha = 127,
@@ -112,8 +110,8 @@ internal class Mafia1 : SuperCallout
         BlipsToClear.Add(meetingBlip);
 
         // Add FIB agents and vehicles to tracking lists
-        _goodGuys.AddRange([_fib1, _fib2, _fib3, _fib4, _fib5]);
-        _vehicles.AddRange([_fibCar1, _fibCar2]);
+        _agents.AddRange([_agentLead, _agentSecondary, _agentBackup1, _agentBackup2, _agentBackup3]);
+        _vehicles.AddRange([_agentVehicle1, _agentVehicle2]);
 
         // Make all entities persistent
         foreach (var vehicle in _vehicles.Where(entity => entity))
@@ -122,7 +120,7 @@ internal class Mafia1 : SuperCallout
             EntitiesToClear.Add(vehicle);
         }
 
-        foreach (var agent in _goodGuys.Where(entity => entity))
+        foreach (var agent in _agents.Where(entity => entity))
         {
             agent.IsPersistent = true;
             agent.BlockPermanentEvents = true;
@@ -133,14 +131,14 @@ internal class Mafia1 : SuperCallout
     private void SetupUserInterface()
     {
         // Build UI menus
-        PyroFunctions.BuildUi(out _interaction, out _mainMenu, out _convoMenu, out _questioning, out _endCall);
+        PyroFunctions.BuildUi(out _menuPool, out _mainMenu, out _conversationMenu, out _menuQuestioning, out _menuEndCall);
 
         // Setup event handlers
         _mainMenu.OnItemSelect += InteractionProcess;
-        _convoMenu.OnItemSelect += ConversationProcess;
+        _conversationMenu.OnItemSelect += ConversationProcess;
 
         // Initially disable questioning
-        _questioning.Enabled = false;
+        _menuQuestioning.Enabled = false;
     }
 
     internal override void CalloutRunning()
@@ -154,7 +152,7 @@ internal class Mafia1 : SuperCallout
             HandleKeyBindings();
 
             // Process menus
-            _interaction?.ProcessMenus();
+            _menuPool?.ProcessMenus();
         }
         catch (Exception e)
         {
@@ -165,11 +163,11 @@ internal class Mafia1 : SuperCallout
 
     private void ProcessCurrentState()
     {
-        switch (_state)
+        switch (_calloutState)
         {
-            case SrState.CheckDistance:
+            case CalloutState.CheckDistance:
                 // When player reaches FIB agents
-                if (Player.DistanceTo(_fib1.Position) < 10f)
+                if (Player.DistanceTo(_agentLead.Position) < 10f)
                 {
                     BlipsToClear[0]?.DisableRoute();
 
@@ -182,18 +180,18 @@ internal class Mafia1 : SuperCallout
                     );
 
                     // Make FIB agents face player
-                    NativeFunction.Natives.x5AD23D40115353AC(_fib1, Player, -1);
-                    NativeFunction.Natives.x5AD23D40115353AC(_fib2, Player, -1);
+                    NativeFunction.Natives.x5AD23D40115353AC(_agentLead, Player, -1);
+                    NativeFunction.Natives.x5AD23D40115353AC(_agentSecondary, Player, -1);
 
                     // Enable conversation options
-                    _questioning.Enabled = true;
-                    _convoMenu.AddItem(_speakFib);
+                    _menuQuestioning.Enabled = true;
+                    _conversationMenu.AddItem(_menuSpeakFib);
 
-                    _state = SrState.End;
+                    _calloutState = CalloutState.End;
                 }
                 break;
 
-            case SrState.CheckDistance2:
+            case CalloutState.CheckDistance2:
                 // When player reaches the raid location
                 if (OnScene && !_raidStarted)
                 {
@@ -201,20 +199,20 @@ internal class Mafia1 : SuperCallout
                 }
                 break;
 
-            case SrState.RaidScene:
+            case CalloutState.RaidScene:
                 // Processing for active raid scene
                 if (!_raidStarted)
                 {
                     // Dismiss FIB agents
-                    foreach (var agent in _goodGuys.Where(entity => entity?.Exists() == true))
+                    foreach (var agent in _agents.Where(entity => entity?.Exists() == true))
                     {
                         agent.Dismiss();
                     }
 
                     // Activate bad guys
-                    foreach (var badGuy in _badGuys.Where(entity => entity?.Exists() == true))
+                    foreach (var suspect in _suspects.Where(entity => entity?.Exists() == true))
                     {
-                        badGuy.BlockPermanentEvents = false;
+                        suspect.BlockPermanentEvents = false;
                     }
 
                     // Start the fight after a delay
@@ -223,13 +221,13 @@ internal class Mafia1 : SuperCallout
                         {
                             GameFiber.Wait(5000);
 
-                            foreach (var badGuy in _badGuys.Where(entity => entity?.Exists() == true))
+                            foreach (var suspect in _suspects.Where(entity => entity?.Exists() == true))
                             {
-                                badGuy.Tasks.FightAgainstClosestHatedTarget(150, -1);
+                                suspect.Tasks.FightAgainstClosestHatedTarget(150, -1);
                             }
 
-                            _actionBlip?.DisableRoute();
-                            _state = SrState.End;
+                            _targetBlip?.DisableRoute();
+                            _calloutState = CalloutState.End;
                         }
                     );
 
@@ -258,19 +256,19 @@ internal class Mafia1 : SuperCallout
         Game.DisplayHelp($"Press ~{Settings.Interact.GetInstructionalId()}~ to open interaction menu.");
 
         // Request appropriate backup based on player's choice
-        switch (_choice)
+        switch (_raidChoice)
         {
-            case SrChoice.Noose:
+            case RaidChoice.Noose:
                 PyroFunctions.RequestBackup(Enums.BackupType.Noose);
                 PyroFunctions.RequestBackup(Enums.BackupType.Noose);
                 break;
 
-            case SrChoice.Swat:
+            case RaidChoice.Swat:
                 PyroFunctions.RequestBackup(Enums.BackupType.Swat);
                 PyroFunctions.RequestBackup(Enums.BackupType.Swat);
                 break;
 
-            case SrChoice.You:
+            case RaidChoice.Solo:
                 PyroFunctions.RequestBackup(Enums.BackupType.Code3);
                 PyroFunctions.RequestBackup(Enums.BackupType.Code3);
                 break;
@@ -281,7 +279,7 @@ internal class Mafia1 : SuperCallout
                 return;
         }
 
-        _state = SrState.RaidScene;
+        _calloutState = CalloutState.RaidScene;
     }
 
     internal override void CalloutOnScene()
@@ -297,7 +295,7 @@ internal class Mafia1 : SuperCallout
         Game.SetRelationshipBetweenRelationshipGroups("MAFIA", "PLAYER", Relationship.Dislike);
 
         // Close all open menus
-        _interaction?.CloseAllMenus();
+        _menuPool?.CloseAllMenus();
 
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
         base.CalloutEnd(forceCleanup);
@@ -307,7 +305,7 @@ internal class Mafia1 : SuperCallout
 
     private void InteractionProcess(UIMenu sender, UIMenuItem selItem, int index)
     {
-        if (selItem == _endCall)
+        if (selItem == _menuEndCall)
         {
             Game.DisplaySubtitle("~y~Callout Ended.");
             CalloutEnd();
@@ -316,12 +314,12 @@ internal class Mafia1 : SuperCallout
 
     private void ConversationProcess(UIMenu sender, UIMenuItem selItem, int index)
     {
-        if (selItem == _speakFib)
+        if (selItem == _menuSpeakFib)
         {
             GameFiber.StartNew(
                 delegate
                 {
-                    if (_fib1 && Player.DistanceTo(_fib1) > 4f)
+                    if (_agentLead && Player.DistanceTo(_agentLead) > 4f)
                     {
                         Game.DisplaySubtitle("~r~Get closer to talk!");
                         return;
@@ -352,35 +350,35 @@ internal class Mafia1 : SuperCallout
                     Game.DisplaySubtitle("~b~Agent~s~: Let me know what option sounds good to you.", 6000);
 
                     // Add decision options to menu
-                    _convoMenu.AddItem(_choiceNoose);
-                    _convoMenu.AddItem(_choiceSwat);
-                    _convoMenu.AddItem(_choiceYou);
-                    _convoMenu.RefreshIndex();
+                    _conversationMenu.AddItem(_menuChoiceNoose);
+                    _conversationMenu.AddItem(_menuChoiceSwat);
+                    _conversationMenu.AddItem(_menuChoiceSolo);
+                    _conversationMenu.RefreshIndex();
                 }
             );
         }
-        else if (selItem == _choiceNoose)
+        else if (selItem == _menuChoiceNoose)
         {
-            HandleBackupChoice(SrChoice.Noose, "~b~Agent~s~: We will have a NOOSE team on standby until you arrive on scene.");
+            HandleBackupChoice(RaidChoice.Noose, "~b~Agent~s~: We will have a NOOSE team on standby until you arrive on scene.");
         }
-        else if (selItem == _choiceSwat)
+        else if (selItem == _menuChoiceSwat)
         {
-            HandleBackupChoice(SrChoice.Swat, "~b~Agent~s~: Your departments SWAT team will standby for your arrival.");
+            HandleBackupChoice(RaidChoice.Swat, "~b~Agent~s~: Your departments SWAT team will standby for your arrival.");
         }
-        else if (selItem == _choiceYou)
+        else if (selItem == _menuChoiceSolo)
         {
-            HandleBackupChoice(SrChoice.You, "~b~Agent~s~: We will leave it to you then. Seems like a dangerous choice though.");
+            HandleBackupChoice(RaidChoice.Solo, "~b~Agent~s~: We will leave it to you then. Seems like a dangerous choice though.");
         }
     }
 
-    private void HandleBackupChoice(SrChoice choice, string message)
+    private void HandleBackupChoice(RaidChoice choice, string message)
     {
         GameFiber.StartNew(
             delegate
             {
                 // Close menus and disable questioning
-                _interaction.CloseAllMenus();
-                _questioning.Enabled = false;
+                _menuPool.CloseAllMenus();
+                _menuQuestioning.Enabled = false;
 
                 // Display response message
                 Game.DisplaySubtitle(message, 6000);
@@ -390,16 +388,16 @@ internal class Mafia1 : SuperCallout
                     blip?.Delete();
                 BlipsToClear.Clear();
 
-                _actionBlip = new Blip(SpawnPoint.Position.Around2D(1, 2), 30) { Color = Color.Red, Alpha = 127 };
-                _actionBlip.EnableRoute(Color.Red);
-                BlipsToClear.Add(_actionBlip);
+                _targetBlip = new Blip(SpawnPoint.Position.Around2D(1, 2), 30) { Color = Color.Red, Alpha = 127 };
+                _targetBlip.EnableRoute(Color.Red);
+                BlipsToClear.Add(_targetBlip);
 
                 // Load the raid scene
                 LoadRaidScene();
 
                 // Set choice and update state
-                _choice = choice;
-                _state = SrState.CheckDistance2;
+                _raidChoice = choice;
+                _calloutState = CalloutState.CheckDistance2;
             }
         );
     }
@@ -411,24 +409,37 @@ internal class Mafia1 : SuperCallout
     private void LoadRaidScene()
     {
         // Create mafia members and vehicles
-        Mafia1Setup.BuildScene(out _bad1, out _bad2, out _bad3, out _bad4, out _bad5, out _bad6, out _bad7, out _bad8, out _badCar1, out _badCar2, out _badCar3, out _badCar4);
+        Mafia1Setup.BuildScene(
+            out _suspect1,
+            out _suspect2,
+            out _suspect3,
+            out _suspect4,
+            out _suspect5,
+            out _suspect6,
+            out _suspect7,
+            out _suspect8,
+            out _suspectVehicle1,
+            out _suspectVehicle2,
+            out _suspectVehicle3,
+            out _suspectVehicle4
+        );
 
         // Add to tracking lists
-        _vehicles.AddRange([_badCar1, _badCar2, _badCar3, _badCar4]);
-        _badGuys.AddRange([_bad1, _bad2, _bad3, _bad4, _bad5, _bad6, _bad7, _bad8]);
+        _vehicles.AddRange([_suspectVehicle1, _suspectVehicle2, _suspectVehicle3, _suspectVehicle4]);
+        _suspects.AddRange([_suspect1, _suspect2, _suspect3, _suspect4, _suspect5, _suspect6, _suspect7, _suspect8]);
 
         // Setup mafia members
-        foreach (var badGuy in _badGuys.Where(entity => entity != null))
+        foreach (var suspect in _suspects.Where(entity => entity != null))
         {
-            badGuy.IsPersistent = true;
-            badGuy.Inventory.Weapons.Add(WeaponHash.AdvancedRifle);
-            badGuy.BlockPermanentEvents = true;
-            badGuy.SetWanted(true);
-            EntitiesToClear.Add(badGuy);
+            suspect.IsPersistent = true;
+            suspect.Inventory.Weapons.Add(WeaponHash.AdvancedRifle);
+            suspect.BlockPermanentEvents = true;
+            suspect.SetWanted(true);
+            EntitiesToClear.Add(suspect);
         }
 
         // Setup mafia vehicles
-        foreach (var vehicle in _vehicles.Where(v => v != null && v != _fibCar1 && v != _fibCar2))
+        foreach (var vehicle in _vehicles.Where(v => v != null && v != _agentVehicle1 && v != _agentVehicle2))
         {
             vehicle.IsPersistent = true;
             vehicle.Metadata.searchTrunk = "~r~multiple pallets of cocaine~s~, ~r~hazmat suits~s~, ~r~multiple weapons~s~, ~y~bags of cash~s~";
@@ -440,7 +451,7 @@ internal class Mafia1 : SuperCallout
 
     #region Enums
 
-    private enum SrState
+    private enum CalloutState
     {
         CheckDistance,
         CheckDistance2,
@@ -448,11 +459,11 @@ internal class Mafia1 : SuperCallout
         End,
     }
 
-    private enum SrChoice
+    private enum RaidChoice
     {
         Noose,
         Swat,
-        You,
+        Solo,
     }
 
     #endregion

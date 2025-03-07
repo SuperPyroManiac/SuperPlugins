@@ -20,46 +20,44 @@ namespace SuperCallouts.Callouts;
 [CalloutInfo("[SC] Bomb Report", CalloutProbability.Low)]
 internal class Mafia4 : SuperCallout
 {
-    private readonly List<Ped> _peds = [];
+    private readonly List<Ped> _characters = [];
     private readonly List<Vehicle> _vehicles = [];
-    private readonly TimerBarPool _cTimer = new();
+    private readonly TimerBarPool _timerPool = new();
 
-    // Mafia members
-    private Ped _bad1,
-        _bad2,
-        _bad3,
-        _bad4,
-        _bad5,
-        _bad6,
-        _bad7;
-    private Ped _doctor1,
-        _doctor2;
+    // Mafia members and civilians
+    private Ped _suspect1,
+        _suspect2,
+        _suspect3,
+        _suspect4,
+        _suspect5,
+        _suspect6,
+        _suspect7;
+    private Ped _civilian1,
+        _civilian2;
 
     // Vehicles
-    private Vehicle _eVehicle,
-        _eVehicle2,
-        _eVehicle3,
-        _eVehicle4;
+    private Vehicle _vehicle1,
+        _vehicle2,
+        _vehicle3,
+        _vehicle4;
 
     // Bomb object
-    private Object _bomb;
+    private Object _bombDevice;
 
     // UI elements
-    private MenuPool _interaction;
+    private MenuPool _menuPool;
     private UIMenu _mainMenu;
-    private UIMenuItem _endCall;
-    private BarTimerBar _cTimerBar;
+    private UIMenuItem _menuEndCall;
+    private BarTimerBar _bombTimerBar;
 
     // State tracking
-    private RunState _state = RunState.CheckDistance;
+    private CalloutState _calloutState = CalloutState.CheckDistance;
     private bool _timerActive = false;
     private bool _raidStarted = false;
 
     internal override Location SpawnPoint { get; set; } = new(new Vector3(288.916f, -1588.429f, 29.53253f));
     internal override float OnSceneDistance { get; set; } = 80f;
     internal override string CalloutName { get; set; } = "Bomb Report";
-
-    private static Ped Player => Game.LocalPlayer.Character;
 
     internal override void CalloutPrep()
     {
@@ -93,7 +91,7 @@ internal class Mafia4 : SuperCallout
         SetupUserInterface();
 
         // Create search blip
-        var sceneBlip = _bomb.AttachBlip();
+        var sceneBlip = _bombDevice.AttachBlip();
         sceneBlip.EnableRoute(Color.Red);
         sceneBlip.Color = Color.Red;
         BlipsToClear.Add(sceneBlip);
@@ -103,25 +101,25 @@ internal class Mafia4 : SuperCallout
     {
         // Construct the scene
         Mafia4Setup.ConstructMafia4Scene(
-            out _bad1,
-            out _bad2,
-            out _bad3,
-            out _bad4,
-            out _bad5,
-            out _bad6,
-            out _bad7,
-            out _doctor1,
-            out _doctor2,
-            out _eVehicle,
-            out _eVehicle2,
-            out _eVehicle3,
-            out _eVehicle4,
-            out _bomb
+            out _suspect1,
+            out _suspect2,
+            out _suspect3,
+            out _suspect4,
+            out _suspect5,
+            out _suspect6,
+            out _suspect7,
+            out _civilian1,
+            out _civilian2,
+            out _vehicle1,
+            out _vehicle2,
+            out _vehicle3,
+            out _vehicle4,
+            out _bombDevice
         );
 
         // Add entities to tracking lists
-        _vehicles.AddRange([_eVehicle, _eVehicle2, _eVehicle3, _eVehicle4]);
-        _peds.AddRange([_bad1, _bad2, _bad3, _bad4, _bad5, _bad6, _bad7, _doctor1, _doctor2]);
+        _vehicles.AddRange([_vehicle1, _vehicle2, _vehicle3, _vehicle4]);
+        _characters.AddRange([_suspect1, _suspect2, _suspect3, _suspect4, _suspect5, _suspect6, _suspect7, _civilian1, _civilian2]);
 
         // Setup vehicles
         foreach (var vehicle in _vehicles)
@@ -131,7 +129,7 @@ internal class Mafia4 : SuperCallout
         }
 
         // Setup mafia members
-        foreach (var gangster in _peds)
+        foreach (var gangster in _characters)
         {
             gangster.IsPersistent = true;
             gangster.BlockPermanentEvents = true;
@@ -143,13 +141,13 @@ internal class Mafia4 : SuperCallout
         }
 
         // Setup bomb
-        _bomb.IsPersistent = true;
-        EntitiesToClear.Add(_bomb);
+        _bombDevice.IsPersistent = true;
+        EntitiesToClear.Add(_bombDevice);
     }
 
     private void SetupUserInterface()
     {
-        PyroFunctions.BuildUi(out _interaction, out _mainMenu, out _, out _, out _endCall);
+        PyroFunctions.BuildUi(out _menuPool, out _mainMenu, out _, out _, out _menuEndCall);
         _mainMenu.OnItemSelect += InteractionProcess;
     }
 
@@ -161,9 +159,9 @@ internal class Mafia4 : SuperCallout
             HandleKeyBindings();
 
             if (_timerActive)
-                _cTimer.Draw();
+                _timerPool.Draw();
 
-            _interaction?.ProcessMenus();
+            _menuPool?.ProcessMenus();
         }
         catch (Exception e)
         {
@@ -174,21 +172,21 @@ internal class Mafia4 : SuperCallout
 
     private void ProcessCurrentState()
     {
-        switch (_state)
+        switch (_calloutState)
         {
-            case RunState.CheckDistance:
+            case CalloutState.CheckDistance:
                 if (OnScene && !_raidStarted)
                 {
                     StartRaid();
-                    _state = RunState.RaidScene;
+                    _calloutState = CalloutState.RaidScene;
                 }
                 break;
 
-            case RunState.RaidScene:
+            case CalloutState.RaidScene:
                 if (!_raidStarted)
                 {
                     InitiateFight();
-                    _state = RunState.End;
+                    _calloutState = CalloutState.End;
                     _raidStarted = true;
                 }
                 break;
@@ -225,14 +223,14 @@ internal class Mafia4 : SuperCallout
             {
                 GameFiber.Wait(5000);
 
-                foreach (var gangster in _peds.Where(p => p?.Exists() == true))
+                foreach (var gangster in _characters.Where(p => p?.Exists() == true))
                 {
                     gangster.BlockPermanentEvents = false;
                     gangster.Tasks.FightAgainstClosestHatedTarget(100, -1);
                 }
 
-                if (_bad1?.Exists() == true)
-                    _bad1.Tasks.FightAgainst(Player);
+                if (_suspect1?.Exists() == true)
+                    _suspect1.Tasks.FightAgainst(Player);
 
                 foreach (var blip in BlipsToClear)
                     blip?.DisableRoute();
@@ -244,8 +242,8 @@ internal class Mafia4 : SuperCallout
 
     private void StartBombTimer()
     {
-        _cTimerBar = new BarTimerBar("Bomb") { Percentage = 1f };
-        _cTimer.Add(_cTimerBar);
+        _bombTimerBar = new BarTimerBar("Bomb") { Percentage = 1f };
+        _timerPool.Add(_bombTimerBar);
         _timerActive = true;
 
         GameFiber.StartNew(
@@ -254,9 +252,9 @@ internal class Mafia4 : SuperCallout
                 while (_timerActive)
                 {
                     GameFiber.Wait(500);
-                    _cTimerBar.Percentage -= 0.003f;
+                    _bombTimerBar.Percentage -= 0.003f;
 
-                    if (_cTimerBar.Percentage < 0.001f)
+                    if (_bombTimerBar.Percentage < 0.001f)
                         FailBombDefusal();
 
                     if (AreAllSuspectsDefeated())
@@ -276,7 +274,7 @@ internal class Mafia4 : SuperCallout
         foreach (var vehicle in _vehicles.Where(v => v?.Exists() == true))
             vehicle.Explode();
 
-        foreach (var gangster in _peds.Where(p => p?.Exists() == true))
+        foreach (var gangster in _characters.Where(p => p?.Exists() == true))
             gangster.Kill();
 
         CalloutEnd();
@@ -285,13 +283,13 @@ internal class Mafia4 : SuperCallout
     private void SuccessBombDefusal()
     {
         _timerActive = false;
-        _cTimerBar.Label = "Disarmed";
+        _bombTimerBar.Label = "Disarmed";
         Game.DisplayHelp("Bomb Disarmed", 4000);
     }
 
     private bool AreAllSuspectsDefeated()
     {
-        return _peds.All(gangster => !gangster?.Exists() == true || gangster.IsDead);
+        return _characters.All(gangster => !gangster?.Exists() == true || gangster.IsDead);
     }
 
     internal override void CalloutOnScene()
@@ -310,7 +308,7 @@ internal class Mafia4 : SuperCallout
         Game.SetRelationshipBetweenRelationshipGroups("MAFIA", "PLAYER", Relationship.Dislike);
 
         // Close all menus
-        _interaction?.CloseAllMenus();
+        _menuPool?.CloseAllMenus();
 
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
         base.CalloutEnd(forceCleanup);
@@ -318,14 +316,14 @@ internal class Mafia4 : SuperCallout
 
     private void InteractionProcess(UIMenu sender, UIMenuItem selItem, int index)
     {
-        if (selItem == _endCall)
+        if (selItem == _menuEndCall)
         {
             Game.DisplaySubtitle("~y~Callout Ended.");
             CalloutEnd();
         }
     }
 
-    private enum RunState
+    private enum CalloutState
     {
         CheckDistance,
         RaidScene,

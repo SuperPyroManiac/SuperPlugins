@@ -17,32 +17,32 @@ namespace SuperCallouts.Callouts;
 [CalloutInfo("[SC] Drug Raid", CalloutProbability.Low)]
 internal class Mafia2 : SuperCallout
 {
-    private readonly List<Vehicle> _mafiaCars = [];
-    private readonly List<Ped> _mafiaDudes = [];
+    private readonly List<Vehicle> _suspectVehicles = [];
+    private readonly List<Ped> _suspects = [];
     private Blip _sceneBlip;
 
     // Mafia vehicles
-    private Vehicle _cVehicle1;
-    private Vehicle _cVehicle2;
-    private Vehicle _cVehicle3;
-    private Vehicle _cVehicle4;
+    private Vehicle _suspectVehicle1;
+    private Vehicle _suspectVehicle2;
+    private Vehicle _suspectVehicle3;
+    private Vehicle _suspectVehicle4;
 
     // Mafia members
-    private Ped _mafiaDude1,
-        _mafiaDude2,
-        _mafiaDude3,
-        _mafiaDude4,
-        _mafiaDude5;
-    private Ped _mafiaDude6,
-        _mafiaDude7,
-        _mafiaDude8,
-        _mafiaDude9,
-        _mafiaDude10;
-    private Ped _mafiaDude11,
-        _mafiaDude12,
-        _mafiaDude13,
-        _mafiaDude14,
-        _mafiaDude15;
+    private Ped _suspect1,
+        _suspect2,
+        _suspect3,
+        _suspect4,
+        _suspect5;
+    private Ped _suspect6,
+        _suspect7,
+        _suspect8,
+        _suspect9,
+        _suspect10;
+    private Ped _suspect11,
+        _suspect12,
+        _suspect13,
+        _suspect14,
+        _suspect15;
 
     internal override Location SpawnPoint { get; set; } = new(new Vector3(1543.173f, 3606.55f, 35.19303f));
     internal override float OnSceneDistance { get; set; } = 100f;
@@ -77,7 +77,7 @@ internal class Mafia2 : SuperCallout
         CreateMafiaScene();
 
         // Create tracking blip
-        _sceneBlip = _mafiaDude2.AttachBlip();
+        _sceneBlip = _suspect2.AttachBlip();
         _sceneBlip.EnableRoute(Color.Red);
         _sceneBlip.Color = Color.Red;
         BlipsToClear.Add(_sceneBlip);
@@ -87,64 +87,64 @@ internal class Mafia2 : SuperCallout
     {
         // Construct the scene using the custom scene builder
         Mafia2Setup.ConstructMafia2Scene(
-            out _cVehicle1,
-            out _cVehicle2,
-            out _cVehicle3,
-            out _cVehicle4,
-            out _mafiaDude1,
-            out _mafiaDude2,
-            out _mafiaDude3,
-            out _mafiaDude4,
-            out _mafiaDude5,
-            out _mafiaDude6,
-            out _mafiaDude7,
-            out _mafiaDude8,
-            out _mafiaDude9,
-            out _mafiaDude10,
-            out _mafiaDude11,
-            out _mafiaDude12,
-            out _mafiaDude13,
-            out _mafiaDude14,
-            out _mafiaDude15
+            out _suspectVehicle1,
+            out _suspectVehicle2,
+            out _suspectVehicle3,
+            out _suspectVehicle4,
+            out _suspect1,
+            out _suspect2,
+            out _suspect3,
+            out _suspect4,
+            out _suspect5,
+            out _suspect6,
+            out _suspect7,
+            out _suspect8,
+            out _suspect9,
+            out _suspect10,
+            out _suspect11,
+            out _suspect12,
+            out _suspect13,
+            out _suspect14,
+            out _suspect15
         );
 
         // Add entities to tracking lists
-        _mafiaCars.AddRange([_cVehicle1, _cVehicle2, _cVehicle3, _cVehicle4]);
-        _mafiaDudes.AddRange(
+        _suspectVehicles.AddRange([_suspectVehicle1, _suspectVehicle2, _suspectVehicle3, _suspectVehicle4]);
+        _suspects.AddRange(
             [
-                _mafiaDude1,
-                _mafiaDude2,
-                _mafiaDude3,
-                _mafiaDude4,
-                _mafiaDude5,
-                _mafiaDude6,
-                _mafiaDude7,
-                _mafiaDude8,
-                _mafiaDude9,
-                _mafiaDude10,
-                _mafiaDude11,
-                _mafiaDude12,
-                _mafiaDude13,
-                _mafiaDude14,
-                _mafiaDude15,
+                _suspect1,
+                _suspect2,
+                _suspect3,
+                _suspect4,
+                _suspect5,
+                _suspect6,
+                _suspect7,
+                _suspect8,
+                _suspect9,
+                _suspect10,
+                _suspect11,
+                _suspect12,
+                _suspect13,
+                _suspect14,
+                _suspect15,
             ]
         );
 
         // Setup vehicles
-        foreach (var car in _mafiaCars)
+        foreach (var vehicle in _suspectVehicles)
         {
-            car.IsPersistent = true;
-            EntitiesToClear.Add(car);
+            vehicle.IsPersistent = true;
+            EntitiesToClear.Add(vehicle);
         }
 
         // Setup mafia members
-        foreach (var gangster in _mafiaDudes)
+        foreach (var suspect in _suspects)
         {
-            gangster.IsPersistent = true;
-            gangster.Inventory.Weapons.Add(WeaponHash.CombatPistol).Ammo = -1;
-            gangster.SetWanted(true);
-            Functions.AddPedContraband(gangster, ContrabandType.Narcotics, "Cocaine");
-            EntitiesToClear.Add(gangster);
+            suspect.IsPersistent = true;
+            suspect.Inventory.Weapons.Add(WeaponHash.CombatPistol).Ammo = -1;
+            suspect.SetWanted(true);
+            Functions.AddPedContraband(suspect, ContrabandType.Narcotics, "Cocaine");
+            EntitiesToClear.Add(suspect);
         }
     }
 
@@ -173,8 +173,8 @@ internal class Mafia2 : SuperCallout
         Game.SetRelationshipBetweenRelationshipGroups("COP", "MAFIA", Relationship.Hate);
 
         // Have one mafia member directly attack the player
-        if (_mafiaDude13?.Exists() == true)
-            _mafiaDude13.Tasks.FightAgainst(Game.LocalPlayer.Character, -1);
+        if (_suspect13?.Exists() == true)
+            _suspect13.Tasks.FightAgainst(Game.LocalPlayer.Character, -1);
 
         // Remove the navigation blip
         _sceneBlip?.Delete();

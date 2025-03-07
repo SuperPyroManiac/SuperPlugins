@@ -15,11 +15,11 @@ namespace SuperCallouts.Callouts;
 [CalloutInfo("[SC] Officer Ambush", CalloutProbability.Low)]
 internal class LostGang : SuperCallout
 {
-    private readonly List<Ped> _bikers = [];
-    private readonly List<Vehicle> _bikerVehicles = [];
-    private readonly List<Vehicle> _copVehicles = [];
-    private readonly List<Ped> _officers = [];
-    private Blip _searchBlip;
+    private readonly List<Ped> _gangMembers = [];
+    private readonly List<Vehicle> _gangVehicles = [];
+    private readonly List<Vehicle> _policeVehicles = [];
+    private readonly List<Ped> _policeOfficers = [];
+    private Blip _areaBlip;
     internal override Location SpawnPoint { get; set; } = new(new Vector3(2350.661f, 4920.378f, 41.7339f));
     internal override float OnSceneDistance { get; set; } = 100f;
     internal override string CalloutName { get; set; } = "Officer Ambush";
@@ -46,18 +46,18 @@ internal class LostGang : SuperCallout
 
         // Construct the scene using the custom scene builder
         LostMc.ConstructBikersScene(
-            out Vehicle copCar1,
-            out Vehicle copCar2,
-            out Ped cop1,
-            out Ped cop2,
-            out Ped cop3,
-            out Vehicle bike1,
-            out Vehicle bike2,
-            out Vehicle bike3,
-            out Vehicle bike4,
-            out Vehicle bike5,
-            out Vehicle bike6,
-            out Vehicle bike7,
+            out Vehicle policeCar1,
+            out Vehicle policeCar2,
+            out Ped officer1,
+            out Ped officer2,
+            out Ped officer3,
+            out Vehicle motorcycle1,
+            out Vehicle motorcycle2,
+            out Vehicle motorcycle3,
+            out Vehicle motorcycle4,
+            out Vehicle motorcycle5,
+            out Vehicle motorcycle6,
+            out Vehicle motorcycle7,
             out Ped biker1,
             out Ped biker2,
             out Ped biker3,
@@ -71,34 +71,34 @@ internal class LostGang : SuperCallout
         );
 
         // Add vehicles to tracking lists
-        _copVehicles.AddRange([copCar1, copCar2]);
-        _bikerVehicles.AddRange([bike1, bike2, bike3, bike4, bike5, bike6, bike7]);
+        _policeVehicles.AddRange([policeCar1, policeCar2]);
+        _gangVehicles.AddRange([motorcycle1, motorcycle2, motorcycle3, motorcycle4, motorcycle5, motorcycle6, motorcycle7]);
 
         // Add officers to tracking list
-        _officers.AddRange([cop1, cop2, cop3]);
+        _policeOfficers.AddRange([officer1, officer2, officer3]);
 
         // Add bikers to tracking list
-        _bikers.AddRange([biker1, biker2, biker3, biker4, biker5, biker6, biker7, biker8, biker9, biker10]);
+        _gangMembers.AddRange([biker1, biker2, biker3, biker4, biker5, biker6, biker7, biker8, biker9, biker10]);
 
         // Create search area blip
-        _searchBlip = new Blip(SpawnPoint.Position.Around2D(1f, 2f), 80f) { Color = Color.Yellow, Alpha = .5f };
-        _searchBlip.EnableRoute(Color.Yellow);
-        BlipsToClear.Add(_searchBlip);
+        _areaBlip = new Blip(SpawnPoint.Position.Around2D(1f, 2f), 80f) { Color = Color.Yellow, Alpha = .5f };
+        _areaBlip.EnableRoute(Color.Yellow);
+        BlipsToClear.Add(_areaBlip);
 
         // Make all entities persistent and add to cleanup
-        foreach (var vehicle in _copVehicles.Concat(_bikerVehicles))
+        foreach (var vehicle in _policeVehicles.Concat(_gangVehicles))
         {
             vehicle.IsPersistent = true;
             EntitiesToClear.Add(vehicle);
         }
 
-        foreach (var biker in _bikers)
+        foreach (var biker in _gangMembers)
         {
             biker.IsPersistent = true;
             EntitiesToClear.Add(biker);
         }
 
-        foreach (var officer in _officers)
+        foreach (var officer in _policeOfficers)
         {
             officer.IsPersistent = true;
             EntitiesToClear.Add(officer);
@@ -107,7 +107,7 @@ internal class LostGang : SuperCallout
 
     internal override void CalloutOnScene()
     {
-        _searchBlip?.DisableRoute();
+        _areaBlip?.DisableRoute();
 
         Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~OutNumbered", "~y~Stay in cover until backup arrives!");
         Functions.PlayScannerAudioUsingPosition("DISPATCH_SWAT_UNITS_FROM_01 IN_OR_ON_POSITION UNITS_RESPOND_CODE_99_01", SpawnPoint.Position);
@@ -117,7 +117,7 @@ internal class LostGang : SuperCallout
         Game.SetRelationshipBetweenRelationshipGroups("LOSTERS", "PLAYER", Relationship.Hate);
 
         // Make bikers wanted and fight
-        foreach (var biker in _bikers.Where(b => b != null && b.Exists()))
+        foreach (var biker in _gangMembers.Where(b => b != null && b.Exists()))
         {
             biker.SetWanted(true);
             biker.Tasks.FightAgainstClosestHatedTarget(50f);

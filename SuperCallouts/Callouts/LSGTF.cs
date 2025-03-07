@@ -20,19 +20,19 @@ internal class Lsgtf : SuperCallout
 {
     private readonly List<Ped> _gangMembers = [];
     private readonly List<Blip> _gangBlips = [];
-    private readonly Vector3 _raidPoint = new(113.1443f, -1926.435f, 20.8231f);
+    private readonly Vector3 _raidPosition = new(113.1443f, -1926.435f, 20.8231f);
 
-    private Vehicle _fibVehicle;
-    private Ped _fibAgent1;
-    private Ped _fibAgent2;
+    private Vehicle _agentVehicle;
+    private Ped _agentLead;
+    private Ped _agentSecondary;
     private Blip _meetingBlip;
     private Vector3 _meetingPosition;
 
-    private MenuPool _conversation;
+    private MenuPool _menuPool;
     private UIMenu _mainMenu;
-    private UIMenuItem _startConv;
-    private UIMenuItem _beginRaid;
-    private UIMenuItem _waitRaid;
+    private UIMenuItem _menuStartConversation;
+    private UIMenuItem _menuBeginRaid;
+    private UIMenuItem _menuWaitRaid;
 
     private bool _meetingCompleted;
     private bool _helpDisplayed;
@@ -69,9 +69,9 @@ internal class Lsgtf : SuperCallout
             out Ped bad6,
             out Ped bad7,
             out Ped bad8,
-            out _fibVehicle,
-            out _fibAgent1,
-            out _fibAgent2
+            out _agentVehicle,
+            out _agentLead,
+            out _agentSecondary
         );
 
         // Add gang members to collection
@@ -120,52 +120,52 @@ internal class Lsgtf : SuperCallout
 
     private void SetupFibAssets()
     {
-        _fibVehicle.IsPersistent = true;
-        _fibAgent1.IsPersistent = true;
-        _fibAgent2.IsPersistent = true;
-        _fibAgent1.BlockPermanentEvents = true;
-        _fibAgent2.BlockPermanentEvents = true;
+        _agentVehicle.IsPersistent = true;
+        _agentLead.IsPersistent = true;
+        _agentSecondary.IsPersistent = true;
+        _agentLead.BlockPermanentEvents = true;
+        _agentSecondary.BlockPermanentEvents = true;
 
-        EntitiesToClear.Add(_fibVehicle);
-        EntitiesToClear.Add(_fibAgent1);
-        EntitiesToClear.Add(_fibAgent2);
+        EntitiesToClear.Add(_agentVehicle);
+        EntitiesToClear.Add(_agentLead);
+        EntitiesToClear.Add(_agentSecondary);
 
-        _meetingBlip = _fibVehicle.AttachBlip();
+        _meetingBlip = _agentVehicle.AttachBlip();
         _meetingBlip.EnableRoute(Color.Aquamarine);
         _meetingBlip.Color = Color.Aquamarine;
         BlipsToClear.Add(_meetingBlip);
 
-        _meetingPosition = _fibAgent1.Position;
+        _meetingPosition = _agentLead.Position;
     }
 
     private void SetupConversationMenu()
     {
-        _conversation = new MenuPool();
+        _menuPool = new MenuPool();
         _mainMenu = new UIMenu("Meeting", "Choose an option");
         _mainMenu.MouseControlsEnabled = false;
         _mainMenu.AllowCameraMovement = true;
-        _conversation.Add(_mainMenu);
+        _menuPool.Add(_mainMenu);
 
-        _startConv = new UIMenuItem("What's the plan?");
-        _mainMenu.AddItem(_startConv);
+        _menuStartConversation = new UIMenuItem("What's the plan?");
+        _mainMenu.AddItem(_menuStartConversation);
         _mainMenu.RefreshIndex();
 
-        Style.ApplyStyle(_conversation, false);
+        Style.ApplyStyle(_menuPool, false);
         _mainMenu.OnItemSelect += HandleConversationOptions;
     }
 
     private void HandleConversationOptions(UIMenu menu, UIMenuItem selectedItem, int index)
     {
-        if (selectedItem == _startConv)
+        if (selectedItem == _menuStartConversation)
         {
             GameFiber.StartNew(
                 delegate
                 {
-                    _startConv.Enabled = false;
+                    _menuStartConversation.Enabled = false;
 
                     // Make agents face player
-                    NativeFunction.Natives.x5AD23D40115353AC(_fibAgent1, Game.LocalPlayer.Character, -1);
-                    NativeFunction.Natives.x5AD23D40115353AC(_fibAgent2, Game.LocalPlayer.Character, -1);
+                    NativeFunction.Natives.x5AD23D40115353AC(_agentLead, Game.LocalPlayer.Character, -1);
+                    NativeFunction.Natives.x5AD23D40115353AC(_agentSecondary, Game.LocalPlayer.Character, -1);
 
                     // Display conversation dialogue
                     Game.DisplaySubtitle("~g~FIB: ~w~Thanks for coming officer, im sure you are aware how aggressive the gangs around here have become.", 6000);
@@ -183,21 +183,21 @@ internal class Lsgtf : SuperCallout
                     Game.DisplaySubtitle("~g~FIB: ~w~You will be the officer in charge in this raid. Let us know when to begin.", 6000);
 
                     // Add new menu options
-                    _beginRaid = new UIMenuItem("Yes, lets start.");
-                    _waitRaid = new UIMenuItem("No, I need a minute.");
+                    _menuBeginRaid = new UIMenuItem("Yes, lets start.");
+                    _menuWaitRaid = new UIMenuItem("No, I need a minute.");
 
-                    _mainMenu.AddItem(_beginRaid);
-                    _mainMenu.AddItem(_waitRaid);
+                    _mainMenu.AddItem(_menuBeginRaid);
+                    _mainMenu.AddItem(_menuWaitRaid);
                 }
             );
         }
-        else if (selectedItem == _beginRaid)
+        else if (selectedItem == _menuBeginRaid)
         {
             GameFiber.StartNew(
                 delegate
                 {
-                    _beginRaid.Enabled = false;
-                    _waitRaid.Enabled = false;
+                    _menuBeginRaid.Enabled = false;
+                    _menuWaitRaid.Enabled = false;
                     _mainMenu.Visible = false;
                     _meetingCompleted = true;
 
@@ -209,8 +209,8 @@ internal class Lsgtf : SuperCallout
                     CreateGangBlips();
 
                     // FIB agents enter vehicle and gang members start wandering
-                    _fibAgent1.Tasks.EnterVehicle(_fibVehicle, -1);
-                    _fibAgent2.Tasks.EnterVehicle(_fibVehicle, 0);
+                    _agentLead.Tasks.EnterVehicle(_agentVehicle, -1);
+                    _agentSecondary.Tasks.EnterVehicle(_agentVehicle, 0);
 
                     foreach (var gangMember in _gangMembers)
                     {
@@ -219,7 +219,7 @@ internal class Lsgtf : SuperCallout
                 }
             );
         }
-        else if (selectedItem == _waitRaid)
+        else if (selectedItem == _menuWaitRaid)
         {
             GameFiber.StartNew(
                 delegate
@@ -254,7 +254,7 @@ internal class Lsgtf : SuperCallout
 
     internal override void CalloutRunning()
     {
-        _conversation?.ProcessMenus();
+        _menuPool?.ProcessMenus();
 
         // Display help message when close to FIB agents
         if (!_meetingCompleted && !_helpDisplayed && Game.LocalPlayer.Character.DistanceTo(_meetingPosition) < 15f)
@@ -278,23 +278,23 @@ internal class Lsgtf : SuperCallout
     internal override void CalloutOnScene()
     {
         // Drive FIB vehicle to raid point and activate sirens
-        _fibAgent1.Tasks.DriveToPosition(_raidPoint, 10f, VehicleDrivingFlags.Emergency, 10f);
-        _fibVehicle.IsSirenOn = true;
-        _fibVehicle.IsSirenSilent = true;
+        _agentLead.Tasks.DriveToPosition(_raidPosition, 10f, VehicleDrivingFlags.Emergency, 10f);
+        _agentVehicle.IsSirenOn = true;
+        _agentVehicle.IsSirenSilent = true;
 
         // Disable route on first gang member blip
         if (_gangBlips.Count > 0)
             _gangBlips[0].DisableRoute();
 
         // Request SWAT backup
-        Functions.PlayScannerAudioUsingPosition("DISPATCH_SWAT_UNITS_FROM_01 IN_OR_ON_POSITION UNITS_RESPOND_CODE_99_01", _raidPoint);
+        Functions.PlayScannerAudioUsingPosition("DISPATCH_SWAT_UNITS_FROM_01 IN_OR_ON_POSITION UNITS_RESPOND_CODE_99_01", _raidPosition);
         PyroFunctions.RequestBackup(Enums.BackupType.Noose);
         PyroFunctions.RequestBackup(Enums.BackupType.Swat);
 
         // Dismiss FIB agents and vehicle
-        _fibAgent1.Dismiss();
-        _fibAgent2.Dismiss();
-        _fibVehicle.Dismiss();
+        _agentLead.Dismiss();
+        _agentSecondary.Dismiss();
+        _agentVehicle.Dismiss();
 
         // Set player relationship with gang
         Game.LocalPlayer.Character.RelationshipGroup = "COP";

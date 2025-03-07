@@ -19,44 +19,42 @@ namespace SuperCallouts.Callouts;
 [CalloutInfo("[SC] Mafia Raid", CalloutProbability.Low)]
 internal class Mafia3 : SuperCallout
 {
-    private readonly List<Ped> _peds = [];
+    private readonly List<Ped> _suspects = [];
     private readonly List<Vehicle> _vehicles = [];
 
     // Mafia members
-    private Ped _bad1,
-        _bad2,
-        _bad3,
-        _bad4,
-        _bad5,
-        _bad6;
-    private Ped _bad7,
-        _bad8,
-        _bad9,
-        _bad10,
-        _bad11,
-        _bad12;
+    private Ped _suspect1,
+        _suspect2,
+        _suspect3,
+        _suspect4,
+        _suspect5,
+        _suspect6;
+    private Ped _suspect7,
+        _suspect8,
+        _suspect9,
+        _suspect10,
+        _suspect11,
+        _suspect12;
 
     // Vehicles
-    private Vehicle _defender;
-    private Vehicle _limo;
-    private Vehicle _truck1;
-    private Vehicle _truck2;
-    private Vehicle _truck3;
+    private Vehicle _limousine;
+    private Vehicle _suv;
+    private Vehicle _transportTruck1;
+    private Vehicle _transportTruck2;
+    private Vehicle _transportTruck3;
 
     // UI elements
-    private MenuPool _interaction;
+    private MenuPool _menuPool;
     private UIMenu _mainMenu;
-    private UIMenuItem _endCall;
+    private UIMenuItem _menuEndCall;
 
     // State tracking
-    private RunState _state = RunState.CheckDistance;
+    private CalloutState _calloutState = CalloutState.CheckDistance;
     private bool _raidStarted;
 
     internal override Location SpawnPoint { get; set; } = new(new Vector3(949.3857f, -3129.14f, 5.900989f));
     internal override float OnSceneDistance { get; set; } = 90f;
     internal override string CalloutName { get; set; } = "Mafia Raid";
-
-    private static Ped Player => Game.LocalPlayer.Character;
 
     internal override void CalloutPrep()
     {
@@ -90,7 +88,7 @@ internal class Mafia3 : SuperCallout
         SetupUserInterface();
 
         // Create search blip
-        var sceneBlip = _truck2.AttachBlip();
+        var sceneBlip = _transportTruck2.AttachBlip();
         sceneBlip.EnableRoute(Color.Red);
         sceneBlip.Color = Color.Red;
         BlipsToClear.Add(sceneBlip);
@@ -100,28 +98,28 @@ internal class Mafia3 : SuperCallout
     {
         // Construct the scene
         Mafia3Setup.ConstructMafia3Scene(
-            out _limo,
-            out _defender,
-            out _truck1,
-            out _truck2,
-            out _truck3,
-            out _bad1,
-            out _bad2,
-            out _bad3,
-            out _bad4,
-            out _bad5,
-            out _bad6,
-            out _bad7,
-            out _bad8,
-            out _bad9,
-            out _bad10,
-            out _bad11,
-            out _bad12
+            out _limousine,
+            out _suv,
+            out _transportTruck1,
+            out _transportTruck2,
+            out _transportTruck3,
+            out _suspect1,
+            out _suspect2,
+            out _suspect3,
+            out _suspect4,
+            out _suspect5,
+            out _suspect6,
+            out _suspect7,
+            out _suspect8,
+            out _suspect9,
+            out _suspect10,
+            out _suspect11,
+            out _suspect12
         );
 
         // Add entities to tracking lists
-        _vehicles.AddRange([_limo, _defender, _truck1, _truck2, _truck3]);
-        _peds.AddRange([_bad1, _bad2, _bad3, _bad4, _bad5, _bad6, _bad7, _bad8, _bad9, _bad10, _bad11, _bad12]);
+        _vehicles.AddRange([_limousine, _suv, _transportTruck1, _transportTruck2, _transportTruck3]);
+        _suspects.AddRange([_suspect1, _suspect2, _suspect3, _suspect4, _suspect5, _suspect6, _suspect7, _suspect8, _suspect9, _suspect10, _suspect11, _suspect12]);
 
         // Setup vehicles
         foreach (var vehicle in _vehicles)
@@ -131,26 +129,26 @@ internal class Mafia3 : SuperCallout
         }
 
         // Setup mafia members
-        foreach (var gangster in _peds)
+        foreach (var suspect in _suspects)
         {
-            gangster.IsPersistent = true;
-            gangster.BlockPermanentEvents = true;
-            gangster.Inventory.Weapons.Add(WeaponHash.AssaultRifle).Ammo = -1;
-            gangster.RelationshipGroup = new RelationshipGroup("MAFIA");
-            gangster.SetWanted(true);
-            Functions.AddPedContraband(gangster, ContrabandType.Narcotics, "Cocaine");
-            EntitiesToClear.Add(gangster);
+            suspect.IsPersistent = true;
+            suspect.BlockPermanentEvents = true;
+            suspect.Inventory.Weapons.Add(WeaponHash.AssaultRifle).Ammo = -1;
+            suspect.RelationshipGroup = new RelationshipGroup("MAFIA");
+            suspect.SetWanted(true);
+            Functions.AddPedContraband(suspect, ContrabandType.Narcotics, "Cocaine");
+            EntitiesToClear.Add(suspect);
         }
 
         // Add special items to trucks
-        _truck1.Metadata.searchTrunk = "~r~multiple pallets of cocaine~s~, ~r~hazmat suits~s~, ~r~multiple weapons~s~, ~y~empty body bags~s~";
-        _truck2.Metadata.searchTrunk = "~r~multiple pallets of cocaine~s~, ~r~hazmat suits~s~, ~r~multiple weapons~s~, ~y~bags of cash~s~";
-        _truck3.Metadata.searchTrunk = "~r~multiple pallets of cocaine~s~, ~r~hazmat suits~s~, ~r~multiple weapons~s~, ~r~explosives~s~";
+        _transportTruck1.Metadata.searchTrunk = "~r~multiple pallets of cocaine~s~, ~r~hazmat suits~s~, ~r~multiple weapons~s~, ~y~empty body bags~s~";
+        _transportTruck2.Metadata.searchTrunk = "~r~multiple pallets of cocaine~s~, ~r~hazmat suits~s~, ~r~multiple weapons~s~, ~y~bags of cash~s~";
+        _transportTruck3.Metadata.searchTrunk = "~r~multiple pallets of cocaine~s~, ~r~hazmat suits~s~, ~r~multiple weapons~s~, ~r~explosives~s~";
     }
 
     private void SetupUserInterface()
     {
-        PyroFunctions.BuildUi(out _interaction, out _mainMenu, out _, out _, out _endCall);
+        PyroFunctions.BuildUi(out _menuPool, out _mainMenu, out _, out _, out _menuEndCall);
         _mainMenu.OnItemSelect += InteractionProcess;
     }
 
@@ -160,7 +158,7 @@ internal class Mafia3 : SuperCallout
         {
             ProcessCurrentState();
             HandleKeyBindings();
-            _interaction?.ProcessMenus();
+            _menuPool?.ProcessMenus();
         }
         catch (Exception e)
         {
@@ -171,21 +169,21 @@ internal class Mafia3 : SuperCallout
 
     private void ProcessCurrentState()
     {
-        switch (_state)
+        switch (_calloutState)
         {
-            case RunState.CheckDistance:
+            case CalloutState.CheckDistance:
                 if (OnScene && !_raidStarted)
                 {
                     StartRaid();
-                    _state = RunState.RaidScene;
+                    _calloutState = CalloutState.RaidScene;
                 }
                 break;
 
-            case RunState.RaidScene:
+            case CalloutState.RaidScene:
                 if (!_raidStarted)
                 {
                     InitiateFight();
-                    _state = RunState.End;
+                    _calloutState = CalloutState.End;
                     _raidStarted = true;
                 }
                 break;
@@ -221,14 +219,14 @@ internal class Mafia3 : SuperCallout
             {
                 GameFiber.Wait(5000);
 
-                foreach (var gangster in _peds.Where(p => p?.Exists() == true))
+                foreach (var suspect in _suspects.Where(p => p?.Exists() == true))
                 {
-                    gangster.BlockPermanentEvents = false;
-                    gangster.Tasks.FightAgainstClosestHatedTarget(100, -1);
+                    suspect.BlockPermanentEvents = false;
+                    suspect.Tasks.FightAgainstClosestHatedTarget(100, -1);
                 }
 
-                if (_bad1?.Exists() == true)
-                    _bad1.Tasks.FightAgainst(Player);
+                if (_suspect1?.Exists() == true)
+                    _suspect1.Tasks.FightAgainst(Player);
 
                 foreach (var blip in BlipsToClear)
                     blip?.DisableRoute();
@@ -249,7 +247,7 @@ internal class Mafia3 : SuperCallout
         Game.SetRelationshipBetweenRelationshipGroups("MAFIA", "PLAYER", Relationship.Dislike);
 
         // Close all menus
-        _interaction?.CloseAllMenus();
+        _menuPool?.CloseAllMenus();
 
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
         base.CalloutEnd(forceCleanup);
@@ -257,14 +255,14 @@ internal class Mafia3 : SuperCallout
 
     private void InteractionProcess(UIMenu sender, UIMenuItem selItem, int index)
     {
-        if (selItem == _endCall)
+        if (selItem == _menuEndCall)
         {
             Game.DisplaySubtitle("~y~Callout Ended.");
             CalloutEnd();
         }
     }
 
-    private enum RunState
+    private enum CalloutState
     {
         CheckDistance,
         RaidScene,
