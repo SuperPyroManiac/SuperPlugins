@@ -13,10 +13,10 @@ namespace SuperCallouts.RemasteredCallouts;
 [CalloutInfo("[SC] Illegal Parking", CalloutProbability.Medium)]
 internal class IllegalParking : SuperCallout
 {
-    private Blip _cBlip;
-    private Vehicle _cVehicle;
+    private Blip _blip;
+    private Vehicle _vehicle;
     private Ped _suspect;
-    private readonly int _scene = new Random(DateTime.Now.Millisecond).Next(1, 5);
+    private readonly int _sceneType = new Random(DateTime.Now.Millisecond).Next(1, 5);
     private int _partHandleBigFire;
     private int _partHandleMistySmoke;
     internal override Location SpawnPoint { get; set; } = PyroFunctions.GetSideOfRoad(750, 180);
@@ -25,73 +25,91 @@ internal class IllegalParking : SuperCallout
 
     internal override void CalloutPrep()
     {
-        CalloutMessage = "~r~" + Settings.EmergencyNumber + " Report:~s~ Reports of a vehicle parked illegally.";
+        CalloutMessage = $"~r~{Settings.EmergencyNumber} Report:~s~ Reports of a vehicle parked illegally.";
         CalloutAdvisory = "Caller says a vehicle is parked on their property without permission.";
-        Functions.PlayScannerAudioUsingPosition("ATTENTION_ALL_UNITS_05 WE_HAVE CRIME_11_351_02 IN_OR_ON_POSITION",
-            SpawnPoint.Position);
+        Functions.PlayScannerAudioUsingPosition("ATTENTION_ALL_UNITS_05 WE_HAVE PYRO_ILLEGAL_PARKING IN_OR_ON_POSITION", SpawnPoint.Position);
     }
 
     internal override void CalloutAccepted()
     {
-        Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~y~Traffic",
-            "Reports of an empty vehicle on private property, respond ~g~CODE-1");
+        Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~y~Traffic", "Reports of an empty vehicle on private property, respond ~g~CODE-1");
 
-        _cVehicle = PyroFunctions.SpawnCar(SpawnPoint);
-        EntitiesToClear.Add(_cVehicle);
+        SpawnVehicle();
+        CreateBlip();
+    }
 
-        if ( _scene == 1 )
+    private void SpawnVehicle()
+    {
+        _vehicle = PyroFunctions.SpawnCar(SpawnPoint);
+        EntitiesToClear.Add(_vehicle);
+
+        if (_sceneType == 1)
         {
-            _cVehicle.ApplyDamage(100, 100);
-            _partHandleBigFire = Particles.StartLoopedParticlesOnEntity("scr_trevor3", "scr_trev3_trailer_plume", _cVehicle,
-                new Vector3(0, 1f, 0), Vector3.Zero, 0.7f);
-            _partHandleMistySmoke = Particles.StartLoopedParticlesOnEntity("scr_agencyheistb", "scr_env_agency3b_smoke", _cVehicle,
-                new Vector3(0, 1f, 0), Vector3.Zero, .7f);
+            _vehicle.ApplyDamage(100, 100);
+            _partHandleBigFire = Particles.StartLoopedParticlesOnEntity("scr_trevor3", "scr_trev3_trailer_plume", _vehicle, new Vector3(0, 1f, 0), Vector3.Zero, 0.7f);
+            _partHandleMistySmoke = Particles.StartLoopedParticlesOnEntity("scr_agencyheistb", "scr_env_agency3b_smoke", _vehicle, new Vector3(0, 1f, 0), Vector3.Zero, .7f);
         }
+    }
 
-        _cBlip = PyroFunctions.CreateSearchBlip(SpawnPoint, Color.Yellow, true, true, 40f);
-        BlipsToClear.Add(_cBlip);
+    private void CreateBlip()
+    {
+        _blip = PyroFunctions.CreateSearchBlip(SpawnPoint, Color.Yellow, true, true, 40f);
+        BlipsToClear.Add(_blip);
     }
 
     internal override void CalloutOnScene()
     {
-        if ( _cBlip )
-        {
-            _cBlip.Position = SpawnPoint.Position;
-            _cBlip.Scale = 20;
-            _cBlip.DisableRoute();
-        }
+        UpdateBlip();
 
-        if ( !_cVehicle )
+        if (!_vehicle)
         {
             CalloutEnd(true);
             return;
         }
 
-        switch ( _scene )
+        HandleScenario();
+    }
+
+    private void UpdateBlip()
+    {
+        if (_blip)
         {
-            case 1:
+            _blip.Position = SpawnPoint.Position;
+            _blip.Scale = 20;
+            _blip.DisableRoute();
+        }
+    }
+
+    private void HandleScenario()
+    {
+        switch (_sceneType)
+        {
+            case 1: // Burning vehicle
                 Log.Info("Callout Scene 1");
                 GameFiber.Wait(5000);
-                _cVehicle.StartFire(false);
+                _vehicle.StartFire(false);
                 GameFiber.Wait(12000);
                 Particles.StopLoopedParticles(_partHandleBigFire);
                 break;
-            case 2:
+
+            case 2: // Stolen vehicle with bomb
                 Log.Info("Callout Scene 2");
-                _cVehicle.IsStolen = true;
-                PyroFunctions.AddSearchItem("~r~Bomb", null, _cVehicle);
+                _vehicle.IsStolen = true;
+                PyroFunctions.AddSearchItem("~r~Bomb", null, _vehicle);
                 break;
-            case 3:
+
+            case 3: // Suicide scene
                 Log.Info("Callout Scene 3");
-                _suspect = _cVehicle.CreateRandomDriver();
+                _suspect = _vehicle.CreateRandomDriver();
                 _suspect.IsPersistent = true;
                 EntitiesToClear.Add(_suspect);
                 _suspect.Kill();
                 PyroFunctions.AddDrugItem("~r~Large pile of white powder", Enums.DrugType.Methamphetamine, _suspect);
                 PyroFunctions.AddSearchItem("~r~Empty used needles", _suspect);
-                PyroFunctions.AddSearchItem("~y~Suicide letter", null, _cVehicle);
+                PyroFunctions.AddSearchItem("~y~Suicide letter", null, _vehicle);
                 break;
-            case 4:
+
+            case 4: // Normal illegally parked vehicle
                 break;
         }
     }

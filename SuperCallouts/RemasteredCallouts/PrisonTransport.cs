@@ -13,9 +13,9 @@ namespace SuperCallouts.RemasteredCallouts;
 internal class PrisonTransport : SuperCallout
 {
     private Ped _suspect;
-    private Blip _cBlip;
-    private Ped _cop;
-    private Vehicle _cVehicle;
+    private Blip _blip;
+    private Ped _officer;
+    private Vehicle _vehicle;
     internal override Location SpawnPoint { get; set; } = new(World.GetNextPositionOnStreet(Player.Position.Around(500f)));
     internal override float OnSceneDistance { get; set; } = 90;
     internal override string CalloutName { get; set; } = "Transport Escape";
@@ -24,71 +24,101 @@ internal class PrisonTransport : SuperCallout
     {
         CalloutMessage = "~b~Dispatch:~s~ Prisoner escaped transport.";
         CalloutAdvisory = "Officers report a suspect has jumped out of a moving transport vehicle.";
-        Functions.PlayScannerAudioUsingPosition("OFFICERS_REPORT_01 CRIME_SUSPECT_ON_THE_RUN_01 IN_OR_ON_POSITION", SpawnPoint.Position);
+        Functions.PlayScannerAudioUsingPosition("OFFICERS_REPORT_01 PYRO_PRISONTRANS_ESCAPE IN_OR_ON_POSITION", SpawnPoint.Position);
     }
 
     internal override void CalloutAccepted()
     {
-        Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Escaped Prisoner",
-            "DOC reports a prisoner has unlocked the transport vehicle and is on the run. ~r~CODE-3");
+        Game.DisplayNotification(
+            "3dtextures",
+            "mpgroundlogo_cops",
+            "~b~Dispatch",
+            "~r~Escaped Prisoner",
+            "DOC reports a prisoner has unlocked the transport vehicle and is on the run. ~r~CODE-3"
+        );
 
-        _cVehicle = new Vehicle("POLICET", SpawnPoint.Position) { IsPersistent = true };
-        EntitiesToClear.Add(_cVehicle);
+        SpawnVehicle();
+        SpawnOfficer();
+        SpawnSuspect();
+        CreateBlip();
+    }
 
-        _cop = new Ped("csb_cop", SpawnPoint.Position, 0f);
-        _cop.IsPersistent = true;
-        _cop.WarpIntoVehicle(_cVehicle, -1);
-        _cop.Tasks.LeaveVehicle(LeaveVehicleFlags.LeaveDoorOpen);
-        EntitiesToClear.Add(_cop);
+    private void SpawnVehicle()
+    {
+        _vehicle = new Vehicle("POLICET", SpawnPoint.Position) { IsPersistent = true };
+        EntitiesToClear.Add(_vehicle);
+    }
 
+    private void SpawnOfficer()
+    {
+        _officer = new Ped("csb_cop", SpawnPoint.Position, 0f);
+        _officer.IsPersistent = true;
+        _officer.WarpIntoVehicle(_vehicle, -1);
+        _officer.Tasks.LeaveVehicle(LeaveVehicleFlags.LeaveDoorOpen);
+        EntitiesToClear.Add(_officer);
+    }
+
+    private void SpawnSuspect()
+    {
         _suspect = new Ped("s_m_y_prisoner_01", SpawnPoint.Position, 0f);
         _suspect.IsPersistent = true;
         _suspect.SetWanted(false);
-        _suspect.WarpIntoVehicle(_cVehicle, 1);
+        _suspect.WarpIntoVehicle(_vehicle, 1);
         _suspect.Tasks.LeaveVehicle(LeaveVehicleFlags.LeaveDoorOpen);
         PyroFunctions.ClearSearchItems(_suspect);
         EntitiesToClear.Add(_suspect);
+    }
 
-        _cBlip = PyroFunctions.CreateSearchBlip(SpawnPoint, Color.Red, true, false, 20f);
-        BlipsToClear.Add(_cBlip);
+    private void CreateBlip()
+    {
+        _blip = PyroFunctions.CreateSearchBlip(SpawnPoint, Color.Red, true, false, 20f);
+        BlipsToClear.Add(_blip);
     }
 
     internal override void CalloutOnScene()
     {
-        _cBlip?.DisableRoute();
+        _blip?.DisableRoute();
 
-        if ( !_cop || !_suspect )
+        if (!_officer || !_suspect)
         {
             CalloutEnd(true);
             return;
         }
 
-        switch ( new Random(DateTime.Now.Millisecond).Next(1, 3) )
+        HandleScenario();
+    }
+
+    private void HandleScenario()
+    {
+        switch (new Random(DateTime.Now.Millisecond).Next(1, 3))
         {
-            case 1:
+            case 1: // Armed prisoner attacks officer
                 Log.Info("Callout Scene 1");
                 PyroFunctions.AddFirearmItem("Pistol", "weapon_pistol_mk2", true, true, true, _suspect);
                 _suspect.Inventory.EquippedWeapon = "weapon_pistol_mk2";
-                _suspect.Tasks.FightAgainst(_cop);
+                _suspect.Tasks.FightAgainst(_officer);
                 _suspect.Health = 250;
                 GameFiber.Wait(6000);
-                if ( _suspect.IsAlive )
+                if (_suspect.IsAlive)
                 {
-                    if ( _cop.IsAlive ) _cop.Kill();
+                    if (_officer.IsAlive)
+                        _officer.Kill();
                     PyroFunctions.StartPursuit(false, false, _suspect);
                 }
                 break;
-            case 2:
+
+            case 2: // Fleeing prisoner with officer in pursuit
                 Log.Info("Callout Scene 2");
                 var pursuit = PyroFunctions.StartPursuit(false, false, _suspect);
-                Functions.AddCopToPursuit(pursuit, _cop);
+                Functions.AddCopToPursuit(pursuit, _officer);
                 break;
         }
     }
 
     internal override void CalloutEnd(bool forceCleanup = false)
     {
-        if ( _cVehicle && _cop && _cop!.IsAlive ) _cop.Tasks.EnterVehicle(_cVehicle, -1);
+        if (_vehicle && _officer && _officer.IsAlive)
+            _officer.Tasks.EnterVehicle(_vehicle, -1);
         base.CalloutEnd(forceCleanup);
     }
 }
