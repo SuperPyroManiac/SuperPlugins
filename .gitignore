@@ -152,7 +152,7 @@ UpgradeLog*.htm
 
 # Temp files when opening LibreOffice on ubuntu
 .~lock.*
- 
+
 # svn
 .svn
 
@@ -227,3 +227,5 @@ project.lock.json
 #####
 # End of core ignore list, below put you custom 'per project' settings (patterns or path)
 #####
+
+dotnet-tools.json
