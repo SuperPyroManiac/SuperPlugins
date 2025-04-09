@@ -147,7 +147,10 @@ internal class WeirdCar : SuperCallout
                 delegate
                 {
                     _speakSuspect.Enabled = false;
-                    Game.DisplaySubtitle("~g~You~s~: Hey there! We have reports of suspicious activity here, what's going on?", 5000);
+                    Game.DisplaySubtitle(
+                        "~g~You~s~: Hey there! We have reports of suspicious activity here, what's going on?",
+                        5000
+                    );
                     _cPed.Tasks.LeaveVehicle(_cVehicle, LeaveVehicleFlags.LeaveDoorOpen);
                     GameFiber.Wait(5000);
                     _cPed.Tasks.FaceEntity(Player);

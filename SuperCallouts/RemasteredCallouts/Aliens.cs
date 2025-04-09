@@ -17,8 +17,7 @@ internal class Aliens : SuperCallout
     private Ped _alien3;
     private Blip _blip;
     private Vehicle _vehicle;
-    internal override Location SpawnPoint { get; set; } =
-        new(World.GetNextPositionOnStreet(Player.Position.Around(350f)));
+    internal override Location SpawnPoint { get; set; } = new(World.GetNextPositionOnStreet(Player.Position.Around(350f)));
     internal override float OnSceneDistance { get; set; } = 40;
     internal override string CalloutName { get; set; } = "Aliens";
 
@@ -26,10 +25,7 @@ internal class Aliens : SuperCallout
     {
         CalloutMessage = "~b~Dispatch:~s~ Reports of strange people.";
         CalloutAdvisory = "Caller says they're not human. Possibly a prank call.";
-        Functions.PlayScannerAudioUsingPosition(
-            "ATTENTION_ALL_UNITS_05 PYRO_ALIEN IN_OR_ON_POSITION",
-            SpawnPoint.Position
-        );
+        Functions.PlayScannerAudioUsingPosition("ATTENTION_ALL_UNITS_05 PYRO_ALIEN IN_OR_ON_POSITION", SpawnPoint.Position);
     }
 
     internal override void CalloutAccepted()

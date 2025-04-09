@@ -24,7 +24,10 @@ internal class PrisonTransport : SuperCallout
     {
         CalloutMessage = "~b~Dispatch:~s~ Prisoner escaped transport.";
         CalloutAdvisory = "Officers report a suspect has jumped out of a moving transport vehicle.";
-        Functions.PlayScannerAudioUsingPosition("OFFICERS_REPORT_01 PYRO_PRISONTRANS_ESCAPE IN_OR_ON_POSITION", SpawnPoint.Position);
+        Functions.PlayScannerAudioUsingPosition(
+            "OFFICERS_REPORT_01 PYRO_PRISONTRANS_ESCAPE IN_OR_ON_POSITION",
+            SpawnPoint.Position
+        );
     }
 
     internal override void CalloutAccepted()

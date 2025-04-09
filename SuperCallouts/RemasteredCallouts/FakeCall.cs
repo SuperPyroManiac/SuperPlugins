@@ -19,7 +19,10 @@ internal class FakeCall : SuperCallout
     {
         CalloutMessage = $"~r~{Settings.EmergencyNumber} Report:~s~ Emergency call dropped.";
         CalloutAdvisory = "Call dropped and dispatch is unable to reach caller back.";
-        Functions.PlayScannerAudioUsingPosition("ATTENTION_ALL_UNITS_05 WE_HAVE PYRO_DROPPED_CALL IN_OR_ON_POSITION", SpawnPoint.Position);
+        Functions.PlayScannerAudioUsingPosition(
+            "ATTENTION_ALL_UNITS_05 WE_HAVE PYRO_DROPPED_CALL IN_OR_ON_POSITION",
+            SpawnPoint.Position
+        );
     }
 
     internal override void CalloutAccepted()

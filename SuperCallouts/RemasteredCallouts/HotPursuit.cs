@@ -34,7 +34,10 @@ internal class HotPursuit : SuperCallout
     {
         CalloutMessage = "~o~Traffic ANPR Report:~s~ High value stolen vehicle located.";
         CalloutAdvisory = "This is a powerful vehicle, suspect known to evade police in the past.";
-        Functions.PlayScannerAudioUsingPosition("ATTENTION_ALL_UNITS_05 WE_HAVE PYRO_HOT_PURSUIT IN_OR_ON_POSITION", SpawnPoint.Position);
+        Functions.PlayScannerAudioUsingPosition(
+            "ATTENTION_ALL_UNITS_05 WE_HAVE PYRO_HOT_PURSUIT IN_OR_ON_POSITION",
+            SpawnPoint.Position
+        );
     }
 
     internal override void CalloutAccepted()
@@ -56,7 +59,10 @@ internal class HotPursuit : SuperCallout
     private void SpawnVehicle()
     {
         Model[] vehicleModels = ["THRAX", "TORERO2", "CHAMPION", "ENTITY3", "THRAX", "FMJ", "ZORRUSSO", "TIGON", "FURIA"];
-        _vehicle = new Vehicle(vehicleModels[new Random(DateTime.Now.Millisecond).Next(vehicleModels.Length)], SpawnPoint.Position);
+        _vehicle = new Vehicle(
+            vehicleModels[new Random(DateTime.Now.Millisecond).Next(vehicleModels.Length)],
+            SpawnPoint.Position
+        );
         _vehicle.IsPersistent = true;
         _vehicle.IsStolen = true;
 
@@ -142,7 +148,12 @@ internal class HotPursuit : SuperCallout
 
     private void CheckPursuitStatus()
     {
-        if (OnScene && !Functions.IsPursuitStillRunning(_pursuit) && Player.DistanceTo(_driver) > 75 && Player.DistanceTo(_passenger) > 75)
+        if (
+            OnScene
+            && !Functions.IsPursuitStillRunning(_pursuit)
+            && Player.DistanceTo(_driver) > 75
+            && Player.DistanceTo(_passenger) > 75
+        )
             CalloutEnd();
 
         if (OnScene && !Functions.IsPursuitStillRunning(_pursuit))
@@ -216,7 +227,10 @@ internal class HotPursuit : SuperCallout
                     _passenger.Tasks.FaceEntity(Player);
                     Game.DisplaySubtitle("~g~You~s~: You know this is a stolen vehicle right? What are you guys doing?", 5000);
                     GameFiber.Wait(5000);
-                    Game.DisplaySubtitle($"~r~{_passengerName}~s~: I didn't do anything wrong, I was just hanging out with my buddy and all this happened.", 5000);
+                    Game.DisplaySubtitle(
+                        $"~r~{_passengerName}~s~: I didn't do anything wrong, I was just hanging out with my buddy and all this happened.",
+                        5000
+                    );
                 }
             );
         }

@@ -25,7 +25,10 @@ internal class StolenCopVehicle : SuperCallout
     {
         CalloutMessage = "~b~Dispatch:~s~ Stolen police vehicle.";
         CalloutAdvisory = "A suspect stole an officers vehicle during arrest.";
-        Functions.PlayScannerAudioUsingPosition("ATTENTION_ALL_UNITS_05 WE_HAVE PYRO_STOLEN_PDCAR IN_OR_ON_POSITION", SpawnPoint.Position);
+        Functions.PlayScannerAudioUsingPosition(
+            "ATTENTION_ALL_UNITS_05 WE_HAVE PYRO_STOLEN_PDCAR IN_OR_ON_POSITION",
+            SpawnPoint.Position
+        );
     }
 
     internal override void CalloutAccepted()
@@ -46,7 +49,10 @@ internal class StolenCopVehicle : SuperCallout
     private void SpawnVehicle()
     {
         Model[] vehicleModels = ["POLICE", "POLICE2", "POLICE3", "SHERIFF", "SHERIFF2"];
-        _vehicle = new Vehicle(vehicleModels[new Random(DateTime.Now.Millisecond).Next(vehicleModels.Length)], SpawnPoint.Position)
+        _vehicle = new Vehicle(
+            vehicleModels[new Random(DateTime.Now.Millisecond).Next(vehicleModels.Length)],
+            SpawnPoint.Position
+        )
         {
             IsPersistent = true,
             IsStolen = true,

@@ -13,8 +13,9 @@ internal class Extras
         var menuItem = new UIMenuItem("SuperCallouts");
         menuItem.Skipped = true;
         menuItem.RightLabel = ver;
-        if ( !Main.UsingSc ) return menuItem;
-        if ( VersionChecker.OutdatedPyroPlugins.ContainsKey("SuperCallouts") )
+        if (!Main.UsingSc)
+            return menuItem;
+        if (VersionChecker.OutdatedPyroPlugins.ContainsKey("SuperCallouts"))
         {
             menuItem.ForeColor = Color.Red;
             menuItem.LeftBadge = UIMenuItem.BadgeStyle.Alert;
@@ -25,14 +26,16 @@ internal class Extras
         menuItem.LeftBadge = UIMenuItem.BadgeStyle.Tick;
         return menuItem;
     }
+
     internal static UIMenuItem SuperEvents()
     {
         var ver = !Main.UsingSe ? "Not Installed!" : Main.InstalledPyroPlugins["SuperEvents"];
         var menuItem = new UIMenuItem("SuperEvents");
         menuItem.Skipped = true;
         menuItem.RightLabel = ver;
-        if ( !Main.UsingSe ) return menuItem;
-        if ( VersionChecker.OutdatedPyroPlugins.ContainsKey("SuperEvents") )
+        if (!Main.UsingSe)
+            return menuItem;
+        if (VersionChecker.OutdatedPyroPlugins.ContainsKey("SuperEvents"))
         {
             menuItem.ForeColor = Color.Red;
             menuItem.LeftBadge = UIMenuItem.BadgeStyle.Alert;
@@ -43,14 +46,16 @@ internal class Extras
         menuItem.LeftBadge = UIMenuItem.BadgeStyle.Tick;
         return menuItem;
     }
+
     internal static UIMenuItem DeadlyWeapons()
     {
         var ver = !Main.UsingDw ? "Not Installed!" : Main.InstalledPyroPlugins["DeadlyWeapons"];
         var menuItem = new UIMenuItem("DeadlyWeapons");
         menuItem.Skipped = true;
         menuItem.RightLabel = ver;
-        if ( !Main.UsingDw ) return menuItem;
-        if ( VersionChecker.OutdatedPyroPlugins.ContainsKey("DeadlyWeapons") )
+        if (!Main.UsingDw)
+            return menuItem;
+        if (VersionChecker.OutdatedPyroPlugins.ContainsKey("DeadlyWeapons"))
         {
             menuItem.ForeColor = Color.Red;
             menuItem.LeftBadge = UIMenuItem.BadgeStyle.Alert;
@@ -64,8 +69,8 @@ internal class Extras
 
     internal static string CenterText(UIMenu menu, string text)
     {
-        var totalChars = ( int )( menu.AdjustedWidth * 255 );
-        var padding = ( totalChars - text.Length ) / 2;
+        var totalChars = (int)(menu.AdjustedWidth * 255);
+        var padding = (totalChars - text.Length) / 2;
         var space = new string(' ', padding);
         var cText = space + text;
         return cText;

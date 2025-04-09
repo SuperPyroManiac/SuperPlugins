@@ -25,12 +25,21 @@ internal class Fight : SuperCallout
     {
         CalloutMessage = $"~r~{Settings.EmergencyNumber} Report:~s~ Reports of a fight.";
         CalloutAdvisory = "Caller said the the people are screaming and yelling before hanging up.";
-        Functions.PlayScannerAudioUsingPosition("ATTENTION_ALL_UNITS_05 WE_HAVE PYRO_FIGHT IN_OR_ON_POSITION", SpawnPoint.Position);
+        Functions.PlayScannerAudioUsingPosition(
+            "ATTENTION_ALL_UNITS_05 WE_HAVE PYRO_FIGHT IN_OR_ON_POSITION",
+            SpawnPoint.Position
+        );
     }
 
     internal override void CalloutAccepted()
     {
-        Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~y~Fight", "Caller reports two people fighting in the street, respond ~r~CODE-3");
+        Game.DisplayNotification(
+            "3dtextures",
+            "mpgroundlogo_cops",
+            "~b~Dispatch",
+            "~y~Fight",
+            "Caller reports two people fighting in the street, respond ~r~CODE-3"
+        );
 
         SpawnPeds();
         CreateBlip();

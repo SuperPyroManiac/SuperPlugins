@@ -27,12 +27,21 @@ internal class IllegalParking : SuperCallout
     {
         CalloutMessage = $"~r~{Settings.EmergencyNumber} Report:~s~ Reports of a vehicle parked illegally.";
         CalloutAdvisory = "Caller says a vehicle is parked on their property without permission.";
-        Functions.PlayScannerAudioUsingPosition("ATTENTION_ALL_UNITS_05 WE_HAVE PYRO_ILLEGAL_PARKING IN_OR_ON_POSITION", SpawnPoint.Position);
+        Functions.PlayScannerAudioUsingPosition(
+            "ATTENTION_ALL_UNITS_05 WE_HAVE PYRO_ILLEGAL_PARKING IN_OR_ON_POSITION",
+            SpawnPoint.Position
+        );
     }
 
     internal override void CalloutAccepted()
     {
-        Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~y~Traffic", "Reports of an empty vehicle on private property, respond ~g~CODE-1");
+        Game.DisplayNotification(
+            "3dtextures",
+            "mpgroundlogo_cops",
+            "~b~Dispatch",
+            "~y~Traffic",
+            "Reports of an empty vehicle on private property, respond ~g~CODE-1"
+        );
 
         SpawnVehicle();
         CreateBlip();
@@ -46,8 +55,22 @@ internal class IllegalParking : SuperCallout
         if (_sceneType == 1)
         {
             _vehicle.ApplyDamage(100, 100);
-            _partHandleBigFire = Particles.StartLoopedParticlesOnEntity("scr_trevor3", "scr_trev3_trailer_plume", _vehicle, new Vector3(0, 1f, 0), Vector3.Zero, 0.7f);
-            _partHandleMistySmoke = Particles.StartLoopedParticlesOnEntity("scr_agencyheistb", "scr_env_agency3b_smoke", _vehicle, new Vector3(0, 1f, 0), Vector3.Zero, .7f);
+            _partHandleBigFire = Particles.StartLoopedParticlesOnEntity(
+                "scr_trevor3",
+                "scr_trev3_trailer_plume",
+                _vehicle,
+                new Vector3(0, 1f, 0),
+                Vector3.Zero,
+                0.7f
+            );
+            _partHandleMistySmoke = Particles.StartLoopedParticlesOnEntity(
+                "scr_agencyheistb",
+                "scr_env_agency3b_smoke",
+                _vehicle,
+                new Vector3(0, 1f, 0),
+                Vector3.Zero,
+                .7f
+            );
         }
     }
 

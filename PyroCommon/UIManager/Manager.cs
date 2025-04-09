@@ -65,44 +65,95 @@ internal static class Manager
 
     internal static void StartUi()
     {
-        ManagerKey.WithTextEditing(Settings.Manager.ToString, s => { Settings.Manager = PyroFunctions.PyroFunctions.ConvertStringToClosestKey(s, Settings.Manager); });
+        ManagerKey.WithTextEditing(
+            Settings.Manager.ToString,
+            s =>
+            {
+                Settings.Manager = PyroFunctions.PyroFunctions.ConvertStringToClosestKey(s, Settings.Manager);
+            }
+        );
 
-        if ( Main.UsingSc )
+        if (Main.UsingSc)
         {
             //SuperCallouts Text buttons
             ScSettings.GetSettings();
-            ScCfgInteract.WithTextEditing(ScSettings.Interact.ToString, s => { ScSettings.Interact = PyroFunctions.PyroFunctions.ConvertStringToClosestKey(s, ScSettings.Interact); });
-            ScCfgEndCall.WithTextEditing(ScSettings.EndCall.ToString, s => { ScSettings.EndCall = PyroFunctions.PyroFunctions.ConvertStringToClosestKey(s, ScSettings.EndCall); });
+            ScCfgInteract.WithTextEditing(
+                ScSettings.Interact.ToString,
+                s =>
+                {
+                    ScSettings.Interact = PyroFunctions.PyroFunctions.ConvertStringToClosestKey(s, ScSettings.Interact);
+                }
+            );
+            ScCfgEndCall.WithTextEditing(
+                ScSettings.EndCall.ToString,
+                s =>
+                {
+                    ScSettings.EndCall = PyroFunctions.PyroFunctions.ConvertStringToClosestKey(s, ScSettings.EndCall);
+                }
+            );
         }
 
-        if ( Main.UsingSe )
+        if (Main.UsingSe)
         {
             //SuperEvents Text buttons
             SeSettings.GetSettings();
-            SeCfgTimer.WithTextEditing(SeSettings.TimeBetweenEvents.ToString, s =>
-            {
-                if ( int.TryParse(s, out var value) ) SeSettings.TimeBetweenEvents = value;
-                else Game.DisplayHelp("~r~That is not a number!");
-            });
-            SeCfgInteract.WithTextEditing(SeSettings.Interact.ToString, s => { SeSettings.Interact = PyroFunctions.PyroFunctions.ConvertStringToClosestKey(s, SeSettings.Interact); });
-            SeCfgEndEvent.WithTextEditing(SeSettings.EndEvent.ToString, s => { SeSettings.EndEvent = PyroFunctions.PyroFunctions.ConvertStringToClosestKey(s, SeSettings.EndEvent); });
-            ScCfgNumber.WithTextEditing(ScSettings.EmergencyNumber.ToString, s => { ScSettings.EmergencyNumber = s; });
+            SeCfgTimer.WithTextEditing(
+                SeSettings.TimeBetweenEvents.ToString,
+                s =>
+                {
+                    if (int.TryParse(s, out var value))
+                        SeSettings.TimeBetweenEvents = value;
+                    else
+                        Game.DisplayHelp("~r~That is not a number!");
+                }
+            );
+            SeCfgInteract.WithTextEditing(
+                SeSettings.Interact.ToString,
+                s =>
+                {
+                    SeSettings.Interact = PyroFunctions.PyroFunctions.ConvertStringToClosestKey(s, SeSettings.Interact);
+                }
+            );
+            SeCfgEndEvent.WithTextEditing(
+                SeSettings.EndEvent.ToString,
+                s =>
+                {
+                    SeSettings.EndEvent = PyroFunctions.PyroFunctions.ConvertStringToClosestKey(s, SeSettings.EndEvent);
+                }
+            );
+            ScCfgNumber.WithTextEditing(
+                ScSettings.EmergencyNumber.ToString,
+                s =>
+                {
+                    ScSettings.EmergencyNumber = s;
+                }
+            );
         }
 
-        if ( Main.UsingDw )
+        if (Main.UsingDw)
         {
             //DeadlyWeapons Text buttons
             DwSettings.GetSettings();
-            DwCfgRandomizer.WithTextEditing(DwSettings.DamageRandomizer.ToString, s =>
-            {
-                if ( int.TryParse(s, out var value) ) DwSettings.DamageRandomizer = value;
-                else Game.DisplayHelp("~r~That is not a number!");
-            });
-            DwCfgCooldown.WithTextEditing(DwSettings.PanicCooldown.ToString, s =>
-            {
-                if ( int.TryParse(s, out var value) ) DwSettings.PanicCooldown = value;
-                else Game.DisplayHelp("~r~That is not a number!");
-            });
+            DwCfgRandomizer.WithTextEditing(
+                DwSettings.DamageRandomizer.ToString,
+                s =>
+                {
+                    if (int.TryParse(s, out var value))
+                        DwSettings.DamageRandomizer = value;
+                    else
+                        Game.DisplayHelp("~r~That is not a number!");
+                }
+            );
+            DwCfgCooldown.WithTextEditing(
+                DwSettings.PanicCooldown.ToString,
+                s =>
+                {
+                    if (int.TryParse(s, out var value))
+                        DwSettings.PanicCooldown = value;
+                    else
+                        Game.DisplayHelp("~r~That is not a number!");
+                }
+            );
         }
 
         _running = true;
@@ -115,15 +166,23 @@ internal static class Manager
         MainMenuPool.Add(DwConfigMenu);
         MainMenu.AddItems(
             Extras.UiSeparator(Extras.CenterText(MainMenu, "Installed Plugins")),
-            Extras.SuperCallouts(), Extras.SuperEvents(), Extras.DeadlyWeapons(),
+            Extras.SuperCallouts(),
+            Extras.SuperEvents(),
+            Extras.DeadlyWeapons(),
             Extras.UiSeparator(Extras.CenterText(MainMenu, "PyroCommon")),
             PcConfig,
             Extras.UiSeparator(Extras.CenterText(MainMenu, "SuperCallouts")),
-            ScConfig, CalloutList, EndCallout,
+            ScConfig,
+            CalloutList,
+            EndCallout,
             Extras.UiSeparator(Extras.CenterText(MainMenu, "SuperEvents")),
-            SeConfig, EventList, PauseEvent, EndEvent,
+            SeConfig,
+            EventList,
+            PauseEvent,
+            EndEvent,
             Extras.UiSeparator(Extras.CenterText(MainMenu, "DeadlyWeapons")),
-            DwConfig);
+            DwConfig
+        );
         MainMenu.BindMenuToItem(PcMenu, PcConfig);
         MainMenu.BindMenuToItem(CalloutMenu, CalloutList);
         MainMenu.BindMenuToItem(ScConfigMenu, ScConfig);
@@ -133,16 +192,34 @@ internal static class Manager
 
         PcMenu.AddItems(
             Extras.UiSeparator(Extras.CenterText(PcMenu, "Installed Plugins")),
-            Extras.SuperCallouts(), Extras.SuperEvents(), Extras.DeadlyWeapons(),
+            Extras.SuperCallouts(),
+            Extras.SuperEvents(),
+            Extras.DeadlyWeapons(),
             Extras.UiSeparator(Extras.CenterText(PcMenu, "PyroCommon Setup")),
-            UpdateNotifications, ErrorReporting, DisableManagerUI, ManagerKey,
+            UpdateNotifications,
+            ErrorReporting,
+            DisableManagerUI,
+            ManagerKey,
             Extras.UiSeparator(Extras.CenterText(PcMenu, "Saves PyroCommon.ini")),
-            SaveButton);
+            SaveButton
+        );
 
         ScConfigMenu.AddItems(ScCfgInteract, ScCfgEndCall, ScCfgNumber, ScCfgSave);
         SeConfigMenu.AddItems(SeCfgBlips, SeCfgHints, SeCfgTimer, SeCfgInteract, SeCfgEndEvent, SeCfgSave);
-        DwConfigMenu.AddItems(DwCfgPdamage, DwCfgNdamage, DwCfgRandomizer, DwCfgPanic, DwCfgCooldown, Extras.UiSeparator(Extras.CenterText(DwConfigMenu, "Backup Options")),
-            DwCfgCode3, DwCfgSwat, DwCfgNoose, Extras.UiSeparator(Extras.CenterText(DwConfigMenu, "Debug Mode")), DwCfgDebug, DwCfgSave);
+        DwConfigMenu.AddItems(
+            DwCfgPdamage,
+            DwCfgNdamage,
+            DwCfgRandomizer,
+            DwCfgPanic,
+            DwCfgCooldown,
+            Extras.UiSeparator(Extras.CenterText(DwConfigMenu, "Backup Options")),
+            DwCfgCode3,
+            DwCfgSwat,
+            DwCfgNoose,
+            Extras.UiSeparator(Extras.CenterText(DwConfigMenu, "Debug Mode")),
+            DwCfgDebug,
+            DwCfgSave
+        );
 
         MainMenu.RefreshIndex();
         PcMenu.RefreshIndex();
@@ -158,7 +235,7 @@ internal static class Manager
         SeConfigMenu.OnItemSelect += MenuSelected;
         DwConfigMenu.OnItemSelect += MenuSelected;
 
-        if ( !Main.UsingSc )
+        if (!Main.UsingSc)
         {
             ScConfig.RightLabel = "Not Installed!";
             ScConfig.Skipped = true;
@@ -166,7 +243,7 @@ internal static class Manager
             EndCallout.Skipped = true;
         }
 
-        if ( !Main.UsingSe )
+        if (!Main.UsingSe)
         {
             SeConfig.RightLabel = "Not Installed!";
             SeConfig.Skipped = true;
@@ -175,7 +252,7 @@ internal static class Manager
             PauseEvent.Skipped = true;
         }
 
-        if ( !Main.UsingDw )
+        if (!Main.UsingDw)
         {
             DwConfig.RightLabel = "Not Installed!";
             DwConfig.Skipped = true;
@@ -196,10 +273,16 @@ internal static class Manager
         DisableManagerUI.Checked = Settings.DisableManagerUI;
         DisableManagerUI.Description = "Disables the manager UI. Can be re-enabled in the ini file.";
 
-        if ( Main.UsingSc )
+        if (Main.UsingSc)
         {
-            foreach ( var t in Functions.GetAllUserPlugins().First(assembly =>
-                         assembly.GetName().Name.Equals("SuperCallouts")).GetTypes().SelectMany(type => type.GetCustomAttributes<CalloutInfoAttribute>()).ToArray() )
+            foreach (
+                var t in Functions
+                    .GetAllUserPlugins()
+                    .First(assembly => assembly.GetName().Name.Equals("SuperCallouts"))
+                    .GetTypes()
+                    .SelectMany(type => type.GetCustomAttributes<CalloutInfoAttribute>())
+                    .ToArray()
+            )
             {
                 var s = new UIMenuItem(t.Name);
                 CalloutMenu.AddItem(s);
@@ -208,9 +291,9 @@ internal static class Manager
             ScSettings.GetSettings();
         }
 
-        if ( Main.UsingSe )
+        if (Main.UsingSe)
         {
-            foreach ( var t in SuperEvents.GetAllEvents()! )
+            foreach (var t in SuperEvents.GetAllEvents()!)
             {
                 var s = new UIMenuItem($"[{t.Namespace!.Split('.').First()}] {t.Name}");
                 EventMenu.AddItem(s);
@@ -219,7 +302,8 @@ internal static class Manager
             SeSettings.GetSettings();
         }
 
-        if ( Main.UsingDw ) DwSettings.GetSettings();
+        if (Main.UsingDw)
+            DwSettings.GetSettings();
 
         Style.ApplyStyle(MainMenuPool, true);
     }
@@ -227,25 +311,27 @@ internal static class Manager
     private static void ToggleManagerMenu()
     {
         RefreshMenus();
-        if ( PcMenu.Visible ) PcMenu.Close();
+        if (PcMenu.Visible)
+            PcMenu.Close();
         MainMenu.Visible = !MainMenu.Visible;
     }
 
     private static void Process()
     {
-        while ( _running )
+        while (_running)
         {
             GameFiber.Yield();
             MainMenuPool.ProcessMenus();
-            if ( !Settings.DisableManagerUI && Game.IsKeyDown(Settings.Manager) )
+            if (!Settings.DisableManagerUI && Game.IsKeyDown(Settings.Manager))
             {
-                if ( Settings.FirstTime )
+                if (Settings.FirstTime)
                 {
                     PcMenu.Visible = true;
                     Settings.FirstTime = false;
                     Settings.SaveSettings();
                 }
-                else ToggleManagerMenu();
+                else
+                    ToggleManagerMenu();
             }
         }
     }
@@ -263,24 +349,29 @@ internal static class Manager
     private static void MenuSelected(UIMenu sender, UIMenuItem selecteditem, int index)
     {
         //MainMenu
-        if ( selecteditem == PauseEvent )
+        if (selecteditem == PauseEvent)
         {
             SuperEvents.PauseEvents();
             PauseEvent.Checked = !Main.EventsPaused;
         }
-        if ( selecteditem == EndCallout ) Functions.StopCurrentCallout();
-        if ( selecteditem == EndEvent ) SuperEvents.EndEvent();
+        if (selecteditem == EndCallout)
+            Functions.StopCurrentCallout();
+        if (selecteditem == EndEvent)
+            SuperEvents.EndEvent();
         //FirstMenu
-        if ( selecteditem == UpdateNotifications ) Settings.UpdateNotifications = !UpdateNotifications.Checked;
-        if ( selecteditem == ErrorReporting ) Settings.ErrorReporting = !ErrorReporting.Checked;
-        if ( selecteditem == DisableManagerUI ) Settings.DisableManagerUI = !DisableManagerUI.Checked;
-        if ( selecteditem == SaveButton )
+        if (selecteditem == UpdateNotifications)
+            Settings.UpdateNotifications = !UpdateNotifications.Checked;
+        if (selecteditem == ErrorReporting)
+            Settings.ErrorReporting = !ErrorReporting.Checked;
+        if (selecteditem == DisableManagerUI)
+            Settings.DisableManagerUI = !DisableManagerUI.Checked;
+        if (selecteditem == SaveButton)
         {
             Settings.SaveSettings();
             PcMenu.Visible = false;
         }
         //ScConfigMenu
-        if ( selecteditem == ScCfgSave )
+        if (selecteditem == ScCfgSave)
         {
             ScSettings.ApplySettings();
             ScSettings.SaveSettings();
@@ -288,9 +379,11 @@ internal static class Manager
             Game.DisplayHelp("~g~SuperCallouts.ini saved!");
         }
         //SeConfigMenu
-        if ( selecteditem == SeCfgBlips ) SeSettings.ShowBlips = !SeCfgBlips.Checked;
-        if ( selecteditem == SeCfgHints ) SeSettings.ShowHints = !SeCfgHints.Checked;
-        if ( selecteditem == SeCfgSave )
+        if (selecteditem == SeCfgBlips)
+            SeSettings.ShowBlips = !SeCfgBlips.Checked;
+        if (selecteditem == SeCfgHints)
+            SeSettings.ShowHints = !SeCfgHints.Checked;
+        if (selecteditem == SeCfgSave)
         {
             SeSettings.ApplySettings();
             SeSettings.SaveSettings();
@@ -298,14 +391,21 @@ internal static class Manager
             Game.DisplayHelp("~g~SuperEvents.ini saved!");
         }
         //DwConfigMenu
-        if ( selecteditem == DwCfgPdamage ) DwSettings.PlayerDamage = !DwCfgPdamage.Checked;
-        if ( selecteditem == DwCfgNdamage ) DwSettings.NpcDamage = !DwCfgNdamage.Checked;
-        if ( selecteditem == DwCfgPanic ) DwSettings.Panic = !DwCfgPanic.Checked;
-        if ( selecteditem == DwCfgCode3 ) DwSettings.Code3Backup = !DwCfgCode3.Checked;
-        if ( selecteditem == DwCfgSwat ) DwSettings.SwatBackup = !DwCfgSwat.Checked;
-        if ( selecteditem == DwCfgNoose ) DwSettings.NooseBackup = !DwCfgNoose.Checked;
-        if ( selecteditem == DwCfgDebug ) DwSettings.Debug = !DwCfgDebug.Checked;
-        if ( selecteditem == DwCfgSave )
+        if (selecteditem == DwCfgPdamage)
+            DwSettings.PlayerDamage = !DwCfgPdamage.Checked;
+        if (selecteditem == DwCfgNdamage)
+            DwSettings.NpcDamage = !DwCfgNdamage.Checked;
+        if (selecteditem == DwCfgPanic)
+            DwSettings.Panic = !DwCfgPanic.Checked;
+        if (selecteditem == DwCfgCode3)
+            DwSettings.Code3Backup = !DwCfgCode3.Checked;
+        if (selecteditem == DwCfgSwat)
+            DwSettings.SwatBackup = !DwCfgSwat.Checked;
+        if (selecteditem == DwCfgNoose)
+            DwSettings.NooseBackup = !DwCfgNoose.Checked;
+        if (selecteditem == DwCfgDebug)
+            DwSettings.Debug = !DwCfgDebug.Checked;
+        if (selecteditem == DwCfgSave)
         {
             DwSettings.ApplySettings();
             DwSettings.SaveSettings();

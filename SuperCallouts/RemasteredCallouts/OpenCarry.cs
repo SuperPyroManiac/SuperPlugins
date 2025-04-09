@@ -28,7 +28,10 @@ internal class OpenCarry : SuperCallout
     {
         CalloutMessage = "~b~Dispatch:~s~ Reports of a person with a firearm.";
         CalloutAdvisory = "Caller reports the person is walking around with a firearm out but has not caused any trouble.";
-        Functions.PlayScannerAudioUsingPosition("ATTENTION_ALL_UNITS_05 WE_HAVE PYRO_OPEN_CARRY IN_OR_ON_POSITION", SpawnPoint.Position);
+        Functions.PlayScannerAudioUsingPosition(
+            "ATTENTION_ALL_UNITS_05 WE_HAVE PYRO_OPEN_CARRY IN_OR_ON_POSITION",
+            SpawnPoint.Position
+        );
     }
 
     internal override void CalloutAccepted()
@@ -204,11 +207,17 @@ internal class OpenCarry : SuperCallout
                 delegate
                 {
                     _speakSuspect.Enabled = false;
-                    Game.DisplaySubtitle("~g~You~s~: I'm with the police. What is the reason for carrying your weapon out?", 5000);
+                    Game.DisplaySubtitle(
+                        "~g~You~s~: I'm with the police. What is the reason for carrying your weapon out?",
+                        5000
+                    );
                     _suspect.Tasks.FaceEntity(Player);
                     GameFiber.Wait(5000);
                     _suspect.PlayAmbientSpeech("GENERIC_CURSE_MED");
-                    Game.DisplaySubtitle($"~r~{_suspectName}~s~: It's my right officer. Nobody can tell me I can't have my gun.''", 5000);
+                    Game.DisplaySubtitle(
+                        $"~r~{_suspectName}~s~: It's my right officer. Nobody can tell me I can't have my gun.''",
+                        5000
+                    );
                     GameFiber.Wait(5000);
                     Game.DisplaySubtitle(
                         "~g~You~s~: Alright, I understand your rights to open carry, but carrying a rifle in this way does cause concern to people. It's also illegal to be loaded while you carry.",

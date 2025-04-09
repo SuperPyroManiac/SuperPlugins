@@ -1,5 +1,4 @@
 using PyroCommon.UIManager;
-using Rage;
 using Rage.Attributes;
 
 namespace PyroCommon.PyroFunctions;

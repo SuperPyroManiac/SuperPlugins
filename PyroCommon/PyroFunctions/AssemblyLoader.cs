@@ -19,13 +19,14 @@ public static class AssemblyLoader
         var resourceName = assemblyName switch
         {
             "YamlDotNet" => "PyroCommon.Libs.YamlDotNet.dll",
-            _ => null
+            _ => null,
         };
 
-        if ( resourceName == null ) return null!;
+        if (resourceName == null)
+            return null!;
 
         using var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName);
-        if ( stream is null )
+        if (stream is null)
         {
             Log.Error($"Resource {resourceName} not found.");
             return null!;

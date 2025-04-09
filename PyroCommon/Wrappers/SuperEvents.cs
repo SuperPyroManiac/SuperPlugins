@@ -13,34 +13,28 @@ internal static class SuperEvents
 
     internal static void PauseEvents()
     {
-        SEvents.GetType("SuperEvents.EventFunctions.EventManager")
-            ?.GetMethod("PauseEvents", BindingFlags.Static | BindingFlags.NonPublic)
-            ?.Invoke(null, null);
+        SEvents.GetType("SuperEvents.EventFunctions.EventManager")?.GetMethod("PauseEvents", BindingFlags.Static | BindingFlags.NonPublic)?.Invoke(null, null);
     }
 
     internal static void EndEvent()
     {
-        SEvents.GetType("SuperEvents.EventFunctions.EventManager")
-            ?.GetMethod("EndEvent", BindingFlags.Static | BindingFlags.NonPublic)
-            ?.Invoke(null, null);
+        SEvents.GetType("SuperEvents.EventFunctions.EventManager")?.GetMethod("EndEvent", BindingFlags.Static | BindingFlags.NonPublic)?.Invoke(null, null);
     }
 
     internal static void ForceEvent(string eventName)
     {
-        SEvents.GetType("SuperEvents.EventFunctions.EventManager")
-            ?.GetMethod("ForceEvent", BindingFlags.Static | BindingFlags.NonPublic)
-            ?.Invoke(null, [eventName]);
+        SEvents.GetType("SuperEvents.EventFunctions.EventManager")?.GetMethod("ForceEvent", BindingFlags.Static | BindingFlags.NonPublic)?.Invoke(null, [eventName]);
         Game.DisplayHelp("Starting Event...");
     }
-
 
     internal static List<Type> GetAllEvents()
     {
         var eventManagerType = SEvents.GetType("SuperEvents.EventFunctions.EventManager");
-        if ( eventManagerType == null ) return null;
+        if (eventManagerType == null)
+            return null;
         var allEventsField = eventManagerType.GetField("AllEvents", BindingFlags.Static | BindingFlags.NonPublic);
 
-        if ( allEventsField != null )
+        if (allEventsField != null)
         {
             var allEventsValue = allEventsField.GetValue(null);
             return allEventsValue as List<Type>;
@@ -52,10 +46,11 @@ internal static class SuperEvents
     internal static List<Type> GetRegisteredEvents()
     {
         var eventManagerType = SEvents.GetType("SuperEvents.EventFunctions.EventManager");
-        if ( eventManagerType == null ) return null;
+        if (eventManagerType == null)
+            return null;
         var registeredEventsField = eventManagerType.GetField("RegisteredEvents", BindingFlags.Static | BindingFlags.NonPublic);
 
-        if ( registeredEventsField != null )
+        if (registeredEventsField != null)
         {
             var registeredEventsValue = registeredEventsField.GetValue(null);
             return registeredEventsValue as List<Type>;

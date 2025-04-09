@@ -23,12 +23,21 @@ internal class Fire : SuperCallout
     {
         CalloutMessage = "~b~Dispatch:~s~ Reports of a car fire";
         CalloutAdvisory = "Caller reports large flames coming from the vehicle.";
-        Functions.PlayScannerAudioUsingPosition("ATTENTION_ALL_UNITS_05 WE_HAVE PYRO_CAR_FIRE IN_OR_ON_POSITION", SpawnPoint.Position);
+        Functions.PlayScannerAudioUsingPosition(
+            "ATTENTION_ALL_UNITS_05 WE_HAVE PYRO_CAR_FIRE IN_OR_ON_POSITION",
+            SpawnPoint.Position
+        );
     }
 
     internal override void CalloutAccepted()
     {
-        Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Fire", "Reports of a car fire, respond ~r~CODE-3");
+        Game.DisplayNotification(
+            "3dtextures",
+            "mpgroundlogo_cops",
+            "~b~Dispatch",
+            "~r~Fire",
+            "Reports of a car fire, respond ~r~CODE-3"
+        );
 
         SpawnVehicle();
         CreateFireEffects();
@@ -43,8 +52,22 @@ internal class Fire : SuperCallout
 
     private void CreateFireEffects()
     {
-        _partHandleBigFire = Particles.StartLoopedParticlesOnEntity("scr_trevor3", "scr_trev3_trailer_plume", _vehicle, new Vector3(0, 1f, 0), Vector3.Zero, 0.7f);
-        _partHandleMistySmoke = Particles.StartLoopedParticlesOnEntity("scr_agencyheistb", "scr_env_agency3b_smoke", _vehicle, new Vector3(0, 1f, 0), Vector3.Zero, .7f);
+        _partHandleBigFire = Particles.StartLoopedParticlesOnEntity(
+            "scr_trevor3",
+            "scr_trev3_trailer_plume",
+            _vehicle,
+            new Vector3(0, 1f, 0),
+            Vector3.Zero,
+            0.7f
+        );
+        _partHandleMistySmoke = Particles.StartLoopedParticlesOnEntity(
+            "scr_agencyheistb",
+            "scr_env_agency3b_smoke",
+            _vehicle,
+            new Vector3(0, 1f, 0),
+            Vector3.Zero,
+            .7f
+        );
     }
 
     private void CreateBlip()

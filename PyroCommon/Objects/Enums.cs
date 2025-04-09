@@ -6,13 +6,13 @@ public static class Enums
     {
         Failed,
         Update,
-        Current
+        Current,
     }
 
     public enum ScAnimationsSet
     {
         Drunk,
-        Injured
+        Injured,
     }
 
     public enum DrunkState
@@ -21,7 +21,7 @@ public static class Enums
         ModeratelyDrunk = 1,
         VeryDrunk = 2,
         ExtremelyDrunk = 4,
-        Sloshed = 8
+        Sloshed = 8,
     }
 
     public enum Permits
@@ -29,7 +29,7 @@ public static class Enums
         Drivers,
         Guns,
         Hunting,
-        Fishing
+        Fishing,
     }
 
     public enum PermitStatus
@@ -37,7 +37,7 @@ public static class Enums
         None,
         Revoked,
         Expired,
-        Valid
+        Valid,
     }
 
     public enum MarkerType
@@ -86,7 +86,7 @@ public static class Enums
         TransformThruster = 41,
         Warp = 42,
         Boxes = 43,
-        PitLane = 44
+        PitLane = 44,
     }
 
     public enum ResistanceAction
@@ -94,7 +94,7 @@ public static class Enums
         None,
         Flee,
         Attack,
-        Uncooperative
+        Uncooperative,
     }
 
     public enum ItemLocation
@@ -105,7 +105,7 @@ public static class Enums
         PassengerSeat = 4,
         BackLeftSeat = 8,
         BackRightSeat = 16,
-        Trunk = 32
+        Trunk = 32,
     }
 
     public enum DrugType
@@ -131,7 +131,7 @@ public static class Enums
         Risperdal = 131072,
         Seroquel = 262144,
         Abilify = 524288,
-        Clozapine = 1048576
+        Clozapine = 1048576,
     }
 
     public enum BackupType
@@ -142,6 +142,6 @@ public static class Enums
         Noose = 3,
         Fire = 4,
         Medical = 5,
-        Pursuit = 6
+        Pursuit = 6,
     }
 }

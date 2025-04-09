@@ -8,6 +8,7 @@ using PyroCommon.Wrappers;
 using Rage;
 
 namespace PyroCommon;
+
 public static class Main
 {
     private static bool _init;
@@ -25,7 +26,8 @@ public static class Main
     internal static void InitCommon(string plugName, string plugVersion)
     {
         InstalledPyroPlugins[plugName] = plugVersion;
-        if ( _init ) return;
+        if (_init)
+            return;
         _init = true;
         InstalledPyroPlugins["PyroCommon"] = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
         Game.AddConsoleCommands([typeof(ConsoleCommands)]);
@@ -40,18 +42,25 @@ public static class Main
         GameFiber.WaitUntil(() =>
         {
             var pluginsToCheck = new List<string>();
-            if ( UsingSc ) pluginsToCheck.Add("SuperCallouts");
-            if ( UsingSe ) pluginsToCheck.Add("SuperEvents");
-            if ( UsingDw ) pluginsToCheck.Add("DeadlyWeapons");
+            if (UsingSc)
+                pluginsToCheck.Add("SuperCallouts");
+            if (UsingSe)
+                pluginsToCheck.Add("SuperEvents");
+            if (UsingDw)
+                pluginsToCheck.Add("DeadlyWeapons");
             return pluginsToCheck.All(InstalledPyroPlugins.ContainsKey);
         });
         VersionChecker.Validate(InstalledPyroPlugins);
-        if ( UsingSc ) ScSettings.GetSettings();
-        if ( UsingSe ) SeSettings.GetSettings();
-        if ( UsingDw ) DwSettings.GetSettings();
+        if (UsingSc)
+            ScSettings.GetSettings();
+        if (UsingSe)
+            SeSettings.GetSettings();
+        if (UsingDw)
+            DwSettings.GetSettings();
         var dCheck = new DependManager();
         dCheck.AddDepend("RageNativeUI.dll", "1.9.3.0");
-        if ( !dCheck.CheckDepends() ) return;
+        if (!dCheck.CheckDepends())
+            return;
         Manager.StartUi();
     }
 
