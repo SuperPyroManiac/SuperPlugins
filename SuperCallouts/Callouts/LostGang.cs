@@ -2,12 +2,11 @@
 using System.Drawing;
 using System.Linq;
 using LSPD_First_Response.Mod.Callouts;
-using PyroCommon.Objects;
 using PyroCommon.PyroFunctions;
+using PyroCommon.Types;
 using Rage;
 using SuperCallouts.CustomScenes;
 using Functions = LSPD_First_Response.Mod.API.Functions;
-
 
 namespace SuperCallouts.Callouts;
 
@@ -51,19 +50,45 @@ internal class LostGang : Callout
         CalloutPosition = _spawnPoint;
         Functions.PlayScannerAudioUsingPosition(
             "ATTENTION_ALL_SWAT_UNITS_01 WE_HAVE CRIME_BRANDISHING_WEAPON_01 IN_OR_ON_POSITION UNITS_RESPOND_CODE_03_01",
-            _spawnPoint);
+            _spawnPoint
+        );
         return base.OnBeforeCalloutDisplayed();
     }
 
     public override bool OnCalloutAccepted()
     {
         Log.Info("LostMC callout accepted...");
-        Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Biker Gang Attack",
-            "~r~EMERGENCY~s~ All Units: Multiple officers under fire, 7 plus armed gang members attacking sheriff officers. ~r~Respond CODE-3");
-        LostMc.ConstructBikersScene(out _cCar1, out _cCar2, out _cop1, out _cop2, out _cop3, out _bike1, out _bike2,
-            out _bike3, out _bike4, out _bike5, out _bike6, out _bike7, out _biker1, out _biker2, out _biker3,
+        Game.DisplayNotification(
+            "3dtextures",
+            "mpgroundlogo_cops",
+            "~b~Dispatch",
+            "~r~Biker Gang Attack",
+            "~r~EMERGENCY~s~ All Units: Multiple officers under fire, 7 plus armed gang members attacking sheriff officers. ~r~Respond CODE-3"
+        );
+        LostMc.ConstructBikersScene(
+            out _cCar1,
+            out _cCar2,
+            out _cop1,
+            out _cop2,
+            out _cop3,
+            out _bike1,
+            out _bike2,
+            out _bike3,
+            out _bike4,
+            out _bike5,
+            out _bike6,
+            out _bike7,
+            out _biker1,
+            out _biker2,
+            out _biker3,
             out _biker4,
-            out _biker5, out _biker6, out _biker7, out _biker8, out _biker9, out _biker10);
+            out _biker5,
+            out _biker6,
+            out _biker7,
+            out _biker8,
+            out _biker9,
+            out _biker10
+        );
         _searcharea = _spawnPoint.Around2D(1f, 2f);
         _cBlip = new Blip(_searcharea, 80f) { Color = Color.Yellow, Alpha = .5f };
         _cBlip.EnableRoute(Color.Yellow);
@@ -86,25 +111,35 @@ internal class LostGang : Callout
         _bikers.Add(_biker8);
         _bikers.Add(_biker9);
         _bikers.Add(_biker10);
-        foreach ( var vehicless in _cVehicles ) vehicless.IsPersistent = true;
-        foreach ( var bikerss in _bikers ) bikerss.IsPersistent = true;
+        foreach (var vehicless in _cVehicles)
+            vehicless.IsPersistent = true;
+        foreach (var bikerss in _bikers)
+            bikerss.IsPersistent = true;
         return base.OnCalloutAccepted();
     }
 
     public override void Process()
     {
-        if ( Game.IsKeyDown(Settings.EndCall) ) End();
-        if ( !_onScene && Game.LocalPlayer.Character.DistanceTo(_spawnPoint) < 100f )
+        if (Game.IsKeyDown(Settings.EndCall))
+            End();
+        if (!_onScene && Game.LocalPlayer.Character.DistanceTo(_spawnPoint) < 100f)
         {
             _onScene = true;
             _cBlip?.DisableRoute();
-            Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~OutNumbered",
-                "~y~Stay in cover until backup arrives!");
+            Game.DisplayNotification(
+                "3dtextures",
+                "mpgroundlogo_cops",
+                "~b~Dispatch",
+                "~r~OutNumbered",
+                "~y~Stay in cover until backup arrives!"
+            );
             Functions.PlayScannerAudioUsingPosition(
-                "DISPATCH_SWAT_UNITS_FROM_01 IN_OR_ON_POSITION UNITS_RESPOND_CODE_99_01", _spawnPoint);
+                "DISPATCH_SWAT_UNITS_FROM_01 IN_OR_ON_POSITION UNITS_RESPOND_CODE_99_01",
+                _spawnPoint
+            );
             Game.SetRelationshipBetweenRelationshipGroups("LOSTERS", "COP", Relationship.Hate);
             Game.SetRelationshipBetweenRelationshipGroups("LOSTERS", "PLAYER", Relationship.Hate);
-            foreach ( var bikerss in _bikers )
+            foreach (var bikerss in _bikers)
             {
                 PyroFunctions.SetWanted(bikerss, true);
                 bikerss.Tasks.FightAgainstClosestHatedTarget(50f);
@@ -114,18 +149,25 @@ internal class LostGang : Callout
             PyroFunctions.RequestBackup(Enums.BackupType.Code3);
         }
 
-        if ( _onScene && Game.LocalPlayer.Character.DistanceTo(_spawnPoint) > 90f ) End();
+        if (_onScene && Game.LocalPlayer.Character.DistanceTo(_spawnPoint) > 90f)
+            End();
         base.Process();
     }
 
     public override void End()
     {
-        foreach ( var bikerss in _bikers.OfType<Ped>() ) bikerss.Dismiss();
-        foreach ( var vehicless in _cVehicles.OfType<Vehicle>() ) vehicless.Dismiss();
-        if ( _cop1 ) _cop1.Dismiss();
-        if ( _cop2 ) _cop2.Dismiss();
-        if ( _cop3 ) _cop3.Dismiss();
-        if ( _cBlip ) _cBlip.Delete();
+        foreach (var bikerss in _bikers.OfType<Ped>())
+            bikerss.Dismiss();
+        foreach (var vehicless in _cVehicles.OfType<Vehicle>())
+            vehicless.Dismiss();
+        if (_cop1)
+            _cop1.Dismiss();
+        if (_cop2)
+            _cop2.Dismiss();
+        if (_cop3)
+            _cop3.Dismiss();
+        if (_cBlip)
+            _cBlip.Delete();
 
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
         base.End();

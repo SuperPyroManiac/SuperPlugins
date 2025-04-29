@@ -1,6 +1,6 @@
 ﻿using DeadlyWeapons.PyroFunctions;
-using PyroCommon.Objects;
 using PyroCommon.PyroFunctions;
+using PyroCommon.Types;
 using Rage;
 
 namespace DeadlyWeapons.Modules;
@@ -14,30 +14,48 @@ internal static class Panic
     internal static void StartPanicFiber()
     {
         Log.Info("Starting PanicFiber.");
-        while ( Main.Running )
+        while (Main.Running)
         {
             GameFiber.Yield();
-            if ( Player.IsInAnyVehicle(true) ) continue;
-            if ( Player.IsShooting && Settings.Panic && !Utils.GetWeaponByHash(Player.Inventory.EquippedWeapon.Hash).PanicIgnore ) PanicHit();
-            if ( Settings.Debug && Player.IsShooting && Settings.Panic )
-                Log.Info($"[DEBUG] Weapon fired: ({Player.Inventory.EquippedWeapon.Hash.ToString()}) " +
-                         $"Best DW Match: ({Utils.GetWeaponByHash(Player.Inventory.EquippedWeapon.Hash).Name}: {Utils.GetWeaponByHash(Player.Inventory.EquippedWeapon.Hash).WeaponHash})");
+            if (Player.IsInAnyVehicle(true))
+                continue;
+            if (Player.IsShooting && Settings.Panic && !Utils.GetWeaponByHash(Player.Inventory.EquippedWeapon.Hash).PanicIgnore)
+                PanicHit();
+            if (Settings.Debug && Player.IsShooting && Settings.Panic)
+                Log.Info(
+                    $"[DEBUG] Weapon fired: ({Player.Inventory.EquippedWeapon.Hash.ToString()}) "
+                        + $"Best DW Match: ({Utils.GetWeaponByHash(Player.Inventory.EquippedWeapon.Hash).Name}: {Utils.GetWeaponByHash(Player.Inventory.EquippedWeapon.Hash).WeaponHash})"
+                );
         }
     }
+
     private static void PanicHit()
     {
-        if ( _panic ) return;
+        if (_panic)
+            return;
         _panic = true;
-        if ( PyroCommon.Main.UsingUb ) Log.Info("Using Ultimate Backup for panic.");
-        GameFiber.StartNew(delegate
-        {
-            if ( Settings.Code3Backup ) PyroCommon.PyroFunctions.PyroFunctions.RequestBackup(Enums.BackupType.Code3);
-            if ( Settings.SwatBackup ) PyroCommon.PyroFunctions.PyroFunctions.RequestBackup(Enums.BackupType.Swat);
-            if ( Settings.NooseBackup ) PyroCommon.PyroFunctions.PyroFunctions.RequestBackup(Enums.BackupType.Noose);
+        if (PyroCommon.Main.UsingUb)
+            Log.Info("Using Ultimate Backup for panic.");
+        GameFiber.StartNew(
+            delegate
+            {
+                if (Settings.Code3Backup)
+                    PyroCommon.PyroFunctions.PyroFunctions.RequestBackup(Enums.BackupType.Code3);
+                if (Settings.SwatBackup)
+                    PyroCommon.PyroFunctions.PyroFunctions.RequestBackup(Enums.BackupType.Swat);
+                if (Settings.NooseBackup)
+                    PyroCommon.PyroFunctions.PyroFunctions.RequestBackup(Enums.BackupType.Noose);
 
-            Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~r~Shots Fired", "~y~Panic Activated", "Your weapon has been discharged. Dispatch has been alerted.");
-            GameFiber.Wait(Settings.PanicCooldown * 1000);
-            _panic = false;
-        });
+                Game.DisplayNotification(
+                    "3dtextures",
+                    "mpgroundlogo_cops",
+                    "~r~Shots Fired",
+                    "~y~Panic Activated",
+                    "Your weapon has been discharged. Dispatch has been alerted."
+                );
+                GameFiber.Wait(Settings.PanicCooldown * 1000);
+                _panic = false;
+            }
+        );
     }
 }

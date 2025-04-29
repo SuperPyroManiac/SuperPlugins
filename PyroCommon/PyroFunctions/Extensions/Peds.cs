@@ -1,6 +1,6 @@
 ﻿using LSPD_First_Response.Engine.Scripting.Entities;
 using LSPD_First_Response.Mod.API;
-using PyroCommon.Objects;
+using PyroCommon.Types;
 using Rage;
 using Rage.Native;
 
@@ -11,7 +11,7 @@ public static class Peds
     public static void SetWalkAnimation(this Ped ped, Enums.ScAnimationsSet animationsSet)
     {
         var chosenSet = string.Empty;
-        switch ( animationsSet )
+        switch (animationsSet)
         {
             case Enums.ScAnimationsSet.Drunk:
                 chosenSet = "move_m@drunk@verydrunk";
@@ -20,23 +20,30 @@ public static class Peds
                 chosenSet = "move_injured_ground";
                 break;
         }
-        GameFiber.StartNew(delegate
-        {
-            GameFiber.Yield();
-            var anim = new AnimationSet(chosenSet);
-            anim.LoadAndWait();
-            ped.MovementAnimationSet = anim;
-        });
+        GameFiber.StartNew(
+            delegate
+            {
+                GameFiber.Yield();
+                var anim = new AnimationSet(chosenSet);
+                anim.LoadAndWait();
+                ped.MovementAnimationSet = anim;
+            }
+        );
     }
 
-    public static void SetResistance(this Ped ped, Enums.ResistanceAction resistanceAction, bool walkAway = false, int resistanceChance = 50)
+    public static void SetResistance(
+        this Ped ped,
+        Enums.ResistanceAction resistanceAction,
+        bool walkAway = false,
+        int resistanceChance = 50
+    )
     {
         // if (Main.UsingPr)
         // {
         //     PedInfo.SetResistance(ped, resistanceAction, walkAway, resistanceChance);
         //     return;
         // }
-        switch ( resistanceAction )
+        switch (resistanceAction)
         {
             case Enums.ResistanceAction.Flee:
                 PyroFunctions.StartPursuit(false, false, ped);
@@ -57,7 +64,8 @@ public static class Peds
 
     public static void SetWanted(this Ped ped, bool isWanted)
     {
-        if ( !ped.Exists() ) return;
+        if (!ped.Exists())
+            return;
         Functions.GetPersonaForPed(ped).Wanted = isWanted;
     }
 
@@ -68,28 +76,31 @@ public static class Peds
 
     public static void SetDrunk(this Ped ped, Enums.DrunkState drunkState)
     {
-        if ( !ped ) return;
-        GameFiber.StartNew(delegate
-        {
-            GameFiber.Yield();
-            // if (Main.UsingPr)
-            // {
-            //     PedInfo.SetDrunk(ped, drunkState);
-            //     return;
-            // }
-            ped.Metadata.stpAlcoholDetected = true;
-            ped.SetWalkAnimation(Enums.ScAnimationsSet.Drunk);
-            NativeFunction.Natives.x95D2D383D5396B8A(ped, true);
-        });
+        if (!ped)
+            return;
+        GameFiber.StartNew(
+            delegate
+            {
+                GameFiber.Yield();
+                // if (Main.UsingPr)
+                // {
+                //     PedInfo.SetDrunk(ped, drunkState);
+                //     return;
+                // }
+                ped.Metadata.stpAlcoholDetected = true;
+                ped.SetWalkAnimation(Enums.ScAnimationsSet.Drunk);
+                NativeFunction.Natives.x95D2D383D5396B8A(ped, true);
+            }
+        );
     }
 
     public static void SetLicenseStatus(this Ped ped, Enums.Permits permits, Enums.PermitStatus status)
     {
         //if (Main.UsingPr) PedInfo.SetPermit(ped, permits, status);
-        switch ( permits )
+        switch (permits)
         {
             case Enums.Permits.Drivers:
-                switch ( status )
+                switch (status)
                 {
                     case Enums.PermitStatus.None:
                         Functions.GetPersonaForPed(ped).ELicenseState = ELicenseState.None;
@@ -106,9 +117,11 @@ public static class Peds
                 }
                 break;
             case Enums.Permits.Guns:
-                switch ( status )
+                switch (status)
                 {
-                    case Enums.PermitStatus.None or Enums.PermitStatus.Revoked or Enums.PermitStatus.Expired:
+                    case Enums.PermitStatus.None
+                    or Enums.PermitStatus.Revoked
+                    or Enums.PermitStatus.Expired:
                         ped.Metadata.hasGunPermit = false;
                         break;
                     case Enums.PermitStatus.Valid:

@@ -1,10 +1,10 @@
 ﻿using System.Drawing;
 using LSPD_First_Response.Mod.Callouts;
-using PyroCommon.Objects;
 using PyroCommon.PyroFunctions;
+using PyroCommon.Types;
 using Rage;
 using Functions = LSPD_First_Response.Mod.API.Functions;
-using Location = PyroCommon.Objects.Location;
+using Location = PyroCommon.Types.Location;
 
 namespace SuperCallouts.Callouts;
 
@@ -23,16 +23,22 @@ internal class StolenDumptruck : SuperCallout
         CalloutMessage = "~b~Dispatch:~s~ Stolen construction vehicle.";
         CalloutAdvisory = "A very large vehicle was stolen from a construction site.";
         Functions.PlayScannerAudioUsingPosition(
-            "WE_HAVE CRIME_BRANDISHING_WEAPON_01 CRIME_ROBBERY_01 IN_OR_ON_POSITION", SpawnPoint.Position);
+            "WE_HAVE CRIME_BRANDISHING_WEAPON_01 CRIME_ROBBERY_01 IN_OR_ON_POSITION",
+            SpawnPoint.Position
+        );
     }
 
     internal override void CalloutAccepted()
     {
-        Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Stolen Construction Vehicle",
-            "A suspect has stolen a very large construction vehicle. Respond ~r~CODE-3");
+        Game.DisplayNotification(
+            "3dtextures",
+            "mpgroundlogo_cops",
+            "~b~Dispatch",
+            "~r~Stolen Construction Vehicle",
+            "A suspect has stolen a very large construction vehicle. Respond ~r~CODE-3"
+        );
 
-        _cVehicle = new Vehicle("dump", SpawnPoint.Position)
-        { IsPersistent = true, IsStolen = true };
+        _cVehicle = new Vehicle("dump", SpawnPoint.Position) { IsPersistent = true, IsStolen = true };
         EntitiesToClear.Add(_cVehicle);
 
         _bad = new Ped(SpawnPoint.Position.Around(15f));

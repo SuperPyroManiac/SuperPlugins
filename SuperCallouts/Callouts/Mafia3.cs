@@ -4,8 +4,8 @@ using System.Drawing;
 using System.Linq;
 using LSPD_First_Response.Engine.Scripting.Entities;
 using LSPD_First_Response.Mod.Callouts;
-using PyroCommon.Objects;
 using PyroCommon.PyroFunctions;
+using PyroCommon.Types;
 using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
@@ -44,7 +44,6 @@ internal class Mafia3 : Callout
     private Vehicle _truck3;
     private static Ped Player => Game.LocalPlayer.Character;
 
-
     public override bool OnBeforeCalloutDisplayed()
     {
         ShowCalloutAreaBlipBeforeAccepting(_callPos, 80f);
@@ -52,19 +51,41 @@ internal class Mafia3 : Callout
         CalloutPosition = _callPos;
         Functions.PlayScannerAudioUsingPosition(
             "ATTENTION_ALL_SWAT_UNITS_01 WE_HAVE CRIME_BRANDISHING_WEAPON_01 IN_OR_ON_POSITION UNITS_RESPOND_CODE_03_01",
-            _callPos);
+            _callPos
+        );
         return base.OnBeforeCalloutDisplayed();
     }
 
     public override bool OnCalloutAccepted()
     {
         //Setup
-        Mafia3Setup.ConstructMafia3Scene(out _limo, out _defender, out _truck1, out _truck2, out _truck3, out _bad1,
-            out _bad2, out _bad3, out _bad4, out _bad5, out _bad6, out _bad7, out _bad8, out _bad9, out _bad10,
-            out _bad11, out _bad12);
+        Mafia3Setup.ConstructMafia3Scene(
+            out _limo,
+            out _defender,
+            out _truck1,
+            out _truck2,
+            out _truck3,
+            out _bad1,
+            out _bad2,
+            out _bad3,
+            out _bad4,
+            out _bad5,
+            out _bad6,
+            out _bad7,
+            out _bad8,
+            out _bad9,
+            out _bad10,
+            out _bad11,
+            out _bad12
+        );
         Log.Info("Mafia3 callout accepted...");
-        Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~The Mafia",
-            "FIB and IAA began a raid on a drug scene at the harbor. Suspects are heavily armed and backup is required. Get to the scene.");
+        Game.DisplayNotification(
+            "3dtextures",
+            "mpgroundlogo_cops",
+            "~b~Dispatch",
+            "~r~The Mafia",
+            "FIB and IAA began a raid on a drug scene at the harbor. Suspects are heavily armed and backup is required. Get to the scene."
+        );
         Game.LocalPlayer.Character.RelationshipGroup = "COP";
         Game.DisplaySubtitle("Get to the ~r~scene~w~! Proceed with ~r~CAUTION~w~!", 10000);
         //World
@@ -89,8 +110,9 @@ internal class Mafia3 : Callout
         _peds.Add(_bad10);
         _peds.Add(_bad11);
         _peds.Add(_bad12);
-        foreach ( var mafiaCars in _vehicles ) mafiaCars.IsPersistent = true;
-        foreach ( var mafiaDudes in _peds )
+        foreach (var mafiaCars in _vehicles)
+            mafiaCars.IsPersistent = true;
+        foreach (var mafiaDudes in _peds)
         {
             mafiaDudes.IsPersistent = true;
             mafiaDudes.BlockPermanentEvents = true;
@@ -117,10 +139,10 @@ internal class Mafia3 : Callout
     {
         try
         {
-            switch ( _state )
+            switch (_state)
             {
                 case RunState.CheckDistance:
-                    if ( Player.DistanceTo(_callPos) < 90f )
+                    if (Player.DistanceTo(_callPos) < 90f)
                     {
                         Game.SetRelationshipBetweenRelationshipGroups("MAFIA", "COP", Relationship.Hate);
                         Game.SetRelationshipBetweenRelationshipGroups("MAFIA", "PLAYER", Relationship.Hate);
@@ -133,33 +155,37 @@ internal class Mafia3 : Callout
 
                     break;
                 case RunState.RaidScene:
-                    GameFiber.StartNew(delegate
-                    {
-                        GameFiber.Wait(5000);
-                        foreach ( var mafiaDudes in _peds.Where(mafiaDudes => mafiaDudes.Exists()) )
+                    GameFiber.StartNew(
+                        delegate
                         {
-                            mafiaDudes.BlockPermanentEvents = false;
-                            mafiaDudes.Tasks.FightAgainstClosestHatedTarget(100, -1);
-                        }
+                            GameFiber.Wait(5000);
+                            foreach (var mafiaDudes in _peds.Where(mafiaDudes => mafiaDudes.Exists()))
+                            {
+                                mafiaDudes.BlockPermanentEvents = false;
+                                mafiaDudes.Tasks.FightAgainstClosestHatedTarget(100, -1);
+                            }
 
-                        _bad1?.Tasks.FightAgainst(Player);
-                        _cBlip?.DisableRoute();
-                    });
+                            _bad1?.Tasks.FightAgainst(Player);
+                            _cBlip?.DisableRoute();
+                        }
+                    );
                     _state = RunState.End;
                     break;
                 case RunState.End:
                     break;
             }
         }
-        catch ( Exception e )
+        catch (Exception e)
         {
             Log.Error(e.ToString());
             End();
         }
 
         //Keybinds
-        if ( Game.IsKeyDown(Settings.EndCall) ) End();
-        if ( Game.IsKeyDown(Settings.Interact) ) _mainMenu!.Visible = !_mainMenu.Visible;
+        if (Game.IsKeyDown(Settings.EndCall))
+            End();
+        if (Game.IsKeyDown(Settings.Interact))
+            _mainMenu!.Visible = !_mainMenu.Visible;
         _interaction!.ProcessMenus();
         base.Process();
     }
@@ -167,8 +193,10 @@ internal class Mafia3 : Callout
     public override void End()
     {
         _cBlip?.Delete();
-        foreach ( var mafiaCars in _vehicles.Where(mafiaCars => mafiaCars.Exists()) ) mafiaCars.Dismiss();
-        foreach ( var mafiaDudes in _peds.Where(mafiaDudes => mafiaDudes.Exists()) ) mafiaDudes.Dismiss();
+        foreach (var mafiaCars in _vehicles.Where(mafiaCars => mafiaCars.Exists()))
+            mafiaCars.Dismiss();
+        foreach (var mafiaDudes in _peds.Where(mafiaDudes => mafiaDudes.Exists()))
+            mafiaDudes.Dismiss();
         Game.SetRelationshipBetweenRelationshipGroups("COP", "MAFIA", Relationship.Dislike);
         Game.SetRelationshipBetweenRelationshipGroups("MAFIA", "COP", Relationship.Dislike);
 
@@ -181,7 +209,7 @@ internal class Mafia3 : Callout
     //UI Functions
     private void InteractionProcess(UIMenu sender, UIMenuItem selItem, int index)
     {
-        if ( selItem == _endCall )
+        if (selItem == _endCall)
         {
             Game.DisplaySubtitle("~y~Callout Ended.");
             End();
@@ -192,6 +220,6 @@ internal class Mafia3 : Callout
     {
         CheckDistance,
         RaidScene,
-        End
+        End,
     }
 }

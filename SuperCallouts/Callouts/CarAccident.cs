@@ -1,12 +1,12 @@
 using System.Drawing;
 using LSPD_First_Response.Mod.Callouts;
-using PyroCommon.Objects;
 using PyroCommon.PyroFunctions;
+using PyroCommon.Types;
 using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using Functions = LSPD_First_Response.Mod.API.Functions;
-using Location = PyroCommon.Objects.Location;
+using Location = PyroCommon.Types.Location;
 
 namespace SuperCallouts.Callouts;
 
@@ -27,13 +27,19 @@ internal class CarAccident : SuperCallout
         CalloutAdvisory = "Caller reports possible hit and run.";
         Functions.PlayScannerAudioUsingPosition(
             "CITIZENS_REPORT_04 CRIME_HIT_AND_RUN_03 IN_OR_ON_POSITION UNITS_RESPOND_CODE_03_01",
-            SpawnPoint.Position);
+            SpawnPoint.Position
+        );
     }
 
     internal override void CalloutAccepted()
     {
-        Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~MVA",
-            "Reports of a car accident, respond ~r~CODE-3");
+        Game.DisplayNotification(
+            "3dtextures",
+            "mpgroundlogo_cops",
+            "~b~Dispatch",
+            "~r~MVA",
+            "Reports of a car accident, respond ~r~CODE-3"
+        );
 
         PyroFunctions.SpawnAnyCar(out _cVehicle, SpawnPoint.Position);
         _cVehicle.Heading = SpawnPoint.Heading;
@@ -65,10 +71,11 @@ internal class CarAccident : SuperCallout
 
     protected override void Interactions(UIMenu sender, UIMenuItem selItem, int index)
     {
-        if ( selItem == _callEms )
+        if (selItem == _callEms)
         {
             Game.DisplaySubtitle(
-                "~g~You~s~: Dispatch, we have a vehicle accident, possible hit and run. Looks like someone is inside and injured! I need EMS out here.");
+                "~g~You~s~: Dispatch, we have a vehicle accident, possible hit and run. Looks like someone is inside and injured! I need EMS out here."
+            );
             PyroFunctions.RequestBackup(Enums.BackupType.Fire);
             PyroFunctions.RequestBackup(Enums.BackupType.Medical);
 

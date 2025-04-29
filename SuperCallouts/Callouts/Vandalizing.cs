@@ -4,7 +4,7 @@ using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.PyroFunctions;
 using Rage;
 using Functions = LSPD_First_Response.Mod.API.Functions;
-using Location = PyroCommon.Objects.Location;
+using Location = PyroCommon.Types.Location;
 
 namespace SuperCallouts.Callouts;
 
@@ -23,14 +23,18 @@ internal class Vandalizing : SuperCallout
     {
         CalloutMessage = "~b~Dispatch:~s~ Person vandalizing a vehicle.";
         CalloutAdvisory = "Caller states a person is damaging a parked vehicle.";
-        Functions.PlayScannerAudioUsingPosition(
-            "WE_HAVE CRIME_SUSPECT_ON_THE_RUN_03 IN_OR_ON_POSITION", SpawnPoint.Position);
+        Functions.PlayScannerAudioUsingPosition("WE_HAVE CRIME_SUSPECT_ON_THE_RUN_03 IN_OR_ON_POSITION", SpawnPoint.Position);
     }
 
     internal override void CalloutAccepted()
     {
-        Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Vandalizing",
-            "A suspect has been reported damaging a vehicle. Respond ~r~CODE-3");
+        Game.DisplayNotification(
+            "3dtextures",
+            "mpgroundlogo_cops",
+            "~b~Dispatch",
+            "~r~Vandalizing",
+            "A suspect has been reported damaging a vehicle. Respond ~r~CODE-3"
+        );
 
         PyroFunctions.SpawnNormalCar(out _cVehicle, SpawnPoint.Position);
         PyroFunctions.DamageVehicle(_cVehicle, 200, 200);
@@ -56,7 +60,7 @@ internal class Vandalizing : SuperCallout
 
     internal override void CalloutOnScene()
     {
-        if ( !_bad )
+        if (!_bad)
         {
             CalloutEnd(true);
             return;
@@ -65,7 +69,7 @@ internal class Vandalizing : SuperCallout
         _cBlip?.Delete();
         _bad.BlockPermanentEvents = false;
 
-        switch ( _rNd )
+        switch (_rNd)
         {
             case 0:
                 var pursuit = Functions.CreatePursuit();
@@ -82,4 +86,3 @@ internal class Vandalizing : SuperCallout
         }
     }
 }
-

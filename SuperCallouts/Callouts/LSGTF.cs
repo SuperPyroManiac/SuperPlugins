@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
 using LSPD_First_Response.Mod.Callouts;
-using PyroCommon.Objects;
 using PyroCommon.PyroFunctions;
+using PyroCommon.Types;
 using PyroCommon.UIManager;
 using Rage;
 using Rage.Native;
@@ -52,17 +52,35 @@ internal class Lsgtf : Callout
         CalloutMessage = "~b~LSPD Report:~s~ Wanted gang members located.";
         CalloutPosition = _raidpoint;
         Functions.PlayScannerAudioUsingPosition(
-            "ATTENTION_ALL_SWAT_UNITS_01 WE_HAVE CRIME_BRANDISHING_WEAPON_01 IN_OR_ON_POSITION", _raidpoint);
+            "ATTENTION_ALL_SWAT_UNITS_01 WE_HAVE CRIME_BRANDISHING_WEAPON_01 IN_OR_ON_POSITION",
+            _raidpoint
+        );
         return base.OnBeforeCalloutDisplayed();
     }
 
     public override bool OnCalloutAccepted()
     {
         Log.Info("LSGTF callout accepted...");
-        Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Meet with FIB",
-            "FIB has a gang task force ready. Speak with them to conduct the raid.");
-        LsgtfSetup.ConstructLspdraidScene(out _bad1, out _bad2, out _bad3, out _bad4, out _bad5, out _bad6,
-            out _bad7, out _bad8, out _cVehicle, out _fib1, out _fib2);
+        Game.DisplayNotification(
+            "3dtextures",
+            "mpgroundlogo_cops",
+            "~b~Dispatch",
+            "~r~Meet with FIB",
+            "FIB has a gang task force ready. Speak with them to conduct the raid."
+        );
+        LsgtfSetup.ConstructLspdraidScene(
+            out _bad1,
+            out _bad2,
+            out _bad3,
+            out _bad4,
+            out _bad5,
+            out _bad6,
+            out _bad7,
+            out _bad8,
+            out _cVehicle,
+            out _fib1,
+            out _fib2
+        );
         _bad1.IsPersistent = true;
         _bad2.IsPersistent = true;
         _bad3.IsPersistent = true;
@@ -111,96 +129,113 @@ internal class Lsgtf : Callout
 
     private void LetsChatBois(UIMenu unUn, UIMenuItem selItem, int nanana)
     {
-        if ( !_fib1 || !_fib2 || !_bad1 || !_bad2 || !_bad3 || !_bad4 || !_bad5 || !_bad6 || !_bad7 || !_bad8 )
+        if (!_fib1 || !_fib2 || !_bad1 || !_bad2 || !_bad3 || !_bad4 || !_bad5 || !_bad6 || !_bad7 || !_bad8)
         {
             End();
             return;
         }
 
-        if ( selItem == _startConv )
-            GameFiber.StartNew(delegate
-            {
-                _startConv.Enabled = false;
-                NativeFunction.Natives.x5AD23D40115353AC(_fib1, Game.LocalPlayer.Character,
-                    -1);
-                NativeFunction.Natives.x5AD23D40115353AC(_fib2, Game.LocalPlayer.Character,
-                    -1);
-                Game.DisplaySubtitle(
-                    "~g~FIB: ~w~Thanks for coming officer, im sure you are aware how aggressive the gangs around here have become.",
-                    6000);
-                GameFiber.Wait(6000);
-                Game.DisplaySubtitle(
-                    "~g~FIB: ~w~Earlier in the week we had some gang members torture and murder a police officer. We tracked them to here.",
-                    6000);
-                GameFiber.Wait(6000);
-                Game.DisplaySubtitle(
-                    "~g~FIB: ~w~This entire group is known and wanted wanted for multiple murders. We have setup a large scale raid to bring them in.",
-                    6000);
-                GameFiber.Wait(6000);
-                Game.DisplaySubtitle(
-                    "~g~FIB: ~w~You will be the officer in charge in this raid. Let us know when to begin.", 6000);
-                _mainMenu!.AddItem(_startConv2 = new UIMenuItem("Yes, lets start."));
-                _mainMenu.AddItem(_startConv3 = new UIMenuItem("No, I need a minute."));
-            });
-        if ( selItem == _startConv2 )
-            GameFiber.StartNew(delegate
-            {
-                _startConv2.Enabled = false;
-                _startConv3!.Enabled = false;
-                _mainMenu!.Visible = false;
-                _meeting = true;
-                Game.DisplaySubtitle(
-                    "~g~FIB: ~w~We will call in the raid team. They will be awaiting your arrival.", 5000);
-                Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~y~Preparation", "Get to the scene",
-                    "Get to the site to start the raid.");
-                _meetingB?.Delete();
-                _cBlip1 = _bad1.AttachBlip();
-                _cBlip1.Color = Color.Red;
-                _cBlip1.EnableRoute(Color.Red);
-                _fib1.Tasks.EnterVehicle(_cVehicle, -1);
-                _fib2.Tasks.EnterVehicle(_cVehicle, 0);
-                _bad1.Tasks.Wander();
-                _bad2.Tasks.Wander();
-                _bad3.Tasks.Wander();
-                _bad4.Tasks.Wander();
-                _bad5.Tasks.Wander();
-                _bad6.Tasks.Wander();
-                _bad7.Tasks.Wander();
-                _bad8.Tasks.Wander();
-            });
-        if ( selItem == _startConv3 )
-            GameFiber.StartNew(delegate
-            {
-                _mainMenu!.Visible = false;
-                Game.DisplaySubtitle("~g~FIB: ~w~No problem, let us know when you are.", 5000);
-            });
+        if (selItem == _startConv)
+            GameFiber.StartNew(
+                delegate
+                {
+                    _startConv.Enabled = false;
+                    NativeFunction.Natives.x5AD23D40115353AC(_fib1, Game.LocalPlayer.Character, -1);
+                    NativeFunction.Natives.x5AD23D40115353AC(_fib2, Game.LocalPlayer.Character, -1);
+                    Game.DisplaySubtitle(
+                        "~g~FIB: ~w~Thanks for coming officer, im sure you are aware how aggressive the gangs around here have become.",
+                        6000
+                    );
+                    GameFiber.Wait(6000);
+                    Game.DisplaySubtitle(
+                        "~g~FIB: ~w~Earlier in the week we had some gang members torture and murder a police officer. We tracked them to here.",
+                        6000
+                    );
+                    GameFiber.Wait(6000);
+                    Game.DisplaySubtitle(
+                        "~g~FIB: ~w~This entire group is known and wanted wanted for multiple murders. We have setup a large scale raid to bring them in.",
+                        6000
+                    );
+                    GameFiber.Wait(6000);
+                    Game.DisplaySubtitle(
+                        "~g~FIB: ~w~You will be the officer in charge in this raid. Let us know when to begin.",
+                        6000
+                    );
+                    _mainMenu!.AddItem(_startConv2 = new UIMenuItem("Yes, lets start."));
+                    _mainMenu.AddItem(_startConv3 = new UIMenuItem("No, I need a minute."));
+                }
+            );
+        if (selItem == _startConv2)
+            GameFiber.StartNew(
+                delegate
+                {
+                    _startConv2.Enabled = false;
+                    _startConv3!.Enabled = false;
+                    _mainMenu!.Visible = false;
+                    _meeting = true;
+                    Game.DisplaySubtitle("~g~FIB: ~w~We will call in the raid team. They will be awaiting your arrival.", 5000);
+                    Game.DisplayNotification(
+                        "3dtextures",
+                        "mpgroundlogo_cops",
+                        "~y~Preparation",
+                        "Get to the scene",
+                        "Get to the site to start the raid."
+                    );
+                    _meetingB?.Delete();
+                    _cBlip1 = _bad1.AttachBlip();
+                    _cBlip1.Color = Color.Red;
+                    _cBlip1.EnableRoute(Color.Red);
+                    _fib1.Tasks.EnterVehicle(_cVehicle, -1);
+                    _fib2.Tasks.EnterVehicle(_cVehicle, 0);
+                    _bad1.Tasks.Wander();
+                    _bad2.Tasks.Wander();
+                    _bad3.Tasks.Wander();
+                    _bad4.Tasks.Wander();
+                    _bad5.Tasks.Wander();
+                    _bad6.Tasks.Wander();
+                    _bad7.Tasks.Wander();
+                    _bad8.Tasks.Wander();
+                }
+            );
+        if (selItem == _startConv3)
+            GameFiber.StartNew(
+                delegate
+                {
+                    _mainMenu!.Visible = false;
+                    Game.DisplaySubtitle("~g~FIB: ~w~No problem, let us know when you are.", 5000);
+                }
+            );
     }
 
     public override void Process()
     {
-        if ( !_fib1 || !_fib2 || !_bad1 || !_bad2 || !_bad3 || !_bad4 || !_bad5 || !_bad6 || !_bad7 || !_bad8 || !_cVehicle )
+        if (!_fib1 || !_fib2 || !_bad1 || !_bad2 || !_bad3 || !_bad4 || !_bad5 || !_bad6 || !_bad7 || !_bad8 || !_cVehicle)
         {
             End();
             return;
         }
 
         _conversation!.ProcessMenus();
-        if ( !_meeting && !_cool && Game.LocalPlayer.Character.DistanceTo(_meetingP) < 15f )
+        if (!_meeting && !_cool && Game.LocalPlayer.Character.DistanceTo(_meetingP) < 15f)
         {
             Game.DisplayHelp("Speak with the FIB agents. Press " + Settings.Interact + " When close.", 12000);
             _cool = true;
         }
 
-        if ( Game.IsKeyDown(Settings.Interact) && !_meeting ) _mainMenu!.Visible = !_mainMenu.Visible;
-        if ( Game.IsKeyDown(Settings.EndCall) ) End();
-        if ( !_onScene && _meeting && Game.LocalPlayer.Character.DistanceTo(_raidpoint) < 50f )
+        if (Game.IsKeyDown(Settings.Interact) && !_meeting)
+            _mainMenu!.Visible = !_mainMenu.Visible;
+        if (Game.IsKeyDown(Settings.EndCall))
+            End();
+        if (!_onScene && _meeting && Game.LocalPlayer.Character.DistanceTo(_raidpoint) < 50f)
         {
             _fib1.Tasks.DriveToPosition(_raidpoint, 10f, VehicleDrivingFlags.Emergency, 10f);
             _cVehicle.IsSirenOn = true;
             _cVehicle.IsSirenSilent = true;
             _onScene = true;
             Functions.PlayScannerAudioUsingPosition(
-                "DISPATCH_SWAT_UNITS_FROM_01 IN_OR_ON_POSITION UNITS_RESPOND_CODE_99_01", _raidpoint);
+                "DISPATCH_SWAT_UNITS_FROM_01 IN_OR_ON_POSITION UNITS_RESPOND_CODE_99_01",
+                _raidpoint
+            );
             PyroFunctions.RequestBackup(Enums.BackupType.Noose);
             PyroFunctions.RequestBackup(Enums.BackupType.Swat);
 
@@ -224,53 +259,88 @@ internal class Lsgtf : Callout
             _cVehicle.Dismiss();
             Game.LocalPlayer.Character.RelationshipGroup = "COP";
             Game.SetRelationshipBetweenRelationshipGroups("BADGANG", "COP", Relationship.Hate);
-            GameFiber.StartNew(delegate
-            {
-                Game.DisplaySubtitle("~r~Radio: ~s~They know our plan somehow! Take cover!", 7000);
-                GameFiber.Wait(8000);
-                _bad1.Tasks.FightAgainst(Game.LocalPlayer.Character);
-            });
+            GameFiber.StartNew(
+                delegate
+                {
+                    Game.DisplaySubtitle("~r~Radio: ~s~They know our plan somehow! Take cover!", 7000);
+                    GameFiber.Wait(8000);
+                    _bad1.Tasks.FightAgainst(Game.LocalPlayer.Character);
+                }
+            );
         }
 
-        if ( _onScene && _bad1.IsDead && _bad2.IsDead && _bad3.IsDead && _bad4.IsDead && _bad5.IsDead &&
-            _bad6.IsDead &&
-            _bad7.IsDead && _bad8.IsDead )
+        if (
+            _onScene
+            && _bad1.IsDead
+            && _bad2.IsDead
+            && _bad3.IsDead
+            && _bad4.IsDead
+            && _bad5.IsDead
+            && _bad6.IsDead
+            && _bad7.IsDead
+            && _bad8.IsDead
+        )
             Game.DisplaySubtitle(
                 "~r~Radio: ~s~Well that was to be expected. Clear the scene or leave and we will take care of it.",
-                7000);
-        if ( _onScene && Game.LocalPlayer.Character.DistanceTo(_bad1.Position) > 100f &&
-            Game.LocalPlayer.Character.DistanceTo(_bad2.Position) > 100f &&
-            Game.LocalPlayer.Character.DistanceTo(_bad3.Position) > 100f &&
-            Game.LocalPlayer.Character.DistanceTo(_bad4.Position) > 100f &&
-            Game.LocalPlayer.Character.DistanceTo(_bad5.Position) > 100f &&
-            Game.LocalPlayer.Character.DistanceTo(_bad6.Position) > 100f &&
-            Game.LocalPlayer.Character.DistanceTo(_bad7.Position) > 100f &&
-            Game.LocalPlayer.Character.DistanceTo(_bad8.Position) > 100f ) End();
+                7000
+            );
+        if (
+            _onScene
+            && Game.LocalPlayer.Character.DistanceTo(_bad1.Position) > 100f
+            && Game.LocalPlayer.Character.DistanceTo(_bad2.Position) > 100f
+            && Game.LocalPlayer.Character.DistanceTo(_bad3.Position) > 100f
+            && Game.LocalPlayer.Character.DistanceTo(_bad4.Position) > 100f
+            && Game.LocalPlayer.Character.DistanceTo(_bad5.Position) > 100f
+            && Game.LocalPlayer.Character.DistanceTo(_bad6.Position) > 100f
+            && Game.LocalPlayer.Character.DistanceTo(_bad7.Position) > 100f
+            && Game.LocalPlayer.Character.DistanceTo(_bad8.Position) > 100f
+        )
+            End();
         base.Process();
     }
 
     public override void End()
     {
-        if ( _fib1 ) _fib1.Dismiss();
-        if ( _fib2 ) _fib2.Dismiss();
-        if ( _cVehicle ) _cVehicle.Dismiss();
-        if ( _bad1 ) _bad1.Dismiss();
-        if ( _bad2 ) _bad2.Dismiss();
-        if ( _bad3 ) _bad3.Dismiss();
-        if ( _bad4 ) _bad4.Dismiss();
-        if ( _bad5 ) _bad5.Dismiss();
-        if ( _bad6 ) _bad6.Dismiss();
-        if ( _bad7 ) _bad7.Dismiss();
-        if ( _bad8 ) _bad8.Dismiss();
-        if ( _cBlip1 ) _cBlip1.Delete();
-        if ( _cBlip2 ) _cBlip2.Delete();
-        if ( _cBlip3 ) _cBlip3.Delete();
-        if ( _cBlip4 ) _cBlip4.Delete();
-        if ( _cBlip5 ) _cBlip5.Delete();
-        if ( _cBlip6 ) _cBlip6.Delete();
-        if ( _cBlip7 ) _cBlip7.Delete();
-        if ( _cBlip8 ) _cBlip8.Delete();
-        if ( _meetingB ) _meetingB.Delete();
+        if (_fib1)
+            _fib1.Dismiss();
+        if (_fib2)
+            _fib2.Dismiss();
+        if (_cVehicle)
+            _cVehicle.Dismiss();
+        if (_bad1)
+            _bad1.Dismiss();
+        if (_bad2)
+            _bad2.Dismiss();
+        if (_bad3)
+            _bad3.Dismiss();
+        if (_bad4)
+            _bad4.Dismiss();
+        if (_bad5)
+            _bad5.Dismiss();
+        if (_bad6)
+            _bad6.Dismiss();
+        if (_bad7)
+            _bad7.Dismiss();
+        if (_bad8)
+            _bad8.Dismiss();
+        if (_cBlip1)
+            _cBlip1.Delete();
+        if (_cBlip2)
+            _cBlip2.Delete();
+        if (_cBlip3)
+            _cBlip3.Delete();
+        if (_cBlip4)
+            _cBlip4.Delete();
+        if (_cBlip5)
+            _cBlip5.Delete();
+        if (_cBlip6)
+            _cBlip6.Delete();
+        if (_cBlip7)
+            _cBlip7.Delete();
+        if (_cBlip8)
+            _cBlip8.Delete();
+        if (_meetingB)
+            _meetingB.Delete();
 
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
         base.End();

@@ -5,7 +5,7 @@ using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.PyroFunctions;
 using Rage;
 using Functions = LSPD_First_Response.Mod.API.Functions;
-using Location = PyroCommon.Objects.Location;
+using Location = PyroCommon.Types.Location;
 
 namespace SuperCallouts.Callouts;
 
@@ -18,7 +18,7 @@ internal class AmbulanceEscort : SuperCallout
         new(-454, -339, 34),
         new(293, -1438, 29),
         new(-232, 6316, 30),
-        new(294, -1439, 29)
+        new(294, -1439, 29),
     ];
 
     private Blip _cBlip;
@@ -38,16 +38,27 @@ internal class AmbulanceEscort : SuperCallout
         CalloutMessage = "~b~Dispatch:~s~ Ambulance requests police escort.";
         CalloutAdvisory = "Ambulance needs assistance clearing traffic.";
         Functions.PlayScannerAudioUsingPosition(
-            "ATTENTION_ALL_UNITS_05 WE_HAVE CRIME_AMBULANCE_REQUESTED_01 IN_OR_ON_POSITION", SpawnPoint.Position);
+            "ATTENTION_ALL_UNITS_05 WE_HAVE CRIME_AMBULANCE_REQUESTED_01 IN_OR_ON_POSITION",
+            SpawnPoint.Position
+        );
     }
 
     internal override void CalloutAccepted()
     {
-        Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Ambulance Escort",
-            "Ambulance has a wounded police officer in critical condition, ensure the ambulance has a clear path to the nearest hospital, get to the scene! High priority, respond ~y~CODE-3");
+        Game.DisplayNotification(
+            "3dtextures",
+            "mpgroundlogo_cops",
+            "~b~Dispatch",
+            "~r~Ambulance Escort",
+            "Ambulance has a wounded police officer in critical condition, ensure the ambulance has a clear path to the nearest hospital, get to the scene! High priority, respond ~y~CODE-3"
+        );
 
         _cVehicle = new Vehicle("AMBULANCE", SpawnPoint.Position)
-        { Heading = SpawnPoint.Heading, IsPersistent = true, IsSirenOn = true };
+        {
+            Heading = SpawnPoint.Heading,
+            IsPersistent = true,
+            IsSirenOn = true,
+        };
         EntitiesToClear.Add(_cVehicle);
 
         _doc1 = new Ped("s_m_m_paramedic_01", SpawnPoint.Position, 0f) { IsPersistent = true, BlockPermanentEvents = true };
@@ -70,25 +81,28 @@ internal class AmbulanceEscort : SuperCallout
 
     internal override void CalloutRunning()
     {
-        if ( !_cVehicle || !_doc1 || !_doc2 || !_victim )
+        if (!_cVehicle || !_doc1 || !_doc2 || !_victim)
         {
             CalloutEnd(true);
             return;
         }
 
-        if ( _cVehicle.DistanceTo(_hospital) < 15f && OnScene )
+        if (_cVehicle.DistanceTo(_hospital) < 15f && OnScene)
         {
             _cVehicle.IsSirenSilent = true;
-            if ( _doc1.IsInAnyVehicle(false) ) _doc1.Tasks.LeaveVehicle(LeaveVehicleFlags.None);
-            if ( _doc2.IsInAnyVehicle(false) ) _doc2.Tasks.LeaveVehicle(LeaveVehicleFlags.None);
-            if ( _victim.IsInAnyVehicle(false) ) _victim.Tasks.LeaveVehicle(LeaveVehicleFlags.None);
+            if (_doc1.IsInAnyVehicle(false))
+                _doc1.Tasks.LeaveVehicle(LeaveVehicleFlags.None);
+            if (_doc2.IsInAnyVehicle(false))
+                _doc2.Tasks.LeaveVehicle(LeaveVehicleFlags.None);
+            if (_victim.IsInAnyVehicle(false))
+                _victim.Tasks.LeaveVehicle(LeaveVehicleFlags.None);
             CalloutEnd();
         }
     }
 
     internal override void CalloutOnScene()
     {
-        if ( !_cVehicle || !_doc1 || !_doc2 || !_victim || !_cBlip )
+        if (!_cVehicle || !_doc1 || !_doc2 || !_victim || !_cBlip)
         {
             CalloutEnd(true);
             return;
@@ -96,7 +110,8 @@ internal class AmbulanceEscort : SuperCallout
 
         Game.DisplayHelp("Ensure the ambulance has a clear path!");
         _cBlip.DisableRoute();
-        if ( _doc1.IsInAnyVehicle(false) ) _doc1.Tasks.DriveToPosition(_cVehicle, _hospital, 20f, VehicleDrivingFlags.Emergency, 10f);
+        if (_doc1.IsInAnyVehicle(false))
+            _doc1.Tasks.DriveToPosition(_cVehicle, _hospital, 20f, VehicleDrivingFlags.Emergency, 10f);
         _cBlip2 = new Blip(_hospital);
         _cBlip2.EnableRoute(Color.Blue);
         _cBlip2.Color = Color.Blue;

@@ -6,7 +6,7 @@ using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using Functions = LSPD_First_Response.Mod.API.Functions;
-using Location = PyroCommon.Objects.Location;
+using Location = PyroCommon.Types.Location;
 
 namespace SuperCallouts.Callouts;
 
@@ -33,18 +33,25 @@ internal class Impersonator : SuperCallout
 
     internal override void CalloutAccepted()
     {
-        Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Suspicious Pullover",
-            Settings.EmergencyNumber +
-            " call of someone being pulled over by a non uniformed officer. Description does not match our department for undercover cops. Respond ~r~CODE-3");
+        Game.DisplayNotification(
+            "3dtextures",
+            "mpgroundlogo_cops",
+            "~b~Dispatch",
+            "~r~Suspicious Pullover",
+            Settings.EmergencyNumber
+                + " call of someone being pulled over by a non uniformed officer. Description does not match our department for undercover cops. Respond ~r~CODE-3"
+        );
 
         PyroFunctions.SpawnNormalCar(out _cVehicle1, SpawnPoint.Position);
         _cVehicle1.Heading = SpawnPoint.Heading;
         EntitiesToClear.Add(_cVehicle1);
 
         _cVehicle2 = new Vehicle("DILETTANTE2", _cVehicle1.GetOffsetPositionFront(-9f))
-        { Heading = SpawnPoint.Heading, IsPersistent = true };
-        _cVehicle2.Metadata.searchDriver =
-            "~y~police radio scanner~s~, ~y~handcuffs~s~, ~g~parking ticket~s~, ~g~cigarettes~s~";
+        {
+            Heading = SpawnPoint.Heading,
+            IsPersistent = true,
+        };
+        _cVehicle2.Metadata.searchDriver = "~y~police radio scanner~s~, ~y~handcuffs~s~, ~g~parking ticket~s~, ~g~cigarettes~s~";
         EntitiesToClear.Add(_cVehicle2);
 
         _bad = _cVehicle2.CreateRandomDriver();
@@ -69,7 +76,7 @@ internal class Impersonator : SuperCallout
 
     internal override void CalloutOnScene()
     {
-        if ( !_victim || !_bad )
+        if (!_victim || !_bad)
         {
             CalloutEnd(true);
             return;
@@ -77,12 +84,17 @@ internal class Impersonator : SuperCallout
 
         _cBlip?.DisableRoute();
         _victim.Tasks.CruiseWithVehicle(10f, VehicleDrivingFlags.Normal);
-        Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Suspicious Pullover",
-            "Be advised, caller has been instructed to leave scene by the dispatcher.");
+        Game.DisplayNotification(
+            "3dtextures",
+            "mpgroundlogo_cops",
+            "~b~Dispatch",
+            "~r~Suspicious Pullover",
+            "Be advised, caller has been instructed to leave scene by the dispatcher."
+        );
         Game.DisplayHelp($"Press ~{Settings.Interact.GetInstructionalId()}~ to open interaction menu.");
         var rNd = new Random(DateTime.Now.Millisecond);
         var choices = rNd.Next(1, 4);
-        switch ( choices )
+        switch (choices)
         {
             case 1:
                 Game.DisplayHelp("Suspect is fleeing!");
@@ -108,30 +120,35 @@ internal class Impersonator : SuperCallout
 
     protected override void Conversations(UIMenu sender, UIMenuItem selItem, int index)
     {
-        if ( selItem == _speakSuspect )
-            GameFiber.StartNew(delegate
-            {
-                Game.DisplaySubtitle("~g~You~s~: What's going on? Why did you have that person stopped?", 5000);
-                GameFiber.Wait(5000);
-                Game.DisplaySubtitle(
-                    "~r~" + _name1 + "~s~: I'm off duty, that person was driving really dangerously.", 5000);
-                GameFiber.Wait(5000);
-                Game.DisplaySubtitle(
-                    "~g~You~s~: Alright, even if you are off duty you can't be doing that. What department do you work with?",
-                    5000);
-                GameFiber.Wait(5000);
-                Game.DisplaySubtitle(
-                    "~r~" + _name1 + "~s~: I'm with a secret department in Los Santos. I can't disclose it to you.",
-                    5000);
-                GameFiber.Wait(5000);
-                Game.DisplaySubtitle(
-                    "~g~You~s~: If that's the case you may want to call your supervisor. Do you have any identification or a badge?",
-                    5000);
-                GameFiber.Wait(5000);
-                Game.DisplaySubtitle(
-                    "~r~" + _name1 +
-                    "~s~: I'll have you fired for this officer. I'm not going to talk to you anymore.", 5000);
-            });
+        if (selItem == _speakSuspect)
+            GameFiber.StartNew(
+                delegate
+                {
+                    Game.DisplaySubtitle("~g~You~s~: What's going on? Why did you have that person stopped?", 5000);
+                    GameFiber.Wait(5000);
+                    Game.DisplaySubtitle("~r~" + _name1 + "~s~: I'm off duty, that person was driving really dangerously.", 5000);
+                    GameFiber.Wait(5000);
+                    Game.DisplaySubtitle(
+                        "~g~You~s~: Alright, even if you are off duty you can't be doing that. What department do you work with?",
+                        5000
+                    );
+                    GameFiber.Wait(5000);
+                    Game.DisplaySubtitle(
+                        "~r~" + _name1 + "~s~: I'm with a secret department in Los Santos. I can't disclose it to you.",
+                        5000
+                    );
+                    GameFiber.Wait(5000);
+                    Game.DisplaySubtitle(
+                        "~g~You~s~: If that's the case you may want to call your supervisor. Do you have any identification or a badge?",
+                        5000
+                    );
+                    GameFiber.Wait(5000);
+                    Game.DisplaySubtitle(
+                        "~r~" + _name1 + "~s~: I'll have you fired for this officer. I'm not going to talk to you anymore.",
+                        5000
+                    );
+                }
+            );
         base.Conversations(sender, selItem, index);
     }
 }

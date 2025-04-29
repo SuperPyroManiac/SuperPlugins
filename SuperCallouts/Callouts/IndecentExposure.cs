@@ -4,7 +4,7 @@ using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.PyroFunctions;
 using Rage;
 using Functions = LSPD_First_Response.Mod.API.Functions;
-using Location = PyroCommon.Objects.Location;
+using Location = PyroCommon.Types.Location;
 
 namespace SuperCallouts.Callouts;
 
@@ -27,8 +27,13 @@ internal class IndecentExposure : SuperCallout
 
     internal override void CalloutAccepted()
     {
-        Game.DisplayNotification("3dtextures", "mpgroundlogo_nakeds", "~b~Dispatch", "~r~Indecent Exposure",
-            "Reports of a person running around outside naked. Respond ~y~CODE-2");
+        Game.DisplayNotification(
+            "3dtextures",
+            "mpgroundlogo_nakeds",
+            "~b~Dispatch",
+            "~r~Indecent Exposure",
+            "Reports of a person running around outside naked. Respond ~y~CODE-2"
+        );
 
         var models = new[] { "a_m_m_acult_01", "a_f_m_fatcult_01" };
         _naked = new Ped(models[new Random(DateTime.Now.Millisecond).Next(models.Length)], SpawnPoint.Position, 0);
@@ -45,7 +50,7 @@ internal class IndecentExposure : SuperCallout
 
     internal override void CalloutOnScene()
     {
-        if ( !_naked )
+        if (!_naked)
         {
             CalloutEnd(true);
             return;
@@ -53,7 +58,7 @@ internal class IndecentExposure : SuperCallout
 
         _blip?.Delete();
         _naked.BlockPermanentEvents = false;
-        switch ( _rNd )
+        switch (_rNd)
         {
             case 0:
                 var pursuit = Functions.CreatePursuit();

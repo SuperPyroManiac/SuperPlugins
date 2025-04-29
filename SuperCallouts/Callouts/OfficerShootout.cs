@@ -1,10 +1,10 @@
 using System.Drawing;
 using LSPD_First_Response.Mod.Callouts;
-using PyroCommon.Objects;
 using PyroCommon.PyroFunctions;
+using PyroCommon.Types;
 using Rage;
 using Functions = LSPD_First_Response.Mod.API.Functions;
-using Location = PyroCommon.Objects.Location;
+using Location = PyroCommon.Types.Location;
 
 namespace SuperCallouts.Callouts;
 
@@ -29,13 +29,19 @@ internal class OfficerShootout : SuperCallout
         CalloutAdvisory = "Panic alert issues, shots fired.";
         Functions.PlayScannerAudioUsingPosition(
             "ATTENTION_ALL_UNITS_05 WE_HAVE CRIME_SHOTS_FIRED_AT_AN_OFFICER_01 IN_OR_ON_POSITION UNITS_RESPOND_CODE_99_02",
-            SpawnPoint.Position);
+            SpawnPoint.Position
+        );
     }
 
     internal override void CalloutAccepted()
     {
-        Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Officer Shot",
-            "Officer reports shots fired during felony stop, panic button hit. Respond ~r~CODE-3");
+        Game.DisplayNotification(
+            "3dtextures",
+            "mpgroundlogo_cops",
+            "~b~Dispatch",
+            "~r~Officer Shot",
+            "Officer reports shots fired during felony stop, panic button hit. Respond ~r~CODE-3"
+        );
 
         PyroFunctions.SpawnNormalCar(out _cVehicle, SpawnPoint.Position);
         _cVehicle.Heading = SpawnPoint.Heading;
@@ -48,7 +54,7 @@ internal class OfficerShootout : SuperCallout
             IsPersistent = true,
             Heading = SpawnPoint.Heading,
             IsSirenOn = true,
-            IsSirenSilent = true
+            IsSirenSilent = true,
         };
         EntitiesToClear.Add(_copVehicle);
 
@@ -94,7 +100,7 @@ internal class OfficerShootout : SuperCallout
 
     internal override void CalloutOnScene()
     {
-        if ( !_cop1 || !_cop2 || !_bad1 || !_bad2 )
+        if (!_cop1 || !_cop2 || !_bad1 || !_bad2)
         {
             CalloutEnd(true);
             return;
@@ -109,6 +115,7 @@ internal class OfficerShootout : SuperCallout
         Game.SetRelationshipBetweenRelationshipGroups("BADGANG", "PLAYER", Relationship.Hate);
         PyroFunctions.RequestBackup(Enums.BackupType.Code3);
         PyroFunctions.RequestBackup(Enums.BackupType.Code3);
-        if ( _cBlip.Exists() ) _cBlip.DisableRoute();
+        if (_cBlip.Exists())
+            _cBlip.DisableRoute();
     }
 }

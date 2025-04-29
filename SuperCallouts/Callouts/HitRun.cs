@@ -7,7 +7,7 @@ using Rage.Native;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using Functions = LSPD_First_Response.Mod.API.Functions;
-using Location = PyroCommon.Objects.Location;
+using Location = PyroCommon.Types.Location;
 
 namespace SuperCallouts.Callouts;
 
@@ -42,13 +42,20 @@ internal class HitRun : SuperCallout
         CalloutMessage = "~r~" + Settings.EmergencyNumber + " Report:~s~ Vehicle hit and run.";
         CalloutAdvisory = "Caller reports other driver has left the scene.";
         Functions.PlayScannerAudioUsingPosition(
-            "ATTENTION_ALL_UNITS_05 WE_HAVE CRIME_HIT_AND_RUN_01 IN_OR_ON_POSITION", SpawnPoint.Position);
+            "ATTENTION_ALL_UNITS_05 WE_HAVE CRIME_HIT_AND_RUN_01 IN_OR_ON_POSITION",
+            SpawnPoint.Position
+        );
     }
 
     internal override void CalloutAccepted()
     {
-        Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Car Accident",
-            "Victim reports the other driver has left the scene. Get to the victim as soon as possible.");
+        Game.DisplayNotification(
+            "3dtextures",
+            "mpgroundlogo_cops",
+            "~b~Dispatch",
+            "~r~Car Accident",
+            "Victim reports the other driver has left the scene. Get to the victim as soon as possible."
+        );
 
         PyroFunctions.SpawnNormalCar(out _cVehicle1, SpawnPoint.Position);
         _cVehicle1.Heading = SpawnPoint.Heading;
@@ -97,7 +104,7 @@ internal class HitRun : SuperCallout
 
     internal override void CalloutRunning()
     {
-        if ( !_onScene && Game.LocalPlayer.Character.DistanceTo(_cVehicle1) < 20f )
+        if (!_onScene && Game.LocalPlayer.Character.DistanceTo(_cVehicle1) < 20f)
         {
             _onScene = true;
             Questioning.Enabled = true;
@@ -105,7 +112,7 @@ internal class HitRun : SuperCallout
             Game.DisplayNotification($"Speak with the victim to continue! Press: ~{Settings.Interact.GetInstructionalId()}~");
         }
 
-        if ( _startPursuit && !_onScene2 && Game.LocalPlayer.Character.DistanceTo(_cVehicle2) < 50f )
+        if (_startPursuit && !_onScene2 && Game.LocalPlayer.Character.DistanceTo(_cVehicle2) < 50f)
         {
             _startPursuit = false;
             _onScene2 = true;
@@ -116,8 +123,7 @@ internal class HitRun : SuperCallout
             _cBlip3?.Delete();
         }
 
-        if ( _onScene2 && Game.LocalPlayer.Character.DistanceTo(_cVehicle2) < 50f &&
-            !Functions.IsPursuitStillRunning(_pursuit) )
+        if (_onScene2 && Game.LocalPlayer.Character.DistanceTo(_cVehicle2) < 50f && !Functions.IsPursuitStillRunning(_pursuit))
         {
             _onScene2 = false;
             Game.DisplayHelp($"Press ~{Settings.Interact.GetInstructionalId()}~ to open interaction menu.");
@@ -128,75 +134,91 @@ internal class HitRun : SuperCallout
 
     protected override void Conversations(UIMenu sender, UIMenuItem selItem, int index)
     {
-        if ( !_bad1 || !_bad2 )
+        if (!_bad1 || !_bad2)
         {
             CalloutEnd(true);
             return;
         }
 
-        if ( selItem == _speakVictim )
-            GameFiber.StartNew(delegate
-            {
-                _speakVictim.Enabled = false;
-                Game.DisplaySubtitle("~g~You~s~: What's going on here? Are you ok?", 5000);
-                NativeFunction.Natives.x5AD23D40115353AC(_victim, Game.LocalPlayer.Character, -1);
-                GameFiber.Wait(5000);
-                _bad1.PlayAmbientSpeech("GENERIC_CURSE_MED");
-                Game.DisplaySubtitle(
-                    "~r~" + _name1 + "~s~: I'm ok, someone hit my car and when I got out they drove off!", 5000);
-                GameFiber.Wait(5000);
-                Game.DisplaySubtitle(
-                    "~g~You~s~: Alright, well did you get any information? What did they look like or a vehicle description?",
-                    5000);
-                GameFiber.Wait(5000);
-                Game.DisplaySubtitle(
-                    "~r~" + _name1 +
-                    "~s~: I gave the dispatch lady the license number, but it was so fast I don't recall any details. Im sorry, can I leave?",
-                    5000);
-                GameFiber.Wait(5000);
-                Game.DisplaySubtitle(
-                    "~y~Dispatch~s~: ANPR has located a vehicle matching the license given to us. Dismiss victim and respond ~r~CODE-3",
-                    5000);
-                GameFiber.Wait(3000);
-                Game.DisplaySubtitle(
-                    "~g~You~s~: You are good to go, we will be in contact once we get more information on the suspect.");
-                GameFiber.Wait(1000);
-                _victim?.Dismiss();
-                _cVehicle1?.Dismiss();
-                _cBlip1?.Delete();
-                _startPursuit = true;
-                _cBlip2 = _bad1.AttachBlip();
-                _cBlip2.Color = Color.Red;
-                _cBlip2.EnableRoute(Color.Red);
-                BlipsToClear.Add(_cBlip2);
-                _cBlip3 = _bad2.AttachBlip();
-                _cBlip3.Color = Color.Red;
-                BlipsToClear.Add(_cBlip3);
-            });
-        if ( selItem == _speakSuspect1 )
-            GameFiber.StartNew(delegate
-            {
-                _speakSuspect1.Enabled = false;
-                Game.DisplaySubtitle(
-                    "~g~You~s~: Why are you running? This could have been a simple ticket and court date for the accident, now you're facing serious charges!",
-                    5000);
-                NativeFunction.Natives.x5AD23D40115353AC(_bad1, Game.LocalPlayer.Character, -1);
-                GameFiber.Wait(5000);
-                _bad1.PlayAmbientSpeech("GENERIC_CURSE_MED");
-                Game.DisplaySubtitle("~r~" + _name2 + "~s~: Screw you pig, I aint talkin to you!", 5000);
-            });
-        if ( selItem == _speakSuspect2 )
-            GameFiber.StartNew(delegate
-            {
-                _speakSuspect2.Enabled = false;
-                Game.DisplaySubtitle("~g~You~s~: What's going on? Why were you guys running?", 5000);
-                GameFiber.Wait(5000);
-                NativeFunction.Natives.x5AD23D40115353AC(_bad2, Game.LocalPlayer.Character, -1);
-                _bad1.PlayAmbientSpeech("GENERIC_CURSE_MED");
-                Game.DisplaySubtitle(
-                    "~r~" + _name3 +
-                    "~s~: I didnt do nothing at all, I was just chilling and they hit someone and started running, I was like bro, and they were like bruh, so we dipped.",
-                    5000);
-            });
+        if (selItem == _speakVictim)
+            GameFiber.StartNew(
+                delegate
+                {
+                    _speakVictim.Enabled = false;
+                    Game.DisplaySubtitle("~g~You~s~: What's going on here? Are you ok?", 5000);
+                    NativeFunction.Natives.x5AD23D40115353AC(_victim, Game.LocalPlayer.Character, -1);
+                    GameFiber.Wait(5000);
+                    _bad1.PlayAmbientSpeech("GENERIC_CURSE_MED");
+                    Game.DisplaySubtitle(
+                        "~r~" + _name1 + "~s~: I'm ok, someone hit my car and when I got out they drove off!",
+                        5000
+                    );
+                    GameFiber.Wait(5000);
+                    Game.DisplaySubtitle(
+                        "~g~You~s~: Alright, well did you get any information? What did they look like or a vehicle description?",
+                        5000
+                    );
+                    GameFiber.Wait(5000);
+                    Game.DisplaySubtitle(
+                        "~r~"
+                            + _name1
+                            + "~s~: I gave the dispatch lady the license number, but it was so fast I don't recall any details. Im sorry, can I leave?",
+                        5000
+                    );
+                    GameFiber.Wait(5000);
+                    Game.DisplaySubtitle(
+                        "~y~Dispatch~s~: ANPR has located a vehicle matching the license given to us. Dismiss victim and respond ~r~CODE-3",
+                        5000
+                    );
+                    GameFiber.Wait(3000);
+                    Game.DisplaySubtitle(
+                        "~g~You~s~: You are good to go, we will be in contact once we get more information on the suspect."
+                    );
+                    GameFiber.Wait(1000);
+                    _victim?.Dismiss();
+                    _cVehicle1?.Dismiss();
+                    _cBlip1?.Delete();
+                    _startPursuit = true;
+                    _cBlip2 = _bad1.AttachBlip();
+                    _cBlip2.Color = Color.Red;
+                    _cBlip2.EnableRoute(Color.Red);
+                    BlipsToClear.Add(_cBlip2);
+                    _cBlip3 = _bad2.AttachBlip();
+                    _cBlip3.Color = Color.Red;
+                    BlipsToClear.Add(_cBlip3);
+                }
+            );
+        if (selItem == _speakSuspect1)
+            GameFiber.StartNew(
+                delegate
+                {
+                    _speakSuspect1.Enabled = false;
+                    Game.DisplaySubtitle(
+                        "~g~You~s~: Why are you running? This could have been a simple ticket and court date for the accident, now you're facing serious charges!",
+                        5000
+                    );
+                    NativeFunction.Natives.x5AD23D40115353AC(_bad1, Game.LocalPlayer.Character, -1);
+                    GameFiber.Wait(5000);
+                    _bad1.PlayAmbientSpeech("GENERIC_CURSE_MED");
+                    Game.DisplaySubtitle("~r~" + _name2 + "~s~: Screw you pig, I aint talkin to you!", 5000);
+                }
+            );
+        if (selItem == _speakSuspect2)
+            GameFiber.StartNew(
+                delegate
+                {
+                    _speakSuspect2.Enabled = false;
+                    Game.DisplaySubtitle("~g~You~s~: What's going on? Why were you guys running?", 5000);
+                    GameFiber.Wait(5000);
+                    NativeFunction.Natives.x5AD23D40115353AC(_bad2, Game.LocalPlayer.Character, -1);
+                    _bad1.PlayAmbientSpeech("GENERIC_CURSE_MED");
+                    Game.DisplaySubtitle(
+                        "~r~"
+                            + _name3
+                            + "~s~: I didnt do nothing at all, I was just chilling and they hit someone and started running, I was like bro, and they were like bruh, so we dipped.",
+                        5000
+                    );
+                }
+            );
     }
 }

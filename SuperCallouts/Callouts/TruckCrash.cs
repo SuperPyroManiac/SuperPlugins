@@ -5,7 +5,7 @@ using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperCallouts.CustomScenes;
 using Functions = LSPD_First_Response.Mod.API.Functions;
-using Location = PyroCommon.Objects.Location;
+using Location = PyroCommon.Types.Location;
 
 namespace SuperCallouts.Callouts;
 
@@ -29,16 +29,21 @@ internal class TruckCrash : SuperCallout
         CalloutMessage = "~r~" + Settings.EmergencyNumber + " Report:~s~ Large truck tipped over.";
         Functions.PlayScannerAudioUsingPosition(
             "ATTENTION_ALL_UNITS_05 WE_HAVE CRIME_AMBULANCE_REQUESTED_02 IN_OR_ON_POSITION UNITS_RESPOND_CODE_03_01",
-            SpawnPoint.Position);
+            SpawnPoint.Position
+        );
     }
 
     internal override void CalloutAccepted()
     {
-        Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Truck Accident",
-            "Reports of a truck tipped over on the highway. Respond ~r~CODE-3");
+        Game.DisplayNotification(
+            "3dtextures",
+            "mpgroundlogo_cops",
+            "~b~Dispatch",
+            "~r~Truck Accident",
+            "Reports of a truck tipped over on the highway. Respond ~r~CODE-3"
+        );
 
-        TruckCrashSetup.ConstructTrucksScene(out _victim, out _victim2, out _victim3, out _truck, out _car1,
-            out _car2);
+        TruckCrashSetup.ConstructTrucksScene(out _victim, out _victim2, out _victim3, out _truck, out _car1, out _car2);
         _victim.IsPersistent = true;
         EntitiesToClear.Add(_victim);
         _victim2.IsPersistent = true;
@@ -68,22 +73,27 @@ internal class TruckCrash : SuperCallout
 
     protected override void Conversations(UIMenu sender, UIMenuItem selItem, int index)
     {
-        if ( !_victim || !_victim2 )
+        if (!_victim || !_victim2)
         {
             CalloutEnd(true);
             return;
         }
 
-        if ( selItem == _speakSuspect )
-            GameFiber.StartNew(delegate
-            {
-                _speakSuspect.Enabled = false;
-                _victim.Face(Game.LocalPlayer.Character);
-                _victim2.Face(Game.LocalPlayer.Character);
-                Game.DisplaySubtitle("~g~Me: ~w~What happened? Are you all ok?", 4000);
-                GameFiber.Wait(4000);
-                Game.DisplaySubtitle("~y~Victims: ~w~We're ok but the truck driver needs help! We were just going home and he flipped over!", 4000);
-            });
+        if (selItem == _speakSuspect)
+            GameFiber.StartNew(
+                delegate
+                {
+                    _speakSuspect.Enabled = false;
+                    _victim.Face(Game.LocalPlayer.Character);
+                    _victim2.Face(Game.LocalPlayer.Character);
+                    Game.DisplaySubtitle("~g~Me: ~w~What happened? Are you all ok?", 4000);
+                    GameFiber.Wait(4000);
+                    Game.DisplaySubtitle(
+                        "~y~Victims: ~w~We're ok but the truck driver needs help! We were just going home and he flipped over!",
+                        4000
+                    );
+                }
+            );
         base.Conversations(sender, selItem, index);
     }
 }

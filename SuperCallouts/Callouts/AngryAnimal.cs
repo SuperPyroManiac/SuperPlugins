@@ -1,13 +1,13 @@
 using System;
 using System.Drawing;
 using LSPD_First_Response.Mod.Callouts;
-using PyroCommon.Objects;
 using PyroCommon.PyroFunctions;
+using PyroCommon.Types;
 using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using Functions = LSPD_First_Response.Mod.API.Functions;
-using Location = PyroCommon.Objects.Location;
+using Location = PyroCommon.Types.Location;
 
 namespace SuperCallouts.Callouts;
 
@@ -25,17 +25,23 @@ internal class AngryAnimal : SuperCallout
 
     internal override void CalloutPrep()
     {
-        CalloutMessage = "~r~" + Settings.EmergencyNumber +
-                         " Report:~s~ Person(s) being attacked by a wild animal.";
+        CalloutMessage = "~r~" + Settings.EmergencyNumber + " Report:~s~ Person(s) being attacked by a wild animal.";
         CalloutAdvisory = "Caller says a wild animal is attacking people.";
-        Functions.PlayScannerAudioUsingPosition("CITIZENS_REPORT_04 CRIME_11_351_02 UNITS_RESPOND_CODE_03_01",
-            SpawnPoint.Position);
+        Functions.PlayScannerAudioUsingPosition(
+            "CITIZENS_REPORT_04 CRIME_11_351_02 UNITS_RESPOND_CODE_03_01",
+            SpawnPoint.Position
+        );
     }
 
     internal override void CalloutAccepted()
     {
-        Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Help Civilian",
-            "Details are unknown, get to the scene as soon as possible! Respond ~r~CODE-3");
+        Game.DisplayNotification(
+            "3dtextures",
+            "mpgroundlogo_cops",
+            "~b~Dispatch",
+            "~r~Help Civilian",
+            "Details are unknown, get to the scene as soon as possible! Respond ~r~CODE-3"
+        );
 
         Model[] meanAnimal = ["A_C_MTLION", "A_C_COYOTE"];
         _animal = new Ped(meanAnimal[new Random(DateTime.Now.Millisecond).Next(meanAnimal.Length)], SpawnPoint.Position, 50);
@@ -66,7 +72,7 @@ internal class AngryAnimal : SuperCallout
 
     internal override void CalloutOnScene()
     {
-        if ( !_animal || !_victim )
+        if (!_animal || !_victim)
         {
             CalloutEnd(true);
             return;
@@ -80,10 +86,11 @@ internal class AngryAnimal : SuperCallout
 
     protected override void Interactions(UIMenu sender, UIMenuItem selItem, int index)
     {
-        if ( selItem == _callEms )
+        if (selItem == _callEms)
         {
             Game.DisplaySubtitle(
-                "~g~You~s~: Dispatch, we have a person that has been attacked by an animal! We need medical here ASAP!");
+                "~g~You~s~: Dispatch, we have a person that has been attacked by an animal! We need medical here ASAP!"
+            );
             PyroFunctions.RequestBackup(Enums.BackupType.Fire);
             PyroFunctions.RequestBackup(Enums.BackupType.Medical);
 

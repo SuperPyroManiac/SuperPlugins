@@ -5,7 +5,7 @@ using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using Functions = LSPD_First_Response.Mod.API.Functions;
-using Location = PyroCommon.Objects.Location;
+using Location = PyroCommon.Types.Location;
 
 namespace SuperCallouts.Callouts;
 
@@ -25,14 +25,21 @@ internal class Manhunt : SuperCallout
     {
         CalloutMessage = "~b~Dispatch:~s~ Wanted suspect on the run.";
         CalloutAdvisory = "Officers report a suspect evaded them in the area.";
-        Functions.PlayScannerAudioUsingPosition("ATTENTION_ALL_UNITS_05 SUSPECTS_LAST_SEEN_02 IN_OR_ON_POSITION",
-            SpawnPoint.Position);
+        Functions.PlayScannerAudioUsingPosition(
+            "ATTENTION_ALL_UNITS_05 SUSPECTS_LAST_SEEN_02 IN_OR_ON_POSITION",
+            SpawnPoint.Position
+        );
     }
 
     internal override void CalloutAccepted()
     {
-        Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Manhunt",
-            "Search for the suspect. High priority, respond ~r~CODE-3");
+        Game.DisplayNotification(
+            "3dtextures",
+            "mpgroundlogo_cops",
+            "~b~Dispatch",
+            "~r~Manhunt",
+            "Search for the suspect. High priority, respond ~r~CODE-3"
+        );
 
         _bad = new Ped(SpawnPoint.Position) { IsPersistent = true };
         PyroFunctions.SetWanted(_bad, true);
@@ -50,7 +57,7 @@ internal class Manhunt : SuperCallout
 
     internal override void CalloutOnScene()
     {
-        if ( !_bad )
+        if (!_bad)
         {
             CalloutEnd(true);
             return;
@@ -67,22 +74,23 @@ internal class Manhunt : SuperCallout
 
     protected override void Conversations(UIMenu sender, UIMenuItem selItem, int index)
     {
-        if ( selItem == _speakSuspect )
-            GameFiber.StartNew(delegate
-            {
-                Game.DisplaySubtitle("~g~You~s~: Why did you run? It makes just makes the situation worse.", 5000);
-                GameFiber.Wait(5000);
-                Game.DisplaySubtitle(
-                    "~r~" + _name1 + "~s~: Man I just didn't want to go back to the slammer.'", 5000);
-                GameFiber.Wait(5000);
-                Game.DisplaySubtitle(
-                    "~g~You~s~: I understand that but evading is a whole new charge that will make going back even worse.",
-                    5000);
-                GameFiber.Wait(5000);
-                Game.DisplaySubtitle(
-                    "~r~" + _name1 + "~s~: I know, too late to go back now though.", 5000);
-                GameFiber.Wait(5000);
-            });
+        if (selItem == _speakSuspect)
+            GameFiber.StartNew(
+                delegate
+                {
+                    Game.DisplaySubtitle("~g~You~s~: Why did you run? It makes just makes the situation worse.", 5000);
+                    GameFiber.Wait(5000);
+                    Game.DisplaySubtitle("~r~" + _name1 + "~s~: Man I just didn't want to go back to the slammer.'", 5000);
+                    GameFiber.Wait(5000);
+                    Game.DisplaySubtitle(
+                        "~g~You~s~: I understand that but evading is a whole new charge that will make going back even worse.",
+                        5000
+                    );
+                    GameFiber.Wait(5000);
+                    Game.DisplaySubtitle("~r~" + _name1 + "~s~: I know, too late to go back now though.", 5000);
+                    GameFiber.Wait(5000);
+                }
+            );
         base.Conversations(sender, selItem, index);
     }
 }

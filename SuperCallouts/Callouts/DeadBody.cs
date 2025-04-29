@@ -7,7 +7,7 @@ using Rage.Native;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using Functions = LSPD_First_Response.Mod.API.Functions;
-using Location = PyroCommon.Objects.Location;
+using Location = PyroCommon.Types.Location;
 
 namespace SuperCallouts.Callouts;
 
@@ -30,13 +30,19 @@ internal class DeadBody : SuperCallout
         CalloutAdvisory = "Caller says the person is not breathing.";
         Functions.PlayScannerAudioUsingPosition(
             "ATTENTION_ALL_UNITS_05 WE_HAVE CRIME_AMBULANCE_REQUESTED_01 IN_OR_ON_POSITION",
-            SpawnPoint.Position);
+            SpawnPoint.Position
+        );
     }
 
     internal override void CalloutAccepted()
     {
-        Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~y~Medical Emergency",
-            "Caller reports an injured person that is not breathing, respond ~r~CODE-3");
+        Game.DisplayNotification(
+            "3dtextures",
+            "mpgroundlogo_cops",
+            "~b~Dispatch",
+            "~y~Medical Emergency",
+            "Caller reports an injured person that is not breathing, respond ~r~CODE-3"
+        );
 
         PyroFunctions.SpawnNormalCar(out _cVehicle, SpawnPoint.Position, SpawnPoint.Heading);
         EntitiesToClear.Add(_cVehicle);
@@ -68,13 +74,13 @@ internal class DeadBody : SuperCallout
 
     internal override void CalloutRunning()
     {
-        if ( !_witness )
+        if (!_witness)
         {
             CalloutEnd(true);
             return;
         }
 
-        if ( _witness.IsDead )
+        if (_witness.IsDead)
         {
             _speakSuspect!.Enabled = false;
             _speakSuspect.RightLabel = "~r~Dead";
@@ -83,7 +89,7 @@ internal class DeadBody : SuperCallout
 
     internal override void CalloutOnScene()
     {
-        if ( !_witness || !_victim )
+        if (!_witness || !_victim)
         {
             CalloutEnd(true);
             return;
@@ -101,36 +107,43 @@ internal class DeadBody : SuperCallout
     {
         try
         {
-            if ( !_witness )
+            if (!_witness)
             {
                 CalloutEnd(true);
                 return;
             }
 
-            if ( selItem == _speakSuspect )
-                GameFiber.StartNew(delegate
-                {
-                    _speakSuspect.Enabled = false;
-                    Game.DisplaySubtitle("~g~You~s~: Do you know what happened to this person?", 4000);
-                    NativeFunction.Natives.x5AD23D40115353AC(_witness, Game.LocalPlayer.Character, -1);
-                    GameFiber.Wait(4000);
-                    _witness.PlayAmbientSpeech("GENERIC_CURSE_MED");
-                    Game.DisplaySubtitle(
-                        "~r~" + _name + "~s~: I don't know, I just found them here and called you guys right away!",
-                        4000);
-                    GameFiber.Wait(4000);
-                    Game.DisplaySubtitle("~g~You~s~: Do you know who this is?", 4000);
-                    GameFiber.Wait(4000);
-                    Game.DisplaySubtitle(
-                        "~r~" + _name + "~s~: I don't know anything about them, sorry I wish I could help more.", 4000);
-                    GameFiber.Wait(4000);
-                    Game.DisplaySubtitle(
-                        "~g~You~s~: It's alright, thank you for your time and the call. You are free to go home.",
-                        4000);
-                    if ( _witness.Exists() ) _witness.Dismiss();
-                });
+            if (selItem == _speakSuspect)
+                GameFiber.StartNew(
+                    delegate
+                    {
+                        _speakSuspect.Enabled = false;
+                        Game.DisplaySubtitle("~g~You~s~: Do you know what happened to this person?", 4000);
+                        NativeFunction.Natives.x5AD23D40115353AC(_witness, Game.LocalPlayer.Character, -1);
+                        GameFiber.Wait(4000);
+                        _witness.PlayAmbientSpeech("GENERIC_CURSE_MED");
+                        Game.DisplaySubtitle(
+                            "~r~" + _name + "~s~: I don't know, I just found them here and called you guys right away!",
+                            4000
+                        );
+                        GameFiber.Wait(4000);
+                        Game.DisplaySubtitle("~g~You~s~: Do you know who this is?", 4000);
+                        GameFiber.Wait(4000);
+                        Game.DisplaySubtitle(
+                            "~r~" + _name + "~s~: I don't know anything about them, sorry I wish I could help more.",
+                            4000
+                        );
+                        GameFiber.Wait(4000);
+                        Game.DisplaySubtitle(
+                            "~g~You~s~: It's alright, thank you for your time and the call. You are free to go home.",
+                            4000
+                        );
+                        if (_witness.Exists())
+                            _witness.Dismiss();
+                    }
+                );
         }
-        catch ( Exception e )
+        catch (Exception e)
         {
             Log.Error(e.ToString());
             CalloutEnd(true);

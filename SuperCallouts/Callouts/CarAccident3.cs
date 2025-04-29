@@ -4,7 +4,7 @@ using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.PyroFunctions;
 using Rage;
 using Functions = LSPD_First_Response.Mod.API.Functions;
-using Location = PyroCommon.Objects.Location;
+using Location = PyroCommon.Types.Location;
 
 namespace SuperCallouts.Callouts;
 
@@ -27,13 +27,19 @@ internal class CarAccident3 : SuperCallout
         CalloutAdvisory = "Caller reports the drivers are violently arguing.";
         Functions.PlayScannerAudioUsingPosition(
             "CITIZENS_REPORT_04 CRIME_HIT_AND_RUN_03 IN_OR_ON_POSITION UNITS_RESPOND_CODE_03_01",
-            SpawnPoint.Position);
+            SpawnPoint.Position
+        );
     }
 
     internal override void CalloutAccepted()
     {
-        Game.DisplayNotification("web_lossantospolicedept", "web_lossantospolicedept", "~b~Dispatch", "~r~MVA",
-            "Reports of a car accident, respond ~r~CODE-3");
+        Game.DisplayNotification(
+            "web_lossantospolicedept",
+            "web_lossantospolicedept",
+            "~b~Dispatch",
+            "~r~MVA",
+            "Reports of a car accident, respond ~r~CODE-3"
+        );
 
         PyroFunctions.SpawnNormalCar(out _eVehicle, SpawnPoint.Position, SpawnPoint.Heading);
         _eVehicle.IsPersistent = true;
@@ -65,9 +71,12 @@ internal class CarAccident3 : SuperCallout
         BlipsToClear.Add(_eBlip);
 
         Log.Info("Car Accident Scenario #" + _choice);
-        if ( !_eVehicle.Exists() || !_eVehicle2.Exists() )
-        { CalloutEnd(true); return; }
-        switch ( _choice )
+        if (!_eVehicle.Exists() || !_eVehicle2.Exists())
+        {
+            CalloutEnd(true);
+            return;
+        }
+        switch (_choice)
         {
             case 0: //Peds fight
                 _ePed.Tasks.LeaveVehicle(LeaveVehicleFlags.LeaveDoorOpen);
@@ -92,19 +101,23 @@ internal class CarAccident3 : SuperCallout
 
     internal override void CalloutOnScene()
     {
-        if ( !_ePed || !_ePed2 )
+        if (!_ePed || !_ePed2)
         {
             CalloutEnd(true);
             return;
         }
 
-        Game.DisplayNotification("web_lossantospolicedept", "web_lossantospolicedept",
+        Game.DisplayNotification(
+            "web_lossantospolicedept",
+            "web_lossantospolicedept",
             "~y~On Scene",
-            "~r~Car Accident", "Investigate the scene.");
+            "~r~Car Accident",
+            "Investigate the scene."
+        );
         _eBlip?.DisableRoute();
         _ePed.BlockPermanentEvents = false;
         _ePed2.BlockPermanentEvents = false;
-        switch ( _choice )
+        switch (_choice)
         {
             case 0: //Peds fight
                 _ePed.Tasks.FightAgainst(_ePed2);

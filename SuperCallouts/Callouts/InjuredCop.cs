@@ -4,7 +4,7 @@ using LSPD_First_Response.Mod.Callouts;
 using PyroCommon.PyroFunctions;
 using Rage;
 using Functions = LSPD_First_Response.Mod.API.Functions;
-using Location = PyroCommon.Objects.Location;
+using Location = PyroCommon.Types.Location;
 
 namespace SuperCallouts.Callouts;
 
@@ -29,8 +29,13 @@ internal class InjuredCop : SuperCallout
 
     internal override void CalloutAccepted()
     {
-        Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Officer Not Responding",
-            "Officer not reporting back over radio. Investigate their location. Respond ~r~CODE-3");
+        Game.DisplayNotification(
+            "3dtextures",
+            "mpgroundlogo_cops",
+            "~b~Dispatch",
+            "~r~Officer Not Responding",
+            "Officer not reporting back over radio. Investigate their location. Respond ~r~CODE-3"
+        );
 
         _vehicle = new Vehicle("POLICE", SpawnPoint.Position);
         _vehicle.IsPersistent = true;
@@ -42,7 +47,7 @@ internal class InjuredCop : SuperCallout
         _cop = new Ped("s_m_y_cop_01", SpawnPoint.Position.Around2D(5), 0);
         _cop.IsPersistent = true;
         _cop.BlockPermanentEvents = true;
-        switch ( _rNd )
+        switch (_rNd)
         {
             case 0:
                 _cop.WarpIntoVehicle(_vehicle, -1);
@@ -69,7 +74,7 @@ internal class InjuredCop : SuperCallout
 
     internal override void CalloutOnScene()
     {
-        if ( !_cop )
+        if (!_cop)
         {
             CalloutEnd(true);
             return;
@@ -77,17 +82,18 @@ internal class InjuredCop : SuperCallout
 
         Game.DisplayNotification("Investigate the area.");
         _blip?.Delete();
-        switch ( _rNd )
+        switch (_rNd)
         {
             case 0:
-                if ( _cop.Exists() )
+                if (_cop.Exists())
                 {
                     _cop.Kill();
                     _cop.BlockPermanentEvents = false;
                 }
                 break;
             case 1:
-                if ( _cop.Exists() ) _cop.BlockPermanentEvents = false;
+                if (_cop.Exists())
+                    _cop.BlockPermanentEvents = false;
                 break;
             case 2:
                 break;

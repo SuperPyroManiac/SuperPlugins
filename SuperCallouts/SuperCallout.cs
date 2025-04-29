@@ -8,7 +8,7 @@ using Rage;
 using Rage.Exceptions;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
-using Location = PyroCommon.Objects.Location;
+using Location = PyroCommon.Types.Location;
 
 namespace SuperCallouts;
 
@@ -26,8 +26,7 @@ internal abstract class SuperCallout : Callout
     //UI
     private readonly MenuPool Interaction = new();
     protected readonly UIMenu MainMenu = new("SuperCallouts", "Choose an option.");
-    protected readonly UIMenu ConvoMenu =
-        new("SuperCallouts", "~y~Choose a subject to speak with.");
+    protected readonly UIMenu ConvoMenu = new("SuperCallouts", "~y~Choose a subject to speak with.");
     protected readonly UIMenuItem Questioning = new("Speak With Subjects");
     protected readonly UIMenuItem EndCall = new("~y~End Callout", "Ends the callout.");
 
@@ -69,22 +68,16 @@ internal abstract class SuperCallout : Callout
         {
             if (e.ToString().Contains("Could not spawn new vehicle"))
                 Log.Error(
-                    "Vehicle spawn failed! This is likely a mods folder issue and not the plugins fault!\r\n"
-                        + e.Message,
+                    "Vehicle spawn failed! This is likely a mods folder issue and not the plugins fault!\r\n" + e.Message,
                     false
                 );
             if (e.ToString().Contains("Cannot load invalid model with hash"))
                 Log.Error(
-                    "Vehicle spawn failed! This is likely a mods folder issue and not the plugins fault!\r\n"
-                        + e.Message,
+                    "Vehicle spawn failed! This is likely a mods folder issue and not the plugins fault!\r\n" + e.Message,
                     false
                 );
             if (e is InvalidHandleableException)
-                Log.Error(
-                    "Failed to start callout! Welcome to modded GTA. Not much I can do here.\r\n"
-                        + e.Message,
-                    false
-                );
+                Log.Error("Failed to start callout! Welcome to modded GTA. Not much I can do here.\r\n" + e.Message, false);
             else
                 Log.Error(e.ToString());
             CalloutEnd(true);
@@ -106,9 +99,7 @@ internal abstract class SuperCallout : Callout
             if (!OnScene && Player.DistanceTo(SpawnPoint.Position) < OnSceneDistance)
             {
                 OnScene = true;
-                Game.DisplayHelp(
-                    $"Press ~{Settings.Interact.GetInstructionalId()}~ to open interaction menu."
-                );
+                Game.DisplayHelp($"Press ~{Settings.Interact.GetInstructionalId()}~ to open interaction menu.");
                 try
                 {
                     GameFiber.StartNew(CalloutOnScene, "[SC] OnSceneFiber");

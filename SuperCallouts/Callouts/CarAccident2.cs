@@ -1,13 +1,13 @@
 using System.Drawing;
 using LSPD_First_Response.Mod.Callouts;
-using PyroCommon.Objects;
 using PyroCommon.PyroFunctions;
+using PyroCommon.Types;
 using Rage;
 using Rage.Native;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using Functions = LSPD_First_Response.Mod.API.Functions;
-using Location = PyroCommon.Objects.Location;
+using Location = PyroCommon.Types.Location;
 
 namespace SuperCallouts.Callouts;
 
@@ -35,13 +35,19 @@ internal class CarAccident2 : SuperCallout
         CalloutAdvisory = "Caller reports their is multiple vehicles involved.";
         Functions.PlayScannerAudioUsingPosition(
             "CITIZENS_REPORT_04 CRIME_HIT_AND_RUN_03 IN_OR_ON_POSITION UNITS_RESPOND_CODE_03_01",
-            SpawnPoint.Position);
+            SpawnPoint.Position
+        );
     }
 
     internal override void CalloutAccepted()
     {
-        Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~MVA",
-            "Reports of a car accident, respond ~r~CODE-3");
+        Game.DisplayNotification(
+            "3dtextures",
+            "mpgroundlogo_cops",
+            "~b~Dispatch",
+            "~r~MVA",
+            "Reports of a car accident, respond ~r~CODE-3"
+        );
 
         PyroFunctions.SpawnNormalCar(out _cVehicle1, SpawnPoint.Position);
         _cVehicle1.EngineHealth = 0;
@@ -73,7 +79,6 @@ internal class CarAccident2 : SuperCallout
         _name1 = Functions.GetPersonaForPed(_victim2).FullName;
         EntitiesToClear.Add(_victim2);
 
-
         _speakSuspect = new UIMenuItem("Speak with ~y~" + _name1);
         ConvoMenu.AddItem(_speakSuspect);
         MainMenu.RemoveItemAt(1);
@@ -93,13 +98,13 @@ internal class CarAccident2 : SuperCallout
 
     internal override void CalloutRunning()
     {
-        if ( !_victim2 )
+        if (!_victim2)
         {
             CalloutEnd(true);
             return;
         }
 
-        if ( _victim2.IsDead )
+        if (_victim2.IsDead)
         {
             _speakSuspect!.Enabled = false;
             _speakSuspect.RightLabel = "~r~Dead";
@@ -108,7 +113,7 @@ internal class CarAccident2 : SuperCallout
 
     internal override void CalloutOnScene()
     {
-        if ( !_victim1 || !_victim2 )
+        if (!_victim1 || !_victim2)
         {
             CalloutEnd(true);
             return;
@@ -125,7 +130,7 @@ internal class CarAccident2 : SuperCallout
 
     protected override void Interactions(UIMenu sender, UIMenuItem selItem, int index)
     {
-        if ( selItem == _callFd )
+        if (selItem == _callFd)
         {
             _callFd.Enabled = false;
             Game.DisplaySubtitle("~g~You~s~: Dispatch, we have an MVA. One person is seriously injured.");
@@ -139,31 +144,32 @@ internal class CarAccident2 : SuperCallout
 
     protected override void Conversations(UIMenu sender, UIMenuItem selItem, int index)
     {
-        if ( !_victim1 || !_victim2 )
+        if (!_victim1 || !_victim2)
         {
             CalloutEnd(true);
             return;
         }
 
-        if ( selItem == _speakSuspect )
-            GameFiber.StartNew(delegate
-            {
-                _speakSuspect.Enabled = false;
-                Game.DisplaySubtitle("~g~You~s~: What happened? Are you ok?", 5000);
-                NativeFunction.Natives.x5AD23D40115353AC(_victim2,
-                    Game.LocalPlayer.Character, -1);
-                GameFiber.Wait(5000);
-                Game.DisplaySubtitle(
-                    "~r~" + _name1 + "~s~: Who are you? I don't have to talk to you!", 5000);
-                GameFiber.Wait(5000);
-                Game.DisplaySubtitle(
-                    "~g~You~s~: I'm a police officer, I need you to tell me what happened, someone is really hurt!",
-                    5000);
-                GameFiber.Wait(5000);
-                Game.DisplaySubtitle("~r~" + _name1 + "~s~: No!", 5000);
-                _victim2.Tasks.EnterVehicle(_cVehicle2, -1);
-                _victim2.BlockPermanentEvents = true;
-            });
+        if (selItem == _speakSuspect)
+            GameFiber.StartNew(
+                delegate
+                {
+                    _speakSuspect.Enabled = false;
+                    Game.DisplaySubtitle("~g~You~s~: What happened? Are you ok?", 5000);
+                    NativeFunction.Natives.x5AD23D40115353AC(_victim2, Game.LocalPlayer.Character, -1);
+                    GameFiber.Wait(5000);
+                    Game.DisplaySubtitle("~r~" + _name1 + "~s~: Who are you? I don't have to talk to you!", 5000);
+                    GameFiber.Wait(5000);
+                    Game.DisplaySubtitle(
+                        "~g~You~s~: I'm a police officer, I need you to tell me what happened, someone is really hurt!",
+                        5000
+                    );
+                    GameFiber.Wait(5000);
+                    Game.DisplaySubtitle("~r~" + _name1 + "~s~: No!", 5000);
+                    _victim2.Tasks.EnterVehicle(_cVehicle2, -1);
+                    _victim2.BlockPermanentEvents = true;
+                }
+            );
         base.Conversations(sender, selItem, index);
     }
 }

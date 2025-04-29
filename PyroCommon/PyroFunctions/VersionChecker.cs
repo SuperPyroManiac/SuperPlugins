@@ -4,7 +4,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using PyroCommon.Objects;
+using PyroCommon.Types;
 using Rage;
 using Task = System.Threading.Tasks.Task;
 
@@ -91,7 +91,13 @@ internal static class VersionChecker
                     logNotice += $"\r\n{plug.Key}: Current Version: {pluginDict[plug.Key]} New Version: {plug.Value}";
                 }
                 if (Settings.UpdateNotifications)
-                    Game.DisplayNotification("commonmenu", "mp_alerttriangle", "~r~SuperPlugins Warning", "~y~New updates available!", ingameNotice);
+                    Game.DisplayNotification(
+                        "commonmenu",
+                        "mp_alerttriangle",
+                        "~r~SuperPlugins Warning",
+                        "~y~New updates available!",
+                        ingameNotice
+                    );
                 Log.Warning(logNotice);
                 break;
             case Enums.UpdateState.Current:
