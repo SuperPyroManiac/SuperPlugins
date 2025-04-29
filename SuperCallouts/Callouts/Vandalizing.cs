@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Drawing;
 using LSPD_First_Response.Mod.Callouts;
-using PyroCommon.PyroFunctions;
+using PyroCommon.Utils;
 using Rage;
 using Functions = LSPD_First_Response.Mod.API.Functions;
-using Location = PyroCommon.Types.Location;
+using Location = PyroCommon.Models.Location;
 
 namespace SuperCallouts.Callouts;
 
@@ -36,8 +36,8 @@ internal class Vandalizing : SuperCallout
             "A suspect has been reported damaging a vehicle. Respond ~r~CODE-3"
         );
 
-        PyroFunctions.SpawnNormalCar(out _cVehicle, SpawnPoint.Position);
-        PyroFunctions.DamageVehicle(_cVehicle, 200, 200);
+        CommonUtils.SpawnNormalCar(out _cVehicle, SpawnPoint.Position);
+        CommonUtils.DamageVehicle(_cVehicle, 200, 200);
         EntitiesToClear.Add(_cVehicle);
 
         _bad = new Ped(SpawnPoint.Position.Around(15f));
@@ -46,7 +46,7 @@ internal class Vandalizing : SuperCallout
         _bad.BlockPermanentEvents = true;
         _bad.Metadata.stpDrugsDetected = true;
         _bad.Metadata.stpAlcoholDetected = true;
-        PyroFunctions.SetDrunkOld(_bad, true);
+        CommonUtils.SetDrunkOld(_bad, true);
         EntitiesToClear.Add(_bad);
 
         _cBlip = _bad.AttachBlip();

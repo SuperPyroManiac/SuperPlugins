@@ -2,14 +2,14 @@ using System;
 using System.Drawing;
 using LSPD_First_Response.Mod.API;
 using LSPD_First_Response.Mod.Callouts;
-using PyroCommon.PyroFunctions;
-using PyroCommon.PyroFunctions.Extensions;
-using PyroCommon.Types;
+using PyroCommon.Extensions;
+using PyroCommon.Models;
+using PyroCommon.Utils;
 using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using Functions = LSPD_First_Response.Mod.API.Functions;
-using Location = PyroCommon.Types.Location;
+using Location = PyroCommon.Models.Location;
 
 namespace SuperCallouts.RemasteredCallouts;
 
@@ -34,10 +34,7 @@ internal class HotPursuit : SuperCallout
     {
         CalloutMessage = "~o~Traffic ANPR Report:~s~ High value stolen vehicle located.";
         CalloutAdvisory = "This is a powerful vehicle, suspect known to evade police in the past.";
-        Functions.PlayScannerAudioUsingPosition(
-            "ATTENTION_ALL_UNITS_05 WE_HAVE PYRO_HOT_PURSUIT IN_OR_ON_POSITION",
-            SpawnPoint.Position
-        );
+        Functions.PlayScannerAudioUsingPosition("ATTENTION_ALL_UNITS_05 WE_HAVE PYRO_HOT_PURSUIT IN_OR_ON_POSITION", SpawnPoint.Position);
     }
 
     internal override void CalloutAccepted()
@@ -59,16 +56,13 @@ internal class HotPursuit : SuperCallout
     private void SpawnVehicle()
     {
         Model[] vehicleModels = ["THRAX", "TORERO2", "CHAMPION", "ENTITY3", "THRAX", "FMJ", "ZORRUSSO", "TIGON", "FURIA"];
-        _vehicle = new Vehicle(
-            vehicleModels[new Random(DateTime.Now.Millisecond).Next(vehicleModels.Length)],
-            SpawnPoint.Position
-        );
+        _vehicle = new Vehicle(vehicleModels[new Random(DateTime.Now.Millisecond).Next(vehicleModels.Length)], SpawnPoint.Position);
         _vehicle.IsPersistent = true;
         _vehicle.IsStolen = true;
 
-        PyroFunctions.AddSearchItem("~y~Wire cutters", null, _vehicle);
-        PyroFunctions.AddSearchItem("~r~Empty beer cans", null, _vehicle);
-        PyroFunctions.AddSearchItem("~r~Opened ammo box", null, _vehicle);
+        CommonUtils.AddSearchItem("~y~Wire cutters", null, _vehicle);
+        CommonUtils.AddSearchItem("~r~Empty beer cans", null, _vehicle);
+        CommonUtils.AddSearchItem("~r~Opened ammo box", null, _vehicle);
 
         EntitiesToClear.Add(_vehicle);
     }
@@ -84,8 +78,8 @@ internal class HotPursuit : SuperCallout
         _driver.SetDrunk(Enums.DrunkState.ModeratelyDrunk);
         _driver.SetWanted(true);
         _driver.SetLicenseStatus(Enums.Permits.Guns, Enums.PermitStatus.Revoked);
-        PyroFunctions.AddFirearmItem("Pistol", "weapon_pistol_mk2", true, true, _driver);
-        PyroFunctions.AddSearchItem("~r~Used meth pipe", _driver);
+        CommonUtils.AddFirearmItem("Pistol", "weapon_pistol_mk2", true, true, _driver);
+        CommonUtils.AddSearchItem("~r~Used meth pipe", _driver);
         _driver.Tasks.CruiseWithVehicle(_vehicle, 10f, VehicleDrivingFlags.Normal);
         EntitiesToClear.Add(_driver);
 
@@ -111,7 +105,7 @@ internal class HotPursuit : SuperCallout
 
     private void CreateBlip()
     {
-        _blip = PyroFunctions.CreateSearchBlip(SpawnPoint, Color.Red, true, false, 15);
+        _blip = CommonUtils.CreateSearchBlip(SpawnPoint, Color.Red, true, false, 15);
         BlipsToClear.Add(_blip);
     }
 
@@ -148,12 +142,7 @@ internal class HotPursuit : SuperCallout
 
     private void CheckPursuitStatus()
     {
-        if (
-            OnScene
-            && !Functions.IsPursuitStillRunning(_pursuit)
-            && Player.DistanceTo(_driver) > 75
-            && Player.DistanceTo(_passenger) > 75
-        )
+        if (OnScene && !Functions.IsPursuitStillRunning(_pursuit) && Player.DistanceTo(_driver) > 75 && Player.DistanceTo(_passenger) > 75)
             CalloutEnd();
 
         if (OnScene && !Functions.IsPursuitStillRunning(_pursuit))
@@ -190,7 +179,7 @@ internal class HotPursuit : SuperCallout
         _blip.Delete();
         _driver.BlockPermanentEvents = false;
         _passenger.BlockPermanentEvents = false;
-        _pursuit = PyroFunctions.StartPursuit(false, true, _driver, _passenger);
+        _pursuit = CommonUtils.StartPursuit(false, true, _driver, _passenger);
 
         Game.DisplayHelp("~r~Suspects are evading!");
     }

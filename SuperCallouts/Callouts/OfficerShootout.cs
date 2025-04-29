@@ -1,10 +1,10 @@
 using System.Drawing;
 using LSPD_First_Response.Mod.Callouts;
-using PyroCommon.PyroFunctions;
-using PyroCommon.Types;
+using PyroCommon.Models;
+using PyroCommon.Utils;
 using Rage;
 using Functions = LSPD_First_Response.Mod.API.Functions;
-using Location = PyroCommon.Types.Location;
+using Location = PyroCommon.Models.Location;
 
 namespace SuperCallouts.Callouts;
 
@@ -19,7 +19,7 @@ internal class OfficerShootout : SuperCallout
     private Vehicle _copVehicle;
     private Vector3 _cSpawnPoint;
     private Vehicle _cVehicle;
-    internal override Location SpawnPoint { get; set; } = PyroFunctions.GetSideOfRoad(750, 180);
+    internal override Location SpawnPoint { get; set; } = CommonUtils.GetSideOfRoad(750, 180);
     internal override float OnSceneDistance { get; set; } = 50;
     internal override string CalloutName { get; set; } = "Officer Shootout";
 
@@ -43,7 +43,7 @@ internal class OfficerShootout : SuperCallout
             "Officer reports shots fired during felony stop, panic button hit. Respond ~r~CODE-3"
         );
 
-        PyroFunctions.SpawnNormalCar(out _cVehicle, SpawnPoint.Position);
+        CommonUtils.SpawnNormalCar(out _cVehicle, SpawnPoint.Position);
         _cVehicle.Heading = SpawnPoint.Heading;
         _cSpawnPoint = _cVehicle.GetOffsetPositionFront(-9f);
         _cVehicle.IsStolen = true;
@@ -64,7 +64,7 @@ internal class OfficerShootout : SuperCallout
         _bad1.Inventory.Weapons.Add(WeaponHash.AssaultShotgun).Ammo = -1;
         _bad1.WarpIntoVehicle(_cVehicle, -1);
         _bad1.RelationshipGroup = new RelationshipGroup("BADGANG");
-        PyroFunctions.SetWanted(_bad1, true);
+        CommonUtils.SetWanted(_bad1, true);
         _bad1.Tasks.LeaveVehicle(_cVehicle, LeaveVehicleFlags.LeaveDoorOpen);
         EntitiesToClear.Add(_bad1);
 
@@ -74,7 +74,7 @@ internal class OfficerShootout : SuperCallout
         _bad2.Inventory.Weapons.Add(WeaponHash.CarbineRifle).Ammo = -1;
         _bad2.WarpIntoVehicle(_cVehicle, 0);
         _bad2.RelationshipGroup = new RelationshipGroup("BADGANG");
-        PyroFunctions.SetWanted(_bad2, true);
+        CommonUtils.SetWanted(_bad2, true);
         _bad2.Tasks.LeaveVehicle(_cVehicle, LeaveVehicleFlags.LeaveDoorOpen);
         EntitiesToClear.Add(_bad2);
 
@@ -113,8 +113,8 @@ internal class OfficerShootout : SuperCallout
         Functions.PlayScannerAudioUsingPosition("REQUEST_BACKUP", SpawnPoint.Position);
         Game.SetRelationshipBetweenRelationshipGroups("BADGANG", "COP", Relationship.Hate);
         Game.SetRelationshipBetweenRelationshipGroups("BADGANG", "PLAYER", Relationship.Hate);
-        PyroFunctions.RequestBackup(Enums.BackupType.Code3);
-        PyroFunctions.RequestBackup(Enums.BackupType.Code3);
+        CommonUtils.RequestBackup(Enums.BackupType.Code3);
+        CommonUtils.RequestBackup(Enums.BackupType.Code3);
         if (_cBlip.Exists())
             _cBlip.DisableRoute();
     }

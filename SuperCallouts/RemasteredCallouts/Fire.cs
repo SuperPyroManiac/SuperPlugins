@@ -1,10 +1,10 @@
 using System.Drawing;
 using LSPD_First_Response.Mod.Callouts;
-using PyroCommon.PyroFunctions;
-using PyroCommon.PyroFunctions.Extensions;
+using PyroCommon.Extensions;
+using PyroCommon.Utils;
 using Rage;
 using Functions = LSPD_First_Response.Mod.API.Functions;
-using Location = PyroCommon.Types.Location;
+using Location = PyroCommon.Models.Location;
 
 namespace SuperCallouts.RemasteredCallouts;
 
@@ -15,7 +15,7 @@ internal class Fire : SuperCallout
     private Vehicle _vehicle;
     private int _partHandleBigFire;
     private int _partHandleMistySmoke;
-    internal override Location SpawnPoint { get; set; } = PyroFunctions.GetSideOfRoad(750, 180);
+    internal override Location SpawnPoint { get; set; } = CommonUtils.GetSideOfRoad(750, 180);
     internal override float OnSceneDistance { get; set; } = 15f;
     internal override string CalloutName { get; set; } = "Fire";
 
@@ -23,21 +23,12 @@ internal class Fire : SuperCallout
     {
         CalloutMessage = "~b~Dispatch:~s~ Reports of a car fire";
         CalloutAdvisory = "Caller reports large flames coming from the vehicle.";
-        Functions.PlayScannerAudioUsingPosition(
-            "ATTENTION_ALL_UNITS_05 WE_HAVE PYRO_CAR_FIRE IN_OR_ON_POSITION",
-            SpawnPoint.Position
-        );
+        Functions.PlayScannerAudioUsingPosition("ATTENTION_ALL_UNITS_05 WE_HAVE PYRO_CAR_FIRE IN_OR_ON_POSITION", SpawnPoint.Position);
     }
 
     internal override void CalloutAccepted()
     {
-        Game.DisplayNotification(
-            "3dtextures",
-            "mpgroundlogo_cops",
-            "~b~Dispatch",
-            "~r~Fire",
-            "Reports of a car fire, respond ~r~CODE-3"
-        );
+        Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Fire", "Reports of a car fire, respond ~r~CODE-3");
 
         SpawnVehicle();
         CreateFireEffects();
@@ -46,13 +37,13 @@ internal class Fire : SuperCallout
 
     private void SpawnVehicle()
     {
-        _vehicle = PyroFunctions.SpawnCar(SpawnPoint);
+        _vehicle = CommonUtils.SpawnCar(SpawnPoint);
         EntitiesToClear.Add(_vehicle);
     }
 
     private void CreateFireEffects()
     {
-        _partHandleBigFire = Particles.StartLoopedParticlesOnEntity(
+        _partHandleBigFire = ParticleUtils.StartLoopedParticlesOnEntity(
             "scr_trevor3",
             "scr_trev3_trailer_plume",
             _vehicle,
@@ -60,7 +51,7 @@ internal class Fire : SuperCallout
             Vector3.Zero,
             0.7f
         );
-        _partHandleMistySmoke = Particles.StartLoopedParticlesOnEntity(
+        _partHandleMistySmoke = ParticleUtils.StartLoopedParticlesOnEntity(
             "scr_agencyheistb",
             "scr_env_agency3b_smoke",
             _vehicle,
@@ -72,7 +63,7 @@ internal class Fire : SuperCallout
 
     private void CreateBlip()
     {
-        _blip = PyroFunctions.CreateSearchBlip(SpawnPoint, Color.Red, true, true, 40f);
+        _blip = CommonUtils.CreateSearchBlip(SpawnPoint, Color.Red, true, true, 40f);
         BlipsToClear.Add(_blip);
     }
 
@@ -89,13 +80,13 @@ internal class Fire : SuperCallout
         _vehicle?.StartFire(true);
 
         GameFiber.Wait(12000);
-        Particles.StopLoopedParticles(_partHandleBigFire);
+        ParticleUtils.StopLoopedParticles(_partHandleBigFire);
     }
 
     internal override void CalloutEnd(bool forceCleanup = false)
     {
-        Particles.StopLoopedParticles(_partHandleBigFire);
-        Particles.StopLoopedParticles(_partHandleMistySmoke);
+        ParticleUtils.StopLoopedParticles(_partHandleBigFire);
+        ParticleUtils.StopLoopedParticles(_partHandleMistySmoke);
         base.CalloutEnd(forceCleanup);
     }
 }

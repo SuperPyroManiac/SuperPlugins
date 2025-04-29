@@ -2,10 +2,10 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using LSPD_First_Response.Mod.Callouts;
-using PyroCommon.PyroFunctions;
+using PyroCommon.Utils;
 using Rage;
 using Functions = LSPD_First_Response.Mod.API.Functions;
-using Location = PyroCommon.Types.Location;
+using Location = PyroCommon.Models.Location;
 
 namespace SuperCallouts.Callouts;
 
@@ -28,7 +28,7 @@ internal class AmbulanceEscort : SuperCallout
     private Ped _doc2;
     private Vector3 _hospital;
     private Ped _victim;
-    internal override Location SpawnPoint { get; set; } = PyroFunctions.GetSideOfRoad(400, 70);
+    internal override Location SpawnPoint { get; set; } = CommonUtils.GetSideOfRoad(400, 70);
     internal override float OnSceneDistance { get; set; } = 35;
     internal override string CalloutName { get; set; } = "Ambulance Escort";
 

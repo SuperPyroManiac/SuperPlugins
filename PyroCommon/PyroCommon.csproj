@@ -58,13 +58,7 @@
         <PackageReference Include="YamlDotNet" Version="16.2.1" />
         <PackageReference Include="RAGENativeUI" Version="1.9.3" />
         <PackageReference Include="RagePluginHook" Version="1.109.1" />
-        <Reference Include="LSPD First Response">
-            <HintPath>..\packages\!Manual\LSPD First Response.dll</HintPath>
-        </Reference>
         <Reference Include="System.Net.Http" />
-        <Reference Include="UltimateBackup">
-            <HintPath>..\packages\!Manual\UltimateBackup.dll</HintPath>
-        </Reference>
         <Reference Include="Microsoft.CSharp" />
         <Reference Include="System" />
         <Reference Include="System.Core" />
@@ -72,6 +66,18 @@
         <Reference Include="System.Drawing" />
         <Reference Include="System.Windows.Forms" />
         <Reference Include="System.Xml" />
+        <Reference Include="LSPD First Response">
+            <HintPath>..\packages\!Manual\LSPD First Response.dll</HintPath>
+        </Reference>
+        <Reference Include="UltimateBackup">
+            <HintPath>..\packages\!Manual\UltimateBackup.dll</HintPath>
+        </Reference>
+        <Reference Include="CommonDataFramework">
+            <HintPath>..\packages\!Manual\CommonDataFramework.dll</HintPath>
+        </Reference>
+        <Reference Include="PolicingRedefined">
+            <HintPath>..\packages\!Manual\PolicingRedefined.dll</HintPath>
+        </Reference>
     </ItemGroup>
 
     <Target Name="CopyFiles" AfterTargets="Build">

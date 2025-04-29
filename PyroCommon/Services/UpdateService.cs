@@ -4,13 +4,14 @@ using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using PyroCommon.Types;
+using PyroCommon.Models;
+using PyroCommon.Utils;
 using Rage;
 using Task = System.Threading.Tasks.Task;
 
-namespace PyroCommon.PyroFunctions;
+namespace PyroCommon.Services;
 
-internal static class VersionChecker
+internal static class UpdateService
 {
     internal static readonly Dictionary<string, string> OutdatedPyroPlugins = new();
     private static Enums.UpdateState _updateState = Enums.UpdateState.Current;
@@ -27,7 +28,7 @@ internal static class VersionChecker
         catch (Exception)
         {
             _updateState = Enums.UpdateState.Failed;
-            Log.Warning("VersionChecker failed to run!");
+            LogUtils.Warning("VersionChecker failed to run!");
         }
     }
 
@@ -58,17 +59,17 @@ internal static class VersionChecker
             }
             catch (TaskCanceledException) when (cts.Token.IsCancellationRequested)
             {
-                Log.Warning($"Version request for {plug.Key} timed out.");
+                LogUtils.Warning($"Version request for {plug.Key} timed out.");
                 _updateState = Enums.UpdateState.Failed;
             }
             catch (WebException ex)
             {
-                Log.Warning($"An error occurred in the updater:\r\n{ex.Message}");
+                LogUtils.Warning($"An error occurred in the updater:\r\n{ex.Message}");
                 _updateState = Enums.UpdateState.Failed;
             }
             catch (Exception ex)
             {
-                Log.Warning($"An error occurred in the updater:\r\n{ex.Message}");
+                LogUtils.Warning($"An error occurred in the updater:\r\n{ex.Message}");
                 _updateState = Enums.UpdateState.Failed;
             }
         }
@@ -79,7 +80,7 @@ internal static class VersionChecker
         switch (_updateState)
         {
             case Enums.UpdateState.Failed:
-                Log.Warning("Unable to check for updates!");
+                LogUtils.Warning("Unable to check for updates!");
                 break;
             case Enums.UpdateState.Update:
                 var ingameNotice = string.Empty;
@@ -98,10 +99,10 @@ internal static class VersionChecker
                         "~y~New updates available!",
                         ingameNotice
                     );
-                Log.Warning(logNotice);
+                LogUtils.Warning(logNotice);
                 break;
             case Enums.UpdateState.Current:
-                Log.Info("Plugins are up to date!");
+                LogUtils.Info("Plugins are up to date!");
                 break;
         }
     }

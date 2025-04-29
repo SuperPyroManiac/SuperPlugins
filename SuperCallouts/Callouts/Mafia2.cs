@@ -4,8 +4,8 @@ using System.Drawing;
 using System.Linq;
 using LSPD_First_Response.Engine.Scripting.Entities;
 using LSPD_First_Response.Mod.Callouts;
-using PyroCommon.PyroFunctions;
-using PyroCommon.Types;
+using PyroCommon.Models;
+using PyroCommon.Utils;
 using Rage;
 using SuperCallouts.CustomScenes;
 using Functions = LSPD_First_Response.Mod.API.Functions;
@@ -75,7 +75,7 @@ internal class Mafia2 : Callout
             out _mafiaDude14,
             out _mafiaDude15
         );
-        Log.Info("Mafia2 callout accepted...");
+        LogUtils.Info("Mafia2 callout accepted...");
         Game.DisplayNotification(
             "3dtextures",
             "mpgroundlogo_cops",
@@ -113,7 +113,7 @@ internal class Mafia2 : Callout
         {
             mafiaDudes.IsPersistent = true;
             mafiaDudes.Inventory.Weapons.Add(WeaponHash.CombatPistol).Ammo = -1;
-            PyroFunctions.SetWanted(mafiaDudes, true);
+            CommonUtils.SetWanted(mafiaDudes, true);
             Functions.AddPedContraband(mafiaDudes, ContrabandType.Narcotics, "Cocaine");
         }
 
@@ -132,17 +132,12 @@ internal class Mafia2 : Callout
                     "Suspects spotted, appear to be ~r~armed~w~ and ~r~wanted~w~! Proceed with caution or wait for backup.",
                     5000
                 );
-                Game.DisplayNotification(
-                    "~r~Dispatch:~s~ Officer on scene, mafia activity spotted. Dispatching specialized units."
-                );
-                Functions.PlayScannerAudioUsingPosition(
-                    "DISPATCH_SWAT_UNITS_FROM_01 IN_OR_ON_POSITION UNITS_RESPOND_CODE_99_01",
-                    _callPos
-                );
-                PyroFunctions.RequestBackup(Enums.BackupType.Noose);
-                PyroFunctions.RequestBackup(Enums.BackupType.Code3);
-                PyroFunctions.RequestBackup(Enums.BackupType.Code3);
-                PyroFunctions.RequestBackup(Enums.BackupType.Code3);
+                Game.DisplayNotification("~r~Dispatch:~s~ Officer on scene, mafia activity spotted. Dispatching specialized units.");
+                Functions.PlayScannerAudioUsingPosition("DISPATCH_SWAT_UNITS_FROM_01 IN_OR_ON_POSITION UNITS_RESPOND_CODE_99_01", _callPos);
+                CommonUtils.RequestBackup(Enums.BackupType.Noose);
+                CommonUtils.RequestBackup(Enums.BackupType.Code3);
+                CommonUtils.RequestBackup(Enums.BackupType.Code3);
+                CommonUtils.RequestBackup(Enums.BackupType.Code3);
 
                 Game.LocalPlayer.Character.RelationshipGroup = "COP";
                 if (_mafiaDude13 != null)
@@ -153,7 +148,7 @@ internal class Mafia2 : Callout
             }
             catch (Exception e)
             {
-                Log.Error(e.ToString());
+                LogUtils.Error(e.ToString());
                 End();
             }
 

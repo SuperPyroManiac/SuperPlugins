@@ -1,11 +1,11 @@
 using System;
 using System.Drawing;
 using LSPD_First_Response.Mod.Callouts;
-using PyroCommon.PyroFunctions;
-using PyroCommon.PyroFunctions.Extensions;
+using PyroCommon.Extensions;
+using PyroCommon.Utils;
 using Rage;
 using Functions = LSPD_First_Response.Mod.API.Functions;
-using Location = PyroCommon.Types.Location;
+using Location = PyroCommon.Models.Location;
 
 namespace SuperCallouts.RemasteredCallouts;
 
@@ -24,10 +24,7 @@ internal class PrisonTransport : SuperCallout
     {
         CalloutMessage = "~b~Dispatch:~s~ Prisoner escaped transport.";
         CalloutAdvisory = "Officers report a suspect has jumped out of a moving transport vehicle.";
-        Functions.PlayScannerAudioUsingPosition(
-            "OFFICERS_REPORT_01 PYRO_PRISONTRANS_ESCAPE IN_OR_ON_POSITION",
-            SpawnPoint.Position
-        );
+        Functions.PlayScannerAudioUsingPosition("OFFICERS_REPORT_01 PYRO_PRISONTRANS_ESCAPE IN_OR_ON_POSITION", SpawnPoint.Position);
     }
 
     internal override void CalloutAccepted()
@@ -68,13 +65,13 @@ internal class PrisonTransport : SuperCallout
         _suspect.SetWanted(false);
         _suspect.WarpIntoVehicle(_vehicle, 1);
         _suspect.Tasks.LeaveVehicle(LeaveVehicleFlags.LeaveDoorOpen);
-        PyroFunctions.ClearSearchItems(_suspect);
+        CommonUtils.ClearSearchItems(_suspect);
         EntitiesToClear.Add(_suspect);
     }
 
     private void CreateBlip()
     {
-        _blip = PyroFunctions.CreateSearchBlip(SpawnPoint, Color.Red, true, false, 20f);
+        _blip = CommonUtils.CreateSearchBlip(SpawnPoint, Color.Red, true, false, 20f);
         BlipsToClear.Add(_blip);
     }
 
@@ -96,8 +93,8 @@ internal class PrisonTransport : SuperCallout
         switch (new Random(DateTime.Now.Millisecond).Next(1, 3))
         {
             case 1: // Armed prisoner attacks officer
-                Log.Info("Callout Scene 1");
-                PyroFunctions.AddFirearmItem("Pistol", "weapon_pistol_mk2", true, true, true, _suspect);
+                LogUtils.Info("Callout Scene 1");
+                CommonUtils.AddFirearmItem("Pistol", "weapon_pistol_mk2", true, true, true, _suspect);
                 _suspect.Inventory.EquippedWeapon = "weapon_pistol_mk2";
                 _suspect.Tasks.FightAgainst(_officer);
                 _suspect.Health = 250;
@@ -106,13 +103,13 @@ internal class PrisonTransport : SuperCallout
                 {
                     if (_officer.IsAlive)
                         _officer.Kill();
-                    PyroFunctions.StartPursuit(false, false, _suspect);
+                    CommonUtils.StartPursuit(false, false, _suspect);
                 }
                 break;
 
             case 2: // Fleeing prisoner with officer in pursuit
-                Log.Info("Callout Scene 2");
-                var pursuit = PyroFunctions.StartPursuit(false, false, _suspect);
+                LogUtils.Info("Callout Scene 2");
+                var pursuit = CommonUtils.StartPursuit(false, false, _suspect);
                 Functions.AddCopToPursuit(pursuit, _officer);
                 break;
         }

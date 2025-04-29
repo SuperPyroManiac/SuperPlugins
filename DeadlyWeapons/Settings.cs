@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using DeadlyWeapons.Configs;
+using PyroCommon.Utils;
 using Rage;
 using Weapon = DeadlyWeapons.Configs.Weapon;
 
@@ -39,9 +40,9 @@ internal static class Settings
         Debug = ini.ReadBoolean("Debug", "Debug");
 
         // YAML Configs
-        Weapons = PyroCommon.PyroFunctions.PyroFunctions.DeserializeYaml<List<Weapon>>("Plugins/LSPDFR/DeadlyWeapons/Weapons.yml", "Weapons.yml");
-        WeaponTypes = PyroCommon.PyroFunctions.PyroFunctions.DeserializeYaml<List<WeaponType>>("Plugins/LSPDFR/DeadlyWeapons/WeaponTypes.yml", "WeaponTypes.yml");
-        var damageConfig = PyroCommon.PyroFunctions.PyroFunctions.DeserializeYaml<DamageConfigurations>("Plugins/LSPDFR/DeadlyWeapons/Damage.yml", "Damage.yml");
+        Weapons = CommonUtils.DeserializeYaml<List<Weapon>>("Plugins/LSPDFR/DeadlyWeapons/Weapons.yml", "Weapons.yml");
+        WeaponTypes = CommonUtils.DeserializeYaml<List<WeaponType>>("Plugins/LSPDFR/DeadlyWeapons/WeaponTypes.yml", "WeaponTypes.yml");
+        var damageConfig = CommonUtils.DeserializeYaml<DamageConfigurations>("Plugins/LSPDFR/DeadlyWeapons/Damage.yml", "Damage.yml");
         PlayerArmorValues = damageConfig!.PlayerDamage!.WithArmor!;
         NpcArmorValues = damageConfig.NpcDamage!.WithArmor!;
         PlayerValues = damageConfig.PlayerDamage.WithoutArmor!;

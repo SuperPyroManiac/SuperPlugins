@@ -1,6 +1,6 @@
 ﻿using Rage;
 
-namespace PyroCommon.Types;
+namespace PyroCommon.Models;
 
 public struct Location
 {

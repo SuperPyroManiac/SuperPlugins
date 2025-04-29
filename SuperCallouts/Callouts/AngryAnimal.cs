@@ -1,13 +1,13 @@
 using System;
 using System.Drawing;
 using LSPD_First_Response.Mod.Callouts;
-using PyroCommon.PyroFunctions;
-using PyroCommon.Types;
+using PyroCommon.Models;
+using PyroCommon.Utils;
 using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using Functions = LSPD_First_Response.Mod.API.Functions;
-using Location = PyroCommon.Types.Location;
+using Location = PyroCommon.Models.Location;
 
 namespace SuperCallouts.Callouts;
 
@@ -27,10 +27,7 @@ internal class AngryAnimal : SuperCallout
     {
         CalloutMessage = "~r~" + Settings.EmergencyNumber + " Report:~s~ Person(s) being attacked by a wild animal.";
         CalloutAdvisory = "Caller says a wild animal is attacking people.";
-        Functions.PlayScannerAudioUsingPosition(
-            "CITIZENS_REPORT_04 CRIME_11_351_02 UNITS_RESPOND_CODE_03_01",
-            SpawnPoint.Position
-        );
+        Functions.PlayScannerAudioUsingPosition("CITIZENS_REPORT_04 CRIME_11_351_02 UNITS_RESPOND_CODE_03_01", SpawnPoint.Position);
     }
 
     internal override void CalloutAccepted()
@@ -88,11 +85,9 @@ internal class AngryAnimal : SuperCallout
     {
         if (selItem == _callEms)
         {
-            Game.DisplaySubtitle(
-                "~g~You~s~: Dispatch, we have a person that has been attacked by an animal! We need medical here ASAP!"
-            );
-            PyroFunctions.RequestBackup(Enums.BackupType.Fire);
-            PyroFunctions.RequestBackup(Enums.BackupType.Medical);
+            Game.DisplaySubtitle("~g~You~s~: Dispatch, we have a person that has been attacked by an animal! We need medical here ASAP!");
+            CommonUtils.RequestBackup(Enums.BackupType.Fire);
+            CommonUtils.RequestBackup(Enums.BackupType.Medical);
 
             _callEms.Enabled = false;
             base.Interactions(sender, selItem, index);

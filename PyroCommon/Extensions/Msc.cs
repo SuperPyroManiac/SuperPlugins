@@ -1,6 +1,6 @@
 ﻿using Rage;
 
-namespace PyroCommon.PyroFunctions.Extensions;
+namespace PyroCommon.Extensions;
 
 public static class Msc
 {

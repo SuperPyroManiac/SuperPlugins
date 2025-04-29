@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 using LSPD_First_Response.Mod.Callouts;
-using PyroCommon.PyroFunctions;
+using PyroCommon.Utils;
 using Rage;
 using SuperCallouts.CustomScenes;
 using Functions = LSPD_First_Response.Mod.API.Functions;
@@ -31,22 +31,27 @@ internal class PrisonBreak : Callout
         CalloutPosition = _spawnPoint;
         Functions.PlayScannerAudioUsingPosition(
             "ATTENTION_ALL_SWAT_UNITS_01 WE_HAVE CRIME_SUSPECT_ON_THE_RUN_02 IN_OR_ON_POSITION UNITS_RESPOND_CODE_03_01",
-            _spawnPoint);
+            _spawnPoint
+        );
         return base.OnBeforeCalloutDisplayed();
     }
 
     public override bool OnCalloutAccepted()
     {
-        Log.Info("PrisonBreak callout accepted...");
-        Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~b~Dispatch", "~r~Prison Break",
-            "DOC has reported multiple groups of prisoners have escaped! They are occupied with another group and need local police assistance. ~r~CODE-3");
-        PrisonbreakSetup.ConstructPrisonBreakSetupScene(out _prisoner1, out _prisoner2, out _prisoner3,
-            out _prisoner4, out _prisoner5);
-        PyroFunctions.SetWanted(_prisoner1, true);
-        PyroFunctions.SetWanted(_prisoner2, true);
-        PyroFunctions.SetWanted(_prisoner3, true);
-        PyroFunctions.SetWanted(_prisoner4, true);
-        PyroFunctions.SetWanted(_prisoner5, true);
+        LogUtils.Info("PrisonBreak callout accepted...");
+        Game.DisplayNotification(
+            "3dtextures",
+            "mpgroundlogo_cops",
+            "~b~Dispatch",
+            "~r~Prison Break",
+            "DOC has reported multiple groups of prisoners have escaped! They are occupied with another group and need local police assistance. ~r~CODE-3"
+        );
+        PrisonbreakSetup.ConstructPrisonBreakSetupScene(out _prisoner1, out _prisoner2, out _prisoner3, out _prisoner4, out _prisoner5);
+        CommonUtils.SetWanted(_prisoner1, true);
+        CommonUtils.SetWanted(_prisoner2, true);
+        CommonUtils.SetWanted(_prisoner3, true);
+        CommonUtils.SetWanted(_prisoner4, true);
+        CommonUtils.SetWanted(_prisoner5, true);
         _cVehicle = new Vehicle("PBUS", _prisoner1.GetOffsetPositionFront(4));
         _cVehicle.IsPersistent = true;
         _cVehicle.IsStolen = true;
@@ -84,8 +89,9 @@ internal class PrisonBreak : Callout
 
     public override void Process()
     {
-        if ( Game.IsKeyDown(Settings.EndCall) ) End();
-        if ( !_onScene && Game.LocalPlayer.Character.DistanceTo(_spawnPoint) < 90f )
+        if (Game.IsKeyDown(Settings.EndCall))
+            End();
+        if (!_onScene && Game.LocalPlayer.Character.DistanceTo(_spawnPoint) < 90f)
         {
             _onScene = true;
             Game.DisplaySubtitle("Suspects spotted, they appear to have stolen a bus!", 5000);
@@ -97,8 +103,7 @@ internal class PrisonBreak : Callout
             Functions.AddPedToPursuit(pursuit, _prisoner4);
             Functions.AddPedToPursuit(pursuit, _prisoner5);
             Functions.SetPursuitIsActiveForPlayer(pursuit, true);
-            Functions.PlayScannerAudioUsingPosition(
-                "DISPATCH_SWAT_UNITS_FROM_01 IN_OR_ON_POSITION UNITS_RESPOND_CODE_99_01", _spawnPoint);
+            Functions.PlayScannerAudioUsingPosition("DISPATCH_SWAT_UNITS_FROM_01 IN_OR_ON_POSITION UNITS_RESPOND_CODE_99_01", _spawnPoint);
             Game.DisplayHelp("You can end the pursuit to stop the callout at any time!", 7000);
         }
 
@@ -108,12 +113,18 @@ internal class PrisonBreak : Callout
     public override void End()
     {
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
-        if ( _prisoner1 ) _prisoner1.Dismiss();
-        if ( _prisoner2 ) _prisoner2.Dismiss();
-        if ( _prisoner3 ) _prisoner3.Dismiss();
-        if ( _prisoner4 ) _prisoner4.Dismiss();
-        if ( _prisoner5 ) _prisoner5.Dismiss();
-        if ( _cVehicle ) _cVehicle.Dismiss();
+        if (_prisoner1)
+            _prisoner1.Dismiss();
+        if (_prisoner2)
+            _prisoner2.Dismiss();
+        if (_prisoner3)
+            _prisoner3.Dismiss();
+        if (_prisoner4)
+            _prisoner4.Dismiss();
+        if (_prisoner5)
+            _prisoner5.Dismiss();
+        if (_cVehicle)
+            _cVehicle.Dismiss();
         _cBlip1?.Delete();
         _cBlip2?.Delete();
         _cBlip3?.Delete();

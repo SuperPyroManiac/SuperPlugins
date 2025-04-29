@@ -1,11 +1,11 @@
 using System.Drawing;
 using System.Linq;
 using LSPD_First_Response.Mod.Callouts;
-using PyroCommon.PyroFunctions;
-using PyroCommon.PyroFunctions.Extensions;
+using PyroCommon.Extensions;
+using PyroCommon.Utils;
 using Rage;
 using Functions = LSPD_First_Response.Mod.API.Functions;
-using Location = PyroCommon.Types.Location;
+using Location = PyroCommon.Models.Location;
 
 namespace SuperCallouts.RemasteredCallouts;
 
@@ -72,7 +72,7 @@ internal class Aliens : SuperCallout
 
     private void CreateBlip()
     {
-        _blip = PyroFunctions.CreateSearchBlip(SpawnPoint, Color.Yellow, true, true);
+        _blip = CommonUtils.CreateSearchBlip(SpawnPoint, Color.Yellow, true, true);
         BlipsToClear.Add(_blip);
     }
 

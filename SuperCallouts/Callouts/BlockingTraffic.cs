@@ -1,9 +1,9 @@
 using System.Drawing;
 using LSPD_First_Response.Mod.Callouts;
-using PyroCommon.PyroFunctions;
+using PyroCommon.Utils;
 using Rage;
 using Functions = LSPD_First_Response.Mod.API.Functions;
-using Location = PyroCommon.Types.Location;
+using Location = PyroCommon.Models.Location;
 
 namespace SuperCallouts.Callouts;
 
@@ -33,7 +33,7 @@ internal class BlockingTraffic : SuperCallout
             "Reports of a car blocking the road, respond ~y~CODE-2"
         );
 
-        PyroFunctions.SpawnNormalCar(out _cVehicle, SpawnPoint.Position);
+        CommonUtils.SpawnNormalCar(out _cVehicle, SpawnPoint.Position);
         EntitiesToClear.Add(_cVehicle);
 
         _cBlip = _cVehicle.AttachBlip();

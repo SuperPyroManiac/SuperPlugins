@@ -1,15 +1,16 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using LSPD_First_Response.Mod.API;
+using PyroCommon.Utils;
 using Rage;
 
-namespace PyroCommon.PyroFunctions;
+namespace PyroCommon.Services;
 
-internal class DependManager
+internal class DependencyService
 {
     private readonly Dictionary<string, (string PluginName, string Version)> _depends = new();
 
@@ -27,7 +28,10 @@ internal class DependManager
 
         if (Functions.GetVersion() < new Version("0.4.9"))
         {
-            Log.Error($"LSPDFR is too far outdated! You require at least version 0.4.9.\r\nYour version: {Functions.GetVersion()}", false);
+            LogUtils.Error(
+                $"LSPDFR is too far outdated! You require at least version 0.4.9.\r\nYour version: {Functions.GetVersion()}",
+                false
+            );
             Game.DisplayNotification(
                 "new_editor",
                 "warningtriangle",
@@ -49,7 +53,7 @@ internal class DependManager
         if (missingDepend.Count > 0)
         {
             var missingMessage = string.Join("\r\n", missingDepend);
-            Log.Error($"These dependencies are not installed correctly!\r\n{missingMessage}\r\n{plugName} could not load!", false);
+            LogUtils.Error($"These dependencies are not installed correctly!\r\n{missingMessage}\r\n{plugName} could not load!", false);
             Game.DisplayNotification(
                 "new_editor",
                 "warningtriangle",
@@ -63,7 +67,7 @@ internal class DependManager
         if (outdatedDepend.Count > 0)
         {
             var outdatedMessage = string.Join("\r\n", outdatedDepend);
-            Log.Error($"These dependencies are outdated!\r\n{outdatedMessage}\r\n{plugName} could not load!", false);
+            LogUtils.Error($"These dependencies are outdated!\r\n{outdatedMessage}\r\n{plugName} could not load!", false);
             Game.DisplayNotification(
                 "new_editor",
                 "warningtriangle",

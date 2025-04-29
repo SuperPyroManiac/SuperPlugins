@@ -1,14 +1,14 @@
 using System;
 using System.Drawing;
 using LSPD_First_Response.Mod.Callouts;
-using PyroCommon.PyroFunctions;
-using PyroCommon.PyroFunctions.Extensions;
-using PyroCommon.Types;
+using PyroCommon.Extensions;
+using PyroCommon.Models;
+using PyroCommon.Utils;
 using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using Functions = LSPD_First_Response.Mod.API.Functions;
-using Location = PyroCommon.Types.Location;
+using Location = PyroCommon.Models.Location;
 
 namespace SuperCallouts.RemasteredCallouts;
 
@@ -21,7 +21,7 @@ internal class WeirdCar : SuperCallout
     private Vehicle _cVehicle;
     private string _name;
     private UIMenuItem _speakSuspect;
-    internal override Location SpawnPoint { get; set; } = PyroFunctions.GetSideOfRoad(750, 180);
+    internal override Location SpawnPoint { get; set; } = CommonUtils.GetSideOfRoad(750, 180);
     internal override float OnSceneDistance { get; set; } = 40;
     internal override string CalloutName { get; set; } = "Suspicious Vehicle";
 
@@ -42,10 +42,10 @@ internal class WeirdCar : SuperCallout
             "Report of a suspicious vehicle on the side of the road. Respond ~y~CODE-2"
         );
 
-        _cVehicle = PyroFunctions.SpawnCar(SpawnPoint);
+        _cVehicle = CommonUtils.SpawnCar(SpawnPoint);
         EntitiesToClear.Add(_cVehicle);
 
-        _cBlip = PyroFunctions.CreateSearchBlip(SpawnPoint, Color.Yellow, true, true, 40f);
+        _cBlip = CommonUtils.CreateSearchBlip(SpawnPoint, Color.Yellow, true, true, 40f);
         BlipsToClear.Add(_cBlip);
 
         _speakSuspect = new UIMenuItem("Speak with ~y~" + _name);
@@ -64,7 +64,7 @@ internal class WeirdCar : SuperCallout
         Game.DisplayNotification("Investigate the vehicle.");
 
         var sceneType = _rnd.Next(1, 4);
-        Log.Info($"Suspicious vehicle scene: {sceneType}");
+        LogUtils.Info($"Suspicious vehicle scene: {sceneType}");
 
         switch (sceneType)
         {
@@ -96,14 +96,14 @@ internal class WeirdCar : SuperCallout
 
     private void SetupDamagedStolenVehicle()
     {
-        Log.Info("Callout Scene 1");
+        LogUtils.Info("Callout Scene 1");
         _cVehicle.ApplyDamage(500, 500);
         _cVehicle.IsStolen = true;
     }
 
     private void SetupExplodingVehicle()
     {
-        Log.Info("Callout Scene 2");
+        LogUtils.Info("Callout Scene 2");
         GameFiber.StartNew(
             delegate
             {
@@ -123,7 +123,7 @@ internal class WeirdCar : SuperCallout
 
     private void SetupWantedDriver()
     {
-        Log.Info("Callout Scene 3");
+        LogUtils.Info("Callout Scene 3");
         _cPed = _cVehicle.CreateRandomDriver();
         _cPed.IsPersistent = true;
         _cPed.BlockPermanentEvents = true;
@@ -147,10 +147,7 @@ internal class WeirdCar : SuperCallout
                 delegate
                 {
                     _speakSuspect.Enabled = false;
-                    Game.DisplaySubtitle(
-                        "~g~You~s~: Hey there! We have reports of suspicious activity here, what's going on?",
-                        5000
-                    );
+                    Game.DisplaySubtitle("~g~You~s~: Hey there! We have reports of suspicious activity here, what's going on?", 5000);
                     _cPed.Tasks.LeaveVehicle(_cVehicle, LeaveVehicleFlags.LeaveDoorOpen);
                     GameFiber.Wait(5000);
                     _cPed.Tasks.FaceEntity(Player);

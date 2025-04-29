@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using LSPD_First_Response.Mod.API;
-using PyroCommon.PyroFunctions;
+using PyroCommon.Utils;
 using Rage;
 using Rage.Native;
 using RAGENativeUI;
@@ -26,9 +26,9 @@ internal class Fight : AmbientEvent
     protected override void OnStartEvent()
     {
         //Setup
-        PyroFunctions.FindSideOfRoad(120, 45, out _spawnPoint, out _);
+        CommonUtils.FindSideOfRoad(120, 45, out _spawnPoint, out _);
         EventLocation = _spawnPoint;
-        if ( _spawnPoint.DistanceTo(Player) < 35f )
+        if (_spawnPoint.DistanceTo(Player) < 35f)
         {
             EndEvent(true);
             return;
@@ -36,12 +36,12 @@ internal class Fight : AmbientEvent
 
         //Peds
         _suspect = new Ped(_spawnPoint) { IsPersistent = true, BlockPermanentEvents = true };
-        PyroFunctions.SetDrunkOld(_suspect, true);
+        CommonUtils.SetDrunkOld(_suspect, true);
         _name1 = Functions.GetPersonaForPed(_suspect).FullName;
         _suspect.Metadata.stpAlcoholDetected = true;
         EntitiesToClear.Add(_suspect);
         _suspect2 = new Ped(_suspect.FrontPosition) { IsPersistent = true, BlockPermanentEvents = true };
-        PyroFunctions.SetDrunkOld(_suspect2, true);
+        CommonUtils.SetDrunkOld(_suspect2, true);
         _name2 = Functions.GetPersonaForPed(_suspect2).FullName;
         _suspect2.Metadata.stpAlcoholDetected = true;
         NativeFunction.Natives.x5AD23D40115353AC(_suspect2, _suspect, -1);
@@ -58,16 +58,16 @@ internal class Fight : AmbientEvent
     {
         try
         {
-            if ( !_suspect || !_suspect2 )
+            if (!_suspect || !_suspect2)
             {
                 EndEvent(true);
                 return;
             }
 
-            switch ( _tasks )
+            switch (_tasks)
             {
                 case Tasks.CheckDistance:
-                    if ( Game.LocalPlayer.Character.DistanceTo(_spawnPoint) < 20f )
+                    if (Game.LocalPlayer.Character.DistanceTo(_spawnPoint) < 20f)
                     {
                         _suspect.PlayAmbientSpeech("GENERIC_CURSE_MED");
                         _suspect2.PlayAmbientSpeech("GENERIC_CURSE_MED");
@@ -78,8 +78,8 @@ internal class Fight : AmbientEvent
                     break;
                 case Tasks.OnScene:
                     var choice = new Random(DateTime.Now.Millisecond).Next(1, 4);
-                    Log.Info("Fight event picked scenerio #" + choice);
-                    switch ( choice )
+                    LogUtils.Info("Fight event picked scenerio #" + choice);
+                    switch (choice)
                     {
                         case 1:
                             _suspect.Tasks.FightAgainst(_suspect2);
@@ -117,28 +117,26 @@ internal class Fight : AmbientEvent
                     break;
             }
         }
-        catch ( Exception e )
+        catch (Exception e)
         {
-            Log.Error(e.ToString());
+            LogUtils.Error(e.ToString());
             EndEvent(true);
         }
     }
 
-    protected override void OnCleanup()
-    {
-    }
+    protected override void OnCleanup() { }
 
     protected override void Conversations(UIMenu sender, UIMenuItem selItem, int index)
     {
-        if ( !_suspect || !_suspect2 )
+        if (!_suspect || !_suspect2)
         {
             EndEvent(true);
             return;
         }
 
-        if ( selItem == _speakSuspect )
+        if (selItem == _speakSuspect)
         {
-            if ( _suspect.IsDead )
+            if (_suspect.IsDead)
             {
                 _speakSuspect.Enabled = false;
                 _speakSuspect.RightLabel = "~r~Dead";
@@ -150,7 +148,7 @@ internal class Fight : AmbientEvent
                 "~b~You~s~: What's going on? Why were you guys fighting?",
                 "~r~" + _name1 + "~s~: What does it matter to you?!",
                 "~b~You~s~: Finding out what's going on is my job.",
-                "~r~" + _name1 + "~s~: Whatever, it's not my job to tell you."
+                "~r~" + _name1 + "~s~: Whatever, it's not my job to tell you.",
             };
             var dialog2 = new List<string>
             {
@@ -158,44 +156,47 @@ internal class Fight : AmbientEvent
                 "~r~" + _name1 + "~s~: He started it! I was just defending myself!",
                 "~b~You~s~: What did he do to start it?",
                 "~r~" + _name1 + "~s~: He is drunk, started saying rude stuff about my cat Ruffles!",
-                "~b~You~s~: Alright, well I'll take note of that."
+                "~b~You~s~: Alright, well I'll take note of that.",
             };
             var dialogIndex1 = 0;
             var dialogIndex2 = 0;
             var dialogOutcome = new Random(DateTime.Now.Millisecond).Next(0, 101);
             var stillTalking = true;
 
-            if ( Player.DistanceTo(_suspect) > 5f )
+            if (Player.DistanceTo(_suspect) > 5f)
             {
                 Game.DisplaySubtitle("Too far to talk!");
                 return;
             }
 
             NativeFunction.Natives.x5AD23D40115353AC(_suspect, Game.LocalPlayer.Character, -1);
-            GameFiber.StartNew(delegate
-            {
-                while ( stillTalking )
+            GameFiber.StartNew(
+                delegate
                 {
-                    if ( dialogOutcome > 50 )
+                    while (stillTalking)
                     {
-                        Game.DisplaySubtitle(dialog1[dialogIndex1]);
-                        dialogIndex1++;
-                    }
-                    else
-                    {
-                        Game.DisplaySubtitle(dialog2[dialogIndex2]);
-                        dialogIndex2++;
-                    }
+                        if (dialogOutcome > 50)
+                        {
+                            Game.DisplaySubtitle(dialog1[dialogIndex1]);
+                            dialogIndex1++;
+                        }
+                        else
+                        {
+                            Game.DisplaySubtitle(dialog2[dialogIndex2]);
+                            dialogIndex2++;
+                        }
 
-                    if ( dialogIndex1 == 4 || dialogIndex2 == 5 ) stillTalking = false;
-                    GameFiber.Wait(6000);
+                        if (dialogIndex1 == 4 || dialogIndex2 == 5)
+                            stillTalking = false;
+                        GameFiber.Wait(6000);
+                    }
                 }
-            });
+            );
         }
 
-        if ( selItem == _speakSuspect2 )
+        if (selItem == _speakSuspect2)
         {
-            if ( _suspect2.IsDead )
+            if (_suspect2.IsDead)
             {
                 _speakSuspect2.Enabled = false;
                 _speakSuspect2.RightLabel = "~r~Dead";
@@ -207,7 +208,7 @@ internal class Fight : AmbientEvent
                 "~b~You~s~: Why were you two fighting? What's going on!",
                 "~r~" + _name2 + "~s~: Screw you, I hope you die!",
                 "~b~You~s~: You need to tell me what's going on.",
-                "~r~" + _name2 + "~s~: I don't need to tell you anything."
+                "~r~" + _name2 + "~s~: I don't need to tell you anything.",
             };
             var dialog2 = new List<string>
             {
@@ -215,39 +216,42 @@ internal class Fight : AmbientEvent
                 "~r~" + _name2 + "~s~: I don't even know where I am sir.",
                 "~b~You~s~: Have you used any drugs or had anything to drink?",
                 "~r~" + _name2 + "~s~: All of it.",
-                "~b~You~s~: Alright, well I'll take note of that."
+                "~b~You~s~: Alright, well I'll take note of that.",
             };
             var dialogIndex1 = 0;
             var dialogIndex2 = 0;
             var dialogOutcome = new Random(DateTime.Now.Millisecond).Next(0, 101);
             var stillTalking = true;
 
-            if ( Player.DistanceTo(_suspect2) > 5f )
+            if (Player.DistanceTo(_suspect2) > 5f)
             {
                 Game.DisplaySubtitle("Too far to talk!");
                 return;
             }
 
             NativeFunction.Natives.x5AD23D40115353AC(_suspect2, Game.LocalPlayer.Character, -1);
-            GameFiber.StartNew(delegate
-            {
-                while ( stillTalking )
+            GameFiber.StartNew(
+                delegate
                 {
-                    if ( dialogOutcome > 50 )
+                    while (stillTalking)
                     {
-                        Game.DisplaySubtitle(dialog1[dialogIndex1]);
-                        dialogIndex1++;
-                    }
-                    else
-                    {
-                        Game.DisplaySubtitle(dialog2[dialogIndex2]);
-                        dialogIndex2++;
-                    }
+                        if (dialogOutcome > 50)
+                        {
+                            Game.DisplaySubtitle(dialog1[dialogIndex1]);
+                            dialogIndex1++;
+                        }
+                        else
+                        {
+                            Game.DisplaySubtitle(dialog2[dialogIndex2]);
+                            dialogIndex2++;
+                        }
 
-                    if ( dialogIndex1 == 4 || dialogIndex2 == 5 ) stillTalking = false;
-                    GameFiber.Wait(6000);
+                        if (dialogIndex1 == 4 || dialogIndex2 == 5)
+                            stillTalking = false;
+                        GameFiber.Wait(6000);
+                    }
                 }
-            });
+            );
         }
 
         base.Conversations(sender, selItem, index);
@@ -257,6 +261,6 @@ internal class Fight : AmbientEvent
     {
         CheckDistance,
         OnScene,
-        End
+        End,
     }
 }

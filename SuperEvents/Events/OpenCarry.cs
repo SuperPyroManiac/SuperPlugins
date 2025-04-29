@@ -1,6 +1,6 @@
 ﻿using System;
 using LSPD_First_Response.Mod.API;
-using PyroCommon.PyroFunctions;
+using PyroCommon.Utils;
 using Rage;
 using Rage.Native;
 using SuperEvents.Attributes;
@@ -22,9 +22,9 @@ internal class OpenCarry : AmbientEvent
     protected override void OnStartEvent()
     {
         //Setup
-        PyroFunctions.FindSideOfRoad(120, 45, out _spawnPoint, out _spawnPointH);
+        CommonUtils.FindSideOfRoad(120, 45, out _spawnPoint, out _spawnPointH);
         EventLocation = _spawnPoint;
-        if ( _spawnPoint.DistanceTo(Player) < 35f )
+        if (_spawnPoint.DistanceTo(Player) < 35f)
         {
             EndEvent(true);
             return;
@@ -44,13 +44,11 @@ internal class OpenCarry : AmbientEvent
         _name = Functions.GetPersonaForPed(_bad).FullName;
     }
 
-    protected override void OnProcess()
-    {
-    }
+    protected override void OnProcess() { }
 
     protected override void OnScene()
     {
-        if ( !_bad )
+        if (!_bad)
         {
             EndEvent(true);
             return;
@@ -58,12 +56,12 @@ internal class OpenCarry : AmbientEvent
 
         Game.DisplaySubtitle("~g~You: ~s~Hey there! I want to speak to you about that assault rifle.", 3000);
         _bad.Tasks.Clear();
-        Log.Info("OpenCarry event picked scenerio #" + _choice);
+        LogUtils.Info("OpenCarry event picked scenerio #" + _choice);
         NativeFunction.Natives.x5AD23D40115353AC(_bad, Player, 2500);
         GameFiber.Wait(3000);
         LHandle pursuit;
 
-        switch ( _choice )
+        switch (_choice)
         {
             case 1:
                 Game.DisplaySubtitle("~r~" + _name + ": ~s~It's.. It's my right.. I'll leave im sorry! Please leave me alone!", 3000);
@@ -74,14 +72,14 @@ internal class OpenCarry : AmbientEvent
             case 2:
                 Game.DisplaySubtitle("~r~" + _name + ": ~s~Whats it to you? You think you are tough?", 3000);
                 GameFiber.Wait(3000);
-                Game.DisplaySubtitle(
-                    "~g~You: ~s~When you carry a large firearm like that in public, it tends to scare people.", 3000);
+                Game.DisplaySubtitle("~g~You: ~s~When you carry a large firearm like that in public, it tends to scare people.", 3000);
                 GameFiber.Wait(3000);
                 Game.DisplaySubtitle(
-                    "~g~You: ~s~So I need to ask for your license, and for you to please sling your weapon for my safety.", 3000);
+                    "~g~You: ~s~So I need to ask for your license, and for you to please sling your weapon for my safety.",
+                    3000
+                );
                 GameFiber.Wait(3000);
-                Game.DisplaySubtitle(
-                    "~r~" + _name + ": ~s~Why would I do that? How about I give you a better look!", 5000);
+                Game.DisplaySubtitle("~r~" + _name + ": ~s~Why would I do that? How about I give you a better look!", 5000);
                 GameFiber.Wait(1000);
                 _bad.Tasks.AimWeaponAt(Player, 5000);
                 GameFiber.Wait(5000);
@@ -94,11 +92,9 @@ internal class OpenCarry : AmbientEvent
                 _bad.Inventory.EquippedWeapon.Drop();
                 NativeFunction.Natives.x5AD23D40115353AC(_bad, Player, -1);
                 GameFiber.Wait(3000);
-                Game.DisplaySubtitle(
-                    "~g~You: ~s~Why are you walking around with large firearm in your hands?", 3000);
+                Game.DisplaySubtitle("~g~You: ~s~Why are you walking around with large firearm in your hands?", 3000);
                 GameFiber.Wait(3000);
-                Game.DisplaySubtitle(
-                    "~r~" + _name + ": ~s~It's my friends, I want to look cool, that's it!", 3000);
+                Game.DisplaySubtitle("~r~" + _name + ": ~s~It's my friends, I want to look cool, that's it!", 3000);
                 GameFiber.Wait(3000);
                 break;
             default:
@@ -107,7 +103,5 @@ internal class OpenCarry : AmbientEvent
         }
     }
 
-    protected override void OnCleanup()
-    {
-    }
+    protected override void OnCleanup() { }
 }

@@ -1,11 +1,11 @@
 using System;
 using System.Drawing;
 using LSPD_First_Response.Mod.Callouts;
-using PyroCommon.PyroFunctions;
+using PyroCommon.Utils;
 using Rage;
 using Rage.Native;
 using Functions = LSPD_First_Response.Mod.API.Functions;
-using Location = PyroCommon.Types.Location;
+using Location = PyroCommon.Models.Location;
 
 namespace SuperCallouts.Callouts;
 
@@ -42,17 +42,17 @@ internal class Robbery : SuperCallout
             "A " + Settings.EmergencyNumber + " report claims 2 armed people are holding 1 person at gunpoint. Respond ~r~CODE-3"
         );
 
-        PyroFunctions.SpawnNormalCar(out _cVehicle, SpawnPoint.Position);
+        CommonUtils.SpawnNormalCar(out _cVehicle, SpawnPoint.Position);
         _cVehicle.IsPersistent = true;
         _cVehicle.EngineHealth = 0;
-        PyroFunctions.DamageVehicle(_cVehicle, 200, 200);
+        CommonUtils.DamageVehicle(_cVehicle, 200, 200);
         EntitiesToClear.Add(_cVehicle);
 
-        PyroFunctions.SpawnNormalCar(out _cVehicle2, _cVehicle.GetOffsetPositionFront(6f));
+        CommonUtils.SpawnNormalCar(out _cVehicle2, _cVehicle.GetOffsetPositionFront(6f));
         _cVehicle2.IsPersistent = true;
         _cVehicle2.EngineHealth = 0;
         _cVehicle2.Rotation = new Rotator(0f, 0f, 180f);
-        PyroFunctions.DamageVehicle(_cVehicle2, 200, 200);
+        CommonUtils.DamageVehicle(_cVehicle2, 200, 200);
         EntitiesToClear.Add(_cVehicle2);
 
         _rude1 = _cVehicle.CreateRandomDriver();
@@ -156,7 +156,7 @@ internal class Robbery : SuperCallout
                         GameFiber.Wait(4000);
                         NativeFunction.Natives.xF166E48407BAC484(_rude1, Game.LocalPlayer.Character, 0, 1);
                         NativeFunction.Natives.xF166E48407BAC484(_rude2, Game.LocalPlayer.Character, 0, 1);
-                        PyroFunctions.SetWanted(_victim, true);
+                        CommonUtils.SetWanted(_victim, true);
                         NativeFunction.Natives.x72C896464915D1B1(_victim, _rude1);
                         GameFiber.Wait(5000);
                         Functions.AddPedToPursuit(pursuit, _rude1);

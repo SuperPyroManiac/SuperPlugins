@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using PyroCommon.Utils;
 
-namespace PyroCommon.PyroFunctions;
+namespace PyroCommon.Services;
 
-public static class AssemblyLoader
+public static class AssemblyLoaderService
 {
     private static readonly Dictionary<string, Assembly> LoadedAssemblies = new();
 
-    static AssemblyLoader()
+    static AssemblyLoaderService()
     {
         AppDomain.CurrentDomain.AssemblyResolve += ResolveAssembly;
     }
@@ -28,7 +29,7 @@ public static class AssemblyLoader
         using var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName);
         if (stream is null)
         {
-            Log.Error($"Resource {resourceName} not found.");
+            LogUtils.Error($"Resource {resourceName} not found.");
             return null!;
         }
 

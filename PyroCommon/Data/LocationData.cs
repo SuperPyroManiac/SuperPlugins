@@ -1,12 +1,20 @@
 ﻿using System.Collections.Generic;
-using Location = PyroCommon.Types.Location;
+using System.Collections.ObjectModel;
+using Location = PyroCommon.Models.Location;
 
-namespace PyroCommon.PyroFunctions;
+namespace PyroCommon.Data;
 
-internal static class Locations
+/// <summary>
+/// Provides access to predefined locations throughout the game world.
+/// </summary>
+public static class LocationData
 {
-    internal static List<Location> SideOfRoad { get; } =
-        [
+    /// <summary>
+    /// Collection of locations alongside roads suitable for vehicle stops or roadside events.
+    /// </summary>
+    public static ReadOnlyCollection<Location> Roadside { get; } =
+        new List<Location>
+        {
             new(-879.0662f, 239.9437f, 72.22186f, 64.38356f),
             new(-834.8604f, 204.1598f, 73.7544f, 265.1725f),
             new(-755.9545f, 155.7549f, 64.3354f, 187.7457f),
@@ -433,5 +441,5 @@ internal static class Locations
             new(-515.4211f, 5834.348f, 33.98352f, 149.4637f),
             new(-535.8347f, 5793.849f, 34.89894f, 156.5776f),
             new(-570.4221f, 5714.404f, 36.88438f, 153.9186f),
-        ];
+        }.AsReadOnly();
 }

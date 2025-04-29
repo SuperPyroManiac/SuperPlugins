@@ -1,13 +1,13 @@
 using System;
 using System.Drawing;
 using LSPD_First_Response.Mod.Callouts;
-using PyroCommon.PyroFunctions;
+using PyroCommon.Utils;
 using Rage;
 using Rage.Native;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using Functions = LSPD_First_Response.Mod.API.Functions;
-using Location = PyroCommon.Types.Location;
+using Location = PyroCommon.Models.Location;
 
 namespace SuperCallouts.Callouts;
 
@@ -47,7 +47,7 @@ internal class Kidnapping : SuperCallout
             "A person reported missing last week has been recognized. Possible kidnapping. Respond ~r~CODE-3"
         );
 
-        PyroFunctions.SpawnNormalCar(out _cVehicle, SpawnPoint.Position);
+        CommonUtils.SpawnNormalCar(out _cVehicle, SpawnPoint.Position);
         EntitiesToClear.Add(_cVehicle);
 
         _bad1 = _cVehicle.CreateRandomDriver();
@@ -127,7 +127,7 @@ internal class Kidnapping : SuperCallout
                 _victim1.Tasks.Cower(-1);
                 break;
             default:
-                Log.Info("Default scenario loaded.");
+                LogUtils.Info("Default scenario loaded.");
                 break;
         }
     }
@@ -185,7 +185,7 @@ internal class Kidnapping : SuperCallout
         }
         catch (Exception e)
         {
-            Log.Error(e.ToString());
+            LogUtils.Error(e.ToString());
             CalloutEnd(true);
         }
 

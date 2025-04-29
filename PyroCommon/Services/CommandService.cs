@@ -1,9 +1,9 @@
 using PyroCommon.UIManager;
 using Rage.Attributes;
 
-namespace PyroCommon.PyroFunctions;
+namespace PyroCommon.Services;
 
-public static class ConsoleCommands
+public static class CommandService
 {
     //Open PC Menu
     [ConsoleCommand]

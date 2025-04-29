@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using LSPD_First_Response.Mod.Callouts;
-using PyroCommon.PyroFunctions;
 using PyroCommon.UIManager;
+using PyroCommon.Utils;
 using Rage;
 using Rage.Exceptions;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
-using Location = PyroCommon.Types.Location;
+using Location = PyroCommon.Models.Location;
 
 namespace SuperCallouts;
 
@@ -38,7 +38,7 @@ internal abstract class SuperCallout : Callout
         }
         catch (Exception e)
         {
-            Log.Error(e.ToString());
+            LogUtils.Error(e.ToString());
             CalloutEnd(true);
         }
         CalloutPosition = SpawnPoint.Position;
@@ -48,7 +48,7 @@ internal abstract class SuperCallout : Callout
 
     public override bool OnCalloutAccepted()
     {
-        Log.Info($"{CalloutName} callout accepted!");
+        LogUtils.Info($"{CalloutName} callout accepted!");
         Interaction.Add(MainMenu);
         Interaction.Add(ConvoMenu);
         MainMenu.MouseControlsEnabled = false;
@@ -67,19 +67,19 @@ internal abstract class SuperCallout : Callout
         catch (Exception e)
         {
             if (e.ToString().Contains("Could not spawn new vehicle"))
-                Log.Error(
+                LogUtils.Error(
                     "Vehicle spawn failed! This is likely a mods folder issue and not the plugins fault!\r\n" + e.Message,
                     false
                 );
             if (e.ToString().Contains("Cannot load invalid model with hash"))
-                Log.Error(
+                LogUtils.Error(
                     "Vehicle spawn failed! This is likely a mods folder issue and not the plugins fault!\r\n" + e.Message,
                     false
                 );
             if (e is InvalidHandleableException)
-                Log.Error("Failed to start callout! Welcome to modded GTA. Not much I can do here.\r\n" + e.Message, false);
+                LogUtils.Error("Failed to start callout! Welcome to modded GTA. Not much I can do here.\r\n" + e.Message, false);
             else
-                Log.Error(e.ToString());
+                LogUtils.Error(e.ToString());
             CalloutEnd(true);
         }
         ConvoMenu.RefreshIndex();
@@ -106,7 +106,7 @@ internal abstract class SuperCallout : Callout
                 }
                 catch (Exception e)
                 {
-                    Log.Error(e.ToString());
+                    LogUtils.Error(e.ToString());
                     CalloutEnd(true);
                 }
             }
@@ -120,7 +120,7 @@ internal abstract class SuperCallout : Callout
         }
         catch (Exception e)
         {
-            Log.Error(e.ToString());
+            LogUtils.Error(e.ToString());
             CalloutEnd(true);
         }
         base.Process();
@@ -149,7 +149,7 @@ internal abstract class SuperCallout : Callout
         {
             foreach (var entity in EntitiesToClear.Where(entity => entity.Exists()))
                 entity.Dismiss();
-            Log.Info($"{CalloutName} callout has been forcefully cleaned up.");
+            LogUtils.Info($"{CalloutName} callout has been forcefully cleaned up.");
             Game.DisplayHelp("~r~Error Detected: ~y~Callout forcefully cleared!");
         }
         else
@@ -162,7 +162,7 @@ internal abstract class SuperCallout : Callout
             blip.Delete();
 
         Interaction.CloseAllMenus();
-        Log.Info($"Ending {CalloutName} Callout.");
+        LogUtils.Info($"Ending {CalloutName} Callout.");
         End();
     }
 

@@ -1,6 +1,6 @@
 ﻿using UltimateBackup.API;
 
-namespace PyroCommon.Wrappers;
+namespace PyroCommon.Utils.WrapperUtils;
 
 internal static class Backup
 {

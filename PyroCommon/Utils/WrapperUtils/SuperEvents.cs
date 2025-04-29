@@ -5,25 +5,36 @@ using System.Reflection;
 using LSPD_First_Response.Mod.API;
 using Rage;
 
-namespace PyroCommon.Wrappers;
+namespace PyroCommon.Utils.WrapperUtils;
 
 internal static class SuperEvents
 {
-    private static readonly Assembly SEvents = Functions.GetAllUserPlugins().First(assembly => assembly.GetName().Name.Equals("SuperEvents"));
+    private static readonly Assembly SEvents = Functions
+        .GetAllUserPlugins()
+        .First(assembly => assembly.GetName().Name.Equals("SuperEvents"));
 
     internal static void PauseEvents()
     {
-        SEvents.GetType("SuperEvents.EventFunctions.EventManager")?.GetMethod("PauseEvents", BindingFlags.Static | BindingFlags.NonPublic)?.Invoke(null, null);
+        SEvents
+            .GetType("SuperEvents.EventFunctions.EventManager")
+            ?.GetMethod("PauseEvents", BindingFlags.Static | BindingFlags.NonPublic)
+            ?.Invoke(null, null);
     }
 
     internal static void EndEvent()
     {
-        SEvents.GetType("SuperEvents.EventFunctions.EventManager")?.GetMethod("EndEvent", BindingFlags.Static | BindingFlags.NonPublic)?.Invoke(null, null);
+        SEvents
+            .GetType("SuperEvents.EventFunctions.EventManager")
+            ?.GetMethod("EndEvent", BindingFlags.Static | BindingFlags.NonPublic)
+            ?.Invoke(null, null);
     }
 
     internal static void ForceEvent(string eventName)
     {
-        SEvents.GetType("SuperEvents.EventFunctions.EventManager")?.GetMethod("ForceEvent", BindingFlags.Static | BindingFlags.NonPublic)?.Invoke(null, [eventName]);
+        SEvents
+            .GetType("SuperEvents.EventFunctions.EventManager")
+            ?.GetMethod("ForceEvent", BindingFlags.Static | BindingFlags.NonPublic)
+            ?.Invoke(null, [eventName]);
         Game.DisplayHelp("Starting Event...");
     }
 

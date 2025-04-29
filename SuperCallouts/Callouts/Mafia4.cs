@@ -4,8 +4,8 @@ using System.Drawing;
 using System.Linq;
 using LSPD_First_Response.Engine.Scripting.Entities;
 using LSPD_First_Response.Mod.Callouts;
-using PyroCommon.PyroFunctions;
-using PyroCommon.Types;
+using PyroCommon.Models;
+using PyroCommon.Utils;
 using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
@@ -77,7 +77,7 @@ internal class Mafia4 : Callout
             out _eVehicle4,
             out _bomb
         );
-        Log.Info("Mafia4 callout accepted...");
+        LogUtils.Info("Mafia4 callout accepted...");
         Game.DisplayNotification(
             "3dtextures",
             "mpgroundlogo_cops",
@@ -113,14 +113,14 @@ internal class Mafia4 : Callout
             mafiaDudes.BlockPermanentEvents = true;
             mafiaDudes.Inventory.Weapons.Add(WeaponHash.AssaultRifle).Ammo = -1;
             mafiaDudes.RelationshipGroup = new RelationshipGroup("MAFIA");
-            PyroFunctions.SetWanted(mafiaDudes, true);
+            CommonUtils.SetWanted(mafiaDudes, true);
             Functions.AddPedContraband(mafiaDudes, ContrabandType.Narcotics, "Cocaine");
         }
 
         _bomb.IsPersistent = true;
 
         //UI Items
-        PyroFunctions.BuildUi(out _interaction, out _mainMenu, out _, out _, out _endCall);
+        CommonUtils.BuildUi(out _interaction, out _mainMenu, out _, out _, out _endCall);
         _mainMenu.OnItemSelect += InteractionProcess;
         return base.OnCalloutAccepted();
     }
@@ -137,10 +137,10 @@ internal class Mafia4 : Callout
                         Game.SetRelationshipBetweenRelationshipGroups("MAFIA", "COP", Relationship.Hate);
                         Game.SetRelationshipBetweenRelationshipGroups("MAFIA", "PLAYER", Relationship.Hate);
                         Game.SetRelationshipBetweenRelationshipGroups("COP", "MAFIA", Relationship.Hate);
-                        PyroFunctions.RequestBackup(Enums.BackupType.Swat);
-                        PyroFunctions.RequestBackup(Enums.BackupType.Code3);
-                        PyroFunctions.RequestBackup(Enums.BackupType.Code3);
-                        PyroFunctions.RequestBackup(Enums.BackupType.Code3);
+                        CommonUtils.RequestBackup(Enums.BackupType.Swat);
+                        CommonUtils.RequestBackup(Enums.BackupType.Code3);
+                        CommonUtils.RequestBackup(Enums.BackupType.Code3);
+                        CommonUtils.RequestBackup(Enums.BackupType.Code3);
                         _state = RunState.RaidScene;
                     }
 
@@ -171,7 +171,7 @@ internal class Mafia4 : Callout
         }
         catch (Exception e)
         {
-            Log.Error(e.ToString());
+            LogUtils.Error(e.ToString());
             End();
         }
 

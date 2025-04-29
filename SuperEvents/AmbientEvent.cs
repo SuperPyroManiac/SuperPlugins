@@ -2,12 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using PyroCommon.PyroFunctions;
 using PyroCommon.UIManager;
+using PyroCommon.Utils;
 using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using SuperEvents.Attributes;
+
 // ReSharper disable FieldCanBeMadeReadOnly.Local
 // ReSharper disable InconsistentNaming
 
@@ -40,18 +41,21 @@ public abstract class AmbientEvent
         _eventDescription = eventInfo.Description;
         try
         {
-            ProcessFiber = new GameFiber(delegate
-            {
-                while ( EventRunning )
+            ProcessFiber = new GameFiber(
+                delegate
                 {
-                    Process();
-                    GameFiber.Yield();
-                }
-            }, "[SE] ProcessFiber");
+                    while (EventRunning)
+                    {
+                        Process();
+                        GameFiber.Yield();
+                    }
+                },
+                "[SE] ProcessFiber"
+            );
         }
-        catch ( Exception e )
+        catch (Exception e)
         {
-            Log.Error(e.ToString());
+            LogUtils.Error(e.ToString());
             HasEnded = true;
             EndEvent(true);
         }
@@ -75,14 +79,14 @@ public abstract class AmbientEvent
         ConvoMenu.RefreshIndex();
         Style.ApplyStyle(Interaction, false);
         OnStartEvent();
-        if ( EventLocation.DistanceTo(Player) > ClearEventDistance )
+        if (EventLocation.DistanceTo(Player) > ClearEventDistance)
         {
             EndEvent(true);
-            Log.Info("Ending event due to player being too far.");
+            LogUtils.Info("Ending event due to player being too far.");
         }
         MainMenu.OnItemSelect += Interactions;
         ConvoMenu.OnItemSelect += Conversations;
-        if ( Settings.ShowBlips )
+        if (Settings.ShowBlips)
         {
             var eventBlip = new Blip(EventLocation, 15f);
             eventBlip.Color = Color.Red;
@@ -100,23 +104,25 @@ public abstract class AmbientEvent
 
     private void Process()
     {
-        if ( Game.IsKeyDown(Settings.EndEvent) ) EndEvent();
-        if ( Game.IsKeyDown(Settings.Interact) ) MainMenu.Visible = !MainMenu.Visible;
-        if ( EventLocation.DistanceTo(Player) > ClearEventDistance )
+        if (Game.IsKeyDown(Settings.EndEvent))
+            EndEvent();
+        if (Game.IsKeyDown(Settings.Interact))
+            MainMenu.Visible = !MainMenu.Visible;
+        if (EventLocation.DistanceTo(Player) > ClearEventDistance)
         {
             EndEvent();
-            Log.Info("Ending event due to player being too far.");
+            LogUtils.Info("Ending event due to player being too far.");
         }
-        if ( !onScene && Game.LocalPlayer.Character.DistanceTo(EventLocation) < OnSceneDistance )
+        if (!onScene && Game.LocalPlayer.Character.DistanceTo(EventLocation) < OnSceneDistance)
         {
             onScene = true;
-            if ( Settings.ShowHints )
-                Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~y~Officer Sighting",
-                    "~r~" + _eventTitle, _eventDescription);
+            if (Settings.ShowHints)
+                Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~y~Officer Sighting", "~r~" + _eventTitle, _eventDescription);
             Game.DisplayHelp("~y~Press ~r~" + Settings.Interact + "~y~ to open interaction menu.");
             OnScene();
         }
-        if ( Player.IsDead ) EndEvent();
+        if (Player.IsDead)
+            EndEvent();
         Interaction.ProcessMenus();
         OnProcess();
     }
@@ -127,22 +133,25 @@ public abstract class AmbientEvent
     {
         EventRunning = false;
         OnCleanup();
-        if ( forceCleanup )
+        if (forceCleanup)
         {
-            foreach ( var entity in EntitiesToClear.Where(entity => entity.Exists()) ) entity.Dismiss();
-            Log.Info("Event has been forcefully cleaned up.");
+            foreach (var entity in EntitiesToClear.Where(entity => entity.Exists()))
+                entity.Dismiss();
+            LogUtils.Info("Event has been forcefully cleaned up.");
             Game.DisplayHelp("~r~Error Detected: ~y~Event forcefully cleared!");
         }
         else
         {
-            foreach ( var entity in EntitiesToClear.Where(entity => entity.Exists()) ) entity.Dismiss();
+            foreach (var entity in EntitiesToClear.Where(entity => entity.Exists()))
+                entity.Dismiss();
             Game.DisplayHelp("~y~Event Ended.");
         }
 
-        foreach ( var blip in BlipsToClear.Where(blip => blip.Exists()) ) blip.Delete();
+        foreach (var blip in BlipsToClear.Where(blip => blip.Exists()))
+            blip.Delete();
 
         Interaction.CloseAllMenus();
-        Log.Info("Ending Event.");
+        LogUtils.Info("Ending Event.");
         HasEnded = true;
     }
 
@@ -150,10 +159,9 @@ public abstract class AmbientEvent
 
     protected virtual void Interactions(UIMenu sender, UIMenuItem selItem, int index)
     {
-        if ( selItem == EndCall ) EndEvent();
+        if (selItem == EndCall)
+            EndEvent();
     }
 
-    protected virtual void Conversations(UIMenu sender, UIMenuItem selItem, int index)
-    {
-    }
+    protected virtual void Conversations(UIMenu sender, UIMenuItem selItem, int index) { }
 }

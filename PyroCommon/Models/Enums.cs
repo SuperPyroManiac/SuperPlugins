@@ -1,4 +1,4 @@
-﻿namespace PyroCommon.Types;
+﻿namespace PyroCommon.Models;
 
 public static class Enums
 {

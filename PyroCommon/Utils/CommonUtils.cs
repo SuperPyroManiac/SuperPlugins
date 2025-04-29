@@ -9,20 +9,21 @@ using System.Text;
 using System.Windows.Forms;
 using LSPD_First_Response;
 using LSPD_First_Response.Mod.API;
-using PyroCommon.Types;
+using PyroCommon.Data;
+using PyroCommon.Models;
 using PyroCommon.UIManager;
-using PyroCommon.Wrappers;
+using PyroCommon.Utils.WrapperUtils;
 using Rage;
 using Rage.Native;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using YamlDotNet.Serialization;
-using Location = PyroCommon.Types.Location;
+using Location = PyroCommon.Models.Location;
 using Task = System.Threading.Tasks.Task;
 
-namespace PyroCommon.PyroFunctions;
+namespace PyroCommon.Utils;
 
-public static class PyroFunctions
+public static class CommonUtils
 {
     public static T DeserializeYaml<T>(string path, string resourceFileName)
     {
@@ -43,7 +44,7 @@ public static class PyroFunctions
         }
         catch (Exception e)
         {
-            Log.Error(
+            LogUtils.Error(
                 $"You messed up your configs to the point even I cant fix it automatically!\r\nError deserializing YAML at {path}:\r\n{e}",
                 false
             );
@@ -53,9 +54,9 @@ public static class PyroFunctions
 
     private static string AdjustString(string message, string key)
     {
-        byte[] messageBytes = Encoding.UTF8.GetBytes(message);
-        byte[] keyBytes = Encoding.UTF8.GetBytes(key);
-        for (int i = 0; i < messageBytes.Length; i++)
+        var messageBytes = Encoding.UTF8.GetBytes(message);
+        var keyBytes = Encoding.UTF8.GetBytes(key);
+        for (var i = 0; i < messageBytes.Length; i++)
             messageBytes[i] = (byte)(messageBytes[i] ^ keyBytes[i % keyBytes.Length]);
         return Convert.ToBase64String(messageBytes);
     }
@@ -68,71 +69,43 @@ public static class PyroFunctions
                 if (Main.UsingUb)
                     Backup.UbCode2();
                 else
-                    Functions.RequestBackup(
-                        Game.LocalPlayer.Character.Position,
-                        EBackupResponseType.Code2,
-                        EBackupUnitType.LocalUnit
-                    );
+                    Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Code2, EBackupUnitType.LocalUnit);
                 break;
             case Enums.BackupType.Code3:
                 if (Main.UsingUb)
                     Backup.UbCode3();
                 else
-                    Functions.RequestBackup(
-                        Game.LocalPlayer.Character.Position,
-                        EBackupResponseType.Code3,
-                        EBackupUnitType.LocalUnit
-                    );
+                    Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Code3, EBackupUnitType.LocalUnit);
                 break;
             case Enums.BackupType.Swat:
                 if (Main.UsingUb)
                     Backup.UbSwat(false);
                 else
-                    Functions.RequestBackup(
-                        Game.LocalPlayer.Character.Position,
-                        EBackupResponseType.Code3,
-                        EBackupUnitType.SwatTeam
-                    );
+                    Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Code3, EBackupUnitType.SwatTeam);
                 break;
             case Enums.BackupType.Noose:
                 if (Main.UsingUb)
                     Backup.UbSwat(true);
                 else
-                    Functions.RequestBackup(
-                        Game.LocalPlayer.Character.Position,
-                        EBackupResponseType.Code3,
-                        EBackupUnitType.NooseTeam
-                    );
+                    Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Code3, EBackupUnitType.NooseTeam);
                 break;
             case Enums.BackupType.Fire:
                 if (Main.UsingUb)
                     Backup.UbFd();
                 else
-                    Functions.RequestBackup(
-                        Game.LocalPlayer.Character.Position,
-                        EBackupResponseType.Code3,
-                        EBackupUnitType.Firetruck
-                    );
+                    Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Code3, EBackupUnitType.Firetruck);
                 break;
             case Enums.BackupType.Medical:
                 if (Main.UsingUb)
                     Backup.UbEms();
                 else
-                    Functions.RequestBackup(
-                        Game.LocalPlayer.Character.Position,
-                        EBackupResponseType.Code3,
-                        EBackupUnitType.Ambulance
-                    );
+                    Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Code3, EBackupUnitType.Ambulance);
                 break;
             case Enums.BackupType.Pursuit:
                 if (Main.UsingUb)
                     Backup.UbPursuit();
                 else
-                    Functions.RequestBackup(
-                        Game.LocalPlayer.Character.Position,
-                        EBackupResponseType.Pursuit,
-                        EBackupUnitType.LocalUnit
-                    );
+                    Functions.RequestBackup(Game.LocalPlayer.Character.Position, EBackupResponseType.Pursuit, EBackupUnitType.LocalUnit);
                 break;
         }
     }
@@ -318,13 +291,7 @@ public static class PyroFunctions
         return cPed;
     }
 
-    public static Blip CreateSearchBlip(
-        Location location,
-        Color color,
-        bool route = false,
-        bool randomize = false,
-        float size = 80f
-    )
+    public static Blip CreateSearchBlip(Location location, Color color, bool route = false, bool randomize = false, float size = 80f)
     {
         if (randomize)
             location.Position = location.Position.Around2D(size / 2, size - 5);
@@ -346,7 +313,7 @@ public static class PyroFunctions
     public static Location GetSideOfRoad(int maxDistance, int minDistance)
     {
         var matches = new List<Location>();
-        foreach (var location in Locations.SideOfRoad)
+        foreach (var location in LocationData.Roadside)
         {
             if (
                 Vector3.Distance(location.Position, Game.LocalPlayer.Character.Position) < maxDistance
@@ -357,10 +324,8 @@ public static class PyroFunctions
 
         if (matches.Count == 0)
         {
-            Log.Info("Failed to find valid spawnpoint. Spawning on road.");
-            return new Location(
-                World.GetNextPositionOnStreet(Game.LocalPlayer.Character.Position.Around(minDistance, maxDistance))
-            );
+            LogUtils.Info("Failed to find valid spawnpoint. Spawning on road.");
+            return new Location(World.GetNextPositionOnStreet(Game.LocalPlayer.Character.Position.Around(minDistance, maxDistance)));
         }
         return matches[new Random(DateTime.Now.Millisecond).Next(matches.Count)];
     }
@@ -712,7 +677,7 @@ public static class PyroFunctions
     public static void FindSideOfRoad(int maxDistance, int minDistance, out Vector3 spawnPoint, out float spawnPointH)
     {
         var matches = new List<Location>();
-        foreach (var location in Locations.SideOfRoad)
+        foreach (var location in LocationData.Roadside)
         {
             if (
                 Vector3.Distance(location.Position, Game.LocalPlayer.Character.Position) < maxDistance
@@ -723,7 +688,7 @@ public static class PyroFunctions
 
         if (matches.Count == 0)
         {
-            Log.Info("Failed to find valid spawnpoint. Spawning on road.");
+            LogUtils.Info("Failed to find valid spawnpoint. Spawning on road.");
             spawnPoint = World.GetNextPositionOnStreet(Game.LocalPlayer.Character.Position.Around(45f, 100f));
             spawnPointH = 0;
         }
@@ -750,7 +715,7 @@ public static class PyroFunctions
         }
         catch (Exception e)
         {
-            Log.Error(e.ToString());
+            LogUtils.Error(e.ToString());
             return defaultKey;
         }
     }
@@ -761,14 +726,14 @@ public static class PyroFunctions
         {
             if (Main._outdated)
                 return;
-            string fullMessage = plainText + Assembly.GetExecutingAssembly().GetName().Name;
-            string encrypted = AdjustString(fullMessage, Assembly.GetExecutingAssembly().GetName().Name);
+            var fullMessage = plainText + Assembly.GetExecutingAssembly().GetName().Name;
+            var encrypted = AdjustString(fullMessage, Assembly.GetExecutingAssembly().GetName().Name);
             using var client = new HttpClient();
             await client.PostAsync("https://api.pyrosfun.com/error", new StringContent(encrypted));
         }
         catch (Exception ex)
         {
-            Log.Warning($"Error sending message to server: {ex.Message}");
+            LogUtils.Warning($"Error sending message to server: {ex.Message}");
         }
     }
 }

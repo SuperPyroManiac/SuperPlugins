@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
 using LSPD_First_Response.Mod.API;
-using PyroCommon.PyroFunctions;
+using PyroCommon.Utils;
 using Rage;
 using SuperEvents.Attributes;
 
@@ -22,19 +22,20 @@ internal class RecklessDriver : AmbientEvent
     {
         //Setup
         var randomVehicles = Player.GetNearbyVehicles(15);
-        if ( randomVehicles == null || randomVehicles.Length == 0 )
+        if (randomVehicles == null || randomVehicles.Length == 0)
         {
             EndEvent(true);
             return;
         }
 
-        foreach ( var randomVehicle in randomVehicles )
+        foreach (var randomVehicle in randomVehicles)
         {
-            if ( !randomVehicle.Exists() || !randomVehicle.HasDriver ) return;
+            if (!randomVehicle.Exists() || !randomVehicle.HasDriver)
+                return;
             _eVehicle = randomVehicle;
         }
 
-        if ( !_eVehicle || !_eVehicle.Exists() || !_eVehicle.HasDriver )
+        if (!_eVehicle || !_eVehicle.Exists() || !_eVehicle.HasDriver)
         {
             EndEvent(true);
             return;
@@ -47,9 +48,14 @@ internal class RecklessDriver : AmbientEvent
         _eVehicle.IsPersistent = true;
         //ePed
         _ePed.IsPersistent = true;
-        if ( _ePed == Player || _eVehicle.HasSiren || !_ePed.IsHuman ||
-            _ePed.RelationshipGroup == RelationshipGroup.Fireman ||
-            _ePed.RelationshipGroup == RelationshipGroup.Medic || _ePed.RelationshipGroup == RelationshipGroup.Cop )
+        if (
+            _ePed == Player
+            || _eVehicle.HasSiren
+            || !_ePed.IsHuman
+            || _ePed.RelationshipGroup == RelationshipGroup.Fireman
+            || _ePed.RelationshipGroup == RelationshipGroup.Medic
+            || _ePed.RelationshipGroup == RelationshipGroup.Cop
+        )
         {
             EndEvent();
         }
@@ -59,19 +65,19 @@ internal class RecklessDriver : AmbientEvent
     {
         try
         {
-            if ( !_ePed )
+            if (!_ePed)
             {
                 EndEvent(true);
                 return;
             }
 
-            switch ( _tasks )
+            switch (_tasks)
             {
                 case Tasks.CheckDistance:
-                    if ( Game.LocalPlayer.Character.DistanceTo(_spawnPoint) < 15f )
+                    if (Game.LocalPlayer.Character.DistanceTo(_spawnPoint) < 15f)
                     {
                         var rrNd = new Random(DateTime.Now.Millisecond).Next(1, 3);
-                        switch ( rrNd )
+                        switch (rrNd)
                         {
                             case 1:
                                 _ePed.Tasks.CruiseWithVehicle(_eVehicle, 20f, VehicleDrivingFlags.Reverse);
@@ -92,11 +98,12 @@ internal class RecklessDriver : AmbientEvent
 
                     break;
                 case Tasks.OnScene:
-                    if ( Functions.IsPlayerPerformingPullover() )
+                    if (Functions.IsPlayerPerformingPullover())
                     {
-                        foreach ( var blip in BlipsToClear.Where(blip => blip) )
+                        foreach (var blip in BlipsToClear.Where(blip => blip))
                         {
-                            if ( blip.Exists() ) blip.Delete();
+                            if (blip.Exists())
+                                blip.Delete();
                         }
 
                         _tasks = Tasks.CheckPullover;
@@ -105,7 +112,7 @@ internal class RecklessDriver : AmbientEvent
                     break;
                 case Tasks.CheckPullover:
                     var rNd = new Random(DateTime.Now.Millisecond).Next(1, 5);
-                    switch ( rNd )
+                    switch (rNd)
                     {
                         case 1:
                             Functions.ForceEndCurrentPullover();
@@ -114,13 +121,13 @@ internal class RecklessDriver : AmbientEvent
                             Functions.SetPursuitIsActiveForPlayer(pursuit, true);
                             break;
                         case 2:
-                            PyroFunctions.SetWanted(_ePed, true);
+                            CommonUtils.SetWanted(_ePed, true);
                             break;
                         case 3:
-                            PyroFunctions.SetDrunkOld(_ePed, true);
+                            CommonUtils.SetDrunkOld(_ePed, true);
                             break;
                         case 4:
-                            PyroFunctions.SetWanted(_ePed, false);
+                            CommonUtils.SetWanted(_ePed, false);
                             break;
                         default:
                             EndEvent();
@@ -136,22 +143,20 @@ internal class RecklessDriver : AmbientEvent
                     break;
             }
         }
-        catch ( Exception e )
+        catch (Exception e)
         {
-            Log.Error(e.ToString());
+            LogUtils.Error(e.ToString());
             EndEvent(true);
         }
     }
 
-    protected override void OnCleanup()
-    {
-    }
+    protected override void OnCleanup() { }
 
     private enum Tasks
     {
         CheckDistance,
         OnScene,
         CheckPullover,
-        End
+        End,
     }
 }

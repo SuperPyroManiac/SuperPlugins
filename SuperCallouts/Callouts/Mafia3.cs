@@ -4,8 +4,8 @@ using System.Drawing;
 using System.Linq;
 using LSPD_First_Response.Engine.Scripting.Entities;
 using LSPD_First_Response.Mod.Callouts;
-using PyroCommon.PyroFunctions;
-using PyroCommon.Types;
+using PyroCommon.Models;
+using PyroCommon.Utils;
 using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
@@ -78,7 +78,7 @@ internal class Mafia3 : Callout
             out _bad11,
             out _bad12
         );
-        Log.Info("Mafia3 callout accepted...");
+        LogUtils.Info("Mafia3 callout accepted...");
         Game.DisplayNotification(
             "3dtextures",
             "mpgroundlogo_cops",
@@ -118,19 +118,17 @@ internal class Mafia3 : Callout
             mafiaDudes.BlockPermanentEvents = true;
             mafiaDudes.Inventory.Weapons.Add(WeaponHash.AssaultRifle).Ammo = -1;
             mafiaDudes.RelationshipGroup = new RelationshipGroup("MAFIA");
-            PyroFunctions.SetWanted(mafiaDudes, true);
+            CommonUtils.SetWanted(mafiaDudes, true);
             Functions.AddPedContraband(mafiaDudes, ContrabandType.Narcotics, "Cocaine");
         }
 
         //Add Items
         _truck1.Metadata.searchTrunk =
             "~r~multiple pallets of cocaine~s~, ~r~hazmat suits~s~, ~r~multiple weapons~s~, ~y~empty body bags~s~";
-        _truck2.Metadata.searchTrunk =
-            "~r~multiple pallets of cocaine~s~, ~r~hazmat suits~s~, ~r~multiple weapons~s~, ~y~bags of cash~s~";
-        _truck3.Metadata.searchTrunk =
-            "~r~multiple pallets of cocaine~s~, ~r~hazmat suits~s~, ~r~multiple weapons~s~, ~r~explosives~s~";
+        _truck2.Metadata.searchTrunk = "~r~multiple pallets of cocaine~s~, ~r~hazmat suits~s~, ~r~multiple weapons~s~, ~y~bags of cash~s~";
+        _truck3.Metadata.searchTrunk = "~r~multiple pallets of cocaine~s~, ~r~hazmat suits~s~, ~r~multiple weapons~s~, ~r~explosives~s~";
         //UI Items
-        PyroFunctions.BuildUi(out _interaction, out _mainMenu, out _, out _, out _endCall);
+        CommonUtils.BuildUi(out _interaction, out _mainMenu, out _, out _, out _endCall);
         _mainMenu.OnItemSelect += InteractionProcess;
         return base.OnCalloutAccepted();
     }
@@ -147,9 +145,9 @@ internal class Mafia3 : Callout
                         Game.SetRelationshipBetweenRelationshipGroups("MAFIA", "COP", Relationship.Hate);
                         Game.SetRelationshipBetweenRelationshipGroups("MAFIA", "PLAYER", Relationship.Hate);
                         Game.SetRelationshipBetweenRelationshipGroups("COP", "MAFIA", Relationship.Hate);
-                        PyroFunctions.RequestBackup(Enums.BackupType.Noose);
-                        PyroFunctions.RequestBackup(Enums.BackupType.Noose);
-                        PyroFunctions.RequestBackup(Enums.BackupType.Code3);
+                        CommonUtils.RequestBackup(Enums.BackupType.Noose);
+                        CommonUtils.RequestBackup(Enums.BackupType.Noose);
+                        CommonUtils.RequestBackup(Enums.BackupType.Code3);
                         _state = RunState.RaidScene;
                     }
 
@@ -177,7 +175,7 @@ internal class Mafia3 : Callout
         }
         catch (Exception e)
         {
-            Log.Error(e.ToString());
+            LogUtils.Error(e.ToString());
             End();
         }
 

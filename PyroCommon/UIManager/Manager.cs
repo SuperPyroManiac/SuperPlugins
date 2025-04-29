@@ -2,8 +2,9 @@
 using System.Reflection;
 using LSPD_First_Response.Mod.API;
 using LSPD_First_Response.Mod.Callouts;
-using PyroCommon.PyroFunctions.Extensions;
-using PyroCommon.Wrappers;
+using PyroCommon.Extensions;
+using PyroCommon.Utils;
+using PyroCommon.Utils.WrapperUtils;
 using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
@@ -69,7 +70,7 @@ internal static class Manager
             Settings.Manager.ToString,
             s =>
             {
-                Settings.Manager = PyroFunctions.PyroFunctions.ConvertStringToClosestKey(s, Settings.Manager);
+                Settings.Manager = CommonUtils.ConvertStringToClosestKey(s, Settings.Manager);
             }
         );
 
@@ -81,14 +82,14 @@ internal static class Manager
                 ScSettings.Interact.ToString,
                 s =>
                 {
-                    ScSettings.Interact = PyroFunctions.PyroFunctions.ConvertStringToClosestKey(s, ScSettings.Interact);
+                    ScSettings.Interact = CommonUtils.ConvertStringToClosestKey(s, ScSettings.Interact);
                 }
             );
             ScCfgEndCall.WithTextEditing(
                 ScSettings.EndCall.ToString,
                 s =>
                 {
-                    ScSettings.EndCall = PyroFunctions.PyroFunctions.ConvertStringToClosestKey(s, ScSettings.EndCall);
+                    ScSettings.EndCall = CommonUtils.ConvertStringToClosestKey(s, ScSettings.EndCall);
                 }
             );
         }
@@ -111,14 +112,14 @@ internal static class Manager
                 SeSettings.Interact.ToString,
                 s =>
                 {
-                    SeSettings.Interact = PyroFunctions.PyroFunctions.ConvertStringToClosestKey(s, SeSettings.Interact);
+                    SeSettings.Interact = CommonUtils.ConvertStringToClosestKey(s, SeSettings.Interact);
                 }
             );
             SeCfgEndEvent.WithTextEditing(
                 SeSettings.EndEvent.ToString,
                 s =>
                 {
-                    SeSettings.EndEvent = PyroFunctions.PyroFunctions.ConvertStringToClosestKey(s, SeSettings.EndEvent);
+                    SeSettings.EndEvent = CommonUtils.ConvertStringToClosestKey(s, SeSettings.EndEvent);
                 }
             );
             ScCfgNumber.WithTextEditing(

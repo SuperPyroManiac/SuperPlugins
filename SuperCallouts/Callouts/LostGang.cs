@@ -2,8 +2,8 @@
 using System.Drawing;
 using System.Linq;
 using LSPD_First_Response.Mod.Callouts;
-using PyroCommon.PyroFunctions;
-using PyroCommon.Types;
+using PyroCommon.Models;
+using PyroCommon.Utils;
 using Rage;
 using SuperCallouts.CustomScenes;
 using Functions = LSPD_First_Response.Mod.API.Functions;
@@ -57,7 +57,7 @@ internal class LostGang : Callout
 
     public override bool OnCalloutAccepted()
     {
-        Log.Info("LostMC callout accepted...");
+        LogUtils.Info("LostMC callout accepted...");
         Game.DisplayNotification(
             "3dtextures",
             "mpgroundlogo_cops",
@@ -133,20 +133,17 @@ internal class LostGang : Callout
                 "~r~OutNumbered",
                 "~y~Stay in cover until backup arrives!"
             );
-            Functions.PlayScannerAudioUsingPosition(
-                "DISPATCH_SWAT_UNITS_FROM_01 IN_OR_ON_POSITION UNITS_RESPOND_CODE_99_01",
-                _spawnPoint
-            );
+            Functions.PlayScannerAudioUsingPosition("DISPATCH_SWAT_UNITS_FROM_01 IN_OR_ON_POSITION UNITS_RESPOND_CODE_99_01", _spawnPoint);
             Game.SetRelationshipBetweenRelationshipGroups("LOSTERS", "COP", Relationship.Hate);
             Game.SetRelationshipBetweenRelationshipGroups("LOSTERS", "PLAYER", Relationship.Hate);
             foreach (var bikerss in _bikers)
             {
-                PyroFunctions.SetWanted(bikerss, true);
+                CommonUtils.SetWanted(bikerss, true);
                 bikerss.Tasks.FightAgainstClosestHatedTarget(50f);
             }
-            PyroFunctions.RequestBackup(Enums.BackupType.Code3);
-            PyroFunctions.RequestBackup(Enums.BackupType.Code3);
-            PyroFunctions.RequestBackup(Enums.BackupType.Code3);
+            CommonUtils.RequestBackup(Enums.BackupType.Code3);
+            CommonUtils.RequestBackup(Enums.BackupType.Code3);
+            CommonUtils.RequestBackup(Enums.BackupType.Code3);
         }
 
         if (_onScene && Game.LocalPlayer.Character.DistanceTo(_spawnPoint) > 90f)

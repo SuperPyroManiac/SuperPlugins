@@ -1,13 +1,13 @@
 using System.Drawing;
 using LSPD_First_Response.Mod.API;
 using LSPD_First_Response.Mod.Callouts;
-using PyroCommon.PyroFunctions;
+using PyroCommon.Utils;
 using Rage;
 using Rage.Native;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using Functions = LSPD_First_Response.Mod.API.Functions;
-using Location = PyroCommon.Types.Location;
+using Location = PyroCommon.Models.Location;
 
 namespace SuperCallouts.Callouts;
 
@@ -33,7 +33,7 @@ internal class HitRun : SuperCallout
     private UIMenuItem _speakVictim;
     private bool _startPursuit;
     private Ped _victim;
-    internal override Location SpawnPoint { get; set; } = PyroFunctions.GetSideOfRoad(750, 180);
+    internal override Location SpawnPoint { get; set; } = CommonUtils.GetSideOfRoad(750, 180);
     internal override float OnSceneDistance { get; set; } = 20;
     internal override string CalloutName { get; set; } = "Hit and Run";
 
@@ -57,14 +57,14 @@ internal class HitRun : SuperCallout
             "Victim reports the other driver has left the scene. Get to the victim as soon as possible."
         );
 
-        PyroFunctions.SpawnNormalCar(out _cVehicle1, SpawnPoint.Position);
+        CommonUtils.SpawnNormalCar(out _cVehicle1, SpawnPoint.Position);
         _cVehicle1.Heading = SpawnPoint.Heading;
-        PyroFunctions.DamageVehicle(_cVehicle1, 50, 50);
+        CommonUtils.DamageVehicle(_cVehicle1, 50, 50);
         _spawnPointOffset = World.GetNextPositionOnStreet(_cVehicle1.Position.Around(100f));
         EntitiesToClear.Add(_cVehicle1);
 
-        PyroFunctions.SpawnNormalCar(out _cVehicle2, _spawnPointOffset);
-        PyroFunctions.DamageVehicle(_cVehicle2, 200, 200);
+        CommonUtils.SpawnNormalCar(out _cVehicle2, _spawnPointOffset);
+        CommonUtils.DamageVehicle(_cVehicle2, 200, 200);
         EntitiesToClear.Add(_cVehicle2);
 
         _victim = _cVehicle1.CreateRandomDriver();
@@ -149,10 +149,7 @@ internal class HitRun : SuperCallout
                     NativeFunction.Natives.x5AD23D40115353AC(_victim, Game.LocalPlayer.Character, -1);
                     GameFiber.Wait(5000);
                     _bad1.PlayAmbientSpeech("GENERIC_CURSE_MED");
-                    Game.DisplaySubtitle(
-                        "~r~" + _name1 + "~s~: I'm ok, someone hit my car and when I got out they drove off!",
-                        5000
-                    );
+                    Game.DisplaySubtitle("~r~" + _name1 + "~s~: I'm ok, someone hit my car and when I got out they drove off!", 5000);
                     GameFiber.Wait(5000);
                     Game.DisplaySubtitle(
                         "~g~You~s~: Alright, well did you get any information? What did they look like or a vehicle description?",

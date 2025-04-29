@@ -1,13 +1,13 @@
 using System.Drawing;
 using LSPD_First_Response.Mod.Callouts;
-using PyroCommon.PyroFunctions;
-using PyroCommon.Types;
+using PyroCommon.Models;
+using PyroCommon.Utils;
 using Rage;
 using Rage.Native;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using Functions = LSPD_First_Response.Mod.API.Functions;
-using Location = PyroCommon.Types.Location;
+using Location = PyroCommon.Models.Location;
 
 namespace SuperCallouts.Callouts;
 
@@ -49,31 +49,30 @@ internal class CarAccident2 : SuperCallout
             "Reports of a car accident, respond ~r~CODE-3"
         );
 
-        PyroFunctions.SpawnNormalCar(out _cVehicle1, SpawnPoint.Position);
+        CommonUtils.SpawnNormalCar(out _cVehicle1, SpawnPoint.Position);
         _cVehicle1.EngineHealth = 0;
-        PyroFunctions.DamageVehicle(_cVehicle1, 200, 200);
+        CommonUtils.DamageVehicle(_cVehicle1, 200, 200);
         EntitiesToClear.Add(_cVehicle1);
 
-        PyroFunctions.SpawnNormalCar(out _cVehicle2, _cVehicle1.GetOffsetPosition(new Vector3(0, 7.0f, 0)));
+        CommonUtils.SpawnNormalCar(out _cVehicle2, _cVehicle1.GetOffsetPosition(new Vector3(0, 7.0f, 0)));
         _cVehicle2.EngineHealth = 0;
         _cVehicle2.Rotation = new Rotator(0f, 0f, 180f);
-        PyroFunctions.DamageVehicle(_cVehicle2, 200, 200);
-        _cVehicle2.Metadata.searchDriver =
-            "~r~half full hard liqueur bottle~s~, ~y~pack of lighters~s~, ~g~coke cans~s~, ~g~cigarettes~s~";
+        CommonUtils.DamageVehicle(_cVehicle2, 200, 200);
+        _cVehicle2.Metadata.searchDriver = "~r~half full hard liqueur bottle~s~, ~y~pack of lighters~s~, ~g~coke cans~s~, ~g~cigarettes~s~";
         EntitiesToClear.Add(_cVehicle2);
 
         _victim1 = _cVehicle1.CreateRandomDriver();
         _victim1.IsPersistent = true;
         _victim1.BlockPermanentEvents = true;
         _victim1.Tasks.LeaveVehicle(_cVehicle1, LeaveVehicleFlags.LeaveDoorOpen);
-        PyroFunctions.SetAnimation(_victim1, "move_injured_ground");
+        CommonUtils.SetAnimation(_victim1, "move_injured_ground");
         EntitiesToClear.Add(_victim1);
 
         _victim2 = _cVehicle2.CreateRandomDriver();
         _victim2.IsPersistent = true;
         _victim2.BlockPermanentEvents = true;
         _victim2.Tasks.LeaveVehicle(_cVehicle2, LeaveVehicleFlags.LeaveDoorOpen);
-        PyroFunctions.SetDrunkOld(_victim2, true);
+        CommonUtils.SetDrunkOld(_victim2, true);
         _victim2.Metadata.searchPed = "~r~crushed beer can~s~, ~g~wallet~s~";
         _victim2.Metadata.stpAlcoholDetected = true;
         _name1 = Functions.GetPersonaForPed(_victim2).FullName;
@@ -134,8 +133,8 @@ internal class CarAccident2 : SuperCallout
         {
             _callFd.Enabled = false;
             Game.DisplaySubtitle("~g~You~s~: Dispatch, we have an MVA. One person is seriously injured.");
-            PyroFunctions.RequestBackup(Enums.BackupType.Fire);
-            PyroFunctions.RequestBackup(Enums.BackupType.Medical);
+            CommonUtils.RequestBackup(Enums.BackupType.Fire);
+            CommonUtils.RequestBackup(Enums.BackupType.Medical);
 
             _callFd.Enabled = false;
             base.Interactions(sender, selItem, index);

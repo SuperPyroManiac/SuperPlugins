@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using LSPD_First_Response.Mod.Callouts;
-using PyroCommon.PyroFunctions;
-using PyroCommon.Types;
+using PyroCommon.Models;
+using PyroCommon.Utils;
 using Rage;
 using Rage.Native;
 using RAGENativeUI;
@@ -70,7 +70,7 @@ internal class Mafia1 : Callout
     public override bool OnCalloutAccepted()
     {
         //Setup
-        Log.Info("Mafia1 callout accepted...");
+        LogUtils.Info("Mafia1 callout accepted...");
         Game.DisplayNotification(
             "3dtextures",
             "mpgroundlogo_cops",
@@ -102,7 +102,7 @@ internal class Mafia1 : Callout
         }
 
         //UI Items
-        PyroFunctions.BuildUi(out _interaction, out _mainMenu, out _convoMenu, out _questioning, out _endCall);
+        CommonUtils.BuildUi(out _interaction, out _mainMenu, out _convoMenu, out _questioning, out _endCall);
         _mainMenu.OnItemSelect += InteractionProcess;
         _convoMenu.OnItemSelect += ConversationProcess;
         return base.OnCalloutAccepted();
@@ -149,22 +149,22 @@ internal class Mafia1 : Callout
                         switch (_choice)
                         {
                             case SrChoice.Noose:
-                                PyroFunctions.RequestBackup(Enums.BackupType.Noose);
-                                PyroFunctions.RequestBackup(Enums.BackupType.Noose);
+                                CommonUtils.RequestBackup(Enums.BackupType.Noose);
+                                CommonUtils.RequestBackup(Enums.BackupType.Noose);
                                 _state = SrState.RaidScene;
                                 break;
                             case SrChoice.Swat:
-                                PyroFunctions.RequestBackup(Enums.BackupType.Swat);
-                                PyroFunctions.RequestBackup(Enums.BackupType.Swat);
+                                CommonUtils.RequestBackup(Enums.BackupType.Swat);
+                                CommonUtils.RequestBackup(Enums.BackupType.Swat);
                                 _state = SrState.RaidScene;
                                 break;
                             case SrChoice.You:
-                                PyroFunctions.RequestBackup(Enums.BackupType.Code3);
-                                PyroFunctions.RequestBackup(Enums.BackupType.Code3);
+                                CommonUtils.RequestBackup(Enums.BackupType.Code3);
+                                CommonUtils.RequestBackup(Enums.BackupType.Code3);
                                 _state = SrState.RaidScene;
                                 break;
                             default:
-                                Log.Error("Oops there was an error here. There was an issue detecting your choice!");
+                                LogUtils.Error("Oops there was an error here. There was an issue detecting your choice!");
                                 End();
                                 break;
                         }
@@ -206,7 +206,7 @@ internal class Mafia1 : Callout
         }
         catch (Exception e)
         {
-            Log.Error(e.ToString());
+            LogUtils.Error(e.ToString());
             End();
         }
     }
@@ -255,10 +255,7 @@ internal class Mafia1 : Callout
                         return;
                     }
 
-                    Game.DisplaySubtitle(
-                        "~b~Agent~s~: Hello sergeant, you may be aware of the current crime family in the city.",
-                        7000
-                    );
+                    Game.DisplaySubtitle("~b~Agent~s~: Hello sergeant, you may be aware of the current crime family in the city.", 7000);
                     GameFiber.Wait(7000);
                     Game.DisplaySubtitle(
                         "~b~Agent~s~: In the past we didn't have enough evidence to convict them but they slipped up this week.",
@@ -334,10 +331,7 @@ internal class Mafia1 : Callout
                 {
                     _interaction!.CloseAllMenus();
                     _questioning!.Enabled = false;
-                    Game.DisplaySubtitle(
-                        "~b~Agent~s~: We will leave it to you then. Seems like a dangerous choice though.",
-                        6000
-                    );
+                    Game.DisplaySubtitle("~b~Agent~s~: We will leave it to you then. Seems like a dangerous choice though.", 6000);
                     if (_cBlip)
                         _cBlip?.Delete();
                     _aBlip = new Blip(_callPos.Around2D(1, 2), 30);
@@ -384,7 +378,7 @@ internal class Mafia1 : Callout
             entity.IsPersistent = true;
             entity.Inventory.Weapons.Add(WeaponHash.AdvancedRifle);
             entity.BlockPermanentEvents = true;
-            PyroFunctions.SetWanted(entity, true);
+            CommonUtils.SetWanted(entity, true);
         }
 
         foreach (var entity in _vehicles.Where(entity => entity))

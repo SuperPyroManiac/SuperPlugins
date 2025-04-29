@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Drawing;
 using LSPD_First_Response.Mod.Callouts;
-using PyroCommon.PyroFunctions;
+using PyroCommon.Utils;
 using Rage;
 using Functions = LSPD_First_Response.Mod.API.Functions;
-using Location = PyroCommon.Types.Location;
+using Location = PyroCommon.Models.Location;
 
 namespace SuperCallouts.Callouts;
 
@@ -66,7 +66,7 @@ internal class IndecentExposure : SuperCallout
                 Functions.SetPursuitIsActiveForPlayer(pursuit, true);
                 break;
             case 1:
-                PyroFunctions.SetDrunkOld(_naked, true);
+                CommonUtils.SetDrunkOld(_naked, true);
                 _naked.Tasks.FightAgainst(Player, -1);
                 break;
         }

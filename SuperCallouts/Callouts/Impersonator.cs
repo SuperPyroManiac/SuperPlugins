@@ -1,12 +1,12 @@
 using System;
 using System.Drawing;
 using LSPD_First_Response.Mod.Callouts;
-using PyroCommon.PyroFunctions;
+using PyroCommon.Utils;
 using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using Functions = LSPD_First_Response.Mod.API.Functions;
-using Location = PyroCommon.Types.Location;
+using Location = PyroCommon.Models.Location;
 
 namespace SuperCallouts.Callouts;
 
@@ -20,7 +20,7 @@ internal class Impersonator : SuperCallout
     private string _name1;
     private UIMenuItem _speakSuspect;
     private Ped _victim;
-    internal override Location SpawnPoint { get; set; } = PyroFunctions.GetSideOfRoad(750, 180);
+    internal override Location SpawnPoint { get; set; } = CommonUtils.GetSideOfRoad(750, 180);
     internal override float OnSceneDistance { get; set; } = 30;
     internal override string CalloutName { get; set; } = "Impersonator";
 
@@ -42,7 +42,7 @@ internal class Impersonator : SuperCallout
                 + " call of someone being pulled over by a non uniformed officer. Description does not match our department for undercover cops. Respond ~r~CODE-3"
         );
 
-        PyroFunctions.SpawnNormalCar(out _cVehicle1, SpawnPoint.Position);
+        CommonUtils.SpawnNormalCar(out _cVehicle1, SpawnPoint.Position);
         _cVehicle1.Heading = SpawnPoint.Heading;
         EntitiesToClear.Add(_cVehicle1);
 

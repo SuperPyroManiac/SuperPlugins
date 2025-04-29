@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Drawing;
 using LSPD_First_Response.Mod.Callouts;
-using PyroCommon.PyroFunctions;
-using PyroCommon.PyroFunctions.Extensions;
-using PyroCommon.Types;
+using PyroCommon.Extensions;
+using PyroCommon.Models;
+using PyroCommon.Utils;
 using Rage;
 using Functions = LSPD_First_Response.Mod.API.Functions;
-using Location = PyroCommon.Types.Location;
+using Location = PyroCommon.Models.Location;
 
 namespace SuperCallouts.RemasteredCallouts;
 
@@ -25,10 +25,7 @@ internal class StolenCopVehicle : SuperCallout
     {
         CalloutMessage = "~b~Dispatch:~s~ Stolen police vehicle.";
         CalloutAdvisory = "A suspect stole an officers vehicle during arrest.";
-        Functions.PlayScannerAudioUsingPosition(
-            "ATTENTION_ALL_UNITS_05 WE_HAVE PYRO_STOLEN_PDCAR IN_OR_ON_POSITION",
-            SpawnPoint.Position
-        );
+        Functions.PlayScannerAudioUsingPosition("ATTENTION_ALL_UNITS_05 WE_HAVE PYRO_STOLEN_PDCAR IN_OR_ON_POSITION", SpawnPoint.Position);
     }
 
     internal override void CalloutAccepted()
@@ -49,10 +46,7 @@ internal class StolenCopVehicle : SuperCallout
     private void SpawnVehicle()
     {
         Model[] vehicleModels = ["POLICE", "POLICE2", "POLICE3", "SHERIFF", "SHERIFF2"];
-        _vehicle = new Vehicle(
-            vehicleModels[new Random(DateTime.Now.Millisecond).Next(vehicleModels.Length)],
-            SpawnPoint.Position
-        )
+        _vehicle = new Vehicle(vehicleModels[new Random(DateTime.Now.Millisecond).Next(vehicleModels.Length)], SpawnPoint.Position)
         {
             IsPersistent = true,
             IsStolen = true,
@@ -77,7 +71,7 @@ internal class StolenCopVehicle : SuperCallout
 
     private void CreateBlip()
     {
-        _blip = PyroFunctions.CreateSearchBlip(SpawnPoint, Color.Red, true, false, 15);
+        _blip = CommonUtils.CreateSearchBlip(SpawnPoint, Color.Red, true, false, 15);
         BlipsToClear.Add(_blip);
     }
 
@@ -124,7 +118,7 @@ internal class StolenCopVehicle : SuperCallout
         }
 
         _blip?.Delete();
-        PyroFunctions.StartPursuit(false, true, _suspect);
-        PyroFunctions.RequestBackup(Enums.BackupType.Pursuit);
+        CommonUtils.StartPursuit(false, true, _suspect);
+        CommonUtils.RequestBackup(Enums.BackupType.Pursuit);
     }
 }

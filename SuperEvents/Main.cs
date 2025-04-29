@@ -3,11 +3,11 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using LSPD_First_Response.Mod.API;
-using PyroCommon.PyroFunctions;
+using PyroCommon.Utils;
 using Rage;
 using SuperEvents.EventFunctions;
 using SuperEvents.Events;
-using DependManager = PyroCommon.PyroFunctions.DependManager;
+using DependManager = PyroCommon.Services.DependencyService;
 
 namespace SuperEvents;
 
@@ -20,30 +20,33 @@ internal class Main : Plugin
         var dCheck = new DependManager();
         dCheck.AddDepend("PyroCommon.dll", "1.13.0.0");
         dCheck.AddDepend("RageNativeUI.dll", "1.9.3.0");
-        if ( !dCheck.CheckDepends() ) return;
+        if (!dCheck.CheckDepends())
+            return;
         Functions.OnOnDutyStateChanged += OnOnDutyStateChangedHandler;
         Settings.LoadSettings();
     }
 
     private static void OnOnDutyStateChangedHandler(bool onDuty)
     {
-        if ( onDuty )
+        if (onDuty)
         {
             PyroCommon.Main.InitCommon("SuperEvents", Assembly.GetExecutingAssembly().GetName().Version.ToString());
-            Log.Info("SuperEvents by SuperPyroManiac loaded successfully!");
-            Log.Info("======================================================");
-            Log.Info("Dependencies Found:");
-            Log.Info($"PyroCommon, Version: {new Version(FileVersionInfo.GetVersionInfo("PyroCommon.dll").FileVersion)}");
-            Log.Info($"Using Ultimate Backup: {PyroCommon.Main.UsingUb}");
-            Log.Info($"Using StopThePed: {PyroCommon.Main.UsingStp}");
-            Log.Info("======================================================");
+            LogUtils.Info("SuperEvents by SuperPyroManiac loaded successfully!");
+            LogUtils.Info("======================================================");
+            LogUtils.Info("Dependencies Found:");
+            LogUtils.Info($"PyroCommon, Version: {new Version(FileVersionInfo.GetVersionInfo("PyroCommon.dll").FileVersion)}");
+            LogUtils.Info($"Using Ultimate Backup: {PyroCommon.Main.UsingUb}");
+            LogUtils.Info($"Using StopThePed: {PyroCommon.Main.UsingStp}");
+            LogUtils.Info("======================================================");
             PluginRunning = true;
             RegisterAllEvents();
-            Game.DisplayNotification("3dtextures",
+            Game.DisplayNotification(
+                "3dtextures",
                 "mpgroundlogo_cops",
                 "~r~SuperEvents",
                 "~g~Plugin Loaded.",
-                "SuperEvents version: " + Assembly.GetExecutingAssembly().GetName().Version + " loaded.");
+                "SuperEvents version: " + Assembly.GetExecutingAssembly().GetName().Version + " loaded."
+            );
             GameFiber.StartNew(EventManager.InitEvents, "[SE] EventManager");
             return;
         }
@@ -52,22 +55,32 @@ internal class Main : Plugin
 
     private static void RegisterAllEvents()
     {
-        if ( Settings.CarAccident ) EventManager.RegisterEvent(typeof(CarAccident), EventManager.Priority.High);
-        if ( Settings.CarFire ) EventManager.RegisterEvent(typeof(CarFire));
-        if ( Settings.Fight ) EventManager.RegisterEvent(typeof(Fight));
-        if ( Settings.OpenCarry ) EventManager.RegisterEvent(typeof(OpenCarry), EventManager.Priority.Low);
-        if ( Settings.PulloverShooting ) EventManager.RegisterEvent(typeof(PulloverShooting), EventManager.Priority.Low);
-        if ( Settings.RecklessDriver ) EventManager.RegisterEvent(typeof(RecklessDriver));
-        if ( Settings.AbandonedCar ) EventManager.RegisterEvent(typeof(WeirdCar));
-        if ( Settings.WildAnimal ) EventManager.RegisterEvent(typeof(WildAnimal));
+        if (Settings.CarAccident)
+            EventManager.RegisterEvent(typeof(CarAccident), EventManager.Priority.High);
+        if (Settings.CarFire)
+            EventManager.RegisterEvent(typeof(CarFire));
+        if (Settings.Fight)
+            EventManager.RegisterEvent(typeof(Fight));
+        if (Settings.OpenCarry)
+            EventManager.RegisterEvent(typeof(OpenCarry), EventManager.Priority.Low);
+        if (Settings.PulloverShooting)
+            EventManager.RegisterEvent(typeof(PulloverShooting), EventManager.Priority.Low);
+        if (Settings.RecklessDriver)
+            EventManager.RegisterEvent(typeof(RecklessDriver));
+        if (Settings.AbandonedCar)
+            EventManager.RegisterEvent(typeof(WeirdCar));
+        if (Settings.WildAnimal)
+            EventManager.RegisterEvent(typeof(WildAnimal));
     }
 
     public override void Finally()
     {
-        if ( EventManager.CurrentEvent != null )
+        if (EventManager.CurrentEvent != null)
         {
-            foreach ( var entity in EventManager.CurrentEvent.EntitiesToClear.Where(entity => entity) ) entity.Delete();
-            foreach ( var blip in EventManager.CurrentEvent.BlipsToClear.Where(blip => blip) ) blip.Delete();
+            foreach (var entity in EventManager.CurrentEvent.EntitiesToClear.Where(entity => entity))
+                entity.Delete();
+            foreach (var blip in EventManager.CurrentEvent.BlipsToClear.Where(blip => blip))
+                blip.Delete();
         }
         PluginRunning = false;
         PyroCommon.Main.StopCommon();

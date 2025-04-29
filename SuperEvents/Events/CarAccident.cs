@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using LSPD_First_Response.Mod.API;
+using PyroCommon.Utils;
 using Rage;
 using Rage.Native;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
-using PyroCommon.PyroFunctions;
 using SuperEvents.Attributes;
 
 namespace SuperEvents.Events;
@@ -34,23 +34,23 @@ internal class CarAccident : AmbientEvent
     protected override void OnStartEvent()
     {
         //Setup
-        PyroFunctions.FindSideOfRoad(120, 45, out _spawnPoint, out _spawnPointH);
+        CommonUtils.FindSideOfRoad(120, 45, out _spawnPoint, out _spawnPointH);
         EventLocation = _spawnPoint;
-        if ( _spawnPoint.DistanceTo(Player) < 35f )
+        if (_spawnPoint.DistanceTo(Player) < 35f)
         {
             EndEvent(true);
             return;
         }
 
         //Vehicles
-        PyroFunctions.SpawnNormalCar(out _eVehicle, _spawnPoint);
+        CommonUtils.SpawnNormalCar(out _eVehicle, _spawnPoint);
         _eVehicle.Heading = _spawnPointH;
         _eVehicle.IsPersistent = true;
-        PyroFunctions.DamageVehicle(_eVehicle, 200, 200);
-        PyroFunctions.SpawnNormalCar(out _eVehicle2, _eVehicle.GetOffsetPositionFront(7f));
+        CommonUtils.DamageVehicle(_eVehicle, 200, 200);
+        CommonUtils.SpawnNormalCar(out _eVehicle2, _eVehicle.GetOffsetPositionFront(7f));
         _eVehicle2.Rotation = new Rotator(0f, 0f, 90f);
         _eVehicle2.IsPersistent = true;
-        PyroFunctions.DamageVehicle(_eVehicle2, 200, 200);
+        CommonUtils.DamageVehicle(_eVehicle2, 200, 200);
         EntitiesToClear.Add(_eVehicle);
         EntitiesToClear.Add(_eVehicle2);
         //Peds
@@ -65,23 +65,27 @@ internal class CarAccident : AmbientEvent
         EntitiesToClear.Add(_ePed);
         EntitiesToClear.Add(_ePed2);
         //Randomize
-        Log.Info("Car Accident Scenario #" + _choice);
-        switch ( _choice )
+        LogUtils.Info("Car Accident Scenario #" + _choice);
+        switch (_choice)
         {
             case 0: //Peds fight
-                if ( _ePed.IsInAnyVehicle(false) && _eVehicle ) _ePed.Tasks.LeaveVehicle(LeaveVehicleFlags.LeaveDoorOpen);
+                if (_ePed.IsInAnyVehicle(false) && _eVehicle)
+                    _ePed.Tasks.LeaveVehicle(LeaveVehicleFlags.LeaveDoorOpen);
                 _ePed2.Tasks.LeaveVehicle(LeaveVehicleFlags.LeaveDoorOpen);
                 break;
             case 1: //Ped Dies, other flees
-                if ( _ePed.IsInAnyVehicle(false) && _eVehicle ) _ePed.Tasks.LeaveVehicle(LeaveVehicleFlags.LeaveDoorOpen);
+                if (_ePed.IsInAnyVehicle(false) && _eVehicle)
+                    _ePed.Tasks.LeaveVehicle(LeaveVehicleFlags.LeaveDoorOpen);
                 _ePed2.Kill();
                 break;
             case 2: //Hit and run
-                if ( _ePed2.IsInAnyVehicle(false) && _eVehicle2 ) _ePed2.Tasks.LeaveVehicle(LeaveVehicleFlags.LeaveDoorOpen);
+                if (_ePed2.IsInAnyVehicle(false) && _eVehicle2)
+                    _ePed2.Tasks.LeaveVehicle(LeaveVehicleFlags.LeaveDoorOpen);
                 break;
             case 3: //Fire + dead ped.
                 _ePed.Kill();
-                if ( _ePed2.IsInAnyVehicle(false) && _eVehicle2 ) _ePed2.Tasks.LeaveVehicle(LeaveVehicleFlags.LeaveDoorOpen);
+                if (_ePed2.IsInAnyVehicle(false) && _eVehicle2)
+                    _ePed2.Tasks.LeaveVehicle(LeaveVehicleFlags.LeaveDoorOpen);
                 break;
             default:
                 EndEvent(true);
@@ -101,10 +105,10 @@ internal class CarAccident : AmbientEvent
     {
         try
         {
-            switch ( _tasks )
+            switch (_tasks)
             {
                 case Tasks.CheckDistance:
-                    if ( Game.LocalPlayer.Character.DistanceTo(_spawnPoint) < 25f )
+                    if (Game.LocalPlayer.Character.DistanceTo(_spawnPoint) < 25f)
                     {
                         Questioning.Enabled = true;
                         _tasks = Tasks.OnScene;
@@ -112,14 +116,14 @@ internal class CarAccident : AmbientEvent
 
                     break;
                 case Tasks.OnScene:
-                    if ( !_ePed || !_ePed2 )
+                    if (!_ePed || !_ePed2)
                     {
                         EndEvent(true);
                         break;
                     }
                     _ePed.BlockPermanentEvents = false;
                     _ePed2.BlockPermanentEvents = false;
-                    switch ( _choice )
+                    switch (_choice)
                     {
                         case 0: //Peds fight
                             _ePed.Tasks.FightAgainst(_ePed2);
@@ -137,7 +141,7 @@ internal class CarAccident : AmbientEvent
                             break;
                         case 3: //Fire + dead ped.
                             _ePed2.Tasks.Cower(-1);
-                            PyroFunctions.FireControl(_spawnPoint.Around2D(7f), 24, true);
+                            CommonUtils.FireControl(_spawnPoint.Around2D(7f), 24, true);
                             break;
                         default:
                             EndEvent(true);
@@ -156,28 +160,26 @@ internal class CarAccident : AmbientEvent
                     break;
             }
         }
-        catch ( Exception e )
+        catch (Exception e)
         {
-            Log.Error(e.ToString());
+            LogUtils.Error(e.ToString());
             EndEvent(true);
         }
     }
 
-    protected override void OnCleanup()
-    {
-    }
+    protected override void OnCleanup() { }
 
     protected override void Conversations(UIMenu sender, UIMenuItem selItem, int index)
     {
-        if ( !_ePed || !_ePed2 )
+        if (!_ePed || !_ePed2)
         {
             EndEvent(true);
             return;
         }
 
-        if ( selItem == _speakSuspect )
+        if (selItem == _speakSuspect)
         {
-            if ( _ePed.IsDead )
+            if (_ePed.IsDead)
             {
                 _speakSuspect.Enabled = false;
                 _speakSuspect.RightLabel = "~r~Dead";
@@ -193,54 +195,56 @@ internal class CarAccident : AmbientEvent
                 "~b~You~s~: That sounds pretty severe, do you have any pain anywhere?",
                 "~r~" + _name1 + "~s~: My neck hurts but I'm more worried about my car.",
                 "~b~You~s~: Well you just sit tight, I'm going to call fire to check you out.",
-                "~r~" + _name1 + "~s~: Thank you."
+                "~r~" + _name1 + "~s~: Thank you.",
             };
             var dialog2 = new List<string>
             {
                 "~b~You~s~: What happened? Are you injured?",
                 "~r~" + _name1 + "~s~: No I am not! This idiot crashed into me!",
                 "~b~You~s~: Calm down, can you explain what happened?",
-                "~r~" + _name1 +
-                "~s~: I was just driving then before I know it my car is totalled! I want him arrested!",
+                "~r~" + _name1 + "~s~: I was just driving then before I know it my car is totalled! I want him arrested!",
                 "~b~You~s~: I understand you're upset but I need you to calm down, I'll go speak with them.",
-                "~r~" + _name1 + "~s~: Whatever, I just want him to rot in jail."
+                "~r~" + _name1 + "~s~: Whatever, I just want him to rot in jail.",
             };
             var dialogIndex1 = 0;
             var dialogIndex2 = 0;
             var dialogOutcome = new Random(DateTime.Now.Millisecond).Next(0, 101);
             var stillTalking = true;
 
-            if ( Player.DistanceTo(_ePed) > 5f )
+            if (Player.DistanceTo(_ePed) > 5f)
             {
                 Game.DisplaySubtitle("Too far to talk!");
                 return;
             }
 
             NativeFunction.Natives.x5AD23D40115353AC(_ePed, Game.LocalPlayer.Character, -1);
-            GameFiber.StartNew(delegate
-            {
-                while ( stillTalking )
+            GameFiber.StartNew(
+                delegate
                 {
-                    if ( dialogOutcome > 50 )
+                    while (stillTalking)
                     {
-                        Game.DisplaySubtitle(dialog1[dialogIndex1]);
-                        dialogIndex1++;
-                    }
-                    else
-                    {
-                        Game.DisplaySubtitle(dialog2[dialogIndex2]);
-                        dialogIndex2++;
-                    }
+                        if (dialogOutcome > 50)
+                        {
+                            Game.DisplaySubtitle(dialog1[dialogIndex1]);
+                            dialogIndex1++;
+                        }
+                        else
+                        {
+                            Game.DisplaySubtitle(dialog2[dialogIndex2]);
+                            dialogIndex2++;
+                        }
 
-                    if ( dialogIndex1 == 4 || dialogIndex2 == 5 ) stillTalking = false;
-                    GameFiber.Wait(6000);
+                        if (dialogIndex1 == 4 || dialogIndex2 == 5)
+                            stillTalking = false;
+                        GameFiber.Wait(6000);
+                    }
                 }
-            });
+            );
         }
 
-        if ( selItem == _speakSuspect2 )
+        if (selItem == _speakSuspect2)
         {
-            if ( _ePed2.IsDead )
+            if (_ePed2.IsDead)
             {
                 _speakSuspect2.Enabled = false;
                 _speakSuspect2.RightLabel = "~r~Dead";
@@ -254,7 +258,7 @@ internal class CarAccident : AmbientEvent
                 "~b~You~s~: Do you need medical attention?",
                 "~r~" + _name2 + "~s~: No I don't but I want that moron over there arrested!",
                 "~b~You~s~: I understand you're upset but I need to find out what happened here.",
-                "~r~" + _name2 + "~s~: Screw you, I'm not talking to you."
+                "~r~" + _name2 + "~s~: Screw you, I'm not talking to you.",
             };
             var dialog2 = new List<string>
             {
@@ -263,39 +267,42 @@ internal class CarAccident : AmbientEvent
                 "~b~You~s~: Do you need medical attention?",
                 "~r~" + _name2 + "~s~: No, I just want to be left alone.",
                 "~b~You~s~: I understand you're upset but I need to find out what happened here.",
-                "~r~" + _name2 + "~s~: Screw you, I'm not talking to you."
+                "~r~" + _name2 + "~s~: Screw you, I'm not talking to you.",
             };
             var dialogIndex1 = 0;
             var dialogIndex2 = 0;
             var dialogOutcome = new Random(DateTime.Now.Millisecond).Next(0, 101);
             var stillTalking = true;
 
-            if ( Player.DistanceTo(_ePed2) > 5f )
+            if (Player.DistanceTo(_ePed2) > 5f)
             {
                 Game.DisplaySubtitle("Too far to talk!");
                 return;
             }
 
             NativeFunction.Natives.x5AD23D40115353AC(_ePed2, Game.LocalPlayer.Character, -1);
-            GameFiber.StartNew(delegate
-            {
-                while ( stillTalking )
+            GameFiber.StartNew(
+                delegate
                 {
-                    if ( dialogOutcome > 50 )
+                    while (stillTalking)
                     {
-                        Game.DisplaySubtitle(dialog1[dialogIndex1]);
-                        dialogIndex1++;
-                    }
-                    else
-                    {
-                        Game.DisplaySubtitle(dialog2[dialogIndex2]);
-                        dialogIndex2++;
-                    }
+                        if (dialogOutcome > 50)
+                        {
+                            Game.DisplaySubtitle(dialog1[dialogIndex1]);
+                            dialogIndex1++;
+                        }
+                        else
+                        {
+                            Game.DisplaySubtitle(dialog2[dialogIndex2]);
+                            dialogIndex2++;
+                        }
 
-                    if ( dialogIndex1 == 4 || dialogIndex2 == 5 ) stillTalking = false;
-                    GameFiber.Wait(6000);
+                        if (dialogIndex1 == 4 || dialogIndex2 == 5)
+                            stillTalking = false;
+                        GameFiber.Wait(6000);
+                    }
                 }
-            });
+            );
         }
 
         base.Conversations(sender, selItem, index);
@@ -305,6 +312,6 @@ internal class CarAccident : AmbientEvent
     {
         CheckDistance,
         OnScene,
-        End
+        End,
     }
 }

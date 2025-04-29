@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Drawing;
 using LSPD_First_Response.Mod.Callouts;
-using PyroCommon.PyroFunctions;
-using PyroCommon.PyroFunctions.Extensions;
-using PyroCommon.Types;
+using PyroCommon.Extensions;
+using PyroCommon.Models;
+using PyroCommon.Utils;
 using Rage;
 using Rage.Native;
 using Functions = LSPD_First_Response.Mod.API.Functions;
-using Location = PyroCommon.Types.Location;
+using Location = PyroCommon.Models.Location;
 
 namespace SuperCallouts.RemasteredCallouts;
 
@@ -17,7 +17,7 @@ internal class Fight : SuperCallout
     private Ped _victim;
     private Ped _suspect;
     private Blip _blip;
-    internal override Location SpawnPoint { get; set; } = PyroFunctions.GetSideOfRoad(750, 180);
+    internal override Location SpawnPoint { get; set; } = CommonUtils.GetSideOfRoad(750, 180);
     internal override float OnSceneDistance { get; set; } = 35;
     internal override string CalloutName { get; set; } = "Fight";
 
@@ -25,10 +25,7 @@ internal class Fight : SuperCallout
     {
         CalloutMessage = $"~r~{Settings.EmergencyNumber} Report:~s~ Reports of a fight.";
         CalloutAdvisory = "Caller said the the people are screaming and yelling before hanging up.";
-        Functions.PlayScannerAudioUsingPosition(
-            "ATTENTION_ALL_UNITS_05 WE_HAVE PYRO_FIGHT IN_OR_ON_POSITION",
-            SpawnPoint.Position
-        );
+        Functions.PlayScannerAudioUsingPosition("ATTENTION_ALL_UNITS_05 WE_HAVE PYRO_FIGHT IN_OR_ON_POSITION", SpawnPoint.Position);
     }
 
     internal override void CalloutAccepted()
@@ -47,10 +44,10 @@ internal class Fight : SuperCallout
 
     private void SpawnPeds()
     {
-        _victim = PyroFunctions.SpawnPed(SpawnPoint);
+        _victim = CommonUtils.SpawnPed(SpawnPoint);
         _victim.RelationshipGroup = new RelationshipGroup("VICTIM");
 
-        _suspect = PyroFunctions.SpawnPed(new Location(SpawnPoint.Position.Around2D(1.5f)));
+        _suspect = CommonUtils.SpawnPed(new Location(SpawnPoint.Position.Around2D(1.5f)));
         _suspect.RelationshipGroup = new RelationshipGroup("SUSPECT");
 
         _victim.Tasks.FaceEntity(_suspect);
@@ -62,7 +59,7 @@ internal class Fight : SuperCallout
 
     private void CreateBlip()
     {
-        _blip = PyroFunctions.CreateSearchBlip(SpawnPoint, Color.Red, true, true);
+        _blip = CommonUtils.CreateSearchBlip(SpawnPoint, Color.Red, true, true);
         BlipsToClear.Add(_blip);
     }
 
@@ -106,7 +103,7 @@ internal class Fight : SuperCallout
         switch (new Random(DateTime.Now.Millisecond).Next(1, 4))
         {
             case 1: // Fighting scenario
-                Log.Info("Callout Scene 1");
+                LogUtils.Info("Callout Scene 1");
                 Game.SetRelationshipBetweenRelationshipGroups("SUSPECT", "VICTIM", Relationship.Hate);
                 Game.SetRelationshipBetweenRelationshipGroups("VICTIM", "SUSPECT", Relationship.Hate);
                 _suspect.SetResistance(Enums.ResistanceAction.Uncooperative, false, 100);
@@ -117,14 +114,14 @@ internal class Fight : SuperCallout
                 break;
 
             case 2: // Intimidation scenario
-                Log.Info("Callout Scene 2");
+                LogUtils.Info("Callout Scene 2");
                 _victim.Tasks.Cower(-1);
                 _suspect.Tasks.FaceEntity(Player);
                 _suspect.SetResistance(Enums.ResistanceAction.Attack, false, 100);
                 break;
 
             case 3: // Drunk intimidation scenario
-                Log.Info("Callout Scene 3");
+                LogUtils.Info("Callout Scene 3");
                 _victim.Tasks.Cower(-1);
                 _suspect.Tasks.FaceEntity(Player);
                 _suspect.SetDrunk(Enums.DrunkState.ExtremelyDrunk);

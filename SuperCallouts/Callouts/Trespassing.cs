@@ -4,14 +4,14 @@ using System.Drawing;
 using System.Linq;
 using LSPD_First_Response.Mod.API;
 using LSPD_First_Response.Mod.Callouts;
-using PyroCommon.PyroFunctions;
-using PyroCommon.PyroFunctions.Extensions;
-using PyroCommon.Types;
+using PyroCommon.Extensions;
+using PyroCommon.Models;
+using PyroCommon.Utils;
 using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using Functions = LSPD_First_Response.Mod.API.Functions;
-using Location = PyroCommon.Types.Location;
+using Location = PyroCommon.Models.Location;
 
 namespace SuperCallouts.Callouts;
 
@@ -130,15 +130,9 @@ internal class Trespassing : SuperCallout
                         _suspect.PlayAmbientSpeech("GENERIC_CURSE_MED");
                         Game.DisplaySubtitle("~r~" + _name + "~s~: Nothing, beat it im not doing anything wrong.", 4000);
                         GameFiber.Wait(4000);
-                        Game.DisplaySubtitle(
-                            "~g~You~s~: Well we have records showing you have been trespassed from this business.",
-                            4000
-                        );
+                        Game.DisplaySubtitle("~g~You~s~: Well we have records showing you have been trespassed from this business.", 4000);
                         GameFiber.Wait(4000);
-                        Game.DisplaySubtitle(
-                            "~r~" + _name + "~s~: I don't know anything about that, this is a free country!",
-                            4000
-                        );
+                        Game.DisplaySubtitle("~r~" + _name + "~s~: I don't know anything about that, this is a free country!", 4000);
                         GameFiber.Wait(4000);
                         Game.DisplaySubtitle("~g~You~s~: Alright, well let's step outside and have a talk about this.", 4000);
                         switch (_cScene)
@@ -174,7 +168,7 @@ internal class Trespassing : SuperCallout
         }
         catch (Exception e)
         {
-            Log.Error(e.ToString());
+            LogUtils.Error(e.ToString());
             End();
         }
     }

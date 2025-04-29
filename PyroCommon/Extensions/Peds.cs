@@ -1,10 +1,11 @@
 ﻿using LSPD_First_Response.Engine.Scripting.Entities;
 using LSPD_First_Response.Mod.API;
-using PyroCommon.Types;
+using PyroCommon.Models;
+using PyroCommon.Utils;
 using Rage;
 using Rage.Native;
 
-namespace PyroCommon.PyroFunctions.Extensions;
+namespace PyroCommon.Extensions;
 
 public static class Peds
 {
@@ -46,7 +47,7 @@ public static class Peds
         switch (resistanceAction)
         {
             case Enums.ResistanceAction.Flee:
-                PyroFunctions.StartPursuit(false, false, ped);
+                CommonUtils.StartPursuit(false, false, ped);
                 break;
             case Enums.ResistanceAction.Attack:
                 ped.RelationshipGroup = new RelationshipGroup("ANGRY");

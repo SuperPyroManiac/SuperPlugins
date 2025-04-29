@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Drawing;
 using LSPD_First_Response.Mod.Callouts;
-using PyroCommon.PyroFunctions;
+using PyroCommon.Utils;
 using Rage;
 using Rage.Native;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using Functions = LSPD_First_Response.Mod.API.Functions;
-using Location = PyroCommon.Types.Location;
+using Location = PyroCommon.Models.Location;
 
 namespace SuperCallouts.Callouts;
 
@@ -20,7 +20,7 @@ internal class DeadBody : SuperCallout
     private UIMenuItem _speakSuspect;
     private Ped _victim;
     private Ped _witness;
-    internal override Location SpawnPoint { get; set; } = PyroFunctions.GetSideOfRoad(750, 180);
+    internal override Location SpawnPoint { get; set; } = CommonUtils.GetSideOfRoad(750, 180);
     internal override float OnSceneDistance { get; set; } = 90;
     internal override string CalloutName { get; set; } = "Dead Body";
 
@@ -44,7 +44,7 @@ internal class DeadBody : SuperCallout
             "Caller reports an injured person that is not breathing, respond ~r~CODE-3"
         );
 
-        PyroFunctions.SpawnNormalCar(out _cVehicle, SpawnPoint.Position, SpawnPoint.Heading);
+        CommonUtils.SpawnNormalCar(out _cVehicle, SpawnPoint.Position, SpawnPoint.Heading);
         EntitiesToClear.Add(_cVehicle);
 
         _witness = new Ped(_cVehicle.GetOffsetPositionFront(-9f));
@@ -145,7 +145,7 @@ internal class DeadBody : SuperCallout
         }
         catch (Exception e)
         {
-            Log.Error(e.ToString());
+            LogUtils.Error(e.ToString());
             CalloutEnd(true);
         }
 

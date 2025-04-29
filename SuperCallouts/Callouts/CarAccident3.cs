@@ -1,10 +1,10 @@
 using System;
 using System.Drawing;
 using LSPD_First_Response.Mod.Callouts;
-using PyroCommon.PyroFunctions;
+using PyroCommon.Utils;
 using Rage;
 using Functions = LSPD_First_Response.Mod.API.Functions;
-using Location = PyroCommon.Types.Location;
+using Location = PyroCommon.Models.Location;
 
 namespace SuperCallouts.Callouts;
 
@@ -17,7 +17,7 @@ internal class CarAccident3 : SuperCallout
     private Ped _ePed2;
     private Vehicle _eVehicle;
     private Vehicle _eVehicle2;
-    internal override Location SpawnPoint { get; set; } = PyroFunctions.GetSideOfRoad(750, 180);
+    internal override Location SpawnPoint { get; set; } = CommonUtils.GetSideOfRoad(750, 180);
     internal override float OnSceneDistance { get; set; } = 25;
     internal override string CalloutName { get; set; } = "Car Accident (3)";
 
@@ -41,15 +41,15 @@ internal class CarAccident3 : SuperCallout
             "Reports of a car accident, respond ~r~CODE-3"
         );
 
-        PyroFunctions.SpawnNormalCar(out _eVehicle, SpawnPoint.Position, SpawnPoint.Heading);
+        CommonUtils.SpawnNormalCar(out _eVehicle, SpawnPoint.Position, SpawnPoint.Heading);
         _eVehicle.IsPersistent = true;
-        PyroFunctions.DamageVehicle(_eVehicle, 200, 200);
+        CommonUtils.DamageVehicle(_eVehicle, 200, 200);
         EntitiesToClear.Add(_eVehicle);
 
-        PyroFunctions.SpawnNormalCar(out _eVehicle2, _eVehicle.GetOffsetPositionFront(7f));
+        CommonUtils.SpawnNormalCar(out _eVehicle2, _eVehicle.GetOffsetPositionFront(7f));
         _eVehicle2.IsPersistent = true;
         _eVehicle2.Rotation = new Rotator(0f, 0f, 90f);
-        PyroFunctions.DamageVehicle(_eVehicle2, 200, 200);
+        CommonUtils.DamageVehicle(_eVehicle2, 200, 200);
         EntitiesToClear.Add(_eVehicle2);
 
         _ePed = _eVehicle.CreateRandomDriver();
@@ -70,7 +70,7 @@ internal class CarAccident3 : SuperCallout
         _eBlip.EnableRoute(Color.Red);
         BlipsToClear.Add(_eBlip);
 
-        Log.Info("Car Accident Scenario #" + _choice);
+        LogUtils.Info("Car Accident Scenario #" + _choice);
         if (!_eVehicle.Exists() || !_eVehicle2.Exists())
         {
             CalloutEnd(true);
@@ -135,7 +135,7 @@ internal class CarAccident3 : SuperCallout
                 break;
             case 3: //Fire + dead ped.
                 _ePed2.Tasks.Cower(-1);
-                PyroFunctions.FireControl(SpawnPoint.Position.Around2D(7f), 24, true);
+                CommonUtils.FireControl(SpawnPoint.Position.Around2D(7f), 24, true);
                 break;
             default:
                 End();

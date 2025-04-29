@@ -1,14 +1,14 @@
 using System;
 using System.Drawing;
 using LSPD_First_Response.Mod.Callouts;
-using PyroCommon.PyroFunctions;
-using PyroCommon.PyroFunctions.Extensions;
-using PyroCommon.Types;
+using PyroCommon.Extensions;
+using PyroCommon.Models;
+using PyroCommon.Utils;
 using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using Functions = LSPD_First_Response.Mod.API.Functions;
-using Location = PyroCommon.Types.Location;
+using Location = PyroCommon.Models.Location;
 
 namespace SuperCallouts.RemasteredCallouts;
 
@@ -28,10 +28,7 @@ internal class OpenCarry : SuperCallout
     {
         CalloutMessage = "~b~Dispatch:~s~ Reports of a person with a firearm.";
         CalloutAdvisory = "Caller reports the person is walking around with a firearm out but has not caused any trouble.";
-        Functions.PlayScannerAudioUsingPosition(
-            "ATTENTION_ALL_UNITS_05 WE_HAVE PYRO_OPEN_CARRY IN_OR_ON_POSITION",
-            SpawnPoint.Position
-        );
+        Functions.PlayScannerAudioUsingPosition("ATTENTION_ALL_UNITS_05 WE_HAVE PYRO_OPEN_CARRY IN_OR_ON_POSITION", SpawnPoint.Position);
     }
 
     internal override void CalloutAccepted()
@@ -51,19 +48,19 @@ internal class OpenCarry : SuperCallout
 
     private void SpawnSuspect()
     {
-        _suspect = PyroFunctions.SpawnPed(SpawnPoint);
+        _suspect = CommonUtils.SpawnPed(SpawnPoint);
         _suspectName = Functions.GetPersonaForPed(_suspect).FullName;
         _suspect.SetDrunk(Enums.DrunkState.ModeratelyDrunk);
         _suspect.SetLicenseStatus(Enums.Permits.Guns, Enums.PermitStatus.None);
-        PyroFunctions.AddFirearmItem("~r~Assault Rifle", "weapon_assaultrifle", true, false, true, _suspect);
-        PyroFunctions.AddWeaponItem("~r~Knife", "weapon_knife", _suspect);
+        CommonUtils.AddFirearmItem("~r~Assault Rifle", "weapon_assaultrifle", true, false, true, _suspect);
+        CommonUtils.AddWeaponItem("~r~Knife", "weapon_knife", _suspect);
         _suspect.Tasks.Wander();
         EntitiesToClear.Add(_suspect);
     }
 
     private void CreateBlip()
     {
-        _blip = PyroFunctions.CreateSearchBlip(SpawnPoint, Color.Red, true, true, 50f);
+        _blip = CommonUtils.CreateSearchBlip(SpawnPoint, Color.Red, true, true, 50f);
         BlipsToClear.Add(_blip);
     }
 
@@ -153,15 +150,15 @@ internal class OpenCarry : SuperCallout
         switch (new Random(DateTime.Now.Millisecond).Next(1, 6))
         {
             case 1: // Fleeing suspect
-                Log.Info("Callout Scene 1");
+                LogUtils.Info("Callout Scene 1");
                 Questioning.Enabled = true;
                 Game.DisplaySubtitle("~r~Suspect: ~s~I know my rights, leave me alone!", 5000);
                 _suspect.SetResistance(Enums.ResistanceAction.Flee);
-                PyroFunctions.StartPursuit(false, false, _suspect);
+                CommonUtils.StartPursuit(false, false, _suspect);
                 break;
 
             case 2: // Uncooperative suspect
-                Log.Info("Callout Scene 2");
+                LogUtils.Info("Callout Scene 2");
                 Questioning.Enabled = true;
                 Game.DisplayNotification("Investigate the person.");
                 _suspect.SetResistance(Enums.ResistanceAction.Uncooperative, true);
@@ -169,14 +166,14 @@ internal class OpenCarry : SuperCallout
                 break;
 
             case 3: // Aggressive suspect
-                Log.Info("Callout Scene 3");
+                LogUtils.Info("Callout Scene 3");
                 Game.DisplaySubtitle("~r~Suspect: ~s~REEEEEE", 5000);
                 _suspect.SetResistance(Enums.ResistanceAction.Attack);
                 _suspect.Tasks.AimWeaponAt(Player, -1);
                 break;
 
             case 4: // Compliant suspect with valid license
-                Log.Info("Callout Scene 4");
+                LogUtils.Info("Callout Scene 4");
                 Questioning.Enabled = true;
                 Game.DisplayNotification("Investigate the person.");
                 _suspect.Tasks.ClearImmediately();
@@ -186,7 +183,7 @@ internal class OpenCarry : SuperCallout
                 break;
 
             case 5: // Attacking suspect
-                Log.Info("Callout Scene 5");
+                LogUtils.Info("Callout Scene 5");
                 _suspect.SetResistance(Enums.ResistanceAction.Attack, false, 100);
                 _suspect.Tasks.FireWeaponAt(Player, -1, FiringPattern.FullAutomatic);
                 break;
@@ -207,17 +204,11 @@ internal class OpenCarry : SuperCallout
                 delegate
                 {
                     _speakSuspect.Enabled = false;
-                    Game.DisplaySubtitle(
-                        "~g~You~s~: I'm with the police. What is the reason for carrying your weapon out?",
-                        5000
-                    );
+                    Game.DisplaySubtitle("~g~You~s~: I'm with the police. What is the reason for carrying your weapon out?", 5000);
                     _suspect.Tasks.FaceEntity(Player);
                     GameFiber.Wait(5000);
                     _suspect.PlayAmbientSpeech("GENERIC_CURSE_MED");
-                    Game.DisplaySubtitle(
-                        $"~r~{_suspectName}~s~: It's my right officer. Nobody can tell me I can't have my gun.''",
-                        5000
-                    );
+                    Game.DisplaySubtitle($"~r~{_suspectName}~s~: It's my right officer. Nobody can tell me I can't have my gun.''", 5000);
                     GameFiber.Wait(5000);
                     Game.DisplaySubtitle(
                         "~g~You~s~: Alright, I understand your rights to open carry, but carrying a rifle in this way does cause concern to people. It's also illegal to be loaded while you carry.",

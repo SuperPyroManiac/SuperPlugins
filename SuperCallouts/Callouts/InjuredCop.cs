@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Drawing;
 using LSPD_First_Response.Mod.Callouts;
-using PyroCommon.PyroFunctions;
+using PyroCommon.Utils;
 using Rage;
 using Functions = LSPD_First_Response.Mod.API.Functions;
-using Location = PyroCommon.Types.Location;
+using Location = PyroCommon.Models.Location;
 
 namespace SuperCallouts.Callouts;
 
 [CalloutInfo("[SC] Injured Cop", CalloutProbability.Medium)]
 internal class InjuredCop : SuperCallout
 {
-    internal override Location SpawnPoint { get; set; } = PyroFunctions.GetSideOfRoad(750, 180);
+    internal override Location SpawnPoint { get; set; } = CommonUtils.GetSideOfRoad(750, 180);
     internal override float OnSceneDistance { get; set; } = 30;
     internal override string CalloutName { get; set; } = "Injured Cop";
     private Ped _cop;
@@ -54,13 +54,13 @@ internal class InjuredCop : SuperCallout
                 break;
             case 1:
                 _cop.Kill();
-                PyroFunctions.DamageVehicle(_vehicle, 100, 100);
+                CommonUtils.DamageVehicle(_vehicle, 100, 100);
                 break;
             case 2:
                 _bad = new Ped(_cop.Position.Around(2));
                 _bad.IsPersistent = true;
                 _bad.Kill();
-                PyroFunctions.SetWanted(_bad, true);
+                CommonUtils.SetWanted(_bad, true);
                 EntitiesToClear.Add(_bad);
                 break;
         }

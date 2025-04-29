@@ -1,9 +1,9 @@
 ﻿using System.Drawing;
 using LSPD_First_Response.Mod.Callouts;
-using PyroCommon.PyroFunctions;
+using PyroCommon.Utils;
 using Rage;
 using Functions = LSPD_First_Response.Mod.API.Functions;
-using Location = PyroCommon.Types.Location;
+using Location = PyroCommon.Models.Location;
 
 namespace SuperCallouts.RemasteredCallouts;
 
@@ -11,7 +11,7 @@ namespace SuperCallouts.RemasteredCallouts;
 internal class FakeCall : SuperCallout
 {
     private Blip _blip;
-    internal override Location SpawnPoint { get; set; } = PyroFunctions.GetSideOfRoad(750, 180);
+    internal override Location SpawnPoint { get; set; } = CommonUtils.GetSideOfRoad(750, 180);
     internal override float OnSceneDistance { get; set; } = 30;
     internal override string CalloutName { get; set; } = "Prank Call";
 
@@ -19,10 +19,7 @@ internal class FakeCall : SuperCallout
     {
         CalloutMessage = $"~r~{Settings.EmergencyNumber} Report:~s~ Emergency call dropped.";
         CalloutAdvisory = "Call dropped and dispatch is unable to reach caller back.";
-        Functions.PlayScannerAudioUsingPosition(
-            "ATTENTION_ALL_UNITS_05 WE_HAVE PYRO_DROPPED_CALL IN_OR_ON_POSITION",
-            SpawnPoint.Position
-        );
+        Functions.PlayScannerAudioUsingPosition("ATTENTION_ALL_UNITS_05 WE_HAVE PYRO_DROPPED_CALL IN_OR_ON_POSITION", SpawnPoint.Position);
     }
 
     internal override void CalloutAccepted()
@@ -35,7 +32,7 @@ internal class FakeCall : SuperCallout
             "Caller disconnected from call quickly. Unable to reach them back. Last location recorded, respond to the last known location. ~r~CODE-2"
         );
 
-        _blip = PyroFunctions.CreateSearchBlip(SpawnPoint, Color.Yellow, true, false, 50f);
+        _blip = CommonUtils.CreateSearchBlip(SpawnPoint, Color.Yellow, true, false, 50f);
         BlipsToClear.Add(_blip);
     }
 

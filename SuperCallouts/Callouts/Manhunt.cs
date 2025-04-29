@@ -1,11 +1,11 @@
 using System.Drawing;
 using LSPD_First_Response.Mod.Callouts;
-using PyroCommon.PyroFunctions;
+using PyroCommon.Utils;
 using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using Functions = LSPD_First_Response.Mod.API.Functions;
-using Location = PyroCommon.Types.Location;
+using Location = PyroCommon.Models.Location;
 
 namespace SuperCallouts.Callouts;
 
@@ -25,10 +25,7 @@ internal class Manhunt : SuperCallout
     {
         CalloutMessage = "~b~Dispatch:~s~ Wanted suspect on the run.";
         CalloutAdvisory = "Officers report a suspect evaded them in the area.";
-        Functions.PlayScannerAudioUsingPosition(
-            "ATTENTION_ALL_UNITS_05 SUSPECTS_LAST_SEEN_02 IN_OR_ON_POSITION",
-            SpawnPoint.Position
-        );
+        Functions.PlayScannerAudioUsingPosition("ATTENTION_ALL_UNITS_05 SUSPECTS_LAST_SEEN_02 IN_OR_ON_POSITION", SpawnPoint.Position);
     }
 
     internal override void CalloutAccepted()
@@ -42,7 +39,7 @@ internal class Manhunt : SuperCallout
         );
 
         _bad = new Ped(SpawnPoint.Position) { IsPersistent = true };
-        PyroFunctions.SetWanted(_bad, true);
+        CommonUtils.SetWanted(_bad, true);
         _name1 = Functions.GetPersonaForPed(_bad).FullName;
         _bad.Tasks.Wander();
         EntitiesToClear.Add(_bad);

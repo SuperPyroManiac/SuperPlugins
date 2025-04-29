@@ -2,11 +2,11 @@ using System;
 using System.Diagnostics;
 using System.Reflection;
 using LSPD_First_Response.Mod.API;
-using PyroCommon.PyroFunctions;
+using PyroCommon.Utils;
 using Rage;
 using SuperCallouts.Callouts;
 using SuperCallouts.RemasteredCallouts;
-using DependManager = PyroCommon.PyroFunctions.DependManager;
+using DependManager = PyroCommon.Services.DependencyService;
 
 namespace SuperCallouts;
 
@@ -28,13 +28,13 @@ internal class Main : Plugin
         if (onDuty)
         {
             PyroCommon.Main.InitCommon("SuperCallouts", Assembly.GetExecutingAssembly().GetName().Version.ToString());
-            Log.Info("SuperCallouts by SuperPyroManiac loaded successfully!");
-            Log.Info("======================================================");
-            Log.Info("Dependencies Found:");
-            Log.Info($"PyroCommon, Version: {new Version(FileVersionInfo.GetVersionInfo("PyroCommon.dll").FileVersion)}");
-            Log.Info($"Using Ultimate Backup: {PyroCommon.Main.UsingUb}");
-            Log.Info($"Using StopThePed: {PyroCommon.Main.UsingStp}");
-            Log.Info("======================================================");
+            LogUtils.Info("SuperCallouts by SuperPyroManiac loaded successfully!");
+            LogUtils.Info("======================================================");
+            LogUtils.Info("Dependencies Found:");
+            LogUtils.Info($"PyroCommon, Version: {new Version(FileVersionInfo.GetVersionInfo("PyroCommon.dll").FileVersion)}");
+            LogUtils.Info($"Using Ultimate Backup: {PyroCommon.Main.UsingUb}");
+            LogUtils.Info($"Using StopThePed: {PyroCommon.Main.UsingStp}");
+            LogUtils.Info("======================================================");
             RegisterCallouts();
             return;
         }

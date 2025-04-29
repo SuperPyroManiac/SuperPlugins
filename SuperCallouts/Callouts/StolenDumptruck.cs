@@ -1,10 +1,10 @@
 ﻿using System.Drawing;
 using LSPD_First_Response.Mod.Callouts;
-using PyroCommon.PyroFunctions;
-using PyroCommon.Types;
+using PyroCommon.Models;
+using PyroCommon.Utils;
 using Rage;
 using Functions = LSPD_First_Response.Mod.API.Functions;
-using Location = PyroCommon.Types.Location;
+using Location = PyroCommon.Models.Location;
 
 namespace SuperCallouts.Callouts;
 
@@ -47,7 +47,7 @@ internal class StolenDumptruck : SuperCallout
         _bad.BlockPermanentEvents = true;
         _bad.Metadata.stpDrugsDetected = true;
         _bad.Metadata.stpAlcoholDetected = true;
-        PyroFunctions.SetDrunkOld(_bad, true);
+        CommonUtils.SetDrunkOld(_bad, true);
         EntitiesToClear.Add(_bad);
 
         _cBlip = _bad.AttachBlip();
@@ -65,6 +65,6 @@ internal class StolenDumptruck : SuperCallout
         var pursuit = Functions.CreatePursuit();
         Functions.AddPedToPursuit(pursuit, _bad);
         Functions.SetPursuitIsActiveForPlayer(pursuit, true);
-        PyroFunctions.RequestBackup(Enums.BackupType.Pursuit);
+        CommonUtils.RequestBackup(Enums.BackupType.Pursuit);
     }
 }

@@ -1,12 +1,12 @@
 using System;
 using System.Drawing;
 using LSPD_First_Response.Mod.Callouts;
-using PyroCommon.PyroFunctions;
-using PyroCommon.PyroFunctions.Extensions;
-using PyroCommon.Types;
+using PyroCommon.Extensions;
+using PyroCommon.Models;
+using PyroCommon.Utils;
 using Rage;
 using Functions = LSPD_First_Response.Mod.API.Functions;
-using Location = PyroCommon.Types.Location;
+using Location = PyroCommon.Models.Location;
 
 namespace SuperCallouts.RemasteredCallouts;
 
@@ -19,7 +19,7 @@ internal class IllegalParking : SuperCallout
     private readonly int _sceneType = new Random(DateTime.Now.Millisecond).Next(1, 5);
     private int _partHandleBigFire;
     private int _partHandleMistySmoke;
-    internal override Location SpawnPoint { get; set; } = PyroFunctions.GetSideOfRoad(750, 180);
+    internal override Location SpawnPoint { get; set; } = CommonUtils.GetSideOfRoad(750, 180);
     internal override float OnSceneDistance { get; set; } = 25f;
     internal override string CalloutName { get; set; } = "Illegal Parking";
 
@@ -49,13 +49,13 @@ internal class IllegalParking : SuperCallout
 
     private void SpawnVehicle()
     {
-        _vehicle = PyroFunctions.SpawnCar(SpawnPoint);
+        _vehicle = CommonUtils.SpawnCar(SpawnPoint);
         EntitiesToClear.Add(_vehicle);
 
         if (_sceneType == 1)
         {
             _vehicle.ApplyDamage(100, 100);
-            _partHandleBigFire = Particles.StartLoopedParticlesOnEntity(
+            _partHandleBigFire = ParticleUtils.StartLoopedParticlesOnEntity(
                 "scr_trevor3",
                 "scr_trev3_trailer_plume",
                 _vehicle,
@@ -63,7 +63,7 @@ internal class IllegalParking : SuperCallout
                 Vector3.Zero,
                 0.7f
             );
-            _partHandleMistySmoke = Particles.StartLoopedParticlesOnEntity(
+            _partHandleMistySmoke = ParticleUtils.StartLoopedParticlesOnEntity(
                 "scr_agencyheistb",
                 "scr_env_agency3b_smoke",
                 _vehicle,
@@ -76,7 +76,7 @@ internal class IllegalParking : SuperCallout
 
     private void CreateBlip()
     {
-        _blip = PyroFunctions.CreateSearchBlip(SpawnPoint, Color.Yellow, true, true, 40f);
+        _blip = CommonUtils.CreateSearchBlip(SpawnPoint, Color.Yellow, true, true, 40f);
         BlipsToClear.Add(_blip);
     }
 
@@ -108,28 +108,28 @@ internal class IllegalParking : SuperCallout
         switch (_sceneType)
         {
             case 1: // Burning vehicle
-                Log.Info("Callout Scene 1");
+                LogUtils.Info("Callout Scene 1");
                 GameFiber.Wait(5000);
                 _vehicle.StartFire(false);
                 GameFiber.Wait(12000);
-                Particles.StopLoopedParticles(_partHandleBigFire);
+                ParticleUtils.StopLoopedParticles(_partHandleBigFire);
                 break;
 
             case 2: // Stolen vehicle with bomb
-                Log.Info("Callout Scene 2");
+                LogUtils.Info("Callout Scene 2");
                 _vehicle.IsStolen = true;
-                PyroFunctions.AddSearchItem("~r~Bomb", null, _vehicle);
+                CommonUtils.AddSearchItem("~r~Bomb", null, _vehicle);
                 break;
 
             case 3: // Suicide scene
-                Log.Info("Callout Scene 3");
+                LogUtils.Info("Callout Scene 3");
                 _suspect = _vehicle.CreateRandomDriver();
                 _suspect.IsPersistent = true;
                 EntitiesToClear.Add(_suspect);
                 _suspect.Kill();
-                PyroFunctions.AddDrugItem("~r~Large pile of white powder", Enums.DrugType.Methamphetamine, _suspect);
-                PyroFunctions.AddSearchItem("~r~Empty used needles", _suspect);
-                PyroFunctions.AddSearchItem("~y~Suicide letter", null, _vehicle);
+                CommonUtils.AddDrugItem("~r~Large pile of white powder", Enums.DrugType.Methamphetamine, _suspect);
+                CommonUtils.AddSearchItem("~r~Empty used needles", _suspect);
+                CommonUtils.AddSearchItem("~y~Suicide letter", null, _vehicle);
                 break;
 
             case 4: // Normal illegally parked vehicle
@@ -139,8 +139,8 @@ internal class IllegalParking : SuperCallout
 
     internal override void CalloutEnd(bool forceCleanup = false)
     {
-        Particles.StopLoopedParticles(_partHandleBigFire);
-        Particles.StopLoopedParticles(_partHandleMistySmoke);
+        ParticleUtils.StopLoopedParticles(_partHandleBigFire);
+        ParticleUtils.StopLoopedParticles(_partHandleMistySmoke);
         base.CalloutEnd(forceCleanup);
     }
 }

@@ -1,5 +1,5 @@
 ﻿using System;
-using PyroCommon.PyroFunctions;
+using PyroCommon.Utils;
 using Rage;
 using SuperEvents.Attributes;
 
@@ -20,23 +20,26 @@ internal class WildAnimal : AmbientEvent
         _spawnPoint = World.GetNextPositionOnStreet(Player.Position.Around(150f));
         EventLocation = _spawnPoint;
         Model[] meanAnimal = ["A_C_MTLION", "A_C_COYOTE"];
-        _animal = new Ped(meanAnimal[new Random(DateTime.Now.Millisecond).Next(meanAnimal.Length)], _spawnPoint, 50) { IsPersistent = true };
+        _animal = new Ped(meanAnimal[new Random(DateTime.Now.Millisecond).Next(meanAnimal.Length)], _spawnPoint, 50)
+        {
+            IsPersistent = true,
+        };
     }
 
     protected override void OnProcess()
     {
         try
         {
-            if ( !_animal )
+            if (!_animal)
             {
                 EndEvent(true);
                 return;
             }
 
-            switch ( _tasks )
+            switch (_tasks)
             {
                 case Tasks.CheckDistance:
-                    if ( Player.DistanceTo(_animal) < 20f )
+                    if (Player.DistanceTo(_animal) < 20f)
                     {
                         _animal.Tasks.FightAgainst(Player);
                         _tasks = Tasks.OnScene;
@@ -50,20 +53,18 @@ internal class WildAnimal : AmbientEvent
                     break;
             }
         }
-        catch ( Exception e )
+        catch (Exception e)
         {
-            Log.Error(e.ToString());
+            LogUtils.Error(e.ToString());
             EndEvent(true);
         }
     }
 
-    protected override void OnCleanup()
-    {
-    }
+    protected override void OnCleanup() { }
 
     private enum Tasks
     {
         CheckDistance,
-        OnScene
+        OnScene,
     }
 }

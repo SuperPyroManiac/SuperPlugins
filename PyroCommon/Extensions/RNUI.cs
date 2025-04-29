@@ -4,14 +4,15 @@ using Rage;
 using Rage.Native;
 using RAGENativeUI.Elements;
 
-namespace PyroCommon.PyroFunctions.Extensions;
+namespace PyroCommon.Extensions;
 
 public static class Rnui
 {
-    private static void WithTextEditingBase<T>(T item, int maxLength, Func<string> strGetter, Action<string> resultCallback) where T : UIMenuItem
+    private static void WithTextEditingBase<T>(T item, int maxLength, Func<string> strGetter, Action<string> resultCallback)
+        where T : UIMenuItem
     {
         item = item ?? throw new ArgumentNullException(nameof(item));
-        if ( maxLength < 0 )
+        if (maxLength < 0)
         {
             throw new ArgumentOutOfRangeException("Length cannot be negative", nameof(maxLength));
         }
@@ -21,18 +22,19 @@ public static class Rnui
             Manager.MainMenuPool.Draw();
             NativeFunction.Natives.DISPLAY_ONSCREEN_KEYBOARD(6, "", "", strGetter(), "", "", "", maxLength);
             int state;
-            while ( ( state = NativeFunction.Natives.UPDATE_ONSCREEN_KEYBOARD<int>() ) == 0 )
+            while ((state = NativeFunction.Natives.UPDATE_ONSCREEN_KEYBOARD<int>()) == 0)
             {
                 GameFiber.Yield();
                 Manager.MainMenuPool.Draw();
             }
-            if ( state == 1 )
+            if (state == 1)
             {
                 string str = NativeFunction.Natives.GET_ONSCREEN_KEYBOARD_RESULT<string>();
                 resultCallback(str);
             }
         };
     }
+
     /// <summary>
     /// Allows to edit a string by selecting the item. The current string is displayed in the item's <see cref="UIMenuItem.RightLabel"/>.
     /// </summary>
@@ -43,23 +45,32 @@ public static class Rnui
     /// The maximum length of the string when set to the <see cref="UIMenuItem.RightLabel"/> property.
     /// If the string length exceeds this value, the string is cut and "..." is appended.
     /// </param>
-    public static UIMenuItem WithTextEditing(this UIMenuItem item, Func<string> getter, Action<string> setter, int maxLengthInItem = 16, int maxLength = 32)
+    public static UIMenuItem WithTextEditing(
+        this UIMenuItem item,
+        Func<string> getter,
+        Action<string> setter,
+        int maxLengthInItem = 16,
+        int maxLength = 32
+    )
     {
         getter = getter ?? throw new ArgumentNullException(nameof(getter));
         setter = setter ?? throw new ArgumentNullException(nameof(setter));
 
-        WithTextEditingBase(item, maxLength,
+        WithTextEditingBase(
+            item,
+            maxLength,
             getter,
             str =>
             {
                 TrimAndSetRightLabel(item, str, maxLengthInItem);
                 setter(str);
-            });
+            }
+        );
 
         TrimAndSetRightLabel(item, getter(), maxLengthInItem);
         return item;
 
-        static void TrimAndSetRightLabel(UIMenuItem item, string str, int maxLength)
-            => item.RightLabel = str.Length > maxLength ? ( str.Substring(0, maxLength) + "..." ) : str;
+        static void TrimAndSetRightLabel(UIMenuItem item, string str, int maxLength) =>
+            item.RightLabel = str.Length > maxLength ? (str.Substring(0, maxLength) + "...") : str;
     }
 }

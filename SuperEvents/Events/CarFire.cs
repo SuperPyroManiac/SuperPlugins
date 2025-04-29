@@ -1,5 +1,5 @@
 using System;
-using PyroCommon.PyroFunctions;
+using PyroCommon.Utils;
 using Rage;
 using SuperEvents.Attributes;
 
@@ -18,16 +18,16 @@ internal class CarFire : AmbientEvent
     protected override void OnStartEvent()
     {
         //Setup
-        PyroFunctions.FindSideOfRoad(120, 45, out _spawnPoint, out _);
+        CommonUtils.FindSideOfRoad(120, 45, out _spawnPoint, out _);
         EventLocation = _spawnPoint;
-        if ( _spawnPoint.DistanceTo(Player) < 35f )
+        if (_spawnPoint.DistanceTo(Player) < 35f)
         {
             EndEvent(true);
             return;
         }
 
         //eVehicle
-        PyroFunctions.SpawnNormalCar(out _eVehicle, _spawnPoint);
+        CommonUtils.SpawnNormalCar(out _eVehicle, _spawnPoint);
         EntitiesToClear.Add(_eVehicle);
     }
 
@@ -35,10 +35,10 @@ internal class CarFire : AmbientEvent
     {
         try
         {
-            switch ( _tasks )
+            switch (_tasks)
             {
                 case Tasks.CheckDistance:
-                    if ( Game.LocalPlayer.Character.DistanceTo(_spawnPoint) < 25f )
+                    if (Game.LocalPlayer.Character.DistanceTo(_spawnPoint) < 25f)
                     {
                         _tasks = Tasks.OnScene;
                     }
@@ -46,28 +46,28 @@ internal class CarFire : AmbientEvent
                     break;
                 case Tasks.OnScene:
                     var choice = new Random(DateTime.Now.Millisecond).Next(1, 4);
-                    Log.Info("Fire event picked scenerio #" + choice);
-                    if ( !_eVehicle )
+                    LogUtils.Info("Fire event picked scenerio #" + choice);
+                    if (!_eVehicle)
                     {
                         EndEvent(true);
                         break;
                     }
-                    switch ( choice )
+                    switch (choice)
                     {
                         case 1:
-                            PyroFunctions.FireControl(_spawnPoint.Around2D(4f), 24, true);
-                            PyroFunctions.FireControl(_spawnPoint.Around2D(4f), 24, false);
+                            CommonUtils.FireControl(_spawnPoint.Around2D(4f), 24, true);
+                            CommonUtils.FireControl(_spawnPoint.Around2D(4f), 24, false);
                             break;
                         case 2:
                             _eVehicle.Explode();
-                            PyroFunctions.FireControl(_spawnPoint.Around2D(4f), 10, true);
+                            CommonUtils.FireControl(_spawnPoint.Around2D(4f), 10, true);
                             break;
                         case 3:
                             _victim = _eVehicle.CreateRandomDriver();
                             _victim.IsPersistent = true;
                             EntitiesToClear.Add(_victim);
-                            PyroFunctions.FireControl(_spawnPoint.Around2D(4f), 24, true);
-                            PyroFunctions.FireControl(_spawnPoint.Around2D(4f), 24, false);
+                            CommonUtils.FireControl(_spawnPoint.Around2D(4f), 24, true);
+                            CommonUtils.FireControl(_spawnPoint.Around2D(4f), 24, false);
                             break;
                         default:
                             EndEvent(true);
@@ -83,22 +83,19 @@ internal class CarFire : AmbientEvent
                     break;
             }
         }
-        catch ( Exception e )
+        catch (Exception e)
         {
-            Log.Error(e.ToString());
+            LogUtils.Error(e.ToString());
             EndEvent(true);
         }
     }
 
-    protected override void OnCleanup()
-    {
-    }
-
+    protected override void OnCleanup() { }
 
     private enum Tasks
     {
         CheckDistance,
         OnScene,
-        End
+        End,
     }
 }

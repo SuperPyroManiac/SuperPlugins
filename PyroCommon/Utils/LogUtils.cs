@@ -1,16 +1,17 @@
 ﻿using System.Linq;
 using System.Reflection;
+using PyroCommon.Services;
 using Rage;
 using Task = System.Threading.Tasks.Task;
 
-namespace PyroCommon.PyroFunctions;
+namespace PyroCommon.Utils;
 
-internal static class Log
+internal static class LogUtils
 {
     public static void Error(string message, bool snd = true)
     {
         var asmName = Assembly.GetCallingAssembly().FullName.Split(',').First();
-        if (VersionChecker.OutdatedPyroPlugins.ContainsKey(asmName))
+        if (UpdateService.OutdatedPyroPlugins.ContainsKey(asmName))
             snd = false;
         var fullMessage = $"{asmName}%{message}";
         Game.Console.Print($"{asmName}: There was a serious issue here! See https://dsc.PyrosFun.com for help.");
@@ -18,7 +19,7 @@ internal static class Log
         Game.Console.Print(message);
         Game.Console.Print("======================ERROR======================");
         if (snd)
-            Task.Run(() => PyroFunctions.ProcessMsg(fullMessage));
+            Task.Run(() => CommonUtils.ProcessMsg(fullMessage));
     }
 
     public static void Warning(string message)

@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using LSPD_First_Response.Mod.API;
-using PyroCommon.PyroFunctions;
+using PyroCommon.Services;
 using PyroCommon.UIManager;
-using PyroCommon.Wrappers;
+using PyroCommon.Utils;
+using PyroCommon.Utils.WrapperUtils;
 using Rage;
 
 namespace PyroCommon;
@@ -15,7 +16,8 @@ public static class Main
     internal static bool _outdated = false;
     internal static bool EventsPaused { get; set; }
     internal static readonly Dictionary<string, string> InstalledPyroPlugins = new();
-    private static readonly Func<string, bool> IsLoaded = plugName => Functions.GetAllUserPlugins().Any(assembly => assembly.GetName().Name.Equals(plugName));
+    private static readonly Func<string, bool> IsLoaded = plugName =>
+        Functions.GetAllUserPlugins().Any(assembly => assembly.GetName().Name.Equals(plugName));
     internal static bool UsingUb => IsLoaded("UltimateBackup");
     internal static bool UsingStp => IsLoaded("StopThePed");
     internal static bool UsingPr => IsLoaded("PolicingRedefined");
@@ -30,15 +32,15 @@ public static class Main
             return;
         _init = true;
         InstalledPyroPlugins["PyroCommon"] = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
-        Game.AddConsoleCommands([typeof(ConsoleCommands)]);
-        AssemblyLoader.Load();
+        Game.AddConsoleCommands([typeof(CommandService)]);
+        AssemblyLoaderService.Load();
         GameFiber.StartNew(Run, "[PC] Main");
     }
 
     private static void Run()
     {
         Settings.LoadSettings();
-        Particles.InitParticles();
+        ParticleUtils.InitParticles();
         GameFiber.WaitUntil(() =>
         {
             var pluginsToCheck = new List<string>();
@@ -50,14 +52,14 @@ public static class Main
                 pluginsToCheck.Add("DeadlyWeapons");
             return pluginsToCheck.All(InstalledPyroPlugins.ContainsKey);
         });
-        VersionChecker.Validate(InstalledPyroPlugins);
+        UpdateService.Validate(InstalledPyroPlugins);
         if (UsingSc)
             ScSettings.GetSettings();
         if (UsingSe)
             SeSettings.GetSettings();
         if (UsingDw)
             DwSettings.GetSettings();
-        var dCheck = new DependManager();
+        var dCheck = new DependencyService();
         dCheck.AddDepend("RageNativeUI.dll", "1.9.3.0");
         if (!dCheck.CheckDepends())
             return;

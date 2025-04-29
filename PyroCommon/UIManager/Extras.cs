@@ -1,5 +1,5 @@
 ﻿using System.Drawing;
-using PyroCommon.PyroFunctions;
+using PyroCommon.Services;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 
@@ -15,7 +15,7 @@ internal class Extras
         menuItem.RightLabel = ver;
         if (!Main.UsingSc)
             return menuItem;
-        if (VersionChecker.OutdatedPyroPlugins.ContainsKey("SuperCallouts"))
+        if (UpdateService.OutdatedPyroPlugins.ContainsKey("SuperCallouts"))
         {
             menuItem.ForeColor = Color.Red;
             menuItem.LeftBadge = UIMenuItem.BadgeStyle.Alert;
@@ -35,7 +35,7 @@ internal class Extras
         menuItem.RightLabel = ver;
         if (!Main.UsingSe)
             return menuItem;
-        if (VersionChecker.OutdatedPyroPlugins.ContainsKey("SuperEvents"))
+        if (UpdateService.OutdatedPyroPlugins.ContainsKey("SuperEvents"))
         {
             menuItem.ForeColor = Color.Red;
             menuItem.LeftBadge = UIMenuItem.BadgeStyle.Alert;
@@ -55,7 +55,7 @@ internal class Extras
         menuItem.RightLabel = ver;
         if (!Main.UsingDw)
             return menuItem;
-        if (VersionChecker.OutdatedPyroPlugins.ContainsKey("DeadlyWeapons"))
+        if (UpdateService.OutdatedPyroPlugins.ContainsKey("DeadlyWeapons"))
         {
             menuItem.ForeColor = Color.Red;
             menuItem.LeftBadge = UIMenuItem.BadgeStyle.Alert;

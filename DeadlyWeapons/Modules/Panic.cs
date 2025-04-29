@@ -1,6 +1,6 @@
 ﻿using DeadlyWeapons.PyroFunctions;
-using PyroCommon.PyroFunctions;
-using PyroCommon.Types;
+using PyroCommon.Models;
+using PyroCommon.Utils;
 using Rage;
 
 namespace DeadlyWeapons.Modules;
@@ -13,7 +13,7 @@ internal static class Panic
 
     internal static void StartPanicFiber()
     {
-        Log.Info("Starting PanicFiber.");
+        LogUtils.Info("Starting PanicFiber.");
         while (Main.Running)
         {
             GameFiber.Yield();
@@ -22,7 +22,7 @@ internal static class Panic
             if (Player.IsShooting && Settings.Panic && !Utils.GetWeaponByHash(Player.Inventory.EquippedWeapon.Hash).PanicIgnore)
                 PanicHit();
             if (Settings.Debug && Player.IsShooting && Settings.Panic)
-                Log.Info(
+                LogUtils.Info(
                     $"[DEBUG] Weapon fired: ({Player.Inventory.EquippedWeapon.Hash.ToString()}) "
                         + $"Best DW Match: ({Utils.GetWeaponByHash(Player.Inventory.EquippedWeapon.Hash).Name}: {Utils.GetWeaponByHash(Player.Inventory.EquippedWeapon.Hash).WeaponHash})"
                 );
@@ -35,16 +35,16 @@ internal static class Panic
             return;
         _panic = true;
         if (PyroCommon.Main.UsingUb)
-            Log.Info("Using Ultimate Backup for panic.");
+            LogUtils.Info("Using Ultimate Backup for panic.");
         GameFiber.StartNew(
             delegate
             {
                 if (Settings.Code3Backup)
-                    PyroCommon.PyroFunctions.PyroFunctions.RequestBackup(Enums.BackupType.Code3);
+                    CommonUtils.RequestBackup(Enums.BackupType.Code3);
                 if (Settings.SwatBackup)
-                    PyroCommon.PyroFunctions.PyroFunctions.RequestBackup(Enums.BackupType.Swat);
+                    CommonUtils.RequestBackup(Enums.BackupType.Swat);
                 if (Settings.NooseBackup)
-                    PyroCommon.PyroFunctions.PyroFunctions.RequestBackup(Enums.BackupType.Noose);
+                    CommonUtils.RequestBackup(Enums.BackupType.Noose);
 
                 Game.DisplayNotification(
                     "3dtextures",

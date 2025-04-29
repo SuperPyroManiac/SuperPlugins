@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace PyroCommon.Wrappers;
+namespace PyroCommon.Utils.WrapperUtils;
 
 internal static class DwSettings
 {

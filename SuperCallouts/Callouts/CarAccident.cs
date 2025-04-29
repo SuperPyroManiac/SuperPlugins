@@ -1,12 +1,12 @@
 using System.Drawing;
 using LSPD_First_Response.Mod.Callouts;
-using PyroCommon.PyroFunctions;
-using PyroCommon.Types;
+using PyroCommon.Models;
+using PyroCommon.Utils;
 using Rage;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using Functions = LSPD_First_Response.Mod.API.Functions;
-using Location = PyroCommon.Types.Location;
+using Location = PyroCommon.Models.Location;
 
 namespace SuperCallouts.Callouts;
 
@@ -17,7 +17,7 @@ internal class CarAccident : SuperCallout
     private Blip _cBlip;
     private Vehicle _cVehicle;
     private Ped _cVictim;
-    internal override Location SpawnPoint { get; set; } = PyroFunctions.GetSideOfRoad(750, 180);
+    internal override Location SpawnPoint { get; set; } = CommonUtils.GetSideOfRoad(750, 180);
     internal override float OnSceneDistance { get; set; } = 25;
     internal override string CalloutName { get; set; } = "Car Accident (1)";
 
@@ -41,9 +41,9 @@ internal class CarAccident : SuperCallout
             "Reports of a car accident, respond ~r~CODE-3"
         );
 
-        PyroFunctions.SpawnAnyCar(out _cVehicle, SpawnPoint.Position);
+        CommonUtils.SpawnAnyCar(out _cVehicle, SpawnPoint.Position);
         _cVehicle.Heading = SpawnPoint.Heading;
-        PyroFunctions.DamageVehicle(_cVehicle, 200, 200);
+        CommonUtils.DamageVehicle(_cVehicle, 200, 200);
         EntitiesToClear.Add(_cVehicle);
 
         _cVictim = _cVehicle.CreateRandomDriver();
@@ -76,8 +76,8 @@ internal class CarAccident : SuperCallout
             Game.DisplaySubtitle(
                 "~g~You~s~: Dispatch, we have a vehicle accident, possible hit and run. Looks like someone is inside and injured! I need EMS out here."
             );
-            PyroFunctions.RequestBackup(Enums.BackupType.Fire);
-            PyroFunctions.RequestBackup(Enums.BackupType.Medical);
+            CommonUtils.RequestBackup(Enums.BackupType.Fire);
+            CommonUtils.RequestBackup(Enums.BackupType.Medical);
 
             _callEms.Enabled = false;
             base.Interactions(sender, selItem, index);

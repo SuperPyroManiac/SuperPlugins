@@ -1,5 +1,5 @@
 using System;
-using PyroCommon.PyroFunctions;
+using PyroCommon.Utils;
 using Rage;
 using SuperEvents.Attributes;
 
@@ -18,16 +18,16 @@ internal class WeirdCar : AmbientEvent
     protected override void OnStartEvent()
     {
         //Setup
-        PyroFunctions.FindSideOfRoad(120, 45, out _spawnPoint, out _);
+        CommonUtils.FindSideOfRoad(120, 45, out _spawnPoint, out _);
         EventLocation = _spawnPoint;
-        if ( _spawnPoint.DistanceTo(Player) < 35f )
+        if (_spawnPoint.DistanceTo(Player) < 35f)
         {
             EndEvent(true);
             return;
         }
 
         //eVehicle
-        PyroFunctions.SpawnNormalCar(out _eVehicle, _spawnPoint);
+        CommonUtils.SpawnNormalCar(out _eVehicle, _spawnPoint);
         EntitiesToClear.Add(_eVehicle);
     }
 
@@ -35,16 +35,16 @@ internal class WeirdCar : AmbientEvent
     {
         try
         {
-            if ( !_eVehicle )
+            if (!_eVehicle)
             {
                 EndEvent(true);
                 return;
             }
 
-            switch ( _tasks )
+            switch (_tasks)
             {
                 case Tasks.CheckDistance:
-                    if ( Game.LocalPlayer.Character.DistanceTo(_spawnPoint) < 25f )
+                    if (Game.LocalPlayer.Character.DistanceTo(_spawnPoint) < 25f)
                     {
                         _tasks = Tasks.OnScene;
                     }
@@ -52,14 +52,14 @@ internal class WeirdCar : AmbientEvent
                     break;
                 case Tasks.OnScene:
                     var choice = new Random(DateTime.Now.Millisecond).Next(1, 7);
-                    Log.Info("Abandoned Vehicle event picked scenario #" + choice);
-                    switch ( choice )
+                    LogUtils.Info("Abandoned Vehicle event picked scenario #" + choice);
+                    switch (choice)
                     {
                         case 1:
-                            PyroFunctions.DamageVehicle(_eVehicle, 200, 200);
+                            CommonUtils.DamageVehicle(_eVehicle, 200, 200);
                             break;
                         case 2:
-                            PyroFunctions.DamageVehicle(_eVehicle, 200, 200);
+                            CommonUtils.DamageVehicle(_eVehicle, 200, 200);
                             _eVehicle.IsStolen = true;
                             break;
                         case 3:
@@ -89,9 +89,9 @@ internal class WeirdCar : AmbientEvent
                     break;
             }
         }
-        catch ( Exception e )
+        catch (Exception e)
         {
-            Log.Error(e.ToString());
+            LogUtils.Error(e.ToString());
             EndEvent(true);
         }
     }
@@ -102,6 +102,6 @@ internal class WeirdCar : AmbientEvent
     {
         CheckDistance,
         OnScene,
-        End
+        End,
     }
 }

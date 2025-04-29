@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Rage;
 
-namespace PyroCommon.Wrappers;
+namespace PyroCommon.Utils.WrapperUtils;
 
 public static class SearchItems
 {

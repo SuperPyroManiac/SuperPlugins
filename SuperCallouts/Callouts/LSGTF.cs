@@ -1,8 +1,8 @@
 ﻿using System.Drawing;
 using LSPD_First_Response.Mod.Callouts;
-using PyroCommon.PyroFunctions;
-using PyroCommon.Types;
+using PyroCommon.Models;
 using PyroCommon.UIManager;
+using PyroCommon.Utils;
 using Rage;
 using Rage.Native;
 using RAGENativeUI;
@@ -60,7 +60,7 @@ internal class Lsgtf : Callout
 
     public override bool OnCalloutAccepted()
     {
-        Log.Info("LSGTF callout accepted...");
+        LogUtils.Info("LSGTF callout accepted...");
         Game.DisplayNotification(
             "3dtextures",
             "mpgroundlogo_cops",
@@ -102,14 +102,14 @@ internal class Lsgtf : Callout
         _fib2.IsPersistent = true;
         _fib1.BlockPermanentEvents = true;
         _fib2.BlockPermanentEvents = true;
-        PyroFunctions.SetWanted(_bad1, true);
-        PyroFunctions.SetWanted(_bad2, true);
-        PyroFunctions.SetWanted(_bad3, true);
-        PyroFunctions.SetWanted(_bad4, true);
-        PyroFunctions.SetWanted(_bad5, true);
-        PyroFunctions.SetWanted(_bad6, true);
-        PyroFunctions.SetWanted(_bad7, true);
-        PyroFunctions.SetWanted(_bad8, true);
+        CommonUtils.SetWanted(_bad1, true);
+        CommonUtils.SetWanted(_bad2, true);
+        CommonUtils.SetWanted(_bad3, true);
+        CommonUtils.SetWanted(_bad4, true);
+        CommonUtils.SetWanted(_bad5, true);
+        CommonUtils.SetWanted(_bad6, true);
+        CommonUtils.SetWanted(_bad7, true);
+        CommonUtils.SetWanted(_bad8, true);
         _meetingB = _cVehicle.AttachBlip();
         _meetingB.EnableRoute(Color.Aquamarine);
         _meetingB.Color = Color.Aquamarine;
@@ -157,10 +157,7 @@ internal class Lsgtf : Callout
                         6000
                     );
                     GameFiber.Wait(6000);
-                    Game.DisplaySubtitle(
-                        "~g~FIB: ~w~You will be the officer in charge in this raid. Let us know when to begin.",
-                        6000
-                    );
+                    Game.DisplaySubtitle("~g~FIB: ~w~You will be the officer in charge in this raid. Let us know when to begin.", 6000);
                     _mainMenu!.AddItem(_startConv2 = new UIMenuItem("Yes, lets start."));
                     _mainMenu.AddItem(_startConv3 = new UIMenuItem("No, I need a minute."));
                 }
@@ -232,12 +229,9 @@ internal class Lsgtf : Callout
             _cVehicle.IsSirenOn = true;
             _cVehicle.IsSirenSilent = true;
             _onScene = true;
-            Functions.PlayScannerAudioUsingPosition(
-                "DISPATCH_SWAT_UNITS_FROM_01 IN_OR_ON_POSITION UNITS_RESPOND_CODE_99_01",
-                _raidpoint
-            );
-            PyroFunctions.RequestBackup(Enums.BackupType.Noose);
-            PyroFunctions.RequestBackup(Enums.BackupType.Swat);
+            Functions.PlayScannerAudioUsingPosition("DISPATCH_SWAT_UNITS_FROM_01 IN_OR_ON_POSITION UNITS_RESPOND_CODE_99_01", _raidpoint);
+            CommonUtils.RequestBackup(Enums.BackupType.Noose);
+            CommonUtils.RequestBackup(Enums.BackupType.Swat);
 
             _cBlip1?.DisableRoute();
             _cBlip2 = _bad2.AttachBlip();
@@ -280,10 +274,7 @@ internal class Lsgtf : Callout
             && _bad7.IsDead
             && _bad8.IsDead
         )
-            Game.DisplaySubtitle(
-                "~r~Radio: ~s~Well that was to be expected. Clear the scene or leave and we will take care of it.",
-                7000
-            );
+            Game.DisplaySubtitle("~r~Radio: ~s~Well that was to be expected. Clear the scene or leave and we will take care of it.", 7000);
         if (
             _onScene
             && Game.LocalPlayer.Character.DistanceTo(_bad1.Position) > 100f
