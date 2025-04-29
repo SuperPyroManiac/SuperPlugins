@@ -11,7 +11,13 @@ public class Style
         foreach (var men in pool)
         {
             men.SetBannerType(Color.FromArgb(240, 0, 0, 15));
-            men.TitleStyle = men.TitleStyle with { Color = Color.DarkGoldenrod, Font = TextFont.ChaletComprimeCologne, DropShadow = true, Outline = true };
+            men.TitleStyle = men.TitleStyle with
+            {
+                Color = Color.DarkGoldenrod,
+                Font = TextFont.ChaletComprimeCologne,
+                DropShadow = true,
+                Outline = true,
+            };
             men.MouseControlsEnabled = false;
             men.AllowCameraMovement = true;
             men.MaxItemsOnScreen = 20;

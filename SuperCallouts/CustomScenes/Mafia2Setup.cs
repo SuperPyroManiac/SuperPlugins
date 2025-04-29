@@ -10,11 +10,27 @@ namespace SuperCallouts.CustomScenes;
 
 internal static class Mafia2Setup
 {
-    internal static void ConstructMafia2Scene(out Vehicle mafiaCars4,
-        out Vehicle mafiaCars2, out Vehicle mafiaCars1, out Vehicle mafiaCars3, out Ped mafiaDudes7,
-        out Ped mafiaDudes12, out Ped mafiaDudes3, out Ped mafiaDudes10, out Ped mafiaDudes13, out Ped mafiaDudes11,
-        out Ped mafiaDudes14, out Ped mafiaDudes1, out Ped mafiaDudes2, out Ped mafiaDudes5, out Ped mafiaDudes4,
-        out Ped mafiaDudes15, out Ped mafiaDudes6, out Ped mafiaDudes9, out Ped mafiaDudes8)
+    internal static void ConstructMafia2Scene(
+        out Vehicle mafiaCars4,
+        out Vehicle mafiaCars2,
+        out Vehicle mafiaCars1,
+        out Vehicle mafiaCars3,
+        out Ped mafiaDudes7,
+        out Ped mafiaDudes12,
+        out Ped mafiaDudes3,
+        out Ped mafiaDudes10,
+        out Ped mafiaDudes13,
+        out Ped mafiaDudes11,
+        out Ped mafiaDudes14,
+        out Ped mafiaDudes1,
+        out Ped mafiaDudes2,
+        out Ped mafiaDudes5,
+        out Ped mafiaDudes4,
+        out Ped mafiaDudes15,
+        out Ped mafiaDudes6,
+        out Ped mafiaDudes9,
+        out Ped mafiaDudes8
+    )
     {
         mafiaDudes2 = new Ped("IG_BESTMEN", Vector3.Zero, 0f)
         {
@@ -25,7 +41,7 @@ internal static class Mafia2Setup
             AngularVelocity = new Rotator(0f, 0f, 0f),
             Velocity = new Vector3(0f, 0f, 0f),
             Orientation = new Quaternion(0f, 0f, 0.6129205f, 0.7901446f),
-            Position = new Vector3(1543.855f, 3607.511f, 35.2162f)
+            Position = new Vector3(1543.855f, 3607.511f, 35.2162f),
         };
         mafiaDudes2.SetVariation(0, 1, 0);
         mafiaDudes2.SetVariation(3, 0, 0);
@@ -43,7 +59,7 @@ internal static class Mafia2Setup
             AngularVelocity = new Rotator(0f, 0f, 0f),
             Velocity = new Vector3(0f, 0f, 0f),
             Orientation = new Quaternion(0f, 0f, 0.4196779f, 0.9076731f),
-            Position = new Vector3(1543.173f, 3606.55f, 35.19303f)
+            Position = new Vector3(1543.173f, 3606.55f, 35.19303f),
         };
         mafiaDudes5.SetVariation(0, 0, 0);
         mafiaDudes5.SetVariation(3, 0, 0);
@@ -62,7 +78,7 @@ internal static class Mafia2Setup
             AngularVelocity = new Rotator(0f, 0f, 0f),
             Velocity = new Vector3(0f, 0f, 0f),
             Orientation = new Quaternion(0f, 0f, 0.9087628f, -0.4173131f),
-            Position = new Vector3(1542.263f, 3609.036f, 35.26722f)
+            Position = new Vector3(1542.263f, 3609.036f, 35.26722f),
         };
         mafiaDudes4.SetVariation(0, 0, 0);
         mafiaDudes4.SetVariation(2, 0, 0);
@@ -85,7 +101,7 @@ internal static class Mafia2Setup
             AngularVelocity = new Rotator(0f, 0f, 0f),
             Velocity = new Vector3(0f, 0f, 0f),
             Orientation = new Quaternion(0f, 0f, 0.7833742f, -0.6215504f),
-            Position = new Vector3(1541.049f, 3607.429f, 35.24071f)
+            Position = new Vector3(1541.049f, 3607.429f, 35.24071f),
         };
         mafiaDudes15.SetVariation(0, 0, 0);
         mafiaDudes15.SetVariation(3, 0, 0);
@@ -107,7 +123,7 @@ internal static class Mafia2Setup
             AngularVelocity = new Rotator(0f, 0f, 0f),
             Velocity = new Vector3(0f, 0f, 0f),
             Orientation = new Quaternion(0f, 0f, 0.2748725f, 0.9614807f),
-            Position = new Vector3(1546.936f, 3602.605f, 38.73494f)
+            Position = new Vector3(1546.936f, 3602.605f, 38.73494f),
         };
         mafiaDudes6.SetVariation(0, 0, 0);
         mafiaDudes6.SetVariation(2, 0, 0);
@@ -130,7 +146,7 @@ internal static class Mafia2Setup
             AngularVelocity = new Rotator(0f, 0f, 0f),
             Velocity = new Vector3(0f, 0f, 0f),
             Orientation = new Quaternion(0f, 0f, 0f, 1f),
-            Position = new Vector3(1544.582f, 3601.32f, 38.73379f)
+            Position = new Vector3(1544.582f, 3601.32f, 38.73379f),
         };
         mafiaDudes9.SetVariation(0, 3, 2);
         mafiaDudes9.SetVariation(3, 1, 0);
@@ -148,7 +164,7 @@ internal static class Mafia2Setup
             AngularVelocity = new Rotator(0f, 0f, 0f),
             Velocity = new Vector3(0f, 0f, 0f),
             Orientation = new Quaternion(0f, 0f, 0.5450023f, 0.8384345f),
-            Position = new Vector3(1551.669f, 3605.39f, 38.74341f)
+            Position = new Vector3(1551.669f, 3605.39f, 38.74341f),
         };
         mafiaDudes8.SetVariation(0, 1, 0);
         mafiaDudes8.SetVariation(3, 2, 0);
@@ -171,7 +187,7 @@ internal static class Mafia2Setup
             PrimaryColor = Color.FromArgb(255, 255, 255, 255),
             FuelLevel = 80f,
             ConvertibleRoofState = VehicleConvertibleRoofState.Raised,
-            LockStatus = ( VehicleLockStatus )1,
+            LockStatus = (VehicleLockStatus)1,
             DirtLevel = 11f,
             LicensePlate = "85QON527",
             CollisionIgnoredEntity = null,
@@ -179,7 +195,7 @@ internal static class Mafia2Setup
             AngularVelocity = new Rotator(0f, 0f, 0f),
             Velocity = new Vector3(0f, 0f, 0f),
             Orientation = new Quaternion(0f, 0f, -0.4669424f, 0.8842877f),
-            Position = new Vector3(1531.97f, 3602.66f, 35.39088f)
+            Position = new Vector3(1531.97f, 3602.66f, 35.39088f),
         };
 
         mafiaCars2 = new Vehicle(new Model(0x1324e960), Vector3.Zero, 0f)
@@ -194,7 +210,7 @@ internal static class Mafia2Setup
             SecondaryColor = Color.FromArgb(255, 0, 0, 0),
             PrimaryColor = Color.FromArgb(255, 255, 255, 255),
             ConvertibleRoofState = VehicleConvertibleRoofState.Raised,
-            LockStatus = ( VehicleLockStatus )1,
+            LockStatus = (VehicleLockStatus)1,
             DirtLevel = 8f,
             LicensePlate = "41ZPP757",
             CollisionIgnoredEntity = null,
@@ -202,7 +218,7 @@ internal static class Mafia2Setup
             AngularVelocity = new Rotator(0f, 0f, 0f),
             Velocity = new Vector3(0f, 0f, 0f),
             Orientation = new Quaternion(0f, 0f, 0.7309447f, 0.6824367f),
-            Position = new Vector3(1560.377f, 3615.933f, 34.72619f)
+            Position = new Vector3(1560.377f, 3615.933f, 34.72619f),
         };
 
         mafiaCars1 = new Vehicle("LIMO2", Vector3.Zero, 0f)
@@ -217,7 +233,7 @@ internal static class Mafia2Setup
             SecondaryColor = Color.FromArgb(255, 0, 255, 255),
             PrimaryColor = Color.FromArgb(255, 255, 255, 255),
             ConvertibleRoofState = VehicleConvertibleRoofState.Raised,
-            LockStatus = ( VehicleLockStatus )1,
+            LockStatus = (VehicleLockStatus)1,
             DirtLevel = 7f,
             LicensePlate = "43WPW436",
             CollisionIgnoredEntity = null,
@@ -225,7 +241,7 @@ internal static class Mafia2Setup
             AngularVelocity = new Rotator(0f, 0f, 0f),
             Velocity = new Vector3(0f, 0f, 0f),
             Orientation = new Quaternion(0f, 0f, 0f, 1f),
-            Position = new Vector3(1566.573f, 3621.845f, 34.69645f)
+            Position = new Vector3(1566.573f, 3621.845f, 34.69645f),
         };
 
         mafiaCars3 = new Vehicle("LIMO2", Vector3.Zero, 0f)
@@ -240,7 +256,7 @@ internal static class Mafia2Setup
             SecondaryColor = Color.FromArgb(255, 0, 255, 255),
             PrimaryColor = Color.FromArgb(255, 255, 255, 255),
             ConvertibleRoofState = VehicleConvertibleRoofState.Raised,
-            LockStatus = ( VehicleLockStatus )1,
+            LockStatus = (VehicleLockStatus)1,
             DirtLevel = 4f,
             LicensePlate = "61UOM514",
             CollisionIgnoredEntity = null,
@@ -248,7 +264,7 @@ internal static class Mafia2Setup
             AngularVelocity = new Rotator(0f, 0f, 0f),
             Velocity = new Vector3(0f, 0f, 0f),
             Orientation = new Quaternion(0f, 0f, 0.847095f, -0.5314415f),
-            Position = new Vector3(1541.743f, 3615.468f, 34.87094f)
+            Position = new Vector3(1541.743f, 3615.468f, 34.87094f),
         };
 
         mafiaDudes7 = new Ped(new Model(0xfb6c0b97), Vector3.Zero, 0f)
@@ -260,7 +276,7 @@ internal static class Mafia2Setup
             AngularVelocity = new Rotator(0f, 0f, 0f),
             Velocity = new Vector3(0f, 0f, 0f),
             Orientation = new Quaternion(0f, 0f, -0.213613f, 0.9769183f),
-            Position = new Vector3(1557.716f, 3614.394f, 35.17625f)
+            Position = new Vector3(1557.716f, 3614.394f, 35.17625f),
         };
         mafiaDudes7.SetVariation(0, 0, 0);
         mafiaDudes7.SetVariation(2, 0, 0);
@@ -283,7 +299,7 @@ internal static class Mafia2Setup
             AngularVelocity = new Rotator(0f, 0f, 0f),
             Velocity = new Vector3(0f, 0f, 0f),
             Orientation = new Quaternion(0f, 0f, -0.07992769f, 0.9968007f),
-            Position = new Vector3(1564.479f, 3619.595f, 35.15536f)
+            Position = new Vector3(1564.479f, 3619.595f, 35.15536f),
         };
         mafiaDudes12.SetVariation(0, 2, 2);
         mafiaDudes12.SetVariation(1, 1, 0);
@@ -308,7 +324,7 @@ internal static class Mafia2Setup
             AngularVelocity = new Rotator(0f, 0f, 0f),
             Velocity = new Vector3(0f, 0f, 0f),
             Orientation = new Quaternion(0f, 0f, 0.1719038f, 0.9851137f),
-            Position = new Vector3(1539.855f, 3612.797f, 35.35184f)
+            Position = new Vector3(1539.855f, 3612.797f, 35.35184f),
         };
         mafiaDudes3.SetVariation(0, 0, 0);
         mafiaDudes3.SetVariation(1, 0, 0);
@@ -332,7 +348,7 @@ internal static class Mafia2Setup
             AngularVelocity = new Rotator(0f, 0f, 0f),
             Velocity = new Vector3(0f, 0f, 0f),
             Orientation = new Quaternion(0f, 0f, 0.02693291f, 0.9996372f),
-            Position = new Vector3(1534.879f, 3609.748f, 35.35373f)
+            Position = new Vector3(1534.879f, 3609.748f, 35.35373f),
         };
         mafiaDudes10.SetVariation(0, 5, 2);
         mafiaDudes10.SetVariation(1, 0, 0);
@@ -356,7 +372,7 @@ internal static class Mafia2Setup
             AngularVelocity = new Rotator(0f, 0f, 0f),
             Velocity = new Vector3(0f, 0f, 0f),
             Orientation = new Quaternion(0f, 0f, -0.3471982f, 0.9377918f),
-            Position = new Vector3(1544.377f, 3609.884f, 35.26527f)
+            Position = new Vector3(1544.377f, 3609.884f, 35.26527f),
         };
         mafiaDudes13.SetVariation(0, 0, 0);
         mafiaDudes13.SetVariation(1, 0, 0);
@@ -380,7 +396,7 @@ internal static class Mafia2Setup
             AngularVelocity = new Rotator(0f, 0f, 0f),
             Velocity = new Vector3(0f, 0f, 0f),
             Orientation = new Quaternion(0f, 0f, 0.1373514f, 0.9905224f),
-            Position = new Vector3(1541.052f, 3601.899f, 35.27475f)
+            Position = new Vector3(1541.052f, 3601.899f, 35.27475f),
         };
         mafiaDudes11.SetVariation(0, 0, 0);
         mafiaDudes11.SetVariation(2, 0, 0);
@@ -404,7 +420,7 @@ internal static class Mafia2Setup
             AngularVelocity = new Rotator(0f, 0f, 0f),
             Velocity = new Vector3(0f, 0f, 0f),
             Orientation = new Quaternion(0f, 0f, 0.2392313f, 0.9709626f),
-            Position = new Vector3(1546.732f, 3604.885f, 35.43145f)
+            Position = new Vector3(1546.732f, 3604.885f, 35.43145f),
         };
         mafiaDudes14.SetVariation(0, 0, 0);
         mafiaDudes14.SetVariation(2, 0, 0);
@@ -426,7 +442,7 @@ internal static class Mafia2Setup
             AngularVelocity = new Rotator(0f, 0f, 0f),
             Velocity = new Vector3(0f, 0f, 0f),
             Orientation = new Quaternion(0f, 0f, -0.2514437f, 0.9678719f),
-            Position = new Vector3(1541.702f, 3606.088f, 35.20017f)
+            Position = new Vector3(1541.702f, 3606.088f, 35.20017f),
         };
         mafiaDudes1.SetVariation(0, 0, 0);
         mafiaDudes1.SetVariation(2, 0, 0);

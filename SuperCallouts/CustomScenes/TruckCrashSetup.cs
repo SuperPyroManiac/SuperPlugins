@@ -16,8 +16,14 @@ internal static class TruckCrashSetup
      internal Ped mpStripperlite;
      internal Ped mpStripperlite2;
      internal Ped mpStripperlite3DEAD;*/
-    internal static void ConstructTrucksScene(out Ped mpStripperlite, out Ped mpStripperlite2,
-        out Ped mpStripperlite3Dead, out Vehicle pounder, out Vehicle bison, out Vehicle felon)
+    internal static void ConstructTrucksScene(
+        out Ped mpStripperlite,
+        out Ped mpStripperlite2,
+        out Ped mpStripperlite3Dead,
+        out Vehicle pounder,
+        out Vehicle bison,
+        out Vehicle felon
+    )
     {
         pounder = new Vehicle("POUNDER", Vector3.Zero, 0f)
         {
@@ -35,7 +41,7 @@ internal static class TruckCrashSetup
             FuelLevel = 80f,
             FuelTankHealth = 776.2667f,
             ConvertibleRoofState = VehicleConvertibleRoofState.Raised,
-            LockStatus = ( VehicleLockStatus )1,
+            LockStatus = (VehicleLockStatus)1,
             DirtLevel = 3f,
             LicensePlate = "85XIG328",
             CollisionIgnoredEntity = null,
@@ -45,7 +51,7 @@ internal static class TruckCrashSetup
             Orientation = new Quaternion(-0.2163455f, 0.6532158f, 0.2232166f, 0.6904187f),
             Rotation = new Rotator(-7, 90, 28),
             Position = new Vector3(2447.409f, -177.647f, 88.64472f),
-            IsPersistent = true
+            IsPersistent = true,
         };
 
         bison = new Vehicle("BISON", Vector3.Zero, 0f)
@@ -62,7 +68,7 @@ internal static class TruckCrashSetup
             FuelTankHealth = 710.7716f,
             EngineHealth = 10f,
             ConvertibleRoofState = VehicleConvertibleRoofState.Raised,
-            LockStatus = ( VehicleLockStatus )1,
+            LockStatus = (VehicleLockStatus)1,
             DirtLevel = 6f,
             LicensePlate = "64UIZ986",
             IsDriveable = false,
@@ -72,7 +78,7 @@ internal static class TruckCrashSetup
             Velocity = new Vector3(0f, 0f, 0f),
             Orientation = new Quaternion(0.01615246f, -0.01930955f, -0.246657f, 0.9687758f),
             Position = new Vector3(2444.1f, -179.6697f, 87.55006f),
-            IsPersistent = true
+            IsPersistent = true,
         };
 
         felon = new Vehicle("FELON", Vector3.Zero, 0f)
@@ -91,7 +97,7 @@ internal static class TruckCrashSetup
             FuelTankHealth = 700f,
             EngineHealth = 390.5054f,
             ConvertibleRoofState = VehicleConvertibleRoofState.Raised,
-            LockStatus = ( VehicleLockStatus )1,
+            LockStatus = (VehicleLockStatus)1,
             DirtLevel = 0f,
             LicensePlate = "88RTA013",
             CollisionIgnoredEntity = null,
@@ -100,7 +106,7 @@ internal static class TruckCrashSetup
             Velocity = new Vector3(-0.07780585f, -0.130072f, -0.004479066f),
             Orientation = new Quaternion(0.0157059f, -0.0009472959f, -0.2736966f, 0.9616874f),
             Position = new Vector3(2440.831f, -172.6008f, 87.82504f),
-            IsPersistent = true
+            IsPersistent = true,
         };
 
         mpStripperlite = new Ped(Vector3.Zero, 0f)
@@ -111,7 +117,7 @@ internal static class TruckCrashSetup
             AngularVelocity = new Rotator(0f, 0f, 0f),
             Velocity = new Vector3(0f, 0f, 0f),
             Orientation = new Quaternion(0f, 0f, 0f, 1f),
-            Position = new Vector3(2455.644f, -186.7955f, 87.83904f)
+            Position = new Vector3(2455.644f, -186.7955f, 87.83904f),
         };
         mpStripperlite.Tasks.ClearImmediately();
         mpStripperlite.Heading = 0f;
@@ -125,7 +131,7 @@ internal static class TruckCrashSetup
             AngularVelocity = new Rotator(0f, 0f, 0f),
             Velocity = new Vector3(0f, 0f, 0f),
             Orientation = new Quaternion(0f, 0f, 0.9894379f, -0.1449577f),
-            Position = new Vector3(2455.884f, -183.9076f, 87.95329f)
+            Position = new Vector3(2455.884f, -183.9076f, 87.95329f),
         };
         mpStripperlite2.Tasks.ClearImmediately();
         mpStripperlite2.Heading = 196.6697f;

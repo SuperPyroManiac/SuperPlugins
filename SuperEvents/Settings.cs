@@ -56,5 +56,4 @@ public static class Settings
         ini.Write("Keys", "Interact", Interact);
         ini.Write("Keys", "EndEvent", EndEvent);
     }
-
 }

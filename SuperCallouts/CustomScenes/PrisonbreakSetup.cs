@@ -8,8 +8,13 @@ namespace SuperCallouts.CustomScenes;
 
 internal static class PrisonbreakSetup
 {
-    internal static void ConstructPrisonBreakSetupScene(out Ped prisoner1, out Ped prisoner5, out Ped prisoner3,
-        out Ped prisoner2, out Ped prisoner4)
+    internal static void ConstructPrisonBreakSetupScene(
+        out Ped prisoner1,
+        out Ped prisoner5,
+        out Ped prisoner3,
+        out Ped prisoner2,
+        out Ped prisoner4
+    )
     {
         prisoner1 = new Ped("S_M_Y_PRISMUSCL_01", Vector3.Zero, 0f)
         {
@@ -20,7 +25,7 @@ internal static class PrisonbreakSetup
             AngularVelocity = new Rotator(0f, 0f, 0f),
             Velocity = new Vector3(0f, 0f, 0f),
             Orientation = new Quaternion(0f, 0f, 0f, 1f),
-            Position = new Vector3(1970.794f, 2624.078f, 46.00704f)
+            Position = new Vector3(1970.794f, 2624.078f, 46.00704f),
         };
         prisoner1.SetVariation(0, 0, 2);
         prisoner1.SetVariation(2, 1, 0);
@@ -39,7 +44,7 @@ internal static class PrisonbreakSetup
             AngularVelocity = new Rotator(0f, 0f, 0f),
             Velocity = new Vector3(0f, 0f, 0f),
             Orientation = new Quaternion(0f, 0f, 0f, 1f),
-            Position = new Vector3(1969.886f, 2625.143f, 46.01746f)
+            Position = new Vector3(1969.886f, 2625.143f, 46.01746f),
         };
         prisoner5.SetVariation(0, 0, 2);
         prisoner5.SetVariation(2, 2, 0);
@@ -57,7 +62,7 @@ internal static class PrisonbreakSetup
             AngularVelocity = new Rotator(0f, 0f, 0f),
             Velocity = new Vector3(0f, 0f, 0f),
             Orientation = new Quaternion(0f, 0f, 0f, 1f),
-            Position = new Vector3(1972.917f, 2624.884f, 45.96499f)
+            Position = new Vector3(1972.917f, 2624.884f, 45.96499f),
         };
         prisoner3.SetVariation(0, 2, 0);
         prisoner3.SetVariation(2, 0, 2);
@@ -76,7 +81,7 @@ internal static class PrisonbreakSetup
             AngularVelocity = new Rotator(0f, 0f, 0f),
             Velocity = new Vector3(0f, 0f, 0f),
             Orientation = new Quaternion(0f, 0f, 0f, 1f),
-            Position = new Vector3(1971.28f, 2625.871f, 46.04052f)
+            Position = new Vector3(1971.28f, 2625.871f, 46.04052f),
         };
         prisoner2.SetVariation(0, 1, 1);
         prisoner2.SetVariation(2, 0, 1);
@@ -95,7 +100,7 @@ internal static class PrisonbreakSetup
             AngularVelocity = new Rotator(0f, 0f, 0f),
             Velocity = new Vector3(0f, 0f, 0f),
             Orientation = new Quaternion(0f, 0f, 0f, 1f),
-            Position = new Vector3(1969.529f, 2623.888f, 45.99443f)
+            Position = new Vector3(1969.529f, 2623.888f, 45.99443f),
         };
         prisoner4.SetVariation(0, 1, 1);
         prisoner4.SetVariation(2, 2, 0);
