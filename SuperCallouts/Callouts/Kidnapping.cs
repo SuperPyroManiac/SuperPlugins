@@ -110,7 +110,8 @@ internal class Kidnapping : SuperCallout
             return;
         }
 
-        _cBlip1?.Delete();
+        if (_cBlip1.Exists())
+            _cBlip1.Delete();
         _bad1.BlockPermanentEvents = false;
         var pursuit = Functions.CreatePursuit();
         Functions.AddPedToPursuit(pursuit, _bad1);

@@ -61,7 +61,8 @@ internal class StolenDumptruck : SuperCallout
 
     internal override void CalloutOnScene()
     {
-        _cBlip?.Delete();
+        if (_cBlip.Exists())
+            _cBlip.Delete();
         var pursuit = Functions.CreatePursuit();
         Functions.AddPedToPursuit(pursuit, _bad);
         Functions.SetPursuitIsActiveForPlayer(pursuit, true);

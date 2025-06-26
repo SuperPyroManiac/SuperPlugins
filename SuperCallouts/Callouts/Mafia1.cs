@@ -123,7 +123,8 @@ internal class Mafia1 : Callout
                 case SrState.CheckDistance:
                     if (Player.DistanceTo(_fib1.Position) < 10f)
                     {
-                        _cBlip?.DisableRoute();
+                        if (_cBlip.Exists())
+                            _cBlip.DisableRoute();
                         Game.DisplayNotification(
                             "3dtextures",
                             "mpgroundlogo_cops",
@@ -184,7 +185,7 @@ internal class Mafia1 : Callout
                             foreach (var entity in _badGuys.Where(entity => entity))
                                 entity.Tasks.FightAgainstClosestHatedTarget(150, -1);
                             if (_aBlip.Exists())
-                                _aBlip?.DisableRoute();
+                                _aBlip.DisableRoute();
                             _state = SrState.End;
                         }
                     );
@@ -213,10 +214,10 @@ internal class Mafia1 : Callout
 
     public override void End()
     {
-        if (_cBlip)
-            _cBlip?.Delete();
-        if (_aBlip)
-            _aBlip?.Delete();
+        if (_cBlip.Exists())
+            _cBlip.Delete();
+        if (_aBlip.Exists())
+            _aBlip.Delete();
         foreach (var entity in _badGuys.Where(entity => entity))
             if (entity.Exists())
                 entity.Dismiss();
@@ -296,8 +297,8 @@ internal class Mafia1 : Callout
                     _interaction!.CloseAllMenus();
                     _questioning!.Enabled = false;
                     Game.DisplaySubtitle("~b~Agent~s~: We will have a NOOSE team on standby until you arrive on scene.", 6000);
-                    if (_cBlip)
-                        _cBlip?.Delete();
+                    if (_cBlip.Exists())
+                        _cBlip.Delete();
                     _aBlip = new Blip(_callPos.Around2D(1, 2), 30);
                     _aBlip.Color = Color.Red;
                     _aBlip.Alpha = .5f;
@@ -314,8 +315,8 @@ internal class Mafia1 : Callout
                     _interaction!.CloseAllMenus();
                     _questioning!.Enabled = false;
                     Game.DisplaySubtitle("~b~Agent~s~: Your departments SWAT team will standby for your arrival.", 6000);
-                    if (_cBlip)
-                        _cBlip?.Delete();
+                    if (_cBlip.Exists())
+                        _cBlip.Delete();
                     _aBlip = new Blip(_callPos.Around2D(1, 2), 30);
                     _aBlip.Color = Color.Red;
                     _aBlip.Alpha = .5f;
@@ -332,8 +333,8 @@ internal class Mafia1 : Callout
                     _interaction!.CloseAllMenus();
                     _questioning!.Enabled = false;
                     Game.DisplaySubtitle("~b~Agent~s~: We will leave it to you then. Seems like a dangerous choice though.", 6000);
-                    if (_cBlip)
-                        _cBlip?.Delete();
+                    if (_cBlip.Exists())
+                        _cBlip.Delete();
                     _aBlip = new Blip(_callPos.Around2D(1, 2), 30);
                     _aBlip.Color = Color.Red;
                     _aBlip.Alpha = .5f;

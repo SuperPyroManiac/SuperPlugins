@@ -98,7 +98,8 @@ internal class DeadBody : SuperCallout
         NativeFunction.Natives.x5AD23D40115353AC(_witness, _victim, -1);
         _witness.Tasks.Cower(-1);
         _victim.Kill();
-        _cBlip?.DisableRoute();
+        if (_cBlip.Exists())
+            _cBlip.DisableRoute();
         Questioning.Enabled = true;
         Game.DisplayHelp($"Press ~{Settings.Interact.GetInstructionalId()}~ to open interaction menu.");
     }

@@ -125,7 +125,8 @@ internal class LostGang : Callout
         if (!_onScene && Game.LocalPlayer.Character.DistanceTo(_spawnPoint) < 100f)
         {
             _onScene = true;
-            _cBlip?.DisableRoute();
+            if (_cBlip.Exists())
+                _cBlip.DisableRoute();
             Game.DisplayNotification(
                 "3dtextures",
                 "mpgroundlogo_cops",

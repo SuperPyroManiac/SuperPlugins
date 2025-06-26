@@ -77,7 +77,8 @@ internal class PrisonTransport : SuperCallout
 
     internal override void CalloutOnScene()
     {
-        _blip?.DisableRoute();
+        if (_blip.Exists())
+            _blip.DisableRoute();
 
         if (!_officer || !_suspect)
         {

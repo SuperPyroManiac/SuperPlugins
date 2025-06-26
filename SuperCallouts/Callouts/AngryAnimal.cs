@@ -74,8 +74,8 @@ internal class AngryAnimal : SuperCallout
             CalloutEnd(true);
             return;
         }
-
-        _cBlip?.DisableRoute();
+        if (_cBlip.Exists())
+            _cBlip.DisableRoute();
         _animal.Tasks.FightAgainst(_victim, -1);
         _victim.Tasks.ReactAndFlee(_animal);
         _callEms.Enabled = true;

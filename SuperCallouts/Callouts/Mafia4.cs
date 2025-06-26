@@ -155,10 +155,10 @@ internal class Mafia4 : Callout
                                 mafiaDudes.BlockPermanentEvents = false;
                                 mafiaDudes.Tasks.FightAgainstClosestHatedTarget(100, -1);
                             }
-
-                            _bad1?.Tasks.FightAgainst(Player);
-
-                            _cBlip?.DisableRoute();
+                            if (_bad1.Exists())
+                                _bad1.Tasks.FightAgainst(Player);
+                            if (_cBlip.Exists())
+                                _cBlip.DisableRoute();
                             TimerBarCounter();
                         }
                     );
@@ -187,13 +187,14 @@ internal class Mafia4 : Callout
     public override void End()
     {
         _running = false;
-        _cBlip?.Delete();
+        if (_cBlip.Exists())
+            _cBlip.Delete();
         foreach (var mafiaCars in _vehicles.Where(mafiaCars => mafiaCars.Exists()))
             mafiaCars.Dismiss();
         foreach (var mafiaDudes in _peds.Where(mafiaDudes => mafiaDudes.Exists()))
             mafiaDudes.Dismiss();
         if (_bomb.Exists())
-            _bomb?.Delete();
+            _bomb.Delete();
         Game.SetRelationshipBetweenRelationshipGroups("COP", "MAFIA", Relationship.Dislike);
         Game.SetRelationshipBetweenRelationshipGroups("MAFIA", "COP", Relationship.Dislike);
         _interaction!.CloseAllMenus();

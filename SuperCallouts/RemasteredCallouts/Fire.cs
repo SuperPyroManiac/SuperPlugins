@@ -77,7 +77,8 @@ internal class Fire : SuperCallout
         }
 
         GameFiber.Wait(5000);
-        _vehicle?.StartFire(true);
+        if (_vehicle.Exists())
+            _vehicle.StartFire(true);
 
         GameFiber.Wait(12000);
         ParticleUtils.StopLoopedParticles(_partHandleBigFire);

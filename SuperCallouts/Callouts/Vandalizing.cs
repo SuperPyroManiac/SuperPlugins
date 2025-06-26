@@ -66,7 +66,8 @@ internal class Vandalizing : SuperCallout
             return;
         }
 
-        _cBlip?.Delete();
+        if (_cBlip.Exists())
+            _cBlip.Delete();
         _bad.BlockPermanentEvents = false;
 
         switch (_rNd)

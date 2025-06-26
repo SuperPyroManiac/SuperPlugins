@@ -65,7 +65,8 @@ internal class CarAccident : SuperCallout
 
     internal override void CalloutOnScene()
     {
-        _cBlip?.DisableRoute();
+        if (_cBlip.Exists())
+            _cBlip.DisableRoute();
         _callEms.Enabled = true;
     }
 

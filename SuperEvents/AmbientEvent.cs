@@ -83,6 +83,7 @@ public abstract class AmbientEvent
         {
             EndEvent(true);
             LogUtils.Info("Ending event due to player being too far.");
+            return;
         }
         MainMenu.OnItemSelect += Interactions;
         ConvoMenu.OnItemSelect += Conversations;

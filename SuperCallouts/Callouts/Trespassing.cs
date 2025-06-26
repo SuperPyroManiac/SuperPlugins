@@ -104,7 +104,8 @@ internal class Trespassing : SuperCallout
             return;
         }
 
-        _cBlip?.DisableRoute();
+        if (_cBlip.Exists())
+            _cBlip.DisableRoute();
         Questioning.Enabled = true;
         _suspect.Face(Game.LocalPlayer.Character);
         Game.DisplaySubtitle("~r~" + _name + "~s~: What do you want?", 3000);

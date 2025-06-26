@@ -82,7 +82,8 @@ internal class Impersonator : SuperCallout
             return;
         }
 
-        _cBlip?.DisableRoute();
+        if (_cBlip.Exists())
+            _cBlip.DisableRoute();
         _victim.Tasks.CruiseWithVehicle(10f, VehicleDrivingFlags.Normal);
         Game.DisplayNotification(
             "3dtextures",

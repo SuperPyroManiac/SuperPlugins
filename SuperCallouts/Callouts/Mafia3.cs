@@ -162,9 +162,10 @@ internal class Mafia3 : Callout
                                 mafiaDudes.BlockPermanentEvents = false;
                                 mafiaDudes.Tasks.FightAgainstClosestHatedTarget(100, -1);
                             }
-
-                            _bad1?.Tasks.FightAgainst(Player);
-                            _cBlip?.DisableRoute();
+                            if (_bad1.Exists())
+                                _bad1.Tasks.FightAgainst(Player);
+                            if (_cBlip.Exists())
+                                _cBlip.DisableRoute();
                         }
                     );
                     _state = RunState.End;
@@ -190,7 +191,8 @@ internal class Mafia3 : Callout
 
     public override void End()
     {
-        _cBlip?.Delete();
+        if (_cBlip.Exists())
+            _cBlip.Delete();
         foreach (var mafiaCars in _vehicles.Where(mafiaCars => mafiaCars.Exists()))
             mafiaCars.Dismiss();
         foreach (var mafiaDudes in _peds.Where(mafiaDudes => mafiaDudes.Exists()))

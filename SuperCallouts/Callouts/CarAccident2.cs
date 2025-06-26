@@ -118,7 +118,8 @@ internal class CarAccident2 : SuperCallout
             return;
         }
 
-        _cBlip1?.DisableRoute();
+        if (_cBlip1.Exists())
+            _cBlip1.DisableRoute();
         Questioning.Enabled = true;
         _callFd.Enabled = true;
         NativeFunction.Natives.xCDDC2B77CE54AC6E(_victim1, _victim2, -1, 1000); //TASK_WRITHE

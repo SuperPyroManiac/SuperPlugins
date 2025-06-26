@@ -14,8 +14,8 @@
         <AssemblyDescription>By SuperPyroManiac</AssemblyDescription>
         <AssemblyProduct>SuperCallouts</AssemblyProduct>
         <AssemblyCopyright>Copyright © 2025</AssemblyCopyright>
-        <AssemblyVersion>3.9.7.6</AssemblyVersion>
-        <FileVersion>3.9.7.6</FileVersion>
+        <AssemblyVersion>3.9.7.7</AssemblyVersion>
+        <FileVersion>3.9.7.7</FileVersion>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

@@ -85,7 +85,8 @@ internal class Aliens : SuperCallout
         }
 
         MakeAliensApproachPlayer();
-        _blip?.DisableRoute();
+        if (_blip.Exists())
+            _blip.DisableRoute();
         LaunchAliensAndVehicle();
         CleanupEntities();
         CalloutEnd();

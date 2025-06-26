@@ -67,8 +67,11 @@ internal class Fight : SuperCallout
     {
         if (!OnScene)
         {
-            _suspect?.PlayAmbientSpeech("GENERIC_CURSE_MED");
-            _victim?.PlayAmbientSpeech("GENERIC_CURSE_MED");
+            if (_suspect.Exists())
+                _suspect.PlayAmbientSpeech("GENERIC_CURSE_MED");
+
+            if (_victim.Exists())
+                _victim.PlayAmbientSpeech("GENERIC_CURSE_MED");
         }
     }
 

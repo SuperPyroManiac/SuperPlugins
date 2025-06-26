@@ -56,7 +56,8 @@ internal class IndecentExposure : SuperCallout
             return;
         }
 
-        _blip?.Delete();
+        if (_blip.Exists())
+            _blip.Delete();
         _naked.BlockPermanentEvents = false;
         switch (_rNd)
         {

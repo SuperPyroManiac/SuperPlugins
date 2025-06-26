@@ -144,7 +144,8 @@ internal class Mafia2 : Callout
                     _mafiaDude13.Tasks.FightAgainst(Game.LocalPlayer.Character, -1);
                 Game.SetRelationshipBetweenRelationshipGroups("MAFIA", "COP", Relationship.Hate);
                 Game.SetRelationshipBetweenRelationshipGroups("COP", "MAFIA", Relationship.Hate);
-                _cBlip?.Delete();
+                if (_cBlip.Exists())
+                    _cBlip.Delete();
             }
             catch (Exception e)
             {
@@ -166,7 +167,8 @@ internal class Mafia2 : Callout
             mafiaCars.Dismiss();
         foreach (var mafiaDudes in _mafiaDudes.Where(mafiaDudes => mafiaDudes.Exists()))
             mafiaDudes.Dismiss();
-        _cBlip?.Delete();
+        if (_cBlip.Exists())
+            _cBlip.Delete();
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
         base.End();
     }

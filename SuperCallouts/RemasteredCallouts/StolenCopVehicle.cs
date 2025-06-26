@@ -117,7 +117,8 @@ internal class StolenCopVehicle : SuperCallout
             return;
         }
 
-        _blip?.Delete();
+        if (_blip.Exists())
+            _blip.Delete();
         CommonUtils.StartPursuit(false, true, _suspect);
         CommonUtils.RequestBackup(Enums.BackupType.Pursuit);
     }

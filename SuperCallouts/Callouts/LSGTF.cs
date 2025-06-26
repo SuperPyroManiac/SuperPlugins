@@ -178,7 +178,8 @@ internal class Lsgtf : Callout
                         "Get to the scene",
                         "Get to the site to start the raid."
                     );
-                    _meetingB?.Delete();
+                    if (_meetingB.Exists())
+                        _meetingB.Delete();
                     _cBlip1 = _bad1.AttachBlip();
                     _cBlip1.Color = Color.Red;
                     _cBlip1.EnableRoute(Color.Red);
@@ -233,7 +234,8 @@ internal class Lsgtf : Callout
             CommonUtils.RequestBackup(Enums.BackupType.Noose);
             CommonUtils.RequestBackup(Enums.BackupType.Swat);
 
-            _cBlip1?.DisableRoute();
+            if (_cBlip1.Exists())
+                _cBlip1.DisableRoute();
             _cBlip2 = _bad2.AttachBlip();
             _cBlip2.Color = Color.Red;
             _cBlip3 = _bad3.AttachBlip();

@@ -100,9 +100,12 @@ internal class Robbery : SuperCallout
             return;
         }
 
-        _blip1?.Delete();
-        _blip2?.Delete();
-        _blip3?.Delete();
+        if (_blip1.Exists())
+            _blip1.Delete();
+        if (_blip2.Exists())
+            _blip2.Delete();
+        if (_blip3.Exists())
+            _blip3.Delete();
         var pursuit = Functions.CreatePursuit();
         var choices = _rNd.Next(1, 5);
         Game.DisplaySubtitle("~r~Suspect: ~w~What are the cops doing here?!", 5000);

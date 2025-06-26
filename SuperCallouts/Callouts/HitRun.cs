@@ -119,8 +119,10 @@ internal class HitRun : SuperCallout
             Functions.AddPedToPursuit(_pursuit, _bad1);
             Functions.AddPedToPursuit(_pursuit, _bad2);
             Functions.SetPursuitIsActiveForPlayer(_pursuit, true);
-            _cBlip2?.Delete();
-            _cBlip3?.Delete();
+            if (_cBlip2.Exists())
+                _cBlip2.Delete();
+            if (_cBlip3.Exists())
+                _cBlip3.Delete();
         }
 
         if (_onScene2 && Game.LocalPlayer.Character.DistanceTo(_cVehicle2) < 50f && !Functions.IsPursuitStillRunning(_pursuit))
@@ -172,9 +174,12 @@ internal class HitRun : SuperCallout
                         "~g~You~s~: You are good to go, we will be in contact once we get more information on the suspect."
                     );
                     GameFiber.Wait(1000);
-                    _victim?.Dismiss();
-                    _cVehicle1?.Dismiss();
-                    _cBlip1?.Delete();
+                    if (_victim.Exists())
+                        _victim.Dismiss();
+                    if (_cVehicle1.Exists())
+                        _cVehicle1.Dismiss();
+                    if (_cBlip1.Exists())
+                        _cBlip1.Delete();
                     _startPursuit = true;
                     _cBlip2 = _bad1.AttachBlip();
                     _cBlip2.Color = Color.Red;

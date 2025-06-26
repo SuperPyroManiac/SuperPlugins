@@ -38,7 +38,8 @@ internal class FakeCall : SuperCallout
 
     internal override void CalloutOnScene()
     {
-        _blip?.DisableRoute();
+        if (_blip.Exists())
+            _blip.DisableRoute();
         Game.DisplayHelp("Investigate the area.", 5000);
         GameFiber.Wait(10000);
         Game.DisplaySubtitle("~g~You~s~: Dispatch, not seeing anyone out here.", 4000);

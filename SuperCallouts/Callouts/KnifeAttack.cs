@@ -110,6 +110,7 @@ internal class KnifeAttack : SuperCallout
             "~r~Locate Suspect",
             "Search for the suspect. Last was seen carrying a knife."
         );
-        _cBlip?.Delete();
+        if (_cBlip.Exists())
+            _cBlip.Delete();
     }
 }

@@ -63,7 +63,8 @@ internal class Manhunt : SuperCallout
         var pursuit = Functions.CreatePursuit();
         Functions.AddPedToPursuit(pursuit, _bad);
         Functions.SetPursuitIsActiveForPlayer(pursuit, true);
-        _cBlip?.Delete();
+        if (_cBlip.Exists())
+            _cBlip.Delete();
         _cBlip2 = _bad.AttachBlip();
         _cBlip2.Color = Color.Red;
         BlipsToClear.Add(_cBlip2);

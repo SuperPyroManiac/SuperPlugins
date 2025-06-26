@@ -14,8 +14,8 @@
         <AssemblyDescription>By SuperPyroManiac</AssemblyDescription>
         <AssemblyProduct>DeadlyWeapons</AssemblyProduct>
         <AssemblyCopyright>Copyright © 2025</AssemblyCopyright>
-        <AssemblyVersion>4.0.0.4</AssemblyVersion>
-        <FileVersion>4.0.0.4</FileVersion>
+        <AssemblyVersion>4.0.0.5</AssemblyVersion>
+        <FileVersion>4.0.0.5</FileVersion>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

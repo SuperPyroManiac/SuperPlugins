@@ -81,7 +81,8 @@ internal class InjuredCop : SuperCallout
         }
 
         Game.DisplayNotification("Investigate the area.");
-        _blip?.Delete();
+        if (_blip.Exists())
+            _blip.Delete();
         switch (_rNd)
         {
             case 0:

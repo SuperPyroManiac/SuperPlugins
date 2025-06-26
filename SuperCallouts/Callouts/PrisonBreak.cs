@@ -95,7 +95,8 @@ internal class PrisonBreak : Callout
         {
             _onScene = true;
             Game.DisplaySubtitle("Suspects spotted, they appear to have stolen a bus!", 5000);
-            _cBlip1?.DisableRoute();
+            if (_cBlip1.Exists())
+                _cBlip1.DisableRoute();
             var pursuit = Functions.CreatePursuit();
             Functions.AddPedToPursuit(pursuit, _prisoner1);
             Functions.AddPedToPursuit(pursuit, _prisoner2);
@@ -113,23 +114,29 @@ internal class PrisonBreak : Callout
     public override void End()
     {
         Game.DisplayHelp("Scene ~g~CODE 4", 5000);
-        if (_prisoner1)
+        if (_prisoner1.Exists())
             _prisoner1.Dismiss();
-        if (_prisoner2)
+        if (_prisoner2.Exists())
             _prisoner2.Dismiss();
-        if (_prisoner3)
+        if (_prisoner3.Exists())
             _prisoner3.Dismiss();
-        if (_prisoner4)
+        if (_prisoner4.Exists())
             _prisoner4.Dismiss();
-        if (_prisoner5)
+        if (_prisoner5.Exists())
             _prisoner5.Dismiss();
-        if (_cVehicle)
+        if (_cVehicle.Exists())
             _cVehicle.Dismiss();
-        _cBlip1?.Delete();
-        _cBlip2?.Delete();
-        _cBlip3?.Delete();
-        _cBlip4?.Delete();
-        _cBlip5?.Delete();
+
+        if (_cBlip1.Exists())
+            _cBlip1.Delete();
+        if (_cBlip2.Exists())
+            _cBlip2.Delete();
+        if (_cBlip3.Exists())
+            _cBlip3.Delete();
+        if (_cBlip4.Exists())
+            _cBlip4.Delete();
+        if (_cBlip5.Exists())
+            _cBlip5.Delete();
         base.End();
     }
 }

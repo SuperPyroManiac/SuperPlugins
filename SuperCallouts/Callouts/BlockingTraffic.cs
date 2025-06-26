@@ -44,6 +44,7 @@ internal class BlockingTraffic : SuperCallout
 
     internal override void CalloutOnScene()
     {
-        _cBlip?.DisableRoute();
+        if (_cBlip.Exists())
+            _cBlip.DisableRoute();
     }
 }

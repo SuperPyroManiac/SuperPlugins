@@ -114,7 +114,9 @@ internal class CarAccident3 : SuperCallout
             "~r~Car Accident",
             "Investigate the scene."
         );
-        _eBlip?.DisableRoute();
+
+        if (_eBlip.Exists())
+            _eBlip.DisableRoute();
         _ePed.BlockPermanentEvents = false;
         _ePed2.BlockPermanentEvents = false;
         switch (_choice)

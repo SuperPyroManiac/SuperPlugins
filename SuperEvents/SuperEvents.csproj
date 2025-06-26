@@ -14,8 +14,8 @@
         <AssemblyDescription>By SuperPyroManiac</AssemblyDescription>
         <AssemblyProduct>SuperEvents</AssemblyProduct>
         <AssemblyCopyright>Copyright © 2025</AssemblyCopyright>
-        <AssemblyVersion>3.1.0.5</AssemblyVersion>
-        <FileVersion>3.1.0.5</FileVersion>
+        <AssemblyVersion>3.1.0.6</AssemblyVersion>
+        <FileVersion>3.1.0.6</FileVersion>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
